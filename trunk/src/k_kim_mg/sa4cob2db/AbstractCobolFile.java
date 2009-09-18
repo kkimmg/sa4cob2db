@@ -558,8 +558,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see k_kim_mg.sa4cob2db.CobolFile#addIndex(jp.ne.biglobe.mvh.k_kim_mg
-	 * .acm.CobolIndex, k_kim_mg.sa4cob2db.CobolFile)
+	 * @see k_kim_mg.sa4cob2db.CobolFile#addIndex(k_kim_mg.CobolIndex, k_kim_mg.sa4cob2db.CobolFile)
 	 */
 	@Override
 	public void addIndex(CobolIndex index, CobolFile file) {
@@ -574,8 +573,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see k_kim_mg.sa4cob2db.CobolFile#bindSession(jp.ne.biglobe.mvh
-	 * .k_kim_mg.acm.ACMSession)
+	 * @see k_kim_mg.sa4cob2db.CobolFile#bindSession(k_kim_mg.sa4cob2db.ACMSession)
 	 */
 	public void bindSession(ACMSession session) {
 		this.session = session;
@@ -727,8 +725,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see k_kim_mg.sa4cob2db.CobolFile#getSession(jp.ne.biglobe.mvh
-	 * .k_kim_mg.acm.ACMSession)
+	 * @see k_kim_mg.sa4cob2db.CobolFile#getSession(k_kim_mg.sa4cob2db.ACMSession)
 	 */
 	public ACMSession getSession() {
 		return session;
