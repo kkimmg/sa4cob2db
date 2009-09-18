@@ -1,0 +1,18 @@
+-- Table: test
+
+-- DROP TABLE test;
+
+CREATE TABLE test
+(
+  id int4 not null,
+  cd varchar(20),
+  nihongo varchar(20),
+  seisu int4,
+  hizuke date,
+  jikoku time,
+  fudou float4,
+  CONSTRAINT pkey_test PRIMARY KEY (id)
+);
+
+CREATE VIEW dbtests as 
+SELECT * FROM test;

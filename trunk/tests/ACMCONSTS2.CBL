@@ -1,0 +1,30 @@
+000010* JSPサンプル変数
+000020 01  ACM-WEB-IF-PARAMS.
+000030   05  ACM-AUTHTYPE                      PIC X(20).
+000040   05  ACM-CHARACTERENCODING             PIC X(20).
+000050   05  ACM-CONTENTLENGTH                 PIC 9(08).
+000060   05  ACM-CONTENTTYPE                   PIC X(20).
+000070   05  ACM-METHOD                        PIC X(20).
+000080   05  ACM-PROTOCOL                      PIC X(10).
+000090   05  ACM-QUERYSTRING                   PIC X(42).
+000100   05  ACM-REMOTEADDR                    PIC X(20).
+000110   05  ACM-REMOTEHOST                    PIC X(20).
+000120   05  ACM-SCHEME                        PIC X(20).
+000130   05  ACM-SERVERNAME                    PIC X(20).
+000140   05  ACM-SERVERPORT                    PIC 9(05).
+000150   05  ACM-SECURE                        PIC 9(01).
+000160   05  ACM-REQUESTEDSESSIONID            PIC X(84).
+000170   05  ACM-REQUESTEDSESSIONIDFROMCOOKIE  PIC 9(01).
+000180   05  ACM-REQUESTEDSESSIONIDFROMURL     PIC 9(01).
+000190   05  ACM-REQUESTEDSESSIONIDVALID       PIC 9(01).
+000200   05  ACM-CONTEXTPATH                   PIC X(47).
+000210   05  ACM-PATHINFO                      PIC X(50).
+000220   05  ACM-PATHTRANSLATED                PIC X(50).
+000230   05  ACM-REQUESTURI                    PIC X(50).
+000240   05  ACM-REQUESTURL                    PIC X(50).
+000250   05  ACM-SERVLETPATH                   PIC X(50).
+000260   05  ACM-REMOTEUSER                    PIC X(19).
+000270   05  ACM-USERINROLE                    PIC 9(01).
+000280   05  ACM-CURRENTCONTENT                PIC X(40).
+000290   05  ACM-NEXTCONTENT                   PIC X(40).
+000300   05  ACM-SESSIONGLOBALAREA             PIC X(64835).
