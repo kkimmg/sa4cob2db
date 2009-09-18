@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated from test_ubuntu.xml by XMLBuddy -->
+<!ELEMENT metadataset (property*,otheronset*,otheronmeta*,metadata*)>
+<!ELEMENT property (#PCDATA)>
+<!ELEMENT otheronset (#PCDATA)>
+<!ELEMENT otheronmeta (#PCDATA)>
+<!ATTLIST property name NMTOKEN #REQUIRED>
+<!ATTLIST otherofset name NMTOKEN #REQUIRED>
+<!ATTLIST otherofmeta name NMTOKEN #REQUIRED>
+<!ELEMENT metadata (statement?,(sqlcolumn|customcolumn)*,keycolumn*,indexfile*,truncate?,listener*)>
+<!ATTLIST metadata
+	name NMTOKEN #REQUIRED
+	bufinit NMTOKEN #IMPLIED
+	bufmin NMTOKEN #IMPLIED
+	bufmax NMTOKEN #IMPLIED
+	encode NMTOKEN #IMPLIED
+	customClassName NMTOKEN #IMPLIED
+>
+<!ELEMENT statement (#PCDATA)>
+<!ELEMENT sqlcolumn (#PCDATA)>
+<!ATTLIST sqlcolumn
+	name NMTOKEN #REQUIRED
+	originalColumnName NMTOKEN #REQUIRED
+	type NMTOKEN #REQUIRED
+	start NMTOKEN #REQUIRED
+	length NMTOKEN #REQUIRED
+	defaultString CDATA ""
+	decimal NMTOKEN #IMPLIED
+	signed (true|false) "false"
+	format CDATA #IMPLIED
+	readIgnore (true|false) "false"
+	rewriteIgnore (true|false) "false"
+	writeIgnore (true|false) "false"
+>
+<!ELEMENT customcolumn (#PCDATA)>
+<!ATTLIST customcolumn
+	name NMTOKEN #REQUIRED
+	classname NMTOKEN #REQUIRED
+	constructor NMTOKEN #REQUIRED  
+	originalColumnName NMTOKEN #IMPLIED
+	type NMTOKEN #IMPLIED
+	start NMTOKEN #IMPLIED
+	length NMTOKEN #IMPLIED
+	defaultString CDATA #IMPLIED
+	decimal NMTOKEN #IMPLIED
+	signed (true|false) "false"
+	format CDATA #IMPLIED
+	readIgnore (true|false) "false"
+	rewriteIgnore (true|false) "false"
+	writeIgnore (true|false) "false"
+>
+<!ELEMENT keycolumn (#PCDATA)>
+<!ELEMENT listener (#PCDATA)>
+<!ELEMENT indexfile (index2file+,file2index+)>
+<!ATTLIST indexfile
+	filename NMTOKEN #REQUIRED
+	indexname NMTOKEN #REQUIRED
+>
+<!ELEMENT file2index (#PCDATA)>
+<!ATTLIST file2index
+	filecolumn NMTOKEN #REQUIRED
+	indexcolumn NMTOKEN #REQUIRED
+>
+<!ELEMENT index2file (#PCDATA)>
+<!ATTLIST index2file
+	filecolumn NMTOKEN #REQUIRED
+	indexcolumn NMTOKEN #REQUIRED
+>
+<!ELEMENT truncate (#PCDATA)>
+

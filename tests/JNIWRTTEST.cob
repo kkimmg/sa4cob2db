@@ -1,0 +1,126 @@
+000010*AAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCC
+000020*サンプルプログラム
+000030*入力ファイル(SEQ)→出力ファイル(SEQ)の転記処理
+000040 IDENTIFICATION              DIVISION.
+000050 PROGRAM-ID.                 WRTTEST.
+000060*AUTHOR.                     KENJI KIMURA.
+000070 ENVIRONMENT                 DIVISION.
+000080 CONFIGURATION               SECTION.
+000090* INPUT-OUTPUT                SECTION.
+000100* FILE-CONTROL.
+000110*    入力ファイル
+000120**ACMFILE
+000130*     SELECT OUT-FILE ASSIGN TO "dbtests"
+000140*       ORGANIZATION LINE SEQUENTIAL.
+000150 DATA                        DIVISION.
+000160* FILE                        SECTION.
+000170*入力ファイル
+000180* FD  OUT-FILE.
+000190*     COPY "O_RECORD.cbl".
+000200 WORKING-STORAGE             SECTION.
+000210*ACM Generated Contraints
+000220 COPY "ACMCONSTS.CBL".
+000230*ACM Genrated File Record
+000240     COPY "O_RECORD.cbl".
+000250 01  SOME-AREA.
+000260     05  I-COUNTER           PIC 9(05).
+000270     05  O-COUNTER           PIC 9(05).
+000280     05  END-FLG             PIC 9(01)  VALUE  ZERO.
+000290 01  WORK-AREA.
+000300     05  W-A                 PIC 9(09).
+000310     05  W-B                 PIC 9(09).
+000320     05  W-C                 PIC 9(09).
+000330     05  W-D                 PIC 9(09).
+000340     05  W-EF.
+000350       07  W-E               PIC 9(04).
+000360       07  FILLER            PIC X(01)  VALUE  ".".
+000370       07  W-F               PIC 9(03).
+000380 PROCEDURE                   DIVISION.
+000390*主処理節
+000400     CALL "initializeJNISessionEnv" USING ACM-STATUS-ALL.
+000410     PERFORM   INIT.
+000420     PERFORM   FL-OPEN.
+000430     PERFORM   OUT-EDIT.
+000440*    入力ファイルが終了するまで繰り返し
+000450     PERFORM   UNTIL  END-FLG  NOT  =  ZERO
+000460        PERFORM  OUT-WRITE
+000470        PERFORM  OUT-EDIT
+000480     END-PERFORM.
+000490     PERFORM   FL-CLOSE.
+000500     PERFORM   TERM.
+000510     CALL  "terminateJNISession" USING ACM-STATUS-ALL.
+000520     STOP RUN.
+000530*開始処理
+000540 INIT                        SECTION.
+000550     DISPLAY   "PROGRAM STARTING.".
+000560     EXIT.
+000570*ファイルを開く節
+000580 FL-OPEN                     SECTION.
+000590*     OPEN   OUTPUT  OUT-FILE.
+000600     MOVE "dbtests" TO ACM-FILE-IDENT.
+000610     CALL "assignJNIFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.
+000620     CALL "openJNIFile"   USING ACM-FILE-IDENT
+000630                                ACM-OPENMODE-OUTPUT
+000640                                ACM-ACCESSMODE-SEQ
+000650                                ACM-STATUS-ALL.
+000660     EXIT.
+000670*入力処理節
+000680 OUT-EDIT                    SECTION.
+000690     ADD  1              TO  I-COUNTER.
+000700*    編集の本体
+000710     MOVE I-COUNTER      TO  O-ID.
+000720     MOVE I-COUNTER      TO  O-CD.
+000730     MOVE I-COUNTER      TO  O-NIHONGO.
+000740     MOVE I-COUNTER      TO  O-SEISU.
+000750     COMPUTE  W-A  =  I-COUNTER  +  12000.
+000760     DIVIDE  W-A  BY  2001  GIVING  W-C
+000770                         REMAINDER  O-HIZUKE-YYYY.
+000780     ADD     1000        TO  O-HIZUKE-YYYY.
+000790     DIVIDE  W-A  BY  12    GIVING  W-C
+000800                         REMAINDER  O-HIZUKE-MM.
+000810     ADD     1           TO  O-HIZUKE-MM.
+000820     DIVIDE  W-A  BY  28    GIVING  W-C
+000830                         REMAINDER  O-HIZUKE-DD.
+000840     ADD     1           TO  O-HIZUKE-DD.
+000850     DIVIDE  W-A  BY  23    GIVING  W-C
+000860                         REMAINDER  O-JIKOKU-HH.
+000870     ADD     1           TO  O-JIKOKU-HH.
+000880     DIVIDE  W-A  BY  59    GIVING  W-C
+000890                         REMAINDER  O-JIKOKU-MM.
+000900     ADD     1           TO  O-JIKOKU-MM.
+000910     DIVIDE  W-A  BY  59    GIVING  W-C
+000920                         REMAINDER  O-JIKOKU-SS.
+000930     ADD     1           TO  O-JIKOKU-SS.
+000940     DIVIDE  W-A  BY  9999  GIVING  W-C
+000950                         REMAINDER  W-E.
+000960     DIVIDE  W-A  BY  99    GIVING  W-C
+000970                         REMAINDER  W-F.
+000980     MOVE    W-EF        TO  O-FUDOU.
+000990     IF  I-COUNTER  >  10000
+001000*        終端に達していなければカウンターを増分
+001010         MOVE  1         TO  END-FLG
+001020     END-IF.
+001030     EXIT.
+001040*出力処理節
+001050 OUT-WRITE                   SECTION.
+001060* ACM Generated Write
+001070*     WRITE  O-RECORD.
+001080     MOVE "dbtests" TO ACM-FILE-IDENT.
+001090     MOVE O-RECORD TO ACM-RECORD
+001100     CALL "writeJNIRecord" USING ACM-FILE-IDENT
+001110                                 ACM-RECORD
+001120                                 ACM-STATUS-ALL.
+001130     ADD  1                  TO  O-COUNTER.
+001140     EXIT.
+001150*ファイルを閉じる節
+001160 FL-CLOSE                    SECTION.
+001170*     CLOSE  OUT-FILE.
+001180     MOVE "dbtests" TO ACM-FILE-IDENT.
+001190     CALL "closeJNIFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.
+001200     EXIT.
+001210*終了処理
+001220 TERM                        SECTION.
+001230     DISPLAY   "PROGRAM NORMALLY TERMINATED.".
+001240     DISPLAY   "OUTUT-COUNT:" I-COUNTER.
+001250     DISPLAY   "OUTPUT-COUNT:" O-COUNTER.
+001260     EXIT.
