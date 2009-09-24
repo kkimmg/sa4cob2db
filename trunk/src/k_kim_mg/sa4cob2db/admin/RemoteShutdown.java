@@ -57,7 +57,9 @@ public class RemoteShutdown {
 	 */
 	public static void shutdown(String host, String port, String name, String user, String password) throws RemoteException, MalformedURLException, NotBoundException {
 		String uri = "rmi://" + host + ":" + port + "/" + name;
-		MinAdmin admin = (MinAdmin) Naming.lookup(uri);
+		Object remote = Naming.lookup(uri);
+		System.out.println(remote.getClass().getName() + ":" + remote + ":" + remote.getClass().getSuperclass().getName());
+		MinAdmin admin = (MinAdmin) remote;
 		admin.shutdown(SQLNetServer.SHUTDOWN_NORMAL, name, password);
 	}
 }
