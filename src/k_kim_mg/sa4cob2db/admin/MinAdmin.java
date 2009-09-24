@@ -3,6 +3,8 @@
  */
 package k_kim_mg.sa4cob2db.admin;
 
+import java.rmi.AlreadyBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
@@ -13,7 +15,7 @@ import k_kim_mg.sa4cob2db.sql.SQLNetServer;
  * 最小の管理機能
  * @author おれおれ
  */
-public class MinAdmin extends UnicastRemoteObject {
+public class MinAdmin extends UnicastRemoteObject implements Remote {
 	/** バージョン */
     private static final long serialVersionUID = 1L;
 	/** 管理する */
@@ -23,7 +25,7 @@ public class MinAdmin extends UnicastRemoteObject {
 	 * @param port 受付ポート
 	 * @throws RemoteException RMIエラー
 	 */
-	public MinAdmin(SQLNetServer server, int port) throws RemoteException {
+	public MinAdmin(SQLNetServer server, int port) throws RemoteException, AlreadyBoundException {
 		super(port);
 		this.server = server;
 	}
@@ -31,7 +33,7 @@ public class MinAdmin extends UnicastRemoteObject {
 	 * コンストラクタ
 	 * @throws RemoteException RMIエラー
 	 */
-	public MinAdmin(SQLNetServer server) throws RemoteException {
+	public MinAdmin(SQLNetServer server) throws RemoteException, AlreadyBoundException {
 		super();
 		this.server = server;
 	}
