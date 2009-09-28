@@ -37,7 +37,7 @@ public class MinAdminAdapter extends ACMServerEventAdapter implements ACMServerE
 	        String ServerPort = server.getPropertie("ACMRMIPORT", DefaultRMIPort);
 	        int RMIPort = Integer.parseInt(ServerPort);
 	        // 管理機能を開始
-	        MinAdmin minAdmin = new MinAdmin(server);
+	        IMinAdmin minAdmin = new MinAdmin(server);
 	        // RMIを開始
 	        Registry reg = LocateRegistry.createRegistry(RMIPort);
 	        reg.bind(ServerName, minAdmin);

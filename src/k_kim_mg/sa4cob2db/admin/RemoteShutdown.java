@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.UnmarshalException;
 import java.util.Properties;
 
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
@@ -56,10 +57,17 @@ public class RemoteShutdown {
 	 * @throws NotBoundException RMI関連エラー
 	 */
 	public static void shutdown(String host, String port, String name, String user, String password) throws RemoteException, MalformedURLException, NotBoundException {
-		String uri = "rmi://" + host + ":" + port + "/" + name;
-		Object remote = Naming.lookup(uri);
-		System.out.println(remote.getClass().getName() + ":" + remote + ":" + remote.getClass().getSuperclass().getName());
-		MinAdmin admin = (MinAdmin) remote;
-		admin.shutdown(SQLNetServer.SHUTDOWN_NORMAL, name, password);
+		try {
+	        String uri = "rmi://" + host + ":" + port + "/" + name;
+	        Object remote = Naming.lookup(uri);
+	        IMinAdmin admin = (IMinAdmin) remote;
+	        if (admin.shutdown(SQLNetServer.SHUTDOWN_NORMAL, user, password)) {
+	        	System.out.println("shutdoun OK");
+	        } else {
+	        	System.out.println("shutdoun NG(" + user + "/" + password + ")");
+	        }
+        } catch (UnmarshalException ue) {
+        	System.out.println("shutdoun OK");
+        }
 	}
 }

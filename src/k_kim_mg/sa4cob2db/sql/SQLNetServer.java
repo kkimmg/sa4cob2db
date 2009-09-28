@@ -309,7 +309,8 @@ public class SQLNetServer {
 		// ////////////////////////////////////////////////////////
 		// 管理者パスワードの設定
 		String adminFile = properties.getProperty("adminfile", "");
-		if (userFile == "") {
+		if (adminFile == "") {
+			adminusers.put("", "");
 			logger.log(Level.CONFIG, "adminfile is null.");
 		} else {
 			logger.log(Level.CONFIG, "Loading adminfile " + adminFile + ".");

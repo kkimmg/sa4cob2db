@@ -2,22 +2,19 @@
  * 
  */
 package k_kim_mg.sa4cob2db.admin;
-
 import java.rmi.AlreadyBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
-
 /**
  * 最小の管理機能
  * @author おれおれ
  */
-public class MinAdmin extends UnicastRemoteObject implements Remote {
+public class MinAdmin extends UnicastRemoteObject implements IMinAdmin {
 	/** バージョン */
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	/** 管理する */
 	private SQLNetServer server;
 	/**
@@ -45,10 +42,11 @@ public class MinAdmin extends UnicastRemoteObject implements Remote {
 	 * @return true 成功</br>false 失敗
 	 * @throws RemoteException RMIエラー
 	 */
-	public boolean shutdown (int mode, String admin, String password) throws RemoteException {
+	public boolean shutdown(int mode, String admin, String password) throws RemoteException {
 		boolean ret = server.confirmAdminPassword(admin, password);
 		if (ret) {
 			try {
+				SQLNetServer.logger.log(Level.INFO, "Now Shutdown...");
 				server.shutdown(mode);
 			} catch (Exception e) {
 				SQLNetServer.logger.log(Level.SEVERE, e.getMessage());
