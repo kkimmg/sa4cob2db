@@ -2,6 +2,10 @@ package k_kim_mg.sa4cob2db.admin;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+/**
+ * 最小の管理機能
+ * @author <a mailto="k_kim_mg@mvh.biglobe.ne.jp">Kenji Kimura</a>
+ */
 public interface IMinAdmin extends Remote, Serializable {
 	/**
 	 * シャットダウンする
