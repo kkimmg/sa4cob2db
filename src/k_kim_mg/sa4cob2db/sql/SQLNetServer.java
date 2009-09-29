@@ -100,7 +100,7 @@ public class SQLNetServer {
 	public static final int SHUTDOWN_NORMAL = 0;
 	static {
 		logger = Logger.getLogger(LOGNAME);
-		logger.setLevel(Level.ALL);
+		logger.setLevel(Level.SEVERE);
 	}
 	/**
 	 * 環境変数を取得する
