@@ -1,5 +1,5 @@
 #include <libcob.h>
-#include "jSampleJniCall1.h"
+#include "JSampleJniCall1.h"
 /**
  * ほとんどOpenCobolからそのままもらってきたのさ。
  * 繰り返しで使える?
