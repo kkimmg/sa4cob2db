@@ -5,13 +5,9 @@
 	<!-- set global properties for this build -->
 	<property name="src" location="./"/>
 	<property name="websample" location="./"/>
-	<property name="defpack" location=""/>
 	<property name="build" location="./bin"/>
 	<property name="user.name" location="kkimmg@gmail.com"/>
 	<property name="antlib" location="/opt/apache-ant-1.7.0/lib"/>
-	<path id="cp.jdbc">
-		<pathelement location="/usr/share/java/postgresql.jar"/>
-	</path>
 	<path id="cp.linux">
 		<pathelement location="/usr/share/tomcat5.5/common/lib/servlet-api.jar"/>
 	</path>
@@ -36,16 +32,12 @@
 		<javac classpath="${build}" srcdir="${websample}" destdir="${build}" encoding="EUC-JP">
 			<classpath refid="cp.linux"/>
 		</javac>
-		<javah classpath="bin" outputfile="${websample}/jSampleJniCall1.h">
-			<class name="jSampleJniCall1"/>
+		<javah classpath="${build}" outputfile="${websample}/JSampleJniCall1.h">
+			<class name="JSampleJniCall1"/>
 		</javah>
 	</target>
 	<target name="run_sample" depends="samples" description="run samples ">
 		<java classname="TestCobolCall" classpath="${build}">
 		</java>
-	</target>
-	<target name="javah" depends="samples" description="Creating Header Files... ">
-		<javah classpath="${build}" class="jSampleJniCall1" destdir="${websample}">
-		</javah>
 	</target>
 </project>
