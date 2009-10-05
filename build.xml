@@ -1,22 +1,13 @@
-<project name="ACM" default="dist" basedir=".">
+<project name="sa4cob2db" default="dist" basedir=".">
 	<description>
-	simple example build file
+	基本のbuildファイル
 	</description>
 	<!-- set global properties for this build -->
 	<property name="src" location="src"/>
 	<property name="doc" location="doc"/>
-	<property name="websample" location="websample"/>
-	<property name="csources" location="cs"/>
-	<property name="defpack" location=""/>
 	<property name="build" location="bin"/>
-	<property name="user.name" location="k_kim_mg@mvh.biglobe.ne.jp"/>
+	<property name="user.name" location="kkimmg@gmail.com"/>
 	<property name="antlib" location="/opt/apache-ant-1.7.0/lib"/>
-	<path id="cp.jdbc">
-		<pathelement location="/usr/share/java/postgresql.jar"/>
-	</path>
-	<path id="cp.linux">
-		<pathelement location="/opt/apache-tomcat-6.0.14/lib/servlet-api.jar"/>
-	</path>
 	<target name="init">
 		<tstamp/>
 		<mkdir dir="${build}"/>
@@ -25,26 +16,10 @@
 		<javac srcdir="${src}" destdir="${build}" encoding="EUC-JP" debug="on">
 		</javac>
 	</target>
-	<target name="samples" depends="compile" description="compile the source ">
-		<javac classpath="${build}" srcdir="${websample}" destdir="${build}" encoding="EUC-JP">
-			<classpath refid="cp.linux"/>
-		</javac>
-		<javah classpath="bin" outputfile="${websample}/jSampleJniCall1.h">
-			<class name="jSampleJniCall1"/>
-		</javah>
-	</target>
-	<target name="run_sample" depends="samples" description="run samples ">
-		<java classname="TestCobolCall" classpath="${build}">
-		</java>
-	</target>
-	<target name="javah" depends="samples" description="Creating Header Files... ">
-		<javah classpath="${build}" class="jSampleJniCall1" destdir="${websample}">
-		</javah>
-	</target>
 	<target name="doc" depends="init" description="javadoc from the source ">
 		<javadoc sourcepath="${src}" destdir="${doc}" encoding="EUC-JP">
 			<packageset dir="${src}">
-				<include name="jp/ne/biglobe/mvh/k_kim_mg/**"/>
+				<include name="k_kim_mg/**"/>
 			</packageset>
 		</javadoc>
 	</target>
@@ -62,45 +37,8 @@
 			</manifest>
 		</jar>
 	</target>
-	<target name="SrvTest" depends="dist" description="Server Test">
-		<java classname="k_kim_mg.sa4cob2db.sql.SQLNetServer" classpath="${build}">
-			<classpath refid="cp.jdbc"/>
-			<classpath>
-				<fileset dir="${antlib}">
-					<include name="*.jar"/>
-				</fileset>
-			</classpath>
-			<arg value="-Dmeftafile=test.xml"/>
-		</java>
-	</target>
-	<target name="CreateSeq" depends="dist" description="Create Sequetial File">
-		<java classname="k_kim_mg.sa4cob2db.sql.Acm2Seq" classpath="${build}">
-			<classpath refid="cp.jdbc"/>
-			<classpath>
-				<fileset dir="${antlib}">
-					<include name="*.jar"/>
-				</fileset>
-			</classpath>
-			<arg value="metafile=test_vinelinux.xml"/>
-			<arg value="acmfile=test"/>
-			<arg value="outfile=test.txt"/>
-		</java>
-	</target>
-	<target name="CreateAcm" depends="dist" description="Create ACM File">
-		<java classname="k_kim_mg.sa4cob2db.sql.Seq2Acm" classpath="${build}">
-			<classpath refid="cp.jdbc"/>
-			<classpath>
-				<fileset dir="${antlib}">
-					<include name="*.jar"/>
-				</fileset>
-			</classpath>
-			<arg value="metafile=test_vinelinux.xml"/>
-			<arg value="acmfile=test"/>
-			<arg value="infile=test.txt"/>
-		</java>
-	</target>
 	<target name="clean" description="clean up">
 		<delete dir="${build}"/>
-		<delete dir="${dist}"/>
+		<delete dir="${doc}"/>
 	</target>
 </project>
