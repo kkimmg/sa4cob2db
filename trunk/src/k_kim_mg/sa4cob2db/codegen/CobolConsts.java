@@ -7,7 +7,7 @@
 package k_kim_mg.sa4cob2db.codegen;
 /**
  * コード変換に関するリテラルを提供する
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract class CobolConsts {
 	/**AMFILE宣言の開始*/

@@ -8,7 +8,7 @@ import k_kim_mg.sa4cob2db.DefaultCobolRecord;
 
 /**
  * レコードのメタデータを取得するためだけにサブクラスを定義してみる
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 class SampleMetaDataSet1 extends CobolRecordMetaDataSet {
 	/**

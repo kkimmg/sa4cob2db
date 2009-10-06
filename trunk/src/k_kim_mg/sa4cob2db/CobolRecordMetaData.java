@@ -4,7 +4,7 @@ import java.util.List;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 /**
  * メタデータ
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  * @version 1.0
  * コボルファイルのレコードレイアウトに関する情報を格納する
  */

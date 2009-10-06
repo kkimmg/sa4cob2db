@@ -2,7 +2,7 @@ package k_kim_mg.sa4cob2db.codegen;
 import java.util.EventListener;
 /**
  * コード生成持のイベント
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CodeGeneratorListener extends EventListener {
 	/**

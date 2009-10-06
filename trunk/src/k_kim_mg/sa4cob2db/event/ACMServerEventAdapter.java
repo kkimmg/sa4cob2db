@@ -6,7 +6,7 @@ import k_kim_mg.sa4cob2db.ACMSession;
 /**
  * ACMServerEventListenerのデフォルト実装<br/>
  * 実際には何もしない
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMServerEventAdapter implements ACMServerEventListener {
 	/*

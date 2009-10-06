@@ -4,7 +4,7 @@ import java.io.Serializable;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 /**
  * コボルファイル
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CobolFile extends Serializable {
 	/** アクセスモード */

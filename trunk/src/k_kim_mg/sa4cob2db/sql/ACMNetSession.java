@@ -1,7 +1,7 @@
 package k_kim_mg.sa4cob2db.sql;
 /**
  * セッションに関するリテラルを提供する
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract interface ACMNetSession {
 	/** ステータスのバイト長 */

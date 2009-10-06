@@ -2,7 +2,7 @@ package k_kim_mg.sa4cob2db;
 import java.text.DecimalFormat;
 /**
  * ファイルステータス
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class FileStatus {
 	/** 何も指定しないコード */

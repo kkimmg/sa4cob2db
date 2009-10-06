@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
  * 最小の管理機能
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class MinAdmin extends UnicastRemoteObject implements IMinAdmin {
 	/** バージョン */

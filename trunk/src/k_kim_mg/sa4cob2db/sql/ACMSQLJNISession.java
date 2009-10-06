@@ -21,7 +21,7 @@ import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 import org.xml.sax.SAXException;
 /**
  * JNIベースのサーバー機能
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSQLJNISession implements ACMSession {
 	static final String NOT_ASSIGNED = FileStatus.NOT_ASSIGNED.toString();

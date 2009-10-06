@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
  * デフォルトのコボルレコード
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class DefaultCobolRecord implements CobolRecord {
 	/** レコードのバイト配列 */

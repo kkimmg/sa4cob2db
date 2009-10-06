@@ -16,7 +16,7 @@ import org.xml.sax.SAXException;
 
 /**
  * シーケンシャルファイルに出力する
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class Acm2Seq {
 	/**起動ルーチン*/

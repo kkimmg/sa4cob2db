@@ -2,7 +2,7 @@ import k_kim_mg.sa4cob2db.event.CobolFileEvent;
 import k_kim_mg.sa4cob2db.event.CobolFileEventAdapter;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CobolFileEventAdapterTest extends CobolFileEventAdapter {
 	/*

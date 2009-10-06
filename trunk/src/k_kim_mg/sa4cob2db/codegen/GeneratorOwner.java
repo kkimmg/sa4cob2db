@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  * CodeGeneratorを呼び出す機能
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface GeneratorOwner {
 	/**

@@ -5,7 +5,7 @@ package k_kim_mg.sa4cob2db.event;
 /**
  * ACMSessionEventListenerのデフォルト実装<br/>
  * これといってなにかするわけじゃない　
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSessionEventAdapter implements ACMSessionEventListener {
 	/*

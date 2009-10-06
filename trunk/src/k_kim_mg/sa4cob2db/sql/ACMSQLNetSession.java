@@ -18,7 +18,7 @@ import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.FileStatus;
 /**
  * ソケットベースのセッション管理機能
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
     private static final long serialVersionUID = 1L;

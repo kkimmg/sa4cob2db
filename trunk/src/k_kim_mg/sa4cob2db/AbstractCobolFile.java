@@ -13,12 +13,12 @@ import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
  * コボルファイルの基本型<br>
  * このクラスではイベントを発生させないので実装クラス側でイベントを発生させてちょ。
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract class AbstractCobolFile implements CobolFile {
 	/**
 	 * シーケンシャルファイルのバッファ
-	 * @author おれおれ
+	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	protected class DefaultSequencialReadBuffer implements Runnable, SequencialReadBuffer {
 		/** バッファの使用中フラグ */
@@ -289,7 +289,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 	/**
 	 * イベントを実行するためのクラス
-	 * @author おれおれ
+	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	protected class InnerCobolFileEventAdapter implements CobolFileEventListener {
 		/*

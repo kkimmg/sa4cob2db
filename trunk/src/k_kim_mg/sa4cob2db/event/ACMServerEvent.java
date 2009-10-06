@@ -5,7 +5,7 @@ import java.util.EventObject;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
  * サーバーで何か起こったみたいだ
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMServerEvent extends EventObject {
 	/**

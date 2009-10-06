@@ -6,7 +6,7 @@ import k_kim_mg.sa4cob2db.ACMSession;
 import k_kim_mg.sa4cob2db.CobolFile;
 /**
  * ACMSessionに関するイベント
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSessionEvent extends EventObject {
 	/**

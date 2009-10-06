@@ -3,7 +3,7 @@ import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 /**
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLCobolRecordMetaDataSet extends CobolRecordMetaDataSet {
 	/**JDBCドライバーURL*/

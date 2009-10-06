@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 /**
  * COBOLコードを一部変換してファイルアクセスをACMへのアクセスに変更する
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class COBPP1 implements GeneratorOwner {
 	private DecimalFormat decimal;
@@ -274,7 +274,7 @@ public class COBPP1 implements GeneratorOwner {
 	}
 	/**
 	 * コピー句を展開処理する
-	 * @author おれおれ
+	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	class CopyProcesser {
 		private CopyInfo info;
@@ -305,7 +305,7 @@ public class COBPP1 implements GeneratorOwner {
 	}
 	/**
 	 * こピークの情報
-	 * @author おれおれ
+	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	static class CopyInfo {
 		private ArrayList<String> statement;

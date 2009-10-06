@@ -19,7 +19,7 @@ import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 import org.xml.sax.SAXException;
 /**
  * シーケンシャルファイルから入力する
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class Seq2Acm {
 	/** 起動ルーチン */

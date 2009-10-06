@@ -4,7 +4,7 @@ import java.util.Hashtable;
 import java.util.List;
 /**
  * メタデータの一覧
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract class CobolRecordMetaDataSet {
 	/** メタデータの一覧 */

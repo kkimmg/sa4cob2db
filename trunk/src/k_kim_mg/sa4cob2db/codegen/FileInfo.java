@@ -2,7 +2,7 @@ package k_kim_mg.sa4cob2db.codegen;
 
 /**
  * コード生成時のファイルの情報を保持するオブジェクト
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface FileInfo {
 	/**

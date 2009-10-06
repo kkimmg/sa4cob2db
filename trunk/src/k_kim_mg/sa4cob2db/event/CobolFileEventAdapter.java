@@ -2,7 +2,7 @@ package k_kim_mg.sa4cob2db.event;
 /**
  * CobolFileEventListener<br/>
  * これといってなにかするわけじゃない
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CobolFileEventAdapter implements CobolFileEventListener {
 	/*
