@@ -3,7 +3,7 @@ package k_kim_mg.sa4cob2db.codegen;
 import java.util.EventObject;
 /**
  * ジェネレータで発生したイベント
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CodeGeneratorEvent extends EventObject {
 	/**

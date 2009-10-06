@@ -9,7 +9,7 @@ import k_kim_mg.sa4cob2db.sql.SQLCobolRecordMetaData;
 
 /**
  * 日本語文字列の半角←→全角変換用ユーティリティクラス
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  * @version 1.0
  */
 public class HankakuZenkaku extends SQLCobolColumn {

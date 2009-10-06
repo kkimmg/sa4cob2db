@@ -1,7 +1,7 @@
 package k_kim_mg.sa4cob2db.codegen;
 /**
  * ソースコードを生成するインターフェース
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CodeGenerator {
 	/**

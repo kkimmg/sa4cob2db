@@ -3,17 +3,17 @@ import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 /**
- * ºÇ¾®¤Î´ÉÍýµ¡Ç½
- * @author <a mailto="k_kim_mg@mvh.biglobe.ne.jp">Kenji Kimura</a>
+ * ï¿½Ç¾ï¿½ï¿½Î´ï¿½ï¿½ï¿½Ç½
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface IMinAdmin extends Remote, Serializable {
 	/**
-	 * ¥·¥ã¥Ã¥È¥À¥¦¥ó¤¹¤ë
-	 * @param mode ¥â¡¼¥É
-	 * @param admin ´ÉÍý¼Ô¥æ¡¼¥¶¡¼Ì¾
-	 * @param password ¥Ñ¥¹¥ï¡¼¥É
-	 * @return true À®¸ù</br>false ¼ºÇÔ
-	 * @throws RemoteException RMI¥¨¥é¡¼
+	 * ï¿½ï¿½ï¿½ï¿½Ã¥È¥ï¿½ï¿½ï¿½ï¿½ó¤¹¤ï¿½
+	 * @param mode ï¿½â¡¼ï¿½ï¿½
+	 * @param admin ï¿½ï¿½ï¿½ï¿½Ô¥æ¡¼ï¿½ï¿½ï¿½ï¿½Ì¾
+	 * @param password ï¿½Ñ¥ï¿½ï¿½ï¡¼ï¿½ï¿½
+	 * @return true ï¿½ï¿½ï¿½ï¿½</br>false ï¿½ï¿½ï¿½ï¿½
+	 * @throws RemoteException RMIï¿½ï¿½ï¿½é¡¼
 	 */
 	public boolean shutdown(int mode, String admin, String password) throws RemoteException;
 }

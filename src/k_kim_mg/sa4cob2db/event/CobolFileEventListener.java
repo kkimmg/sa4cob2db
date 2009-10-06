@@ -2,7 +2,7 @@ package k_kim_mg.sa4cob2db.event;
 import java.util.EventListener;
 /**
  * コボルファイルのアクセスで発生したイベントを処理する機能
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CobolFileEventListener extends EventListener {
 	/**

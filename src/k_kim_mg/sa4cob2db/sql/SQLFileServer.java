@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 /**
  * 登録済みのメタデータからファイルオブジェクトを作ったりする機能
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLFileServer {
 	/** SQLコネクション用ユーティリティ */

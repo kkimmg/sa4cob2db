@@ -9,13 +9,13 @@ import java.util.Properties;
 
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
- * ¥ê¥â¡¼¥È¥µ¡¼¥Ð¡¼¤ò¥·¥ã¥Ã¥È¥À¥¦¥ó¤¹¤ë
- * @author <a mailto="k_kim_mg@mvh.biglobe.ne.jp">Kenji Kimura</a>
+ * ï¿½ï¿½â¡¼ï¿½È¥ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ò¥·¥ï¿½Ã¥È¥ï¿½ï¿½ï¿½ï¿½ó¤¹¤ï¿½
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class RemoteShutdown {
 	/**
-	 * ¥³¥ó¥½¡¼¥ë¤«¤é¼Â¹Ô¤¹¤ë
-	 * @param args ÀßÄê¥Õ¥¡¥¤¥ëÌ¾
+	 * ï¿½ï¿½ï¿½ó¥½¡ï¿½ï¿½ë¤«ï¿½ï¿½Â¹Ô¤ï¿½ï¿½ï¿½
+	 * @param args ï¿½ï¿½ï¿½ï¿½Õ¥ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾
 	 */
 	public static void main(String[] args) {
 		if (args.length == 0) {
@@ -34,8 +34,8 @@ public class RemoteShutdown {
 		}
 	}
 	/**
-	 * ¥ê¥â¡¼¥È¥µ¡¼¥Ð¡¼¤ò¥·¥ã¥Ã¥È¥À¥¦¥ó¤¹¤ë
-	 * @param properties ÀßÄê¾ðÊó
+	 * ï¿½ï¿½â¡¼ï¿½È¥ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ò¥·¥ï¿½Ã¥È¥ï¿½ï¿½ï¿½ï¿½ó¤¹¤ï¿½
+	 * @param properties ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public static void shutdown(Properties properties) throws RemoteException, MalformedURLException, NotBoundException {
 		String host = properties.getProperty("host", "localhost");
@@ -46,15 +46,15 @@ public class RemoteShutdown {
 		RemoteShutdown.shutdown(host, port, name, user, password);
 	}
 	/**
-	 * ¥ê¥â¡¼¥È¥µ¡¼¥Ð¡¼¤ò¥·¥ã¥Ã¥È¥À¥¦¥ó¤¹¤ë
-	 * @param host ¥Û¥¹¥ÈÌ¾
-	 * @param port ¥Ý¡¼¥È
-	 * @param name ¥µ¡¼¥Ð¡¼Ì¾
-	 * @param user ´ÉÍý¼ÒÌ¾
-	 * @param password ¥Ñ¥¹¥ï¡¼¥É
-	 * @throws RemoteException RMI´ØÏ¢¥¨¥é¡¼
-	 * @throws MalformedURLException RMI´ØÏ¢¥¨¥é¡¼
-	 * @throws NotBoundException RMI´ØÏ¢¥¨¥é¡¼
+	 * ï¿½ï¿½â¡¼ï¿½È¥ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ò¥·¥ï¿½Ã¥È¥ï¿½ï¿½ï¿½ï¿½ó¤¹¤ï¿½
+	 * @param host ï¿½Û¥ï¿½ï¿½ï¿½Ì¾
+	 * @param port ï¿½Ý¡ï¿½ï¿½ï¿½
+	 * @param name ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½Ì¾
+	 * @param user ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾
+	 * @param password ï¿½Ñ¥ï¿½ï¿½ï¡¼ï¿½ï¿½
+	 * @throws RemoteException RMIï¿½ï¿½Ï¢ï¿½ï¿½ï¿½é¡¼
+	 * @throws MalformedURLException RMIï¿½ï¿½Ï¢ï¿½ï¿½ï¿½é¡¼
+	 * @throws NotBoundException RMIï¿½ï¿½Ï¢ï¿½ï¿½ï¿½é¡¼
 	 */
 	public static void shutdown(String host, String port, String name, String user, String password) throws RemoteException, MalformedURLException, NotBoundException {
 		try {

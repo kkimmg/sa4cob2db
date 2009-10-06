@@ -9,8 +9,8 @@ import k_kim_mg.sa4cob2db.sql.xml.MetaDataSetNodeProcessor;
 import org.w3c.dom.Node;
 
 /**
- * ¥«¥¹¥¿¥à¥Î¡¼¥É¤Î½èÍý¤Î¥Æ¥¹¥È
- * @author <a mailto="k_kim_mg@mvh.biglobe.ne.jp">Kenji Kimura</a>
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¡ï¿½ï¿½É¤Î½ï¿½ï¿½ï¿½Î¥Æ¥ï¿½ï¿½ï¿½
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CustromNodeTest implements MetaDataNodeProcessor, MetaDataSetNodeProcessor {
 	@Override

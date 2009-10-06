@@ -3,7 +3,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 /**
  * ファイル中のレコード
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  * コボルファイル中の1件のレコードに対する値の取得/更新に関する基本的な機能を提供する
  */
 public interface CobolRecord {

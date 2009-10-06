@@ -2,7 +2,7 @@ package k_kim_mg.sa4cob2db.sql;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 /**
  * データベースアクセスに関するSQL文を提供する機能
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface SQLCobolRecordMetaData extends CobolRecordMetaData {
 	/**

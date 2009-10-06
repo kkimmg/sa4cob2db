@@ -4,7 +4,7 @@ import k_kim_mg.sa4cob2db.event.ACMServerEventAdapter;
 /**
  * テスト用
  * 
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMServerEventAdapterTest extends ACMServerEventAdapter {
 	/*

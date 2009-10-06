@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import k_kim_mg.sa4cob2db.FileStatus;
 /**
- * @author <a mailto="k_kim_mg@mvh.biglobe.ne.jp">Kenji Kimura</a>
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class JNICodeGenerator extends TCPCodeGenerator {
 	/**
@@ -16,25 +16,25 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		super(owner);
 	}
 	/**
-	 * CLOSE½èÍý
-	 * @param period "."Ê¸»úÎó
+	 * CLOSEï¿½ï¿½ï¿½ï¿½
+	 * @param period "."Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallClose(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
 		add("     CALL \"closeJNIFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * COMMIT¤ÎÄÉ²Ã
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * COMMITï¿½ï¿½ï¿½É²ï¿½
+	 * @param period ï¿½Ô¥ê¥ªï¿½ï¿½(.)Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallCommit(String period) {
 		add("    CALL \"commitJNISession\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * DELETE½èÍý
-	 * @param valid Í­¸ú»þ¤Î½èÍý
-	 * @param invalid Ìµ¸ú»þ¤Î½èÍý
-	 * @param period "."Ê¸»úÎó
+	 * DELETEï¿½ï¿½ï¿½ï¿½
+	 * @param valid Í­ï¿½ï¿½ï¿½ï¿½Î½ï¿½ï¿½ï¿½
+	 * @param invalid Ìµï¿½ï¿½ï¿½ï¿½Î½ï¿½ï¿½ï¿½
+	 * @param period "."Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallDelete(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -63,16 +63,16 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		}
 	}
 	/**
-	 * InitializeSession¤ÎÄÉ²Ã
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * InitializeSessionï¿½ï¿½ï¿½É²ï¿½
+	 * @param period ï¿½Ô¥ê¥ªï¿½ï¿½(.)Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallInitializeSession(String period) {
 		add("     CALL \"initializeJNISessionEnv\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * OPEN INPUT ½èÍý
-	 * @param info ¥Õ¥¡¥¤¥ë¤Î¾ðÊó
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * OPEN INPUT ï¿½ï¿½ï¿½ï¿½
+	 * @param info ï¿½Õ¥ï¿½ï¿½ï¿½ï¿½ï¿½Î¾ï¿½ï¿½ï¿½
+	 * @param period ï¿½Ô¥ê¥ªï¿½ï¿½(.)Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallOpenInput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -93,9 +93,9 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		add("                                ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * OPEN I-O ½èÍý
-	 * @param info ¥Õ¥¡¥¤¥ë¤Î¾ðÊó
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * OPEN I-O ï¿½ï¿½ï¿½ï¿½
+	 * @param info ï¿½Õ¥ï¿½ï¿½ï¿½ï¿½ï¿½Î¾ï¿½ï¿½ï¿½
+	 * @param period ï¿½Ô¥ê¥ªï¿½ï¿½(.)Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallOpenInputOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -116,9 +116,9 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		add("                                ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * OPEN OUTPUT ½èÍý
-	 * @param info ¥Õ¥¡¥¤¥ë¤Î¾ðÊó
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * OPEN OUTPUT ï¿½ï¿½ï¿½ï¿½
+	 * @param info ï¿½Õ¥ï¿½ï¿½ï¿½ï¿½ï¿½Î¾ï¿½ï¿½ï¿½
+	 * @param period ï¿½Ô¥ê¥ªï¿½ï¿½(.)Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallOpenOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -139,12 +139,12 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		add("                                ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * READ½èÍý
-	 * @param info ¥Õ¥¡¥¤¥ë¾ðÊó
-	 * @param invalid Í­¸ú»þ¤Î½èÍý
-	 * @param notinvalid Ìµ¸ú»þ¤ó½èÍý
-	 * @param indexkey º÷°úÌ¾
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * READï¿½ï¿½ï¿½ï¿½
+	 * @param info ï¿½Õ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param invalid Í­ï¿½ï¿½ï¿½ï¿½Î½ï¿½ï¿½ï¿½
+	 * @param notinvalid Ìµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param indexkey ï¿½ï¿½ï¿½ï¿½Ì¾
+	 * @param period ï¿½Ô¥ê¥ªï¿½ï¿½(.)Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallRead(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String indexkey, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -152,10 +152,10 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		add("     CALL \"moveReadJNIRecord\" USING ");
 		add("                                ACM-FILE-IDENT");
 		if (indexkey == null) {
-			// ¥­¡¼¥ê¡¼¥É
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ê¡¼ï¿½ï¿½
 			add("                                ACM-RECORD");
 		} else {
-			// º÷°ú¤Ë¤è¤ë¥ê¡¼¥É
+			// ï¿½ï¿½ï¿½ï¿½Ë¤ï¿½ï¿½ê¡¼ï¿½ï¿½
 			add("                                ACM-RECORD");
 			add("                                ACM-INDEX-NAME");
 		}
@@ -164,7 +164,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		add("         MOVE ACM-RECORD TO " + info.getRecordName());
 		add("     END-IF" + period);
 		if (invalid.size() > 0) {
-			// Invalid ½èÍý
+			// Invalid ï¿½ï¿½ï¿½ï¿½
 			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_INVALID_KEY + "\"");
 			for (String str : invalid) {
 				if (str.trim().length() > 0) {
@@ -172,7 +172,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 				}
 			}
 			if (notinvalid.size() > 0) {
-				// Not Invalid ½èÍý
+				// Not Invalid ï¿½ï¿½ï¿½ï¿½
 				add(" ELSE");
 				for (String str : notinvalid) {
 					if (str.trim().length() > 0) {
@@ -184,12 +184,12 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		}
 	}
 	/**
-	 * READ½èÍý
-	 * @param info ¥Õ¥¡¥¤¥ë¾ðÊó
-	 * @param atend Í­¸ú»þ¤Î½èÍý
-	 * @param notatend Ìµ¸ú(¥Õ¥¡¥¤¥ë½ªÃ¼)»þ¤ó½èÍý
-	 * @param indexkey º÷°úÌ¾
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * READï¿½ï¿½ï¿½ï¿½
+	 * @param info ï¿½Õ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param atend Í­ï¿½ï¿½ï¿½ï¿½Î½ï¿½ï¿½ï¿½
+	 * @param notatend Ìµï¿½ï¿½(ï¿½Õ¥ï¿½ï¿½ï¿½ï¿½ë½ªÃ¼)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param indexkey ï¿½ï¿½ï¿½ï¿½Ì¾
+	 * @param period ï¿½Ô¥ê¥ªï¿½ï¿½(.)Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallReadNext(FileInfo info, ArrayList<String> atend, ArrayList<String> notatend, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -201,13 +201,13 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		add("         MOVE ACM-RECORD TO " + info.getRecordName());
 		add("     END-IF" + period);
 		if (atend.size() > 0) {
-			// At End ½èÍý
+			// At End ï¿½ï¿½ï¿½ï¿½
 			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_EOF + "\"");
 			for (int i = 0; i < atend.size(); i++) {
 				add("         " + atend.get(i));
 			}
 			if (notatend.size() > 0) {
-				// Not At End ½èÍý
+				// Not At End ï¿½ï¿½ï¿½ï¿½
 				add("     ELSE");
 				for (int i = 0; i < notatend.size(); i++) {
 					add("        " + notatend.get(i));
@@ -217,12 +217,12 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		}
 	}
 	/**
-	 * Rewrite½èÍý
-	 * @param info ¥Õ¥¡¥¤¥ë¾ðÊó
-	 * @param invalid Í­¸ú»þ¤Î½èÍý
-	 * @param notinvalid Ìµ¸ú»þ¤ó½èÍý
-	 * @param indexkey º÷°úÌ¾
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * Rewriteï¿½ï¿½ï¿½ï¿½
+	 * @param info ï¿½Õ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param invalid Í­ï¿½ï¿½ï¿½ï¿½Î½ï¿½ï¿½ï¿½
+	 * @param notinvalid Ìµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param indexkey ï¿½ï¿½ï¿½ï¿½Ì¾
+	 * @param period ï¿½Ô¥ê¥ªï¿½ï¿½(.)Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallRewrite(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -251,19 +251,19 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		}
 	}
 	/**
-	 * ROLLBACK¤ÎÄÉ²Ã
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * ROLLBACKï¿½ï¿½ï¿½É²ï¿½
+	 * @param period ï¿½Ô¥ê¥ªï¿½ï¿½(.)Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallRollback(String period) {
 		add("    CALL \"rollbackJNISession\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * START½èÍý
-	 * @param info ¥Õ¥¡¥¤¥ë¾ðÊó
-	 * @param invalid Í­¸ú»þ¤Î½èÍý
-	 * @param notinvalid Ìµ¸ú»þ¤ó½èÍý
-	 * @param indexkey º÷°úÌ¾
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * STARTï¿½ï¿½ï¿½ï¿½
+	 * @param info ï¿½Õ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param invalid Í­ï¿½ï¿½ï¿½ï¿½Î½ï¿½ï¿½ï¿½
+	 * @param notinvalid Ìµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param indexkey ï¿½ï¿½ï¿½ï¿½Ì¾
+	 * @param period ï¿½Ô¥ê¥ªï¿½ï¿½(.)Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallStart(FileInfo info, String startModeText, ArrayList<String> invalid, ArrayList<String> notinvalid, String indexkey, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -296,19 +296,19 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		}
 	}
 	/**
-	 * TermincateSession¤ÎÄÉ²Ã
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * TermincateSessionï¿½ï¿½ï¿½É²ï¿½
+	 * @param period ï¿½Ô¥ê¥ªï¿½ï¿½(.)Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallTerminateSession(String period) {
 		add("     CALL  \"terminateJNISession\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * WRITE½èÍý
-	 * @param info ¥Õ¥¡¥¤¥ë¾ðÊó
-	 * @param invalid Í­¸ú»þ¤Î½èÍý
-	 * @param notinvalid Ìµ¸ú»þ¤ó½èÍý
-	 * @param indexkey º÷°úÌ¾
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * WRITEï¿½ï¿½ï¿½ï¿½
+	 * @param info ï¿½Õ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param invalid Í­ï¿½ï¿½ï¿½ï¿½Î½ï¿½ï¿½ï¿½
+	 * @param notinvalid Ìµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param indexkey ï¿½ï¿½ï¿½ï¿½Ì¾
+	 * @param period ï¿½Ô¥ê¥ªï¿½ï¿½(.)Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void addCallWrite(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -336,9 +336,9 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		}
 	}
 	/**
-	 * ¥³¥ß¥Ã¥È¥â¡¼¥É¤òÀßÄê¤¹¤ë<br/>
-	 * Ìµ¾ò·ï¤Ç¹ÔËö¤Ë¥Ô¥ê¥ª¥É¤òÀßÄê¤¹¤ë¤³¤È¤ËÃí°Õ
-	 * @param text true/false¤ò´Þ¤àÊ¸»úÎó
+	 * ï¿½ï¿½ï¿½ß¥Ã¥È¥â¡¼ï¿½É¤ï¿½ï¿½ï¿½ï¿½ê¤¹ï¿½ï¿½<br/>
+	 * Ìµï¿½ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½Ë¥Ô¥ê¥ªï¿½É¤ï¿½ï¿½ï¿½ï¿½ê¤¹ï¿½ë¤³ï¿½È¤ï¿½ï¿½ï¿½ï¿½
+	 * @param text true/falseï¿½ï¿½Þ¤ï¿½Ê¸ï¿½ï¿½ï¿½ï¿½
 	 */
 	void whenACMAutoCommit(String text) {
 		int indexOfEqual = text.indexOf("=") + 1;
@@ -348,9 +348,9 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		add("                                    ACM-STATUS-ALL.");
 	}
 	/**
-	 * ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¥ì¥Ù¥ë¤ÎÀßÄê<br/>
-	 * Ìµ¾ò·ï¤Ç¹ÔËö¤Ë¥Ô¥ê¥ª¥É¤òÀßÄê¤¹¤ë¤³¤È¤ËÃí°Õ
-	 * @param text ¥ì¥Ù¥ëÊ¸»úÎó¤ò´Þ¤ó¤À¹Ô
+	 * ï¿½È¥ï¿½ó¥¶¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<br/>
+	 * Ìµï¿½ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½Ë¥Ô¥ê¥ªï¿½É¤ï¿½ï¿½ï¿½ï¿½ê¤¹ï¿½ë¤³ï¿½È¤ï¿½ï¿½ï¿½ï¿½
+	 * @param text ï¿½ï¿½Ù¥ï¿½Ê¸ï¿½ï¿½ï¿½ï¿½ï¿½Þ¤ï¿½ï¿½ï¿½ï¿½
 	 */
 	void whenACMTransactionIsolation(String text) {
 		int indexOfEqual = text.indexOf("=") + 1;

@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import k_kim_mg.sa4cob2db.FileStatus;
 /**
  * 引き渡されたソースコードを蓄積し、変換した結果をオーナーに返す機能
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class TCPCodeGenerator implements CodeGenerator {
 	/**

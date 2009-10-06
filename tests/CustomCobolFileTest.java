@@ -2,7 +2,7 @@ import k_kim_mg.sa4cob2db.AbstractCobolFile;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.FileStatus;
 /**
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CustomCobolFileTest extends AbstractCobolFile {
     private static final long serialVersionUID = 1L;

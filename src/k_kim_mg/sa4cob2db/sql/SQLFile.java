@@ -12,7 +12,7 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.event.CobolFileEvent;
 /**
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLFile extends AbstractCobolFile implements CobolFile {
 	private static final long serialVersionUID = 1L;

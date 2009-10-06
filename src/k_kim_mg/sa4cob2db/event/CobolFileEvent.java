@@ -6,7 +6,7 @@ import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.FileStatus;
 /**
  * コボルファイルのイベント
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CobolFileEvent extends EventObject {
 

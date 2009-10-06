@@ -2,10 +2,7 @@ import k_kim_mg.sa4cob2db.event.ACMSessionEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEventAdapter;
 
 /**
- * 
- */
-/**
- * @author おれおれ
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  *
  */
 public class ACMSessionEventAdapterTest extends ACMSessionEventAdapter {
