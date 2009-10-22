@@ -6,10 +6,10 @@
  */
 typedef char byte;
 static int (*cobol_sub_program)(byte *head, byte *bodyIn, byte *bodyOut);
-static void jcharTochar(jchar *src, char *dist, int length);
+/**static void jcharTochar(jchar *src, char *dist, int length);*/
 static void jbyteTobyte(jbyte *src, byte *dist, int length);
 static void byteTojbyte(byte *src, jbyte *dist, int length);
-JNIEXPORT jint JNICALL Java_jSampleJniCall1_sampleJniCall2
+JNIEXPORT jint JNICALL Java_JSampleJniCall1_sampleJniCall2
   (JNIEnv *env, jobject obj, jstring library, jstring prog, jbyteArray head, jbyteArray bodyIn, jbyteArray bodyOut) {
 	/* なんでCobolの戻り値がintなのか不明だよな */
 	jint ret;
@@ -74,7 +74,7 @@ JNIEXPORT jint JNICALL Java_jSampleJniCall1_sampleJniCall2
 	/* ok? */
 	return ret;
 }
-JNIEXPORT jint JNICALL Java_jSampleJniCall1_sampleJniCall1
+JNIEXPORT jint JNICALL Java_JSampleJniCall1_sampleJniCall1
   (JNIEnv *env, jobject obj, jstring prog, jbyteArray head, jbyteArray bodyIn, jbyteArray bodyOut) {
 	/* なんでCobolの戻り値がintなのか不明だよな */
 	jint ret;
@@ -129,13 +129,14 @@ JNIEXPORT jint JNICALL Java_jSampleJniCall1_sampleJniCall1
 	/* ok? */
 	return ret;
 }
-
+/*
 static void jcharTochar(jchar *src, char *dist, int length) {
 	int i;
 	for (i = 0; i < length; i++) {
 		dist[i] = src[i];
 	}
 }
+*/
 
 static void jbyteTobyte(jbyte *src, byte *dist, int length) {
 	int i;
