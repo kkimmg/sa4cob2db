@@ -9,6 +9,16 @@ static int (*cobol_sub_program)(byte *head, byte *bodyIn, byte *bodyOut);
 /**static void jcharTochar(jchar *src, char *dist, int length);*/
 static void jbyteTobyte(jbyte *src, byte *dist, int length);
 static void byteTojbyte(byte *src, jbyte *dist, int length);
+/**
+ * 指定したプログラムを起動する(ライブラリ指定あり)
+ * env java環境
+ * obj あり?使ってないぞ?
+ * library ライブラリパス
+ * prog プログラム名
+ * head ヘッダ
+ * bodyIn インパラメータ
+ * bodyOut アウトパラメータ
+ */
 JNIEXPORT jint JNICALL Java_JSampleJniCall1_sampleJniCall2
   (JNIEnv *env, jobject obj, jstring library, jstring prog, jbyteArray head, jbyteArray bodyIn, jbyteArray bodyOut) {
 	/* なんでCobolの戻り値がintなのか不明だよな */
@@ -68,12 +78,22 @@ JNIEXPORT jint JNICALL Java_JSampleJniCall1_sampleJniCall2
 		(*env)->ReleaseStringUTFChars(env, library, slibr);
 	}
 	if (isCopy2 == JNI_TRUE) {
-       (*env)->ReleaseStringUTFChars(env, prog, sprog);
-    }
+		(*env)->ReleaseStringUTFChars(env, prog, sprog);
+	}
 
 	/* ok? */
 	return ret;
 }
+/**
+ * 指定したプログラムを起動する(ライブラリ指定なし)</br>
+ * だからたぶんちゃんと動かない
+ * env java環境
+ * obj あり?使ってないぞ?
+ * prog プログラム名
+ * head ヘッダ
+ * bodyIn インパラメータ
+ * bodyOut アウトパラメータ
+ */
 JNIEXPORT jint JNICALL Java_JSampleJniCall1_sampleJniCall1
   (JNIEnv *env, jobject obj, jstring prog, jbyteArray head, jbyteArray bodyIn, jbyteArray bodyOut) {
 	/* なんでCobolの戻り値がintなのか不明だよな */
@@ -121,10 +141,10 @@ JNIEXPORT jint JNICALL Java_JSampleJniCall1_sampleJniCall1
 	(*env)->ReleaseByteArrayElements(env, bodyIn, pbodyIn, 0);
 	(*env)->ReleaseByteArrayElements(env, bodyOut, pbodyOut, 0);
 
-    /* 文字列の開放 */
-    if (isCopy2 == JNI_TRUE) {
-	    (*env)->ReleaseStringUTFChars(env, prog, sprog);
-    }
+	/* 文字列の開放 */
+	if (isCopy2 == JNI_TRUE) {
+		(*env)->ReleaseStringUTFChars(env, prog, sprog);
+	}
 
 	/* ok? */
 	return ret;

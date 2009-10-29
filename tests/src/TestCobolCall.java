@@ -19,7 +19,7 @@ public class TestCobolCall {
 	 */
 	public static void main(String[] args) {
 		ServletSampleTool1 servletSampleTool1 = new ServletSampleTool1(
-				"/home/kenji/workspace/ACM/test.xml");
+				"../comf/metafile.xml");
 		JSampleJniCall1 jniCaller = new JSampleJniCall1();
 		String progname = "TESTSUB";
 		CobolRecord head, bodyIn, bodyOut;
@@ -31,7 +31,6 @@ public class TestCobolCall {
 			bodyIn.updateString(bodyIn.getMetaData().getColumn("xtype"), "bodyin");
 			bodyOut.updateString(bodyOut.getMetaData().getColumn("xtype"), "bodyout");
 		} catch (CobolRecordException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		try {
@@ -40,7 +39,6 @@ public class TestCobolCall {
 			System.err.println(bodyIn.getString(bodyIn.getMetaData().getColumn("xtype")));
 			System.err.println(bodyOut.getString(bodyOut.getMetaData().getColumn("xtype")));
 		} catch (CobolRecordException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
