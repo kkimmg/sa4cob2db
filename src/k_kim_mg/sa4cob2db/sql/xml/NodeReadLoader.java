@@ -36,43 +36,43 @@ import org.xml.sax.SAXException;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class NodeReadLoader {
-	/** ¥«¥¹¥¿¥àÆ°ºî¤¹¤ë¥Î¡¼¥É¤ÎÅĞÏ¿ºÑ¤ß¥¯¥é¥¹¤Î°ìÍ÷(Ã±ÂÎ) */
+	/** ã‚«ã‚¹ã‚¿ãƒ å‹•ä½œã™ã‚‹ãƒãƒ¼ãƒ‰ã®ç™»éŒ²æ¸ˆã¿ã‚¯ãƒ©ã‚¹ã®ä¸€è¦§(å˜ä½“) */
 	private Properties classesOfMeta = new Properties();
-	/** ¥«¥¹¥¿¥àÆ°ºî¤¹¤ë¥Î¡¼¥É¤ÎÅĞÏ¿ºÑ¤ß¥¯¥é¥¹¤Î°ìÍ÷(Á´ÂÎ) */
+	/** ã‚«ã‚¹ã‚¿ãƒ å‹•ä½œã™ã‚‹ãƒãƒ¼ãƒ‰ã®ç™»éŒ²æ¸ˆã¿ã‚¯ãƒ©ã‚¹ã®ä¸€è¦§(å…¨ä½“) */
 	private Properties classesOfSet = new Properties();
 	/**
-	 * ÊÌÌ¾¤ÎºîÀ®
-	 * @param node ¥Î¡¼¥É
-	 * @return ÊÌÌ¾
+	 * åˆ¥åã®ä½œæˆ
+	 * @param node ãƒãƒ¼ãƒ‰
+	 * @return åˆ¥å
 	 */
 	protected String createAlias(Node node) {
-		// »Ò¥Î¡¼¥É¤ÎÃµº÷
+		// å­ãƒãƒ¼ãƒ‰ã®æ¢ç´¢
 		StringBuffer alias = new StringBuffer();
 		NodeList children = node.getChildNodes();
 		int size = children.getLength();
 		for (int i = 0; i < size; i++) {
 			Node child = children.item(i);
 			if (child.getNodeType() == Node.TEXT_NODE) {
-				// ÊÌÌ¾
+				// åˆ¥å
 				alias.append(child.getNodeValue());
 			}
 		}
 		return alias.toString().trim();
 	}
 	/**
-	 * Îó¤ÎºîÀ®
-	 * @param node ¥Î¡¼¥É
-	 * @param column Îó
-	 * @return Îó
+	 * åˆ—ã®ä½œæˆ
+	 * @param node ãƒãƒ¼ãƒ‰
+	 * @param column åˆ—
+	 * @return åˆ—
 	 */
 	protected CobolColumn createCobolColumn(Node node, CobolColumn column) {
 		NamedNodeMap map = node.getAttributes();
-		// ÎóÌ¾
+		// åˆ—å
 		Node name = map.getNamedItem("name");
 		if (name != null) {
 			column.setName(name.getNodeValue());
 		}
-		// Îó¤Î·¿
+		// åˆ—ã®å‹
 		Node type = map.getNamedItem("type");
 		if (type != null) {
 			String typestr = type.getNodeValue();
@@ -82,7 +82,7 @@ public class NodeReadLoader {
 			} catch (NumberFormatException e) {
 			}
 		}
-		// Îó¤ÎÄ¹¤µ
+		// åˆ—ã®é•·ã•
 		Node start = map.getNamedItem("start");
 		if (start != null) {
 			String startstr = start.getNodeValue();
@@ -92,7 +92,7 @@ public class NodeReadLoader {
 			} catch (NumberFormatException e) {
 			}
 		}
-		// Îó¤ÎÄ¹¤µ
+		// åˆ—ã®é•·ã•
 		Node length = map.getNamedItem("length");
 		if (length != null) {
 			String lengthstr = length.getNodeValue();
@@ -102,14 +102,14 @@ public class NodeReadLoader {
 			} catch (NumberFormatException e) {
 			}
 		}
-		// Îó¤¬Éä¹æ¤ò»ı¤Ä¤«¤É¤¦¤«
+		// åˆ—ãŒç¬¦å·ã‚’æŒã¤ã‹ã©ã†ã‹
 		Node signedNode = map.getNamedItem("signed");
 		if (signedNode != null) {
 			String signedstr = signedNode.getNodeValue();
 			boolean signedbool = Boolean.valueOf(signedstr);
 			column.setSigned(signedbool);
 		}
-		// Îó¤Î¾®¿ôÅÀ°Ê²¼¤Î·å¿ô
+		// åˆ—ã®å°æ•°ç‚¹ä»¥ä¸‹ã®æ¡æ•°
 		Node decimal = map.getNamedItem("decimal");
 		if (decimal != null) {
 			String decimalstr = decimal.getNodeValue();
@@ -119,22 +119,22 @@ public class NodeReadLoader {
 			} catch (NumberFormatException e) {
 			}
 		}
-		// Îó¤Î½ñ¼°
+		// åˆ—ã®æ›¸å¼
 		Node format = map.getNamedItem("format");
 		if (format != null) {
 			column.setFormat(format.getNodeValue());
 		}
-		// NullÂåÂØ
+		// Nullä»£æ›¿
 		Node ifNull = map.getNamedItem("ifNull");
 		if (ifNull != null) {
 			column.setIfNull(ifNull.getNodeValue());
 		}
-		// NullÀßÄê
+		// Nullè¨­å®š
 		Node forNull = map.getNamedItem("forNull");
 		if (forNull != null) {
 			column.setForNull(forNull.getNodeValue());
 		}
-		// ¥Ñ¡¼¥¹¥¨¥é¡¼
+		// ãƒ‘ãƒ¼ã‚¹ã‚¨ãƒ©ãƒ¼
 		Node useOnParseError = map.getNamedItem("useOnParseError");
 		if (useOnParseError != null) {
 			String useStr = useOnParseError.getNodeValue();
@@ -143,7 +143,7 @@ public class NodeReadLoader {
 				column.setUseOnParseError(useBoolean);
 				Node valueOnParseError = map.getNamedItem("valueOnParseError");
 				if (valueOnParseError != null) {
-					// ¤È¤ê¤¢¤¨¤ºÊ¸»úÎó¤ÇÀßÄê¤¹¤ë
+					// ã¨ã‚Šã‚ãˆãšæ–‡å­—åˆ—ã§è¨­å®šã™ã‚‹
 					String vope = valueOnParseError.getNodeValue();
 					column.setValueOfParseError(vope);
 				}
@@ -152,19 +152,19 @@ public class NodeReadLoader {
 		return column;
 	}
 	/**
-	 * ¥¤¥ó¥Ç¥Ã¥¯¥¹¤òºîÀ®¤¹¤ë
-	 * @param node (¾ğÊó¤òÊİ»ı¤·¤Æ¤¤¤ë)¥Î¡¼¥É
-	 * @param meta ¥¤¥ó¥Ç¥Ã¥¯¥¹¤òÄÉ²Ã¤¹¤ë¥Õ¥¡¥¤¥ë
-	 * @param metaset ¥¤¥ó¥Ç¥Ã¥¯¥¹¤ò¼èÆÀ¤¹¤ë¤¿¤á¤Î¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È
-	 * @return ¥¤¥ó¥Ç¥Ã¥¯¥¹¾ğÊó
+	 * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ä½œæˆã™ã‚‹
+	 * @param node (æƒ…å ±ã‚’ä¿æŒã—ã¦ã„ã‚‹)ãƒãƒ¼ãƒ‰
+	 * @param meta ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’è¿½åŠ ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«
+	 * @param metaset ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
+	 * @return ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æƒ…å ±
 	 * @throws CobolRecordException
-	 *             Îã³°-¥¤¥ó¥Ç¥Ã¥¯¥¹¥Õ¥¡¥¤¥ë¤¬¸«ÉÕ¤«¤é¤Ê¤«¤Ã¤¿¤«¥¤¥ó¥Ç¥Ã¥¯¥¹¤Ë´ØÏ¢¤¹¤ëÎó¤¬¸«ÉÕ¤«¤é¤Ê¤«¤Ã¤¿¤«
+	 *             ä¾‹å¤–-ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ä»˜ã‹ã‚‰ãªã‹ã£ãŸã‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã«é–¢é€£ã™ã‚‹åˆ—ãŒè¦‹ä»˜ã‹ã‚‰ãªã‹ã£ãŸã‹
 	 */
 	protected CobolIndex createCobolIndex(Node node, CobolRecordMetaData meta, CobolRecordMetaDataSet metaset) throws CobolRecordException {
 		DefaultCobolIndex ret = new DefaultCobolIndex();
 		CobolRecordMetaData idmeta = null;
 		NamedNodeMap map = node.getAttributes();
-		// ¥Õ¥¡¥¤¥ëÌ¾
+		// ãƒ•ã‚¡ã‚¤ãƒ«å
 		Node filenamenode = map.getNamedItem("filename");
 		if (filenamenode != null) {
 			String filename = filenamenode.getNodeValue();
@@ -175,13 +175,13 @@ public class NodeReadLoader {
 			SQLNetServer.logger.severe("can't find index file.");
 			throw new CobolRecordException();
 		}
-		// ¥¤¥ó¥Ç¥Ã¥¯¥¹Ì¾
+		// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹å
 		Node indexnamenode = map.getNamedItem("indexname");
 		if (indexnamenode != null) {
 			String indexname = indexnamenode.getNodeValue();
 			ret.setIndexKeyName(indexname);
 		}
-		// Îó¾ğÊó
+		// åˆ—æƒ…å ±
 		NodeList children = node.getChildNodes();
 		int size = children.getLength();
 		Map<CobolColumn, CobolColumn> fileKey2IndexColumn = ret.getFileKey2IndexColumn();
@@ -208,22 +208,22 @@ public class NodeReadLoader {
 		return ret;
 	}
 	/**
-	 * ¥«¥¹¥¿¥àÎó¤òºîÀ®¤¹¤ë
-	 * @param node ¤³¤ÎÎó¤Î¾ğÊó¤ò´Ş¤à¥Î¡¼¥É¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
-	 * @return ¥³¥Ü¥ëÎó
+	 * ã‚«ã‚¹ã‚¿ãƒ åˆ—ã‚’ä½œæˆã™ã‚‹
+	 * @param node ã“ã®åˆ—ã®æƒ…å ±ã‚’å«ã‚€ãƒãƒ¼ãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
+	 * @return ã‚³ãƒœãƒ«åˆ—
 	 */
 	protected CobolColumn createCustomCobolColumn(Node node, CobolRecordMetaData meta) {
 		CobolColumn ret = null;
 		NamedNodeMap map = node.getAttributes();
 		try {
-			// ÎóÌ¾
+			// åˆ—å
 			Node classNameNode = map.getNamedItem("classname");
 			if (classNameNode != null) {
 				Node constructorType = map.getNamedItem("constructor");
 				int constructorTypeNum = 2;
 				if (constructorType != null) {
-					// ¥³¥ó¥¹¥È¥é¥¯¥¿¤Î°ú¿ô¤Î¿ô¤ò»ØÄê¤¹¤ë
+					// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®å¼•æ•°ã®æ•°ã‚’æŒ‡å®šã™ã‚‹
 					String constructorTypeStr = constructorType.getNodeValue();
 					if (constructorTypeStr.equals("1")) {
 						constructorTypeNum = 1;
@@ -237,10 +237,10 @@ public class NodeReadLoader {
 				Class<?> clazz0 = Class.forName(className);
 				Class<? extends CobolColumn> clazz = clazz0.asSubclass(CobolColumn.class);
 				if (constructorTypeNum == 0) {
-					// °ú¿ô¤Ê¤·
+					// å¼•æ•°ãªã—
 					ret = clazz.newInstance();
 				} else if (constructorTypeNum == 1) {
-					// ¥á¥¿¥Ç¡¼¥¿¤Î¤ß¤ò°ú¿ô¤Ë¤¹¤ë
+					// ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®ã¿ã‚’å¼•æ•°ã«ã™ã‚‹
 					try {
 						Class<?>[] params = new Class<?>[] { CobolRecordMetaData.class };
 						Constructor<? extends CobolColumn> constructor = clazz.getConstructor(params);
@@ -250,7 +250,7 @@ public class NodeReadLoader {
 						ret = clazz.newInstance();
 					}
 				} else if (constructorTypeNum == 2) {
-					// XML¥Î¡¼¥É¤âÍøÍÑ¤¹¤ë
+					// XMLãƒãƒ¼ãƒ‰ã‚‚åˆ©ç”¨ã™ã‚‹
 					try {
 						Class<?>[] params = new Class<?>[] { CobolRecordMetaData.class, Node.class };
 						Constructor<? extends CobolColumn> constructor = clazz.getConstructor(params);
@@ -296,11 +296,11 @@ public class NodeReadLoader {
 		return ret;
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¤Î¿·µ¬ºîÀ®
-	 * @param className ¤³¤Î¥á¥¿¥Ç¡¼¥¿¤òÄêµÁ¤¹¤ëÎó
-	 * @param node ¥á¥¿¥Ç¡¼¥¿¤Î¾ğÊó¤ò´Ş¤à¥Î¡¼¥É¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param parent ¤³¤Î¥á¥¿¥Ç¡¼¥¿¤ò´Ş¤à¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È
-	 * @return ¥á¥¿¥Ç¡¼¥¿
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®æ–°è¦ä½œæˆ
+	 * @param className ã“ã®ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚’å®šç¾©ã™ã‚‹åˆ—
+	 * @param node ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®æƒ…å ±ã‚’å«ã‚€ãƒãƒ¼ãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param parent ã“ã®ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚’å«ã‚€ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
+	 * @return ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	protected CobolRecordMetaData createCustomMetaData(String className, Node node, CobolRecordMetaDataSet parent) throws ClassNotFoundException, SecurityException, IllegalArgumentException, InstantiationException, IllegalAccessException,
 	        InvocationTargetException, ClassCastException {
@@ -317,22 +317,22 @@ public class NodeReadLoader {
 		return ret;
 	}
 	/**
-	 * ¥­¡¼Îó¤ÎºîÀ®
-	 * @param node ¥Î¡¼¥É
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
-	 * @return ¥­¡¼Îó(¥¨¥é¡¼»ş¤Ïnull)
+	 * ã‚­ãƒ¼åˆ—ã®ä½œæˆ
+	 * @param node ãƒãƒ¼ãƒ‰
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
+	 * @return ã‚­ãƒ¼åˆ—(ã‚¨ãƒ©ãƒ¼æ™‚ã¯null)
 	 */
 	protected CobolColumn createKeyColumn(Node node, CobolRecordMetaData meta) {
 		CobolColumn column = null;
 		try {
-			// »Ò¥Î¡¼¥É¤ÎÃµº÷
+			// å­ãƒãƒ¼ãƒ‰ã®æ¢ç´¢
 			StringBuffer keyName = new StringBuffer();
 			NodeList children = node.getChildNodes();
 			int size = children.getLength();
 			for (int i = 0; i < size; i++) {
 				Node child = children.item(i);
 				if (child.getNodeType() == Node.TEXT_NODE) {
-					// ¥­¡¼Ì¾
+					// ã‚­ãƒ¼å
 					keyName.append(child.getNodeValue());
 				}
 			}
@@ -347,19 +347,19 @@ public class NodeReadLoader {
 		return column;
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¤Î¿·µ¬ºîÀ®
-	 * @param node ¥Î¡¼¥É
-	 * @param parent ¥á¥¿¥Ç¡¼¥¿¤ò´Ş¤à¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È
-	 * @return ¥á¥¿¥Ç¡¼¥¿
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®æ–°è¦ä½œæˆ
+	 * @param node ãƒãƒ¼ãƒ‰
+	 * @param parent ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚’å«ã‚€ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
+	 * @return ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	protected CobolRecordMetaData createMetaData(Node node, CobolRecordMetaDataSet parent) {
 		CobolRecordMetaData meta = null;
-		// ¥Ş¥Ã¥×
+		// ãƒãƒƒãƒ—
 		NamedNodeMap map = node.getAttributes();
 		if (meta == null) {
 			Node custom = map.getNamedItem("customClassName");
 			if (custom == null || custom.getNodeValue().trim().length() == 0) {
-				// ¿·µ¬¤Î¥á¥¿¥Ç¡¼¥¿
+				// æ–°è¦ã®ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 				Node base = map.getNamedItem("base");
 				if (base != null) {
 					String basename = base.getNodeValue().trim();
@@ -370,11 +370,11 @@ public class NodeReadLoader {
 						meta = new DefaultSQLCobolRecordMetaData();
 					}
 				} else {
-					// ²¿¤â¥Ù¡¼¥¹¤Ë¤·¤Æ¤¤¤Ê¤¤¾ì¹ç
+					// ä½•ã‚‚ãƒ™ãƒ¼ã‚¹ã«ã—ã¦ã„ãªã„å ´åˆ
 					meta = new DefaultSQLCobolRecordMetaData();
 				}
 			} else {
-				// ¥«¥¹¥¿¥à¤Î¥á¥¿¥Ç¡¼¥¿
+				// ã‚«ã‚¹ã‚¿ãƒ ã®ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 				String customName = custom.getNodeValue();
 				try {
 					meta = createCustomMetaData(customName, node, parent);
@@ -399,17 +399,17 @@ public class NodeReadLoader {
 				}
 			}
 		}
-		// ¤³¤Î¥á¥¿¥Ç¡¼¥¿¤ÎÌ¾Á°
+		// ã“ã®ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®åå‰
 		Node name = map.getNamedItem("name");
 		if (name != null) {
 			meta.setName(name.getNodeValue().trim());
 		}
-		// ¤³¤Î¥¨¥ó¥³¡¼¥Ç¥£¥ó¥°
+		// ã“ã®ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°
 		Node encode = map.getNamedItem("encode");
 		if (encode != null) {
 			meta.setEncode(encode.getNodeValue().trim());
 		}
-		// ¥Ğ¥Ã¥Õ¥¡¤Î½é´ü¥µ¥¤¥º
+		// ãƒãƒƒãƒ•ã‚¡ã®åˆæœŸã‚µã‚¤ã‚º
 		Node bufinit = map.getNamedItem("bufinit");
 		if (bufinit != null) {
 			try {
@@ -418,7 +418,7 @@ public class NodeReadLoader {
 				SQLNetServer.logger.log(Level.CONFIG, "can't read bufsize.", e);
 			}
 		}
-		// ¥Ğ¥Ã¥Õ¥¡¤ÎºÇ¾®¥µ¥¤¥º
+		// ãƒãƒƒãƒ•ã‚¡ã®æœ€å°ã‚µã‚¤ã‚º
 		Node bufmin = map.getNamedItem("bufmin");
 		if (bufmin != null) {
 			try {
@@ -427,7 +427,7 @@ public class NodeReadLoader {
 				SQLNetServer.logger.log(Level.CONFIG, "can't read bufsize.", e);
 			}
 		}
-		// ¥Ğ¥Ã¥Õ¥¡¤ÎºÇÂç¥µ¥¤¥º
+		// ãƒãƒƒãƒ•ã‚¡ã®æœ€å¤§ã‚µã‚¤ã‚º
 		Node bufmax = map.getNamedItem("bufmax");
 		if (bufmax != null) {
 			try {
@@ -436,7 +436,7 @@ public class NodeReadLoader {
 				SQLNetServer.logger.log(Level.CONFIG, "can't read bufsize.", e);
 			}
 		}
-		// »Ò¥Î¡¼¥É¤ÎÃµº÷
+		// å­ãƒãƒ¼ãƒ‰ã®æ¢ç´¢
 		StringBuffer sql = new StringBuffer();
 		String truncate = null;
 		NodeList children = node.getChildNodes();
@@ -444,7 +444,7 @@ public class NodeReadLoader {
 		for (int i = 0; i < size; i++) {
 			Node child = children.item(i);
 			if (child.getNodeName().equals("statement")) {
-				// SQL¥¹¥Æ¡¼¥È¥á¥ó¥È
+				// SQLã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
 				NodeList sqlchildren = child.getChildNodes();
 				int sqlsize = sqlchildren.getLength();
 				for (int j = 0; j < sqlsize; j++) {
@@ -454,31 +454,31 @@ public class NodeReadLoader {
 					}
 				}
 			} else if (child.getNodeName().equals("column") && meta instanceof SQLCobolRecordMetaData) {
-				// ¤¿¤À¤ÎÎó¡Ê¤Á¤ç¤Ã¤Èº¤¤ë¡Ë
+				// ãŸã ã®åˆ—ï¼ˆã¡ã‚‡ã£ã¨å›°ã‚‹ï¼‰
 				CobolColumn cobolColumn = createSQLCobolColumn(child, (SQLCobolRecordMetaData) meta, null);
 				meta.addColumn(cobolColumn);
 			} else if (child.getNodeName().equals("sqlcolumn") && meta instanceof SQLCobolRecordMetaData) {
-				// SQLÎó
+				// SQLåˆ—
 				CobolColumn cobolColumn = createSQLCobolColumn(child, (SQLCobolRecordMetaData) meta, null);
 				meta.addColumn(cobolColumn);
 			} else if (child.getNodeName().equals("customcolumn")) {
-				// ¥«¥¹¥¿¥àÎó
+				// ã‚«ã‚¹ã‚¿ãƒ åˆ—
 				CobolColumn cobolColumn = createCustomCobolColumn(child, meta);
 				meta.addColumn(cobolColumn);
 			} else if (child.getNodeName().equals("keycolumn")) {
-				// ¥­¡¼Îó
+				// ã‚­ãƒ¼åˆ—
 				CobolColumn cobolColumn = createKeyColumn(child, meta);
 				if (cobolColumn != null) {
 					meta.addKey(cobolColumn);
 				}
 			} else if (child.getNodeName().equals("alias")) {
-				// ÊÌÌ¾
+				// åˆ¥å
 				String alias = createAlias(child);
 				if (alias.length() > 0) {
 					meta.addAlias(alias);
 				}
 			} else if (child.getNodeName().equals("listener")) {
-				// ÊÌÌ¾
+				// åˆ¥å
 				String namelist = getNodeText(child);
 				if (namelist.length() > 0) {
 					String[] classnames = namelist.split(":");
@@ -495,13 +495,13 @@ public class NodeReadLoader {
 					}
 				}
 			} else if (child.getNodeName().equals("truncate")) {
-				// ¤¹¤Ù¤Æºï½ü
+				// ã™ã¹ã¦å‰Šé™¤
 				String wtruncate = getNodeText(child);
 				if (wtruncate.length() > 0) {
 					truncate = wtruncate;
 				}
 			} else if (child.getNodeName().equals("indexfile")) {
-				// ¥¤¥ó¥Ç¥Ã¥¯¥¹
+				// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 				try {
 					CobolIndex index = createCobolIndex(child, meta, parent);
 					if (index != null) {
@@ -511,15 +511,15 @@ public class NodeReadLoader {
 					SQLNetServer.logger.log(Level.SEVERE, "can't add index.", e);
 				}
 			} else {
-				// ¤È¤ê¤¢¤¨¤º¹Í¤¨¤Æ¤Ê¤¤
+				// ã¨ã‚Šã‚ãˆãšè€ƒãˆã¦ãªã„
 				proessOtherNodeOfMeta(child, meta);
 			}
 		}
 		if (meta instanceof SQLCobolRecordMetaData) {
-			// SQL¥¹¥Æ¡¼¥È¥á¥ó¥È¤ò¥»¥Ã¥È¤¹¤ë
+			// SQLã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 			SQLCobolRecordMetaData metasql = (SQLCobolRecordMetaData) meta;
 			metasql.setSelectStatement(sql.toString().trim());
-			// ¤¹¤Ù¤Æºï½ü¤ò¥»¥Ã¥È¤¹¤ë
+			// ã™ã¹ã¦å‰Šé™¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 			if (truncate != null) {
 				if (truncate.trim().length() > 0) {
 					metasql.setTruncateStatement(truncate.trim());
@@ -529,10 +529,10 @@ public class NodeReadLoader {
 		return meta;
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È¤ÎºîÀ®
-	 * @param document ¾ğÊó¤ò´Ş¤à¥É¥­¥å¥á¥ó¥È
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È
-	 * @return ¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆã®ä½œæˆ
+	 * @param document æƒ…å ±ã‚’å«ã‚€ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
+	 * @return ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
 	 */
 	public CobolRecordMetaDataSet createMetaDataSet(Document document, CobolRecordMetaDataSet meta, Properties properties) {
 		if (meta == null) {
@@ -548,10 +548,10 @@ public class NodeReadLoader {
 		return meta;
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È¤ÎºîÀ®
-	 * @param file ¾ğÊó¤ò´Ş¤à¥Õ¥¡¥¤¥ë
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È
-	 * @return ¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆã®ä½œæˆ
+	 * @param file æƒ…å ±ã‚’å«ã‚€ãƒ•ã‚¡ã‚¤ãƒ«
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
+	 * @return ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
 	 */
 	public CobolRecordMetaDataSet createMetaDataSet(File file, CobolRecordMetaDataSet meta, Properties properties) throws ParserConfigurationException, FactoryConfigurationError, FactoryConfigurationError, SAXException, IOException {
 		Document document1;
@@ -561,10 +561,10 @@ public class NodeReadLoader {
 		return createMetaDataSet(document1, meta, properties);
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È¤ÎºîÀ®
-	 * @param node ¾ğÊó¤ò´Ş¤à¥Î¡¼¥É
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È
-	 * @return ¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆã®ä½œæˆ
+	 * @param node æƒ…å ±ã‚’å«ã‚€ãƒãƒ¼ãƒ‰
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
+	 * @return ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
 	 */
 	public CobolRecordMetaDataSet createMetaDataSet(Node node, CobolRecordMetaDataSet meta, Properties properties) {
 		if (meta == null) {
@@ -577,12 +577,12 @@ public class NodeReadLoader {
 			for (int i = 0; i < len; i++) {
 				Node item = items.item(i);
 				if (item.getNodeName().equals("metadata")) {
-					// ¥á¥¿¥Ç¡¼¥¿
+					// ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 					CobolRecordMetaData meta1 = createMetaData(item, meta);
 					meta.installMetaData(meta1);
 					SQLNetServer.logger.log(Level.CONFIG, "metadata:" + meta1.getName());
 				} else if (item.getNodeName().equals("property")) {
-					// ¥Ş¥Ã¥×
+					// ãƒãƒƒãƒ—
 					NamedNodeMap map = item.getAttributes();
 					Node work = map.getNamedItem("name");
 					if (work != null) {
@@ -591,7 +591,7 @@ public class NodeReadLoader {
 						properties.put(wname, wvalu);
 					}
 				} else if (item.getNodeName().equals("property")) {
-					// ¥Ş¥Ã¥×
+					// ãƒãƒƒãƒ—
 					NamedNodeMap map = item.getAttributes();
 					Node work = map.getNamedItem("name");
 					if (work != null) {
@@ -600,7 +600,7 @@ public class NodeReadLoader {
 						properties.put(wname, wvalu);
 					}
 				} else if (item.getNodeName().equals("property")) {
-					// ¥Ş¥Ã¥×
+					// ãƒãƒƒãƒ—
 					NamedNodeMap map = item.getAttributes();
 					Node work = map.getNamedItem("name");
 					if (work != null) {
@@ -609,7 +609,7 @@ public class NodeReadLoader {
 						properties.put(wname, wvalu);
 					}
 				} else if (item.getNodeName().equals("otherofset")) {
-					// ¥«¥¹¥¿¥à¥Î¡¼¥É(¥á¥¿¥Ç¡¼¥¿Á´ÂÎ)
+					// ã‚«ã‚¹ã‚¿ãƒ ãƒãƒ¼ãƒ‰(ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿å…¨ä½“)
 					NamedNodeMap map = item.getAttributes();
 					Node work = map.getNamedItem("name");
 					if (work != null) {
@@ -619,7 +619,7 @@ public class NodeReadLoader {
 						SQLNetServer.logger.info("adding other processor of metadataset " + wname + ":" + wvalu);
 					}
 				} else if (item.getNodeName().equals("otherofmeta")) {
-					// ¥«¥¹¥¿¥à¥Î¡¼¥É(¥á¥¿¥Ç¡¼¥¿Ã±ÂÎ)
+					// ã‚«ã‚¹ã‚¿ãƒ ãƒãƒ¼ãƒ‰(ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿å˜ä½“)
 					NamedNodeMap map = item.getAttributes();
 					Node work = map.getNamedItem("name");
 					if (work != null) {
@@ -629,52 +629,52 @@ public class NodeReadLoader {
 						SQLNetServer.logger.info("adding other processor of metadata " + wname + ":" + wvalu);
 					}
 				} else {
-					// ¤Ê¤Ë¤«¿·¤·¤¤Í×ÁÇ
+					// ãªã«ã‹æ–°ã—ã„è¦ç´ 
 					proessOtherNodeOfSet(item, meta, properties);
 				}
 			}
 		}
-		// ÊÖ¤¹
+		// è¿”ã™
 		return meta;
 	}
 	/**
-	 * SQLÎó¤ÎºîÀ®
-	 * @param node ¥Î¡¼¥É
-	 * @param column SQLÎó(¿·µ¬¤Î¾ì¹ç¤Ïnull)
-	 * @return SQLÎó
+	 * SQLåˆ—ã®ä½œæˆ
+	 * @param node ãƒãƒ¼ãƒ‰
+	 * @param column SQLåˆ—(æ–°è¦ã®å ´åˆã¯null)
+	 * @return SQLåˆ—
 	 */
 	protected SQLCobolColumn createSQLCobolColumn(Node node, SQLCobolRecordMetaData meta, SQLCobolColumn column) {
-		if (column == null) {// ¿·µ¬¤ÎÎó
+		if (column == null) {// æ–°è¦ã®åˆ—
 			column = new SQLCobolColumn(meta);
 		}
-		// ´ğËÜÀßÄê
+		// åŸºæœ¬è¨­å®š
 		createCobolColumn(node, column);
 		NamedNodeMap map = node.getAttributes();
-		// SQLÎóÌ¾
+		// SQLåˆ—å
 		Node originalColumnName = map.getNamedItem("originalColumnName");
 		if (originalColumnName != null) {
 			column.setOriginalColumnName(originalColumnName.getNodeValue());
 		}
-		// ¥Ç¥Õ¥©¥ë¥È¤ÎÊ¸»úÎó
+		// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®æ–‡å­—åˆ—
 		Node defaultString = map.getNamedItem("defaultString");
 		if (defaultString != null) {
 			column.setDefaultString(defaultString.getNodeValue());
 		}
-		// ÆÉ¤ß¼è¤êÉÔ²Ä
+		// èª­ã¿å–ã‚Šä¸å¯
 		Node readIgnore = map.getNamedItem("readIgnore");
 		if (readIgnore != null) {
 			String readIgnorestr = readIgnore.getNodeValue();
 			boolean readIgnoreBool = Boolean.getBoolean(readIgnorestr);
 			column.setReadIgnore(readIgnoreBool);
 		}
-		// ¾å½ñ¤­ÉÔ²Ä
+		// ä¸Šæ›¸ãä¸å¯
 		Node rewriteIgnore = map.getNamedItem("rewriteIgnore");
 		if (rewriteIgnore != null) {
 			String rewriteIgnorestr = rewriteIgnore.getNodeValue();
 			boolean rewriteIgnoreBool = Boolean.getBoolean(rewriteIgnorestr);
 			column.setRewriteIgnore(rewriteIgnoreBool);
 		}
-		// ¿·µ¬½ñ¤­¹ş¤ßÉÔ²Ä
+		// æ–°è¦æ›¸ãè¾¼ã¿ä¸å¯
 		Node writeIgnore = map.getNamedItem("writeIgnore");
 		if (writeIgnore != null) {
 			String writeIgnorestr = writeIgnore.getNodeValue();
@@ -684,9 +684,9 @@ public class NodeReadLoader {
 		return column;
 	}
 	/**
-	 * ¥Î¡¼¥ÉÄ¾²¼¤Î¥Æ¥­¥¹¥È¤ò¼èÆÀ¤¹¤ë
-	 * @param node ¥Î¡¼¥É
-	 * @return Ê¸»úÎó
+	 * ãƒãƒ¼ãƒ‰ç›´ä¸‹ã®ãƒ†ã‚­ã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
+	 * @param node ãƒãƒ¼ãƒ‰
+	 * @return æ–‡å­—åˆ—
 	 */
 	protected String getNodeString(Node node) {
 		StringBuffer retvalue = new StringBuffer();
@@ -695,35 +695,35 @@ public class NodeReadLoader {
 		for (int i = 0; i < size; i++) {
 			Node child = children.item(i);
 			if (child.getNodeType() == Node.TEXT_NODE) {
-				// ÊÌÌ¾
+				// åˆ¥å
 				retvalue.append(child.getNodeValue().trim());
 			}
 		}
 		return retvalue.toString().trim();
 	}
 	/**
-	 * ¥Î¡¼¥É¤Î¥Æ¥­¥¹¥È¤ò¼èÆÀ¤¹¤ë
-	 * @param node ¥Î¡¼¥É
-	 * @return ¥Î¡¼¥É¤Î¥Æ¥­¥¹¥È
+	 * ãƒãƒ¼ãƒ‰ã®ãƒ†ã‚­ã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
+	 * @param node ãƒãƒ¼ãƒ‰
+	 * @return ãƒãƒ¼ãƒ‰ã®ãƒ†ã‚­ã‚¹ãƒˆ
 	 */
 	protected String getNodeText(Node node) {
-		// »Ò¥Î¡¼¥É¤ÎÃµº÷
+		// å­ãƒãƒ¼ãƒ‰ã®æ¢ç´¢
 		StringBuffer buffer = new StringBuffer();
 		NodeList children = node.getChildNodes();
 		int size = children.getLength();
 		for (int i = 0; i < size; i++) {
 			Node child = children.item(i);
 			if (child.getNodeType() == Node.TEXT_NODE) {
-				// ÊÌÌ¾
+				// åˆ¥å
 				buffer.append(child.getNodeValue().trim());
 			}
 		}
 		return buffer.toString().trim();
 	}
 	/**
-	 * ¤½¤ÎÂ¾¤Î½èÍı¡¦¡¦¡¦¤È¤ê¤¢¤¨¤º²¿¤â¤·¤Ê¤¤
-	 * @param node ¥Î¡¼¥É
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
+	 * ãã®ä»–ã®å‡¦ç†ãƒ»ãƒ»ãƒ»ã¨ã‚Šã‚ãˆãšä½•ã‚‚ã—ãªã„
+	 * @param node ãƒãƒ¼ãƒ‰
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	protected void proessOtherNodeOfMeta(Node node, CobolRecordMetaData meta) {
 		try {
@@ -747,9 +747,9 @@ public class NodeReadLoader {
 		}
 	}
 	/**
-	 * ²¿¤«Ê¬¤«¤é¤Ê¤¤¥Î¡¼¥É¤¬Íè¤¿¤è?
-	 * @param node ¥Î¡¼¥É
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È
+	 * ä½•ã‹åˆ†ã‹ã‚‰ãªã„ãƒãƒ¼ãƒ‰ãŒæ¥ãŸã‚ˆ?
+	 * @param node ãƒãƒ¼ãƒ‰
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
 	 */
 	protected void proessOtherNodeOfSet(Node node, CobolRecordMetaDataSet meta, Properties properties) {
 		try {

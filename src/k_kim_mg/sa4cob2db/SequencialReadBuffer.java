@@ -1,23 +1,23 @@
 package k_kim_mg.sa4cob2db;
 
 /**
- * ¥·¡¼¥±¥ó¥·¥ã¥ë¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¹ş¤ß¥Ğ¥Ã¥Õ¥¡
+ * ã‚·ãƒ¼ã‚±ãƒ³ã‚·ãƒ£ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ãƒãƒƒãƒ•ã‚¡
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface SequencialReadBuffer {
 	/**
-	 * ¥Ğ¥Ã¥Õ¥¡°ÌÃÖ¤òÊÑ¹¹¤¹¤ë
-	 * @return ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
+	 * ãƒãƒƒãƒ•ã‚¡ä½ç½®ã‚’å¤‰æ›´ã™ã‚‹
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus nextBuffer ();
 	/**
-	 * ¥Ğ¥Ã¥Õ¥¡¤òÆÉ¤ß¹ş¤à<br/>
-	 * @param record	¥ì¥³¡¼¥É
-	 * @return	¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
+	 * ãƒãƒƒãƒ•ã‚¡ã‚’èª­ã¿è¾¼ã‚€<br/>
+	 * @param record	ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return	ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus readBuffer (byte[] record);
 	/**
-	 * ¥Ğ¥Ã¥Õ¥¡¥ê¥ó¥°¤Î³«»Ï
+	 * ãƒãƒƒãƒ•ã‚¡ãƒªãƒ³ã‚°ã®é–‹å§‹
 	 */
 	public void startBuffering ();
 }

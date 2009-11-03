@@ -28,23 +28,23 @@ import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 
 import org.xml.sax.SAXException;
 /**
- * ¥½¥±¥Ã¥È¥Ù¡¼¥¹¤Î¥µ¡¼¥Ğ¡¼µ¡Ç½
+ * ã‚½ã‚±ãƒƒãƒˆãƒ™ãƒ¼ã‚¹ã®ã‚µãƒ¼ãƒãƒ¼æ©Ÿèƒ½
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLNetServer {
 	/**
-	 * ¥½¥±¥Ã¥È¤´¤È¤Î¼õÉÕµ¡Ç½
+	 * ã‚½ã‚±ãƒƒãƒˆã”ã¨ã®å—ä»˜æ©Ÿèƒ½
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	class SocketAccepter implements Runnable {
-		/** ¥µ¡¼¥Ğ¡¼ */
+		/** ã‚µãƒ¼ãƒãƒ¼ */
 		private SQLNetServer server;
-		/** ¥µ¡¼¥Ğ¡¼¥½¥±¥Ã¥È */
+		/** ã‚µãƒ¼ãƒãƒ¼ã‚½ã‚±ãƒƒãƒˆ */
 		private ServerSocket servsock;
 		/**
-		 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-		 * @param server ¥µ¡¼¥Ğ¡¼
-		 * @param servsock ¼õÉÕ¥¢¥É¥ì¥¹¤òÉ½¤¹¥µ¡¼¥Ğ¡¼¥½¥±¥Ã¥È
+		 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+		 * @param server ã‚µãƒ¼ãƒãƒ¼
+		 * @param servsock å—ä»˜ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¡¨ã™ã‚µãƒ¼ãƒãƒ¼ã‚½ã‚±ãƒƒãƒˆ
 		 */
 		public SocketAccepter(SQLNetServer server, ServerSocket servsock) {
 			this.server = server;
@@ -82,28 +82,28 @@ public class SQLNetServer {
 			SQLNetServer.logger.log(Level.INFO, "Now Server Is Ending......");
 		}
 	}
-	/** ¥Ç¥Õ¥©¥ë¥È¤ÎÀßÄê¥Õ¥¡¥¤¥ëÌ¾ */
+	/** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«å */
 	public static final String DEFAULT_CONFIG = "/usr/local/etc/acm/metafile.xml";
-	/** ¥í¥°½ĞÎÏ¥ª¥Ö¥¸¥§¥¯¥È */
+	/** ãƒ­ã‚°å‡ºåŠ›ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
 	public static final Logger logger;
-	/** ¥í¥°¥¤¥ó¼ºÇÔ */
+	/** ãƒ­ã‚°ã‚¤ãƒ³å¤±æ•— */
 	public static final int LOGIN_FAILURE = 1;
-	/** ¥í¥°¥¤¥óÀ®¸ù */
+	/** ãƒ­ã‚°ã‚¤ãƒ³æˆåŠŸ */
 	public static final int LOGIN_OK = 0;
-	/** ¥í¥°¥¤¥ó¼ºÇÔ(¥»¥Ã¥·¥ç¥ó¿ô¥ª¡¼¥Ğ¡¼) */
+	/** ãƒ­ã‚°ã‚¤ãƒ³å¤±æ•—(ã‚»ãƒƒã‚·ãƒ§ãƒ³æ•°ã‚ªãƒ¼ãƒãƒ¼) */
 	public static final int LOGIN_OVERLOAD = 2;
-	/** ¥í¥°Ì¾¾Î */
+	/** ãƒ­ã‚°åç§° */
 	public static final String LOGNAME = "ACMNETSERVERLOG";
-	/** Í±Í½¤Ê¤·¤Ç¥·¥ã¥Ã¥È¥À¥¦¥ó */
+	/** çŒ¶äºˆãªã—ã§ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ */
 	public static final int SHUTDOWN_ABORT = 1;
-	/** ÄÌ¾ï¤Î¥·¥ã¥Ã¥È¥À¥¦¥ó */
+	/** é€šå¸¸ã®ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ */
 	public static final int SHUTDOWN_NORMAL = 0;
 	static {
 		logger = Logger.getLogger(LOGNAME);
 		logger.setLevel(Level.SEVERE);
 	}
 	/**
-	 * ´Ä¶­ÊÑ¿ô¤ò¼èÆÀ¤¹¤ë
+	 * ç’°å¢ƒå¤‰æ•°ã‚’å–å¾—ã™ã‚‹
 	 * @param key
 	 * @param defaultValue
 	 * @return
@@ -116,7 +116,7 @@ public class SQLNetServer {
 			ret = defaultValue;
 		return ret;
 	}
-	/** µ¯Æ°¥ë¡¼¥Á¥ó */
+	/** èµ·å‹•ãƒ«ãƒ¼ãƒãƒ³ */
 	public static void main(String[] args) {
 		Properties properties = new Properties();
 		SQLNetServer.setupArguments(args, properties);
@@ -135,9 +135,9 @@ public class SQLNetServer {
 		}
 	}
 	/**
-	 * Ê¸»úÎó¤ÎÇÛÎó¤«¤é¥×¥í¥Ñ¥Æ¥£¤Ø¤ÎÊÑ´¹
-	 * @param args Ê¸»úÎó¤ÎÇÛÎó
-	 * @param properties ¥×¥í¥Ñ¥Æ¥£
+	 * æ–‡å­—åˆ—ã®é…åˆ—ã‹ã‚‰ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¸ã®å¤‰æ›
+	 * @param args æ–‡å­—åˆ—ã®é…åˆ—
+	 * @param properties ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
 	 */
 	public static void setupArguments(String[] args, Properties properties) {
 		for (int i = 0; i < args.length; i++) {
@@ -157,10 +157,10 @@ public class SQLNetServer {
 		}
 	}
 	/**
-	 * ÆâÉô¥×¥í¥Ñ¥Æ¥£¤ò´Ä¶­ÊÑ¿ô¤Ç¹¹¿·¤¹¤ë
-	 * @param properties ÆâÉô¥×¥í¥Ñ¥Æ¥£
-	 * @param key ¥­¡¼
-	 * @param envkey ´Ä¶­¥­¡¼
+	 * å†…éƒ¨ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ç’°å¢ƒå¤‰æ•°ã§æ›´æ–°ã™ã‚‹
+	 * @param properties å†…éƒ¨ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
+	 * @param key ã‚­ãƒ¼
+	 * @param envkey ç’°å¢ƒã‚­ãƒ¼
 	 */
 	static void updateProperty(Properties properties, String key, String envkey) {
 		String env = getEnvValue(envkey, "");
@@ -168,69 +168,69 @@ public class SQLNetServer {
 			properties.setProperty(key, env);
 		}
 	}
-	/** ¥¢¥É¥ì¥¹ */
+	/** ã‚¢ãƒ‰ãƒ¬ã‚¹ */
 	private List<InetAddress> addresses = new ArrayList<InetAddress>();
-	/** ´ÉÍı¼Ô¤Î°ìÍ÷ */
+	/** ç®¡ç†è€…ã®ä¸€è¦§ */
 	private Properties adminusers = new Properties();
-	/** ¥Ğ¥Ã¥¯¥í¥° */
+	/** ãƒãƒƒã‚¯ãƒ­ã‚° */
 	private int backlog = 0;
-	/** ·ÑÂ³¤¹¤ë¤«¤É¤¦¤« */
+	/** ç¶™ç¶šã™ã‚‹ã‹ã©ã†ã‹ */
 	private boolean cont = true;
-	/** ¥Õ¥¡¥¤¥ëµ¡Ç½ */
+	/** ãƒ•ã‚¡ã‚¤ãƒ«æ©Ÿèƒ½ */
 	private SQLFileServer fileServer;
-	/** ¥»¥Ã¥·¥ç¥ó¤ÎºÇÂç¿ô */
+	/** ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®æœ€å¤§æ•° */
 	private int maxSessions = 0;
-	/** ¥á¥¿¥Ç¡¼¥¿¤Î¥»¥Ã¥È */
+	/** ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®ã‚»ãƒƒãƒˆ */
 	private CobolRecordMetaDataSet metaDataSet;
-	/** ¥İ¡¼¥È */
+	/** ãƒãƒ¼ãƒˆ */
 	private int port = 12345;
-	/** ¤½¤ÎÂ¾¤ÎÃÍ */
+	/** ãã®ä»–ã®å€¤ */
 	private Properties properties;
-	/** ¥µ¡¼¥Ğ¡¼¥¤¥Ù¥ó¥È¥ê¥¹¥Ê */
+	/** ã‚µãƒ¼ãƒãƒ¼ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒŠ */
 	private List<ACMServerEventListener> serverListeners = new ArrayList<ACMServerEventListener>();
-	/** ¥»¥Ã¥·¥ç¥ó¥¤¥Ù¥ó¥È¥ê¥¹¥Ê */
+	/** ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒŠ */
 	private List<Class<? extends ACMSessionEventListener>> sessionListeners = new ArrayList<Class<? extends ACMSessionEventListener>>();
-	/** ¥»¥Ã¥·¥ç¥ó¤Î°ìÍ÷ */
+	/** ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®ä¸€è¦§ */
 	private List<ACMSession> sessions = Collections.synchronizedList(new ArrayList<ACMSession>());
-	/** ¥Ñ¥¹¥ï¡¼¥É¥»¥Ã¥È */
+	/** ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚»ãƒƒãƒˆ */
 	private Properties users;
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param properties ¥µ¡¼¥Ğ¡¼¥×¥í¥Ñ¥Æ¥£
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param properties ã‚µãƒ¼ãƒãƒ¼ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
 	 */
 	public SQLNetServer(Properties propertie, Properties passwords) throws NumberFormatException, UnknownHostException, IOException, SecurityException {
 		super();
 		properties = propertie;
 		users = passwords;
 		// //////////////////////////////////////////////////////////
-		// ¥Õ¥¡¥¤¥ëµ¡Ç½¤ÎºîÀ®
+		// ãƒ•ã‚¡ã‚¤ãƒ«æ©Ÿèƒ½ã®ä½œæˆ
 		fileServer = new SQLFileServer();
-		// ¥á¥¿¥Ç¡¼¥¿¥Õ¥¡¥¤¥ëÌ¾
+		// ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«å
 		String metaString = getEnvValue("ACM_CONFFILE", DEFAULT_CONFIG);
 		File metaFile = new File(metaString);
 		SQLNetServer.logger.log(Level.INFO, metaFile.getAbsolutePath());
-		// ¥á¥¿¥Ç¡¼¥¿¾ğÊó¤Î¼èÆÀ
+		// ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿æƒ…å ±ã®å–å¾—
 		NodeReadLoader nodeLoader = new NodeReadLoader();
 		metaDataSet = fileServer.getMetaDataSet();
 		try {
 			nodeLoader.createMetaDataSet(metaFile, metaDataSet, properties);
-			// ´Ä¶­ÊÑ¿ô¤Ç¾å½ñ¤­¤¹¤ë
-			// ¥Ç¡¼¥¿¥Ù¡¼¥¹´ØÏ¢
+			// ç’°å¢ƒå¤‰æ•°ã§ä¸Šæ›¸ãã™ã‚‹
+			// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹é–¢é€£
 			updateProperty(properties, "jdbcdriverurl", "ACM_JDBCDRIVERURL");
 			updateProperty(properties, "jdbcdatabaseurl", "ACM_JDBCDATABASEURL");
 			updateProperty(properties, "jdbcusername", "ACM_JDBCUSERNAME");
 			updateProperty(properties, "jdbcpassword", "ACM_JDBCPASSWORD");
-			// ¥Í¥Ã¥È¥ï¡¼¥¯´ØÏ¢
+			// ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯é–¢é€£
 			updateProperty(properties, "port", "ACM_HOSTPORT");
 			updateProperty(properties, "backlog", "ACM_BACKLOG");
 			updateProperty(properties, "address", "ACM_HOSTNAME");
 			updateProperty(properties, "maxsessions", "ACM_MAXSESSIONS");
-			// ¥í¥°¥Õ¥¡¥¤¥ë
+			// ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«
 			updateProperty(properties, "log", "ACM_LOGFILE");
-			// Ç§¾Ú¥Õ¥¡¥¤¥ë
+			// èªè¨¼ãƒ•ã‚¡ã‚¤ãƒ«
 			updateProperty(properties, "authfile", "ACM_AUTHFILE");
 			updateProperty(properties, "adminfile", "ACM_ADMINFILE");
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			updateProperty(properties, "sessionlisteners", "ACM_SESSIONLISTENERS");
 			updateProperty(properties, "serverlisteners", "ACM_SERVERLISTENERS");
 		} catch (ParserConfigurationException e) {
@@ -245,7 +245,7 @@ public class SQLNetServer {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 		// /////////////////////////////////////////////////////////
-		// ¥í¥°¤ÎÀßÄê
+		// ãƒ­ã‚°ã®è¨­å®š
 		String logSetting = properties.getProperty("log", "");
 		if (logSetting.trim().length() > 0) {
 			try {
@@ -258,7 +258,7 @@ public class SQLNetServer {
 			}
 		}
 		// /////////////////////////////////////////////////////////
-		// ¥Ç¡¼¥¿¥Ù¡¼¥¹´ØÏ¢¤ÎÀßÄê
+		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹é–¢é€£ã®è¨­å®š
 		if (metaDataSet instanceof SQLCobolRecordMetaDataSet) {
 			SQLCobolRecordMetaDataSet sqlset = (SQLCobolRecordMetaDataSet) metaDataSet;
 			sqlset.setDriverURL(properties.getProperty("jdbcdriverurl"));
@@ -267,18 +267,18 @@ public class SQLNetServer {
 			sqlset.setPassword(properties.getProperty("jdbcpassword"));
 		}
 		// /////////////////////////////////////////////////////////
-		// ¥Í¥Ã¥È¥ï¡¼¥¯¤ÎÀßÄê
-		// ¥İ¡¼¥È
+		// ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®è¨­å®š
+		// ãƒãƒ¼ãƒˆ
 		String portString = properties.getProperty("port", "12345");
 		port = Integer.parseInt(portString);
-		// ¥Ğ¥Ã¥¯¥í¥°
+		// ãƒãƒƒã‚¯ãƒ­ã‚°
 		String backString = properties.getProperty("backlog", "0");
 		backlog = Integer.parseInt(backString);
-		// ¼õÉÕ¥¢¥É¥ì¥¹
+		// å—ä»˜ã‚¢ãƒ‰ãƒ¬ã‚¹
 		String addrString = properties.getProperty("address", "");
 		logger.log(Level.FINEST, "address setting is " + addrString);
 		if (addrString.trim().length() <= 0) {
-			// ¥í¡¼¥«¥ë¥Û¥¹¥È
+			// ãƒ­ãƒ¼ã‚«ãƒ«ãƒ›ã‚¹ãƒˆ
 			InetAddress address = InetAddress.getLocalHost();
 			logger.log(Level.FINEST, "Adding localhost " + address.getCanonicalHostName());
 			addresses.add(address);
@@ -286,20 +286,20 @@ public class SQLNetServer {
 			String[] addrStrings = addrString.split(",");
 			for (int i = 0; i < addrStrings.length; i++) {
 				logger.log(Level.FINEST, "Adding address " + addrStrings[i]);
-				// Ì¾Á°¤Ç»ØÄê¤¹¤ë
+				// åå‰ã§æŒ‡å®šã™ã‚‹
 				InetAddress address = InetAddress.getByName(addrStrings[i]);
 				addresses.add(address);
 			}
 		}
-		// ¥»¥Ã¥·¥ç¥ó¤ÎºÇÂç¿ô
+		// ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®æœ€å¤§æ•°
 		String maxssessionsString = properties.getProperty("maxsessions", "0");
 		int maxsessions = Integer.parseInt(maxssessionsString);
 		setMaxSessions(maxsessions);
 		// ////////////////////////////////////////////////////////
-		// ¥Ñ¥¹¥ï¡¼¥É¤ÎÀßÄê
+		// ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®è¨­å®š
 		String userFile = properties.getProperty("authfile", "");
 		if (userFile == "") {
-			users.put("", "");// ¥Ç¥Õ¥©¥ë¥È¥Ñ¥¹¥ï¡¼¥É
+			users.put("", "");// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
 			logger.log(Level.CONFIG, "authfile is null. using default password.");
 		} else {
 			logger.log(Level.CONFIG, "Loading authfile " + userFile + ".");
@@ -307,7 +307,7 @@ public class SQLNetServer {
 			users.load(fio);
 		}
 		// ////////////////////////////////////////////////////////
-		// ´ÉÍı¼Ô¥Ñ¥¹¥ï¡¼¥É¤ÎÀßÄê
+		// ç®¡ç†è€…ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®è¨­å®š
 		String adminFile = properties.getProperty("adminfile", "");
 		if (adminFile == "") {
 			adminusers.put("", "");
@@ -318,7 +318,7 @@ public class SQLNetServer {
 			adminusers.load(fio);
 		}
 		// ////////////////////////////////////////////////////////
-		// ¥»¥Ã¥·¥ç¥ó¥¤¥Ù¥ó¥È¤ÎÀßÄê
+		// ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚¤ãƒ™ãƒ³ãƒˆã®è¨­å®š
 		String sessionlisteners = properties.getProperty("sessionlisteners", "");
 		logger.log(Level.CONFIG, "sessionlisteners:" + sessionlisteners + ".");
 		if (sessionlisteners != "") {
@@ -335,7 +335,7 @@ public class SQLNetServer {
 			}
 		}
 		// ////////////////////////////////////////////////////////
-		// ¥µ¡¼¥Ğ¡¼¥¤¥Ù¥ó¥È¤ÎÀßÄê
+		// ã‚µãƒ¼ãƒãƒ¼ã‚¤ãƒ™ãƒ³ãƒˆã®è¨­å®š
 		String serverlisteners = properties.getProperty("serverlisteners", "");
 		logger.log(Level.CONFIG, "serverlisteners:" + serverlisteners + ".");
 		if (serverlisteners != "") {
@@ -357,7 +357,7 @@ public class SQLNetServer {
 			}
 		}
 		// ////////////////////////////////////////////////////////
-		// ¥µ¡¼¥Ğ¡¼¥¤¥Ù¥ó¥È¤Î¼Â¹Ô
+		// ã‚µãƒ¼ãƒãƒ¼ã‚¤ãƒ™ãƒ³ãƒˆã®å®Ÿè¡Œ
 		ACMServerEvent ev = new ACMServerEvent(this);
 		for (ACMServerEventListener listener : serverListeners) {
 			try {
@@ -367,7 +367,7 @@ public class SQLNetServer {
 			}
 		}
 		// ////////////////////////////////////////////////////////
-		// ¥µ¡¼¥Ğ¡¼½ªÎ»¤ÎÅĞÏ¿
+		// ã‚µãƒ¼ãƒãƒ¼çµ‚äº†ã®ç™»éŒ²
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run() {
 				shutdownHook();
@@ -375,9 +375,9 @@ public class SQLNetServer {
 		});
 	}
 	/**
-	 * ¥»¥Ã¥·¥ç¥ó¤ÎÄÉ²Ã
-	 * @param session ¥»¥Ã¥·¥ç¥ó
-	 * @return ¥í¥°¥¤¥ó¤¬À®¸ù¤·¤¿¤«¤É¤¦¤«¤ò¼¨¤¹intÃÍ
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è¿½åŠ 
+	 * @param session ã‚»ãƒƒã‚·ãƒ§ãƒ³
+	 * @return ãƒ­ã‚°ã‚¤ãƒ³ãŒæˆåŠŸã—ãŸã‹ã©ã†ã‹ã‚’ç¤ºã™intå€¤
 	 */
 	int addSession(ACMSession session) {
 		int ret = LOGIN_OK;
@@ -390,21 +390,21 @@ public class SQLNetServer {
 					listener.sessionAdded(ev, session);
 				}
 			} else {
-				// ¥»¥Ã¥·¥ç¥ó¤¬Â¿¤¹¤®¤ë
+				// ã‚»ãƒƒã‚·ãƒ§ãƒ³ãŒå¤šã™ãã‚‹
 				ret = LOGIN_OVERLOAD;
 			}
 		} else {
-			// ¥·¥ã¥Ã¥È¥À¥¦¥óÃæ
+			// ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ä¸­
 			ret = LOGIN_FAILURE;
 		}
 		return ret;
 	}
 	/**
-	 * ¥æ¡¼¥¶¡¼Ì¾¤È¥Ñ¥¹¥ï¡¼¥É¤ò³ÎÇ§¤·¤Æ¥»¥Ã¥·¥ç¥ó¤ÎÄÉ²Ã
-	 * @param session ¥»¥Ã¥·¥ç¥ó
-	 * @param user ¥æ¡¼¥¶¡¼Ì¾
-	 * @param password ¥Ñ¥¹¥ï¡¼¥É
-	 * @return ¥í¥°¥¤¥ó¤¬À®¸ù¤·¤¿¤«¤É¤¦¤«¤ò¼¨¤¹intÃÍ
+	 * ãƒ¦ãƒ¼ã‚¶ãƒ¼åã¨ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’ç¢ºèªã—ã¦ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®è¿½åŠ 
+	 * @param session ã‚»ãƒƒã‚·ãƒ§ãƒ³
+	 * @param user ãƒ¦ãƒ¼ã‚¶ãƒ¼å
+	 * @param password ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+	 * @return ãƒ­ã‚°ã‚¤ãƒ³ãŒæˆåŠŸã—ãŸã‹ã©ã†ã‹ã‚’ç¤ºã™intå€¤
 	 */
 	public int addSession(ACMSession session, String user, String password) {
 		int ret = LOGIN_OK;
@@ -417,11 +417,11 @@ public class SQLNetServer {
 		return ret;
 	}
 	/**
-	 * ´ÉÍı¼Ô¤òÇ§¾Ú¤¹¤ë
-	 * @param user ¥æ¡¼¥¶¡¼Ì¾
-	 * @param password ¥Ñ¥¹¥ï¡¼¥É
-	 * @return true À®¸ù<br>
-	 *         false ¼ºÇÔ
+	 * ç®¡ç†è€…ã‚’èªè¨¼ã™ã‚‹
+	 * @param user ãƒ¦ãƒ¼ã‚¶ãƒ¼å
+	 * @param password ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+	 * @return true æˆåŠŸ<br>
+	 *         false å¤±æ•—
 	 */
 	public boolean confirmAdminPassword(String user, String password) {
 		boolean ret = false;
@@ -432,11 +432,11 @@ public class SQLNetServer {
 		return ret;
 	}
 	/**
-	 * Ç§¾Ú¤¹¤ë
-	 * @param user ¥æ¡¼¥¶¡¼Ì¾
-	 * @param password ¥Ñ¥¹¥ï¡¼¥É
-	 * @return true À®¸ù<br>
-	 *         false ¼ºÇÔ
+	 * èªè¨¼ã™ã‚‹
+	 * @param user ãƒ¦ãƒ¼ã‚¶ãƒ¼å
+	 * @param password ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+	 * @return true æˆåŠŸ<br>
+	 *         false å¤±æ•—
 	 */
 	public boolean confirmPassword(String user, String password) {
 		boolean ret = false;
@@ -447,7 +447,7 @@ public class SQLNetServer {
 		return ret;
 	}
 	/**
-	 * ¤¹¤Ù¤Æ¤Î¥»¥Ã¥·¥ç¥ó¤òºï½ü¤¹¤ë
+	 * ã™ã¹ã¦ã®ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’å‰Šé™¤ã™ã‚‹
 	 */
 	void deleteAllSessions() {
 		List<ACMSession> works = new ArrayList<ACMSession>();
@@ -459,8 +459,8 @@ public class SQLNetServer {
 		}
 	}
 	/**
-	 * ¥»¥Ã¥·¥ç¥ó¤Îºï½ü
-	 * @param session ¥»¥Ã¥·¥ç¥ó¤Îºï½ü
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®å‰Šé™¤
+	 * @param session ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®å‰Šé™¤
 	 */
 	protected void deleteSession(ACMSession session) {
 		sessions.remove(session);
@@ -470,52 +470,52 @@ public class SQLNetServer {
 		}
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ëÄó¶¡µ¡Ç½
-	 * @return ¥Õ¥¡¥¤¥ëÄó¶¡µ¡Ç½
+	 * ãƒ•ã‚¡ã‚¤ãƒ«æä¾›æ©Ÿèƒ½
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«æä¾›æ©Ÿèƒ½
 	 */
 	public SQLFileServer getFileServer() {
 		return fileServer;
 	}
 	/**
-	 * ¥»¥Ã¥·¥ç¥ó¤ÎºÇÂç¿ô
-	 * @return ¥»¥Ã¥·¥ç¥ó¤ÎºÇÂç¿ô
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®æœ€å¤§æ•°
+	 * @return ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®æœ€å¤§æ•°
 	 */
 	public int getMaxSessions() {
 		return maxSessions;
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¤Î¥»¥Ã¥È
-	 * @return ¥á¥¿¥Ç¡¼¥¿¤Î¥»¥Ã¥È
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®ã‚»ãƒƒãƒˆ
+	 * @return ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®ã‚»ãƒƒãƒˆ
 	 */
 	public CobolRecordMetaDataSet getMetaDataSet() {
 		return metaDataSet;
 	}
 	/**
-	 * ¤³¤Î¥µ¡¼¥Ğ¡¼¤Î¤½¤ÎÂ¾¤ÎÃÍ
-	 * @param key ¥­¡¼
-	 * @return ÃÍ
+	 * ã“ã®ã‚µãƒ¼ãƒãƒ¼ã®ãã®ä»–ã®å€¤
+	 * @param key ã‚­ãƒ¼
+	 * @return å€¤
 	 */
 	public String getPropertie(String key) {
 		return properties.getProperty(key);
 	}
 	/**
-	 * ¤³¤Î¥µ¡¼¥Ğ¡¼¤Î¤½¤ÎÂ¾¤ÎÃÍ
-	 * @param key ¥­¡¼
-	 * @param defaultValue ¥Ç¥Õ¥©¥ë¥ÈÃÍ
-	 * @return ÃÍ
+	 * ã“ã®ã‚µãƒ¼ãƒãƒ¼ã®ãã®ä»–ã®å€¤
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultValue ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 * @return å€¤
 	 */
 	public String getPropertie(String key, String defaultValue) {
 		return properties.getProperty(key, defaultValue);
 	}
 	/**
-	 * ¸½ºßÀÜÂ³¤µ¤ì¤Æ¤¤¤ë¥»¥Ã¥·¥ç¥ó¤Î¿ô¤ò¼èÆÀ¤¹¤ë
-	 * @return ¥»¥Ã¥·¥ç¥ó¿ô
+	 * ç¾åœ¨æ¥ç¶šã•ã‚Œã¦ã„ã‚‹ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®æ•°ã‚’å–å¾—ã™ã‚‹
+	 * @return ã‚»ãƒƒã‚·ãƒ§ãƒ³æ•°
 	 */
 	int getSessionCount() {
 		return sessions.size();
 	}
 	/**
-	 * ¥µ¡¼¥Ğ¡¼½ªÎ»¥¤¥Ù¥ó¥È¤òÈ¯¹Ô¤¹¤ë
+	 * ã‚µãƒ¼ãƒãƒ¼çµ‚äº†ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºè¡Œã™ã‚‹
 	 */
 	void serverEnding() {
 		ACMServerEvent ev = new ACMServerEvent(this);
@@ -524,23 +524,23 @@ public class SQLNetServer {
 		}
 	}
 	/**
-	 * ¥»¥Ã¥·¥ç¥ó¤ÎºÇÂç¿ô
-	 * @param maxSessions ¥»¥Ã¥·¥ç¥ó¤ÎºÇÂç¿ô
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®æœ€å¤§æ•°
+	 * @param maxSessions ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®æœ€å¤§æ•°
 	 */
 	public void setMaxSessions(int maxSessions) {
 		this.maxSessions = maxSessions;
 	}
 	/**
-	 * ¤³¤Î¥µ¡¼¥Ğ¡¼¤Î¤½¤ÎÂ¾¤ÎÃÍ
-	 * @param key ¥­¡¼
-	 * @param value ÃÍ
+	 * ã“ã®ã‚µãƒ¼ãƒãƒ¼ã®ãã®ä»–ã®å€¤
+	 * @param key ã‚­ãƒ¼
+	 * @param value å€¤
 	 */
 	public void setPropertie(String key, String value) {
 		properties.setProperty(key, value);
 	}
 	/**
-	 * ¥·¥ã¥Ã¥È¥À¥¦¥ó¤¹¤ë
-	 * @param mode ¥â¡¼¥É
+	 * ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ã™ã‚‹
+	 * @param mode ãƒ¢ãƒ¼ãƒ‰
 	 */
 	public void shutdown(int mode) {
 		if (mode == SHUTDOWN_ABORT) {
@@ -558,7 +558,7 @@ public class SQLNetServer {
 		}
 	}
 	/**
-	 * ¶¯À©½ªÎ»¤ò°ú¤Ã³İ¤±¤ë
+	 * å¼·åˆ¶çµ‚äº†ã‚’å¼•ã£æ›ã‘ã‚‹
 	 */
 	void shutdownHook() {
 		SQLNetServer.logger.log(Level.INFO, "Now Server Is Ending...");
@@ -566,13 +566,13 @@ public class SQLNetServer {
 		serverEnding();
 	}
 	/**
-	 * ³«»Ï½èÍı
-	 * @throws IOException Æş½ĞÎÏÎã³°
+	 * é–‹å§‹å‡¦ç†
+	 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	public void startServer() throws IOException {
 		for (int i = 0; i < addresses.size(); i++) {
 			InetAddress address = addresses.get(i);
-			// ¥µ¡¼¥Ğ¡¼¥½¥±¥Ã¥È¤ÎºîÀ®
+			// ã‚µãƒ¼ãƒãƒ¼ã‚½ã‚±ãƒƒãƒˆã®ä½œæˆ
 			ServerSocket servsock = new ServerSocket(port, backlog, address);
 			SocketAccepter accepter = new SocketAccepter(this, servsock);
 			Thread th = new Thread(accepter);

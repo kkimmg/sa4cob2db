@@ -1,126 +1,126 @@
 package k_kim_mg.sa4cob2db.event;
 import java.util.EventListener;
 /**
- * ¥³¥Ü¥ë¥Õ¥¡¥¤¥ë¤Î¥¢¥¯¥»¥¹¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È¤ò½èÍı¤¹¤ëµ¡Ç½
+ * ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¢ã‚¯ã‚»ã‚¹ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡¦ç†ã™ã‚‹æ©Ÿèƒ½
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CobolFileEventListener extends EventListener {
 	/**
-	 * CLOSE¤Î¸å
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * CLOSEã®å¾Œ
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postClose(CobolFileEvent e);
 	/**
-	 * DELETE¤Î¸å
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * DELETEã®å¾Œ
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postDelete(CobolFileEvent e);
 	/**
-	 * READ¤Î¸å
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * READã®å¾Œ
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postMove(CobolFileEvent e);
 	/**
-	 * NEXT¤Î¸å
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * NEXTã®å¾Œ
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postNext(CobolFileEvent e);
 	/**
-	 * OPEN¤Î¸å
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * OPENã®å¾Œ
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postOpen(CobolFileEvent e);
 	/**
-	 * PREVIOUS¤Î¸å
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * PREVIOUSã®å¾Œ
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postPrevious(CobolFileEvent e);
 	/**
-	 * READ¤Î¸å
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
-	 * @param record ÆÉ¤ß¹ş¤ó¤À¥ì¥³¡¼¥É
+	 * READã®å¾Œ
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
+	 * @param record èª­ã¿è¾¼ã‚“ã ãƒ¬ã‚³ãƒ¼ãƒ‰
 	 */
 	public void postRead(CobolFileEvent e, byte[] record);
 	/**
-	 * REWRITE¤Î¸å
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * REWRITEã®å¾Œ
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postRewrite(CobolFileEvent e);
 	/**
-	 * START¤Î¸å
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * STARTã®å¾Œ
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postStart(CobolFileEvent e);
 	/**
-	 * START¤Î¸å
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
-	 * @param indexname ¥¤¥ó¥Ç¥Ã¥¯¥¹¤ÎÌ¾¾Î
+	 * STARTã®å¾Œ
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
+	 * @param indexname ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®åç§°
 	 */
 	public void postStart(CobolFileEvent e, String indexname);
 	/**
-	 * WRITE¤Î¸å
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * WRITEã®å¾Œ
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postWrite(CobolFileEvent e);
 	/**
-	 * CLOSE¤ÎÁ°
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * CLOSEã®å‰
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preClose(CobolFileEvent e);
 	/**
-	 * DELETE¤ÎÁ°
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * DELETEã®å‰
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preDelete(CobolFileEvent e);
 	/**
-	 * READ¤ÎÁ°
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
-	 * @param record ¥­¡¼¥ì¥³¡¼¥É
+	 * READã®å‰
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
+	 * @param record ã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰
 	 */
 	public void preMove(CobolFileEvent e, byte[] record);
 	/**
-	 * NEXT¤ÎÁ°
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * NEXTã®å‰
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preNext(CobolFileEvent e);
 	/**
-	 * OPEN¤ÎÁ°
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * OPENã®å‰
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preOpen(CobolFileEvent e);
 	/**
-	 * PREVIOUS¤ÎÁ°
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * PREVIOUSã®å‰
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void prePrevious(CobolFileEvent e);
 	/**
-	 * READ¤ÎÁ°
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * READã®å‰
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preRead(CobolFileEvent e);
 	/**
-	 * REWRITE¤ÎÁ°
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
-	 * @param record ½ñ¤­¹ş¤ß¥ì¥³¡¼¥É
+	 * REWRITEã®å‰
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
+	 * @param record æ›¸ãè¾¼ã¿ãƒ¬ã‚³ãƒ¼ãƒ‰
 	 */
 	public void preRewrite(CobolFileEvent e, byte[] record);
 	/**
-	 * START¤ÎÁ°
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
-	 * @param record ¥­¡¼¥ì¥³¡¼¥É
+	 * STARTã®å‰
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
+	 * @param record ã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰
 	 */
 	public void preStart(CobolFileEvent e, byte[] record);
 	/**
-	 * START¤ÎÁ°
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
-	 * @param indexname ¥¤¥ó¥Ç¥Ã¥¯¥¹¤ÎÌ¾¾Î
-	 * @param record ¥­¡¼¥ì¥³¡¼¥É
+	 * STARTã®å‰
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
+	 * @param indexname ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®åç§°
+	 * @param record ã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰
 	 */
 	public void preStart(CobolFileEvent e, String indexname, byte[] record);
 	/**
-	 * WRITE¤ÎÁ°
-	 * @param e CobolFile¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
-	 * @param record ½ñ¤­¹ş¤ß¥ì¥³¡¼¥É
+	 * WRITEã®å‰
+	 * @param e CobolFileã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
+	 * @param record æ›¸ãè¾¼ã¿ãƒ¬ã‚³ãƒ¼ãƒ‰
 	 */
 	public void preWrite(CobolFileEvent e, byte[] record);
 }

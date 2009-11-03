@@ -2,7 +2,7 @@ package k_kim_mg.sa4cob2db;
 import java.util.Hashtable;
 import java.util.Map;
 /**
- * ¥Ç¥Õ¥©¥ë¥È¤Î¥¤¥ó¥Ç¥Ã¥¯¥¹
+ * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
  * @author kenji
  */
 public class DefaultCobolIndex implements CobolIndex {
@@ -28,17 +28,17 @@ public class DefaultCobolIndex implements CobolIndex {
 		return indexKeyName;
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ëÌ¾<br>
-	 * ¥¤¥ó¥Ç¥Ã¥¯¥¹¤ËÁêÅö¤¹¤ëCobolFile¤Î¥Õ¥¡¥¤¥ëÌ¾
-	 * @param fileName ¥¤¥ó¥Ç¥Ã¥¯¥¹¤Î¥Õ¥¡¥¤¥ëÌ¾
+	 * ãƒ•ã‚¡ã‚¤ãƒ«å<br>
+	 * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã«ç›¸å½“ã™ã‚‹CobolFileã®ãƒ•ã‚¡ã‚¤ãƒ«å
+	 * @param fileName ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ãƒ•ã‚¡ã‚¤ãƒ«å
 	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 	/**
-	 * ¥¤¥ó¥Ç¥Ã¥¯¥¹¥­¡¼Ì¾<br>
-	 * startÌ¿Îá¤Ç¤É¤Î¥¤¥ó¥Ç¥Ã¥¯¥¹¤ò»ÈÍÑ¤¹¤ë¤«¼±ÊÌ¤¹¤ë¤¿¤á¤Î¥¤¥ó¥Ç¥Ã¥¯¥¹Ì¾
-	 * @param indexKeyName ¥¤¥ó¥Ç¥Ã¥¯¥¹¥­¡¼Ì¾
+	 * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚­ãƒ¼å<br>
+	 * startå‘½ä»¤ã§ã©ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ä½¿ç”¨ã™ã‚‹ã‹è­˜åˆ¥ã™ã‚‹ãŸã‚ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹å
+	 * @param indexKeyName ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚­ãƒ¼å
 	 */
 	public void setIndexKeyName(String indexKeyName) {
 		this.indexKeyName = indexKeyName;
@@ -48,8 +48,8 @@ public class DefaultCobolIndex implements CobolIndex {
 		return duplicates;
 	}
 	/**
-	 * ¤³¤Î¥¤¥ó¥Ç¥Ã¥¯¥¹¤Ï½ÅÊ£¤¹¤ë¤«
-	 * @param duplicates ¥¤¥ó¥Ç¥Ã¥¯¥¹¤¬½ÅÊ£¤¹¤ë¤«¤É¤¦¤«
+	 * ã“ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¯é‡è¤‡ã™ã‚‹ã‹
+	 * @param duplicates ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒé‡è¤‡ã™ã‚‹ã‹ã©ã†ã‹
 	 */
 	public void setDuplicates(boolean duplicates) {
 		this.duplicates = duplicates;

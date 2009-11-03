@@ -9,38 +9,38 @@ import java.util.logging.Level;
 
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
- * ºÇ¾®¤Î´ÉÍıµ¡Ç½
+ * æœ€å°ã®ç®¡ç†æ©Ÿèƒ½
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class MinAdmin extends UnicastRemoteObject implements IMinAdmin {
-	/** ¥Ğ¡¼¥¸¥ç¥ó */
+	/** ãƒãƒ¼ã‚¸ãƒ§ãƒ³ */
 	private static final long serialVersionUID = 1L;
-	/** ´ÉÍı¤¹¤ë */
+	/** ç®¡ç†ã™ã‚‹ */
 	private SQLNetServer server;
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param port ¼õÉÕ¥İ¡¼¥È
-	 * @throws RemoteException RMI¥¨¥é¡¼
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param port å—ä»˜ãƒãƒ¼ãƒˆ
+	 * @throws RemoteException RMIã‚¨ãƒ©ãƒ¼
 	 */
 	public MinAdmin(SQLNetServer server, int port) throws RemoteException, AlreadyBoundException {
 		super(port);
 		this.server = server;
 	}
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @throws RemoteException RMI¥¨¥é¡¼
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @throws RemoteException RMIã‚¨ãƒ©ãƒ¼
 	 */
 	public MinAdmin(SQLNetServer server) throws RemoteException, AlreadyBoundException {
 		super();
 		this.server = server;
 	}
 	/**
-	 * ¥·¥ã¥Ã¥È¥À¥¦¥ó¤¹¤ë
-	 * @param mode ¥â¡¼¥É
-	 * @param admin ´ÉÍı¼Ô¥æ¡¼¥¶¡¼Ì¾
-	 * @param password ¥Ñ¥¹¥ï¡¼¥É
-	 * @return true À®¸ù</br>false ¼ºÇÔ
-	 * @throws RemoteException RMI¥¨¥é¡¼
+	 * ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ã™ã‚‹
+	 * @param mode ãƒ¢ãƒ¼ãƒ‰
+	 * @param admin ç®¡ç†è€…ãƒ¦ãƒ¼ã‚¶ãƒ¼å
+	 * @param password ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+	 * @return true æˆåŠŸ</br>false å¤±æ•—
+	 * @throws RemoteException RMIã‚¨ãƒ©ãƒ¼
 	 */
 	public boolean shutdown(int mode, String admin, String password) throws RemoteException {
 		boolean ret = server.confirmAdminPassword(admin, password);

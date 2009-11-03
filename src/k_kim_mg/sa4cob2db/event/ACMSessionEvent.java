@@ -5,20 +5,20 @@ import java.util.EventObject;
 import k_kim_mg.sa4cob2db.ACMSession;
 import k_kim_mg.sa4cob2db.CobolFile;
 /**
- * ACMSession¤Ë´Ø¤¹¤ë¥¤¥Ù¥ó¥È
+ * ACMSessionã«é–¢ã™ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆ
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSessionEvent extends EventObject {
 	/**
-	 * ¾¡¼ê¤Ë¤Ç¤­¤ë
+	 * å‹æ‰‹ã«ã§ãã‚‹
 	 */
 	private static final long serialVersionUID = 1L;
 	private ACMSession session;
 	private CobolFile file;
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param source	¥»¥Ã¥·¥ç¥ó
-	 * @param file		¥Õ¥¡¥¤¥ë
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param source	ã‚»ãƒƒã‚·ãƒ§ãƒ³
+	 * @param file		ãƒ•ã‚¡ã‚¤ãƒ«
 	 */
 	public ACMSessionEvent(ACMSession source, CobolFile file) {
 		super(source);
@@ -26,15 +26,15 @@ public class ACMSessionEvent extends EventObject {
 		this.file = file;
 	}
 	/**
-	 * ¥¤¥Ù¥ó¥ÈÈ¯À¸¸»¤Î¥Õ¥¡¥¤¥ë
-	 * @return ¥¤¥Ù¥ó¥ÈÈ¯À¸¸»¤Î¥Õ¥¡¥¤¥ë
+	 * ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæºã®ãƒ•ã‚¡ã‚¤ãƒ«
+	 * @return ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæºã®ãƒ•ã‚¡ã‚¤ãƒ«
 	 */
 	public CobolFile getFile() {
 		return file;
 	}
 	/**
-	 * ¥¤¥Ù¥ó¥ÈÈ¯À¸¸»¤Î¥»¥Ã¥·¥ç¥ó
-	 * @return ¥¤¥Ù¥ó¥ÈÈ¯À¸¸»¤Î¥»¥Ã¥·¥ç¥ó(source¤ÎÂå¤ï¤ê)
+	 * ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæºã®ã‚»ãƒƒã‚·ãƒ§ãƒ³
+	 * @return ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿæºã®ã‚»ãƒƒã‚·ãƒ§ãƒ³(sourceã®ä»£ã‚ã‚Š)
 	 */
 	public ACMSession getSession() {
 		return session;

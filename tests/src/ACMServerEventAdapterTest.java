@@ -1,8 +1,8 @@
-import k_kim_mg.sa4cob2db.ACMSession;
+ï»¿import k_kim_mg.sa4cob2db.ACMSession;
 import k_kim_mg.sa4cob2db.event.ACMServerEvent;
 import k_kim_mg.sa4cob2db.event.ACMServerEventAdapter;
 /**
- * ¥Æ¥¹¥ÈÍÑ
+ * ãƒ†ã‚¹ãƒˆç”¨
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */

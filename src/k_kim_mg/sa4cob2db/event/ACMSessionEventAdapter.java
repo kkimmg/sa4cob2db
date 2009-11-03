@@ -3,8 +3,8 @@
  */
 package k_kim_mg.sa4cob2db.event;
 /**
- * ACMSessionEventListener¤Î¥Ç¥Õ¥©¥ë¥È¼ÂÁõ<br/>
- * ¤³¤ì¤È¤¤¤Ã¤Æ¤Ê¤Ë¤«¤¹¤ë¤ï¤±¤¸¤ã¤Ê¤¤¡¡
+ * ACMSessionEventListenerã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå®Ÿè£…<br/>
+ * ã“ã‚Œã¨ã„ã£ã¦ãªã«ã‹ã™ã‚‹ã‚ã‘ã˜ã‚ƒãªã„ã€€
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSessionEventAdapter implements ACMSessionEventListener {

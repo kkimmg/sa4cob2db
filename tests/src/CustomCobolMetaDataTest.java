@@ -1,7 +1,7 @@
 import k_kim_mg.sa4cob2db.DefaultCobolRecordMetaData;
 import k_kim_mg.sa4cob2db.sql.ACMNetSession;
 /**
- * ¥Æ¥¹¥ÈÍÑ
+ * ãƒ†ã‚¹ãƒˆç”¨
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CustomCobolMetaDataTest extends DefaultCobolRecordMetaData {

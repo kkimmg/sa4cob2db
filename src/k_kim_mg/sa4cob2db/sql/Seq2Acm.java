@@ -18,11 +18,11 @@ import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 
 import org.xml.sax.SAXException;
 /**
- * ¥·¡¼¥±¥ó¥·¥ã¥ë¥Õ¥¡¥¤¥ë¤«¤éÆşÎÏ¤¹¤ë
+ * ã‚·ãƒ¼ã‚±ãƒ³ã‚·ãƒ£ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰å…¥åŠ›ã™ã‚‹
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class Seq2Acm {
-	/** µ¯Æ°¥ë¡¼¥Á¥ó */
+	/** èµ·å‹•ãƒ«ãƒ¼ãƒãƒ³ */
 	public static void main(String[] args) {
 		Properties properties = new Properties();
 		// -------------------------
@@ -35,17 +35,17 @@ public class Seq2Acm {
 				properties.setProperty("infile", args[1]);
 			}
 		} else {
-			System.err.println("acmfile¤¬»ØÄê¤µ¤ì¤Æ¤¤¤Ş¤»¤ó¡£");
+			System.err.println("acmfileãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚");
 		}
 		// -------------------------
 		Seq2Acm obj = new Seq2Acm();
 		obj.importTo(properties);
-		// »È¤¤Êı¤ÎÀâÌÀ
+		// ä½¿ã„æ–¹ã®èª¬æ˜
 		displayUsage(properties);
 	}
 	/**
-	 * »È¤¤Êı¤òÀâÌÀ¤¹¤ë
-	 * @param properties ¥×¥í¥Ñ¥Æ¥£
+	 * ä½¿ã„æ–¹ã‚’èª¬æ˜ã™ã‚‹
+	 * @param properties ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
 	 */
 	private static void displayUsage(Properties properties) {
 		String flag = properties.getProperty("display_usage", "true");
@@ -60,7 +60,7 @@ public class Seq2Acm {
 		}
 	}
 	/**
-	 * ´Ä¶­ÊÑ¿ô¤ò¼èÆÀ¤¹¤ë
+	 * ç’°å¢ƒå¤‰æ•°ã‚’å–å¾—ã™ã‚‹
 	 * @param key
 	 * @param defaultValue
 	 * @return
@@ -73,14 +73,14 @@ public class Seq2Acm {
 			ret = defaultValue;
 		return ret;
 	}
-	/** ÆâÉô¥Õ¥¡¥¤¥ë¥µ¡¼¥Ğ¡¼ */
+	/** å†…éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«ã‚µãƒ¼ãƒãƒ¼ */
 	private SQLFileServer fileServer;
 	/**
-	 * ¥¹¥È¥ê¡¼¥à¤Ë½ĞÎÏ¤¹¤ë
-	 * @param file ¥³¥Ü¥ë¥Õ¥¡¥¤¥ë
-	 * @param stream ¥¹¥È¥ê¡¼¥à
-	 * @param line ¥é¥¤¥ó½ĞÎÏ
-	 * @throws IOException Îã³°
+	 * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«å‡ºåŠ›ã™ã‚‹
+	 * @param file ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«
+	 * @param stream ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+	 * @param line ãƒ©ã‚¤ãƒ³å‡ºåŠ›
+	 * @throws IOException ä¾‹å¤–
 	 */
 	protected void importTo(CobolFile file, InputStream stream, boolean line) throws IOException {
 		if (line) {
@@ -90,10 +90,10 @@ public class Seq2Acm {
 		}
 	}
 	/**
-	 * ¥¹¥È¥ê¡¼¥à¤Ë½ĞÎÏ¤¹¤ë
-	 * @param file ¥³¥Ü¥ë¥Õ¥¡¥¤¥ë
-	 * @param stream ¥¹¥È¥ê¡¼¥à
-	 * @throws IOException Îã³°
+	 * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«å‡ºåŠ›ã™ã‚‹
+	 * @param file ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«
+	 * @param stream ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+	 * @throws IOException ä¾‹å¤–
 	 */
 	protected void importTo(CobolFile file, InputStream stream) throws IOException {
 		int count = 0;
@@ -103,20 +103,20 @@ public class Seq2Acm {
 		while (stream.read(record) > 0) {
 			stat = file.write(record);
 			if (stat != FileStatus.OK) {
-				// ¥¨¥é¡¼¤Ë¤Ê¤Ã¤¿
+				// ã‚¨ãƒ©ãƒ¼ã«ãªã£ãŸ
 			} else {
 				count++;
 			}
 		}
-		// ½ªÃ¼ÉôÊ¬
-		// ½ĞÎÏ·ë²Ì
+		// çµ‚ç«¯éƒ¨åˆ†
+		// å‡ºåŠ›çµæœ
 		System.err.println("Row Count = " + count);
 	}
 	/**
-	 * ¥¹¥È¥ê¡¼¥à¤Ë½ĞÎÏ¤¹¤ë
-	 * @param file ¥³¥Ü¥ë¥Õ¥¡¥¤¥ë
-	 * @param stream ¥¹¥È¥ê¡¼¥à
-	 * @throws IOException Îã³°
+	 * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«å‡ºåŠ›ã™ã‚‹
+	 * @param file ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«
+	 * @param stream ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+	 * @throws IOException ä¾‹å¤–
 	 */
 	protected void importLineTo(CobolFile file, InputStream stream) throws IOException {
 		int count = 0;
@@ -129,53 +129,53 @@ public class Seq2Acm {
 		while (row != null) {
 			stat = file.write(record);
 			if (stat != FileStatus.OK) {
-				// ¥¨¥é¡¼¤Ë¤Ê¤Ã¤¿
+				// ã‚¨ãƒ©ãƒ¼ã«ãªã£ãŸ
 			} else {
 				count++;
 			}
 			row = br.readLine();
 		}
-		// ½ªÃ¼ÉôÊ¬
-		// ½ĞÎÏ·ë²Ì
+		// çµ‚ç«¯éƒ¨åˆ†
+		// å‡ºåŠ›çµæœ
 		System.err.println("Row Count = " + count);
 	}
 	/**
-	 * ½ĞÎÏ¤¹¤ë
-	 * @param properties ¥×¥í¥Ñ¥Æ¥£
+	 * å‡ºåŠ›ã™ã‚‹
+	 * @param properties ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
 	 */
 	protected void importTo(Properties properties) {
-		// ¥Õ¥¡¥¤¥ëµ¡Ç½¤ÎºîÀ®
+		// ãƒ•ã‚¡ã‚¤ãƒ«æ©Ÿèƒ½ã®ä½œæˆ
 		fileServer = new SQLFileServer();
-		// ¥á¥¿¥Ç¡¼¥¿¥Õ¥¡¥¤¥ëÌ¾
+		// ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«å
 		String metaString = properties.getProperty("metafile", SQLNetServer.DEFAULT_CONFIG);
 		String AcmName = properties.getProperty("acmfile", "");
 		String InName = properties.getProperty("infile", "");
 		String LineIn = properties.getProperty("linein", "false");
-		// ¥á¥¿¥Ç¡¼¥¿¤Î¼èÆÀ
+		// ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®å–å¾—
 		File metaFile = new File(metaString);
-		// ¥á¥¿¥Ç¡¼¥¿¾ğÊó¤Î¼èÆÀ
+		// ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿æƒ…å ±ã®å–å¾—
 		NodeReadLoader nodeLoader = new NodeReadLoader();
 		CobolFile AcmFile = null;
 		InputStream fis = null;
 		try {
 			nodeLoader.createMetaDataSet(metaFile, fileServer.getMetaDataSet(), properties);
-			// ACM¥Õ¥¡¥¤¥ë
+			// ACMãƒ•ã‚¡ã‚¤ãƒ«
 			AcmFile = getCobolFile(AcmName);
 			AcmFile.open(CobolFile.MODE_OUTPUT, CobolFile.ACCESS_SEQUENCIAL);
-			// ½ĞÎÏ¥Õ¥¡¥¤¥ë
+			// å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«
 			if (InName.length() == 0) {
-				// É¸½à½ĞÎÏ
+				// æ¨™æº–å‡ºåŠ›
 				fis = System.in;
 			} else {
-				// ¥Õ¥¡¥¤¥ë¤Ø
+				// ãƒ•ã‚¡ã‚¤ãƒ«ã¸
 				fis = new FileInputStream(InName);
 			}
-			// ¥é¥¤¥ó½ĞÎÏ
+			// ãƒ©ã‚¤ãƒ³å‡ºåŠ›
 			boolean bool = false;
 			bool = Boolean.valueOf(LineIn);
-			// ½ĞÎÏ½èÍı
+			// å‡ºåŠ›å‡¦ç†
 			importTo(AcmFile, fis, bool);
-			// ½ªÎ»½èÍı
+			// çµ‚äº†å‡¦ç†
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		} catch (FactoryConfigurationError e) {
@@ -198,9 +198,9 @@ public class Seq2Acm {
 		}
 	}
 	/**
-	 * Ì¾¾Î¤«¤é¥³¥Ü¥ë¥Õ¥¡¥¤¥ë¤ò¼èÆÀ¤¹¤ë
-	 * @param name ¥Õ¥¡¥¤¥ëÌ¾
-	 * @return ¥³¥Ü¥ë¥Õ¥¡¥¤¥ë
+	 * åç§°ã‹ã‚‰ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—ã™ã‚‹
+	 * @param name ãƒ•ã‚¡ã‚¤ãƒ«å
+	 * @return ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«
 	 */
 	protected CobolFile getCobolFile(String name) {
 		SQLCobolRecordMetaData meta = (SQLCobolRecordMetaData) fileServer.metaDataSet.getMetaData(name);

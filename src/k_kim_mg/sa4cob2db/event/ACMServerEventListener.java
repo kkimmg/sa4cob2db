@@ -1,30 +1,30 @@
 package k_kim_mg.sa4cob2db.event;
 import k_kim_mg.sa4cob2db.ACMSession;
 /**
- * SQLNetServer¤Î¥¤¥Ù¥ó¥È¤òÊáÂª¤¹¤ë
+ * SQLNetServerã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’æ•æ‰ã™ã‚‹
  * @author kenji
  */
 public interface ACMServerEventListener {
 	/**
-	 * ¥µ¡¼¥Ğ¡¼¤¬³«»Ï¤µ¤ì¤¿
-	 * @param e ¥¤¥Ù¥ó¥È¥ª¥Ö¥¸¥§¥¯¥È
+	 * ã‚µãƒ¼ãƒãƒ¼ãŒé–‹å§‹ã•ã‚ŒãŸ
+	 * @param e ã‚¤ãƒ™ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public void serverStarted(ACMServerEvent e);
 	/**
-	 * ¥µ¡¼¥Ğ¡¼¤¬½ªÎ»¤¹¤ë
-	 * @param e ¥¤¥Ù¥ó¥È¥ª¥Ö¥¸¥§¥¯¥È
+	 * ã‚µãƒ¼ãƒãƒ¼ãŒçµ‚äº†ã™ã‚‹
+	 * @param e ã‚¤ãƒ™ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public void serverEnding(ACMServerEvent e);
 	/**
-	 * ¥»¥Ã¥·¥ç¥ó¤¬ÄÉ²Ã¤µ¤ì¤¿
-	 * @param e ¥µ¡¼¥Ğ¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param session ÄÉ²Ã¤µ¤ì¤¿¥»¥Ã¥·¥ç¥ó
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ãŒè¿½åŠ ã•ã‚ŒãŸ
+	 * @param e ã‚µãƒ¼ãƒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param session è¿½åŠ ã•ã‚ŒãŸã‚»ãƒƒã‚·ãƒ§ãƒ³
 	 */
 	public void sessionAdded(ACMServerEvent e, ACMSession session);
 	/**
-	 * ¥»¥Ã¥·¥ç¥ó¤¬ºï½ü¤µ¤ì¤¿
-	 * @param e ¥µ¡¼¥Ğ¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param session ºï½ü¤µ¤ì¤¿¥»¥Ã¥·¥ç¥ó
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ãŒå‰Šé™¤ã•ã‚ŒãŸ
+	 * @param e ã‚µãƒ¼ãƒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param session å‰Šé™¤ã•ã‚ŒãŸã‚»ãƒƒã‚·ãƒ§ãƒ³
 	 */
 	public void sessionRemoved(ACMServerEvent e, ACMSession session);
 }

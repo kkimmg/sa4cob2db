@@ -7,20 +7,20 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.DefaultCobolRecord;
 
 /**
- * ¥ì¥³¡¼¥É¤Î¥á¥¿¥Ç¡¼¥¿¤ò¼èÆÀ¤¹¤ë¤¿¤á¤À¤±¤Ë¥µ¥Ö¥¯¥é¥¹¤òÄêµÁ¤·¤Æ¤ß¤ë
+ * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã ã‘ã«ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã‚’å®šç¾©ã—ã¦ã¿ã‚‹
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 class SampleMetaDataSet1 extends CobolRecordMetaDataSet {
 	/**
-	 * ¤Ê¤Ë¤âÊÖ¤µ¤Ê¤¤
+	 * ãªã«ã‚‚è¿”ã•ãªã„
 	 */
 	protected CobolFile createCobolFile(CobolRecordMetaData meta) {
 		return null;
 	}
 	/**
-	 * ÇÛÎó¤Î¥é¥Ã¥Ñ¤òÊÖ¤¹
-	 * @param metaname	¥á¥¿¥Ç¡¼¥¿Ì¾
-	 * @return ¥³¥Ü¥ë¤Î¥ì¥³¡¼¥É·Á¼°
+	 * é…åˆ—ã®ãƒ©ãƒƒãƒ‘ã‚’è¿”ã™
+	 * @param metaname	ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿å
+	 * @return ã‚³ãƒœãƒ«ã®ãƒ¬ã‚³ãƒ¼ãƒ‰å½¢å¼
 	 */
 	public CobolRecord createRecord (String metaname) {
 		CobolRecordMetaData meta = getMetaData(metaname);

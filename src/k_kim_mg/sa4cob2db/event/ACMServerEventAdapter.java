@@ -4,8 +4,8 @@
 package k_kim_mg.sa4cob2db.event;
 import k_kim_mg.sa4cob2db.ACMSession;
 /**
- * ACMServerEventListener�Υǥե���ȼ���<br/>
- * �ºݤˤϲ��⤷�ʤ�
+ * ACMServerEventListenerのデフォルト実装<br/>
+ * 実際には何もしない
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMServerEventAdapter implements ACMServerEventListener {

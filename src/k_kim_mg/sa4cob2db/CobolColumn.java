@@ -4,176 +4,176 @@
  */
 package k_kim_mg.sa4cob2db;
 /**
- * ¥³¥Ü¥ë¥×¥í¥°¥é¥à¤ÎÎó¤òÉ½¤¹¥ª¥Ö¥¸¥§¥¯¥È
+ * ã‚³ãƒœãƒ«ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®åˆ—ã‚’è¡¨ã™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CobolColumn {
-	/** ÆüÉÕ·¿ */
+	/** æ—¥ä»˜å‹ */
 	public static int TYPE_DATE = 7;
-	/** ¾®¿ôÅÀ·¿ */
+	/** å°æ•°ç‚¹å‹ */
 	public static int TYPE_DOUBLE = 6;
-	/** ¾®¿ôÅÀ·¿ */
+	/** å°æ•°ç‚¹å‹ */
 	public static int TYPE_FLOAT = 5;
-	/** À°¿ô·¿ */
+	/** æ•´æ•°å‹ */
 	public static int TYPE_INTEGER = 1;
-	/** À°¿ô·¿ */
+	/** æ•´æ•°å‹ */
 	public static int TYPE_LONG = 4;
-	/** ÆüËÜ¸ì·¿ */
+	/** æ—¥æœ¬èªå‹ */
 	public static int TYPE_NCHAR = 3;
-	/** ¹½Â¤ÂÎ·¿ */
+	/** æ§‹é€ ä½“å‹ */
 	public static int TYPE_STRUCT = 11;
-	/** »ş¹ï·¿ */
+	/** æ™‚åˆ»å‹ */
 	public static int TYPE_TIME = 8;
-	/** ÆüÉÕ»ş¹ï·¿ */
+	/** æ—¥ä»˜æ™‚åˆ»å‹ */
 	public static int TYPE_TIMESTAMP = 10;
-	/** ±Ñ¿ô»ú·¿ */
+	/** è‹±æ•°å­—å‹ */
 	public static int TYPE_XCHAR = 2;
 	/**
-	 * ¥³¥Ô¡¼¤ÎºîÀ®
-	 * @return ¥³¥Ô¡¼¡©
+	 * ã‚³ãƒ”ãƒ¼ã®ä½œæˆ
+	 * @return ã‚³ãƒ”ãƒ¼ï¼Ÿ
 	 */
 	public CobolColumn createCopy(CobolRecordMetaData meta);
 	/**
-	 * ¥ì¥³¡¼¥É¾ğÊó¤Î¼èÆÀ
-	 * @return ¥ì¥³¡¼¥É¥ì¥¤¥¢¥¦¥È
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰æƒ…å ±ã®å–å¾—
+	 * @return ãƒ¬ã‚³ãƒ¼ãƒ‰ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
 	 */
 	public CobolRecordMetaData getCobolRecordMetaData();
 	/**
-	 * Îó¤Î½ñ¼°¤òÉ½¤¹Ê¸»úÎó
-	 * @return ½ñ¼°Ê¸»úÎó
+	 * åˆ—ã®æ›¸å¼ã‚’è¡¨ã™æ–‡å­—åˆ—
+	 * @return æ›¸å¼æ–‡å­—åˆ—
 	 */
 	public String getFormat();
 	/**
-	 * ¤³¤ÎÃÍ¤Ê¤éDB¤ËNULL¤ò¥»¥Ã¥È¤¹¤ë
-	 * @return ÂåÂØ¤ÎÃÍ
+	 * ã“ã®å€¤ãªã‚‰DBã«NULLã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @return ä»£æ›¿ã®å€¤
 	 */
 	public String getForNull();
 	/**
-	 * ¤â¤·DB¾å¤ÎÃÍ¤¬NULL¤Ê¤é
-	 * @return ÂåÂØ¤ÎÃÍ
+	 * ã‚‚ã—DBä¸Šã®å€¤ãŒNULLãªã‚‰
+	 * @return ä»£æ›¿ã®å€¤
 	 */
 	public String getIfNull();
 	/**
-	 * Îó¤ÎÄ¹¤µ
-	 * @return ÎóÉı
+	 * åˆ—ã®é•·ã•
+	 * @return åˆ—å¹…
 	 */
 	public int getLength();
 	/**
-	 * Îó¤ò¼±ÊÌ¤¹¤ë¤¿¤á¤ÎÌ¾¾Î
-	 * @return ÎóÌ¾
+	 * åˆ—ã‚’è­˜åˆ¥ã™ã‚‹ãŸã‚ã®åç§°
+	 * @return åˆ—å
 	 */
 	public String getName();
 	/**
-	 * ¿ôÃÍ·¿¤ÎÎó¤Î¾®¿ôÅÀ°Ê²¼¤Î·å¿ô
-	 * @return ¿ôÃÍ·¿¤ÎÎó¤Î¾®¿ôÅÀ°Ê²¼¤Î·å¿ô
+	 * æ•°å€¤å‹ã®åˆ—ã®å°æ•°ç‚¹ä»¥ä¸‹ã®æ¡æ•°
+	 * @return æ•°å€¤å‹ã®åˆ—ã®å°æ•°ç‚¹ä»¥ä¸‹ã®æ¡æ•°
 	 */
 	public int getNumberOfDecimal();
 	/**
-	 * ¤³¤ÎÎó¤Î¥Ù¡¼¥¹¤Ë¤Ê¤ëÎó
-	 * @return ¥ª¥ê¥¸¥Ê¥ëÎó
+	 * ã“ã®åˆ—ã®ãƒ™ãƒ¼ã‚¹ã«ãªã‚‹åˆ—
+	 * @return ã‚ªãƒªã‚¸ãƒŠãƒ«åˆ—
 	 */
 	public CobolColumn getOriginalCobolColumn();
 	/**
-	 * Îó¤Î¥Ğ¥¤¥ÈÄ¹¤òÊÖ¤¹
-	 * @return ÊªÍıÄ¹
+	 * åˆ—ã®ãƒã‚¤ãƒˆé•·ã‚’è¿”ã™
+	 * @return ç‰©ç†é•·
 	 */
 	public int getPhysicalLength();
 	/**
-	 * Îó¤Î³«»Ï°ÌÃÖ<br/>
-	 * 0¤Ç»Ï¤Ş¤ê¤Ş¤¹
-	 * @return ³«»Ï°ÌÃÖ
+	 * åˆ—ã®é–‹å§‹ä½ç½®<br/>
+	 * 0ã§å§‹ã¾ã‚Šã¾ã™
+	 * @return é–‹å§‹ä½ç½®
 	 */
 	public int getStart();
 	/**
-	 * Îó¤Î¥Ç¡¼¥¿·¿
-	 * @return ¥Ç¡¼¥¿·¿
+	 * åˆ—ã®ãƒ‡ãƒ¼ã‚¿å‹
+	 * @return ãƒ‡ãƒ¼ã‚¿å‹
 	 */
 	public int getType();
 	/**
-	 * ¥Ğ¥¤¥ÈÇÛÎó¢ª¥ª¥Ö¥¸¥§¥¯¥È¤ÎÊÑ´¹¤Ë¼ºÇÔ¤·¤¿¾ì¹ç
-	 * @return ÂåÂØ¤ÎÃÍ
+	 * ãƒã‚¤ãƒˆé…åˆ—â†’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆ
+	 * @return ä»£æ›¿ã®å€¤
 	 */
 	public Object getValueOfParseError();
 	/**
-	 * ¿ôÃÍ·¿¤ÎÎó¤¬¡Ü¡¼¤ÎÉä¹æ¤ò»ı¤Ä¤«¤É¤¦¤«
-	 * @return true Éä¹æÉÕ¤­<br/>
-	 *         false Éä¹æ¤Ê¤·
+	 * æ•°å€¤å‹ã®åˆ—ãŒï¼‹ãƒ¼ã®ç¬¦å·ã‚’æŒã¤ã‹ã©ã†ã‹
+	 * @return true ç¬¦å·ä»˜ã<br/>
+	 *         false ç¬¦å·ãªã—
 	 */
 	public boolean isSigned();
 	/**
-	 * ¥Ğ¥¤¥ÈÇÛÎó¢ª¥ª¥Ö¥¸¥§¥¯¥È¤ÎÊÑ´¹¤Ë¼ºÇÔ¤·¤¿¾ì¹ç¡¢ÃÍ¤òÀßÄê¤¹¤ë
-	 * @return the ¤¹¤ë¤«¤·¤Ê¤¤¤«
+	 * ãƒã‚¤ãƒˆé…åˆ—â†’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆã€å€¤ã‚’è¨­å®šã™ã‚‹
+	 * @return the ã™ã‚‹ã‹ã—ãªã„ã‹
 	 */
 	public boolean isUseOnParseError();
 	/**
-	 * ¥ì¥³¡¼¥É¾ğÊó¤ÎÀßÄê
-	 * @param cobolRecordMetaData ¥ì¥³¡¼¥É¥ì¥¤¥¢¥¦¥È
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰æƒ…å ±ã®è¨­å®š
+	 * @param cobolRecordMetaData ãƒ¬ã‚³ãƒ¼ãƒ‰ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
 	 */
 	public void setCobolRecordMetaData(CobolRecordMetaData cobolRecordMetaData);
 	/**
-	 * Îó¤Î½ñ¼°¤òÉ½¤¹Ê¸»úÎó
-	 * @param format ½ñ¼°
+	 * åˆ—ã®æ›¸å¼ã‚’è¡¨ã™æ–‡å­—åˆ—
+	 * @param format æ›¸å¼
 	 */
 	public void setFormat(String format);
 	/**
-	 * ¤³¤ÎÃÍ¤Ê¤éDB¤ËNULL¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param forNull ÂåÂØ¤ÎÃÍ
+	 * ã“ã®å€¤ãªã‚‰DBã«NULLã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param forNull ä»£æ›¿ã®å€¤
 	 */
 	public void setForNull(String forNull);
 	/**
-	 * ¤â¤·DB¾å¤ÎÃÍ¤¬NULL¤Ê¤é
-	 * @param ifNull ÂåÂØ¤ÎÃÍ
+	 * ã‚‚ã—DBä¸Šã®å€¤ãŒNULLãªã‚‰
+	 * @param ifNull ä»£æ›¿ã®å€¤
 	 */
 	public void setIfNull(String ifNull);
 	/**
-	 * Îó¤ÎÄ¹¤µ
-	 * @param length Éı
+	 * åˆ—ã®é•·ã•
+	 * @param length å¹…
 	 */
 	public void setLength(int length);
 	/**
-	 * Îó¤ò¼±ÊÌ¤¹¤ë¤¿¤á¤ÎÌ¾¾Î
-	 * @param name ÎóÌ¾
+	 * åˆ—ã‚’è­˜åˆ¥ã™ã‚‹ãŸã‚ã®åç§°
+	 * @param name åˆ—å
 	 */
 	public void setName(String name);
 	/**
-	 * ¿ôÃÍ·¿¤ÎÎó¤Î¾®¿ôÅÀ°Ê²¼¤Î·å¿ô
-	 * @param decimal ¿ôÃÍ·¿¤ÎÎó¤Î¾®¿ôÅÀ°Ê²¼¤Î·å¿ô
+	 * æ•°å€¤å‹ã®åˆ—ã®å°æ•°ç‚¹ä»¥ä¸‹ã®æ¡æ•°
+	 * @param decimal æ•°å€¤å‹ã®åˆ—ã®å°æ•°ç‚¹ä»¥ä¸‹ã®æ¡æ•°
 	 */
 	public void setNumberOfDecimal(int decimal);
 	/**
-	 * ¤³¤ÎÎó¤Î¥Ù¡¼¥¹¤Ë¤Ê¤ëÎó
-	 * @param original ¥ª¥ê¥¸¥Ê¥ëÎó
+	 * ã“ã®åˆ—ã®ãƒ™ãƒ¼ã‚¹ã«ãªã‚‹åˆ—
+	 * @param original ã‚ªãƒªã‚¸ãƒŠãƒ«åˆ—
 	 */
 	public void setOriginalCobolColumn(CobolColumn original);
 	/**
-	 * Îó¤Î¥Ğ¥¤¥ÈÄ¹¤òÊÖ¤¹
-	 * @param length ÊªÍıÄ¹
+	 * åˆ—ã®ãƒã‚¤ãƒˆé•·ã‚’è¿”ã™
+	 * @param length ç‰©ç†é•·
 	 */
 	public void setPhysicalLength(int length);
 	/**
-	 * ¿ôÃÍ·¿¤ÎÎó¤¬¡Ü¡¼¤ÎÉä¹æ¤ò»ı¤Ä¤«¤É¤¦¤«
-	 * @param signed Éä¹æ¤¢¤ê
+	 * æ•°å€¤å‹ã®åˆ—ãŒï¼‹ãƒ¼ã®ç¬¦å·ã‚’æŒã¤ã‹ã©ã†ã‹
+	 * @param signed ç¬¦å·ã‚ã‚Š
 	 */
 	public void setSigned(boolean signed);
 	/**
-	 * Îó¤Î³«»Ï°ÌÃÖ<br/>
-	 * 0¤Ç»Ï¤Ş¤ê¤Ş¤¹
-	 * @param start ³«»Ï°ÌÃÖ
+	 * åˆ—ã®é–‹å§‹ä½ç½®<br/>
+	 * 0ã§å§‹ã¾ã‚Šã¾ã™
+	 * @param start é–‹å§‹ä½ç½®
 	 */
 	public void setStart(int start);
 	/**
-	 * Îó¤Î¥Ç¡¼¥¿·¿
-	 * @param type ¥Ç¡¼¥¿·¿
+	 * åˆ—ã®ãƒ‡ãƒ¼ã‚¿å‹
+	 * @param type ãƒ‡ãƒ¼ã‚¿å‹
 	 */
 	public void setType(int type);
 	/**
-	 * ¥Ğ¥¤¥ÈÇÛÎó¢ª¥ª¥Ö¥¸¥§¥¯¥È¤ÎÊÑ´¹¤Ë¼ºÇÔ¤·¤¿¾ì¹ç¡¢ÃÍ¤òÀßÄê¤¹¤ë
-	 * @param useOnParseError ¤¹¤ë¤«¤·¤Ê¤¤¤«
+	 * ãƒã‚¤ãƒˆé…åˆ—â†’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆã€å€¤ã‚’è¨­å®šã™ã‚‹
+	 * @param useOnParseError ã™ã‚‹ã‹ã—ãªã„ã‹
 	 */
 	public void setUseOnParseError(boolean useOnParseError);
 	/**
-	 * ¥Ğ¥¤¥ÈÇÛÎó¢ª¥ª¥Ö¥¸¥§¥¯¥È¤ÎÊÑ´¹¤Ë¼ºÇÔ¤·¤¿¾ì¹ç
-	 * @param valueOfParseError ÂåÂØ¤ÎÃÍ
+	 * ãƒã‚¤ãƒˆé…åˆ—â†’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆ
+	 * @param valueOfParseError ä»£æ›¿ã®å€¤
 	 */
 	public void setValueOfParseError(Object valueOfParseError);
 }

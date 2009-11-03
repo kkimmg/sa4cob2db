@@ -1,10 +1,10 @@
 package k_kim_mg.sa4cob2db.sql;
 /**
- * ¥»¥Ã¥·¥ç¥ó¤Ë´Ø¤¹¤ë¥ê¥Æ¥é¥ë¤òÄó¶¡¤¹¤ë
+ * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã«é–¢ã™ã‚‹ãƒªãƒ†ãƒ©ãƒ«ã‚’æä¾›ã™ã‚‹
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract interface ACMNetSession {
-	/** ¥¹¥Æ¡¼¥¿¥¹¤Î¥Ğ¥¤¥ÈÄ¹ */
+	/** ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®ãƒã‚¤ãƒˆé•· */
 	public static final int STATUS_LEN = 3;
 	public static final int STATUS_MAX = (STATUS_LEN - 1);
 	public static final int FILE_IDENT_LEN = 256;

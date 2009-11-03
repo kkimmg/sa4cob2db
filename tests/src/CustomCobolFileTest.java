@@ -6,13 +6,13 @@ import k_kim_mg.sa4cob2db.FileStatus;
  */
 public class CustomCobolFileTest extends AbstractCobolFile {
     private static final long serialVersionUID = 1L;
-	/** ¼ÂÁõ¤µ¤ì¤Æ¤¤¤Ê¤¤¥ª¥Ú¥ì¡¼¥·¥ç¥ó */
+	/** å®Ÿè£…ã•ã‚Œã¦ã„ãªã„ã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ */
 	private static FileStatus UNSUPPORTED_METHOD = new FileStatus(FileStatus.STATUS_UNSUPPORTED_METHOD, FileStatus.NULL_CODE, 0, "unsupported operation");
-	/** ¥á¥¿¥Ç¡¼¥¿ */
+	/** ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ */
 	private CobolRecordMetaData meta = null;
-	/** ¥Õ¥¡¥¤¥ë¤¬³«¤«¤ì¤¿¤«¤É¤¦¤« */
+	/** ãƒ•ã‚¡ã‚¤ãƒ«ãŒé–‹ã‹ã‚ŒãŸã‹ã©ã†ã‹ */
 	private boolean opened = false;
-	/** ²¿¤«¤ÎÃÍ */
+	/** ä½•ã‹ã®å€¤ */
 	private int value = 0;
 	public CustomCobolFileTest(CobolRecordMetaData meta) {
 		this.meta = meta;

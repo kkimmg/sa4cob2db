@@ -1,7 +1,7 @@
 package k_kim_mg.sa4cob2db.event;
 /**
  * CobolFileEventListener<br/>
- * ¤³¤ì¤È¤¤¤Ã¤Æ¤Ê¤Ë¤«¤¹¤ë¤ï¤±¤¸¤ã¤Ê¤¤
+ * ã“ã‚Œã¨ã„ã£ã¦ãªã«ã‹ã™ã‚‹ã‚ã‘ã˜ã‚ƒãªã„
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CobolFileEventAdapter implements CobolFileEventListener {

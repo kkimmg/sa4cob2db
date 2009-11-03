@@ -1,22 +1,22 @@
 package k_kim_mg.sa4cob2db.codegen;
 /**
- * ¥½¡¼¥¹¥³¡¼¥É¤òÀ¸À®¤¹¤ë¥¤¥ó¥¿¡¼¥Õ¥§¡¼¥¹
+ * ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’ç”Ÿæˆã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CodeGenerator {
 	/**
-	 * ¥½¡¼¥¹¥³¡¼¥É¤òÀ¸À®¤¹¤ë
-	 * @param row	¹Ô
+	 * ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’ç”Ÿæˆã™ã‚‹
+	 * @param row	è¡Œ
 	 */
 	public void parse(String row);
 	/**
-	 * ¥¯¥ê¥¢¤¹¤ë
-	 * ÃßÀÑ¤·¤¿¹Ô¤ò¥ª¡¼¥Ê¡¼¤ËÁ´¤ÆÅÏ¤·¤Æ¥¯¥ê¥¢¤¹¤ë
+	 * ã‚¯ãƒªã‚¢ã™ã‚‹
+	 * è“„ç©ã—ãŸè¡Œã‚’ã‚ªãƒ¼ãƒŠãƒ¼ã«å…¨ã¦æ¸¡ã—ã¦ã‚¯ãƒªã‚¢ã™ã‚‹
 	 */
 	public void clear();
 	/**
-	 * ¥³¡¼¥ÉÀ¸À®»ı¤Î¥¤¥Ù¥ó¥È½èÍı¤òÄÉ²Ã¤¹¤ë
-	 * @param listener	¥³¡¼¥ÉÀ¸À®»ı¤Î¥¤¥Ù¥ó¥È½èÍı
+	 * ã‚³ãƒ¼ãƒ‰ç”ŸæˆæŒã®ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†ã‚’è¿½åŠ ã™ã‚‹
+	 * @param listener	ã‚³ãƒ¼ãƒ‰ç”ŸæˆæŒã®ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 	 */
 	public void addCodeGeneratorListener(CodeGeneratorListener listener);
 }

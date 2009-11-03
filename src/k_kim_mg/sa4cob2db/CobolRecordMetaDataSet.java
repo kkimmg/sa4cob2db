@@ -3,26 +3,26 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 /**
- * ¥á¥¿¥Ç¡¼¥¿¤Î°ìÍ÷
+ * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®ä¸€è¦§
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract class CobolRecordMetaDataSet {
-	/** ¥á¥¿¥Ç¡¼¥¿¤Î°ìÍ÷ */
+	/** ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®ä¸€è¦§ */
 	protected List<CobolRecordMetaData> metas = new ArrayList<CobolRecordMetaData>();
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¡ÊÌ¾Á°¤Î°ìÍ÷¡Ë
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ï¼ˆåå‰ã®ä¸€è¦§ï¼‰
 	 */
 	protected Hashtable<String, CobolRecordMetaData> names = new Hashtable<String, CobolRecordMetaData>();
 	/**
-	 * ¥³¥Ü¥ë¥Õ¥¡¥¤¥ë¤ÎºîÀ®
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
-	 * @return ¥³¥Ü¥ë¥Õ¥¡¥¤¥ë
+	 * ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã®ä½œæˆ
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
+	 * @return ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«
 	 */
 	protected abstract CobolFile createCobolFile(CobolRecordMetaData meta);
 	/**
-	 * ¥³¥Ü¥ë¥Õ¥¡¥¤¥ë¤Î¼èÆÀ
-	 * @param name ¥á¥¿¥Ç¡¼¥¿Ì¾
-	 * @return ¥³¥Ü¥ë¥Õ¥¡¥¤¥ë
+	 * ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã®å–å¾—
+	 * @param name ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿å
+	 * @return ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«
 	 */
 	public CobolFile getCobolFile(String name) {
 		CobolRecordMetaData meta = names.get(name);
@@ -32,50 +32,50 @@ public abstract class CobolRecordMetaDataSet {
 		return null;
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¤Î¼èÆÀ
-	 * @param name ¥á¥¿¥Ç¡¼¥¿Ì¾
-	 * @return ¥á¥¿¥Ç¡¼¥¿
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®å–å¾—
+	 * @param name ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿å
+	 * @return ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public CobolRecordMetaData getMetaData(String name) {
 		CobolRecordMetaData meta = (CobolRecordMetaData) names.get(name);
 		return meta;
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¤Î¼èÆÀ
-	 * @param i iÈÖÌÜ¤Î¤á¤¿¥Ç¡¼¥¿¤ò¼èÆÀ¤¹¤ë
-	 * @return ¥á¥¿¥Ç¡¼¥¿
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®å–å¾—
+	 * @param i iç•ªç›®ã®ã‚ãŸãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
+	 * @return ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public CobolRecordMetaData getMetaData(int i) {
 		return (CobolRecordMetaData) metas.get(i);
 	}
-	/** ÅĞÏ¿¤µ¤ì¤¿¥á¥¿¥Ç¡¼¥¿¤Î¿ô */
+	/** ç™»éŒ²ã•ã‚ŒãŸãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®æ•° */
 	public int getMetaDataCount() {
 		return metas.size();
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¤òÅĞÏ¿¤¹¤ë
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚’ç™»éŒ²ã™ã‚‹
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public void installMetaData(CobolRecordMetaData meta) {
-		// ÅĞÏ¿
+		// ç™»éŒ²
 		metas.add(meta);
-		// Ì¾Á°¤ÇÅĞÏ¿
+		// åå‰ã§ç™»éŒ²
 		names.put(meta.getName(), meta);
-		// ÊÌÌ¾¤ÇÅĞÏ¿
+		// åˆ¥åã§ç™»éŒ²
 		for (int i = 0; i < meta.getAliasCount(); i++) {
 			names.put(meta.getAlias(i), meta);
 		}
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¤òºï½ü¤¹¤ë
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚’å‰Šé™¤ã™ã‚‹
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public void removeMetaData(CobolRecordMetaData meta) {
-		// ºï½ü
+		// å‰Šé™¤
 		metas.remove(meta);
-		// Ì¾Á°¤Çºï½ü
+		// åå‰ã§å‰Šé™¤
 		names.remove(meta.getName());
-		// ÊÌÌ¾¤Çºï½ü
+		// åˆ¥åã§å‰Šé™¤
 		for (int i = 0; i < meta.getAliasCount(); i++) {
 			names.remove(meta.getAlias(i));
 		}

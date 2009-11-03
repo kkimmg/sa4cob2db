@@ -9,24 +9,24 @@ package k_kim_mg.sa4cob2db.codegen;
 import java.util.ArrayList;
 
 /**
- * CodeGenerator¤ò¸Æ¤Ó½Ğ¤¹µ¡Ç½
+ * CodeGeneratorã‚’å‘¼ã³å‡ºã™æ©Ÿèƒ½
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface GeneratorOwner {
 	/**
-	 * ¥½¡¼¥¹¥³¡¼¥É¤òÀ¸À®¤¹¤ë
-	 * @param text	À¸À®¤¹¤ë¥½¡¼¥¹¥³¡¼¥É
+	 * ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’ç”Ÿæˆã™ã‚‹
+	 * @param text	ç”Ÿæˆã™ã‚‹ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰
 	 */
 	public void generate(String text);
 	/**
-	 * ¥³¥Ô¡¼¶ç¤¬Íè¤¿¤Î¤Ç¤Ê¤ó¤È¤«¤·¤Æ¤¯¤À¤µ¤¤
-	 * @param statement	¥³¥Ô¡¼¶ç
+	 * ã‚³ãƒ”ãƒ¼å¥ãŒæ¥ãŸã®ã§ãªã‚“ã¨ã‹ã—ã¦ãã ã•ã„
+	 * @param statement	ã‚³ãƒ”ãƒ¼å¥
 	 */
 	public void callBackCopyStatement (ArrayList<String> statement);
 	/**
-	 * ¥³¥Ô¡¼¶ç¤òÅ¸³«¤¹¤ë¤«¤É¤¦¤«
-	 * @return true	Å¸³«¤¹¤ë</br>
-	 *          false	Å¸³«¤·¤Ê¤¤
+	 * ã‚³ãƒ”ãƒ¼å¥ã‚’å±•é–‹ã™ã‚‹ã‹ã©ã†ã‹
+	 * @return true	å±•é–‹ã™ã‚‹</br>
+	 *          false	å±•é–‹ã—ãªã„
 	 */
 	public boolean isExpandCopy();
 }

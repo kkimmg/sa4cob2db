@@ -2,38 +2,38 @@ package k_kim_mg.sa4cob2db;
 import java.io.Serializable;
 
 import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
-/** ¥»¥Ã¥·¥ç¥ó */
+/** ã‚»ãƒƒã‚·ãƒ§ãƒ³ */
 public interface ACMSession extends Serializable {
 	/**
-	 * ¥Õ¥¡¥¤¥ë(¤Ø¤Î»²¾È)¤òºîÀ®¤¹¤ë
-	 * @param name	¥Õ¥¡¥¤¥ëÌ¾
-	 * @return	¥Õ¥¡¥¤¥ë¥ª¥Ö¥¸¥§¥¯¥È
+	 * ãƒ•ã‚¡ã‚¤ãƒ«(ã¸ã®å‚ç…§)ã‚’ä½œæˆã™ã‚‹
+	 * @param name	ãƒ•ã‚¡ã‚¤ãƒ«å
+	 * @return	ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public CobolFile createFile(String name);
 	/**
-	 * ¥Õ¥¡¥¤¥ë(¤Ø¤Î»²¾È)¤ò³«Êü¤¹¤ë
-	 * @param name	¥Õ¥¡¥¤¥ëÌ¾
+	 * ãƒ•ã‚¡ã‚¤ãƒ«(ã¸ã®å‚ç…§)ã‚’é–‹æ”¾ã™ã‚‹
+	 * @param name	ãƒ•ã‚¡ã‚¤ãƒ«å
 	 */
 	public void destroyFile(String name);
 	/**
-	 * ¥»¥Ã¥·¥ç¥óID
-	 * @return ¥»¥Ã¥·¥ç¥óID
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ID
+	 * @return ã‚»ãƒƒã‚·ãƒ§ãƒ³ID
 	 */
 	public String getSessionId();
 	/**
-	 * ºîÀ®ºÑ¤ß¤Î¥Õ¥¡¥¤¥ë(¤Ø¤Î»²¾È)¤ò¼èÆÀ¤¹¤ë
-	 * @param name	¥Õ¥¡¥¤¥ëÌ¾
-	 * @return	¥Õ¥¡¥¤¥ë¥ª¥Ö¥¸¥§¥¯¥È
+	 * ä½œæˆæ¸ˆã¿ã®ãƒ•ã‚¡ã‚¤ãƒ«(ã¸ã®å‚ç…§)ã‚’å–å¾—ã™ã‚‹
+	 * @param name	ãƒ•ã‚¡ã‚¤ãƒ«å
+	 * @return	ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public CobolFile getFile(String name);
 	/**
-	 * ¥¤¥Ù¥ó¥È¥ê¥¹¥Ê¤òÄÉ²Ã¤¹¤ë
-	 * @param listener ¥¤¥Ù¥ó¥È¥ê¥¹¥Ê
+	 * ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒŠã‚’è¿½åŠ ã™ã‚‹
+	 * @param listener ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒŠ
 	 */
 	public void addACMSessionEventListener(ACMSessionEventListener listener);
 	/**
-	 * ¥¤¥Ù¥ó¥È¥ê¥¹¥Ê¤òºï½ü¤¹¤ë
-	 * @param listener ¥¤¥Ù¥ó¥È¥ê¥¹¥Ê
+	 * ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒŠã‚’å‰Šé™¤ã™ã‚‹
+	 * @param listener ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒŠ
 	 */
 	public void removeACMSessionEventListener(ACMSessionEventListener listener);
 }

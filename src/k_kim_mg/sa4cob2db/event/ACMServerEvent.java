@@ -4,27 +4,27 @@ import java.util.EventObject;
 
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
- * ¥µ¡¼¥Ğ¡¼¤Ç²¿¤«µ¯¤³¤Ã¤¿¤ß¤¿¤¤¤À
+ * ã‚µãƒ¼ãƒãƒ¼ã§ä½•ã‹èµ·ã“ã£ãŸã¿ãŸã„ã 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMServerEvent extends EventObject {
 	/**
-	 * ¥Ç¥Õ¥©¥ë¥È¤Î¥Ğ¡¼¥¸¥ç¥óID
+	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ID
 	 */
 	private static final long serialVersionUID = 1L;
-	/** ¥¤¥Ù¥ó¥È¤ÎÈ¯À¸¸» */
+	/** ã‚¤ãƒ™ãƒ³ãƒˆã®ç™ºç”Ÿæº */
 	private transient SQLNetServer server;
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param server	¥¤¥Ù¥ó¥È¤ÎÈ¯À¸¸»(source)
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param server	ã‚¤ãƒ™ãƒ³ãƒˆã®ç™ºç”Ÿæº(source)
 	 */
 	public ACMServerEvent (SQLNetServer server) {
 		super(server);
 		this.server = server;
 	}
 	/**
-	 * ¥µ¡¼¥Ğ¡¼
-	 * @return ¥µ¡¼¥Ğ¡¼¡¦¥¤¥Ù¥ó¥È¤ÎÈ¯À¸¸»
+	 * ã‚µãƒ¼ãƒãƒ¼
+	 * @return ã‚µãƒ¼ãƒãƒ¼ãƒ»ã‚¤ãƒ™ãƒ³ãƒˆã®ç™ºç”Ÿæº
 	 */
 	public SQLNetServer getServer() {
 		return server;

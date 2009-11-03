@@ -3,15 +3,15 @@ import java.io.Serializable;
 
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 /**
- * ¥³¥Ü¥ë¥Õ¥¡¥¤¥ë
+ * ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CobolFile extends Serializable {
-	/** ¥¢¥¯¥»¥¹¥â¡¼¥É */
+	/** ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰ */
 	public static final int ACCESS_DYNAMIC = 1;
-	/** ¥¢¥¯¥»¥¹¥â¡¼¥É */
+	/** ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰ */
 	public static final int ACCESS_RANDOM = 2;
-	/** ¥¢¥¯¥»¥¹¥â¡¼¥É */
+	/** ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰ */
 	public static final int ACCESS_SEQUENCIAL = 0;
 	/**
 	 * IS EQUAL TO IS =
@@ -29,145 +29,145 @@ public interface CobolFile extends Serializable {
 	 * IS NOT LESS THAN IS NOT < IS >=
 	 */
 	public static final int IS_NOT_LESS_THAN = 3;
-	/** ¥ª¡¼¥×¥ó¥â¡¼¥É */
+	/** ã‚ªãƒ¼ãƒ—ãƒ³ãƒ¢ãƒ¼ãƒ‰ */
 	public static final int MODE_EXTEND = 3;
-	/** ¥ª¡¼¥×¥ó¥â¡¼¥É */
+	/** ã‚ªãƒ¼ãƒ—ãƒ³ãƒ¢ãƒ¼ãƒ‰ */
 	public static final int MODE_INPUT = 0;
-	/** ¥ª¡¼¥×¥ó¥â¡¼¥É */
+	/** ã‚ªãƒ¼ãƒ—ãƒ³ãƒ¢ãƒ¼ãƒ‰ */
 	public static final int MODE_INPUT_OUTPUT = 2;
-	/** ¥ª¡¼¥×¥ó¥â¡¼¥É */
+	/** ã‚ªãƒ¼ãƒ—ãƒ³ãƒ¢ãƒ¼ãƒ‰ */
 	public static final int MODE_OUTPUT = 1;
 	/**
-	 * CobolFileEventListener¤òÄÉ²Ã¤¹¤ë
-	 * @param listener ÄÉ²Ã¤¹¤ëCobolFileEventListener
+	 * CobolFileEventListenerã‚’è¿½åŠ ã™ã‚‹
+	 * @param listener è¿½åŠ ã™ã‚‹CobolFileEventListener
 	 */
 	public void addCobolFileEventListener(CobolFileEventListener listener);
 	/**
-	 * ¥¤¥ó¥Ç¥Ã¥¯¥¹¤ÎÄÉ²Ã
-	 * @param index ¥¤¥ó¥Ç¥Ã¥¯¥¹ÍÑ¤ÎÎó¥Ş¥Ã¥Ñ
-	 * @param file ¥¤¥ó¥Ç¥Ã¥¯¥¹¥Õ¥¡¥¤¥ë
+	 * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®è¿½åŠ 
+	 * @param index ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ç”¨ã®åˆ—ãƒãƒƒãƒ‘
+	 * @param file ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«
 	 */
 	public void addIndex(CobolIndex index, CobolFile file);
 	/**
-	 * ¥»¥Ã¥·¥ç¥ó¤Î´ØÏ¢ÉÕ¤±
-	 * @param session ´ØÏ¢ÉÕ¤±¤ë¥»¥Ã¥·¥ç¥ó
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®é–¢é€£ä»˜ã‘
+	 * @param session é–¢é€£ä»˜ã‘ã‚‹ã‚»ãƒƒã‚·ãƒ§ãƒ³
 	 */
 	public void bindSession(ACMSession session);
 	/**
-	 * ¥Õ¥¡¥¤¥ë¤òÊÄ¤¸¤ë
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus close();
 	/**
-	 * ¥ì¥³¡¼¥É¤Îºï½ü
-	 * @param record ºï½ü¥­¡¼
-	 * @return ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®å‰Šé™¤
+	 * @param record å‰Šé™¤ã‚­ãƒ¼
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus delete(byte[] record);
 	/**
-	 * ¥¢¥¯¥»¥¹¥â¡¼¥É
-	 * @return ¥¢¥¯¥»¥¹¥â¡¼¥É
+	 * ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰
+	 * @return ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰
 	 */
 	public int getAccessMode();
 	/**
-	 * ¸½ºß¤Î¹Ô
-	 * @return ¸½ºß¤Î¹Ô
+	 * ç¾åœ¨ã®è¡Œ
+	 * @return ç¾åœ¨ã®è¡Œ
 	 */
 	public int getCurrentRow();
 	/**
-	 * ¤³¤Î¥Õ¥¡¥¤¥ë¤Î¥á¥¿¥Ç¡¼¥¿
-	 * @return ¥á¥¿¥Ç¡¼¥¿¥ª¥Ö¥¸¥§¥¯¥È
+	 * ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
+	 * @return ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public CobolRecordMetaData getMetaData();
 	/**
-	 * ¥ª¡¼¥×¥ó¥â¡¼¥É
-	 * @return ¥ª¡¼¥×¥ó¥â¡¼¥É
+	 * ã‚ªãƒ¼ãƒ—ãƒ³ãƒ¢ãƒ¼ãƒ‰
+	 * @return ã‚ªãƒ¼ãƒ—ãƒ³ãƒ¢ãƒ¼ãƒ‰
 	 */
 	public int getOpenMode();
 	/**
-	 * ¥Õ¥¡¥¤¥ë¤Ë´Ş¤Ş¤ì¤ë¥ì¥³¡¼¥É¤Î¹Ô¿ô¤Ş¤¿¤Ï¸½ºß¤Ş¤Ç¤ËÆÉ¤ß¹ş¤Ş¤ì¤¿¹Ô¿ô
-	 * @return ¹Ô¿ô
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã«å«ã¾ã‚Œã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã®è¡Œæ•°ã¾ãŸã¯ç¾åœ¨ã¾ã§ã«èª­ã¿è¾¼ã¾ã‚ŒãŸè¡Œæ•°
+	 * @return è¡Œæ•°
 	 */
 	public int getRowCount();
 	/**
-	 * ´ØÏ¢ÉÕ¤±¤é¤ì¤¿¥»¥Ã¥·¥ç¥ó
-	 * @return ¥»¥Ã¥·¥ç¥ó
+	 * é–¢é€£ä»˜ã‘ã‚‰ã‚ŒãŸã‚»ãƒƒã‚·ãƒ§ãƒ³
+	 * @return ã‚»ãƒƒã‚·ãƒ§ãƒ³
 	 */
 	public ACMSession getSession();
 	/**
-	 * °ÌÃÖ¤Å¤±½èÍı
-	 * @param record ¥­¡¼¤ò´Ş¤à¥Ğ¥¤¥ÈÇÛÎó
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ä½ç½®ã¥ã‘å‡¦ç†
+	 * @param record ã‚­ãƒ¼ã‚’å«ã‚€ãƒã‚¤ãƒˆé…åˆ—
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus move(byte[] record);
 	/**
-	 * ¼¡¤Î¥ì¥³¡¼¥É¤Ø°ÜÆ°¤¹¤ë
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * æ¬¡ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã¸ç§»å‹•ã™ã‚‹
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus next();
 	/**
-	 * ¥Õ¥¡¥¤¥ë¥ª¡¼¥×¥ó
-	 * @param mode ¥â¡¼¥É ¥ª¡¼¥×¥ó¥â¡¼¥É input/output/expant/input-output
-	 * @param accessmode ¥¢¥¯¥»¥¹¥â¡¼¥É¤Ş¤¿¤Ï¥Õ¥¡¥¤¥ë¹½À® sequencial/random/dynamic
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³
+	 * @param mode ãƒ¢ãƒ¼ãƒ‰ ã‚ªãƒ¼ãƒ—ãƒ³ãƒ¢ãƒ¼ãƒ‰ input/output/expant/input-output
+	 * @param accessmode ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰ã¾ãŸã¯ãƒ•ã‚¡ã‚¤ãƒ«æ§‹æˆ sequencial/random/dynamic
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus open(int mode, int accessmode);
 	/**
-	 * Á°¤Î¥ì¥³¡¼¥É¤Ø°ÜÆ°¤¹¤ë
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * å‰ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã¸ç§»å‹•ã™ã‚‹
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus previous();
 	/**
-	 * ¸½ºß°ÌÃÖ¤Å¤¤¤Æ¤¤¤ë¥ì¥³¡¼¥É¤«¤é¥Ğ¥¤¥È¥³¡¼¥É¤òºîÀ®¤¹¤ë
-	 * @param record ÆÉ¤ß¹ş¤ß¥ì¥³¡¼¥É
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ç¾åœ¨ä½ç½®ã¥ã„ã¦ã„ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‹ã‚‰ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã‚’ä½œæˆã™ã‚‹
+	 * @param record èª­ã¿è¾¼ã¿ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus read(byte[] record);
 	/**
-	 * CobolFileEventListener¤òºï½ü¤¹¤ë
-	 * @param listener ºï½ü¤¹¤ëCobolFileEventListener
+	 * CobolFileEventListenerã‚’å‰Šé™¤ã™ã‚‹
+	 * @param listener å‰Šé™¤ã™ã‚‹CobolFileEventListener
 	 */
 	public void removeCobolFileEventListener(CobolFileEventListener listener);
 	/**
-	 * ¸½ºß°ÌÃÖ¤Å¤¤¤Æ¤¤¤ë¥ì¥³¡¼¥É¤ò¥Ğ¥¤¥È¥³¡¼¥É¤Ç¾å½ñ¤­¤¹¤ë
-	 * @param record ½ñ¤­¹ş¤ß¥ì¥³¡¼¥É
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ç¾åœ¨ä½ç½®ã¥ã„ã¦ã„ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã§ä¸Šæ›¸ãã™ã‚‹
+	 * @param record æ›¸ãè¾¼ã¿ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus rewrite(byte[] record);
 	/**
-	 * °ÌÃÖÉÕ¤±¤¹¤ë
-	 * @param mode ¥â¡¼¥É(EQ GT ¤Ê¤É)
-	 * @param record ¥­¡¼¤ò´Ş¤à¥ì¥³¡¼¥É
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ä½ç½®ä»˜ã‘ã™ã‚‹
+	 * @param mode ãƒ¢ãƒ¼ãƒ‰(EQ GT ãªã©)
+	 * @param record ã‚­ãƒ¼ã‚’å«ã‚€ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus start(int mode, byte[] record);
 	/**
-	 * ¥¤¥ó¥Ç¥Ã¥¯¥¹¤Ë¤è¤ë¸¡º÷
-	 * @param IndexName ¥¤¥ó¥Ç¥Ã¥¯¥¹Ì¾
-	 * @param mode ¥¹¥¿¡¼¥È¥â¡¼¥É
-	 * @param record ¸¡º÷¥ì¥³¡¼¥É
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
-	 * @throws CobolRecordException ¥¨¥é¡¼È¯À¸»ş
+	 * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã«ã‚ˆã‚‹æ¤œç´¢
+	 * @param IndexName ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹å
+	 * @param mode ã‚¹ã‚¿ãƒ¼ãƒˆãƒ¢ãƒ¼ãƒ‰
+	 * @param record æ¤œç´¢ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	 * @throws CobolRecordException ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚
 	 */
 	public FileStatus start(String IndexName, int mode, byte[] record);
 	/**
-	 * °ÌÃÖÉÕ¤±¤¹¤ë
-	 * @param mode ¥â¡¼¥É(EQ GT ¤Ê¤É)
-	 * @param record ¥­¡¼¤ò´Ş¤à¥ì¥³¡¼¥É
-	 * @param duplicates ¥­¡¼¤¬½ÅÊ£¤·¤Æ¤¤¤ë¤«¤É¤¦¤«
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ä½ç½®ä»˜ã‘ã™ã‚‹
+	 * @param mode ãƒ¢ãƒ¼ãƒ‰(EQ GT ãªã©)
+	 * @param record ã‚­ãƒ¼ã‚’å«ã‚€ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @param duplicates ã‚­ãƒ¼ãŒé‡è¤‡ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus start(int mode, byte[] record, boolean duplicates);
 	/**
-	 * ¥Õ¥¡¥¤¥ë¤Ë¥ì¥³¡¼¥É¤òÄÉ²Ã¤¹¤ë
-	 * @param record ½ñ¤­¹ş¤ß¥ì¥³¡¼¥É
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã«ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹
+	 * @param record æ›¸ãè¾¼ã¿ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus write(byte[] record);
 	/**
-	 * ¤³¤Î¥Õ¥¡¥¤¥ë¤Ï¸½ºß³«¤«¤ì¤Æ¤¤¤ë¤«¡©
-	 * @return true ³«¤«¤ì¤Æ¤¤¤ë<br>
-	 *         false ÊÄ¤¸¤Æ¤¤¤ë
+	 * ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ç¾åœ¨é–‹ã‹ã‚Œã¦ã„ã‚‹ã‹ï¼Ÿ
+	 * @return true é–‹ã‹ã‚Œã¦ã„ã‚‹<br>
+	 *         false é–‰ã˜ã¦ã„ã‚‹
 	 */
 	public boolean isOpened();
 }

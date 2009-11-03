@@ -2,187 +2,187 @@ package k_kim_mg.sa4cob2db;
 import java.math.BigDecimal;
 import java.util.Date;
 /**
- * ¥Õ¥¡¥¤¥ëÃæ¤Î¥ì¥³¡¼¥É
+ * ãƒ•ã‚¡ã‚¤ãƒ«ä¸­ã®ãƒ¬ã‚³ãƒ¼ãƒ‰
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
- * ¥³¥Ü¥ë¥Õ¥¡¥¤¥ëÃæ¤Î1·ï¤Î¥ì¥³¡¼¥É¤ËÂĞ¤¹¤ëÃÍ¤Î¼èÆÀ/¹¹¿·¤Ë´Ø¤¹¤ë´ğËÜÅª¤Êµ¡Ç½¤òÄó¶¡¤¹¤ë
+ * ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ä¸­ã®1ä»¶ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã«å¯¾ã™ã‚‹å€¤ã®å–å¾—/æ›´æ–°ã«é–¢ã™ã‚‹åŸºæœ¬çš„ãªæ©Ÿèƒ½ã‚’æä¾›ã™ã‚‹
  */
 public interface CobolRecord {
 	/**
-	 * Îó¤Î½çÈÖ¤ò¼èÆÀ¤¹¤ë
-	 * @param columnName ÎóÌ¾
-	 * @return Îó¤Î½çÈÖ¤òÉ½¤¹¥¤¥ó¥Ç¥Ã¥¯¥¹
+	 * åˆ—ã®é †ç•ªã‚’å–å¾—ã™ã‚‹
+	 * @param columnName åˆ—å
+	 * @return åˆ—ã®é †ç•ªã‚’è¡¨ã™ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 	 */
 	public int findColumn(String columnName) throws CobolRecordException;
 	/**
-	 * InputStream¤«¤éÃÍ¤ò¼èÆÀ¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @return Îó¤ÎÃÍ
+	 * InputStreamã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return åˆ—ã®å€¤
 	 */
 	public BigDecimal getBigDecimal(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStream¤«¤éTrueFalse¤ò¼èÆÀ¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @return Îó¤ÎÃÍ
+	 * InputStreamã‹ã‚‰TrueFalseã‚’å–å¾—ã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return åˆ—ã®å€¤
 	 */
 	public boolean getBoolean(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStream¤«¤éÃÍ¤ò¼èÆÀ¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @return Îó¤ÎÃÍ
+	 * InputStreamã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return åˆ—ã®å€¤
 	 */
 	public byte getByte(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStream¤«¤éÃÍ¤ò¼èÆÀ¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @return Îó¤ÎÃÍ
+	 * InputStreamã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return åˆ—ã®å€¤
 	 */
 	public byte[] getBytes(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStream¤«¤éÃÍ¤ò¼èÆÀ¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @return Îó¤ÎÃÍ
+	 * InputStreamã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return åˆ—ã®å€¤
 	 */
 	public Date getDate(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStream¤«¤éÃÍ¤ò¼èÆÀ¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @return Îó¤ÎÃÍ
+	 * InputStreamã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return åˆ—ã®å€¤
 	 */
 	public double getDouble(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStream¤«¤éÃÍ¤ò¼èÆÀ¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @return Îó¤ÎÃÍ
+	 * InputStreamã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return åˆ—ã®å€¤
 	 */
 	public float getFloat(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStream¤«¤éÃÍ¤ò¼èÆÀ¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @return Îó¤ÎÃÍ
+	 * InputStreamã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return åˆ—ã®å€¤
 	 */
 	public int getInt(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStream¤«¤éÃÍ¤ò¼èÆÀ¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @return Îó¤ÎÃÍ
+	 * InputStreamã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return åˆ—ã®å€¤
 	 */
 	public long getLong(CobolColumn column) throws CobolRecordException;
 	/**
-	 * ¤³¤Î¥ì¥³¡¼¥É¤Î¥á¥¿¥Ç¡¼¥¿
-	 * @return ¥á¥¿¥Ç¡¼¥¿
+	 * ã“ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
+	 * @return ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public CobolRecordMetaData getMetaData() throws CobolRecordException;
 	/**
-	 * ¥ì¥³¡¼¥É¤Î¥Ğ¥¤¥È¥¤¥á¡¼¥¸¤ò¼èÆÀ¤¹¤ë
-	 * @param record ¥ì¥³¡¼¥É¤òÉ½¤¹¥Ğ¥¤¥ÈÇÛÎó
-	 * @return Å¾Á÷¤·¤¿¥Ğ¥¤¥È¿ô
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ãƒã‚¤ãƒˆã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹
+	 * @param record ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¡¨ã™ãƒã‚¤ãƒˆé…åˆ—
+	 * @return è»¢é€ã—ãŸãƒã‚¤ãƒˆæ•°
 	 * @throws CobolRecordException
 	 */
 	public int getRecord(byte[] record) throws CobolRecordException;
 	/**
-	 * InputStream¤«¤éÃÍ¤ò¼èÆÀ¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @return Îó¤ÎÃÍ
+	 * InputStreamã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return åˆ—ã®å€¤
 	 */
 	public short getShort(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStream¤«¤éÃÍ¤ò¼èÆÀ¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @return Îó¤ÎÃÍ
+	 * InputStreamã‹ã‚‰å€¤ã‚’å–å¾—ã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return åˆ—ã®å€¤
 	 */
 	public String getString(CobolColumn column) throws CobolRecordException;
 	/**
-	 * JDBC·ë²Ì¥»¥Ã¥È¤«¤é¥ì¥³¡¼¥É¤ËÊÑ´¹¤¹¤ë
+	 * JDBCçµæœã‚»ãƒƒãƒˆã‹ã‚‰ãƒ¬ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹
 	 */
 	public void initializeRecord();
 	/**
-	 * ¥ì¥³¡¼¥É¤Î¥Ğ¥¤¥È¥¤¥á¡¼¥¸¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param record record ¥ì¥³¡¼¥É¤òÉ½¤¹¥Ğ¥¤¥ÈÇÛÎó
-	 * @return Å¾Á÷¤·¤¿¥Ğ¥¤¥È¿ô
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ãƒã‚¤ãƒˆã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param record record ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¡¨ã™ãƒã‚¤ãƒˆé…åˆ—
+	 * @return è»¢é€ã—ãŸãƒã‚¤ãƒˆæ•°
 	 * @throws CobolRecordException
 	 */
 	public int setRecord(byte[] record) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËÃÍ¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param x ¥»¥Ã¥È¤¹¤ëÃÍ
+	 * OutputStreamã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param x ã‚»ãƒƒãƒˆã™ã‚‹å€¤
 	 */
 	public void updateBigDecimal(CobolColumn column, BigDecimal x) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËÃÍ¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param x ¥»¥Ã¥È¤¹¤ëÃÍ
+	 * OutputStreamã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param x ã‚»ãƒƒãƒˆã™ã‚‹å€¤
 	 */
 	public void updateBoolean(CobolColumn column, boolean x) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËÃÍ¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param x ¥»¥Ã¥È¤¹¤ëÃÍ
+	 * OutputStreamã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param x ã‚»ãƒƒãƒˆã™ã‚‹å€¤
 	 */
 	public void updateByte(CobolColumn column, byte x) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËÃÍ¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param x ¥»¥Ã¥È¤¹¤ëÃÍ
+	 * OutputStreamã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param x ã‚»ãƒƒãƒˆã™ã‚‹å€¤
 	 */
 	public void updateBytes(CobolColumn column, byte[] x) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËÃÍ¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param x ¥»¥Ã¥È¤¹¤ëÃÍ
+	 * OutputStreamã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param x ã‚»ãƒƒãƒˆã™ã‚‹å€¤
 	 */
 	public void updateDate(CobolColumn column, Date x) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËÃÍ¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param x ¥»¥Ã¥È¤¹¤ëÃÍ
+	 * OutputStreamã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param x ã‚»ãƒƒãƒˆã™ã‚‹å€¤
 	 */
 	public void updateDouble(CobolColumn column, double x) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËÃÍ¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param x ¥»¥Ã¥È¤¹¤ëÃÍ
+	 * OutputStreamã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param x ã‚»ãƒƒãƒˆã™ã‚‹å€¤
 	 */
 	public void updateFloat(CobolColumn column, float x) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËÃÍ¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param x ¥»¥Ã¥È¤¹¤ëÃÍ
+	 * OutputStreamã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param x ã‚»ãƒƒãƒˆã™ã‚‹å€¤
 	 */
 	public void updateInt(CobolColumn column, int x) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËÃÍ¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param x ¥»¥Ã¥È¤¹¤ëÃÍ
+	 * OutputStreamã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param x ã‚»ãƒƒãƒˆã™ã‚‹å€¤
 	 */
 	public void updateLong(CobolColumn column, long x) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËNull¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
+	 * OutputStreamã«Nullã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public void updateNull(CobolColumn column) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËÃÍ¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param x ¥»¥Ã¥È¤¹¤ëÃÍ
+	 * OutputStreamã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param x ã‚»ãƒƒãƒˆã™ã‚‹å€¤
 	 */
 	public void updateObject(CobolColumn column, Object x) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËÃÍ¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param x ¥»¥Ã¥È¤¹¤ëÃÍ
+	 * OutputStreamã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param x ã‚»ãƒƒãƒˆã™ã‚‹å€¤
 	 */
 	public void updateObject(CobolColumn column, Object x, int scale) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËÃÍ¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param x ¥»¥Ã¥È¤¹¤ëÃÍ
+	 * OutputStreamã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param x ã‚»ãƒƒãƒˆã™ã‚‹å€¤
 	 */
 	public void updateShort(CobolColumn column, short x) throws CobolRecordException;
 	/**
-	 * OutputStream¤ËÃÍ¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param column Îó¤Î°ÌÃÖ¤ò¼¨¤¹Îó¥ª¥Ö¥¸¥§¥¯¥È
-	 * @param x ¥»¥Ã¥È¤¹¤ëÃÍ
+	 * OutputStreamã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param column åˆ—ã®ä½ç½®ã‚’ç¤ºã™åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @param x ã‚»ãƒƒãƒˆã™ã‚‹å€¤
 	 */
 	public void updateString(CobolColumn column, String x) throws CobolRecordException;
 }

@@ -14,15 +14,15 @@ import k_kim_mg.sa4cob2db.event.ACMServerEventAdapter;
 import k_kim_mg.sa4cob2db.event.ACMServerEventListener;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
- * ����ǽ��SQLNetServer����³����
+ * 鐃緒申鐃緒申能鐃緒申SQLNetServer鐃緒申鐃緒申続鐃緒申鐃緒申
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class MinAdminAdapter extends ACMServerEventAdapter implements ACMServerEventListener {
-	/**RMI̾*/
+	/**RMI名*/
 	public static String DefaultServerName = "ACMSERVADMIN";
-	/**RMI�ݡ���*/
+	/**RMI鐃楯¥申鐃緒申*/
 	public static String DefaultRMIPort = "12346";
-	/** ���󥹥ȥ饯���� */
+	/** 鐃緒申鐃藷ストラク鐃緒申鐃緒申 */
 	public MinAdminAdapter() {
 		super();
 	}
@@ -39,12 +39,12 @@ public class MinAdminAdapter extends ACMServerEventAdapter implements ACMServerE
 			String ServerName = server.getPropertie("ACMSRVADMIN", DefaultServerName);
 			String ServerPort = server.getPropertie("ACMRMIPORT", DefaultRMIPort);
 			int RMIPort = Integer.parseInt(ServerPort);
-			// ����ǽ�򳫻�
+			// 鐃緒申鐃緒申能鐃薯開誌申
 			IMinAdmin minAdmin = new MinAdmin(server);
-			// RMI�򳫻�
+			// RMI鐃薯開誌申
 			Registry reg = LocateRegistry.createRegistry(RMIPort);
 			reg.bind(ServerName, minAdmin);
-			// �?����
+			// 鐃����
 			SQLNetServer.logger.log(Level.INFO, "Admin Started.");
 		} catch (NumberFormatException e1) {
 			SQLNetServer.logger.log(Level.SEVERE, e1.getMessage());

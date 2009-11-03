@@ -5,20 +5,20 @@ import java.util.EventObject;
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.FileStatus;
 /**
- * ¥³¥Ü¥ë¥Õ¥¡¥¤¥ë¤Î¥¤¥Ù¥ó¥È
+ * ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¤ãƒ™ãƒ³ãƒˆ
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CobolFileEvent extends EventObject {
 
-	/** ¼«Æ°¤Ç¤Ç¤­¤¿ */
+	/** è‡ªå‹•ã§ã§ããŸ */
 	private static final long serialVersionUID = 1L;
-	/** ¥Õ¥¡¥¤¥ë */
+	/** ãƒ•ã‚¡ã‚¤ãƒ« */
 	private transient CobolFile file = null;
-	/** ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹ */
+	/** ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
 	private transient FileStatus status;
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param source	¥¤¥Ù¥ó¥È¤ÎÈ¯À¸¤·¤¿CobolFile¤Î¥ª¥Ö¥¸¥§¥¯¥È
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param source	ã‚¤ãƒ™ãƒ³ãƒˆã®ç™ºç”Ÿã—ãŸCobolFileã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	public CobolFileEvent(CobolFile source, FileStatus status) {
 		super(source);
@@ -26,22 +26,22 @@ public class CobolFileEvent extends EventObject {
 		this.status = status;
 	}
 	/**
-	 * source¤Ç¥­¥ã¥¹¥È¤òºé¤±¤¿¤¤¾ì¹ç
-	 * @return source¤ÈÆ±Åù¤Î¥Õ¥¡¥¤¥ë	
+	 * sourceã§ã‚­ãƒ£ã‚¹ãƒˆã‚’å’²ã‘ãŸã„å ´åˆ
+	 * @return sourceã¨åŒç­‰ã®ãƒ•ã‚¡ã‚¤ãƒ«	
 	 */
 	public CobolFile getFile () {
 		return file;
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
-	 * @return ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus getStatus() {
 		return status;
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
-	 * @param status ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	 * @param status ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public void setStatus(FileStatus status) {
 		this.status = status;

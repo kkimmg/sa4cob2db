@@ -3,184 +3,184 @@ import java.util.List;
 
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 /**
- * ¥á¥¿¥Ç¡¼¥¿
+ * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  * @version 1.0
- * ¥³¥Ü¥ë¥Õ¥¡¥¤¥ë¤Î¥ì¥³¡¼¥É¥ì¥¤¥¢¥¦¥È¤Ë´Ø¤¹¤ë¾ğÊó¤ò³ÊÇ¼¤¹¤ë
+ * ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã«é–¢ã™ã‚‹æƒ…å ±ã‚’æ ¼ç´ã™ã‚‹
  */
 public interface CobolRecordMetaData {
 	/**
-	 * ÊÌÌ¾¤ÎÄÉ²Ã
-	 * @param alias ÄÉ²Ã¤¹¤ëÊÌÌ¾
+	 * åˆ¥åã®è¿½åŠ 
+	 * @param alias è¿½åŠ ã™ã‚‹åˆ¥å
 	 */
 	public void addAlias(String alias);
 	/**
-	 * Îó¤ÎÄÉ²Ã
-	 * @param column ÄÉ²Ã¤¹¤ëÎó
+	 * åˆ—ã®è¿½åŠ 
+	 * @param column è¿½åŠ ã™ã‚‹åˆ—
 	 */
 	public void addColumn(CobolColumn column);
 	/**
-	 * ¥­¡¼Îó¤ÎÄÉ²Ã
-	 * @param column ÄÉ²Ã¤¹¤ëÎó
+	 * ã‚­ãƒ¼åˆ—ã®è¿½åŠ 
+	 * @param column è¿½åŠ ã™ã‚‹åˆ—
 	 */
 	public void addKey(CobolColumn column);
 	/**
-	 * ¥³¥Ô¡¼¤ÎºîÀ®
-	 * @return ¥³¥Ô¡¼
+	 * ã‚³ãƒ”ãƒ¼ã®ä½œæˆ
+	 * @return ã‚³ãƒ”ãƒ¼
 	 */
 	public CobolRecordMetaData createCopy();
 	/**
-	 * Îó¤Î°ÌÃÖ¤ò¼èÆÀ¤¹¤ë
-	 * @param column Îó
-	 * @return Îó¤Î°ÌÃÖ
-	 * @throws CobolRecordException Îó¤¬¸«¤Ä¤«¤é¤Ê¤«¤Ã¤¿¤È¤­
+	 * åˆ—ã®ä½ç½®ã‚’å–å¾—ã™ã‚‹
+	 * @param column åˆ—
+	 * @return åˆ—ã®ä½ç½®
+	 * @throws CobolRecordException åˆ—ãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸã¨ã
 	 */
 	public int findColumn(CobolColumn column) throws CobolRecordException;
 	/**
-	 * Îó°ÌÃÖ¤Î¼èÆÀ
-	 * @param column °ÌÃÖ¤ò¼èÆÀ¤¹¤ëÎó
-	 * @param index ÇÛÎóÆâ¤Î°ÌÃÖ
-	 * @return Îó¤Î°ÌÃÖ
+	 * åˆ—ä½ç½®ã®å–å¾—
+	 * @param column ä½ç½®ã‚’å–å¾—ã™ã‚‹åˆ—
+	 * @param index é…åˆ—å†…ã®ä½ç½®
+	 * @return åˆ—ã®ä½ç½®
 	 */
 	public int findColumn(CobolColumn column, int index) throws CobolRecordException;
 	/**
-	 * Ì¾Á°¤«¤éÎó¤Î°ÌÃÖ¤ò¼èÆÀ¤¹¤ë
-	 * @param name ÎóÌ¾
-	 * @return Îó¤Î°ÌÃÖ
-	 * @throws CobolRecordException Îó¤¬¸«¤Ä¤«¤é¤Ê¤«¤Ã¤¿¤È¤­
+	 * åå‰ã‹ã‚‰åˆ—ã®ä½ç½®ã‚’å–å¾—ã™ã‚‹
+	 * @param name åˆ—å
+	 * @return åˆ—ã®ä½ç½®
+	 * @throws CobolRecordException åˆ—ãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸã¨ã
 	 */
 	public int findColumn(String name) throws CobolRecordException;
 	/**
-	 * ÊÌÌ¾¤Î¼èÆÀ
-	 * @param i iÈÖÌÜ¤ÎÊÌÌ¾
-	 * @return ÊÌÌ¾
+	 * åˆ¥åã®å–å¾—
+	 * @param i iç•ªç›®ã®åˆ¥å
+	 * @return åˆ¥å
 	 */
 	public String getAlias(int i);
 	/**
-	 * ¤³¤Î¥ì¥³¡¼¥É¤¬»ı¤Ã¤Æ¤¤¤ëÊÌÌ¾¤Î¿ô
-	 * @return ÊÌÌ¾¤Î¿ô
+	 * ã“ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒæŒã£ã¦ã„ã‚‹åˆ¥åã®æ•°
+	 * @return åˆ¥åã®æ•°
 	 */
 	public int getAliasCount();
 	/**
-	 * ¥¤¥ó¥Ç¥Ã¥¯¥¹¾ğÊó¤Î°ìÍ÷
-	 * @return ¥¤¥ó¥Ç¥Ã¥¯¥¹¾ğÊó¤Î¥ê¥¹¥È
+	 * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æƒ…å ±ã®ä¸€è¦§
+	 * @return ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æƒ…å ±ã®ãƒªã‚¹ãƒˆ
 	 */
 	public List<CobolIndex> getCobolIndexes();
 	/**
-	 * ¤³¤Î¥ì¥³¡¼¥É¤ËÅĞÏ¿¤µ¤ì¤Æ¤¤¤ëÎó
-	 * @param i Îó¥¤¥ó¥Ç¥Ã¥¯¥¹
-	 * @return Îó
+	 * ã“ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹åˆ—
+	 * @param i åˆ—ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+	 * @return åˆ—
 	 */
 	public CobolColumn getColumn(int i);
 	/**
-	 * ¤³¤Î¥ì¥³¡¼¥É¤ËÅĞÏ¿¤µ¤ì¤Æ¤¤¤ëÎó
-	 * @param name ÎóÌ¾
-	 * @return Îó
+	 * ã“ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹åˆ—
+	 * @param name åˆ—å
+	 * @return åˆ—
 	 */
 	public CobolColumn getColumn(String name) throws CobolRecordException;
 	/**
-	 * ¤³¤Î¥ì¥³¡¼¥É¤ËÅĞÏ¿¤µ¤ì¤Æ¤¤¤ëÎó¤Î¿ô
-	 * @return ¤³¤Î¥ì¥³¡¼¥É¤ËÅĞÏ¿¤µ¤ì¤Æ¤¤¤ëÎó¤Î¿ô
+	 * ã“ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹åˆ—ã®æ•°
+	 * @return ã“ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹åˆ—ã®æ•°
 	 */
 	public int getColumnCount();
 	/**
-	 * ¤³¤Î¥á¥¿¥Ç¡¼¥¿¤ÏÆÃÊÌ¤Ê¥¯¥é¥¹¤«¤é¥¤¥ó¥¹¥¿¥ó¥¹¤òºîÀ®¤¹¤ë
-	 * @return ¥¯¥é¥¹Ì¾¡¢»ØÄê¤·¤Ê¤¤¾ì¹ç¤Ï""¤Ş¤¿¤Ïnull
+	 * ã“ã®ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã¯ç‰¹åˆ¥ãªã‚¯ãƒ©ã‚¹ã‹ã‚‰ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œæˆã™ã‚‹
+	 * @return ã‚¯ãƒ©ã‚¹åã€æŒ‡å®šã—ãªã„å ´åˆã¯""ã¾ãŸã¯null
 	 */
 	public String getCustomFileClassName();
 	/**
-	 * ¥ì¥³¡¼¥É¤Î¥¨¥ó¥³¡¼¥É
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰
 	 */
 	public String getEncode();
 	/**
-	 * ½ç¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¼è¤ê¥Ğ¥Ã¥Õ¥¡¤Î½é´ü¥µ¥¤¥º
-	 * @return ½ç¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¼è¤ê¥Ğ¥Ã¥Õ¥¡¤Î½é´ü¥µ¥¤¥º
+	 * é †ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿å–ã‚Šãƒãƒƒãƒ•ã‚¡ã®åˆæœŸã‚µã‚¤ã‚º
+	 * @return é †ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿å–ã‚Šãƒãƒƒãƒ•ã‚¡ã®åˆæœŸã‚µã‚¤ã‚º
 	 */
 	public int getInitialSequencialReadBufferSize();
 	/**
-	 * ¥­¡¼»ØÄê¤µ¤ì¤¿Îó
-	 * @param i »ØÄê¤µ¤ì¤¿½çÈÖ
-	 * @return ¥­¡¼Îó
+	 * ã‚­ãƒ¼æŒ‡å®šã•ã‚ŒãŸåˆ—
+	 * @param i æŒ‡å®šã•ã‚ŒãŸé †ç•ª
+	 * @return ã‚­ãƒ¼åˆ—
 	 */
 	public CobolColumn getKey(int i);
 	/**
-	 * ¥­¡¼»ØÄê¤µ¤ì¤¿Îó¤Î¿ô¤òÊÖ¤¹
-	 * @return ¥­¡¼»ØÄê¤µ¤ì¤¿Îó¤Î¿ô
+	 * ã‚­ãƒ¼æŒ‡å®šã•ã‚ŒãŸåˆ—ã®æ•°ã‚’è¿”ã™
+	 * @return ã‚­ãƒ¼æŒ‡å®šã•ã‚ŒãŸåˆ—ã®æ•°
 	 */
 	public int getKeyCount();
 	/**
-	 * ¥¤¥Ù¥ó¥È¥ê¥¹¥Ê¤Î¥¯¥é¥¹¤Î¥ê¥¹¥È
-	 * @return ¥ê¥¹¥È
+	 * ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒŠã®ã‚¯ãƒ©ã‚¹ã®ãƒªã‚¹ãƒˆ
+	 * @return ãƒªã‚¹ãƒˆ
 	 */
 	public List<Class<? extends CobolFileEventListener>> getListenerClasses();
 	/**
-	 * ½ç¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¼è¤ê¥Ğ¥Ã¥Õ¥¡¤Î½é´ü¥µ¥¤¥º
-	 * @return ½ç¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¼è¤ê¥Ğ¥Ã¥Õ¥¡¤Î½é´ü¥µ¥¤¥º
+	 * é †ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿å–ã‚Šãƒãƒƒãƒ•ã‚¡ã®åˆæœŸã‚µã‚¤ã‚º
+	 * @return é †ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿å–ã‚Šãƒãƒƒãƒ•ã‚¡ã®åˆæœŸã‚µã‚¤ã‚º
 	 */
 	public int getMaximumSequencialReadBufferSize();
 	/**
-	 * ½ç¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¼è¤ê¥Ğ¥Ã¥Õ¥¡¤ÎºÇ¾®¥µ¥¤¥º
-	 * @return ½ç¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¼è¤ê¥Ğ¥Ã¥Õ¥¡¤ÎºÇ¾®¥µ¥¤¥º
+	 * é †ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿å–ã‚Šãƒãƒƒãƒ•ã‚¡ã®æœ€å°ã‚µã‚¤ã‚º
+	 * @return é †ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿å–ã‚Šãƒãƒƒãƒ•ã‚¡ã®æœ€å°ã‚µã‚¤ã‚º
 	 */
 	public int getMinimumSequencialReadBufferSize();
 	/**
-	 * ¥ì¥³¡¼¥ÉÌ¾
-	 * @return ¥ì¥³¡¼¥ÉÌ¾
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰å
+	 * @return ãƒ¬ã‚³ãƒ¼ãƒ‰å
 	 */
 	public String getName();
 	/**
-	 * ¤³¤Î¥ì¥³¡¼¥É¤Î1¥ì¥³¡¼¥É¤¢¤¿¤ê¤Î¥Ğ¥¤¥È¿ô¤òÊÖ¤·¤Ş¤¹
-	 * @return ¤³¤Î¥ì¥³¡¼¥É¤Î1¥ì¥³¡¼¥É¤¢¤¿¤ê¤Î¥Ğ¥¤¥È¿ô
+	 * ã“ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã®1ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚ãŸã‚Šã®ãƒã‚¤ãƒˆæ•°ã‚’è¿”ã—ã¾ã™
+	 * @return ã“ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã®1ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚ãŸã‚Šã®ãƒã‚¤ãƒˆæ•°
 	 */
 	public int getRowSize();
 	/**
-	 * ÊÌÌ¾¤Îºï½ü
-	 * @param alias ºï½ü¤¹¤ëÊÌÌ¾
+	 * åˆ¥åã®å‰Šé™¤
+	 * @param alias å‰Šé™¤ã™ã‚‹åˆ¥å
 	 */
 	public void removeAlias(String alias);
 	/**
-	 * Îó¤Îºï½ü
-	 * @param column ºï½ü¤¹¤ëÎó
+	 * åˆ—ã®å‰Šé™¤
+	 * @param column å‰Šé™¤ã™ã‚‹åˆ—
 	 */
 	public void removeColumn(CobolColumn column);
 	/**
-	 * Îó¤Îºï½ü
-	 * @param index ºï½ü¤¹¤ëÎó¥¤¥ó¥Ç¥Ã¥¯¥¹
+	 * åˆ—ã®å‰Šé™¤
+	 * @param index å‰Šé™¤ã™ã‚‹åˆ—ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 	 */
 	public void removeColumn(int index);
 	/**
-	 * ¥­¡¼Îó¤Îºï½ü
-	 * @param column ºï½ü¤¹¤ë¥­¡¼Îó
+	 * ã‚­ãƒ¼åˆ—ã®å‰Šé™¤
+	 * @param column å‰Šé™¤ã™ã‚‹ã‚­ãƒ¼åˆ—
 	 */
 	public void removeKey(CobolColumn column);
 	/**
-	 * ¥­¡¼Îó¤Îºï½ü
-	 * @param index ºï½ü¤¹¤ë¥­¡¼Îó¥¤¥ó¥Ç¥Ã¥¯¥¹
+	 * ã‚­ãƒ¼åˆ—ã®å‰Šé™¤
+	 * @param index å‰Šé™¤ã™ã‚‹ã‚­ãƒ¼åˆ—ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 	 */
 	public void removeKey(int index);
 	/**
-	 * ¥¨¥ó¥³¡¼¥Ç¥£¥ó¥°Ì¾¤ÎÀßÄê
-	 * @param string ¥¨¥ó¥³¡¼¥Ç¥£¥ó¥°Ì¾
+	 * ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°åã®è¨­å®š
+	 * @param string ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°å
 	 */
 	public void setEncode(String string);
 	/**
-	 * ½ç¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¼è¤ê¥Ğ¥Ã¥Õ¥¡¤Î½é´ü¥µ¥¤¥º
-	 * @param value ½ç¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¼è¤ê¥Ğ¥Ã¥Õ¥¡¤Î½é´ü¥µ¥¤¥º
+	 * é †ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿å–ã‚Šãƒãƒƒãƒ•ã‚¡ã®åˆæœŸã‚µã‚¤ã‚º
+	 * @param value é †ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿å–ã‚Šãƒãƒƒãƒ•ã‚¡ã®åˆæœŸã‚µã‚¤ã‚º
 	 */
 	public void setInitialSequencialReadBufferSize(int value);
 	/**
-	 * ½ç¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¼è¤ê¥Ğ¥Ã¥Õ¥¡¤ÎºÇÂç¥µ¥¤¥º
-	 * @param value ½ç¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¼è¤ê¥Ğ¥Ã¥Õ¥¡¤ÎºÇÂç¥µ¥¤¥º
+	 * é †ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿å–ã‚Šãƒãƒƒãƒ•ã‚¡ã®æœ€å¤§ã‚µã‚¤ã‚º
+	 * @param value é †ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿å–ã‚Šãƒãƒƒãƒ•ã‚¡ã®æœ€å¤§ã‚µã‚¤ã‚º
 	 */
 	public void setMaximumSequencialReadBufferSize(int value);
 	/**
-	 * ½ç¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¼è¤ê¥Ğ¥Ã¥Õ¥¡¤ÎºÇ¾®¥µ¥¤¥º
-	 * @param value ½ç¥Õ¥¡¥¤¥ë¤ÎÆÉ¤ß¼è¤ê¥Ğ¥Ã¥Õ¥¡¤ÎºÇ¾®¥µ¥¤¥º
+	 * é †ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿å–ã‚Šãƒãƒƒãƒ•ã‚¡ã®æœ€å°ã‚µã‚¤ã‚º
+	 * @param value é †ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿å–ã‚Šãƒãƒƒãƒ•ã‚¡ã®æœ€å°ã‚µã‚¤ã‚º
 	 */
 	public void setMinimumSequencialReadBufferSize(int value);
 	/**
-	 * ¥ì¥³¡¼¥ÉÌ¾
-	 * @param name ¥ì¥³¡¼¥ÉÌ¾
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰å
+	 * @param name ãƒ¬ã‚³ãƒ¼ãƒ‰å
 	 */
 	public void setName(String name);
 }

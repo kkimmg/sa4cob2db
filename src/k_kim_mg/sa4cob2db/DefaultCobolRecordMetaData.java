@@ -4,27 +4,27 @@ import java.util.List;
 
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 /**
- * ¥ì¥³¡¼¥É¥á¥¿¥Ç¡¼¥¿
+ * ãƒ¬ã‚³ãƒ¼ãƒ‰ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
-	/** ¥ê¥¹¥Ê¥¯¥é¥¹ */
+	/** ãƒªã‚¹ãƒŠã‚¯ãƒ©ã‚¹ */
 	private List<Class<? extends CobolFileEventListener>> listenerClasses = new ArrayList<Class<? extends CobolFileEventListener>>();
-	/** ÊÌÌ¾ */
+	/** åˆ¥å */
 	protected List<String> aliases = new ArrayList<String>();
-	/** Á´¤Æ¤ÎÎó */
+	/** å…¨ã¦ã®åˆ— */
 	protected List<CobolColumn> columns = new ArrayList<CobolColumn>();
 	/**
-	 * ¥ì¥³¡¼¥É¤Î¥¨¥ó¥³¡¼¥É
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰
 	 */
 	protected String encode = "auto";
-	/** ÆÉ¤ß¼è¤ê¥Ğ¥Ã¥Õ¥¡´ØÏ¢ */
+	/** èª­ã¿å–ã‚Šãƒãƒƒãƒ•ã‚¡é–¢é€£ */
 	private int initialSequencialReadBufferSize, maximumSequencialReadBufferSize, minimumSequencialReadBufferSize;
-	/** ¥­¡¼Îó¤Î°ìÍ÷ */
+	/** ã‚­ãƒ¼åˆ—ã®ä¸€è¦§ */
 	protected List<CobolColumn> keys = new ArrayList<CobolColumn>();
-	/** ¥á¥¿¥Ç¡¼¥¿Ì¾ */
+	/** ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿å */
 	protected String name = "";
-	/** ¥¤¥ó¥Ç¥¯¥¹¾ğÊó */
+	/** ã‚¤ãƒ³ãƒ‡ã‚¯ã‚¹æƒ…å ± */
 	protected List<CobolIndex> cobolIndexes = new ArrayList<CobolIndex>();
 	/*
 	 * (non-Javadoc)
@@ -45,16 +45,16 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		columns.add(column);
 	}
 	/**
-	 * ¥­¡¼Îó¤ÎÄÉ²Ã
-	 * @param column ÄÉ²Ã¤¹¤ëÎó
+	 * ã‚­ãƒ¼åˆ—ã®è¿½åŠ 
+	 * @param column è¿½åŠ ã™ã‚‹åˆ—
 	 */
 	public void addKey(CobolColumn column) {
 		keys.add(column);
 	}
 	/**
-	 * Â°À­¤ò¥³¥Ô¡¼¤¹¤ë
-	 * @param copy ¥³¥Ô¡¼ÂĞ¾İ
-	 * @return ¥³¥Ô¡¼ÂĞ¾İ(°ú¿ô¤ÈÆ±¤¸¥ª¥Ö¥¸¥§¥¯¥È)
+	 * å±æ€§ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
+	 * @param copy ã‚³ãƒ”ãƒ¼å¯¾è±¡
+	 * @return ã‚³ãƒ”ãƒ¼å¯¾è±¡(å¼•æ•°ã¨åŒã˜ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ)
 	 */
 	protected CobolRecordMetaData copyTo(CobolRecordMetaData copy) {
 		copy.setName(getName());
@@ -71,8 +71,8 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		return copy;
 	}
 	/**
-	 * Îó¤ÎºîÀ®
-	 * @return ºîÀ®¤µ¤ì¤¿Îó
+	 * åˆ—ã®ä½œæˆ
+	 * @return ä½œæˆã•ã‚ŒãŸåˆ—
 	 */
 	public CobolColumn createColumn() {
 		CobolColumn ret = new DefaultCobolColumn(this);
@@ -166,8 +166,8 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		return columns.size();
 	}
 	/**
-	 * ¥¨¥ó¥³¡¼¥Ç¥£¥ó¥°
-	 * @return ¥¨¥ó¥³¡¼¥Ç¥£¥ó¥°
+	 * ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°
+	 * @return ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°
 	 */
 	public String getEncode() {
 		return encode;
@@ -235,9 +235,9 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		return ret;
 	}
 	/**
-	 * ¥­¡¼Îó¤Ç¤¹¤«¡¼¡©
-	 * @param column ¥­¡¼¤«¤âÃÎ¤ì¤Ê¤¤Îó
-	 * @return true ¤Ï¤¤</br> false ¤¤¤¤¤¨
+	 * ã‚­ãƒ¼åˆ—ã§ã™ã‹ãƒ¼ï¼Ÿ
+	 * @param column ã‚­ãƒ¼ã‹ã‚‚çŸ¥ã‚Œãªã„åˆ—
+	 * @return true ã¯ã„</br> false ã„ã„ãˆ
 	 */
 	protected boolean isKey(CobolColumn column) {
 		return keys.contains(column);
@@ -346,8 +346,8 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		return "";
 	}
 	/**
-	 * ¥¤¥ó¥Ç¥Ã¥¯¥¹¾ğÊó¤Î°ìÍ÷
-	 * @return ¥ê¥¹¥È
+	 * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æƒ…å ±ã®ä¸€è¦§
+	 * @return ãƒªã‚¹ãƒˆ
 	 */
 	public List<CobolIndex> getCobolIndexes() {
 		return cobolIndexes;
