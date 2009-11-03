@@ -4,15 +4,15 @@
 //package k_kim_mg.sa4cob2db.sample;
 
 public class WebInterface1 {
-	/**¥¤¥ó¥¿¡¼¥Õ¥§¡¼¥¹Ì¾*/
+	/**ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹å*/
 	String name;
-	/**¥³¥ó¥Æ¥ó¥Ä*/
+	/**ã‚³ãƒ³ãƒ†ãƒ³ãƒ„*/
 	String content;
-	/**¥³¡¼¥ë¤¹¤ë¥µ¥Ö¥ë¡¼¥Á¥ó*/
+	/**ã‚³ãƒ¼ãƒ«ã™ã‚‹ã‚µãƒ–ãƒ«ãƒ¼ãƒãƒ³*/
 	String subroutine;
-	/**ÆşÎÏ½ñ¼°*/
+	/**å…¥åŠ›æ›¸å¼*/
 	String inFormat;
-	/**½ĞÎÏ½ñ¼°*/
+	/**å‡ºåŠ›æ›¸å¼*/
 	String outFormat;
 	public String getInFormat() {
 		return inFormat;

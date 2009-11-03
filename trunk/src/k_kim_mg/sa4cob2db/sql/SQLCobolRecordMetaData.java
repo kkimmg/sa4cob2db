@@ -1,30 +1,30 @@
 package k_kim_mg.sa4cob2db.sql;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 /**
- * ¥Ç¡¼¥¿¥Ù¡¼¥¹¥¢¥¯¥»¥¹¤Ë´Ø¤¹¤ëSQLÊ¸¤òÄó¶¡¤¹¤ëµ¡Ç½
+ * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚¢ã‚¯ã‚»ã‚¹ã«é–¢ã™ã‚‹SQLæ–‡ã‚’æä¾›ã™ã‚‹æ©Ÿèƒ½
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface SQLCobolRecordMetaData extends CobolRecordMetaData {
 	/**
-	 * SelectÊ¸
+	 * Selectæ–‡
 	 * @return SELECT Column... From Table Where Column = value .... OrderBy
-	 *         .... ·Á¼°¤ÎSelectÊ¸
+	 *         .... å½¢å¼ã®Selectæ–‡
 	 */
 	public String getSelectStatement();
 	/**
-	 * SelectÊ¸
+	 * Selectæ–‡
 	 * @param string SELECT Column... From Table Where Column = value ....
-	 *            OrderBy .... ·Á¼°¤ÎSelectÊ¸
+	 *            OrderBy .... å½¢å¼ã®Selectæ–‡
 	 */
 	public void setSelectStatement(String string);
 	/**
-	 * "¤¹¤Ù¤Æºï½ü"¥¹¥Æ¡¼¥È¥á¥ó¥È¤Î¼èÆÀ
-	 * @return	"¤¹¤Ù¤Æºï½ü"¥¹¥Æ¡¼¥È¥á¥ó¥È
+	 * "ã™ã¹ã¦å‰Šé™¤"ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã®å–å¾—
+	 * @return	"ã™ã¹ã¦å‰Šé™¤"ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
 	 */
 	public String getTruncateStatement();
 	/**
-	 * "¤¹¤Ù¤Æºï½ü"¥¹¥Æ¡¼¥È¥á¥ó¥È¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param statement	"¤¹¤Ù¤Æºï½ü"¥¹¥Æ¡¼¥È¥á¥ó¥È
+	 * "ã™ã¹ã¦å‰Šé™¤"ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param statement	"ã™ã¹ã¦å‰Šé™¤"ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
 	 */
 	public void setTruncateStatement(String statement);
 }

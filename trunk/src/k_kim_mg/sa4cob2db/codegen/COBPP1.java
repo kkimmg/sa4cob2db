@@ -20,7 +20,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
 /**
- * COBOL¥³¡¼¥É¤ò°ìÉôÊÑ´¹¤·¤Æ¥Õ¥¡¥¤¥ë¥¢¥¯¥»¥¹¤òACM¤Ø¤Î¥¢¥¯¥»¥¹¤ËÊÑ¹¹¤¹¤ë
+ * COBOLã‚³ãƒ¼ãƒ‰ã‚’ä¸€éƒ¨å¤‰æ›ã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«ã‚¢ã‚¯ã‚»ã‚¹ã‚’ACMã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ã«å¤‰æ›´ã™ã‚‹
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class COBPP1 implements GeneratorOwner {
@@ -32,15 +32,15 @@ public class COBPP1 implements GeneratorOwner {
 	private int initrownum = 10;
 	private int incrrownum = 10;
 	private boolean expandCopy = false;
-	/** ¥½¡¼¥¹¥³¡¼¥É¤Î¥­¥ã¥é¥¯¥¿¡¼¥»¥Ã¥È¤ò»ØÄê¤¹¤ë´Ä¶­ÊÑ¿ô¤ÎÌ¾Á° */
+	/** ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã®ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚»ãƒƒãƒˆã‚’æŒ‡å®šã™ã‚‹ç’°å¢ƒå¤‰æ•°ã®åå‰ */
 	public static final String ACM_CHARSET = "acm_pp_charset";
 	/**
-	 * À¸À®ÁõÃÖ
+	 * ç”Ÿæˆè£…ç½®
 	 */
 	private CodeGenerator generator = new TCPCodeGenerator(this);
 	/**
-	 * ¥á¥¤¥ó
-	 * @param argv ¥Õ¥¡¥¤¥ëÌ¾¤Ê¤É
+	 * ãƒ¡ã‚¤ãƒ³
+	 * @param argv ãƒ•ã‚¡ã‚¤ãƒ«åãªã©
 	 */
 	public static void main(String[] argv) {
 		COBPP1 cobpp = new COBPP1(argv);
@@ -48,12 +48,12 @@ public class COBPP1 implements GeneratorOwner {
 		System.exit(0);
 	}
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param argv µ¯Æ°¥Ñ¥é¥á¡¼¥¿
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param argv èµ·å‹•ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 	 */
 	public COBPP1(String[] argv) {
 		String csn = "";
-		// ÆşÎÏ¥Õ¥¡¥¤¥ë
+		// å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«
 		String infile = (argv.length > 0 ? argv[0] : "");
 		if (infile == "") {
 			input = System.in;
@@ -65,7 +65,7 @@ public class COBPP1 implements GeneratorOwner {
 				input = System.in;
 			}
 		}
-		// ½ĞÎÏ¥Õ¥¡¥¤¥ë
+		// å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«
 		String outfile = (argv.length > 1 ? argv[1] : "");
 		if (outfile.length() == 0) {
 			output = System.out;
@@ -87,7 +87,7 @@ public class COBPP1 implements GeneratorOwner {
 				output = System.out;
 			}
 		}
-		// ¥Õ¥©¡¼¥Ş¥Ã¥È
+		// ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 		String infmttext = getEnvValue("informat", "fix");
 		if (infmttext.compareToIgnoreCase("free") == 0) {
 			infreeformat = true;
@@ -113,20 +113,20 @@ public class COBPP1 implements GeneratorOwner {
 				// e.printStackTrace();
 			}
 		}
-		// ¥³¥Ô¡¼¶ç¤Î»ØÄê
+		// ã‚³ãƒ”ãƒ¼å¥ã®æŒ‡å®š
 		String acmconsts_file = getEnvValue("acmconsts_file", CobolConsts.ACMCONSTS_FILE);
 		if (acmconsts_file.trim().length() > 0) {
 			CobolConsts.ACMCONSTS_FILE = acmconsts_file.trim();
 		}
-		// ¥³¥Ô¡¼¶ç¤òÅ¸³«¤¹¤ë
+		// ã‚³ãƒ”ãƒ¼å¥ã‚’å±•é–‹ã™ã‚‹
 		String expandStr = getEnvValue("expand_copy", "false");
 		expandCopy = Boolean.parseBoolean(expandStr);
-		// ¥¤¥Ù¥ó¥È½èÍıµ¡Ç½
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†æ©Ÿèƒ½
 		String namelist = getEnvValue("codegeneratorlisteners", "");
 		if (namelist.length() > 0) {
 			this.addCodeGeneratorListeners(namelist);
 		}
-		// ¥¤¥Ù¥ó¥È½èÍıµ¡Ç½
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†æ©Ÿèƒ½
 		String generatorClass = getEnvValue("customcodegeneratorclass", "");
 		if (generatorClass.length() > 0) {
 			try {
@@ -152,7 +152,7 @@ public class COBPP1 implements GeneratorOwner {
 		} else {
 			generatorClass = generator.getClass().getName();
 		}
-		// »È¤¤¤«¤¿¤òÀâÌÀ¤¹¤ë
+		// ä½¿ã„ã‹ãŸã‚’èª¬æ˜ã™ã‚‹
 		String usageStr = getEnvValue("display_usage", "true");
 		if (Boolean.parseBoolean(usageStr)) {
 			System.err.println("usage:java -cp path_to_jar \"k_kim_mg.sa4cob2db.codegen.COBPP1\" $1 $2");
@@ -171,8 +171,8 @@ public class COBPP1 implements GeneratorOwner {
 		}
 	}
 	/**
-	 * ¥ê¥¹¥Ê¤òÄÉ²Ã¤¹¤ë
-	 * @param names ¥¯¥é¥¹Ì¾(:¤Ç¶èÀÚ¤ë¡©)
+	 * ãƒªã‚¹ãƒŠã‚’è¿½åŠ ã™ã‚‹
+	 * @param names ã‚¯ãƒ©ã‚¹å(:ã§åŒºåˆ‡ã‚‹ï¼Ÿ)
 	 */
 	void addCodeGeneratorListeners(String namelist) {
 		if (namelist.length() > 0) {
@@ -197,10 +197,10 @@ public class COBPP1 implements GeneratorOwner {
 		}
 	}
 	/**
-	 * ´Ä¶­ÊÑ¿ô¤ò¼èÆÀ¤¹¤ë
-	 * @param key ¥­¡¼
-	 * @param defaultValue ¥Ç¥Õ¥©¥ë¥ÈÃÍ
-	 * @return ÊÑ¿ô¤ÎÃÍ
+	 * ç’°å¢ƒå¤‰æ•°ã‚’å–å¾—ã™ã‚‹
+	 * @param key ã‚­ãƒ¼
+	 * @param defaultValue ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤
+	 * @return å¤‰æ•°ã®å€¤
 	 */
 	private String getEnvValue(String key, String defaultValue) {
 		String ret = System.getProperty(key, System.getenv(key));
@@ -237,7 +237,7 @@ public class COBPP1 implements GeneratorOwner {
 		}
 	}
 	/**
-	 * ¼Â¹Ô
+	 * å®Ÿè¡Œ
 	 */
 	public void run() {
 		try {
@@ -273,16 +273,16 @@ public class COBPP1 implements GeneratorOwner {
 		}
 	}
 	/**
-	 * ¥³¥Ô¡¼¶ç¤òÅ¸³«½èÍı¤¹¤ë
+	 * ã‚³ãƒ”ãƒ¼å¥ã‚’å±•é–‹å‡¦ç†ã™ã‚‹
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	class CopyProcesser {
 		private CopyInfo info;
 		private FileInputStream input2;
 		/**
-		 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-		 * @param Info ¥³¥Ô¡¼¶ç¤Î¾ğÊó
-		 * @throws IOException Æş½ĞÎÏÎã³°
+		 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+		 * @param Info ã‚³ãƒ”ãƒ¼å¥ã®æƒ…å ±
+		 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 		 */
 		public CopyProcesser(CopyInfo Info) throws IOException {
 			info = Info;
@@ -304,7 +304,7 @@ public class COBPP1 implements GeneratorOwner {
 		}
 	}
 	/**
-	 * ¤³¥Ô¡¼¥¯¤Î¾ğÊó
+	 * ã“ãƒ”ãƒ¼ã‚¯ã®æƒ…å ±
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	static class CopyInfo {
@@ -312,8 +312,8 @@ public class COBPP1 implements GeneratorOwner {
 		private String filename;
 		private Properties replacing = new Properties();
 		/**
-		 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-		 * @param Statement Copy¶ç¤òÉşÌ³Ê¸»úÎó
+		 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+		 * @param Statement Copyå¥ã‚’æœå‹™æ–‡å­—åˆ—
 		 */
 		public CopyInfo(ArrayList<String> Statement) {
 			statement = Statement;
@@ -341,16 +341,16 @@ public class COBPP1 implements GeneratorOwner {
 			}
 		}
 		/**
-		 * ¥Õ¥¡¥¤¥ëÌ¾
-		 * @return ¥Õ¥¡¥¤¥ëÌ¾
+		 * ãƒ•ã‚¡ã‚¤ãƒ«å
+		 * @return ãƒ•ã‚¡ã‚¤ãƒ«å
 		 */
 		public String getFilename() {
 			return filename;
 		}
 		/**
-		 * ÃÖ´¹¤µ¤ì¤¿Ê¸»úÎó¤Î¼èÆÀ
-		 * @param target ÃÖ´¹Á°¤ÎÊ¸»úÎó
-		 * @return ÃÖ´¹¸å¤ÎÊ¸»úÎó
+		 * ç½®æ›ã•ã‚ŒãŸæ–‡å­—åˆ—ã®å–å¾—
+		 * @param target ç½®æ›å‰ã®æ–‡å­—åˆ—
+		 * @return ç½®æ›å¾Œã®æ–‡å­—åˆ—
 		 */
 		public String getReplacedStatement(String target) {
 			String ret = target;
@@ -365,15 +365,15 @@ public class COBPP1 implements GeneratorOwner {
 		}
 	}
 	/**
-	 * ¥³¥Ô¡¼¶ç¤òÅ¸³«¤¹¤ë¤«¤É¤¦¤«
-	 * @return true Å¸³«¤¹¤ë</br> false Å¸³«¤·¤Ê¤¤
+	 * ã‚³ãƒ”ãƒ¼å¥ã‚’å±•é–‹ã™ã‚‹ã‹ã©ã†ã‹
+	 * @return true å±•é–‹ã™ã‚‹</br> false å±•é–‹ã—ãªã„
 	 */
 	public boolean isExpandCopy() {
 		return expandCopy;
 	}
 	/**
-	 * ¥³¥Ô¡¼¶ç¤òÅ¸³«¤¹¤ë¤«¤É¤¦¤«
-	 * @param expandCopy true Å¸³«¤¹¤ë</br> false Å¸³«¤·¤Ê¤¤
+	 * ã‚³ãƒ”ãƒ¼å¥ã‚’å±•é–‹ã™ã‚‹ã‹ã©ã†ã‹
+	 * @param expandCopy true å±•é–‹ã™ã‚‹</br> false å±•é–‹ã—ãªã„
 	 */
 	public void setExpandCopy(boolean expandCopy) {
 		this.expandCopy = expandCopy;

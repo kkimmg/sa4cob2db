@@ -1,6 +1,6 @@
 package k_kim_mg.sa4cob2db.sql;
 /**
- * JNI¥Ù¡¼¥¹¤Î¥µ¡¼¥Ğ¡¼µ¡Ç½
+ * JNIãƒ™ãƒ¼ã‚¹ã®ã‚µãƒ¼ãƒãƒ¼æ©Ÿèƒ½
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLJNIServer {

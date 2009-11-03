@@ -14,22 +14,22 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.event.ACMSessionEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
-/** ¥»¥Ã¥·¥ç¥ó */
+/** ã‚»ãƒƒã‚·ãƒ§ãƒ³ */
 public class ACMSQLSession implements ACMSession {
     private static final long serialVersionUID = 1L;
-	/** SQL¥³¥Í¥¯¥·¥ç¥ó */
+	/** SQLã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ */
 	protected transient Connection connection;
-	/** ³«¤¤¤¿¥Õ¥¡¥¤¥ë */
+	/** é–‹ã„ãŸãƒ•ã‚¡ã‚¤ãƒ« */
 	protected Hashtable<String, CobolFile> files;
-	/** ¥¤¥Ù¥ó¥È¥ê¥¹¥Ê */
+	/** ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒŠ */
 	protected ArrayList<ACMSessionEventListener> listeners = new ArrayList<ACMSessionEventListener>();
-	/** ¥Õ¥¡¥¤¥ë¥µ¡¼¥Ğ¡¼ */
+	/** ãƒ•ã‚¡ã‚¤ãƒ«ã‚µãƒ¼ãƒãƒ¼ */
 	private final transient SQLFileServer server;
-	/** ¥»¥Ã¥·¥ç¥óID */
+	/** ã‚»ãƒƒã‚·ãƒ§ãƒ³ID */
 	protected String sessionId;
 	/**
-	 * ¥»¥Ã¥·¥ç¥ó¤ÎºîÀ®
-	 * @throws Exception Îã³°
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®ä½œæˆ
+	 * @throws Exception ä¾‹å¤–
 	 */
 	public ACMSQLSession(SQLFileServer server) throws Exception {
 		super();
@@ -46,30 +46,30 @@ public class ACMSQLSession implements ACMSession {
 		listeners.add(listener);
 	}
 	/**
-	 * ¥³¥ß¥Ã¥È¤¬È¯À¸¤·¤¿¤È¤­¤Ë¥¤¥Ù¥ó¥È¤òÈ¯À¸¤µ¤»¤ë
+	 * ã‚³ãƒŸãƒƒãƒˆãŒç™ºç”Ÿã—ãŸã¨ãã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç”Ÿã•ã›ã‚‹
 	 */
 	protected void callCommitEvent () {
-		// ¥»¥Ã¥·¥ç¥ó¤Î¥¤¥Ù¥ó¥ÈÈ¯À¸
+		// ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿ
 		ACMSessionEvent e = new ACMSessionEvent(this, null);
 		for (ACMSessionEventListener listener : listeners) {
             listener.transactionCommited(e);
 		}
 	}	
 	/**
-	 * ¥í¡¼¥ë¥Ğ¥Ã¥¯¤¬È¯À¸¤·¤¿¤È¤­¤Ë¥¤¥Ù¥ó¥È¤òÈ¯À¸¤µ¤»¤ë
+	 * ãƒ­ãƒ¼ãƒ«ãƒãƒƒã‚¯ãŒç™ºç”Ÿã—ãŸã¨ãã«ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç”Ÿã•ã›ã‚‹
 	 */
 	protected void callRollbackEvent () {
-		// ¥»¥Ã¥·¥ç¥ó¤Î¥¤¥Ù¥ó¥ÈÈ¯À¸
+		// ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿ
 		ACMSessionEvent e = new ACMSessionEvent(this, null);
 		for (ACMSessionEventListener listener : listeners) {
             listener.transactionRollbacked(e);
 		}
 	}	
 	/**
-	 * ¥«¥¹¥¿¥à·¿¤Î¥Õ¥¡¥¤¥ë¤òºîÀ®¤¹¤ë
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
-	 * @return ¥Õ¥¡¥¤¥ë
-	 * @throws Exception Îã³°
+	 * ã‚«ã‚¹ã‚¿ãƒ å‹ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã™ã‚‹
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«
+	 * @throws Exception ä¾‹å¤–
 	 */
 	private CobolFile createCustomFile (CobolRecordMetaData meta) throws Exception {
 		CobolFile ret = null;
@@ -96,7 +96,7 @@ public class ACMSQLSession implements ACMSession {
 				SQLCobolRecordMetaData sqlmeta = (SQLCobolRecordMetaData) meta;
 				ret = createSQLFile(sqlmeta);
 			} else 	if (meta.getCustomFileClassName() != null && meta.getCustomFileClassName().trim().length() > 0) {
-				// ¥«¥¹¥¿¥à¥¯¥é¥¹¤òÍøÍÑ¤¹¤ë
+				// ã‚«ã‚¹ã‚¿ãƒ ã‚¯ãƒ©ã‚¹ã‚’åˆ©ç”¨ã™ã‚‹
 				ret = createCustomFile(meta);
 			}
 		} catch (Exception e) {
@@ -105,7 +105,7 @@ public class ACMSQLSession implements ACMSession {
 		if (ret != null) {
 			ret.bindSession(this);
 			files.put(name, ret);
-			// ¥¤¥Ù¥ó¥È¥ê¥¹¥Ê¤òÅĞÏ¿¤¹¤ë
+			// ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒŠã‚’ç™»éŒ²ã™ã‚‹
 			List<Class<? extends CobolFileEventListener>> listenerClasses = meta.getListenerClasses();
 			for (Class<? extends CobolFileEventListener> listenerClass : listenerClasses) {
 				CobolFileEventListener listener;
@@ -116,7 +116,7 @@ public class ACMSQLSession implements ACMSession {
 					SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
-			// ¥¤¥ó¥Ç¥Ã¥¯¥¹¤òºîÀ®¤¹¤ë
+			// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ä½œæˆã™ã‚‹
 			List<CobolIndex> indexes = meta.getCobolIndexes();
 			if (indexes != null) {
 				for (CobolIndex index : indexes) {
@@ -130,7 +130,7 @@ public class ACMSQLSession implements ACMSession {
 				}
 			}
 		}
-		// ¥»¥Ã¥·¥ç¥ó¤Î¥¤¥Ù¥ó¥ÈÈ¯À¸
+		// ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®ã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿ
 		ACMSessionEvent e = new ACMSessionEvent(this, ret);
 		for (ACMSessionEventListener listener : listeners) {
             listener.fileCreated(e);
@@ -138,22 +138,22 @@ public class ACMSQLSession implements ACMSession {
 		return ret;
 	}
 	/**
-	 * SQLFile¥ª¥Ö¥¸¥§¥¯¥È¤ÎºîÀ®
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
-	 * @return SQLFile¥ª¥Ö¥¸¥§¥¯¥È
+	 * SQLFileã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
+	 * @return SQLFileã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	private SQLFile createSQLFile(SQLCobolRecordMetaData meta) throws Exception {
 		SQLFile ret = null;
 		if (meta.getCustomFileClassName() == null ||
 			meta.getCustomFileClassName() == "") {
-			// ÄÌ¾ï¤ÎSQL¥Õ¥¡¥¤¥ë
+			// é€šå¸¸ã®SQLãƒ•ã‚¡ã‚¤ãƒ«
 			ret = new SQLFile(getConnection(), meta);
 		} else {
-			// ¥«¥¹¥¿¥à¥Õ¥¡¥¤¥ë
+			// ã‚«ã‚¹ã‚¿ãƒ ãƒ•ã‚¡ã‚¤ãƒ«
 			Class<?> claxx = Class.forName(meta.getCustomFileClassName());
 			Class<? extends SQLFile> clazz = claxx.asSubclass(SQLFile.class);
 			try {
-				// ÀÜÂ³, ¥á¥¿¥Ç¡¼¥¿
+				// æ¥ç¶š, ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 				Constructor<? extends SQLFile> constructor =
 					clazz.getConstructor(new Class<?>[] {
 							Connection.class,
@@ -162,7 +162,7 @@ public class ACMSQLSession implements ACMSession {
 				ret = constructor.newInstance(new Object[] {getConnection(), meta});
 			} catch (NoSuchMethodException e) {
 				try {
-					// ÀÜÂ³¤Î¤ß
+					// æ¥ç¶šã®ã¿
 					Constructor<? extends SQLFile> constructor =
 						clazz.getConstructor(new Class<?>[] {
 								Connection.class,
@@ -170,14 +170,14 @@ public class ACMSQLSession implements ACMSession {
 					ret = constructor.newInstance(new Object[] {getConnection()});
 				} catch (NoSuchMethodException e1) {
 					try {
-						// ¥á¥¿¥Ç¡¼¥¿¤Î¤ß
+						// ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®ã¿
 						Constructor<? extends SQLFile> constructor =
 							clazz.getConstructor(new Class<?>[] {
 									CobolRecordMetaData.class
 									});
 						ret = constructor.newInstance(new Object[] {meta});
 					} catch (NoSuchMethodException e2) {
-						// ¥Ñ¥é¥á¡¼¥¿¤Ê¤·
+						// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãªã—
 						ret = clazz.newInstance();
 					}
 				}
@@ -203,8 +203,8 @@ public class ACMSQLSession implements ACMSession {
 		files.remove(name);
 	}
 	/**
-	 * ¥³¥Í¥¯¥·¥ç¥ó
-	 * @return ¥³¥Í¥¯¥·¥ç¥ó
+	 * ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
+	 * @return ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
 	 */
 	public Connection getConnection() {
 		return connection;
@@ -217,28 +217,28 @@ public class ACMSQLSession implements ACMSession {
 		return files.get(name);
 	}
 	/**
-	 * ¥»¥Ã¥·¥ç¥óID
-	 * @return ¥»¥Ã¥·¥ç¥óID
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ID
+	 * @return ã‚»ãƒƒã‚·ãƒ§ãƒ³ID
 	 */
 	public String getSessionId() {
 		return sessionId;
 	}
 	/**
-	 * ¥»¥Ã¥·¥ç¥óID¤Î½é´ü²½
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³IDã®åˆæœŸåŒ–
 	 */
 	private void initializeSessionID() {
-		// ¸½ºß»ş¹ï 123456789012345
+		// ç¾åœ¨æ™‚åˆ» 123456789012345
 		DecimalFormat df1 = new DecimalFormat("000000000000000");
 		long time = System.currentTimeMillis();
-		// ¥·¡¼¥±¥ó¥¹ 12345
+		// ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ 12345
 		DecimalFormat df2 = new DecimalFormat("00000");
 		this.server.sequence++;
-		// ¥é¥ó¥À¥à 1234567890
+		// ãƒ©ãƒ³ãƒ€ãƒ  1234567890
 		DecimalFormat df3 = new DecimalFormat("0.00000000");
 		double rand = Math.random() * 10;
-		// Ê¸»úÎó
+		// æ–‡å­—åˆ—
 		String str = df1.format(time) + df2.format(this.server.sequence) + df3.format(rand);
-		// ¥Ğ¥¤¥ÈÇÛÎó
+		// ãƒã‚¤ãƒˆé…åˆ—
 		sessionId = str; // .getBytes();
 	}
 	/*
@@ -249,7 +249,7 @@ public class ACMSQLSession implements ACMSession {
 		listeners.remove(listener);
 	}
 	/**
-	 * ¥»¥Ã¥·¥ç¥ó¤Î½ªÎ»
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®çµ‚äº†
 	 */
 	protected void terminate () {
 		server.removeConnection(connection);

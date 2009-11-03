@@ -11,26 +11,26 @@ import org.w3c.dom.Node;
 
 public class NodeReaderPlus1 extends NodeReadLoader {
 	/**
-	 * ¥»¥Ã¥È¤¹¤ëÆâÍÆ
+	 * ã‚»ãƒƒãƒˆã™ã‚‹å†…å®¹
 	 */
 	ServletSampleTool1 servletSampleTool1;
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param servletSampleTool1	¥»¥Ã¥È¤¹¤ëÆâÍÆ
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param servletSampleTool1	ã‚»ãƒƒãƒˆã™ã‚‹å†…å®¹
 	 */
 	public NodeReaderPlus1 (ServletSampleTool1 servletSampleTool1) {
 		super();
 		this.servletSampleTool1 = servletSampleTool1;
 	}
-	/* (Èó Javadoc)
+	/* (é Javadoc)
 	 * @see k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader#createSomething(org.w3c.dom.Node, k_kim_mg.sa4cob2db.CobolRecordMetaDataSet)
 	 */
 	protected void createSomething(Node node, CobolRecordMetaDataSet meta) {
 		if (node.getNodeName().equals("webinterface")) {
 			NamedNodeMap map = node.getAttributes();
-			// ¥¤¥ó¥¿¡¼¥Õ¥§¡¼¥¹Àë¸À
+			// ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹å®£è¨€
 			WebInterface1 face1 = new WebInterface1();
-			// Â°À­¤Î¥»¥Ã¥È
+			// å±æ€§ã®ã‚»ãƒƒãƒˆ
 			Node att;
 			att = map.getNamedItem("name");
 			if (att != null) {
@@ -54,7 +54,7 @@ public class NodeReaderPlus1 extends NodeReadLoader {
 			}
 			servletSampleTool1.addWebInterface(face1);
 		} else if (node.getNodeName().equals("MessageHeaderName")) {
-			// ¥Ø¥Ã¥À¡¼¥ì¥³¡¼¥ÉÄêµÁ
+			// ãƒ˜ãƒƒãƒ€ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰å®šç¾©
 			String headername = getNodeString(node);
 			servletSampleTool1.MSGHEADNAME = headername;
 		}

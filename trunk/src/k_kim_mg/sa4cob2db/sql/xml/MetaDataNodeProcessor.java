@@ -1,16 +1,16 @@
-package k_kim_mg.sa4cob2db.sql.xml;
+ï»¿package k_kim_mg.sa4cob2db.sql.xml;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 
 import org.w3c.dom.Node;
 /**
- * ¤½¤ÎÂ¾¤Î¥Î¡¼¥É¤ò½èÍı¤¹¤ë(¥á¥¿¥Ç¡¼¥¿Æâ)
+ * ãã®ä»–ã®ãƒãƒ¼ãƒ‰ã‚’å‡¦ç†ã™ã‚‹(ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿å†…)
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface MetaDataNodeProcessor {
 	/**
-	 * ¤½¤ÎÂ¾¤Î¥Î¡¼¥É¤ò½èÍı¤¹¤ë
-	 * @param node	¥Î¡¼¥É
-	 * @param meta	¥á¥¿¥Ç¡¼¥¿
+	 * ãã®ä»–ã®ãƒãƒ¼ãƒ‰ã‚’å‡¦ç†ã™ã‚‹
+	 * @param node	ãƒãƒ¼ãƒ‰
+	 * @param meta	ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public void processOtherNode(Node node, CobolRecordMetaData meta);
 }

@@ -12,34 +12,34 @@ import java.util.regex.Pattern;
 
 import k_kim_mg.sa4cob2db.FileStatus;
 /**
- * °ú¤­ÅÏ¤µ¤ì¤¿¥½¡¼¥¹¥³¡¼¥É¤òÃßÀÑ¤·¡¢ÊÑ´¹¤·¤¿·ë²Ì¤ò¥ª¡¼¥Ê¡¼¤ËÊÖ¤¹µ¡Ç½
+ * å¼•ãæ¸¡ã•ã‚ŒãŸã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’è“„ç©ã—ã€å¤‰æ›ã—ãŸçµæœã‚’ã‚ªãƒ¼ãƒŠãƒ¼ã«è¿”ã™æ©Ÿèƒ½
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class TCPCodeGenerator implements CodeGenerator {
 	/**
-	 * SELECT¶ç¤Î¾ğÊó¤òÂàÈò¤¹¤ë¥ª¥Ö¥¸¥§¥¯¥È
+	 * SELECTå¥ã®æƒ…å ±ã‚’é€€é¿ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	static class DefaultFileInfo implements FileInfo {
-		/** ¥¢¥¯¥»¥¹¥â¡¼¥É */
+		/** ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰ */
 		int acessMode;
 		/**
-		 * ¥Õ¥¡¥¤¥ëÌ¾¡Ê³°Éô¥Õ¥¡¥¤¥ëÌ¾¡©¡Ë <br/>
-		 * ¥¢¥µ¥¤¥ó¤¹¤ë¡Ê¥Õ¥¡¥¤¥ë¥·¥¹¥Æ¥à¾å¤Î¡Ë¥Õ¥¡¥¤¥ëÌ¾
+		 * ãƒ•ã‚¡ã‚¤ãƒ«åï¼ˆå¤–éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«åï¼Ÿï¼‰ <br/>
+		 * ã‚¢ã‚µã‚¤ãƒ³ã™ã‚‹ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ä¸Šã®ï¼‰ãƒ•ã‚¡ã‚¤ãƒ«å
 		 */
 		String fileName;
 		/**
-		 * ¥ì¥³¡¼¥ÉÌ¾¡© <br/>
-		 * FD¶ç¤Ç01¥ì¥Ù¥ë¤ÎÎÎ°èÌ¾
+		 * ãƒ¬ã‚³ãƒ¼ãƒ‰åï¼Ÿ <br/>
+		 * FDå¥ã§01ãƒ¬ãƒ™ãƒ«ã®é ˜åŸŸå
 		 */
 		String recordName;
 		/**
-		 * ¥Õ¥¡¥¤¥ëÌ¾¡ÊÆâÉô¥Õ¥¡¥¤¥ëÌ¾¡©¡Ë <br/>
-		 * SELECT¶ç¤Î¼¡¤Î¥È¡¼¥¯¥ó
+		 * ãƒ•ã‚¡ã‚¤ãƒ«åï¼ˆå†…éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«åï¼Ÿï¼‰ <br/>
+		 * SELECTå¥ã®æ¬¡ã®ãƒˆãƒ¼ã‚¯ãƒ³
 		 */
 		String selectName;
 		/**
-		 * Æş½ĞÎÏ¾õÂÖ <br/>
-		 * Æş½ĞÎÏ¾õÂÖ¤ò¼¨¤¹ÎÎ°èÌ¾(File Status [is] XXXXXX)
+		 * å…¥å‡ºåŠ›çŠ¶æ…‹ <br/>
+		 * å…¥å‡ºåŠ›çŠ¶æ…‹ã‚’ç¤ºã™é ˜åŸŸå(File Status [is] XXXXXX)
 		 */
 		String status;
 		/*
@@ -78,124 +78,124 @@ public class TCPCodeGenerator implements CodeGenerator {
 			return status;
 		}
 		/**
-		 * ¥¢¥¯¥»¥¹¥â¡¼¥É¤ò¥»¥Ã¥È¤¹¤ë
-		 * @param acessmode ¥»¥Ã¥È¤¹¤ë¥¢¥¯¥»¥¹¥â¡¼¥É
+		 * ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+		 * @param acessmode ã‚»ãƒƒãƒˆã™ã‚‹ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰
 		 */
 		public void setAcessMode(int acessmode) {
 			this.acessMode = acessmode;
 		}
 		/**
-		 * ¥Õ¥¡¥¤¥ëÌ¾¤ò¥»¥Ã¥È¤¹¤ë
-		 * @param filename ¥»¥Ã¥È¤¹¤ë¥Õ¥¡¥¤¥ëÌ¾
+		 * ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+		 * @param filename ã‚»ãƒƒãƒˆã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«å
 		 */
 		public void setFileName(String filename) {
 			this.fileName = filename;
 		}
 		/**
-		 * ¥ì¥³¡¼¥ÉÌ¾¤ò¥»¥Ã¥È¤¹¤ë
-		 * @param recordname ¥»¥Ã¥È¤¹¤ë¥ì¥³¡¼¥ÉÌ¾
+		 * ãƒ¬ã‚³ãƒ¼ãƒ‰åã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+		 * @param recordname ã‚»ãƒƒãƒˆã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰å
 		 */
 		public void setRecordName(String recordname) {
 			this.recordName = recordname;
 		}
 		/**
-		 * ¥Õ¥¡¥¤¥ëÌ¾¤ò¥»¥Ã¥È¤¹¤ë
-		 * @param selectname ¥»¥Ã¥È¤¹¤ë¥Õ¥¡¥¤¥ëÌ¾
+		 * ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+		 * @param selectname ã‚»ãƒƒãƒˆã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«å
 		 */
 		public void setSelectName(String selectname) {
 			this.selectName = selectname;
 		}
 		/**
-		 * ¥¹¥Æ¡¼¥¿¥¹ÎÎ°èÌ¾¤ò¥»¥Ã¥È¤¹¤ë
-		 * @param status ¥»¥Ã¥È¤¹¤ë¥¹¥Æ¡¼¥¿¥¹ÎÎ°èÌ¾
+		 * ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹é ˜åŸŸåã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+		 * @param status ã‚»ãƒƒãƒˆã™ã‚‹ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹é ˜åŸŸå
 		 */
 		public void setStatus(String status) {
 			this.status = status;
 		}
 	}
-	/** ¥ì¥³¡¼¥ÉÌ¾ */
+	/** ãƒ¬ã‚³ãƒ¼ãƒ‰å */
 	String acmRecName = null;
-	/** ¥³¥Ô¡¼¶ç¤Î°ìÍ÷ */
+	/** ã‚³ãƒ”ãƒ¼å¥ã®ä¸€è¦§ */
 	ArrayList<String> copys = new ArrayList<String>();
-	/** ¸½ºß¤Î¥Ñ¥¿¡¼¥ó */
+	/** ç¾åœ¨ã®ãƒ‘ã‚¿ãƒ¼ãƒ³ */
 	String current;
-	/** ¸½ºß½èÍıÃæ¤Î¥Õ¥¡¥¤¥ë¾ğÊó */
+	/** ç¾åœ¨å‡¦ç†ä¸­ã®ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ± */
 	DefaultFileInfo currentinfo = null;
-	/** ÊÑ´¹¸õÊä¤È¤·¤ÆÂàÈò¤·¤Æ¤¤¤ëÊ¸»úÎó */
+	/** å¤‰æ›å€™è£œã¨ã—ã¦é€€é¿ã—ã¦ã„ã‚‹æ–‡å­—åˆ— */
 	ArrayList<String> currentlist = new ArrayList<String>();
-	/** currentlists¤òÀÑ¤ß¾å¤²¤ë */
+	/** currentlistsã‚’ç©ã¿ä¸Šã’ã‚‹ */
 	Stack<ArrayList<String>> currentlists = new Stack<ArrayList<String>>();
-	/** ¸½ºß¤ÎDIVISION */
+	/** ç¾åœ¨ã®DIVISION */
 	String division = null;
-	/** ¥À¥ß¡¼¤Î¥Õ¥¡¥¤¥ë¾ğÊó */
+	/** ãƒ€ãƒŸãƒ¼ã®ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ± */
 	final FileInfo dummyInfo = new DefaultFileInfo();
-	/** ¸½ºß½èÍıÃæ¤ÎFD¶ç */
+	/** ç¾åœ¨å‡¦ç†ä¸­ã®FDå¥ */
 	ArrayList<String> fdlist = new ArrayList<String>();
-	/** ¥Õ¥¡¥¤¥ëÌ¾¡Ê³°Éô¥Õ¥¡¥¤¥ëÌ¾¡©¡Ë¤«¤é¥Õ¥¡¥¤¥ë¾ğÊó¤Î¼ÂÂÎ¤ò¼èÆÀ¤¹¤ë¤¿¤á¤Îº÷°ú */
+	/** ãƒ•ã‚¡ã‚¤ãƒ«åï¼ˆå¤–éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«åï¼Ÿï¼‰ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±ã®å®Ÿä½“ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ç´¢å¼• */
 	Hashtable<String, DefaultFileInfo> filenametofile = new Hashtable<String, DefaultFileInfo>();
-	/** ½èÍıÃæ¤Î¥×¥í¥°¥é¥à¤Ï(ACM¤Ç¤Ê¤¤)¼Âºİ¤Î¥Õ¥¡¥¤¥ë¤ò¥¢¥µ¥¤¥ó¤¹¤ë¤«¤É¤¦¤« */
+	/** å‡¦ç†ä¸­ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã¯(ACMã§ãªã„)å®Ÿéš›ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚¢ã‚µã‚¤ãƒ³ã™ã‚‹ã‹ã©ã†ã‹ */
 	boolean hasNonACM = false;
-	/** ¸½ºß¡¢ACM¥Õ¥¡¥¤¥ë½èÍıÃæ¤«¡© */
+	/** ç¾åœ¨ã€ACMãƒ•ã‚¡ã‚¤ãƒ«å‡¦ç†ä¸­ã‹ï¼Ÿ */
 	boolean inACM = false;
-	/** ¥³¥Ô¡¼¶ç¤ÎÅÓÃæ¤«¡© */
+	/** ã‚³ãƒ”ãƒ¼å¥ã®é€”ä¸­ã‹ï¼Ÿ */
 	boolean inCopy = false;
-	/** ¸½ºß¡¢FD¶ç¤ò½èÍıÃæ¤«¡© */
+	/** ç¾åœ¨ã€FDå¥ã‚’å‡¦ç†ä¸­ã‹ï¼Ÿ */
 	boolean inFD = false;
-	/** ¤³¤Î¥½¡¼¥¹¤Ï½é´ü²½Ì¿Îá¤¬ÆşÎÏ¤µ¤ì¤¿¤«¡© */
+	/** ã“ã®ã‚½ãƒ¼ã‚¹ã¯åˆæœŸåŒ–å‘½ä»¤ãŒå…¥åŠ›ã•ã‚ŒãŸã‹ï¼Ÿ */
 	boolean initialized = false;
-	/** PROCEDURE SECTIONÃæ¤Î¼èÆÀºÑ¤ß¥é¥Ù¥ë¿ô */
+	/** PROCEDURE SECTIONä¸­ã®å–å¾—æ¸ˆã¿ãƒ©ãƒ™ãƒ«æ•° */
 	int label = 0;
 	/**
-	 * ¥ì¥Ù¥ë--¥½¡¼¥¹¥³¡¼¥ÉÃæ¤ÎÆş¤ì»Ò¥ì¥Ù¥ë
+	 * ãƒ¬ãƒ™ãƒ«--ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ä¸­ã®å…¥ã‚Œå­ãƒ¬ãƒ™ãƒ«
 	 */
 	int level = 0;
 	/**
-	 * ½ĞÎÏÁ°¤Î¥½¡¼¥¹¥³¡¼¥É
+	 * å‡ºåŠ›å‰ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰
 	 */
 	ArrayList<String> list = new ArrayList<String>();
 	private ArrayList<CodeGeneratorListener> listeners = new ArrayList<CodeGeneratorListener>();
 	/**
-	 * ¿Æ¥ª¥Ö¥¸¥§¥¯¥È
+	 * è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	GeneratorOwner owner;
 	/**
-	 * Procefure Division¤ò½èÍıÃæ¤«¤É¤¦¤«
+	 * Procefure Divisionã‚’å‡¦ç†ä¸­ã‹ã©ã†ã‹
 	 */
 	boolean proceduresection = false;
 	/**
-	 * ¥ì¥³¡¼¥ÉÌ¾¤«¤é¥Õ¥¡¥¤¥ë¼ÂÂÎ¤ò¼èÆÀ¤¹¤ë¤¿¤á¤Îº÷°ú
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰åã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«å®Ÿä½“ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ç´¢å¼•
 	 */
 	Hashtable<String, DefaultFileInfo> recordnametofile = new Hashtable<String, DefaultFileInfo>();
 	/**
-	 * ¥»¥¯¥·¥ç¥ó
+	 * ã‚»ã‚¯ã‚·ãƒ§ãƒ³
 	 */
 	String section = null;
 	/**
-	 * SELECTÌ¾£ë¤é¥Õ¥¡¥¤¥ë¼ÂÂÎ¤ò¼èÆÀ¤¹¤ë¤¿¤á¤Îº÷°ú
+	 * SELECTåï½‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«å®Ÿä½“ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ç´¢å¼•
 	 */
 	Hashtable<String, DefaultFileInfo> selectnametofile = new Hashtable<String, DefaultFileInfo>();
 	/**
-	 * ¥Ñ¥¿¡¼¥ó¤Î¥¹¥¿¥Ã¥¯
+	 * ãƒ‘ã‚¿ãƒ¼ãƒ³ã®ã‚¹ã‚¿ãƒƒã‚¯
 	 */
 	Stack<String> stack = new Stack<String>();
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param owner ¸Æ¤Ó¸µ
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param owner å‘¼ã³å…ƒ
 	 */
 	public TCPCodeGenerator(GeneratorOwner owner) {
 		this.owner = owner;
 	}
 	/**
-	 * ÄÉ²Ã
-	 * @param text ÄÉ²Ã¤¹¤ë¥Æ¥­¥¹¥È
+	 * è¿½åŠ 
+	 * @param text è¿½åŠ ã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆ
 	 */
 	void add(String text) {
 		list.add(text);
 		// SQLNetServer.DebugPrint(text);
 	}
 	/**
-	 * FD¶ç¤ÎÄÉ²Ã
-	 * @param text FD¶çÃæ¤Î¥Æ¥­¥¹¥È
+	 * FDå¥ã®è¿½åŠ 
+	 * @param text FDå¥ä¸­ã®ãƒ†ã‚­ã‚¹ãƒˆ
 	 */
 	void add_fd(String text) {
 		fdlist.add(text);
@@ -218,25 +218,25 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * CLOSE½èÍı
-	 * @param period "."Ê¸»úÎó
+	 * CLOSEå‡¦ç†
+	 * @param period "."æ–‡å­—åˆ—
 	 */
 	void addCallClose(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
 		add("     CALL \"closeACMFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * COMMIT¤ÎÄÉ²Ã
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * COMMITã®è¿½åŠ 
+	 * @param period ãƒ”ãƒªã‚ªãƒ‰(.)æ–‡å­—åˆ—
 	 */
 	void addCallCommit(String period) {
 		add("    CALL \"commitACMSession\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * DELETE½èÍı
-	 * @param valid Í­¸ú»ş¤Î½èÍı
-	 * @param invalid Ìµ¸ú»ş¤Î½èÍı
-	 * @param period "."Ê¸»úÎó
+	 * DELETEå‡¦ç†
+	 * @param valid æœ‰åŠ¹æ™‚ã®å‡¦ç†
+	 * @param invalid ç„¡åŠ¹æ™‚ã®å‡¦ç†
+	 * @param period "."æ–‡å­—åˆ—
 	 */
 	void addCallDelete(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -265,16 +265,16 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * InitializeSession¤ÎÄÉ²Ã
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * InitializeSessionã®è¿½åŠ 
+	 * @param period ãƒ”ãƒªã‚ªãƒ‰(.)æ–‡å­—åˆ—
 	 */
 	void addCallInitializeSession(String period) {
 		add("     CALL \"initializeSessionEnv\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * OPEN INPUT ½èÍı
-	 * @param info ¥Õ¥¡¥¤¥ë¤Î¾ğÊó
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * OPEN INPUT å‡¦ç†
+	 * @param info ãƒ•ã‚¡ã‚¤ãƒ«ã®æƒ…å ±
+	 * @param period ãƒ”ãƒªã‚ªãƒ‰(.)æ–‡å­—åˆ—
 	 */
 	void addCallOpenInput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -295,9 +295,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * OPEN I-O ½èÍı
-	 * @param info ¥Õ¥¡¥¤¥ë¤Î¾ğÊó
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * OPEN I-O å‡¦ç†
+	 * @param info ãƒ•ã‚¡ã‚¤ãƒ«ã®æƒ…å ±
+	 * @param period ãƒ”ãƒªã‚ªãƒ‰(.)æ–‡å­—åˆ—
 	 */
 	void addCallOpenInputOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -318,9 +318,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * OPEN OUTPUT ½èÍı
-	 * @param info ¥Õ¥¡¥¤¥ë¤Î¾ğÊó
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * OPEN OUTPUT å‡¦ç†
+	 * @param info ãƒ•ã‚¡ã‚¤ãƒ«ã®æƒ…å ±
+	 * @param period ãƒ”ãƒªã‚ªãƒ‰(.)æ–‡å­—åˆ—
 	 */
 	void addCallOpenOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -341,12 +341,12 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * READ½èÍı
-	 * @param info ¥Õ¥¡¥¤¥ë¾ğÊó
-	 * @param invalid Í­¸ú»ş¤Î½èÍı
-	 * @param notinvalid Ìµ¸ú»ş¤ó½èÍı
-	 * @param indexkey º÷°úÌ¾
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * READå‡¦ç†
+	 * @param info ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±
+	 * @param invalid æœ‰åŠ¹æ™‚ã®å‡¦ç†
+	 * @param notinvalid ç„¡åŠ¹æ™‚ã‚“å‡¦ç†
+	 * @param indexkey ç´¢å¼•å
+	 * @param period ãƒ”ãƒªã‚ªãƒ‰(.)æ–‡å­—åˆ—
 	 */
 	void addCallRead(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String indexkey, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -354,10 +354,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("     CALL \"moveReadACMRecord\" USING ");
 		add("                                ACM-FILE-IDENT");
 		if (indexkey == null) {
-			// ¥­¡¼¥ê¡¼¥É
+			// ã‚­ãƒ¼ãƒªãƒ¼ãƒ‰
 			add("                                ACM-RECORD");
 		} else {
-			// º÷°ú¤Ë¤è¤ë¥ê¡¼¥É
+			// ç´¢å¼•ã«ã‚ˆã‚‹ãƒªãƒ¼ãƒ‰
 			add("                                ACM-RECORD");
 			add("                                ACM-INDEX-NAME");
 		}
@@ -366,7 +366,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("         MOVE ACM-RECORD TO " + info.getRecordName());
 		add("     END-IF" + period);
 		if (invalid.size() > 0) {
-			// Invalid ½èÍı
+			// Invalid å‡¦ç†
 			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_INVALID_KEY + "\"");
 			for (String str : invalid) {
 				if (str.trim().length() > 0) {
@@ -374,7 +374,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 				}
 			}
 			if (notinvalid.size() > 0) {
-				// Not Invalid ½èÍı
+				// Not Invalid å‡¦ç†
 				add(" ELSE");
 				for (String str : notinvalid) {
 					if (str.trim().length() > 0) {
@@ -386,12 +386,12 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * READ½èÍı
-	 * @param info ¥Õ¥¡¥¤¥ë¾ğÊó
-	 * @param atend Í­¸ú»ş¤Î½èÍı
-	 * @param notatend Ìµ¸ú(¥Õ¥¡¥¤¥ë½ªÃ¼)»ş¤ó½èÍı
-	 * @param indexkey º÷°úÌ¾
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * READå‡¦ç†
+	 * @param info ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±
+	 * @param atend æœ‰åŠ¹æ™‚ã®å‡¦ç†
+	 * @param notatend ç„¡åŠ¹(ãƒ•ã‚¡ã‚¤ãƒ«çµ‚ç«¯)æ™‚ã‚“å‡¦ç†
+	 * @param indexkey ç´¢å¼•å
+	 * @param period ãƒ”ãƒªã‚ªãƒ‰(.)æ–‡å­—åˆ—
 	 */
 	void addCallReadNext(FileInfo info, ArrayList<String> atend, ArrayList<String> notatend, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -403,13 +403,13 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("         MOVE ACM-RECORD TO " + info.getRecordName());
 		add("     END-IF" + period);
 		if (atend.size() > 0) {
-			// At End ½èÍı
+			// At End å‡¦ç†
 			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_EOF + "\"");
 			for (int i = 0; i < atend.size(); i++) {
 				add("         " + atend.get(i));
 			}
 			if (notatend.size() > 0) {
-				// Not At End ½èÍı
+				// Not At End å‡¦ç†
 				add("     ELSE");
 				for (int i = 0; i < notatend.size(); i++) {
 					add("        " + notatend.get(i));
@@ -419,12 +419,12 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * Rewrite½èÍı
-	 * @param info ¥Õ¥¡¥¤¥ë¾ğÊó
-	 * @param invalid Í­¸ú»ş¤Î½èÍı
-	 * @param notinvalid Ìµ¸ú»ş¤ó½èÍı
-	 * @param indexkey º÷°úÌ¾
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * Rewriteå‡¦ç†
+	 * @param info ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±
+	 * @param invalid æœ‰åŠ¹æ™‚ã®å‡¦ç†
+	 * @param notinvalid ç„¡åŠ¹æ™‚ã‚“å‡¦ç†
+	 * @param indexkey ç´¢å¼•å
+	 * @param period ãƒ”ãƒªã‚ªãƒ‰(.)æ–‡å­—åˆ—
 	 */
 	void addCallRewrite(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -453,19 +453,19 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * ROLLBACK¤ÎÄÉ²Ã
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * ROLLBACKã®è¿½åŠ 
+	 * @param period ãƒ”ãƒªã‚ªãƒ‰(.)æ–‡å­—åˆ—
 	 */
 	void addCallRollback(String period) {
 		add("    CALL \"rollbackACMSession\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * START½èÍı
-	 * @param info ¥Õ¥¡¥¤¥ë¾ğÊó
-	 * @param invalid Í­¸ú»ş¤Î½èÍı
-	 * @param notinvalid Ìµ¸ú»ş¤ó½èÍı
-	 * @param indexkey º÷°úÌ¾
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * STARTå‡¦ç†
+	 * @param info ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±
+	 * @param invalid æœ‰åŠ¹æ™‚ã®å‡¦ç†
+	 * @param notinvalid ç„¡åŠ¹æ™‚ã‚“å‡¦ç†
+	 * @param indexkey ç´¢å¼•å
+	 * @param period ãƒ”ãƒªã‚ªãƒ‰(.)æ–‡å­—åˆ—
 	 */
 	void addCallStart(FileInfo info, String startModeText, ArrayList<String> invalid, ArrayList<String> notinvalid, String indexkey, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -498,19 +498,19 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * TermincateSession¤ÎÄÉ²Ã
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * TermincateSessionã®è¿½åŠ 
+	 * @param period ãƒ”ãƒªã‚ªãƒ‰(.)æ–‡å­—åˆ—
 	 */
 	void addCallTerminateSession(String period) {
 		add("     CALL  \"terminateSession\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * WRITE½èÍı
-	 * @param info ¥Õ¥¡¥¤¥ë¾ğÊó
-	 * @param invalid Í­¸ú»ş¤Î½èÍı
-	 * @param notinvalid Ìµ¸ú»ş¤ó½èÍı
-	 * @param indexkey º÷°úÌ¾
-	 * @param period ¥Ô¥ê¥ª¥É(.)Ê¸»úÎó
+	 * WRITEå‡¦ç†
+	 * @param info ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±
+	 * @param invalid æœ‰åŠ¹æ™‚ã®å‡¦ç†
+	 * @param notinvalid ç„¡åŠ¹æ™‚ã‚“å‡¦ç†
+	 * @param indexkey ç´¢å¼•å
+	 * @param period ãƒ”ãƒªã‚ªãƒ‰(.)æ–‡å­—åˆ—
 	 */
 	void addCallWrite(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -547,45 +547,45 @@ public class TCPCodeGenerator implements CodeGenerator {
 		listeners.add(listener);
 	}
 	/**
-	 * ¥»¥Ã¥·¥ç¥ó¤Î½é´ü²½
-	 * @param period "."Ê¸»úÎó
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®åˆæœŸåŒ–
+	 * @param period "."æ–‡å­—åˆ—
 	 */
 	void addInitializeSession(String period) {
 		FileInfo nullfile = new DefaultFileInfo();
-		// ¥¤¥Ù¥ó¥È½èÍı
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		CodeGeneratorEvent event = new CodeGeneratorEvent(nullfile, owner, this, period);
 		for (CodeGeneratorListener listener : listeners) {
 			listener.preInitialize(event);
 		}
 		// ///////////
 		addCallInitializeSession(period);
-		// ¥¤¥Ù¥ó¥È½èÍı
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		for (CodeGeneratorListener listener : listeners) {
 			listener.postInitialize(event);
 		}
 		// ///////////
 	}
 	/**
-	 * ¥»¥Ã¥·¥ç¥ó¤Î½ªÎ»
-	 * @param period "."Ê¸»úÎó
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®çµ‚äº†
+	 * @param period "."æ–‡å­—åˆ—
 	 */
 	void addTerminateSession(String period) {
 		FileInfo nullfile = new DefaultFileInfo();
-		// ¥¤¥Ù¥ó¥È½èÍı
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		CodeGeneratorEvent event = new CodeGeneratorEvent(nullfile, owner, this, period);
 		for (CodeGeneratorListener listener : listeners) {
 			listener.preTerminate(event);
 		}
 		// ///////////
 		addCallTerminateSession(period);
-		// ¥¤¥Ù¥ó¥È½èÍı
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		for (CodeGeneratorListener listener : listeners) {
 			listener.postTerminate(event);
 		}
 		// ///////////
 	}
 	/**
-	 * FD¶ç¤¬ACM½èÍı¤µ¤ì¤ë¤«¤É¤¦¤«
+	 * FDå¥ãŒACMå‡¦ç†ã•ã‚Œã‚‹ã‹ã©ã†ã‹
 	 * @param text
 	 * @return
 	 */
@@ -612,7 +612,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return false;
 	}
 	/**
-	 * ¥Ğ¥Ã¥Õ¥¡¤ÎÆâÍÆ¤ò¤¹¤Ù¤Æ²òÀÏ¤·¤Æ¥¯¥ê¥¢¤¹¤ë
+	 * ãƒãƒƒãƒ•ã‚¡ã®å†…å®¹ã‚’ã™ã¹ã¦è§£æã—ã¦ã‚¯ãƒªã‚¢ã™ã‚‹
 	 */
 	public void clear() {
 		int size = list.size();
@@ -623,8 +623,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * ¥Ğ¥Ã¥Õ¥¡¤ò¥È¡¼¥¯¥ó¤Î½¸¤Ş¤ê¤ËÊ¬²ò¤¹¤ë
-	 * @return ¥È¡¼¥¯¥ó¤Î½¸¹ç
+	 * ãƒãƒƒãƒ•ã‚¡ã‚’ãƒˆãƒ¼ã‚¯ãƒ³ã®é›†ã¾ã‚Šã«åˆ†è§£ã™ã‚‹
+	 * @return ãƒˆãƒ¼ã‚¯ãƒ³ã®é›†åˆ
 	 */
 	StringTokenizer current2tokenizer() {
 		StringBuffer sb = new StringBuffer();
@@ -637,9 +637,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return new StringTokenizer(str);
 	}
 	/**
-	 * ¸½ºß½èÍıÃæ¤ÎDIVISION
-	 * @param text ¸½ºß¹Ô
-	 * @return DIVISIONÌ¾
+	 * ç¾åœ¨å‡¦ç†ä¸­ã®DIVISION
+	 * @param text ç¾åœ¨è¡Œ
+	 * @return DIVISIONå
 	 */
 	String getDivision(String text) {
 		StringTokenizer tokenizer = new StringTokenizer(text);
@@ -649,9 +649,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return null;
 	}
 	/**
-	 * ¸½ºß½èÍıÃæ¤ÎSECTION
-	 * @param text ¸½ºß¹Ô
-	 * @return SECTIONÌ¾
+	 * ç¾åœ¨å‡¦ç†ä¸­ã®SECTION
+	 * @param text ç¾åœ¨è¡Œ
+	 * @return SECTIONå
 	 */
 	String getSection(String text) {
 		StringTokenizer tokenizer = new StringTokenizer(text);
@@ -661,16 +661,16 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return null;
 	}
 	/**
-	 * ¥³¥Ô¡¼¶ç¤òÅ¸³«¤¹¤ë¤«¤É¤¦¤«
-	 * @return true Å¸³«¤¹¤ë<br/>
-	 *         false Å¸³«¤·¤Ê¤¤
+	 * ã‚³ãƒ”ãƒ¼å¥ã‚’å±•é–‹ã™ã‚‹ã‹ã©ã†ã‹
+	 * @return true å±•é–‹ã™ã‚‹<br/>
+	 *         false å±•é–‹ã—ãªã„
 	 */
 	public boolean isExpandCopy() {
 		return owner.isExpandCopy();
 	}
 	/**
-	 * Ê¸»úÎó¤Î²òÀÏ
-	 * @param text ¹ÔÊ¸»úÎó
+	 * æ–‡å­—åˆ—ã®è§£æ
+	 * @param text è¡Œæ–‡å­—åˆ—
 	 */
 	public void parse(String text) {
 		if (inCopy && isExpandCopy()) {
@@ -693,7 +693,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			} else if (Pattern.matches(CobolConsts.ACMROLLBACK, text)) {
 				whenACMRollBack(text);
 			} else if (Pattern.matches(CobolConsts.COMMENT, text)) {
-				add(text); // ¥³¥á¥ó¥È¤Î¾ì¹ç¤ÏÄÉ²Ã¤Î¤ß
+				add(text); // ã‚³ãƒ¡ãƒ³ãƒˆã®å ´åˆã¯è¿½åŠ ã®ã¿
 			} else if (Pattern.matches(CobolConsts.DIVISION, text)) {
 				whenDivision(text);
 			} else if (Pattern.matches(CobolConsts.SECTION, text)) {
@@ -749,15 +749,15 @@ public class TCPCodeGenerator implements CodeGenerator {
 		//
 	}
 	/**
-	 * ¥¹¥¿¥Ã¥¯¤«¤é²óÉü¤¹¤ë
+	 * ã‚¹ã‚¿ãƒƒã‚¯ã‹ã‚‰å›å¾©ã™ã‚‹
 	 */
 	void pop() {
 		current = stack.pop();
 		currentlist = currentlists.pop();
 	}
 	/**
-	 * CLOSE½èÍı
-	 * @param period "."Ê¸»úÎó
+	 * CLOSEå‡¦ç†
+	 * @param period "."æ–‡å­—åˆ—
 	 */
 	void process_close(String period) {
 		StringTokenizer tokenizer = current2tokenizer();
@@ -779,14 +779,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		for (int i = 0; i < files1.size(); i++) {
 			FileInfo info = files1.get(i);
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preClose(event);
 			}
 			// ///////////
 			addCallClose(info, period);
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postClose(event);
 			}
@@ -797,15 +797,15 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * ¥³¥Ô¡¼¶ç¤Î½èÍı
+	 * ã‚³ãƒ”ãƒ¼å¥ã®å‡¦ç†
 	 */
 	void process_copy() {
 		inCopy = false;
 		owner.callBackCopyStatement(copys);
 	}
 	/**
-	 * DELETE½èÍı
-	 * @param period "."Ê¸»úÎó
+	 * DELETEå‡¦ç†
+	 * @param period "."æ–‡å­—åˆ—
 	 */
 	void process_delete(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -876,14 +876,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 			for (int i = 0; i < backup.size(); i++) {
 				add("*" + backup.get(i));
 			}
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preDelete(event);
 			}
 			// ///////////
 			addCallDelete(info, invalid, notinvalid, period);
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postDelete(event);
 			}
@@ -891,14 +891,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * FD¶ç¤Î½èÍı
+	 * FDå¥ã®å‡¦ç†
 	 */
 	void process_fd() {
 		//
 	}
 	/**
-	 * OPEN½èÍı
-	 * @param period "."Ê¸»úÎó
+	 * OPENå‡¦ç†
+	 * @param period "."æ–‡å­—åˆ—
 	 */
 	void process_open(String period) {
 		StringTokenizer tokenizer = current2tokenizer();
@@ -947,14 +947,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		for (int i = 0; i < input1.size(); i++) {
 			FileInfo info = input1.get(i);
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preOpen(event);
 			}
 			// ///////////
 			addCallOpenInput(info, period);
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postOpen(event);
 			}
@@ -962,14 +962,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		for (int i = 0; i < output1.size(); i++) {
 			FileInfo info = output1.get(i);
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preOpen(event);
 			}
 			// ///////////
 			addCallOpenOutput(info, period);
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postOpen(event);
 			}
@@ -977,14 +977,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		for (int i = 0; i < io1.size(); i++) {
 			FileInfo info = io1.get(i);
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preOpen(event);
 			}
 			// ///////////
 			addCallOpenInputOutput(info, period);
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postOpen(event);
 			}
@@ -1002,7 +1002,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		currentlist.clear();
 	}
 	/**
-	 * @param period "."Ê¸»úÎó
+	 * @param period "."æ–‡å­—åˆ—
 	 */
 	void process_read(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -1106,29 +1106,29 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 		if (info.acessMode == CobolConsts.ORG_SEQUENTIAL || _next.equalsIgnoreCase("next")) {
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preReadNext(event);
 			}
 			// ///////////
-			// Read Next ½èÍı
+			// Read Next å‡¦ç†
 			addCallReadNext(info, atend, notatend, period);
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postReadNext(event);
 			}
 			// ///////////
 		} else {
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preMoveRead(event);
 			}
 			// ///////////
-			// read ½èÍı
+			// read å‡¦ç†
 			addCallRead(info, invalid, notinvalid, indexkey, period);
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postMoveRead(event);
 			}
@@ -1136,8 +1136,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * ¹¹¿·½èÍı
-	 * @param period "."Ê¸»úÎó
+	 * æ›´æ–°å‡¦ç†
+	 * @param period "."æ–‡å­—åˆ—
 	 */
 	void process_rewrite(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -1212,14 +1212,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 			for (int i = 0; i < backup.size(); i++) {
 				add("*" + backup.get(i));
 			}
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preRewrite(event);
 			}
 			// ///////////
 			addCallRewrite(info, invalid, notinvalid, period);
-			// ¥¤¥Ù¥ó¥È½èÍı
+			// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postRewrite(event);
 			}
@@ -1286,7 +1286,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		// SQLNetServer.DebugPrint("File-Converted:" + info);
 	}
 	/**
-	 * @param period "."Ê¸»úÎó
+	 * @param period "."æ–‡å­—åˆ—
 	 */
 	void process_start(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -1393,22 +1393,22 @@ public class TCPCodeGenerator implements CodeGenerator {
 				}
 			}
 		}
-		// ¥¤¥Ù¥ó¥È½èÍı
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 		for (CodeGeneratorListener listener : listeners) {
 			listener.preStart(event);
 		}
 		// ///////////
 		addCallStart(info, startmodetext, invalid, notinvalid, indexkey, period);
-		// ¥¤¥Ù¥ó¥È½èÍı
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		for (CodeGeneratorListener listener : listeners) {
 			listener.postStart(event);
 		}
 		// ///////////
 	}
 	/**
-	 * WRITE¤ò½èÍı¤¹¤ë
-	 * @param period ¹ÔËö¤Î¥Ô¥ê¥ª¥É
+	 * WRITEã‚’å‡¦ç†ã™ã‚‹
+	 * @param period è¡Œæœ«ã®ãƒ”ãƒªã‚ªãƒ‰
 	 */
 	void process_write(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -1483,21 +1483,21 @@ public class TCPCodeGenerator implements CodeGenerator {
 		for (int i = 0; i < backup.size(); i++) {
 			add("*" + backup.get(i));
 		}
-		// ¥¤¥Ù¥ó¥È½èÍı
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 		for (CodeGeneratorListener listener : listeners) {
 			listener.preWrite(event);
 		}
 		// ///////////
 		addCallWrite(info, invalid, notinvalid, period);
-		// ¥¤¥Ù¥ó¥È½èÍı
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		for (CodeGeneratorListener listener : listeners) {
 			listener.postWrite(event);
 		}
 		// ///////////
 	}
 	/**
-	 * ¸½ºß¤ÎÊÔ½¸ÆâÍÆ¤òÂĞÈæ¤¹¤ë
+	 * ç¾åœ¨ã®ç·¨é›†å†…å®¹ã‚’å¯¾æ¯”ã™ã‚‹
 	 */
 	void push() {
 		if (current != null)
@@ -1505,9 +1505,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		currentlists.push(currentlist);
 	}
 	/**
-	 * ¥³¥ß¥Ã¥È¥â¡¼¥É¤òÀßÄê¤¹¤ë<br/>
-	 * Ìµ¾ò·ï¤Ç¹ÔËö¤Ë¥Ô¥ê¥ª¥É¤òÀßÄê¤¹¤ë¤³¤È¤ËÃí°Õ
-	 * @param text true/false¤ò´Ş¤àÊ¸»úÎó
+	 * ã‚³ãƒŸãƒƒãƒˆãƒ¢ãƒ¼ãƒ‰ã‚’è¨­å®šã™ã‚‹<br/>
+	 * ç„¡æ¡ä»¶ã§è¡Œæœ«ã«ãƒ”ãƒªã‚ªãƒ‰ã‚’è¨­å®šã™ã‚‹ã“ã¨ã«æ³¨æ„
+	 * @param text true/falseã‚’å«ã‚€æ–‡å­—åˆ—
 	 */
 	void whenACMAutoCommit(String text) {
 		int indexOfEqual = text.indexOf("=") + 1;
@@ -1517,13 +1517,13 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                    ACM-STATUS-ALL.");
 	}
 	/**
-	 * ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò¥³¥ß¥Ã¥È¤¹¤ë
-	 * @param text ¹ÔÊ¸»úÎó<br/>
-	 *            ¹ÔÊ¸»úÎó¤¬".(¥Ô¥ê¥ª¥É)"¤Ç½ª¤ï¤Ã¤Æ¤¤¤¿¤é¹ÔËö¤Ë¥Ô¥ê¥ª¥É¤ò¤Ä¤±¤ë
+	 * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ã‚³ãƒŸãƒƒãƒˆã™ã‚‹
+	 * @param text è¡Œæ–‡å­—åˆ—<br/>
+	 *            è¡Œæ–‡å­—åˆ—ãŒ".(ãƒ”ãƒªã‚ªãƒ‰)"ã§çµ‚ã‚ã£ã¦ã„ãŸã‚‰è¡Œæœ«ã«ãƒ”ãƒªã‚ªãƒ‰ã‚’ã¤ã‘ã‚‹
 	 */
 	void whenACMCommit(String text) {
 		String period = (Pattern.matches(CobolConsts.PERIOD, text) ? "." : "");
-		// ¥¤¥Ù¥ó¥È½èÍı
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		{
 			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
@@ -1531,7 +1531,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 		addCallCommit(period);
-		// ¥¤¥Ù¥ó¥È½èÍı
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		{
 			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
@@ -1540,21 +1540,21 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * ¥ì¥³¡¼¥ÉÌ¾¤ÎÀßÄê
-	 * @param text ¥ì¥³¡¼¥ÉÌ¾¤ò´Ş¤à¹Ô
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰åã®è¨­å®š
+	 * @param text ãƒ¬ã‚³ãƒ¼ãƒ‰åã‚’å«ã‚€è¡Œ
 	 */
 	void whenACMRecName(String text) {
 		int indexOfEqual = text.indexOf("=") + 1;
 		acmRecName = text.substring(indexOfEqual);
 	}
 	/**
-	 * ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò¥í¡¼¥ë¥Ğ¥Ã¥¯¤¹¤ë
-	 * @param text ¹ÔÊ¸»úÎó<br/>
-	 *            ¹ÔÊ¸»úÎó¤¬".(¥Ô¥ê¥ª¥É)"¤Ç½ª¤ï¤Ã¤Æ¤¤¤¿¤é¹ÔËö¤Ë¥Ô¥ê¥ª¥É¤ò¤Ä¤±¤ë
+	 * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ãƒ­ãƒ¼ãƒ«ãƒãƒƒã‚¯ã™ã‚‹
+	 * @param text è¡Œæ–‡å­—åˆ—<br/>
+	 *            è¡Œæ–‡å­—åˆ—ãŒ".(ãƒ”ãƒªã‚ªãƒ‰)"ã§çµ‚ã‚ã£ã¦ã„ãŸã‚‰è¡Œæœ«ã«ãƒ”ãƒªã‚ªãƒ‰ã‚’ã¤ã‘ã‚‹
 	 */
 	void whenACMRollBack(String text) {
 		String period = (Pattern.matches(CobolConsts.PERIOD, text) ? "." : "");
-		// ¥¤¥Ù¥ó¥È½èÍı
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		{
 			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
@@ -1562,7 +1562,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 		addCallRollback(period);
-		// ¥¤¥Ù¥ó¥È½èÍı
+		// ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		{
 			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
@@ -1571,19 +1571,19 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * ACM¥Õ¥¡¥¤¥ë»Ø¼¨¤Î³«»Ï
-	 * @param text ³«»Ï¹Ô
+	 * ACMãƒ•ã‚¡ã‚¤ãƒ«æŒ‡ç¤ºã®é–‹å§‹
+	 * @param text é–‹å§‹è¡Œ
 	 */
 	void whenACMSTART(String text) {
-		// ACM³«»Ï¥³¥á¥ó¥È
+		// ACMé–‹å§‹ã‚³ãƒ¡ãƒ³ãƒˆ
 		add("*" + text);
 		inACM = true;
 		acmRecName = null;
 	}
 	/**
-	 * ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¥ì¥Ù¥ë¤ÎÀßÄê<br/>
-	 * Ìµ¾ò·ï¤Ç¹ÔËö¤Ë¥Ô¥ê¥ª¥É¤òÀßÄê¤¹¤ë¤³¤È¤ËÃí°Õ
-	 * @param text ¥ì¥Ù¥ëÊ¸»úÎó¤ò´Ş¤ó¤À¹Ô
+	 * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ãƒ¬ãƒ™ãƒ«ã®è¨­å®š<br/>
+	 * ç„¡æ¡ä»¶ã§è¡Œæœ«ã«ãƒ”ãƒªã‚ªãƒ‰ã‚’è¨­å®šã™ã‚‹ã“ã¨ã«æ³¨æ„
+	 * @param text ãƒ¬ãƒ™ãƒ«æ–‡å­—åˆ—ã‚’å«ã‚“ã è¡Œ
 	 */
 	void whenACMTransactionIsolation(String text) {
 		int indexOfEqual = text.indexOf("=") + 1;
@@ -1593,12 +1593,12 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                   ACM-STATUS-ALL.");
 	}
 	/**
-	 * CLOSEÌ¿Îá
-	 * @param text ¥­¡¼¥ï¡¼¥É¤ò´Ş¤à¹Ô
+	 * CLOSEå‘½ä»¤
+	 * @param text ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’å«ã‚€è¡Œ
 	 */
 	void whenClose(String text) {
 		push();
-		// ¥Õ¥¡¥¤¥ë¥¯¥í¡¼¥º
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã‚¯ãƒ­ãƒ¼ã‚º
 		current = CobolConsts.CLOSE;
 		add("*" + text);
 		currentlist.add(text);
@@ -1606,11 +1606,11 @@ public class TCPCodeGenerator implements CodeGenerator {
 			process_close(".");
 			pop();
 		}
-		// ------¢­¤³¤³¤«¤épush!-------/
+		// ------â†“ã“ã“ã‹ã‚‰push!-------/
 	}
 	/**
-	 * ¥³¥Ô¡¼¶ç¤¬¤­¤¿¤È¤­
-	 * @param text ¥³¥Ô¡¼¶ç¤ò´Ş¤à¹Ô
+	 * ã‚³ãƒ”ãƒ¼å¥ãŒããŸã¨ã
+	 * @param text ã‚³ãƒ”ãƒ¼å¥ã‚’å«ã‚€è¡Œ
 	 */
 	void whenCopy(String text) {
 		if (isExpandCopy()) {
@@ -1622,7 +1622,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 				process_copy();
 			}
 		} else {
-			// ¥³¥Ô¡¼¶ç
+			// ã‚³ãƒ”ãƒ¼å¥
 			if (inFD) {
 				add("*" + text);
 				add_fd(text);
@@ -1632,12 +1632,12 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * DELETE¶ç
-	 * @param text ¥­¡¼¥ï¡¼¥É¤ò´Ş¤à¹Ô
+	 * DELETEå¥
+	 * @param text ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’å«ã‚€è¡Œ
 	 */
 	void whenDelete(String text) {
 		push();
-		// ¥Õ¥¡¥¤¥ë¥ª¡¼¥×¥ó
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³
 		current = CobolConsts.DELETE;
 		add("*" + text);
 		currentlist.add(text);
@@ -1647,17 +1647,17 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * DIVISION¶ç¤ò´Ş¤à¹Ô
-	 * @param text ¥­¡¼¥ï¡¼¥É¤ò´Ş¤à¹Ô
+	 * DIVISIONå¥ã‚’å«ã‚€è¡Œ
+	 * @param text ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’å«ã‚€è¡Œ
 	 */
 	void whenDivision(String text) {
 		add(text);
-		// ¥Õ¥¡¥¤¥ë¥³¥ó¥È¥í¡¼¥ë¤Î½ªÎ»
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®çµ‚äº†
 		if (current == CobolConsts.FD) {
 			process_fd();
 			inFD = false;
 		}
-		// ¥Ç¥£¥Ó¥¸¥ç¥ó
+		// ãƒ‡ã‚£ãƒ“ã‚¸ãƒ§ãƒ³
 		current = CobolConsts.DIVISION;
 		division = getDivision(text);
 		if (division.equalsIgnoreCase("data")) {
@@ -1669,8 +1669,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * END DELETE¶ç
-	 * @param text ¥­¡¼¥ï¡¼¥É¤ò´Ş¤à¹Ô
+	 * END DELETEå¥
+	 * @param text ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’å«ã‚€è¡Œ
 	 */
 	void whenEndDelete(String text) {
 		currentlist.add(text);
@@ -1696,8 +1696,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		level--;
 	}
 	/**
-	 * END WRITEÂĞ±ş
-	 * @param text ¹ÔÊ¸»úÎó
+	 * END WRITEå¯¾å¿œ
+	 * @param text è¡Œæ–‡å­—åˆ—
 	 */
 	void whenEndRewrite(String text) {
 		currentlist.add(text);
@@ -1741,7 +1741,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void whenFd(String text) {
 		process_fd();
 		inFD = false;
-		// ¥ì¥³¡¼¥ÉÀë¸À
+		// ãƒ¬ã‚³ãƒ¼ãƒ‰å®£è¨€
 		current = CobolConsts.FD;
 		if (checkFD(text)) {
 			add_fd("*ACM Genrated File Record");
@@ -1757,14 +1757,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void whenFileControl(String text) {
 		add("*" + text);
-		// ¥Õ¥¡¥¤¥ë¥³¥ó¥È¥í¡¼¥ë¤Î»Ï¤Ş¤ê
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®å§‹ã¾ã‚Š
 		current = CobolConsts.FILECONTROL;
 	}
 	/**
 	 * @param text
 	 */
 	void whenLabel(String text) {
-		// ¥é¥Ù¥ë¡Êµ¤¤Ë¤·¤Ê¤¤¡©¡Ë
+		// ãƒ©ãƒ™ãƒ«ï¼ˆæ°—ã«ã—ãªã„ï¼Ÿï¼‰
 		add(text);
 		if (proceduresection) {
 			label++;
@@ -1873,7 +1873,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void whenOpen(String text) {
 		push();
-		// ¥Õ¥¡¥¤¥ë¥ª¡¼¥×¥ó
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³
 		current = CobolConsts.OPEN;
 		add("*" + text);
 		currentlist.add(text);
@@ -1917,12 +1917,12 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text
 	 */
 	void whenSection(String text) {
-		// ¥Õ¥¡¥¤¥ë¥³¥ó¥È¥í¡¼¥ë¤Î½ªÎ»
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®çµ‚äº†
 		if (current == CobolConsts.FD) {
 			process_fd();
 			inFD = false;
 		}
-		// ¥»¥¯¥·¥ç¥ó
+		// ã‚»ã‚¯ã‚·ãƒ§ãƒ³
 		current = CobolConsts.SECTION;
 		section = getSection(text);
 		if (section.equalsIgnoreCase("working-storage")) {
@@ -1952,7 +1952,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text
 	 */
 	void whenSelect(String text) {
-		// ¥»¥ì¥¯¥È¡Ê¥Õ¥¡¥¤¥ë¥¢¥µ¥¤¥ó¤Î»Ï¤Ş¤ê¡Ë
+		// ã‚»ãƒ¬ã‚¯ãƒˆï¼ˆãƒ•ã‚¡ã‚¤ãƒ«ã‚¢ã‚µã‚¤ãƒ³ã®å§‹ã¾ã‚Šï¼‰
 		current = CobolConsts.SELECT;
 		if (inACM) {
 			add("*" + text);
@@ -1997,7 +1997,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text
 	 */
 	void whenStorage(String text) {
-		// ºî¶ÈÎÎ°èÀë¸À
+		// ä½œæ¥­é ˜åŸŸå®£è¨€
 		if (inFD) {
 			add("*" + text);
 			add_fd(text);

@@ -11,25 +11,25 @@ import java.util.logging.Level;
 
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
- * ¥Ç¥Õ¥©¥ë¥È¤Î¥³¥Ü¥ë¥ì¥³¡¼¥É
+ * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚³ãƒœãƒ«ãƒ¬ã‚³ãƒ¼ãƒ‰
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class DefaultCobolRecord implements CobolRecord {
-	/** ¥ì¥³¡¼¥É¤Î¥Ğ¥¤¥ÈÇÛÎó */
+	/** ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ãƒã‚¤ãƒˆé…åˆ— */
 	private byte[] initialrecord;
-	/** ¥á¥¿¥Ç¡¼¥¿ */
+	/** ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ */
 	private CobolRecordMetaData metaData;
-	/** ¥ì¥³¡¼¥É¤Î¥Ğ¥¤¥ÈÇÛÎó */
+	/** ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ãƒã‚¤ãƒˆé…åˆ— */
 	private byte[] record;
 	/**
-	 * ¥³¥Ü¥ë¥ì¥³¡¼¥É
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
+	 * ã‚³ãƒœãƒ«ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public DefaultCobolRecord(CobolRecordMetaData meta) {
 		setMetaData(meta);
 	}
 	/*
-	 * Îó¥¤¥ó¥Ç¥Ã¥¯¥¹¤Î¼èÆÀ (non-Javadoc)
+	 * åˆ—ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®å–å¾— (non-Javadoc)
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#findColumn(java.lang.String)
 	 */
 	public int findColumn(String columnName) throws CobolRecordException {
@@ -101,9 +101,9 @@ public class DefaultCobolRecord implements CobolRecord {
 		return ret;
 	}
 	/**
-	 * ¥ì¥³¡¼¥É¤Ë´Ş¤Ş¤ì¤ëÎó
-	 * @param columnIndex Îó¥¤¥ó¥Ç¥Ã¥¯¥¹
-	 * @return ¥¤¥ó¥Ç¥Ã¥¯¥¹¤Ç»ØÄê¤·¤¿Îó
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰ã«å«ã¾ã‚Œã‚‹åˆ—
+	 * @param columnIndex åˆ—ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+	 * @return ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã§æŒ‡å®šã—ãŸåˆ—
 	 */
 	public CobolColumn getColumn(int columnIndex) {
 		return metaData.getColumn(columnIndex);
@@ -116,7 +116,7 @@ public class DefaultCobolRecord implements CobolRecord {
 		Date ret = null;
 		String datestr = getString(column);
 		if (datestr == null) {
-			// ÆüÉÕ¤òÏª¤¹¤Ù¤­Ê¸»úÎó¤¬¤¹¤Ç¤Ënull
+			// æ—¥ä»˜ã‚’éœ²ã™ã¹ãæ–‡å­—åˆ—ãŒã™ã§ã«null
 			ret = null;
 		} else {
 			String fmt = column.getFormat();
@@ -124,12 +124,12 @@ public class DefaultCobolRecord implements CobolRecord {
 				fmt = "yyyyMMdd";
 			DateFormat dateformat = new SimpleDateFormat(fmt);
 			try {
-				// Ê¸»úÎó¤«¤éÊÑ´¹¤¹¤ë
+				// æ–‡å­—åˆ—ã‹ã‚‰å¤‰æ›ã™ã‚‹
 				ret = dateformat.parse(datestr);
 				String nvl = column.getForNull();
 				if (nvl != null) {
 					if (datestr.equals(nvl)) {
-						// null¤ËÊÑ´¹¤¹¤ë¤¹¤ë¤è¤¦¤ËÀßÄê¤µ¤ì¤Æ¤¤¤ë
+						// nullã«å¤‰æ›ã™ã‚‹ã™ã‚‹ã‚ˆã†ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹
 						ret = null;
 					}
 				}
@@ -137,10 +137,10 @@ public class DefaultCobolRecord implements CobolRecord {
 				if (column.isUseOnParseError()) {
 					Object val = column.getValueOfParseError();
 					if (val instanceof Date) {
-						// ÂåÂØÃÍ¤òÀßÄê¤¹¤ë
+						// ä»£æ›¿å€¤ã‚’è¨­å®šã™ã‚‹
 						ret = (Date) val;
 					} else if (val != null) {
-						// ÂåÂØÃÍ¤òÊ¸»úÎó¤«¤éÀßÄê¤¹¤ë
+						// ä»£æ›¿å€¤ã‚’æ–‡å­—åˆ—ã‹ã‚‰è¨­å®šã™ã‚‹
 						String work = val.toString();
 						try {
 							ret = dateformat.parse(work);
@@ -149,7 +149,7 @@ public class DefaultCobolRecord implements CobolRecord {
 							throw new CobolRecordException();
 						}
 					} else {
-						// ÂåÂØÃÍ¤Ïnull
+						// ä»£æ›¿å€¤ã¯null
 						ret = null;
 					}
 				} else {
@@ -195,7 +195,7 @@ public class DefaultCobolRecord implements CobolRecord {
 			int byt;
 			byte[] bytes = getBytes(column);
 			for (int i = 0; i < bytes.length - 1; i++) {
-				// ³Æ¥Ğ¥¤¥È¤ÎÀÑ¤ß¾å¤²
+				// å„ãƒã‚¤ãƒˆã®ç©ã¿ä¸Šã’
 				byt = bytes[i];
 				ret += (byt & 0x0F);
 				ret *= 10.0;
@@ -203,13 +203,13 @@ public class DefaultCobolRecord implements CobolRecord {
 			byt = bytes[bytes.length - 1];
 			ret += (byt & 0x0F);
 			if (column.isSigned()) {
-				// Éä¹æÉÕ¤­¤«¤É¤¦¤«
+				// ç¬¦å·ä»˜ãã‹ã©ã†ã‹
 				if ((byt & 0x40) != 0) {
 					ret *= (-1);
 				}
 			}
 			for (int i = 0; i < column.getNumberOfDecimal(); i++) {
-				// ¾®¿ôÉô¤ÎÂĞ±ş
+				// å°æ•°éƒ¨ã®å¯¾å¿œ
 				ret /= 10.0;
 			}
 		}
@@ -250,7 +250,7 @@ public class DefaultCobolRecord implements CobolRecord {
 			int byt;
 			byte[] bytes = getBytes(column);
 			for (int i = 0; i < bytes.length - 1; i++) {
-				// ³Æ¥Ğ¥¤¥È¤ÎÀÑ¤ß¾å¤²
+				// å„ãƒã‚¤ãƒˆã®ç©ã¿ä¸Šã’
 				byt = bytes[i];
 				ret += (byt & 0x0F);
 				ret *= 10.0F;
@@ -258,13 +258,13 @@ public class DefaultCobolRecord implements CobolRecord {
 			byt = bytes[bytes.length - 1];
 			ret += (byt & 0x0F);
 			if (column.isSigned()) {
-				// Éä¹æÉÕ¤­¤«¤É¤¦¤«
+				// ç¬¦å·ä»˜ãã‹ã©ã†ã‹
 				if ((byt & 0x40) != 0) {
 					ret *= (-1);
 				}
 			}
 			for (int i = 0; i < column.getNumberOfDecimal(); i++) {
-				// ¾®¿ôÉô¤ÎÂĞ±ş
+				// å°æ•°éƒ¨ã®å¯¾å¿œ
 				ret /= 10.0F;
 			}
 		}
@@ -304,7 +304,7 @@ public class DefaultCobolRecord implements CobolRecord {
 			int byt;
 			byte[] bytes = getBytes(column);
 			for (int i = 0; i < bytes.length - 1; i++) {
-				// ³Æ¥Ğ¥¤¥È¤ÎÀÑ¤ß¾å¤²
+				// å„ãƒã‚¤ãƒˆã®ç©ã¿ä¸Šã’
 				byt = bytes[i];
 				ret += (byt & 0x0F);
 				ret *= 10;
@@ -312,13 +312,13 @@ public class DefaultCobolRecord implements CobolRecord {
 			byt = bytes[bytes.length - 1];
 			ret += (byt & 0x0F);
 			if (column.isSigned()) {
-				// Éä¹æÉÕ¤­¤«¤É¤¦¤«
+				// ç¬¦å·ä»˜ãã‹ã©ã†ã‹
 				if ((byt & 0x40) != 0) {
 					ret *= (-1);
 				}
 			}
 			for (int i = 0; i < column.getNumberOfDecimal(); i++) {
-				// ¾®¿ôÉô¤ÎÂĞ±ş
+				// å°æ•°éƒ¨ã®å¯¾å¿œ
 				ret /= 10;
 			}
 		}
@@ -358,7 +358,7 @@ public class DefaultCobolRecord implements CobolRecord {
 			int byt;
 			byte[] bytes = getBytes(column);
 			for (int i = 0; i < bytes.length - 1; i++) {
-				// ³Æ¥Ğ¥¤¥È¤ÎÀÑ¤ß¾å¤²
+				// å„ãƒã‚¤ãƒˆã®ç©ã¿ä¸Šã’
 				byt = bytes[i];
 				ret += (byt & 0x0F);
 				ret *= 10;
@@ -366,13 +366,13 @@ public class DefaultCobolRecord implements CobolRecord {
 			byt = bytes[bytes.length - 1];
 			ret += (byt & 0x0F);
 			if (column.isSigned()) {
-				// Éä¹æÉÕ¤­¤«¤É¤¦¤«
+				// ç¬¦å·ä»˜ãã‹ã©ã†ã‹
 				if ((byt & 0x40) != 0) {
 					ret *= (-1);
 				}
 			}
 			for (int i = 0; i < column.getNumberOfDecimal(); i++) {
-				// ¾®¿ôÉô¤ÎÂĞ±ş
+				// å°æ•°éƒ¨ã®å¯¾å¿œ
 				ret /= 10;
 			}
 		}
@@ -417,40 +417,40 @@ public class DefaultCobolRecord implements CobolRecord {
 		try {
 			String encode = metaData.getEncode();
 			if (encode != null && encode.length() > 0) {
-				// ¥¨¥ó¥³¡¼¥É»ØÄê¤¢¤ê
+				// ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰æŒ‡å®šã‚ã‚Š
 				retValue = new String(record, start, length, encode);
 			} else {
-				// ¥¨¥ó¥³¡¼¥É»ØÄê¤Ê¤·
+				// ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰æŒ‡å®šãªã—
 				retValue = new String(record, start, length);
 			}
 		} catch (UnsupportedEncodingException uee) {
-			// ¥¨¥ó¥³¡¼¥Ç¥£¥ó¥°¤¬Àµ¤·¤¯¤Ê¤¤
+			// ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ãŒæ­£ã—ããªã„
 			retValue = new String(record, start, length);
 			SQLNetServer.logger.log(Level.SEVERE, uee.getMessage(), uee);
 		} catch (IndexOutOfBoundsException ioe) {
-			// Æş¤ì¤ëÈÏ°Ï³°¤¬È¯À¸¤·¤¿¤Î¤Ç¶õÊ¸»úÎó¤òÊÖ¤¹
+			// å…¥ã‚Œã‚‹ç¯„å›²å¤–ãŒç™ºç”Ÿã—ãŸã®ã§ç©ºæ–‡å­—åˆ—ã‚’è¿”ã™
 			retValue = "";
 			SQLNetServer.logger.log(Level.SEVERE, ioe.getMessage(), ioe);
 		}
 		if (column.getForNull() != null) {
 			if (retValue.equals(column.getForNull())) {
-				// null¤ËÊÑ´¹¤¹¤ëÍÑ¤Ë¥ë¡¼¥ëÀßÄê¤µ¤ì¤Æ¤¤¤ë
+				// nullã«å¤‰æ›ã™ã‚‹ç”¨ã«ãƒ«ãƒ¼ãƒ«è¨­å®šã•ã‚Œã¦ã„ã‚‹
 				retValue = null;
 			}
 		}
 		return retValue;
 	}
 	/**
-	 * JDBC·ë²Ì¥»¥Ã¥È¤«¤é¥ì¥³¡¼¥É¤ËÊÑ´¹¤¹¤ë
+	 * JDBCçµæœã‚»ãƒƒãƒˆã‹ã‚‰ãƒ¬ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹
 	 */
 	public void initializeRecord() {
 		System.arraycopy(initialrecord, 0, record, 0, record.length);
 	}
 	/**
-	 * ¤³¤ÎÎó¤Ï½ñ¼°¤¬ÀßÄê¤µ¤ì¤Æ¤¤¤ë¤«¡©
-	 * @param column Îó
-	 * @return true:½ñ¼°Í­¤ê<br>
-	 *         false:½ñ¼°Ìµ¤·
+	 * ã“ã®åˆ—ã¯æ›¸å¼ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ï¼Ÿ
+	 * @param column åˆ—
+	 * @return true:æ›¸å¼æœ‰ã‚Š<br>
+	 *         false:æ›¸å¼ç„¡ã—
 	 */
 	protected boolean isColumnFormatted(CobolColumn column) {
 		boolean ret = false;
@@ -462,8 +462,8 @@ public class DefaultCobolRecord implements CobolRecord {
 		return ret;
 	}
 	/**
-	 * ¤³¤Î¥ì¥³¡¼¥É¤Î¥á¥¿¥Ç¡¼¥¿¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param data ¥á¥¿¥Ç¡¼¥¿
+	 * ã“ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param data ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public void setMetaData(CobolRecordMetaData data) {
 		metaData = data;
@@ -478,7 +478,7 @@ public class DefaultCobolRecord implements CobolRecord {
 			}
 		}
 		System.arraycopy(record, 0, initialrecord, 0, initialrecord.length);
-		// SQLNetServer.DebugPrint("¥ì¥³¡¼¥ÉÄ¹¡§" + record.length);
+		// SQLNetServer.DebugPrint("ãƒ¬ã‚³ãƒ¼ãƒ‰é•·ï¼š" + record.length);
 	}
 	/*
 	 * (non-Javadoc)
@@ -534,10 +534,10 @@ public class DefaultCobolRecord implements CobolRecord {
 		}
 	}
 	/**
-	 * ¥Ğ¥¤¥ÈÇÛint v = bi.intValue();Îó¤ò±¦¤«¤é½ñ¤­¹ş¤à
-	 * @param column ½ñ¤­¹ş¤àÎó
-	 * @param x ÃÍ
-	 * @throws CobolRecordException Îó¤¬¤Ê¤¤¤È¤«
+	 * ãƒã‚¤ãƒˆé…int v = bi.intValue();åˆ—ã‚’å³ã‹ã‚‰æ›¸ãè¾¼ã‚€
+	 * @param column æ›¸ãè¾¼ã‚€åˆ—
+	 * @param x å€¤
+	 * @throws CobolRecordException åˆ—ãŒãªã„ã¨ã‹
 	 */
 	public void updateBytesR(CobolColumn column, byte[] x) throws CobolRecordException {
 		int i = 0;
@@ -574,12 +574,12 @@ public class DefaultCobolRecord implements CobolRecord {
 			updateStringR(column, df.format(x));
 		} else {
 			boolean b = (x < 0);
-			// ¤µ¤¡¡¢¤³¤³¤«¤é¤¬ÌäÂê¤Ç¤¹¤Ê
+			// ã•ãã€ã“ã“ã‹ã‚‰ãŒå•é¡Œã§ã™ãª
 			byte[] bytes = new byte[column.getPhysicalLength()];
 			BigDecimal bi = BigDecimal.valueOf(x).abs();
 			BigDecimal bd = BigDecimal.valueOf(x).abs();
-			int lob = bytes.length - column.getNumberOfDecimal();// À°¿ôÉô¤ÎÄ¹¤µ
-			// À°¿ôÉô¡ábytes[0]¡Á[lob - 1]¢¨¤¿¤À¤·¡¢ºÇ±¦Ã¼¡ábytes[length - 1]
+			int lob = bytes.length - column.getNumberOfDecimal();// æ•´æ•°éƒ¨ã®é•·ã•
+			// æ•´æ•°éƒ¨ï¼bytes[0]ã€œ[lob - 1]â€»ãŸã ã—ã€æœ€å³ç«¯ï¼bytes[length - 1]
 			int i = lob - 1;
 			while (i >= 0) {
 				BigDecimal r = bi.remainder(BigDecimal.TEN);
@@ -592,7 +592,7 @@ public class DefaultCobolRecord implements CobolRecord {
 				bi = bi.movePointLeft(1);
 				i--;
 			}
-			// ¾®¿ôÉô¡ábytes[lob]¡Á[length - 1]¢¨¤¿¤À¤·¡¢ºÇ±¦Ã¼¡ábytes[length - 1]
+			// å°æ•°éƒ¨ï¼bytes[lob]ã€œ[length - 1]â€»ãŸã ã—ã€æœ€å³ç«¯ï¼bytes[length - 1]
 			bd = bd.movePointRight(1);
 			for (i = lob; i < bytes.length; i++) {
 				BigDecimal r = bd.remainder(BigDecimal.TEN);
@@ -634,22 +634,22 @@ public class DefaultCobolRecord implements CobolRecord {
 			updateDouble(column, x);
 		} else {
 			if (isColumnFormatted(column)) {
-				// ½ñ¼°²½¤µ¤ì¤Æ¤¤¤ë
+				// æ›¸å¼åŒ–ã•ã‚Œã¦ã„ã‚‹
 				DecimalFormat df = new DecimalFormat(column.getFormat());
 				updateStringR(column, df.format(x));
 			} else {
-				// ½ñ¼°¤¬¤Ê¤¤
+				// æ›¸å¼ãŒãªã„
 				boolean b = (x < 0);
 				long v = (b ? -x : x);
 				int len = column.getPhysicalLength();
 				byte[] bytes = new byte[len];
 				int i = len - 1;
 				bytes[i] = (byte) ((b ? 0x70 : 0x30) | (v % 10));// [length -
-				// 1]¤¬ºÇ±¦Ã¼
+				// 1]ãŒæœ€å³ç«¯
 				v /= 10;
 				i--;
 				while (i >= 0) {
-					// bytes[0]¡Ábytes[length - 2]->¤¿¤À¤·±¦¤«¤éÀßÄê
+					// bytes[0]ã€œbytes[length - 2]->ãŸã ã—å³ã‹ã‚‰è¨­å®š
 					bytes[i] = (byte) (0x30 | (v % 10));
 					v /= 10;
 					i--;
@@ -681,7 +681,7 @@ public class DefaultCobolRecord implements CobolRecord {
 				x[i] = ' ';
 			}
 		} else {
-			// Ì¤ÃÎ¤Î¥Ç¡¼¥¿·¿
+			// æœªçŸ¥ã®ãƒ‡ãƒ¼ã‚¿å‹
 		}
 		updateBytes(column, x);
 	}
@@ -743,10 +743,10 @@ public class DefaultCobolRecord implements CobolRecord {
 		}
 	}
 	/**
-	 * Îó¤ò±¦µÍ¤á¤Ç¹¹¿·¤¹¤ë
-	 * @param column ¹¹¿·¤¹¤ëÎó
-	 * @param x ¹¹¿·¤¹¤ëÃÍ
-	 * @throws CobolRecordException ²¿¤«¤¦¤Ş¤¯¤¤¤«¤Ê¤«¤Ã¤¿¤é¤·¤¤
+	 * åˆ—ã‚’å³è©°ã‚ã§æ›´æ–°ã™ã‚‹
+	 * @param column æ›´æ–°ã™ã‚‹åˆ—
+	 * @param x æ›´æ–°ã™ã‚‹å€¤
+	 * @throws CobolRecordException ä½•ã‹ã†ã¾ãã„ã‹ãªã‹ã£ãŸã‚‰ã—ã„
 	 */
 	public void updateStringR(CobolColumn column, String x) throws CobolRecordException {
 		try {

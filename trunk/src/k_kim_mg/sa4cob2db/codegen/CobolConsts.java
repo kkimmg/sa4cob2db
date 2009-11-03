@@ -6,98 +6,98 @@
  */
 package k_kim_mg.sa4cob2db.codegen;
 /**
- * ¥³¡¼¥ÉÊÑ´¹¤Ë´Ø¤¹¤ë¥ê¥Æ¥é¥ë¤òÄó¶¡¤¹¤ë
+ * ã‚³ãƒ¼ãƒ‰å¤‰æ›ã«é–¢ã™ã‚‹ãƒªãƒ†ãƒ©ãƒ«ã‚’æä¾›ã™ã‚‹
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract class CobolConsts {
-	/**AMFILEÀë¸À¤Î³«»Ï*/
+	/**AMFILEå®£è¨€ã®é–‹å§‹*/
 	public static final String ACMSTART = "^\\*ACMFILE\\s*";
-	/**ACM¥ì¥³¡¼¥ÉÌ¾Àë¸À*/
+	/**ACMãƒ¬ã‚³ãƒ¼ãƒ‰åå®£è¨€*/
 	public static final String ACMRECNAME = "^\\*ACMRECNAME=.*";
-	/**AM¥È¥é¥ó¥¶¥¯¥·¥ç¥ó³«»ÏÀë¸À*/
+	/**AMãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³é–‹å§‹å®£è¨€*/
 	public static final String ACMTRANS = "^\\*ACMTRANSACTION=.*";
-	/**¼«Æ°¥³¥ß¥Ã¥È¥â¡¼¥ÉÀë¸À*/
+	/**è‡ªå‹•ã‚³ãƒŸãƒƒãƒˆãƒ¢ãƒ¼ãƒ‰å®£è¨€*/
 	public static final String ACMAUTO = "^\\*ACMAUTOCOMMIT=.*";
-	/**¥³¥ß¥Ã¥ÈÀë¸À*/
+	/**ã‚³ãƒŸãƒƒãƒˆå®£è¨€*/
 	public static final String ACMCOMMIT = "^\\*ACMCOMMIT.*";
-	/**¥í¡¼¥ë¥Ğ¥Ã¥¯Àë¸À*/
+	/**ãƒ­ãƒ¼ãƒ«ãƒãƒƒã‚¯å®£è¨€*/
 	public static final String ACMROLLBACK = "^\\*ACMROLLBACK.*";
-	/**AT END¶ç*/
+	/**AT ENDå¥*/
 	public static final String ATEND = "^\\s*[aA][tT]\\s*[eE][nN][dD].*";
-	/**CLOSEÌ¿Îá*/
+	/**CLOSEå‘½ä»¤*/
 	public static final String CLOSE = "^\\s*[cC][lL][oO][sS][eE]\\s.*";
-	/**¥³¥á¥ó¥È*/
+	/**ã‚³ãƒ¡ãƒ³ãƒˆ*/
 	public static final String COMMENT = "^\\*.*";
-	/**COPY¶ç*/
+	/**COPYå¥*/
 	public static final String COPY = "^\\s*[cC][oO][pP][yY]\\s.*";
-	/**DELETEÌ¿Îá*/
+	/**DELETEå‘½ä»¤*/
 	public static final String DELETE = "^\\s*[dD][eE][lL][eE][tT][eE]\\s.*";
-	/**DEVISION¶ç*/
+	/**DEVISIONå¥*/
 	public static final String DIVISION = ".*[dD][iI][vV][iI][sS][iI][oO][nN].*";
-	/**END DELETE¶ç*/
+	/**END DELETEå¥*/
 	public static final String ENDDELETE = "^\\s*[eE][nN][dD]-[dD][eE][lL][eE][tT][eE].*";
-	/**¤½¤ÎÂ¾¤ÎEND ???*/
+	/**ãã®ä»–ã®END ???*/
 	public static final String ENDOFOTHERS = "^\\s*[eE][nN][dD]-.*";
-	/**END READ¶ç*/
+	/**END READå¥*/
 	public static final String ENDREAD = "^\\s*[eE][nN][dD]-[rR][eE][aA][dD].*";
-	/**END REWRITE¶ç*/
+	/**END REWRITEå¥*/
 	public static final String ENDREWRITE = "^\\s*[eE][nN][dD]-[rR][eE][wW][rR][iI][tT][eE].*";
-	/**END START¶ç*/
+	/**END STARTå¥*/
 	public static final String ENDSTART = "^\\s*[eE][nN][dD]-[sS][tT][aA][rR][tT].*";
-	/**END WRITE¶ç*/
+	/**END WRITEå¥*/
 	public static final String ENDWRITE = "^\\s*[eE][nN][dD]-[wW][rR][iI][tT][eE].*";
-	/**EXIT PROGRAM¶ç*/
+	/**EXIT PROGRAMå¥*/
 	public static final String EXITPROGRAM = "^\\s*[eE][xX][iI][tT]\\s*[pP][rR][oO][gG][rR][aA][mM].*";
-	/**FD¶ç*/
+	/**FDå¥*/
 	public static final String FD = "^\\s*[fF][dD]\\s.*";
-	/**FILE CONTROL¶ç*/
+	/**FILE CONTROLå¥*/
 	public static final String FILECONTROL = "\\s*[fF][iI][lL][eE]-[cC][oO][nN][tT][rR][oO][lL]\\s*\\.\\s*";
-	/**INVALID¶ç*/
+	/**INVALIDå¥*/
 	public static final String INVALID = "^\\s*[iI][nN][vV][aA][lL][iI][dD].*";
-	/**¥é¥Ù¥ë*/
+	/**ãƒ©ãƒ™ãƒ«*/
 	public static final String LABEL = "^\\s[^\\s].*";
-	/**¥¢¥¯¥»¥¹¥â¡¼¥É(³ÈÄ¥)*/
+	/**ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰(æ‹¡å¼µ)*/
 	public static final int MODE_EXTEND = 3;
-	/**¥¢¥¯¥»¥¹¥â¡¼¥É(ÆşÎÏ)*/
+	/**ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰(å…¥åŠ›)*/
 	public static final int MODE_INPUT = 0;
-	/**¥¢¥¯¥»¥¹¥â¡¼¥É(Æş½ĞÎÏ)*/
+	/**ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰(å…¥å‡ºåŠ›)*/
 	public static final int MODE_IO = 2;
-	/**¥¢¥¯¥»¥¹¥â¡¼¥É(½ĞÎÏ)*/
+	/**ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰(å‡ºåŠ›)*/
 	public static final int MODE_OUTPUT = 1;
-	/**NOT AT END¶ç*/
+	/**NOT AT ENDå¥*/
 	public static final String NOTATEND = "^\\s*[nN][oO][tT]\\s*[aA][tT]\\s*[eE][nN][dD].*";
-	/**NOT INVALID¶ç*/
+	/**NOT INVALIDå¥*/
 	public static final String NOTINVALID = "^\\s*[nN][oO][tT]\\s*[iI][nN][vV][aA][lL][iI][dD].*";
-	/**OPENÌ¿Îá*/
+	/**OPENå‘½ä»¤*/
 	public static final String OPEN = "^\\s*[oO][pP][eE][nN]\\s.*";
-	/**¥Õ¥¡¥¤¥ë·ÁÀ®(¥À¥¤¥Ê¥ß¥Ã¥¯)*/
+	/**ãƒ•ã‚¡ã‚¤ãƒ«å½¢æˆ(ãƒ€ã‚¤ãƒŠãƒŸãƒƒã‚¯)*/
 	public static final int ORG_DYNAMIC = 1;
-	/**¥Õ¥¡¥¤¥ë·ÁÀ®(¥é¥ó¥À¥à)*/
+	/**ãƒ•ã‚¡ã‚¤ãƒ«å½¢æˆ(ãƒ©ãƒ³ãƒ€ãƒ )*/
 	public static final int ORG_RANDOM = 2;
-	/**¥Õ¥¡¥¤¥ë·ÁÀ®(¥·¡¼¥±¥ó¥·¥ã¥ë)*/
+	/**ãƒ•ã‚¡ã‚¤ãƒ«å½¢æˆ(ã‚·ãƒ¼ã‚±ãƒ³ã‚·ãƒ£ãƒ«)*/
 	public static final int ORG_SEQUENTIAL = 0;
-	/**¥Ô¥ê¥ª¥É¤Î¤ß¤Î¹Ô*/
+	/**ãƒ”ãƒªã‚ªãƒ‰ã®ã¿ã®è¡Œ*/
 	public static final String PERIOD_ROW = "\\.\\s*$";
-	/**¹ÔËö¤¬¥Ô¥ê¥ª¥É¤Î¹Ô*/
+	/**è¡Œæœ«ãŒãƒ”ãƒªã‚ªãƒ‰ã®è¡Œ*/
 	public static final String PERIOD = ".*\\.\\s*";
-	/**READÌ¿Îá*/
+	/**READå‘½ä»¤*/
 	public static final String READ = "^\\s*[rR][eE][aA][dD]\\s.*";
-	/**REWRITEÌ¿Îá*/
+	/**REWRITEå‘½ä»¤*/
 	public static final String REWRITE = "^\\s*[rR][eE][wW][rR][iI][tT][eE]\\s.*";
-	/**SECTION¶ç*/
+	/**SECTIONå¥*/
 	public static final String SECTION = ".*[sS][eE][cC][tT][iI][oO][nN]\\s*\\.\\s*";
-	/**SELECT¶ç*/
+	/**SELECTå¥*/
 	public static final String SELECT = "^\\s*[sS][eE][lL][eE][cC][tT]\\s.*";
-	/**STARTÌ¿Îá*/
+	/**STARTå‘½ä»¤*/
 	public static final String START = "^\\s*[sS][tT][aA][rR][tT].*";
-	/**STOP ABORTÌ¿Îá*/
+	/**STOP ABORTå‘½ä»¤*/
 	public static final String STOPABORT = "^\\s*[sS][tT][oO][pP]\\s*[aA][bB][oO][rR][tT].*";
-	/**STOP RUNÌ¿Îá*/
+	/**STOP RUNå‘½ä»¤*/
 	public static final String STOPRUN = "^\\s*[sS][tT][oO][pP]\\s*[rR][uU][nN].*";
-	/**PICTURE¶ç¤Î01¥ì¥Ù¥ë*/
+	/**PICTUREå¥ã®01ãƒ¬ãƒ™ãƒ«*/
 	public static final String STORAGE = "^\\s*0*1\\s.*";
-	/**WRITEÌ¿Îá*/
+	/**WRITEå‘½ä»¤*/
 	public static final String WRITE = "^\\s*[wW][rR][iI][tT][eE]\\s.*";
-	/**ACM´ØÏ¢¤ÎÎÎ°è¤ò³ÎÊİ¤¹¤ëPICTURE¶ç¤ò³ÊÇ¼¤¹¤ë¥Õ¥¡¥¤¥ë(COPY¶ç¤Ç¥½¡¼¥¹¤ËÁŞÆş¤¹¤ë)*/
+	/**ACMé–¢é€£ã®é ˜åŸŸã‚’ç¢ºä¿ã™ã‚‹PICTUREå¥ã‚’æ ¼ç´ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«(COPYå¥ã§ã‚½ãƒ¼ã‚¹ã«æŒ¿å…¥ã™ã‚‹)*/
 	static String ACMCONSTS_FILE = "ACMCONSTS.CBL";
 }

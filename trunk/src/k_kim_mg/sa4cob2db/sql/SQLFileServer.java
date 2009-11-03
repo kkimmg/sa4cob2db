@@ -5,35 +5,35 @@ import java.util.logging.Level;
 
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 /**
- * ÅĞÏ¿ºÑ¤ß¤Î¥á¥¿¥Ç¡¼¥¿¤«¤é¥Õ¥¡¥¤¥ë¥ª¥Ö¥¸¥§¥¯¥È¤òºî¤Ã¤¿¤ê¤¹¤ëµ¡Ç½
+ * ç™»éŒ²æ¸ˆã¿ã®ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œã£ãŸã‚Šã™ã‚‹æ©Ÿèƒ½
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLFileServer {
-	/** SQL¥³¥Í¥¯¥·¥ç¥óÍÑ¥æ¡¼¥Æ¥£¥ê¥Æ¥£ */
+	/** SQLã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ç”¨ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ */
 	protected DBConnector connector;
-	/** ¥á¥¿¥Ç¡¼¥¿¤Î¥»¥Ã¥È */
+	/** ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®ã‚»ãƒƒãƒˆ */
 	protected SQLCobolRecordMetaDataSet metaDataSet;
-	/** ¥»¥Ã¥·¥ç¥óID¤Î¤¿¤á¤Î¥·¡¼¥±¥ó¥¹ */
+	/** ã‚»ãƒƒã‚·ãƒ§ãƒ³IDã®ãŸã‚ã®ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ */
 	protected/* synchronized */
-	/*  ½ç½ø */
+	/*  é †åº */
 	int sequence = 0;
-	/** ¥³¥ó¥¹¥È¥é¥¯¥¿ */
+	/** ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ */
 	public SQLFileServer() {
 		connector = new DBConnector();
 		metaDataSet = new SQLCobolRecordMetaDataSet();
 	}
 	/**
-	 * ÀÜÂ³¤ÎºîÀ®
-	 * @return ÀÜÂ³
+	 * æ¥ç¶šã®ä½œæˆ
+	 * @return æ¥ç¶š
 	 */
 	public Connection createConnection() {
 		return createConnection(true);
 	}
 	/**
-	 * ÀÜÂ³¤ÎºîÀ®
-	 * @param what true ¾ï¤Ë¿·¤¿¤ËÀÜÂ³¤òºîÀ®¤¹¤ë<br/>
-	 *            false ´û¤ËÀÜÂ³¤¬Â¸ºß¤·¤¿¤é¿·¤¿¤ËÀÜÂ³¤òºîÀ®¤·¤Ê¤¤¡£
-	 * @return ÀÜÂ³
+	 * æ¥ç¶šã®ä½œæˆ
+	 * @param what true å¸¸ã«æ–°ãŸã«æ¥ç¶šã‚’ä½œæˆã™ã‚‹<br/>
+	 *            false æ—¢ã«æ¥ç¶šãŒå­˜åœ¨ã—ãŸã‚‰æ–°ãŸã«æ¥ç¶šã‚’ä½œæˆã—ãªã„ã€‚
+	 * @return æ¥ç¶š
 	 */
 	public Connection createConnection(boolean what) {
 		Connection ret = null;
@@ -52,8 +52,8 @@ public class SQLFileServer {
 		return ret;
 	}
 	/**
-	 * ÀÜÂ³¤Î³«Êü
-	 * @param connection ³«Êü¤¹¤ëÀÜÂ³
+	 * æ¥ç¶šã®é–‹æ”¾
+	 * @param connection é–‹æ”¾ã™ã‚‹æ¥ç¶š
 	 */
 	public void removeConnection (Connection connection) {
 		try {
@@ -63,77 +63,77 @@ public class SQLFileServer {
 		}
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹URL
-	 * @return ¥Ç¡¼¥¿¥Ù¡¼¥¹URL
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹URL
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹URL
 	 */
 	private String getDatabaseURL() {
 		return metaDataSet.getDatabaseURL();
 	}
 	/**
-	 * ¥É¥é¥¤¥ĞURL
-	 * @return ¥É¥é¥¤¥ĞURL
+	 * ãƒ‰ãƒ©ã‚¤ãƒURL
+	 * @return ãƒ‰ãƒ©ã‚¤ãƒURL
 	 */
 	private String getDriverURL() {
 		return metaDataSet.getDriverURL();
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¤Î¼èÆÀ
-	 * @param i iÈÖÌÜ¤Î¤á¤¿¥Ç¡¼¥¿¤ò¼èÆÀ¤¹¤ë
-	 * @return ¥á¥¿¥Ç¡¼¥¿
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®å–å¾—
+	 * @param i iç•ªç›®ã®ã‚ãŸãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
+	 * @return ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public CobolRecordMetaData getMetaData(int i) {
 		return metaDataSet.getMetaData(i);
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¤Î¼èÆÀ
-	 * @param name ¥á¥¿¥Ç¡¼¥¿Ì¾
-	 * @return ¥á¥¿¥Ç¡¼¥¿
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®å–å¾—
+	 * @param name ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿å
+	 * @return ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public CobolRecordMetaData getMetaData(String name) {
 		return metaDataSet.getMetaData(name);
 	}
-	/** ÅĞÏ¿¤µ¤ì¤¿¥á¥¿¥Ç¡¼¥¿¤Î¿ô */
+	/** ç™»éŒ²ã•ã‚ŒãŸãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®æ•° */
 	public int getMetaDataCount() {
 		return metaDataSet.getMetaDataCount();
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¤ò¼èÆÀ¤¹¤ë
-	 * @return ¥á¥¿¥Ç¡¼¥¿
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹
+	 * @return ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public SQLCobolRecordMetaDataSet getMetaDataSet() {
 		return metaDataSet;
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹¥Ñ¥¹¥ï¡¼¥É
-	 * @return ¥Ç¡¼¥¿¥Ù¡¼¥¹¥Ñ¥¹¥ï¡¼¥É
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
 	 */
 	private String getPassword() {
 		return metaDataSet.getPassword();
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹¥æ¡¼¥¶¡¼Ì¾
-	 * @return ¥Ç¡¼¥¿¥Ù¡¼¥¹¥æ¡¼¥¶¡¼Ì¾
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ¦ãƒ¼ã‚¶ãƒ¼å
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ¦ãƒ¼ã‚¶ãƒ¼å
 	 */
 	private String getUsername() {
 		return metaDataSet.getUsername();
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¤òÅĞÏ¿¤¹¤ë
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚’ç™»éŒ²ã™ã‚‹
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public void installMetaData(CobolRecordMetaData meta) {
 		metaDataSet.installMetaData(meta);
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¤òºï½ü¤¹¤ë
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚’å‰Šé™¤ã™ã‚‹
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public void removeMetaData(CobolRecordMetaData meta) {
 		metaDataSet.removeMetaData(meta);
 	}
 	/**
-	 * ¥á¥¿¥Ç¡¼¥¿¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param set ¥á¥¿¥Ç¡¼¥¿
+	 * ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param set ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public void setMetaDataSet(SQLCobolRecordMetaDataSet set) {
 		metaDataSet = set;

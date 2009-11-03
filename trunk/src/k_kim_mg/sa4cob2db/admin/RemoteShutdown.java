@@ -9,13 +9,12 @@ import java.util.Properties;
 
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
- * ��⡼�ȥ����С��򥷥�åȥ����󤹤�
+ * 鐃緒申癲種申肇鐃緒申鐃緒申弌鐃緒申鬟轡鐃獣トワ申鐃緒申鐃藷すわ申
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class RemoteShutdown {
 	/**
-	 * ���󥽡��뤫��¹Ԥ���
-	 * @param args ����ե�����̾
+	 * 鐃緒申鐃藷ソ¥申鐃暑か鐃緒申孫圓鐃緒申鐃	 * @param args ����ե�����̾
 	 */
 	public static void main(String[] args) {
 		if (args.length == 0) {
@@ -34,7 +33,7 @@ public class RemoteShutdown {
 		}
 	}
 	/**
-	 * ��⡼�ȥ����С��򥷥�åȥ����󤹤�
+	 * ��⡼�ȥ����С���åȥ�����
 	 * @param properties �������
 	 */
 	public static void shutdown(Properties properties) throws RemoteException, MalformedURLException, NotBoundException {
@@ -46,7 +45,7 @@ public class RemoteShutdown {
 		RemoteShutdown.shutdown(host, port, name, user, password);
 	}
 	/**
-	 * ��⡼�ȥ����С��򥷥�åȥ����󤹤�
+	 * ��⡼�ȥ����С���åȥ�����
 	 * @param host �ۥ���̾
 	 * @param port �ݡ���
 	 * @param name �����С�̾

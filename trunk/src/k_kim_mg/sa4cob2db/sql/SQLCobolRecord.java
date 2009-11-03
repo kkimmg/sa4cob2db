@@ -15,18 +15,18 @@ import k_kim_mg.sa4cob2db.DefaultCobolRecord;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLCobolRecord extends DefaultCobolRecord {
-	/** ¹¹¿·¥â¡¼¥É */
+	/** æ›´æ–°ãƒ¢ãƒ¼ãƒ‰ */
 	public static final int REWRITE = 1;
-	/** ÄÉµ­¥â¡¼¥É */
+	/** è¿½è¨˜ãƒ¢ãƒ¼ãƒ‰ */
 	public static final int WRITE = 0;
-	/** JDBC¥³¥Í¥¯¥·¥ç¥ó */
+	/** JDBCã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ */
 	private Connection connection;
-	/** ÆâÉô·ç¥«¥»¥Ã¥È */
+	/** å†…éƒ¨æ¬ ã‚«ã‚»ãƒƒãƒˆ */
 	private ResultSet resultSet;
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
-	 * @param result ·ë²Ì¥»¥Ã¥È
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
+	 * @param result çµæœã‚»ãƒƒãƒˆ
 	 */
 	public SQLCobolRecord(SQLCobolRecordMetaData meta, Connection connection, ResultSet result) {
 		super(meta);
@@ -34,27 +34,27 @@ public class SQLCobolRecord extends DefaultCobolRecord {
 		this.resultSet = result;
 	}
 	/**
-	 * JDBC¥³¥Í¥¯¥·¥ç¥ó¤Î¼èÆÀ
-	 * @return JDBC¥³¥Í¥¯¥·¥ç¥ó
+	 * JDBCã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã®å–å¾—
+	 * @return JDBCã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
 	 */
 	public Connection getConnection() {
 		return connection;
 	}
 	/**
-	 * ·ë²Ì¥»¥Ã¥È¤Î¼èÆÀ
-	 * @return ÆâÉô·ë²Ì¥»¥Ã¥È
+	 * çµæœã‚»ãƒƒãƒˆã®å–å¾—
+	 * @return å†…éƒ¨çµæœã‚»ãƒƒãƒˆ
 	 */
 	protected ResultSet getResultSet() {
 		return resultSet;
 	}
 	/**
-	 * ¥ì¥³¡¼¥É¤«¤éJDBC·ë²Ì¥»¥Ã¥È¤ØÊÑ´¹¤¹¤ë
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰ã‹ã‚‰JDBCçµæœã‚»ãƒƒãƒˆã¸å¤‰æ›ã™ã‚‹
 	 */
 	public void record2result(int type) throws CobolRecordException, SQLException {
 		record2result(resultSet, type);
 	}
 	/**
-	 * ¥ì¥³¡¼¥É¤«¤éJDBC·ë²Ì¥»¥Ã¥È¤ØÊÑ´¹¤¹¤ë
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰ã‹ã‚‰JDBCçµæœã‚»ãƒƒãƒˆã¸å¤‰æ›ã™ã‚‹
 	 */
 	protected void record2result(ResultSet result, int type) throws CobolRecordException, SQLException {
 		int count = getMetaData().getColumnCount();
@@ -69,9 +69,9 @@ public class SQLCobolRecord extends DefaultCobolRecord {
 		}
 	}
 	/**
-	 * JDBC·ë²Ì¥»¥Ã¥È¤«¤é¥ì¥³¡¼¥É¤ËÊÑ´¹¤¹¤ë
-	 * @param result ·ë²Ì¥»¥Ã¥È
-	 * @param column Îó
+	 * JDBCçµæœã‚»ãƒƒãƒˆã‹ã‚‰ãƒ¬ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹
+	 * @param result çµæœã‚»ãƒƒãƒˆ
+	 * @param column åˆ—
 	 */
 	protected void result2column(ResultSet result, SQLCobolColumn column) throws SQLException {
 		if (!column.isReadIgnore()) {
@@ -79,14 +79,14 @@ public class SQLCobolRecord extends DefaultCobolRecord {
 		}
 	}
 	/**
-	 * JDBC·ë²Ì¥»¥Ã¥È¤«¤é¥ì¥³¡¼¥É¤ËÊÑ´¹¤¹¤ë
+	 * JDBCçµæœã‚»ãƒƒãƒˆã‹ã‚‰ãƒ¬ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹
 	 */
 	public void result2record() throws CobolRecordException, SQLException {
 		result2record(resultSet);
 	}
 	/**
-	 * JDBC·ë²Ì¥»¥Ã¥È¤«¤é¥ì¥³¡¼¥É¤ËÊÑ´¹¤¹¤ë
-	 * @param result ·ë²Ì¥»¥Ã¥È
+	 * JDBCçµæœã‚»ãƒƒãƒˆã‹ã‚‰ãƒ¬ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›ã™ã‚‹
+	 * @param result çµæœã‚»ãƒƒãƒˆ
 	 */
 	protected void result2record(ResultSet result) throws CobolRecordException, SQLException {
 		initializeRecord();
@@ -94,15 +94,15 @@ public class SQLCobolRecord extends DefaultCobolRecord {
 		for (int i = 0; i < count; i++) {
 			CobolColumn columnCheck = getMetaData().getColumn(i);
 			if (columnCheck instanceof SQLCobolColumn) {
-				// ÉáÄÌ¤ÎÎó
+				// æ™®é€šã®åˆ—
 				SQLCobolColumn column = (SQLCobolColumn) columnCheck;
 				result2column(result, column);
 			}
 		}
 	}
 	/**
-	 * ·ë²Ì¥»¥Ã¥È¤ÎÀßÄê
-	 * @param resultSet ÆâÉô¤Ë³ÊÇ¼¤¹¤ë·ë²Ì¥»¥Ã¥È
+	 * çµæœã‚»ãƒƒãƒˆã®è¨­å®š
+	 * @param resultSet å†…éƒ¨ã«æ ¼ç´ã™ã‚‹çµæœã‚»ãƒƒãƒˆ
 	 */
 	protected void setResultSet(ResultSet resultSet) {
 		this.resultSet = resultSet;

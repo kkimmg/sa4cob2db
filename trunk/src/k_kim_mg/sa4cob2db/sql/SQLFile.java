@@ -23,14 +23,14 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	private int rowCount = 0;
 	private transient SQLCobolRecord rowData;
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param connection ¥³¥Í¥¯¥·¥ç¥ó
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param connection ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public SQLFile(Connection connection, SQLCobolRecordMetaData meta) {
 		this.connection = connection;
 		this.meta = meta;
-		// ¥Ğ¥Ã¥Õ¥¡¾ğÊó¤ÎÀßÄê
+		// ãƒãƒƒãƒ•ã‚¡æƒ…å ±ã®è¨­å®š
 		setInitialSequencialReadBufferSize(meta.getInitialSequencialReadBufferSize());
 		setMinimumSequencialReadBufferSize(meta.getMinimumSequencialReadBufferSize());
 		setMaximumSequencialReadBufferSize(meta.getMaximumSequencialReadBufferSize());
@@ -62,17 +62,17 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * ¥ì¥³¡¼¥É¤ÎºîÀ®
-	 * @return ¥ì¥³¡¼¥É
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ä½œæˆ
+	 * @return ãƒ¬ã‚³ãƒ¼ãƒ‰
 	 */
 	public SQLCobolRecord createCobolRecord() {
 		return createCobolRecord(meta, resultSet);
 	}
 	/**
-	 * ¥ì¥³¡¼¥É¤ÎºîÀ®
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
-	 * @param resultSet ·ë²Ì¥»¥Ã¥È
-	 * @return ¥ì¥³¡¼¥É
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ä½œæˆ
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
+	 * @param resultSet çµæœã‚»ãƒƒãƒˆ
+	 * @return ãƒ¬ã‚³ãƒ¼ãƒ‰
 	 */
 	protected SQLCobolRecord createCobolRecord(SQLCobolRecordMetaData meta, ResultSet resultSet) {
 		return new SQLCobolRecord(meta, connection, resultSet);
@@ -123,17 +123,17 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return row;
 	}
 	/**
-	 * JavaÎã³°¤«¤é¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹¤ØÊÑ´¹¤¹¤ë
-	 * @param e javaÎã³°
-	 * @return ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
+	 * Javaä¾‹å¤–ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã¸å¤‰æ›ã™ã‚‹
+	 * @param e javaä¾‹å¤–
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	protected FileStatus getException2FileStatus(Exception e) {
 		return new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹¤«¤é¥Õ¥¡¥¤¥ë¥¤¥Ù¥ó¥È¤òÈ¯À¸¤µ¤»¤ë
-	 * @param stat ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
-	 * @return ¥Õ¥¡¥¤¥ë¥¤¥Ù¥ó¥È
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç”Ÿã•ã›ã‚‹
+	 * @param stat ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	protected CobolFileEvent getFileStatus2Event(FileStatus stat) {
 		return new CobolFileEvent(this, stat);
@@ -146,8 +146,8 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return meta;
 	}
 	/**
-	 * READY¥¤¥Ù¥ó¥È¤òÈ¯À¸¤µ¤»¤ë
-	 * @return ¥Õ¥¡¥¤¥ë¥¤¥Ù¥ó¥È(READY)
+	 * READYã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç”Ÿã•ã›ã‚‹
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã‚¤ãƒ™ãƒ³ãƒˆ(READY)
 	 */
 	protected CobolFileEvent getReadyEvent() {
 		return new CobolFileEvent(this, FileStatus.READY);
@@ -161,9 +161,9 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return rowCount;
 	}
 	/**
-	 * SQLÎã³°¤«¤é¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹¤ØÊÑ´¹¤¹¤ë
-	 * @param e SQLÎã³°
-	 * @return ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
+	 * SQLä¾‹å¤–ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã¸å¤‰æ›ã™ã‚‹
+	 * @param e SQLä¾‹å¤–
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	protected FileStatus getSQLException2FileStatus(SQLException e) {
 		return new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
@@ -195,10 +195,10 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			byte[] CurrentRecord = new byte[meta.getRowSize()];
 			// int status;
 			if (getRowCount() > 0) {
-				// ¥«¥ì¥ó¥È¥ì¥³¡¼¥É¤ÎÂàÈò
+				// ã‚«ãƒ¬ãƒ³ãƒˆãƒ¬ã‚³ãƒ¼ãƒ‰ã®é€€é¿
 				CurrentRow = resultSet.getRow();
 			} else if (!(resultSet.isAfterLast() || resultSet.isBeforeFirst())) {
-				// £±·ïÌÜ¤Î¥ì¥³¡¼¥É¤ò¼èÆÀ
+				// ï¼‘ä»¶ç›®ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—
 				CurrentRow = resultSet.getRow();
 				try {
 					/* status = */
@@ -207,31 +207,31 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 					SQLNetServer.logger.log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			} else {
-				// £±·ï¤â´Ş¤Ş¤ì¤Æ¤¤¤Ê¤¤
+				// ï¼‘ä»¶ã‚‚å«ã¾ã‚Œã¦ã„ãªã„
 				ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, FileStatus.NULL_CODE, 0, "move(byte[]) can't find record.");
 				getEventProcessor().postMove(getFileStatus2Event(ret));
 				return ret;
 			}
-			// ¸½ºß¤Î¥ì¥³¡¼¥É¤ÇÈæ³Ó¤·¤Æ¤«¤é¸¡º÷³«»Ï
+			// ç¾åœ¨ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã§æ¯”è¼ƒã—ã¦ã‹ã‚‰æ¤œç´¢é–‹å§‹
 			int comp = compare(CurrentRecord, record);
 			if (comp == COMPARE_REC1) {
-				// ¸½ºß¤Î¸å¤íÈ¾Ê¬¤ò¸¡º÷¤¹¤ë
+				// ç¾åœ¨ã®å¾Œã‚åŠåˆ†ã‚’æ¤œç´¢ã™ã‚‹
 				ret = move(record, 1, getRowCount());
 			} else if (comp == COMPARE_REC2) {
-				// ¸½ºß¤ÎÁ°È¾Ê¬¤ò¸¡º÷¤¹¤ë
+				// ç¾åœ¨ã®å‰åŠåˆ†ã‚’æ¤œç´¢ã™ã‚‹
 				ret = move(record, 1, CurrentRow - 1);
 			} else {
-				// ¤Ê¤ó¤È£±·ïÌÜ¤Ç¥Ò¥Ã¥È
+				// ãªã‚“ã¨ï¼‘ä»¶ç›®ã§ãƒ’ãƒƒãƒˆ
 				ret = FileStatus.OK;
 				resultSet.absolute(CurrentRow);
 			}
 			if (ret.getStatusCode() != FileStatus.STATUS_OK) {
-				// ¸¡º÷¤¬¼ºÇÔ¤·¤¿¤é¸µ¤Î°ÌÃÖ¤ËÌá¤ë
+				// æ¤œç´¢ãŒå¤±æ•—ã—ãŸã‚‰å…ƒã®ä½ç½®ã«æˆ»ã‚‹
 				resultSet.absolute(CurrentRow);
 				rowData.setRecord(CurrentRecord);
 			}
 		} catch (SQLException e) {
-			// ²¿¤é¤«¤ÎSQLÎã³°
+			// ä½•ã‚‰ã‹ã®SQLä¾‹å¤–
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 			ret = getSQLException2FileStatus(e);
 		}
@@ -239,19 +239,19 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * ¥ì¥³¡¼¥É¤Î°ÌÃÖÉÕ¤±
-	 * @param record ¥­¡¼¥ì¥³¡¼¥É
-	 * @param start ³«»Ï°ÌÃÖ
-	 * @param end ½ªÃ¼
-	 * @return ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ä½ç½®ä»˜ã‘
+	 * @param record ã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @param start é–‹å§‹ä½ç½®
+	 * @param end çµ‚ç«¯
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	protected FileStatus move(byte[] record, int start, int end) {
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
-		int naka = (start + end) / 2; // Ãæ´Ö°ÌÃÖ
+		int naka = (start + end) / 2; // ä¸­é–“ä½ç½®
 		if (naka <= 0) {
 			return new FileStatus(FileStatus.STATUS_INVALID_KEY, FileStatus.NULL_CODE, 0, "movd(byte[]," + start + ", " + end + ") is can't find record. location is " + naka);
 		}
-		byte[] CurrentRecord = new byte[meta.getRowSize()]; // ¸½ºß¤Î¥ì¥³¡¼¥É
+		byte[] CurrentRecord = new byte[meta.getRowSize()]; // ç¾åœ¨ã®ãƒ¬ã‚³ãƒ¼ãƒ‰
 		try {
 			resultSet.absolute(naka);
 			read(CurrentRecord);
@@ -259,41 +259,41 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			if (comp == COMPARE_REC1) {
 				if (naka < getRowCount()) {
 					if (naka < end) {
-						// ¤µ¤é¤Ë¸å¤íÈ¾Ê¬¤ò¸¡º÷¤¹¤ë
+						// ã•ã‚‰ã«å¾Œã‚åŠåˆ†ã‚’æ¤œç´¢ã™ã‚‹
 						ret = move(record, naka + 1, end);
 					} else {
-						// ¤¦¡¼¤à
+						// ã†ãƒ¼ã‚€
 						ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, FileStatus.NULL_CODE, 0, "move(byte[]," + start + ", " + end + ") is can't find record. location is " + naka);
 					}
 				} else {
 					if (isLastMoved()) {
-						// ¤¹¤Ç¤ËÁ´¥ì¥³¡¼¥É¤Î·ï¿ô¤ò¼èÆÀ¤·¤Æ¤ª¤ê¤³¤ì°Ê¾å¤Î¸¡º÷¤ÏÌµÂÌ¤Ç¤¢¤ë
+						// ã™ã§ã«å…¨ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ä»¶æ•°ã‚’å–å¾—ã—ã¦ãŠã‚Šã“ã‚Œä»¥ä¸Šã®æ¤œç´¢ã¯ç„¡é§„ã§ã‚ã‚‹
 						ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, FileStatus.NULL_CODE, 0, "movd(byte[]," + start + ", " + end + ") is can't find record.(isLastMoved) " + "location is " + naka);
 					} else {
 						if (next(getRowCount()).getStatusCode() == FileStatus.STATUS_OK) {
-							// ¥ì¥³¡¼¥É¤ÎºÇ½ª°ÌÃÖ¤ò¸½ºß¤ÎÇÜ¤Î°ÌÃÖ¤È¤¹¤ë
+							// ãƒ¬ã‚³ãƒ¼ãƒ‰ã®æœ€çµ‚ä½ç½®ã‚’ç¾åœ¨ã®å€ã®ä½ç½®ã¨ã™ã‚‹
 							ret = move(record, naka + 1, getRowCount());
 						} else if (moveLast().getStatusCode() == FileStatus.STATUS_OK) {
-							// ·ë²Ì¥»¥Ã¥È¤ÎºÇ½ª°ÌÃÖ¤ò¼èÆÀ¤¹¤ë
+							// çµæœã‚»ãƒƒãƒˆã®æœ€çµ‚ä½ç½®ã‚’å–å¾—ã™ã‚‹
 							ret = move(record, naka + 1, getRowCount());
 						} else {
-							// ¤¦¡¼¤à
+							// ã†ãƒ¼ã‚€
 							ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, FileStatus.NULL_CODE, 0, "move(byte[]," + start + ", " + end + ") is can't find record. location is " + naka);
 						}
 					}
 				}
 			} else if (comp == COMPARE_REC2) {
 				if (naka <= 1) {
-					// £±·ïÌÜ¤è¤ê¤â¥Ç¡¼¥¿¤¬¾®¤µ¤¤
+					// ï¼‘ä»¶ç›®ã‚ˆã‚Šã‚‚ãƒ‡ãƒ¼ã‚¿ãŒå°ã•ã„
 					ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, FileStatus.NULL_CODE, 0, "movd(byte[]," + start + ", " + end + ") is can't find record. location is " + naka);
 				} else {
-					// ¤µ¤é¤ËÁ°È¾Ê¬¤ò¸¡º÷¤¹¤ë
+					// ã•ã‚‰ã«å‰åŠåˆ†ã‚’æ¤œç´¢ã™ã‚‹
 					ret = move(record, start, naka - 1);
 				}
 			} else {
-				// ¥Ò¥Ã¥È
+				// ãƒ’ãƒƒãƒˆ
 				ret = FileStatus.OK;
-				// ºÇ¥Õ¥§¥Ã¥Á
+				// æœ€ãƒ•ã‚§ãƒƒãƒ
 				resultSet.absolute(naka);
 			}
 		} catch (SQLException e) {
@@ -356,9 +356,9 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 */
 	@Override
 	public FileStatus next() {
-		getEventProcessor().preNext(getReadyEvent()); // ¥¤¥Ù¥ó¥È½èÍı
+		getEventProcessor().preNext(getReadyEvent()); // ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		FileStatus ret = super.next();
-		getEventProcessor().postNext(getFileStatus2Event(ret)); // ¥¤¥Ù¥ó¥È½èÍı
+		getEventProcessor().postNext(getFileStatus2Event(ret)); // ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		return ret;
 	}
 	/*
@@ -386,8 +386,8 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return (ok ? FileStatus.OK : STATUS_UNKNOWN_ERROR);
 	}
 	/**
-	 * ÆâÉô¥Õ¥¡¥¤¥ë¤Î¹Ô°ÌÃÖ¤ò°ÜÆ°¤¹¤ë
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * å†…éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«ã®è¡Œä½ç½®ã‚’ç§»å‹•ã™ã‚‹
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	protected FileStatus nextOnFile() {
 		boolean ok = false;
@@ -430,15 +430,15 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		FileStatus ret = FileStatus.OK;
 		try {
 			if (resultSet != null) {
-				// ´û¤Ë»ÈÍÑ¤µ¤ì¤Æ¤¤¤Ê¤¤¤«¤É¤¦¤«¤Î³ÎÇ§
-				SQLNetServer.logger.log(Level.INFO, "¤¹¤Ç¤Ë¥ª¡¼¥×¥ó¤µ¤ì¤Æ¤¤¤ë");
+				// æ—¢ã«ä½¿ç”¨ã•ã‚Œã¦ã„ãªã„ã‹ã©ã†ã‹ã®ç¢ºèª
+				SQLNetServer.logger.log(Level.INFO, "ã™ã§ã«ã‚ªãƒ¼ãƒ—ãƒ³ã•ã‚Œã¦ã„ã‚‹");
 				ret = new FileStatus(FileStatus.STATUS_ALREADY_OPENED, FileStatus.NULL_CODE, 0, "resultset isn't null.");
 			} else if (rowData != null) {
-				// ´û¤Ë»ÈÍÑ¤µ¤ì¤Æ¤¤¤Ê¤¤¤«¤É¤¦¤«¤Î³ÎÇ§
-				SQLNetServer.logger.log(Level.INFO, "¤¹¤Ç¤Ë¥ª¡¼¥×¥ó¤µ¤ì¤Æ¤¤¤ë");
+				// æ—¢ã«ä½¿ç”¨ã•ã‚Œã¦ã„ãªã„ã‹ã©ã†ã‹ã®ç¢ºèª
+				SQLNetServer.logger.log(Level.INFO, "ã™ã§ã«ã‚ªãƒ¼ãƒ—ãƒ³ã•ã‚Œã¦ã„ã‚‹");
 				ret = new FileStatus(FileStatus.STATUS_ALREADY_OPENED, FileStatus.NULL_CODE, 0, "rowData isn't null.");
 			} else {
-				// ¥Ç¡¼¥¿¥Ù¡¼¥¹´ØÏ¢½èÍı
+				// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹é–¢é€£å‡¦ç†
 				Statement statement = null;
 				statement = connection.createStatement(resultSetType, resultSetConcurrency);
 				resultSet = statement.executeQuery(meta.getSelectStatement());
@@ -450,18 +450,18 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			ret = getSQLException2FileStatus(e);
 		}
 		if ((getMaximumSequencialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENCIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
-			// ¥Ğ¥Ã¥Õ¥¡¥ê¥ó¥°¤Î³«»Ï
+			// ãƒãƒƒãƒ•ã‚¡ãƒªãƒ³ã‚°ã®é–‹å§‹
 			startBuffer();
 		}
-		// ¥Õ¥¡¥¤¥ë°ÌÃÖ¤Î½é´üÀßÄê
+		// ãƒ•ã‚¡ã‚¤ãƒ«ä½ç½®ã®åˆæœŸè¨­å®š
 		if (mode == CobolFile.MODE_EXTEND) {
-			// ºÇ¸å¤Î¥ì¥³¡¼¥É¤Ø
+			// æœ€å¾Œã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã¸
 			moveLast();
 		} else if (mode == CobolFile.MODE_OUTPUT) {
-			// ¤â¤·¡¢"Á´¤Æºï½ü"Ì¿Îá¤¬¤¢¤ì¤Ğ¼Â¹Ô¤¹¤ë
+			// ã‚‚ã—ã€"å…¨ã¦å‰Šé™¤"å‘½ä»¤ãŒã‚ã‚Œã°å®Ÿè¡Œã™ã‚‹
 			truncate();
 		} else {
-			// ºÇ½é¤Î¥ì¥³¡¼¥É¤Ø
+			// æœ€åˆã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã¸
 			next();
 		}
 		getEventProcessor().postOpen(getFileStatus2Event(ret));
@@ -514,21 +514,21 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 */
 	@Override
 	public FileStatus read(byte[] record) {
-		getEventProcessor().preRead(getReadyEvent()); // ¥¤¥Ù¥ó¥È½èÍı
+		getEventProcessor().preRead(getReadyEvent()); // ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		FileStatus ret = super.read(record);
-		getEventProcessor().postRead(getFileStatus2Event(ret), record); // ¥¤¥Ù¥ó¥È½èÍı
+		getEventProcessor().postRead(getFileStatus2Event(ret), record); // ã‚¤ãƒ™ãƒ³ãƒˆå‡¦ç†
 		return ret;
 	}
 	/**
-	 * ÆâÉô¥Õ¥¡¥¤¥ë¤«¤é¼èÆÀ¤¹¤ë
-	 * @param record Ï¢ÁÛ¤¹¤ë¥ì¥³¡¼¥É
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * å†…éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰å–å¾—ã™ã‚‹
+	 * @param record é€£æƒ³ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	protected FileStatus readFromFile(byte[] record) {
 		int length = 0;
 		try {
 			if (resultSet.isAfterLast()) {
-				// ¥¨¥ó¥É¥ª¥Ö¥Õ¥¡¥¤¥ë
+				// ã‚¨ãƒ³ãƒ‰ã‚ªãƒ–ãƒ•ã‚¡ã‚¤ãƒ«
 				return AbstractCobolFile.STATUS_EOF;
 			} else {
 				rowData.result2record();
@@ -571,7 +571,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * ¸½ºß¤Î¹ÔÈÖ¹æ¤òÀßÄê¤¹¤ë
+	 * ç¾åœ¨ã®è¡Œç•ªå·ã‚’è¨­å®šã™ã‚‹
 	 */
 	private void setRowCount() {
 		try {
@@ -656,9 +656,9 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * ¥­¡¼¤Î½ÅÊ£¤¬¤¢¤ë¾ì¹ç¤Î¸¡º÷¤Ï½ç½èÍı¤Ç¹Ô¤¦
-	 * @param record ¥­¡¼¥ì¥³¡¼¥É
-	 * @return ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
+	 * ã‚­ãƒ¼ã®é‡è¤‡ãŒã‚ã‚‹å ´åˆã®æ¤œç´¢ã¯é †å‡¦ç†ã§è¡Œã†
+	 * @param record ã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus startDuplicatesEqual(byte[] record) {
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
@@ -669,10 +669,10 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 				read(CurrentRecord);
 				int comp = compare(CurrentRecord, record);
 				if (comp == COMPARE_EQUAL) {
-					// ºÇ½é¤Î¥ì¥³¡¼¥É¤¬¥­¡¼¥ì¥³¡¼¥É¤ÈÅù¤·¤¤¤Î¤Ç°ÌÃÖ¤Å¤±´°Î»
+					// æœ€åˆã®ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰ã¨ç­‰ã—ã„ã®ã§ä½ç½®ã¥ã‘å®Œäº†
 					ret = FileStatus.OK;
 				} else if (comp == COMPARE_REC1) {
-					// ºÇ½é¤Î¥ì¥³¡¼¥É¤¬¥­¡¼¥ì¥³¡¼¥É¤è¤êÂç¤­¤¤¤Î¤Ç¥¨¥é¡¼
+					// æœ€åˆã®ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚ˆã‚Šå¤§ãã„ã®ã§ã‚¨ãƒ©ãƒ¼
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
@@ -680,33 +680,33 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						read(CurrentRecord);
 						comp = compare(CurrentRecord, record);
 						if (comp == COMPARE_REC1) {
-							// ¥ì¥³¡¼¥É¤¬¥­¡¼¥ì¥³¡¼¥É¤è¤êÂç¤­¤¤¤Î¤Ç°ÌÃÖ¤Å¤±´°Î»
+							// ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚ˆã‚Šå¤§ãã„ã®ã§ä½ç½®ã¥ã‘å®Œäº†
 							found = true;
 							ret = FileStatus.OK;
 						} else if (comp == COMPARE_REC1) {
-							// ¥ì¥³¡¼¥É¤¬¥­¡¼¥ì¥³¡¼¥É¤è¤êÂç¤­¤¤¤Î¤Ç¥¨¥é¡¼
+							// ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚ˆã‚Šå¤§ãã„ã®ã§ã‚¨ãƒ©ãƒ¼
 							break;
 						}
 					}
 					if (!found) {
-						// °ÌÃÖ¤Å¤±¤¬¤Ç¤­¤Ê¤¤¤Ş¤ŞEOF¤ËÃ£¤·¤¿
+						// ä½ç½®ã¥ã‘ãŒã§ããªã„ã¾ã¾EOFã«é”ã—ãŸ
 						ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "can't find.");
 					}
 				}
 			} else {
-				// ¹Ô¤¬Â¸ºß¤·¤Ê¤¤
+				// è¡ŒãŒå­˜åœ¨ã—ãªã„
 				ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "zero records.");
 			}
 		} catch (SQLException e) {
-			// ²¿¤é¤«¤ÎSQLÎã³°
+			// ä½•ã‚‰ã‹ã®SQLä¾‹å¤–
 			return getSQLException2FileStatus(e);
 		}
 		return ret;
 	}
 	/**
-	 * °ÌÃÖÉÕ¤±¡Ê=¡Ë
-	 * @param record ¥­¡¼¤ò´Ş¤à¥ì¥³¡¼¥É
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ä½ç½®ä»˜ã‘ï¼ˆ=ï¼‰
+	 * @param record ã‚­ãƒ¼ã‚’å«ã‚€ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	FileStatus startEqual(byte[] record) {
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
@@ -717,7 +717,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 				read(CurrentRecord);
 				int comp = compare(CurrentRecord, record);
 				if (comp == COMPARE_EQUAL) {
-					// ºÇ½é¤Î¥ì¥³¡¼¥É¤¬¥­¡¼¥ì¥³¡¼¥É¤è¤êÂç¤­¤¤¤Î¤Ç°ÌÃÖ¤Å¤±´°Î»
+					// æœ€åˆã®ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚ˆã‚Šå¤§ãã„ã®ã§ä½ç½®ã¥ã‘å®Œäº†
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
@@ -725,7 +725,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						read(CurrentRecord);
 						comp = compare(CurrentRecord, record);
 						if (comp == COMPARE_EQUAL) {
-							// ¥ì¥³¡¼¥É¤¬¥­¡¼¥ì¥³¡¼¥É¤è¤êÂç¤­¤¤¤Î¤Ç°ÌÃÖ¤Å¤±´°Î»
+							// ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚ˆã‚Šå¤§ãã„ã®ã§ä½ç½®ã¥ã‘å®Œäº†
 							found = true;
 							ret = FileStatus.OK;
 						} else if (comp == COMPARE_REC1) {
@@ -733,24 +733,24 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						}
 					}
 					if (!found) {
-						// °ÌÃÖ¤Å¤±¤¬¤Ç¤­¤Ê¤¤¤Ş¤ŞEOF¤ËÃ£¤·¤¿
+						// ä½ç½®ã¥ã‘ãŒã§ããªã„ã¾ã¾EOFã«é”ã—ãŸ
 						ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "can't find.");
 					}
 				}
 			} else {
-				// ¹Ô¤¬Â¸ºß¤·¤Ê¤¤
+				// è¡ŒãŒå­˜åœ¨ã—ãªã„
 				ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "zero records.");
 			}
 		} catch (SQLException e) {
-			// ²¿¤é¤«¤ÎSQLÎã³°
+			// ä½•ã‚‰ã‹ã®SQLä¾‹å¤–
 			return getSQLException2FileStatus(e);
 		}
 		return ret;
 	}
 	/**
-	 * °ÌÃÖÉÕ¤±¡ÊGreater¡Ë
-	 * @param record ¥­¡¼¤ò´Ş¤à¥ì¥³¡¼¥É
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ä½ç½®ä»˜ã‘ï¼ˆGreaterï¼‰
+	 * @param record ã‚­ãƒ¼ã‚’å«ã‚€ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	FileStatus startGreater(byte[] record) {
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
@@ -761,7 +761,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 				read(CurrentRecord);
 				int comp = compare(CurrentRecord, record);
 				if (comp == COMPARE_REC1) {
-					// ºÇ½é¤Î¥ì¥³¡¼¥É¤¬¥­¡¼¥ì¥³¡¼¥É¤è¤êÂç¤­¤¤¤Î¤Ç°ÌÃÖ¤Å¤±´°Î»
+					// æœ€åˆã®ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚ˆã‚Šå¤§ãã„ã®ã§ä½ç½®ã¥ã‘å®Œäº†
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
@@ -769,30 +769,30 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						read(CurrentRecord);
 						comp = compare(CurrentRecord, record);
 						if (comp == COMPARE_REC1) {
-							// ¥ì¥³¡¼¥É¤¬¥­¡¼¥ì¥³¡¼¥É¤è¤êÂç¤­¤¤¤Î¤Ç°ÌÃÖ¤Å¤±´°Î»
+							// ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚ˆã‚Šå¤§ãã„ã®ã§ä½ç½®ã¥ã‘å®Œäº†
 							found = true;
 							ret = FileStatus.OK;
 						}
 					}
 					if (!found) {
-						// °ÌÃÖ¤Å¤±¤¬¤Ç¤­¤Ê¤¤¤Ş¤ŞEOF¤ËÃ£¤·¤¿
+						// ä½ç½®ã¥ã‘ãŒã§ããªã„ã¾ã¾EOFã«é”ã—ãŸ
 						ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "can't find.");
 					}
 				}
 			} else {
-				// ¹Ô¤¬Â¸ºß¤·¤Ê¤¤
+				// è¡ŒãŒå­˜åœ¨ã—ãªã„
 				ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "zero records.");
 			}
 		} catch (SQLException e) {
-			// ²¿¤é¤«¤ÎSQLÎã³°
+			// ä½•ã‚‰ã‹ã®SQLä¾‹å¤–
 			return getSQLException2FileStatus(e);
 		}
 		return ret;
 	}
 	/**
-	 * °ÌÃÖÉÕ¤±¡ÊGreater Equal¡Ë
-	 * @param record ¥­¡¼¤ò´Ş¤à¥ì¥³¡¼¥É
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ä½ç½®ä»˜ã‘ï¼ˆGreater Equalï¼‰
+	 * @param record ã‚­ãƒ¼ã‚’å«ã‚€ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	FileStatus startGreaterEqual(byte[] record) {
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
@@ -803,7 +803,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 				read(CurrentRecord);
 				int comp = compare(CurrentRecord, record);
 				if (comp != COMPARE_REC2) {
-					// ºÇ½é¤Î¥ì¥³¡¼¥É¤¬¥­¡¼¥ì¥³¡¼¥É¤è¤êÂç¤­¤¤¤Î¤Ç°ÌÃÖ¤Å¤±´°Î»
+					// æœ€åˆã®ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚ˆã‚Šå¤§ãã„ã®ã§ä½ç½®ã¥ã‘å®Œäº†
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
@@ -811,35 +811,35 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						read(CurrentRecord);
 						comp = compare(CurrentRecord, record);
 						if (comp != COMPARE_REC2) {
-							// ¥ì¥³¡¼¥É¤¬¥­¡¼¥ì¥³¡¼¥É¤è¤êÂç¤­¤¤¤Î¤Ç°ÌÃÖ¤Å¤±´°Î»
+							// ãƒ¬ã‚³ãƒ¼ãƒ‰ãŒã‚­ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚ˆã‚Šå¤§ãã„ã®ã§ä½ç½®ã¥ã‘å®Œäº†
 							found = true;
 							ret = FileStatus.OK;
 						}
 					}
 					if (!found) {
-						// °ÌÃÖ¤Å¤±¤¬¤Ç¤­¤Ê¤¤¤Ş¤ŞEOF¤ËÃ£¤·¤¿
+						// ä½ç½®ã¥ã‘ãŒã§ããªã„ã¾ã¾EOFã«é”ã—ãŸ
 						ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "can't find.");
 					}
 				}
 			} else {
-				// ¹Ô¤¬Â¸ºß¤·¤Ê¤¤
+				// è¡ŒãŒå­˜åœ¨ã—ãªã„
 				ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "zero records.");
 			}
 		} catch (SQLException e) {
-			// ²¿¤é¤«¤ÎSQLÎã³°
+			// ä½•ã‚‰ã‹ã®SQLä¾‹å¤–
 			return getSQLException2FileStatus(e);
 		}
 		return ret;
 	}
 	/**
-	 * ¤¹¤Ù¤Æºï½ü¤¹¤ë
+	 * ã™ã¹ã¦å‰Šé™¤ã™ã‚‹
 	 */
 	void truncate() {
 		String truncate = meta.getTruncateStatement();
 		if (truncate != null) {
 			if (truncate.trim().length() > 0) {
 				try {
-					// ¥Ç¡¼¥¿¥Ù¡¼¥¹´ØÏ¢½èÍı
+					// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹é–¢é€£å‡¦ç†
 					Statement statement = null;
 					try {
 						statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);

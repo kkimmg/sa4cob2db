@@ -1,128 +1,128 @@
 package k_kim_mg.sa4cob2db.codegen;
 import java.util.EventListener;
 /**
- * ¥³¡¼¥ÉÀ¸À®»ı¤Î¥¤¥Ù¥ó¥È
+ * ã‚³ãƒ¼ãƒ‰ç”ŸæˆæŒã®ã‚¤ãƒ™ãƒ³ãƒˆ
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CodeGeneratorListener extends EventListener {
 	/**
-	 * CLOSE¤Î¸å
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * CLOSEã®å¾Œ
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postClose(CodeGeneratorEvent e);
 	/**
-	 * COMMIT¤Î¸å
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * COMMITã®å¾Œ
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postCommit(CodeGeneratorEvent e);
 	/**
-	 * DELETE¤Î¸å
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * DELETEã®å¾Œ
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postDelete(CodeGeneratorEvent e);
 	/**
-	 * ½é´ü²½½èÍı¤Î¸å
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * åˆæœŸåŒ–å‡¦ç†ã®å¾Œ
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postInitialize(CodeGeneratorEvent e);
 	/**
-	 * READ¤Î¸å
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * READã®å¾Œ
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postMoveRead(CodeGeneratorEvent e);
 	/**
-	 * OPEN¤Î¸å
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * OPENã®å¾Œ
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postOpen(CodeGeneratorEvent e);
 	/**
-	 * READ NEXT¤Î¸å
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * READ NEXTã®å¾Œ
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postReadNext(CodeGeneratorEvent e);
 	/**
-	 * REWRITE¤Î¸å
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * REWRITEã®å¾Œ
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postRewrite(CodeGeneratorEvent e);
 	/**
-	 * ROLLBACK¤Î¸å
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * ROLLBACKã®å¾Œ
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postRollback(CodeGeneratorEvent e);
 	/**
-	 * START¤Î¸å
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * STARTã®å¾Œ
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postStart(CodeGeneratorEvent e);
 	/**
-	 * ½ªÎ»½èÍı¤Î¸å
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * çµ‚äº†å‡¦ç†ã®å¾Œ
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postTerminate(CodeGeneratorEvent e);
 	/**
-	 * WRITE¤Î¸å
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * WRITEã®å¾Œ
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void postWrite(CodeGeneratorEvent e);
 	/**
-	 * CLOSE¤ÎÁ°
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * CLOSEã®å‰
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preClose(CodeGeneratorEvent e);
 	/**
-	 * COMMIT¤ÎÁ°
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * COMMITã®å‰
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preCommit(CodeGeneratorEvent e);
 	/**
-	 * DELETE¤ÎÁ°
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * DELETEã®å‰
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preDelete(CodeGeneratorEvent e);
 	/**
-	 * ½é´ü²½½èÍı¤ÎÁ°
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * åˆæœŸåŒ–å‡¦ç†ã®å‰
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preInitialize(CodeGeneratorEvent e);
 	/**
-	 * READ¤ÎÁ°
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * READã®å‰
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preMoveRead(CodeGeneratorEvent e);
 	/**
-	 * OPEN¤ÎÁ°
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * OPENã®å‰
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preOpen(CodeGeneratorEvent e);
 	/**
-	 * READ NEXT¤ÎÁ°
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * READ NEXTã®å‰
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preReadNext(CodeGeneratorEvent e);
 	/**
-	 * REWRITE¤ÎÁ°
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * REWRITEã®å‰
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preRewrite(CodeGeneratorEvent e);
 	/**
-	 * ROLLBACK¤ÎÁ°
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * ROLLBACKã®å‰
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preRollback(CodeGeneratorEvent e);
 	/**
-	 * START¤ÎÁ°
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * STARTã®å‰
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preStart(CodeGeneratorEvent e);
 	/**
-	 * ½ªÎ»½èÍı¤ÎÁ°
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * çµ‚äº†å‡¦ç†ã®å‰
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preTerminate(CodeGeneratorEvent e);
 	/**
-	 * WRITE¤ÎÁ°
-	 * @param e ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+	 * WRITEã®å‰
+	 * @param e ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
 	 */
 	public void preWrite(CodeGeneratorEvent e);
 }

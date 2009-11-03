@@ -1,6 +1,6 @@
 package k_kim_mg.sa4cob2db.codegen;
 /**
- * ¤³¤ì¤È¤¤¤Ã¤Æ²¿¤â¤·¤Ê¤¤
+ * ã“ã‚Œã¨ã„ã£ã¦ä½•ã‚‚ã—ãªã„
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CodeGeneratorAdapter implements CodeGeneratorListener {

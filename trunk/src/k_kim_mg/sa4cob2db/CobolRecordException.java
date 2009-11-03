@@ -1,8 +1,8 @@
 package k_kim_mg.sa4cob2db;
 import java.sql.SQLException;
 /**
- * ¥³¥Ü¥ë¥ì¥³¡¼¥ÉÎã³°
- * @author	ÌÚÂ¼·û»Ê
+ * ã‚³ãƒœãƒ«ãƒ¬ã‚³ãƒ¼ãƒ‰ä¾‹å¤–
+ * @author	æœ¨æ‘æ†²å¸
  * @version 1.0
  */
 public class CobolRecordException extends SQLException {

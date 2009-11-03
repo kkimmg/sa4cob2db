@@ -5,15 +5,15 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 
 import org.w3c.dom.Node;
 /**
- * ¤½¤ÎÂ¾¤Î¥Î¡¼¥É¤ò½èÍı¤¹¤ë(¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥ÈÁ´ÂÎ)
+ * ãã®ä»–ã®ãƒãƒ¼ãƒ‰ã‚’å‡¦ç†ã™ã‚‹(ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆå…¨ä½“)
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface MetaDataSetNodeProcessor {
 	/**
-	 * ¤½¤ÎÂ¾¤Î¥Î¡¼¥É¤ò½èÍı¤¹¤ë
-	 * @param node ¥Î¡¼¥É
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿¥»¥Ã¥È
-	 * @param properties ¥×¥í¥Ñ¥Æ¥£
+	 * ãã®ä»–ã®ãƒãƒ¼ãƒ‰ã‚’å‡¦ç†ã™ã‚‹
+	 * @param node ãƒãƒ¼ãƒ‰
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
+	 * @param properties ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
 	 */
 	public void processOtherNode(Node node, CobolRecordMetaDataSet meta, Properties properties);
 }

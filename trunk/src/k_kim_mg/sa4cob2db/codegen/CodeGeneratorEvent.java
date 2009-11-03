@@ -2,28 +2,28 @@ package k_kim_mg.sa4cob2db.codegen;
 
 import java.util.EventObject;
 /**
- * ¥¸¥§¥Í¥ì¡¼¥¿¤ÇÈ¯À¸¤·¤¿¥¤¥Ù¥ó¥È
+ * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã§ç™ºç”Ÿã—ãŸã‚¤ãƒ™ãƒ³ãƒˆ
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CodeGeneratorEvent extends EventObject {
 	/**
-	 * ¤à¤à¡©
+	 * ã‚€ã‚€ï¼Ÿ
 	 */
 	private static final long serialVersionUID = 1L;
-	/** ¥Õ¥¡¥¤¥ë¤Î¾ğÊó */
+	/** ãƒ•ã‚¡ã‚¤ãƒ«ã®æƒ…å ± */
 	private transient FileInfo file;
-	/** ¥ª¡¼¥Ê¡¼ */
+	/** ã‚ªãƒ¼ãƒŠãƒ¼ */
 	private transient GeneratorOwner owner;
-	/** À¸À®¥¯¥é¥¹ */
+	/** ç”Ÿæˆã‚¯ãƒ©ã‚¹ */
 	private transient CodeGenerator generator;
-	/** ¥Ô¥ê¥ª¥É¤òÄÉ²Ã¤¹¤ë¤«¤É¤¦¤« */
+	/** ãƒ”ãƒªã‚ªãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã©ã†ã‹ */
 	private String period;
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param source	¥Õ¥¡¥¤¥ë¾ğÊó
-	 * @param owner		¥ª¡¼¥Ê¡¼
-	 * @param generator	À¸À®¥¯¥é¥¹
-	 * @param period	¥Ô¥ê¥ª¥É¤òÄÉ²Ã¤¹¤ë¤«¤É¤¦¤«
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param source	ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±
+	 * @param owner		ã‚ªãƒ¼ãƒŠãƒ¼
+	 * @param generator	ç”Ÿæˆã‚¯ãƒ©ã‚¹
+	 * @param period	ãƒ”ãƒªã‚ªãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã©ã†ã‹
 	 */
 	public CodeGeneratorEvent (FileInfo source, GeneratorOwner owner, CodeGenerator generator, String period) {
 		super(source);
@@ -33,29 +33,29 @@ public class CodeGeneratorEvent extends EventObject {
 		this.period = period;
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ë¤Î¾ğÊó
-	 * @return ¥Õ¥¡¥¤¥ë¤Î¾ğÊó
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã®æƒ…å ±
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã®æƒ…å ±
 	 */
 	public FileInfo getFile() {
 		return file;
 	}
 	/**
-	 * ¥¸¥§¥Í¥ì¡¼¥¿
-	 * @return ¥¸¥§¥Í¥ì¡¼¥¿
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿
+	 * @return ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿
 	 */
 	public CodeGenerator getGenerator() {
 		return generator;
 	}
 	/**
-	 * ¥¸¥§¥Í¥ì¡¼¥¿¥ª¡¼¥Ê¡¼
-	 * @return ¥¸¥§¥Í¥ì¡¼¥¿¥ª¡¼¥Ê¡¼
+	 * ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã‚ªãƒ¼ãƒŠãƒ¼
+	 * @return ã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ã‚ªãƒ¼ãƒŠãƒ¼
 	 */
 	public GeneratorOwner getOwner() {
 		return owner;
 	}
 	/**
-	 * ¥Ô¥ê¥ª¥É¤òÄÉ²Ã¤¹¤ë¤«¤É¤¦¤«
-	 * @return ¥Ô¥ê¥ª¥ÉÊ¸»úÎó
+	 * ãƒ”ãƒªã‚ªãƒ‰ã‚’è¿½åŠ ã™ã‚‹ã‹ã©ã†ã‹
+	 * @return ãƒ”ãƒªã‚ªãƒ‰æ–‡å­—åˆ—
 	 */
 	public String getPeriod() {
 		return period;

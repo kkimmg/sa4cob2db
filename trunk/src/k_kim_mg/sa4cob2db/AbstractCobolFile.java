@@ -11,78 +11,78 @@ import k_kim_mg.sa4cob2db.event.CobolFileEventAdapter;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
- * ¥³¥Ü¥ë¥Õ¥¡¥¤¥ë¤Î´ğËÜ·¿<br>
- * ¤³¤Î¥¯¥é¥¹¤Ç¤Ï¥¤¥Ù¥ó¥È¤òÈ¯À¸¤µ¤»¤Ê¤¤¤Î¤Ç¼ÂÁõ¥¯¥é¥¹Â¦¤Ç¥¤¥Ù¥ó¥È¤òÈ¯À¸¤µ¤»¤Æ¤Á¤ç¡£
+ * ã‚³ãƒœãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã®åŸºæœ¬å‹<br>
+ * ã“ã®ã‚¯ãƒ©ã‚¹ã§ã¯ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç”Ÿã•ã›ãªã„ã®ã§å®Ÿè£…ã‚¯ãƒ©ã‚¹å´ã§ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç”Ÿã•ã›ã¦ã¡ã‚‡ã€‚
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract class AbstractCobolFile implements CobolFile {
 	/**
-	 * ¥·¡¼¥±¥ó¥·¥ã¥ë¥Õ¥¡¥¤¥ë¤Î¥Ğ¥Ã¥Õ¥¡
+	 * ã‚·ãƒ¼ã‚±ãƒ³ã‚·ãƒ£ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	protected class DefaultSequencialReadBuffer implements Runnable, SequencialReadBuffer {
-		/** ¥Ğ¥Ã¥Õ¥¡¤Î»ÈÍÑÃæ¥Õ¥é¥° */
+		/** ãƒãƒƒãƒ•ã‚¡ã®ä½¿ç”¨ä¸­ãƒ•ãƒ©ã‚° */
 		private volatile boolean[][] buffStatus;
-		/** ÆÉ¤ß¹ş¤ß¤ò·ÑÂ³¤¹¤ë¤«¤É¤¦¤« */
+		/** èª­ã¿è¾¼ã¿ã‚’ç¶™ç¶šã™ã‚‹ã‹ã©ã†ã‹ */
 		private volatile boolean cont = true;
-		/** ¸½ºß¤Î¥µ¥¤¥º (CurrentSize) */
+		/** ç¾åœ¨ã®ã‚µã‚¤ã‚º (CurrentSize) */
 		private volatile int cs;
-		/** ÇÛÎó¥µ¥¤¥º */
+		/** é…åˆ—ã‚µã‚¤ã‚º */
 		private int dimentionSize;
-		/** ½é´ü¥µ¥¤¥º¤Ë(°ìÃ¶)ÅşÃ£¤·¤¿ */
+		/** åˆæœŸã‚µã‚¤ã‚ºã«(ä¸€æ—¦)åˆ°é”ã—ãŸ */
 		private volatile boolean initCleared = false;
 		/**
-		 * ½é´ü¥µ¥¤¥º <br>
-		 * 1.Ì¤½é´ü²½¤Î¾õÂÖ¤Ç¤³¤Î¿ôÃÍ¤ò²¼²ó¤Ã¤¿¾ì¹ç¤ÏÂÔµ¡¤¹¤ë<br>
-		 * 2.°ìÃ¶minSize¤ò²¼²ó¤Ã¤¿¤¢¤È¡¢¤³¤Î¿ôÃÍ¤ò²¼²ó¤Ã¤¿¾ì¹ç¤ÏÂÔµ¡¤¹¤ë
+		 * åˆæœŸã‚µã‚¤ã‚º <br>
+		 * 1.æœªåˆæœŸåŒ–ã®çŠ¶æ…‹ã§ã“ã®æ•°å€¤ã‚’ä¸‹å›ã£ãŸå ´åˆã¯å¾…æ©Ÿã™ã‚‹<br>
+		 * 2.ä¸€æ—¦minSizeã‚’ä¸‹å›ã£ãŸã‚ã¨ã€ã“ã®æ•°å€¤ã‚’ä¸‹å›ã£ãŸå ´åˆã¯å¾…æ©Ÿã™ã‚‹
 		 */
 		private int initSize;
-		/** EOF¤«¡© */
+		/** EOFã‹ï¼Ÿ */
 		private volatile boolean lastRead = false;
-		/** ºÇÂç¥µ¥¤¥º */
+		/** æœ€å¤§ã‚µã‚¤ã‚º */
 		private int maxSize;
 		/**
-		 * ºÇ¾®¥µ¥¤¥º ¤³¤Î¥µ¥¤¥º¤ò²¼²ó¤Ã¤¿¤éinitSize¤Ş¤ÇÆÉ¤ß¹ş¤ß¤òÂÔµ¡¤¹¤ë
+		 * æœ€å°ã‚µã‚¤ã‚º ã“ã®ã‚µã‚¤ã‚ºã‚’ä¸‹å›ã£ãŸã‚‰initSizeã¾ã§èª­ã¿è¾¼ã¿ã‚’å¾…æ©Ÿã™ã‚‹
 		 */
 		private int minSize;
-		/** Next½èÍı¤Î¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹ */
+		/** Nextå‡¦ç†ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
 		private volatile FileStatus[][] nextStatus;
-		/** ¸½ºßÆÉ¤ß¹ş¤ßÃæ¤Î¥Ğ¥Ã¥Õ¥¡»ØÄê(ReadingBuffer) */
+		/** ç¾åœ¨èª­ã¿è¾¼ã¿ä¸­ã®ãƒãƒƒãƒ•ã‚¡æŒ‡å®š(ReadingBuffer) */
 		private volatile int rb;
-		/** Read½èÍı¤Î¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹ */
+		/** Readå‡¦ç†ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
 		private volatile FileStatus[][] readStatus;
-		/** ¥ì¥³¡¼¥É¤Î¥Ğ¥Ã¥Õ¥¡ */
+		/** ãƒ¬ã‚³ãƒ¼ãƒ‰ã®ãƒãƒƒãƒ•ã‚¡ */
 		private volatile byte[][][] records;
-		/** ÆÉ¤ß¹ş¤ßÃæ¤Î°ÌÃÖ(ReadingIndex) */
+		/** èª­ã¿è¾¼ã¿ä¸­ã®ä½ç½®(ReadingIndex) */
 		private volatile int ri;
-		/** ÆâÉô¥¹¥ì¥Ã¥É */
+		/** å†…éƒ¨ã‚¹ãƒ¬ãƒƒãƒ‰ */
 		private Thread thread;
-		/** ¸½ºß½ñ¤­¹ş¤ßÃæ¤Î¥Ğ¥Ã¥Õ¥¡»ØÄê(WritingBuffer) */
+		/** ç¾åœ¨æ›¸ãè¾¼ã¿ä¸­ã®ãƒãƒƒãƒ•ã‚¡æŒ‡å®š(WritingBuffer) */
 		private volatile int wb;
-		/** ²áµî¹ş¤ßÃæ¤Î°ÌÃÖ(WritingIndex) */
+		/** éå»è¾¼ã¿ä¸­ã®ä½ç½®(WritingIndex) */
 		private volatile int wi;
 		/**
-		 * ¥³¥ó¥¹¥È¥é¥¯¥¿<br>
-		 * ºÇ¾®¥µ¥¤¥º:2500<br>
-		 * ½é´ü¥µ¥¤¥º:5000<br>
-		 * ºÇÂç¥µ¥¤¥º:10000<br>
-		 * ¤ÇºîÀ®¤¹¤ë
+		 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿<br>
+		 * æœ€å°ã‚µã‚¤ã‚º:2500<br>
+		 * åˆæœŸã‚µã‚¤ã‚º:5000<br>
+		 * æœ€å¤§ã‚µã‚¤ã‚º:10000<br>
+		 * ã§ä½œæˆã™ã‚‹
 		 */
 		public DefaultSequencialReadBuffer() {
 			this(5000, 2500, 10000);
 		}
 		/**
-		 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-		 * @param initSize ½é´ü¥µ¥¤¥º
-		 * @param minSize ºÇ¾®¥µ¥¤¥º
-		 * @param maxSize ºÇÂç¥µ¥¤¥º
+		 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+		 * @param initSize åˆæœŸã‚µã‚¤ã‚º
+		 * @param minSize æœ€å°ã‚µã‚¤ã‚º
+		 * @param maxSize æœ€å¤§ã‚µã‚¤ã‚º
 		 */
 		public DefaultSequencialReadBuffer(int initSize, int minSize, int maxSize) {
 			this.initSize = initSize;
 			this.minSize = minSize;
 			this.maxSize = maxSize;
 			cs = 0;
-			// ¥Ğ¥Ã¥Õ¥¡¥µ¥¤¥º¤Î·èÄê
+			// ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã®æ±ºå®š
 			if (maxSize % 2 != 0) {
 				dimentionSize = (maxSize + 1) / 2;
 			} else {
@@ -100,21 +100,21 @@ public abstract class AbstractCobolFile implements CobolFile {
 					cont = false;
 				}
 			});
-			// ¥Ğ¥Ã¥Õ¥¡¤Î½é´ü²½
+			// ãƒãƒƒãƒ•ã‚¡ã®åˆæœŸåŒ–
 			initBuffers();
 		}
 		/**
-		 * ¥Ğ¥Ã¥Õ¥¡¤Î½é´ü²½
-		 * @param size ¥Ğ¥Ã¥Õ¥¡¥µ¥¤¥º(ºÇÂç¥µ¥¤¥º¤ÎÈ¾Ê¬)
+		 * ãƒãƒƒãƒ•ã‚¡ã®åˆæœŸåŒ–
+		 * @param size ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º(æœ€å¤§ã‚µã‚¤ã‚ºã®åŠåˆ†)
 		 */
 		void initBuffers() {
 			records = new byte[2][dimentionSize][];
 			nextStatus = new FileStatus[2][dimentionSize];
 			readStatus = new FileStatus[2][dimentionSize];
 			buffStatus = new boolean[2][dimentionSize];
-			// ¥ì¥³¡¼¥É¥µ¥¤¥º
+			// ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚µã‚¤ã‚º
 			int recSize = getMetaData().getRowSize();
-			// ¥Ğ¥Ã¥Õ¥¡¤Î½é´ü²½½èÍı
+			// ãƒãƒƒãƒ•ã‚¡ã®åˆæœŸåŒ–å‡¦ç†
 			for (int i = 0; i < 2; i++) {
 				for (int j = 0; j < dimentionSize; j++) {
 					buffStatus[i][j] = false;
@@ -127,46 +127,46 @@ public abstract class AbstractCobolFile implements CobolFile {
 			wi = 0;
 			rb = 0;
 			ri = -1;
-			// ¤Ş¤ÀºÇ½ª¥ì¥³¡¼¥É¤Ş¤Ç¤¤¤Ã¤Æ¤Ê¤¤
+			// ã¾ã æœ€çµ‚ãƒ¬ã‚³ãƒ¼ãƒ‰ã¾ã§ã„ã£ã¦ãªã„
 			lastRead = false;
 		}
 		/**
-		 * ¥Ğ¥Ã¥Õ¥¡ÆÉ¤ß¹ş¤ß¤òÂÔµ¡¤¹¤ë¤Ù¤­¤«¤É¤¦¤«¡© <br>
-		 * 1.½é´ü¥µ¥¤¥º¤ËÅşÃ£¤·¤Æ¤¤¤Ê¤¤ <br>
-		 * 2.ÆÉ¤ß¹ş¤ßÂĞ¾İ¥Ğ¥Ã¥Õ¥¡¤¬¤Ş¤ÀÍ­¸ú¤Ç¤Ï¤Ê¤¤<br>
-		 * 3.¥Ğ¥Ã¥Õ¥¡¤Î¥µ¥¤¥º¤¬0¤è¤ê¾®¤µ¤¤
-		 * @return true ÂÔµ¡¤»¤è<br>
-		 *         false ÂÔµ¡¤·¤Ê¤¤
+		 * ãƒãƒƒãƒ•ã‚¡èª­ã¿è¾¼ã¿ã‚’å¾…æ©Ÿã™ã‚‹ã¹ãã‹ã©ã†ã‹ï¼Ÿ <br>
+		 * 1.åˆæœŸã‚µã‚¤ã‚ºã«åˆ°é”ã—ã¦ã„ãªã„ <br>
+		 * 2.èª­ã¿è¾¼ã¿å¯¾è±¡ãƒãƒƒãƒ•ã‚¡ãŒã¾ã æœ‰åŠ¹ã§ã¯ãªã„<br>
+		 * 3.ãƒãƒƒãƒ•ã‚¡ã®ã‚µã‚¤ã‚ºãŒ0ã‚ˆã‚Šå°ã•ã„
+		 * @return true å¾…æ©Ÿã›ã‚ˆ<br>
+		 *         false å¾…æ©Ÿã—ãªã„
 		 */
 		boolean isWaitToRead() {
 			boolean ret = false;
 			if (!lastRead) {
-				// EOF¤Ç¤Ê¤¤¤³¤È
+				// EOFã§ãªã„ã“ã¨
 				if (!initCleared && cs < initSize) {
-					// ½é´ü¥µ¥¤¥º¤ËÅşÃ£¤·¤Æ¤¤¤Ê¤¤
+					// åˆæœŸã‚µã‚¤ã‚ºã«åˆ°é”ã—ã¦ã„ãªã„
 					ret = true;
 				}
 				if (!buffStatus[rb][ri]) {
-					// ÆÉ¤ß¹ş¤ßÂĞ¾İ¥Ğ¥Ã¥Õ¥¡¤¬¤Ş¤ÀÍ­¸ú¤Ç¤Ï¤Ê¤¤
+					// èª­ã¿è¾¼ã¿å¯¾è±¡ãƒãƒƒãƒ•ã‚¡ãŒã¾ã æœ‰åŠ¹ã§ã¯ãªã„
 					ret = true;
 				}
 				if (cs < 0) {
-					// ¥Ğ¥Ã¥Õ¥¡¥µ¥¤¥º¤¬0¤è¤ê¾®¤µ¤¤
+					// ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºãŒ0ã‚ˆã‚Šå°ã•ã„
 					ret = true;
 				}
 			}
 			return ret;
 		}
 		/**
-		 * ¥Ğ¥Ã¥Õ¥¡ºîÀ®¤òÂÔµ¡¤¹¤ë¤Ù¤­¤«¤É¤¦¤«¡©<br>
-		 * 1.¥Ğ¥Ã¥Õ¥¡¤¬ºÇÂç¥µ¥¤¥º¤ËÃ£¤·¤Æ¤¤¤ë <br>
-		 * 2.½ñ¤­¹ş¤ßÀè¤Î¥Ğ¥Ã¥Õ¥¡¤¬Ì¤»ÈÍÑ¤Ç¤¢¤ë
-		 * @return true ÂÔµ¡¤»¤è<br>
-		 *         false ÂÔµ¡¤·¤Ê¤¤
+		 * ãƒãƒƒãƒ•ã‚¡ä½œæˆã‚’å¾…æ©Ÿã™ã‚‹ã¹ãã‹ã©ã†ã‹ï¼Ÿ<br>
+		 * 1.ãƒãƒƒãƒ•ã‚¡ãŒæœ€å¤§ã‚µã‚¤ã‚ºã«é”ã—ã¦ã„ã‚‹ <br>
+		 * 2.æ›¸ãè¾¼ã¿å…ˆã®ãƒãƒƒãƒ•ã‚¡ãŒæœªä½¿ç”¨ã§ã‚ã‚‹
+		 * @return true å¾…æ©Ÿã›ã‚ˆ<br>
+		 *         false å¾…æ©Ÿã—ãªã„
 		 */
 		boolean isWaitToWrite() {
-			// ¥Ğ¥Ã¥Õ¥¡¤¬ºÇÂç¥µ¥¤¥º¤ËÃ£¤·¤Æ¤¤¤ë¤«
-			// ½ñ¤­¹ş¤ßÀè¤Î¥Ğ¥Ã¥Õ¥¡¤¬Ì¤»ÈÍÑ¤Ç¤¢¤ì¤ĞÂÔµ¡¤¹¤ë
+			// ãƒãƒƒãƒ•ã‚¡ãŒæœ€å¤§ã‚µã‚¤ã‚ºã«é”ã—ã¦ã„ã‚‹ã‹
+			// æ›¸ãè¾¼ã¿å…ˆã®ãƒãƒƒãƒ•ã‚¡ãŒæœªä½¿ç”¨ã§ã‚ã‚Œã°å¾…æ©Ÿã™ã‚‹
 			boolean ret = false;
 			ret = (cs >= maxSize);
 			ret = (ret || buffStatus[wb][wi]);
@@ -177,13 +177,13 @@ public abstract class AbstractCobolFile implements CobolFile {
 		 * @see k_kim_mg.sa4cob2db.SequencialReadBuffer#nextBuffer()
 		 */
 		public synchronized FileStatus nextBuffer() {
-			// ÆÉ¤ß¹ş¤ß°ÌÃÖ¤ÎÊÑ¹¹
+			// èª­ã¿è¾¼ã¿ä½ç½®ã®å¤‰æ›´
 			ri++;
 			if (ri >= dimentionSize) {
 				rb = (rb == 0 ? 1 : 0);
 				ri = 0;
 			}
-			// ÆÉ¤ß¹ş¤ßÂÔµ¡
+			// èª­ã¿è¾¼ã¿å¾…æ©Ÿ
 			while (isWaitToRead()) {
 				try {
 					this.wait(1000);
@@ -191,7 +191,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 					SQLNetServer.logger.log(Level.SEVERE, "Interrupted To Read Wait", e);
 				}
 			}
-			// ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹¤òÊÖ¤¹
+			// ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’è¿”ã™
 			FileStatus ret = nextStatus[rb][ri];
 			if (ret != null) {
 				if (!ret.getStatusCode().equals(FileStatus.STATUS_OK)) {
@@ -222,13 +222,13 @@ public abstract class AbstractCobolFile implements CobolFile {
 			return ret;
 		}
 		/**
-		 * ¼Â¹Ô
+		 * å®Ÿè¡Œ
 		 */
 		public void run() {
 			cont = true;
 			FileStatus ns, rs; // NextStatus, ReadStatus
 			while (cont) {
-				// ÆÉ¤ß¹ş¤ßÂÔ¤Á
+				// èª­ã¿è¾¼ã¿å¾…ã¡
 				while (isWaitToWrite() && cont) {
 					try {
 						SQLNetServer.logger.log(Level.FINEST, "Buffering is Waiting");
@@ -238,14 +238,14 @@ public abstract class AbstractCobolFile implements CobolFile {
 					}
 				}
 				if (cont) {
-					// ÆÉ¤ß¹ş¤ß¼Â¹Ô
+					// èª­ã¿è¾¼ã¿å®Ÿè¡Œ
 					ns = nextOnFile();
 					nextStatus[wb][wi] = ns;
 					if (ns.getStatusCode().equals(FileStatus.STATUS_OK)) {
 						rs = readFromFile(records[wb][wi]);
 						readStatus[wb][wi] = rs;
 						buffStatus[wb][wi] = true;
-						// ¼¡¤Ø
+						// æ¬¡ã¸
 						cs++;
 						wi++;
 						if (wi >= dimentionSize) {
@@ -259,7 +259,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 							initCleared = true;
 						}
 					} else if (ns.getStatusCode().equals(FileStatus.STATUS_EOF)) {
-						// ¥¨¥ó¥É ¥ª¥Ö ¥Õ¥¡¥¤¥ë
+						// ã‚¨ãƒ³ãƒ‰ ã‚ªãƒ– ãƒ•ã‚¡ã‚¤ãƒ«
 						// SQLNetServer.logger.log(Level.FINEST, "buffering
 						// end." + thread.getName());
 						lastRead = true;
@@ -267,7 +267,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 						readStatus[wb][wi] = ns;
 						buffStatus[wb][wi] = true;
 					} else {
-						// ²¿¤é¤«¤Î¥¨¥é¡¼
+						// ä½•ã‚‰ã‹ã®ã‚¨ãƒ©ãƒ¼
 						SQLNetServer.logger.log(Level.SEVERE, ns.getStatusMessage());
 						cont = false;
 						readStatus[wb][wi] = ns;
@@ -288,7 +288,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 	}
 	/**
-	 * ¥¤¥Ù¥ó¥È¤ò¼Â¹Ô¤¹¤ë¤¿¤á¤Î¥¯¥é¥¹
+	 * ã‚¤ãƒ™ãƒ³ãƒˆã‚’å®Ÿè¡Œã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	protected class InnerCobolFileEventAdapter implements CobolFileEventListener {
@@ -513,40 +513,40 @@ public abstract class AbstractCobolFile implements CobolFile {
 			}
 		}
 	}
-	/** £²¤Ä¤Î¥ì¥³¡¼¥É¡Ê¥­¡¼¡Ë¤ÏÅù¤·¤¤ */
+	/** ï¼’ã¤ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ï¼ˆã‚­ãƒ¼ï¼‰ã¯ç­‰ã—ã„ */
 	protected static final int COMPARE_EQUAL = 0;
-	/** ¥ì¥³¡¼¥É£±¤¬¾®¤µ¤¤ */
+	/** ãƒ¬ã‚³ãƒ¼ãƒ‰ï¼‘ãŒå°ã•ã„ */
 	protected static final int COMPARE_REC1 = 1;
-	/** ¥ì¥³¡¼¥É£²¤¬¾®¤µ¤¤ */
+	/** ãƒ¬ã‚³ãƒ¼ãƒ‰ï¼’ãŒå°ã•ã„ */
 	protected static final int COMPARE_REC2 = 2;
 	private static final long serialVersionUID = 1L;
-	/** ¥¨¥ó¥É¥ª¥Ö¥Õ¥¡¥¤¥ë */
+	/** ã‚¨ãƒ³ãƒ‰ã‚ªãƒ–ãƒ•ã‚¡ã‚¤ãƒ« */
 	protected static final FileStatus STATUS_EOF = new FileStatus(FileStatus.STATUS_EOF, FileStatus.NULL_CODE, 0, "end of file.");
-	/** ¸¶°øÉÔÌÀ¤Î¥Ç¥Õ¥©¥ë¥È¤Î¼ºÇÔ¥¹¥Æ¡¼¥¿¥¹ */
+	/** åŸå› ä¸æ˜ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å¤±æ•—ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
 	protected static final FileStatus STATUS_UNKNOWN_ERROR = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "Unknown Error.");
-	/** ¥¢¥¯¥»¥¹¥â¡¼¥É */
+	/** ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰ */
 	protected int accessMode;
-	/** ¸½ºß»ÈÍÑ¤·¤Æ¤¤¤ë¥¤¥ó¥Ç¥Ã¥¯¥¹ */
+	/** ç¾åœ¨ä½¿ç”¨ã—ã¦ã„ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ */
 	protected CobolIndex currentIndex = null;
-	/** ¸½ºß»ÈÍÑ¤·¤Æ¤¤¤ë¥¤¥ó¥Ç¥Ã¥¯¥¹¥Õ¥¡¥¤¥ë */
+	/** ç¾åœ¨ä½¿ç”¨ã—ã¦ã„ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ•ã‚¡ã‚¤ãƒ« */
 	// protected CobolFile currentIndexFile = null;
-	/** ¥¤¥Ù¥ó¥È¤ò¼Â¹Ô¤¹¤ëÉôÊ¬ */
+	/** ã‚¤ãƒ™ãƒ³ãƒˆã‚’å®Ÿè¡Œã™ã‚‹éƒ¨åˆ† */
 	private CobolFileEventListener eventer = new InnerCobolFileEventAdapter();
-	/** ¥¤¥ó¥Ç¥Ã¥¯¥¹¤«¤é¥¤¥ó¥Ç¥Ã¥¯¥¹¥Õ¥¡¥¤¥ë¤ò¼èÆÀ¤¹¤ë */
+	/** ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‹ã‚‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—ã™ã‚‹ */
 	protected Map<CobolIndex, CobolFile> index2File;
-	/** ¥¤¥ó¥Ç¥Ã¥¯¥¹Ì¾¤«¤é¥¤¥ó¥Ç¥Ã¥¯¥¹¤ò¼èÆÀ¤¹¤ë */
+	/** ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹åã‹ã‚‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—ã™ã‚‹ */
 	protected Map<String, CobolIndex> indexName2Index;
 	/**
-	 * ¥Ğ¥Ã¥Õ¥¡¤Î½é´ü¥µ¥¤¥º¡¢ºÇ¾®¥µ¥¤¥º¡¢ºÇÂç¥µ¥¤¥º
+	 * ãƒãƒƒãƒ•ã‚¡ã®åˆæœŸã‚µã‚¤ã‚ºã€æœ€å°ã‚µã‚¤ã‚ºã€æœ€å¤§ã‚µã‚¤ã‚º
 	 */
 	private int initialSequencialReadBufferSize = 0, maximumSequencialReadBufferSize = 0, minimumSequencialReadBufferSize = 0;
-	/** ¥¤¥Ù¥ó¥È¥ê¥¹¥Ê */
+	/** ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒŠ */
 	private ArrayList<CobolFileEventListener> listeners = new ArrayList<CobolFileEventListener>();
-	/** ¥ª¡¼¥×¥ó¥â¡¼¥É */
+	/** ã‚ªãƒ¼ãƒ—ãƒ³ãƒ¢ãƒ¼ãƒ‰ */
 	protected int openmode;
-	/** ÆâÉô¥Ğ¥Ã¥Õ¥¡ */
+	/** å†…éƒ¨ãƒãƒƒãƒ•ã‚¡ */
 	protected SequencialReadBuffer sequencialReadBuffer = null;
-	/** ¥»¥Ã¥·¥ç¥ó */
+	/** ã‚»ãƒƒã‚·ãƒ§ãƒ³ */
 	private ACMSession session;
 	/*
 	 * (non-Javadoc)
@@ -579,8 +579,8 @@ public abstract class AbstractCobolFile implements CobolFile {
 		this.session = session;
 	}
 	/**
-	 * ¥¤¥ó¥Ç¥Ã¥¯¥¹¤òÊÄ¤¸¤ë
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’é–‰ã˜ã‚‹
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	protected FileStatus closeIndexes() {
 		FileStatus ret = FileStatus.OK;
@@ -595,21 +595,21 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * ¥ì¥³¡¼¥É¥Ğ¥¤¥ÈÇÛÎó¤ÎÈæ³Ó ¥­¡¼Îó¤òÈæ³Ó¤¹¤ë
-	 * @param record1 ¥ì¥³¡¼¥É¥Ğ¥¤¥ÈÇÛÎó
-	 * @param record2 ¥ì¥³¡¼¥É¥Ğ¥¤¥ÈÇÛÎó
-	 * @return STATUS_EQUAL ¥­¡¼¤¬Åù¤·¤¤ <br/>
-	 *         STATUS_REC1 record1¤Î¥­¡¼¤¬¾®¤µ¤¤ <br/>
-	 *         STATUS_REC2 record2¤Î¥­¡¼¤¬¾®¤µ¤¤
+	 * ãƒ¬ã‚³ãƒ¼ãƒ‰ãƒã‚¤ãƒˆé…åˆ—ã®æ¯”è¼ƒ ã‚­ãƒ¼åˆ—ã‚’æ¯”è¼ƒã™ã‚‹
+	 * @param record1 ãƒ¬ã‚³ãƒ¼ãƒ‰ãƒã‚¤ãƒˆé…åˆ—
+	 * @param record2 ãƒ¬ã‚³ãƒ¼ãƒ‰ãƒã‚¤ãƒˆé…åˆ—
+	 * @return STATUS_EQUAL ã‚­ãƒ¼ãŒç­‰ã—ã„ <br/>
+	 *         STATUS_REC1 record1ã®ã‚­ãƒ¼ãŒå°ã•ã„ <br/>
+	 *         STATUS_REC2 record2ã®ã‚­ãƒ¼ãŒå°ã•ã„
 	 * @throws CobolRecordException
 	 */
 	protected int compare(byte[] record1, byte[] record2) throws CobolRecordException {
 		int ret = COMPARE_EQUAL;
 		CobolRecordMetaData meta = getMetaData();
-		// ¥ì¥³¡¼¥É£±
+		// ãƒ¬ã‚³ãƒ¼ãƒ‰ï¼‘
 		DefaultCobolRecord crecord1 = new DefaultCobolRecord(meta);
 		crecord1.setRecord(record1);
-		// ¥ì¥³¡¼¥É£²
+		// ãƒ¬ã‚³ãƒ¼ãƒ‰ï¼’
 		DefaultCobolRecord crecord2 = new DefaultCobolRecord(meta);
 		crecord2.setRecord(record2);
 		int count = meta.getKeyCount();
@@ -630,37 +630,37 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * ÆâÉô¥Ğ¥Ã¥Õ¥¡¤ÎºîÀ®
-	 * @return ¥Ç¥Õ¥©¥ë¥È¤ÎÆâÉô¥Ğ¥Ã¥Õ¥¡
+	 * å†…éƒ¨ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
+	 * @return ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å†…éƒ¨ãƒãƒƒãƒ•ã‚¡
 	 */
 	protected SequencialReadBuffer createSequencialReadBuffer() {
 		return new DefaultSequencialReadBuffer(getInitialSequencialReadBufferSize(), getMinimumSequencialReadBufferSize(), getMaximumSequencialReadBufferSize());
 	}
 	/**
-	 * ¥¢¥¯¥»¥¹¥â¡¼¥É
-	 * @return ¥¢¥¯¥»¥¹¥â¡¼¥É
+	 * ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰
+	 * @return ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰
 	 */
 	public int getAccessMode() {
 		return accessMode;
 	}
 	/**
-	 * ¸½ºß»ÈÍÑÃæ¤Î¥¤¥ó¥Ç¥Ã¥¯¥¹¤ò¼èÆÀ¤¹¤ë
-	 * @return ¥¤¥ó¥Ç¥Ã¥¯¥¹<\br>»ÈÍÑ¤·¤Æ¤¤¤Ê¤¤¾ì¹ç¤Ïnull
+	 * ç¾åœ¨ä½¿ç”¨ä¸­ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å–å¾—ã™ã‚‹
+	 * @return ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹<\br>ä½¿ç”¨ã—ã¦ã„ãªã„å ´åˆã¯null
 	 */
 	public CobolIndex getCurrentIndex() {
 		return currentIndex;
 	}
 	/**
-	 * ¥¤¥Ù¥ó¥È¤ò¼Â¹Ô¤¹¤ë¤¿¤á¤Î¥ª¥Ö¥¸¥§¥¯¥È
-	 * @return ¥¤¥Ù¥ó¥È¤ò¼Â¹Ô¤¹¤ë¤¿¤á¤Î¥ª¥Ö¥¸¥§¥¯¥È
+	 * ã‚¤ãƒ™ãƒ³ãƒˆã‚’å®Ÿè¡Œã™ã‚‹ãŸã‚ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	 * @return ã‚¤ãƒ™ãƒ³ãƒˆã‚’å®Ÿè¡Œã™ã‚‹ãŸã‚ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	 */
 	protected CobolFileEventListener getEventProcessor() {
 		return eventer;
 	}
 	/**
-	 * ¥¤¥ó¥Ç¥Ã¥¯¥¹Ì¾¤«¤é¥¤¥ó¥Ç¥Ã¥¯¥¹¤Î¼èÆÀ
-	 * @param name ¥¤¥ó¥Ç¥Ã¥¯¥¹Ì¾
-	 * @return ¥¤¥ó¥Ç¥Ã¥¯¥¹¡¢¤¿¤À¤·Ìµ¤«¤Ã¤¿¤énull
+	 * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹åã‹ã‚‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®å–å¾—
+	 * @param name ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹å
+	 * @return ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€ãŸã ã—ç„¡ã‹ã£ãŸã‚‰null
 	 */
 	protected CobolIndex getIndex(String name) {
 		if (indexName2Index == null) {
@@ -672,9 +672,9 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return indexName2Index.get(name);
 	}
 	/**
-	 * ¥³¥Ü¥ë¥¤¥ó¥Ç¥Ã¥¯¥¹¤«¤é¥¤¥ó¥Ç¥Ã¥¯¥¹¥Õ¥¡¥¤¥ë¤Î¼èÆÀ
-	 * @param index ¥¤¥ó¥Ç¥Ã¥¯¥¹
-	 * @return ¥¤¥ó¥Ç¥Ã¥¯¥¹¥Õ¥¡¥¤¥ë¡¢¤¿¤À¤·Ìµ¤«¤Ã¤¿¤énull
+	 * ã‚³ãƒœãƒ«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‹ã‚‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®å–å¾—
+	 * @param index ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+	 * @return ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã€ãŸã ã—ç„¡ã‹ã£ãŸã‚‰null
 	 */
 	protected CobolFile getIndexFile(CobolIndex index) {
 		if (index == null) {
@@ -689,22 +689,22 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return index2File.get(index);
 	}
 	/**
-	 * ½é´ü¥Ğ¥Ã¥Õ¥¡¤µ¥¤¥º
-	 * @return ½é´ü¥Ğ¥Ã¥Õ¥¡¤µ¥¤¥º
+	 * åˆæœŸãƒãƒƒãƒ•ã‚¡ã•ã‚¤ã‚º
+	 * @return åˆæœŸãƒãƒƒãƒ•ã‚¡ã•ã‚¤ã‚º
 	 */
 	protected int getInitialSequencialReadBufferSize() {
 		return initialSequencialReadBufferSize;
 	}
 	/**
-	 * ºÇÂç¥Ğ¥Ã¥Õ¥¡¥µ¥¤¥º
-	 * @return ºÇÂç¥Ğ¥Ã¥Õ¥¡¥µ¥¤¥º
+	 * æœ€å¤§ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+	 * @return æœ€å¤§ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
 	 */
 	protected int getMaximumSequencialReadBufferSize() {
 		return maximumSequencialReadBufferSize;
 	}
 	/**
-	 * ºÇ¾®¥Ğ¥Ã¥Õ¥¡¥µ¥¤¥º
-	 * @return ºÇ¾®¥Ğ¥Ã¥Õ¥¡¥µ¥¤¥º
+	 * æœ€å°ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+	 * @return æœ€å°ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
 	 */
 	protected int getMinimumSequencialReadBufferSize() {
 		return minimumSequencialReadBufferSize;
@@ -717,8 +717,8 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return openmode;
 	}
 	/**
-	 * ¥ê¡¼¥É¥Ğ¥Ã¥Õ¥¡¤Î¼èÆÀ
-	 * @return ¥ê¡¼¥É¥Ğ¥Ã¥Õ¥¡
+	 * ãƒªãƒ¼ãƒ‰ãƒãƒƒãƒ•ã‚¡ã®å–å¾—
+	 * @return ãƒªãƒ¼ãƒ‰ãƒãƒƒãƒ•ã‚¡
 	 */
 	protected SequencialReadBuffer getSequencialReadBuffer() {
 		return sequencialReadBuffer;
@@ -731,24 +731,24 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return session;
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ë¤¬½ªÃ¼¤Ş¤ÇÆÉ¤ß¹ş¤Ş¤ì¤¿¤«¡©
-	 * @return ¥Õ¥¡¥¤¥ë¤¬½ªÃ¼¤Ş¤ÇÆÉ¤ß¹ş¤Ş¤ì¤¿¤«¤É¤¦¤«
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ãŒçµ‚ç«¯ã¾ã§èª­ã¿è¾¼ã¾ã‚ŒãŸã‹ï¼Ÿ
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ãŒçµ‚ç«¯ã¾ã§èª­ã¿è¾¼ã¾ã‚ŒãŸã‹ã©ã†ã‹
 	 */
 	public abstract boolean isLastMoved();
 	/**
-	 * °ÌÃÖ¤Å¤±½èÍı
-	 * @param row ²¿¹ÔÌÜ¡©
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ä½ç½®ã¥ã‘å‡¦ç†
+	 * @param row ä½•è¡Œç›®ï¼Ÿ
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public abstract FileStatus move(int row);
 	/**
-	 * ¹Ô¥»¥Ã¥È¤Î°ìÈÖºÇ½é¤Ë°ÜÆ°¤¹¤ë
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * è¡Œã‚»ãƒƒãƒˆã®ä¸€ç•ªæœ€åˆã«ç§»å‹•ã™ã‚‹
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public abstract FileStatus moveFirst();
 	/**
-	 * ¹Ô¥»¥Ã¥È¤Î°ìÈÖºÇ¸å¤Ë°ÜÆ°¤¹¤ë
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * è¡Œã‚»ãƒƒãƒˆã®ä¸€ç•ªæœ€å¾Œã«ç§»å‹•ã™ã‚‹
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public abstract FileStatus moveLast();
 	/*
@@ -765,14 +765,14 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return nextOnFile();
 	}
 	/**
-	 * row¹ÔÊ¬¼¡¤Î¥ì¥³¡¼¥É¤Ø°ÜÆ°¤¹¤ë
-	 * @param row ¹Ô¿ô
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * rowè¡Œåˆ†æ¬¡ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã¸ç§»å‹•ã™ã‚‹
+	 * @param row è¡Œæ•°
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public abstract FileStatus next(int row);
 	/**
-	 * ¥Ğ¥Ã¥Õ¥¡¾å¤Î°ÌÃÖ¤ò°ÜÆ°¤¹¤ë
-	 * @return ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
+	 * ãƒãƒƒãƒ•ã‚¡ä¸Šã®ä½ç½®ã‚’ç§»å‹•ã™ã‚‹
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus nextOnBuffer() {
 		FileStatus ret = null;
@@ -784,35 +784,35 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * ÆâÉô¥Õ¥¡¥¤¥ë¤Î¹Ô°ÌÃÖ¤ò°ÜÆ°¤¹¤ë
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * å†…éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«ã®è¡Œä½ç½®ã‚’ç§»å‹•ã™ã‚‹
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	protected abstract FileStatus nextOnFile();
 	/**
-	 * ¥¤¥ó¥Ç¥Ã¥¯¥¹¤Ë±ş¤¸¤¿½çÈÖ¤Î¥ì¥³¡¼¥É¼¡°ÌÃÖ¤Ë°ÜÆ°¤¹¤ë
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã«å¿œã˜ãŸé †ç•ªã®ãƒ¬ã‚³ãƒ¼ãƒ‰æ¬¡ä½ç½®ã«ç§»å‹•ã™ã‚‹
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	protected FileStatus nextOnIndex() {
 		if (currentIndex == null) {
 			return new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "not started");
 		}
-		// ¥¤¥ó¥Ç¥Ã¥¯¥¹¥ì¥³¡¼¥É
+		// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ¬ã‚³ãƒ¼ãƒ‰
 		CobolFile currentIndexFile = getIndexFile(currentIndex);
 		CobolRecordMetaData indexmeta = currentIndexFile.getMetaData();
 		DefaultCobolRecord indexrecord = new DefaultCobolRecord(indexmeta);
 		byte[] indexbytes = new byte[indexmeta.getRowSize()];
-		// ¼ç¥Õ¥¡¥¤¥ë¥ì¥³¡¼¥É
+		// ä¸»ãƒ•ã‚¡ã‚¤ãƒ«ãƒ¬ã‚³ãƒ¼ãƒ‰
 		CobolRecordMetaData meta = getMetaData();
 		DefaultCobolRecord mainrecord = new DefaultCobolRecord(meta);
 		FileStatus ret;
 		ret = currentIndexFile.next();
 		if (ret.getStatusCode() == FileStatus.STATUS_OK) {
-			// ¥¤¥ó¥Ç¥Ã¥¯¥¹¤ò¤è¤ß¤³¤à
+			// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã‚ˆã¿ã“ã‚€
 			ret = currentIndexFile.read(indexbytes);
 			if (ret.getStatusCode() == FileStatus.STATUS_OK) {
 				try {
 					indexrecord.setRecord(indexbytes);
-					// ¥¤¥ó¥Ç¥Ã¥¯¥¹¢ª¼ç¥Õ¥¡¥¤¥ë
+					// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹â†’ä¸»ãƒ•ã‚¡ã‚¤ãƒ«
 					Map<CobolColumn, CobolColumn> map1 = currentIndex.getFileKey2IndexColumn();
 					Set<Map.Entry<CobolColumn, CobolColumn>> set = map1.entrySet();
 					Iterator<Map.Entry<CobolColumn, CobolColumn>> ite = set.iterator();
@@ -822,7 +822,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 						CobolColumn fileColumn = ent.getValue();
 						mainrecord.updateBytes(fileColumn, indexrecord.getBytes(indexColumn));
 					}
-					// ¼ç¥Õ¥¡¥¤¥ë¤ò¸¡º÷
+					// ä¸»ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¤œç´¢
 					byte[] record = new byte[meta.getRowSize()];
 					/* len = */mainrecord.getRecord(record);
 					ret = move(record);
@@ -835,8 +835,8 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * ¥¤¥ó¥Ç¥Ã¥¯¥¹¤ò³«¤¯
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’é–‹ã
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	protected FileStatus openIndexes() {
 		FileStatus ret = FileStatus.OK;
@@ -851,15 +851,15 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * row¹ÔÊ¬Á°¤Î¥ì¥³¡¼¥É¤Ø°ÜÆ°¤¹¤ë
-	 * @param row ¹Ô¿ô
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * rowè¡Œåˆ†å‰ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã¸ç§»å‹•ã™ã‚‹
+	 * @param row è¡Œæ•°
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public abstract FileStatus previous(int row);
 	/**
-	 * this¥ª¥Ö¥¸¥§¥¯¥È¤òÊÖ¤¹
+	 * thisã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™
 	 * @return this<br>
-	 *         ¤Ş¤¡¡¢Æş¤ì»Ò¤Ë¤Ê¤Ã¤Æ¤¤¤ë¥¯¥é¥¹¤Î¤¿¤á¤Î¥á¥½¥Ã¥É¡¦¡¦¡¦¤è¤Í¡©
+	 *         ã¾ãã€å…¥ã‚Œå­ã«ãªã£ã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®ãŸã‚ã®ãƒ¡ã‚½ãƒƒãƒ‰ãƒ»ãƒ»ãƒ»ã‚ˆã­ï¼Ÿ
 	 */
 	protected CobolFile proxy() {
 		return this;
@@ -875,9 +875,9 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return readFromFile(record);
 	}
 	/**
-	 * ÆâÉô¥Ğ¥Ã¥Õ¥¡¤«¤é¥ì¥³¡¼¥É¤òÆÉ¤ß¼è¤ë
-	 * @param record ¥ì¥³¡¼¥É
-	 * @return ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
+	 * å†…éƒ¨ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’èª­ã¿å–ã‚‹
+	 * @param record ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public FileStatus readFromBuffer(byte[] record) {
 		FileStatus ret = null;
@@ -889,9 +889,9 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * ÆâÉô¥Õ¥¡¥¤¥ë¤«¤é¼èÆÀ¤¹¤ë
-	 * @param record Ï¢ÁÛ¤¹¤ë¥ì¥³¡¼¥É
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * å†…éƒ¨ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰å–å¾—ã™ã‚‹
+	 * @param record é€£æƒ³ã™ã‚‹ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	protected abstract FileStatus readFromFile(byte[] record);
 	/*
@@ -903,46 +903,46 @@ public abstract class AbstractCobolFile implements CobolFile {
 		listeners.remove(listener);
 	}
 	/**
-	 * ¸½ºß»ÈÍÑÃæ¤Î¥¤¥ó¥Ç¥Ã¥¯¥¹¤ò¥¯¥ê¥¢¤¹¤ë<br>
-	 * ¤Ä¤Ş¤ê¥¤¥ó¥Ç¥Ã¥¯¥¹¤ò»ÈÍÑ¤·¤Æ¤¤¤Ê¤¤¾õÂÖ¤Ë¤¹¤ë<br>
-	 * setCurrentIndex(null)¤ÈÆ±¤¸<br>
-	 * ¤³¤Î¥¯¥é¥¹¤Î¥µ¥Ö¥¯¥é¥¹¤ò¤µ¤¯¤¹¤ë¾ì¹ç¤Ïmove¤Î¼ÂÁõ¤Ç¤³¤Î¥á¥½¥Ã¥É¤ò¸Æ¤Ö¤³¤È
+	 * ç¾åœ¨ä½¿ç”¨ä¸­ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹<br>
+	 * ã¤ã¾ã‚Šã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ä½¿ç”¨ã—ã¦ã„ãªã„çŠ¶æ…‹ã«ã™ã‚‹<br>
+	 * setCurrentIndex(null)ã¨åŒã˜<br>
+	 * ã“ã®ã‚¯ãƒ©ã‚¹ã®ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã‚’ã•ãã™ã‚‹å ´åˆã¯moveã®å®Ÿè£…ã§ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶ã“ã¨
 	 */
 	public void resetCurrentIndex() {
 		setCurrentIndex(null);
 	}
 	/**
-	 * ¸½ºß»ÈÍÑÃæ¤Î¥¤¥ó¥Ç¥Ã¥¯¥¹¤òÀßÄê¤¹¤ë
-	 * @param currentIndex ¥¤¥ó¥Ç¥Ã¥¯¥¹<br>
-	 *            »ÈÍÑ¤·¤Ê¤¤¾ì¹ç¤Ïnull
+	 * ç¾åœ¨ä½¿ç”¨ä¸­ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’è¨­å®šã™ã‚‹
+	 * @param currentIndex ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹<br>
+	 *            ä½¿ç”¨ã—ãªã„å ´åˆã¯null
 	 */
 	public void setCurrentIndex(CobolIndex currentIndex) {
 		this.currentIndex = currentIndex;
 	}
 	/**
-	 * ½é´ü¥Ğ¥Ã¥Õ¥¡¤µ¥¤¥º
-	 * @param initialSequencialReadBufferSize ½é´ü¥Ğ¥Ã¥Õ¥¡¤µ¥¤¥º
+	 * åˆæœŸãƒãƒƒãƒ•ã‚¡ã•ã‚¤ã‚º
+	 * @param initialSequencialReadBufferSize åˆæœŸãƒãƒƒãƒ•ã‚¡ã•ã‚¤ã‚º
 	 */
 	protected void setInitialSequencialReadBufferSize(int initialSequencialReadBufferSize) {
 		this.initialSequencialReadBufferSize = initialSequencialReadBufferSize;
 	}
 	/**
-	 * ¡¡ºÇÂç¥Ğ¥Ã¥Õ¥¡¥µ¥¤¥º
-	 * @param maximumSequencialReadBufferSize ºÇÂç¥Ğ¥Ã¥Õ¥¡¥µ¥¤¥º
+	 * ã€€æœ€å¤§ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+	 * @param maximumSequencialReadBufferSize æœ€å¤§ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
 	 */
 	protected void setMaximumSequencialReadBufferSize(int maximumSequencialReadBufferSize) {
 		this.maximumSequencialReadBufferSize = maximumSequencialReadBufferSize;
 	}
 	/**
-	 * ºÇ¾®¥Ğ¥Ã¥Õ¥¡¥µ¥¤¥º
-	 * @param minimumSequencialReadBufferSize ºÇ¾®¥Ğ¥Ã¥Õ¥¡¥µ¥¤¥º
+	 * æœ€å°ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+	 * @param minimumSequencialReadBufferSize æœ€å°ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
 	 */
 	protected void setMinimumSequencialReadBufferSize(int minimumSequencialReadBufferSize) {
 		this.minimumSequencialReadBufferSize = minimumSequencialReadBufferSize;
 	}
 	/**
-	 * ¥ê¡¼¥É¥Ğ¥Ã¥Õ¥¡¤Î¥»¥Ã¥È
-	 * @param sequencialReadBuffer ¥ê¡¼¥É¥Ğ¥Ã¥Õ¥¡
+	 * ãƒªãƒ¼ãƒ‰ãƒãƒƒãƒ•ã‚¡ã®ã‚»ãƒƒãƒˆ
+	 * @param sequencialReadBuffer ãƒªãƒ¼ãƒ‰ãƒãƒƒãƒ•ã‚¡
 	 */
 	protected void setSequencialReadBuffer(SequencialReadBuffer sequencialReadBuffer) {
 		this.sequencialReadBuffer = sequencialReadBuffer;
@@ -965,14 +965,14 @@ public abstract class AbstractCobolFile implements CobolFile {
 		CobolFile indexFile = getIndexFile(index);
 		if (index != null && indexFile != null) {
 			CobolRecordMetaData meta = getMetaData();
-			// ¼ç¥Õ¥¡¥¤¥ë¥ì¥³¡¼¥É
+			// ä¸»ãƒ•ã‚¡ã‚¤ãƒ«ãƒ¬ã‚³ãƒ¼ãƒ‰
 			DefaultCobolRecord mainrecord = new DefaultCobolRecord(meta);
 			mainrecord.setRecord(record);
 			try {
 				CobolRecordMetaData indexmeta = indexFile.getMetaData();
 				DefaultCobolRecord indexrecord = new DefaultCobolRecord(indexmeta);
 				byte[] indexbytes = new byte[indexmeta.getRowSize()];
-				// ¼ç¥Õ¥¡¥¤¥ë¢ª¥¤¥ó¥Ç¥Ã¥¯¥¹
+				// ä¸»ãƒ•ã‚¡ã‚¤ãƒ«â†’ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 				Map<CobolColumn, CobolColumn> map0 = index.getIndexKey2FileColumn();
 				Set<Map.Entry<CobolColumn, CobolColumn>> set0 = map0.entrySet();
 				Iterator<Map.Entry<CobolColumn, CobolColumn>> ite0 = set0.iterator();
@@ -982,13 +982,13 @@ public abstract class AbstractCobolFile implements CobolFile {
 					CobolColumn fileColumn = ent0.getValue();
 					indexrecord.updateBytes(indexColumn, mainrecord.getBytes(fileColumn));
 				}
-				// ¥¤¥ó¥Ç¥Ã¥¯¥¹¤ò¸¡º÷
+				// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æ¤œç´¢
 				/* int len = */indexrecord.getRecord(indexbytes);
 				ret = indexFile.start(mode, indexbytes, index.isDuplicates());
 				if (ret.getStatusCode() == FileStatus.STATUS_OK) {
 					ret = indexFile.read(indexbytes);
 					indexrecord.setRecord(indexbytes);
-					// ¥¤¥ó¥Ç¥Ã¥¯¥¹¢ª¼ç¥Õ¥¡¥¤¥ë
+					// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹â†’ä¸»ãƒ•ã‚¡ã‚¤ãƒ«
 					Map<CobolColumn, CobolColumn> map1 = index.getFileKey2IndexColumn();
 					Set<Map.Entry<CobolColumn, CobolColumn>> set1 = map1.entrySet();
 					Iterator<Map.Entry<CobolColumn, CobolColumn>> ite1 = set1.iterator();
@@ -998,7 +998,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 						CobolColumn fileColumn = ent1.getValue();
 						mainrecord.updateBytes(fileColumn, indexrecord.getBytes(indexColumn));
 					}
-					// ¼ç¥Õ¥¡¥¤¥ë¤ò¸¡º÷
+					// ä¸»ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¤œç´¢
 					/* len = */mainrecord.getRecord(record);
 					ret = move(record);
 					if (ret.getStatusCode() == FileStatus.STATUS_OK) {
@@ -1007,22 +1007,22 @@ public abstract class AbstractCobolFile implements CobolFile {
 				}
 			} catch (CobolRecordException e) {
 				SQLNetServer.logger.log(Level.SEVERE, "Exception", e);
-				// ¤³¤ÎÃæ¤ÎÎã³°¤Ï¤½¤Î¤Ş¤Ş³°¤Ë½Ğ¤¹
+				// ã“ã®ä¸­ã®ä¾‹å¤–ã¯ãã®ã¾ã¾å¤–ã«å‡ºã™
 				ret = new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 			} catch (Exception ex) {
 				SQLNetServer.logger.log(Level.SEVERE, "Exception", ex);
-				// ¤½¤Î¤Û¤«¤ÎÎã³°
+				// ãã®ã»ã‹ã®ä¾‹å¤–
 				ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, ex.getMessage());
 			}
 		} else {
-			// £²¼¡¥­¡¼¤Ê¤·¤Ç¸¡º÷
+			// ï¼’æ¬¡ã‚­ãƒ¼ãªã—ã§æ¤œç´¢
 			resetCurrentIndex();
 			ret = start(mode, record);
 		}
 		return ret;
 	}
 	/**
-	 * ¥Ğ¥Ã¥Õ¥¡¥ê¥ó¥°¤Î³«»Ï ¥ê¡¼¥É¥ª¥ó¥ê¡¼¤Ç½ç¥Õ¥¡¥¤¥ë¤Î»ş¡¢¥Ğ¥Ã¥Õ¥¡¥ê¥ó¥°¤ò³«»Ï¤¹¤ë
+	 * ãƒãƒƒãƒ•ã‚¡ãƒªãƒ³ã‚°ã®é–‹å§‹ ãƒªãƒ¼ãƒ‰ã‚ªãƒ³ãƒªãƒ¼ã§é †ãƒ•ã‚¡ã‚¤ãƒ«ã®æ™‚ã€ãƒãƒƒãƒ•ã‚¡ãƒªãƒ³ã‚°ã‚’é–‹å§‹ã™ã‚‹
 	 */
 	public void startBuffer() {
 		if ((getMaximumSequencialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENCIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
@@ -1033,10 +1033,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 	}
 	/**
-	 * °ÌÃÖÉÕ¤±¤¹¤ë¡Ê½ÅÊ£¤¢¤ê¡Ë
-	 * @param mode ¥â¡¼¥É(EQ GT ¤Ê¤É)
-	 * @param record ¥­¡¼¤ò´Ş¤à¥ì¥³¡¼¥É
-	 * @return ¥¹¥Æ¡¼¥¿¥¹
+	 * ä½ç½®ä»˜ã‘ã™ã‚‹ï¼ˆé‡è¤‡ã‚ã‚Šï¼‰
+	 * @param mode ãƒ¢ãƒ¼ãƒ‰(EQ GT ãªã©)
+	 * @param record ã‚­ãƒ¼ã‚’å«ã‚€ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @return ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	public abstract FileStatus startDuplicates(int mode, byte[] record);
 }

@@ -20,17 +20,17 @@ import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 
 import org.xml.sax.SAXException;
 /**
- * JNI¥Ù¡¼¥¹¤Î¥µ¡¼¥Ğ¡¼µ¡Ç½
+ * JNIãƒ™ãƒ¼ã‚¹ã®ã‚µãƒ¼ãƒãƒ¼æ©Ÿèƒ½
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSQLJNISession implements ACMSession {
 	static final String NOT_ASSIGNED = FileStatus.NOT_ASSIGNED.toString();
 	private static final long serialVersionUID = 1L;
-	/** SQL¥»¥Ã¥·¥ç¥ó */
+	/** SQLã‚»ãƒƒã‚·ãƒ§ãƒ³ */
 	ACMSQLSession superobj;
-	/** ÆÉ¤ß¹ş¤ßÂĞ¾İ¥ì¥³¡¼¥É */
+	/** èª­ã¿è¾¼ã¿å¯¾è±¡ãƒ¬ã‚³ãƒ¼ãƒ‰ */
 	byte[] readingRecord = new byte[8192];
-	/** ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹ */
+	/** ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
 	byte[] status = new byte[255];
 	/**
 	 * @return the readingRecord
@@ -44,7 +44,7 @@ public class ACMSQLJNISession implements ACMSession {
 	public byte[] getStatus() {
 		return status;
 	}
-	/** ¥³¥ó¥¹¥È¥é¥¯¥¿ */
+	/** ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ */
 	public ACMSQLJNISession() throws Exception {
 		super();
 	}
@@ -59,8 +59,8 @@ public class ACMSQLJNISession implements ACMSession {
 		superobj.addACMSessionEventListener(listener);
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ë¤ò¥¢¥µ¥¤¥ó¤¹¤ë
-	 * @throws IOException Æş½ĞÎã³°
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚¢ã‚µã‚¤ãƒ³ã™ã‚‹
+	 * @throws IOException å…¥å‡ºä¾‹å¤–
 	 */
 	public void assign(byte[] fileName) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -74,7 +74,7 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ë¤ò¥¯¥í¡¼¥º¤¹¤ë
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã™ã‚‹
 	 */
 	public void close(byte[] fileName) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -88,8 +88,8 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò¥³¥ß¥Ã¥È¤¹¤ë
-	 * @throws IOException Æş½ĞÎÏÎã³°
+	 * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ã‚³ãƒŸãƒƒãƒˆã™ã‚‹
+	 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	public void commitTransaction() {
 		FileStatus ret = FileStatus.FAILURE;
@@ -112,7 +112,7 @@ public class ACMSQLJNISession implements ACMSession {
 		return superobj.createFile(name);
 	}
 	/**
-	 * ¸½ºß¹Ô¤Îºï½ü
+	 * ç¾åœ¨è¡Œã®å‰Šé™¤
 	 */
 	public void delete(byte[] fileName, byte[] record) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -143,8 +143,8 @@ public class ACMSQLJNISession implements ACMSession {
 		return superobj.getFile(name);
 	}
 	/**
-	 * ¥â¡¼¥ÉÊ¸»úÎó¤«¤éintÃÍ¤òÆÀ¤ë
-	 * @param bytes ¥â¡¼¥É¤òÉ½¤¹Ê¸»úÎó¤Î¥Ğ¥¤¥ÈÇÛÎó
+	 * ãƒ¢ãƒ¼ãƒ‰æ–‡å­—åˆ—ã‹ã‚‰intå€¤ã‚’å¾—ã‚‹
+	 * @param bytes ãƒ¢ãƒ¼ãƒ‰ã‚’è¡¨ã™æ–‡å­—åˆ—ã®ãƒã‚¤ãƒˆé…åˆ—
 	 * @return
 	 */
 	int getModeBytes2ModeInt(byte[] bmode) {
@@ -170,7 +170,7 @@ public class ACMSQLJNISession implements ACMSession {
 		return superobj.getSessionId();
 	}
 	/**
-	 * ½é´ü²½¤·¤Æ¥µ¡¼¥Ğ¡¼¤ËÅĞÏ¿¤¹¤ë
+	 * åˆæœŸåŒ–ã—ã¦ã‚µãƒ¼ãƒãƒ¼ã«ç™»éŒ²ã™ã‚‹
 	 */
 	public void initialize(byte[] acmUsername, byte[] acmPassword) {
 		FileStatus ret = FileStatus.OK;
@@ -194,11 +194,11 @@ public class ACMSQLJNISession implements ACMSession {
 				sqlset.setPassword(properties.getProperty("jdbcpassword"));
 			}
 			// ////////////////////////////////////////////////////////
-			// ¥Ñ¥¹¥ï¡¼¥É¤ÎÀßÄê
+			// ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®è¨­å®š
 			Properties users = new Properties();
 			String userFile = properties.getProperty("authfile", "");
 			if (userFile == "") {
-				users.put("", "");// ¥Ç¥Õ¥©¥ë¥È¥Ñ¥¹¥ï¡¼¥É
+				users.put("", "");// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
 				SQLNetServer.logger.log(Level.CONFIG, "authfile is null. using default password.");
 			} else {
 				SQLNetServer.logger.log(Level.CONFIG, "Loading authfile " + userFile + ".");
@@ -225,7 +225,7 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * ¥«¥ì¥ó¥È¥ì¥³¡¼¥É¤Î°ÜÆ°
+	 * ã‚«ãƒ¬ãƒ³ãƒˆãƒ¬ã‚³ãƒ¼ãƒ‰ã®ç§»å‹•
 	 */
 	public void move(byte[] fileName, byte[] record) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -239,7 +239,7 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * ¼¡¤Î¥ì¥³¡¼¥É¤Ø
+	 * æ¬¡ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã¸
 	 */
 	public void next(byte[] fileName) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -253,7 +253,7 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ë¤ò³«¤¯
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	 */
 	public void open(byte[] fileName, byte[] bmode, byte[] baccessmode) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -261,52 +261,52 @@ public class ACMSQLJNISession implements ACMSession {
 		CobolFile file = getFile(FileName);
 		if (file != null) {
 			// ////////////////////////////////////////////////////
-			// ¥ª¡¼¥×¥ó¥â¡¼¥É
+			// ã‚ªãƒ¼ãƒ—ãƒ³ãƒ¢ãƒ¼ãƒ‰
 			int mode = -1;
 			String modeString = new String(bmode).trim();
 			if (modeString.equalsIgnoreCase("INPUT")) {
-				// ÆÉ¤ß¹ş¤ß¥â¡¼¥É
+				// èª­ã¿è¾¼ã¿ãƒ¢ãƒ¼ãƒ‰
 				mode = CobolFile.MODE_INPUT;
 			} else if (modeString.equalsIgnoreCase("OUTPUT")) {
-				// ½ñ¤­¹ş¤ß¥â¡¼¥É
+				// æ›¸ãè¾¼ã¿ãƒ¢ãƒ¼ãƒ‰
 				mode = CobolFile.MODE_OUTPUT;
 			} else if (modeString.equalsIgnoreCase("EXTEND")) {
-				// ÄÉµ­¥â¡¼¥É
+				// è¿½è¨˜ãƒ¢ãƒ¼ãƒ‰
 				mode = CobolFile.MODE_EXTEND;
 			} else if (modeString.equalsIgnoreCase("IO")) {
-				// Æş½ĞÎÏ¥â¡¼¥É
+				// å…¥å‡ºåŠ›ãƒ¢ãƒ¼ãƒ‰
 				mode = CobolFile.MODE_INPUT_OUTPUT;
 			}
 			// //////////////////////////////////////////////////////
-			// ¥¢¥¯¥»¥¹¥â¡¼¥É
+			// ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰
 			int accessmode = -1;
 			String accessmodeString = new String(baccessmode).trim();
 			if (accessmodeString.equalsIgnoreCase("SEQUENC")) {
-				// ½ç¥¢¥¯¥»¥¹
+				// é †ã‚¢ã‚¯ã‚»ã‚¹
 				accessmode = CobolFile.ACCESS_SEQUENCIAL;
 			} else if (accessmodeString.equalsIgnoreCase("RANDOM")) {
-				// Æ°Åª¥¢¥¯¥»¥¹
+				// å‹•çš„ã‚¢ã‚¯ã‚»ã‚¹
 				accessmode = CobolFile.ACCESS_RANDOM;
 			} else if (accessmodeString.equalsIgnoreCase("DYNAMIC")) {
-				// Íğ¥¢¥¯¥»¥¹
+				// ä¹±ã‚¢ã‚¯ã‚»ã‚¹
 				accessmode = CobolFile.ACCESS_DYNAMIC;
 			}
 			// ////////////////////////////////////////////////////
-			// ¥ª¡¼¥×¥ó¥â¡¼¥É
+			// ã‚ªãƒ¼ãƒ—ãƒ³ãƒ¢ãƒ¼ãƒ‰
 			if (mode == CobolFile.MODE_INPUT || mode == CobolFile.MODE_OUTPUT || mode == CobolFile.MODE_EXTEND || mode == CobolFile.MODE_INPUT_OUTPUT) {
-				// ¥â¡¼¥É¤¬Àµ¤·¤¤
+				// ãƒ¢ãƒ¼ãƒ‰ãŒæ­£ã—ã„
 			} else {
-				// ¥â¡¼¥ÉÉÔÀµ
+				// ãƒ¢ãƒ¼ãƒ‰ä¸æ­£
 				ret = new FileStatus(FileStatus.STATUS_CANT_OPEN, FileStatus.NULL_CODE, 0, "can't open file");
 				setFileStatus2Bytes(ret, status);
 			}
 			// //////////////////////////////////////////////////////
-			// ¥¢¥¯¥»¥¹¥â¡¼¥É
+			// ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰
 			if (accessmode == CobolFile.ACCESS_SEQUENCIAL || accessmode == CobolFile.ACCESS_DYNAMIC || accessmode == CobolFile.ACCESS_RANDOM) {
-				// ¥â¡¼¥É¤¬Àµ¤·¤¤
+				// ãƒ¢ãƒ¼ãƒ‰ãŒæ­£ã—ã„
 				ret = file.open(mode, accessmode);
 			} else {
-				// ¥â¡¼¥ÉÉÔÀµ
+				// ãƒ¢ãƒ¼ãƒ‰ä¸æ­£
 				ret = new FileStatus(FileStatus.STATUS_CANT_OPEN, FileStatus.NULL_CODE, 0, "can't open file");
 				setFileStatus2Bytes(ret, status);
 			}
@@ -316,7 +316,7 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * Á°¤Î¥ì¥³¡¼¥É¤Ø
+	 * å‰ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã¸
 	 */
 	public void previous(byte[] fileName) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -330,14 +330,14 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * ¥ê¡¼¥É
+	 * ãƒªãƒ¼ãƒ‰
 	 */
 	public void read(byte[] fileName) {
 		FileStatus ret = FileStatus.FAILURE;
 		String FileName = new String(fileName).trim();
 		CobolFile file = getFile(FileName);
 		if (file != null) {
-			// ¥ê¡¼¥É½èÍı
+			// ãƒªãƒ¼ãƒ‰å‡¦ç†
 			ret = file.read(readingRecord);
 		} else {
 			ret = FileStatus.NOT_ASSIGNED;
@@ -345,7 +345,7 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * ¼¡¤Î¥ì¥³¡¼¥É¤Ø
+	 * æ¬¡ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã¸
 	 * @param fileName
 	 * @return
 	 */
@@ -355,10 +355,10 @@ public class ACMSQLJNISession implements ACMSession {
 		CobolFile file = getFile(FileName);
 		if (file != null) {
 			;
-			// ¥ê¡¼¥É½èÍı
+			// ãƒªãƒ¼ãƒ‰å‡¦ç†
 			ret = file.read(readingRecord);
 			if (ret.getStatusCode().equals(FileStatus.STATUS_OK)) {
-				// ¼¡½èÍı
+				// æ¬¡å‡¦ç†
 				file.next();
 			}
 		} else {
@@ -377,7 +377,7 @@ public class ACMSQLJNISession implements ACMSession {
 		superobj.removeACMSessionEventListener(listener);
 	}
 	/**
-	 * ¹¹¿·
+	 * æ›´æ–°
 	 */
 	public void rewrite(byte[] fileName, byte[] record) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -386,13 +386,13 @@ public class ACMSQLJNISession implements ACMSession {
 		if (file != null) {
 			ret = file.rewrite(record);
 		} else {
-			// readLine();// ¥À¥ß¡¼¥ê¡¼¥É
+			// readLine();// ãƒ€ãƒŸãƒ¼ãƒªãƒ¼ãƒ‰
 			ret = FileStatus.NOT_ASSIGNED;
 		}
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò¥í¡¼¥ë¥Ğ¥Ã¥¯¤¹¤ë Æş½ĞÎÏÎã³°
+	 * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ãƒ­ãƒ¼ãƒ«ãƒãƒƒã‚¯ã™ã‚‹ å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	public void rollbackTransaction() {
 		FileStatus ret = FileStatus.FAILURE;
@@ -406,8 +406,8 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * ¥ª¡¼¥È¥³¥ß¥Ã¥È¤òÀßÄê¤¹¤ë
-	 * @throws IOException Æş½ĞÎÏÎã³°
+	 * ã‚ªãƒ¼ãƒˆã‚³ãƒŸãƒƒãƒˆã‚’è¨­å®šã™ã‚‹
+	 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	public void setAutoCommit(byte[] commitBytes) {
 		String commitString = new String(commitBytes).trim();
@@ -415,8 +415,8 @@ public class ACMSQLJNISession implements ACMSession {
 		setAutoCommit(autoCommit);
 	}
 	/**
-	 * ¥ª¡¼¥È¥³¥ß¥Ã¥È¤òÀßÄê¤¹¤ë
-	 * @param autoCommit ¥³¥ß¥Ã¥È¥â¡¼¥É Æş½ĞÎÏÎã³°
+	 * ã‚ªãƒ¼ãƒˆã‚³ãƒŸãƒƒãƒˆã‚’è¨­å®šã™ã‚‹
+	 * @param autoCommit ã‚³ãƒŸãƒƒãƒˆãƒ¢ãƒ¼ãƒ‰ å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	public void setAutoCommit(boolean autoCommit) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -429,9 +429,9 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹¤ò¥Ğ¥¤¥ÈÇÛÎó¤ËÅ¾µ­¤¹¤ë
-	 * @param source ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
-	 * @param dist ¥¹¥Æ¡¼¥¿¥¹
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’ãƒã‚¤ãƒˆé…åˆ—ã«è»¢è¨˜ã™ã‚‹
+	 * @param source ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	 * @param dist ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	void setFileStatus2Bytes(FileStatus source, byte[] dest) {
 		String string = source.toString();
@@ -439,8 +439,8 @@ public class ACMSQLJNISession implements ACMSession {
 		System.arraycopy(bytes, 0, dest, 0, (bytes.length < dest.length ? bytes.length : dest.length));
 	}
 	/**
-	 * ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò³«»Ï¤¹¤ë
-	 * @throws IOException Æş½ĞÎÏÎã³°
+	 * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã™ã‚‹
+	 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	public void setTransactionLevel(byte[] levelBytes) {
 		String levelString = new String(levelBytes).trim();
@@ -457,8 +457,8 @@ public class ACMSQLJNISession implements ACMSession {
 		setTransactionLevel(level);
 	}
 	/**
-	 * »ØÄê¤·¤¿¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¼×ÃÇ¥ì¥Ù¥ë¤Ç¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò³«»Ï¤¹¤ë
-	 * @param level ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¼×ÃÇ¥ì¥Ù¥ë Æş½ĞÎÏÎã³°
+	 * æŒ‡å®šã—ãŸãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³é®æ–­ãƒ¬ãƒ™ãƒ«ã§ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã™ã‚‹
+	 * @param level ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³é®æ–­ãƒ¬ãƒ™ãƒ« å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	public void setTransactionLevel(int level) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -471,7 +471,7 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * °ÌÃÖÉÕ¤±
+	 * ä½ç½®ä»˜ã‘
 	 */
 	public void start(byte[] fileName, byte[] modeBytes, byte[] record) {
 		int mode = getModeBytes2ModeInt(modeBytes);
@@ -481,13 +481,13 @@ public class ACMSQLJNISession implements ACMSession {
 		if (file != null) {
 			ret = file.start(mode, record);
 		} else {
-			// readLine();// ¥À¥ß¡¼¥ê¡¼¥É
+			// readLine();// ãƒ€ãƒŸãƒ¼ãƒªãƒ¼ãƒ‰
 			ret = FileStatus.NOT_ASSIGNED;
 		}
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * °ÌÃÖÉÕ¤±
+	 * ä½ç½®ä»˜ã‘
 	 */
 	public void startWith(byte[] fileName, byte[] skey, byte[] modeBytes, byte[] record) {
 		int mode = getModeBytes2ModeInt(modeBytes);
@@ -503,7 +503,7 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * ¥»¥Ã¥·¥ç¥ó¤Î½ªÎ»
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®çµ‚äº†
 	 */
 	public void terminate() {
 		try {
@@ -518,14 +518,14 @@ public class ACMSQLJNISession implements ACMSession {
 			setFileStatus2Bytes(FileStatus.FAILURE, status);
 			return;
 		}
-		// ¥»¥Ã¥·¥ç¥ó¤ò´ÉÍı³°¤Ë¤¹¤ë
+		// ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’ç®¡ç†å¤–ã«ã™ã‚‹
 		// server.deleteSession(this);
-		// ¾å°Ì¥¯¥é¥¹¤Î½ªÎ»½èÍı
+		// ä¸Šä½ã‚¯ãƒ©ã‚¹ã®çµ‚äº†å‡¦ç†
 		superobj.terminate();
 		setFileStatus2Bytes(FileStatus.OK, status);
 	}
 	/**
-	 * ½ñ¤­¹ş¤ß
+	 * æ›¸ãè¾¼ã¿
 	 */
 	public void write(byte[] fileName, byte[] record) {
 		FileStatus ret = FileStatus.FAILURE;

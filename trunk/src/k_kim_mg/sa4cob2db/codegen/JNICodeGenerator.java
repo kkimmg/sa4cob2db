@@ -348,7 +348,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		add("                                    ACM-STATUS-ALL.");
 	}
 	/**
-	 * �ȥ�󥶥�������٥������<br/>
+	 * �ȥ��������٥������<br/>
 	 * ̵���ǹ����˥ԥꥪ�ɤ����ꤹ�뤳�Ȥ����
 	 * @param text ��٥�ʸ�����ޤ����
 	 */

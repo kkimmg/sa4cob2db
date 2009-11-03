@@ -17,34 +17,34 @@ import java.util.logging.Level;
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.FileStatus;
 /**
- * ¥½¥±¥Ã¥È¥Ù¡¼¥¹¤Î¥»¥Ã¥·¥ç¥ó´ÉÍıµ¡Ç½
+ * ã‚½ã‚±ãƒƒãƒˆãƒ™ãƒ¼ã‚¹ã®ã‚»ãƒƒã‚·ãƒ§ãƒ³ç®¡ç†æ©Ÿèƒ½
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
     private static final long serialVersionUID = 1L;
-    /** ÄÌ¿®¤Î¤¦¤Á¤Î¥³¥Ş¥ó¥ÉÉôÊ¬¤òÊ¸»úÎó¤Ç¼õ¤±¤È¤ë¤¿¤á¤Î¥ê¡¼¥À¡¼ */
+    /** é€šä¿¡ã®ã†ã¡ã®ã‚³ãƒãƒ³ãƒ‰éƒ¨åˆ†ã‚’æ–‡å­—åˆ—ã§å—ã‘ã¨ã‚‹ãŸã‚ã®ãƒªãƒ¼ãƒ€ãƒ¼ */
 	protected transient BufferedReader bufferedReader;
-	/** ¥½¥±¥Ã¥È¤Î¥¢¥¦¥È¥×¥Ã¥È¥¹¥È¥ê¡¼¥à¤Î¥Ğ¥Ã¥Õ¥¡ */
+	/** ã‚½ã‚±ãƒƒãƒˆã®ã‚¢ã‚¦ãƒˆãƒ—ãƒƒãƒˆã‚¹ãƒˆãƒªãƒ¼ãƒ ã®ãƒãƒƒãƒ•ã‚¡ */
 	protected transient BufferedOutputStream bufput;
-	/** ¥½¥±¥Ã¥È¤Î¥¤¥ó¥×¥Ã¥È¥¹¥È¥ê¡¼¥à */
+	/** ã‚½ã‚±ãƒƒãƒˆã®ã‚¤ãƒ³ãƒ—ãƒƒãƒˆã‚¹ãƒˆãƒªãƒ¼ãƒ  */
 	protected transient InputStream input;
-	/** ¥½¥±¥Ã¥È¤Î¥¢¥¦¥È¥×¥Ã¥È¥¹¥È¥ê¡¼¥à */
+	/** ã‚½ã‚±ãƒƒãƒˆã®ã‚¢ã‚¦ãƒˆãƒ—ãƒƒãƒˆã‚¹ãƒˆãƒªãƒ¼ãƒ  */
 	protected transient OutputStream output;
-	/** ¥Õ¥¡¥¤¥ëËè¤Î¥Ğ¥¤¥ÈÇÛÎó */
+	/** ãƒ•ã‚¡ã‚¤ãƒ«æ¯ã®ãƒã‚¤ãƒˆé…åˆ— */
 	protected Map<CobolFile, byte[]> recordBytes = new Hashtable<CobolFile, byte[]>();
-	/** ¥µ¡¼¥Ğ¡¼ */
+	/** ã‚µãƒ¼ãƒãƒ¼ */
 	private final transient  SQLNetServer server;
-	/** ¥½¥±¥Ã¥È */
+	/** ã‚½ã‚±ãƒƒãƒˆ */
 	protected transient Socket sock;
-	/** ¥ê¡¼¥À¡¼ */
+	/** ãƒªãƒ¼ãƒ€ãƒ¼ */
 	protected transient InputStreamReader streamReader;
-	/** ¥é¥¤¥¿¡¼ */
+	/** ãƒ©ã‚¤ã‚¿ãƒ¼ */
 	protected transient OutputStreamWriter streamWriter;
 	/**
-	 * ¥µ¡¼¥Ğ¡¼
-	 * @param server ¥µ¡¼¥Ğ¡¼
-	 * @param sock ¥½¥±¥Ã¥È
-	 * @throws Exception Îã³°
+	 * ã‚µãƒ¼ãƒãƒ¼
+	 * @param server ã‚µãƒ¼ãƒãƒ¼
+	 * @param sock ã‚½ã‚±ãƒƒãƒˆ
+	 * @throws Exception ä¾‹å¤–
 	 */
 	public ACMSQLNetSession(SQLNetServer server, Socket sock) throws Exception {
 		super(server.getFileServer());
@@ -52,8 +52,8 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		this.sock = sock;
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ë¤ò¥¢¥µ¥¤¥ó¤¹¤ë
-	 * @throws IOException Æş½ĞÎã³°
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚¢ã‚µã‚¤ãƒ³ã™ã‚‹
+	 * @throws IOException å…¥å‡ºä¾‹å¤–
 	 */
 	protected void assign() throws IOException {
 		String name = readTrim();
@@ -65,7 +65,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ë¤ò¥¯¥í¡¼¥º¤¹¤ë
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã™ã‚‹
 	 */
 	protected void close() throws IOException {
 		CobolFile file = getFileFromLine();
@@ -77,8 +77,8 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò¥³¥ß¥Ã¥È¤¹¤ë
-	 * @throws IOException Æş½ĞÎÏÎã³°
+	 * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ã‚³ãƒŸãƒƒãƒˆã™ã‚‹
+	 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	protected void commitTransaction() throws IOException {
 		try {
@@ -90,7 +90,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * ¸½ºß¹Ô¤Îºï½ü
+	 * ç¾åœ¨è¡Œã®å‰Šé™¤
 	 */
 	protected void delete() throws IOException {
 		CobolFile file = getFileFromLine();
@@ -104,15 +104,15 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * ¥½¥±¥Ã¥È¤«¤é¥Õ¥¡¥¤¥ëÌ¾¤ò¼èÆÀ¤·¤Æ¥Õ¥¡¥¤¥ë¤òÊÖ¤¹
-	 * @return ¥Õ¥¡¥¤¥ë¤Ş¤¿¤Ïnull
+	 * ã‚½ã‚±ãƒƒãƒˆã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—ã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¿”ã™
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã¾ãŸã¯null
 	 */
 	protected CobolFile getFileFromLine() {
 		CobolFile file = null;
 		try {
-			// ¥Õ¥¡¥¤¥ë½èÍı
+			// ãƒ•ã‚¡ã‚¤ãƒ«å‡¦ç†
 			String name = readTrim();
-			// ¥Õ¥¡¥¤¥ë¤Î¼èÆÀ
+			// ãƒ•ã‚¡ã‚¤ãƒ«ã®å–å¾—
 			file = getFile(name);
 		} catch (IOException e) {
 			// 
@@ -121,7 +121,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		return file;
 	}
 	/**
-	 * ½é´ü²½¤·¤Æ¥µ¡¼¥Ğ¡¼¤ËÅĞÏ¿¤¹¤ë
+	 * åˆæœŸåŒ–ã—ã¦ã‚µãƒ¼ãƒãƒ¼ã«ç™»éŒ²ã™ã‚‹
 	 */
 	protected void initialize() {
 		try {
@@ -155,7 +155,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * ¥«¥ì¥ó¥È¥ì¥³¡¼¥É¤Î°ÜÆ°
+	 * ã‚«ãƒ¬ãƒ³ãƒˆãƒ¬ã‚³ãƒ¼ãƒ‰ã®ç§»å‹•
 	 * @throws IOException
 	 */
 	protected void move() throws IOException {
@@ -170,7 +170,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * ¼¡¤Î¥ì¥³¡¼¥É¤Ø
+	 * æ¬¡ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã¸
 	 */
 	protected void next() throws IOException {
 		CobolFile file = getFileFromLine();
@@ -182,68 +182,68 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * ¥Õ¥¡¥¤¥ë¤ò³«¤¯
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	 * @throws IOException
 	 */
 	protected void open() throws IOException {
 		CobolFile file = getFileFromLine();
 		if (file != null) {
 			// ////////////////////////////////////////////////////
-			// ¥ª¡¼¥×¥ó¥â¡¼¥É
+			// ã‚ªãƒ¼ãƒ—ãƒ³ãƒ¢ãƒ¼ãƒ‰
 			writeLine(FileStatus.READY);
 			int mode = -1;
 			String modeString = readTrim();
 			if (modeString.equalsIgnoreCase("INPUT")) {
-				// ÆÉ¤ß¹ş¤ß¥â¡¼¥É
+				// èª­ã¿è¾¼ã¿ãƒ¢ãƒ¼ãƒ‰
 				mode = CobolFile.MODE_INPUT;
 			} else if (modeString.equalsIgnoreCase("OUTPUT")) {
-				// ½ñ¤­¹ş¤ß¥â¡¼¥É
+				// æ›¸ãè¾¼ã¿ãƒ¢ãƒ¼ãƒ‰
 				mode = CobolFile.MODE_OUTPUT;
 			} else if (modeString.equalsIgnoreCase("EXTEND")) {
-				// ÄÉµ­¥â¡¼¥É
+				// è¿½è¨˜ãƒ¢ãƒ¼ãƒ‰
 				mode = CobolFile.MODE_EXTEND;
 			} else if (modeString.equalsIgnoreCase("IO")) {
-				// Æş½ĞÎÏ¥â¡¼¥É
+				// å…¥å‡ºåŠ›ãƒ¢ãƒ¼ãƒ‰
 				mode = CobolFile.MODE_INPUT_OUTPUT;
 			}
 			if (mode == CobolFile.MODE_INPUT || mode == CobolFile.MODE_OUTPUT || mode == CobolFile.MODE_EXTEND || mode == CobolFile.MODE_INPUT_OUTPUT) {
-				// ¥â¡¼¥É¤¬Àµ¤·¤¤
+				// ãƒ¢ãƒ¼ãƒ‰ãŒæ­£ã—ã„
 				writeLine(FileStatus.READY);
 			} else {
-				// ¥â¡¼¥ÉÉÔÀµ
+				// ãƒ¢ãƒ¼ãƒ‰ä¸æ­£
 				writeLine(new FileStatus(FileStatus.STATUS_CANT_OPEN, FileStatus.NULL_CODE, 0, "can't open file"));
 				return;
 			}
 			// //////////////////////////////////////////////////////
-			// ¥¢¥¯¥»¥¹¥â¡¼¥É
+			// ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰
 			int accessmode = -1;
 			String accessmodeString = readTrim();
 			if (accessmodeString.equalsIgnoreCase("SEQUENC")) {
-				// ½ç¥¢¥¯¥»¥¹
+				// é †ã‚¢ã‚¯ã‚»ã‚¹
 				accessmode = CobolFile.ACCESS_SEQUENCIAL;
 			} else if (accessmodeString.equalsIgnoreCase("RANDOM")) {
-				// Æ°Åª¥¢¥¯¥»¥¹
+				// å‹•çš„ã‚¢ã‚¯ã‚»ã‚¹
 				accessmode = CobolFile.ACCESS_RANDOM;
 			} else if (accessmodeString.equalsIgnoreCase("DYNAMIC")) {
-				// Íğ¥¢¥¯¥»¥¹
+				// ä¹±ã‚¢ã‚¯ã‚»ã‚¹
 				accessmode = CobolFile.ACCESS_DYNAMIC;
 			}
 			if (accessmode == CobolFile.ACCESS_SEQUENCIAL || accessmode == CobolFile.ACCESS_DYNAMIC || accessmode == CobolFile.ACCESS_RANDOM) {
-				// ¥â¡¼¥É¤¬Àµ¤·¤¤
+				// ãƒ¢ãƒ¼ãƒ‰ãŒæ­£ã—ã„
 				FileStatus status = file.open(mode, accessmode);
 				writeLine(status);
 			} else {
-				// ¥â¡¼¥ÉÉÔÀµ
+				// ãƒ¢ãƒ¼ãƒ‰ä¸æ­£
 				writeLine(new FileStatus(FileStatus.STATUS_CANT_OPEN, FileStatus.NULL_CODE, 0, "can't open file"));
 				return;
 			}
 		} else {
-			readLine();// ¥À¥ß¡¼¥ê¡¼¥É
+			readLine();// ãƒ€ãƒŸãƒ¼ãƒªãƒ¼ãƒ‰
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
 	/**
-	 * Á°¤Î¥ì¥³¡¼¥É¤Ø
+	 * å‰ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã¸
 	 */
 	protected void previous() throws IOException {
 		CobolFile file = getFileFromLine();
@@ -255,8 +255,8 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * ¥á¥½¥Ã¥É¤Ø¤Î¥¸¥ã¥ó¥×½èÍı
-	 * @param method ¥á¥½¥Ã¥É
+	 * ãƒ¡ã‚½ãƒƒãƒ‰ã¸ã®ã‚¸ãƒ£ãƒ³ãƒ—å‡¦ç†
+	 * @param method ãƒ¡ã‚½ãƒƒãƒ‰
 	 * @throws IOException
 	 */
 	protected void processMethod(String method) throws IOException {
@@ -315,7 +315,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * ¥ê¡¼¥É
+	 * ãƒªãƒ¼ãƒ‰
 	 * @throws IOException
 	 */
 	protected void read() throws IOException {
@@ -328,7 +328,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 				int recordLength = (file.getMetaData() == null ? ACMNetSession.RECORD_LEN : file.getMetaData().getRowSize());
 				readingRecord = new byte[recordLength];
 			}
-			// ¥ê¡¼¥É½èÍı
+			// ãƒªãƒ¼ãƒ‰å‡¦ç†
 			FileStatus status = file.read(readingRecord);
 			// 
 			bufput.write(readingRecord);
@@ -336,17 +336,17 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			//
 			writeLine(status);
 		} else {
-			writeLine("");// ¥À¥ß¡¼
+			writeLine("");// ãƒ€ãƒŸãƒ¼
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
 	/**
-	 * ¥½¥±¥Ã¥È¤«¤é¥Ğ¥¤¥ÈÇÛÎó¤òÆÉ¤ß¼è¤ë
-	 * @return ¥Ğ¥¤¥ÈÇÛÎó
-	 * @throws IOException Æş½ĞÎÏÎã³°
+	 * ã‚½ã‚±ãƒƒãƒˆã‹ã‚‰ãƒã‚¤ãƒˆé…åˆ—ã‚’èª­ã¿å–ã‚‹
+	 * @return ãƒã‚¤ãƒˆé…åˆ—
+	 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	protected byte[] readBytes() throws IOException {
-		/** ¥½¥±¥Ã¥È¤«¤éÆÉ¤ß¼è¤ë¥Ğ¥¤¥ÈÇÛÎó */
+		/** ã‚½ã‚±ãƒƒãƒˆã‹ã‚‰èª­ã¿å–ã‚‹ãƒã‚¤ãƒˆé…åˆ— */
 		byte[] bytes = new byte[ACMNetSession.RECORD_LEN];
 		int size = input.read(bytes, 0, ACMNetSession.RECORD_LEN);
 		if (bytes.length != size) {
@@ -355,12 +355,12 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		return bytes;
 	}
 	/**
-	 * ¥½¥±¥Ã¥È¤«¤éÊ¸»úÎó¤òÆÉ¤ß¼è¤ë
-	 * @return Ê¸»úÎó
-	 * @throws IOException Æş½ĞÎÏÎã³°
+	 * ã‚½ã‚±ãƒƒãƒˆã‹ã‚‰æ–‡å­—åˆ—ã‚’èª­ã¿å–ã‚‹
+	 * @return æ–‡å­—åˆ—
+	 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	protected String readLine() throws IOException {
-		/** ¥½¥±¥Ã¥È¤«¤éÆÉ¤ß¼è¤ëÊ¸»úÎó¤òºîÀ®¤¹¤ë¤¿¤á¤ÎCharÇÛÎó */
+		/** ã‚½ã‚±ãƒƒãƒˆã‹ã‚‰èª­ã¿å–ã‚‹æ–‡å­—åˆ—ã‚’ä½œæˆã™ã‚‹ãŸã‚ã®Charé…åˆ— */
 		char[] chars = new char[ACMNetSession.RECORD_LEN];
 		int size = streamReader.read(chars, 0, ACMNetSession.RECORD_LEN);
 		String line = new String(chars);
@@ -371,9 +371,9 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		return line;
 	}
 	/**
-	 * ¥½¥±¥Ã¥È¤«¤éÊ¸»úÎó¤òÆÉ¤ß¼è¤ë¡Ênull¢ª""¤ËÊÑ´¹¡Ë
-	 * @return Ê¸»úÎó
-	 * @throws IOException Æş½ĞÎÏÎã³°
+	 * ã‚½ã‚±ãƒƒãƒˆã‹ã‚‰æ–‡å­—åˆ—ã‚’èª­ã¿å–ã‚‹ï¼ˆnullâ†’""ã«å¤‰æ›ï¼‰
+	 * @return æ–‡å­—åˆ—
+	 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	protected String readTrim() throws IOException {
 		String ret = readLine();
@@ -390,22 +390,22 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 				int recordLength = (file.getMetaData() == null ? ACMNetSession.RECORD_LEN : file.getMetaData().getRowSize());
 				readingRecord = new byte[recordLength];
 			}
-			// ¥ê¡¼¥É½èÍı
+			// ãƒªãƒ¼ãƒ‰å‡¦ç†
 			FileStatus status = file.read(readingRecord);
 			// 
 			bufput.write(readingRecord);
 			bufput.flush();
 			//
 			writeLine(status);
-			// ¼¡½èÍı
+			// æ¬¡å‡¦ç†
 			file.next();
 		} else {
-			writeLine("");// ¥À¥ß¡¼
+			writeLine("");// ãƒ€ãƒŸãƒ¼
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
 	/**
-	 * ¹¹¿·
+	 * æ›´æ–°
 	 * @throws IOException
 	 */
 	protected void rewrite() throws IOException {
@@ -416,13 +416,13 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			FileStatus status = file.rewrite(record);
 			writeLine(status);
 		} else {
-			// readLine();// ¥À¥ß¡¼¥ê¡¼¥É
+			// readLine();// ãƒ€ãƒŸãƒ¼ãƒªãƒ¼ãƒ‰
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
 	/**
-	 * ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò¥í¡¼¥ë¥Ğ¥Ã¥¯¤¹¤ë
-	 * @throws IOException Æş½ĞÎÏÎã³°
+	 * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ãƒ­ãƒ¼ãƒ«ãƒãƒƒã‚¯ã™ã‚‹
+	 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	protected void rollbackTransaction() throws IOException {
 		try {
@@ -451,21 +451,21 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 				try {
 					String method = readTrim();
 					if (method.equals(ACMNetSession.MSG_INITIALIZE)) {
-						// ½é´ü²½
+						// åˆæœŸåŒ–
 						initialize();
 					} else {
-						// ¤³¤³¤Ç½é´ü²½ºÑ¤ß¤«¥Á¥§¥Ã¥¯¤¹¤ë
+						// ã“ã“ã§åˆæœŸåŒ–æ¸ˆã¿ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 						if (true) {
 							if (method.equals(ACMNetSession.MSG_TERMINATE)) {
-								// ½ªÎ»
+								// çµ‚äº†
 								terminate();
 								// //streamWriter.flush();
 							} else {
-								// ¥Õ¥¡¥¤¥ë½èÍı
+								// ãƒ•ã‚¡ã‚¤ãƒ«å‡¦ç†
 								processMethod(method);
 							}
 						} else {
-							// ½é´ü²½¤µ¤ì¤Æ¤¤¤Ê¤¤
+							// åˆæœŸåŒ–ã•ã‚Œã¦ã„ãªã„
 							writeLine(new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "not initialized."));
 							terminate();
 							// //streamWriter.flush();
@@ -490,8 +490,8 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * ¥ª¡¼¥È¥³¥ß¥Ã¥È¤òÀßÄê¤¹¤ë
-	 * @throws IOException Æş½ĞÎÏÎã³°
+	 * ã‚ªãƒ¼ãƒˆã‚³ãƒŸãƒƒãƒˆã‚’è¨­å®šã™ã‚‹
+	 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	protected void setAutoCommit() throws IOException {
 		String commitString = readTrim();
@@ -499,9 +499,9 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		setAutoCommit(autoCommit);
 	}
 	/**
-	 * ¥ª¡¼¥È¥³¥ß¥Ã¥È¤òÀßÄê¤¹¤ë
-	 * @param autoCommit	¥³¥ß¥Ã¥È¥â¡¼¥É
-	 * @throws IOException Æş½ĞÎÏÎã³°
+	 * ã‚ªãƒ¼ãƒˆã‚³ãƒŸãƒƒãƒˆã‚’è¨­å®šã™ã‚‹
+	 * @param autoCommit	ã‚³ãƒŸãƒƒãƒˆãƒ¢ãƒ¼ãƒ‰
+	 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	protected void setAutoCommit (boolean autoCommit) throws IOException {
 		try {
@@ -512,8 +512,8 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò³«»Ï¤¹¤ë
-	 * @throws IOException Æş½ĞÎÏÎã³°
+	 * ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã™ã‚‹
+	 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	protected void setTransactionLevel() throws IOException {
 		String levelString = readTrim();
@@ -530,9 +530,9 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		setTransactionLevel(level);
 	}
 	/**
-	 * »ØÄê¤·¤¿¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¼×ÃÇ¥ì¥Ù¥ë¤Ç¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¤ò³«»Ï¤¹¤ë
-	 * @param level ¥È¥é¥ó¥¶¥¯¥·¥ç¥ó¼×ÃÇ¥ì¥Ù¥ë
-	 * @throws IOException Æş½ĞÎÏÎã³°
+	 * æŒ‡å®šã—ãŸãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³é®æ–­ãƒ¬ãƒ™ãƒ«ã§ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã™ã‚‹
+	 * @param level ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³é®æ–­ãƒ¬ãƒ™ãƒ«
+	 * @throws IOException å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	protected void setTransactionLevel(int level) throws IOException {
 		try {
@@ -543,7 +543,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * °ÌÃÖÉÕ¤±
+	 * ä½ç½®ä»˜ã‘
 	 * @throws IOException
 	 */
 	protected void start() throws IOException {
@@ -566,12 +566,12 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			FileStatus status = file.start(mode, record);
 			writeLine(status);
 		} else {
-			// readLine();// ¥À¥ß¡¼¥ê¡¼¥É
+			// readLine();// ãƒ€ãƒŸãƒ¼ãƒªãƒ¼ãƒ‰
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
 	/**
-	 * °ÌÃÖÉÕ¤±
+	 * ä½ç½®ä»˜ã‘
 	 * @throws IOException
 	 */
 	protected void startWith() throws IOException {
@@ -600,7 +600,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * ¥»¥Ã¥·¥ç¥ó¤Î½ªÎ»
+	 * ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®çµ‚äº†
 	 */
 	protected void terminate() {
 		try {
@@ -613,25 +613,25 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		} catch (Exception e3) {
 			SQLNetServer.logger.log(Level.SEVERE, "Something Wrong.", e3);
 		}
-		// ¥»¥Ã¥·¥ç¥ó¤ò´ÉÍı³°¤Ë¤¹¤ë
+		// ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’ç®¡ç†å¤–ã«ã™ã‚‹
 		server.deleteSession(this);
-		// ½ªÎ»¥á¥Ã¥»¡¼¥¸
+		// çµ‚äº†ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 		try {
 			writeLine(FileStatus.OK);
 		} catch (IOException e1) {
 			SQLNetServer.logger.log(Level.SEVERE, "Can't Write.", e1);
 		}
-		// ¥½¥±¥Ã¥È¤ò³«Êü
+		// ã‚½ã‚±ãƒƒãƒˆã‚’é–‹æ”¾
 		try {
 			sock.close();
 		} catch (IOException e2) {
 			SQLNetServer.logger.log(Level.SEVERE, "Can't Close.", e2);
 		}
-		// ¾å°Ì¥¯¥é¥¹¤Î½ªÎ»½èÍı
+		// ä¸Šä½ã‚¯ãƒ©ã‚¹ã®çµ‚äº†å‡¦ç†
 		super.terminate();
 	}
 	/**
-	 * ½ñ¤­¹ş¤ß
+	 * æ›¸ãè¾¼ã¿
 	 * @throws IOException
 	 */
 	protected void write() throws IOException {
@@ -646,16 +646,16 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 	}
 	/**
-	 * ¥½¥±¥Ã¥È¤Ø¤Î¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹¤Î½ñ¤­¹ş¤ß
-	 * @param status ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
+	 * ã‚½ã‚±ãƒƒãƒˆã¸ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®æ›¸ãè¾¼ã¿
+	 * @param status ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 * @throws IOException
 	 */
 	protected void writeLine(FileStatus status) throws IOException {
 		writeLine(status.toString());
 	}
 	/**
-	 * ¥½¥±¥Ã¥È¤Ø¤Î¹Ô½ñ¤­¹ş¤ß
-	 * @param line ¹Ô
+	 * ã‚½ã‚±ãƒƒãƒˆã¸ã®è¡Œæ›¸ãè¾¼ã¿
+	 * @param line è¡Œ
 	 * @throws IOException
 	 */
 	protected void writeLine(String line) throws IOException {

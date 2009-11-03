@@ -7,30 +7,30 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 public class DBConnector {
-	/** ¥Ç¡¼¥¿¥Ù¡¼¥¹URL */
+	/** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹URL */
 	private String databaseURL = "";
-	/** ¥Ç¥Õ¥©¥ë¥È¤Î¥³¥Í¥¯¥·¥ç¥ó */
+	/** ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ */
 	private Connection dfCnnct = null;
-	/** ¥É¥é¥¤¥ĞURL */
+	/** ãƒ‰ãƒ©ã‚¤ãƒURL */
 	private String driverURL = "";
-	/** ¤³¤ì¤Ş¤Ç¤Ë³«¤¤¤¿¥³¥Í¥¯¥·¥ç¥ó */
+	/** ã“ã‚Œã¾ã§ã«é–‹ã„ãŸã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ */
 	private List<Connection> openedConnects = new ArrayList<Connection>();
-	/** ¥Ñ¥¹¥ï¡¼¥É */
+	/** ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ */
 	private String password = "";
-	/** ¥æ¡¼¥¶¡¼Ì¾ */
+	/** ãƒ¦ãƒ¼ã‚¶ãƒ¼å */
 	private String username = "";
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	public DBConnector() {
 		super();
 	}
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param driverURL JDBC¥É¥é¥¤¥Ğ¤ÎURL
-	 * @param databaseURL JDBC¥Ç¡¼¥¿¥½¡¼¥¹¤ÎURL
-	 * @param userName JDBC¥æ¡¼¥¶¡¼Ì¾
-	 * @param passWord JDBC¥Ñ¥¹¥ï¡¼¥É
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param driverURL JDBCãƒ‰ãƒ©ã‚¤ãƒã®URL
+	 * @param databaseURL JDBCãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ã®URL
+	 * @param userName JDBCãƒ¦ãƒ¼ã‚¶ãƒ¼å
+	 * @param passWord JDBCãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
 	 */
 	public DBConnector(String driverURL, String databaseURL, String userName, String passWord) {
 		this();
@@ -40,19 +40,19 @@ public class DBConnector {
 		this.password = passWord;
 	}
 	/**
-	 * Á´¤Æ¤ÎÀÜÂ³¤òºï½ü
+	 * å…¨ã¦ã®æ¥ç¶šã‚’å‰Šé™¤
 	 */
 	public void clearAllConnections() {
-		SQLNetServer.logger.log(Level.INFO, "Á´¤Æ¤ÎÀÜÂ³¤òºï½ü¤·¤Ş¤¹");
+		SQLNetServer.logger.log(Level.INFO, "å…¨ã¦ã®æ¥ç¶šã‚’å‰Šé™¤ã—ã¾ã™");
 		try {
 			for (int i = 0; i < openedConnects.size(); i++) {
 				try {
 					Connection wc = openedConnects.get(i);
 					if (!(wc.isClosed())) {
-						SQLNetServer.logger.log(Level.INFO, "ÀÜÂ³¤ò²ò½ü¤·¤Ş¤¹");
+						SQLNetServer.logger.log(Level.INFO, "æ¥ç¶šã‚’è§£é™¤ã—ã¾ã™");
 						wc.close();
 					} else {
-						SQLNetServer.logger.log(Level.INFO, "¤¹¤Ç¤Ë²ò½ü¤µ¤ì¤Æ¤¤¤Ş¤¹");
+						SQLNetServer.logger.log(Level.INFO, "ã™ã§ã«è§£é™¤ã•ã‚Œã¦ã„ã¾ã™");
 					}
 				} catch (SQLException se) {
 					se.printStackTrace();
@@ -65,7 +65,7 @@ public class DBConnector {
 		}
 	}
 	/**
-	 * ÌµÂÌ¤ÊÀÜÂ³¤Îºï½ü
+	 * ç„¡é§„ãªæ¥ç¶šã®å‰Šé™¤
 	 */
 	public void clearConnections() {
 		try {
@@ -73,36 +73,36 @@ public class DBConnector {
 				try {
 					Connection wc = openedConnects.get(i);
 					if (wc.isClosed()) {
-						SQLNetServer.logger.log(Level.INFO, "ÀÜÂ³¤òºï½ü¤·¤Ş¤¹");
+						SQLNetServer.logger.log(Level.INFO, "æ¥ç¶šã‚’å‰Šé™¤ã—ã¾ã™");
 						openedConnects.remove(i);
 						i--;
 					}
 				} catch (SQLException se) {
-					SQLNetServer.logger.log(Level.WARNING, "ÀÜÂ³¾õÂÖ¤ò³ÎÇ§¤Ç¤­¤Ş¤»¤ó");
+					SQLNetServer.logger.log(Level.WARNING, "æ¥ç¶šçŠ¶æ…‹ã‚’ç¢ºèªã§ãã¾ã›ã‚“");
 					se.printStackTrace();
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException aie) {
-			SQLNetServer.logger.log(Level.SEVERE, "¥í¥¸¥Ã¥¯¥¨¥é¡¼");
+			SQLNetServer.logger.log(Level.SEVERE, "ãƒ­ã‚¸ãƒƒã‚¯ã‚¨ãƒ©ãƒ¼");
 			aie.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	/**
-	 * ÀÜÂ³¤ÎºîÀ®
-	 * @return ¥Ç¡¼¥¿¥Ù¡¼¥¹¤Ø¤ÎÀÜÂ³
-	 * @exception Îã³°¤Î¾ÜºÙ¤ÊÄêµÁ¤Ï¹Ô¤ï¤Ê¤¤
+	 * æ¥ç¶šã®ä½œæˆ
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã¸ã®æ¥ç¶š
+	 * @exception ä¾‹å¤–ã®è©³ç´°ãªå®šç¾©ã¯è¡Œã‚ãªã„
 	 */
 	public Connection createConnection() throws ClassNotFoundException, SQLException {
 		return createConnection(false);
 	}
 	/**
-	 * ÀÜÂ³¤ÎºîÀ®
-	 * @param forth true ¾ï¤Ë¿·¤¿¤ËÀÜÂ³¤òºîÀ®¤¹¤ë<br/>
-	 *               false ´û¤ËÀÜÂ³¤¬Â¸ºß¤·¤¿¤é¿·¤¿¤ËÀÜÂ³¤òºîÀ®¤·¤Ê¤¤¡£
-	 * @return ¥Ç¡¼¥¿¥Ù¡¼¥¹¤Ø¤ÎÀÜÂ³
-	 * @exception Îã³°¤Î¾ÜºÙ¤ÊÄêµÁ¤Ï¹Ô¤ï¤Ê¤¤
+	 * æ¥ç¶šã®ä½œæˆ
+	 * @param forth true å¸¸ã«æ–°ãŸã«æ¥ç¶šã‚’ä½œæˆã™ã‚‹<br/>
+	 *               false æ—¢ã«æ¥ç¶šãŒå­˜åœ¨ã—ãŸã‚‰æ–°ãŸã«æ¥ç¶šã‚’ä½œæˆã—ãªã„ã€‚
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã¸ã®æ¥ç¶š
+	 * @exception ä¾‹å¤–ã®è©³ç´°ãªå®šç¾©ã¯è¡Œã‚ãªã„
 	 */
 	public Connection createConnection(boolean forth) throws ClassNotFoundException, SQLException {
 		Connection retValue = null;
@@ -120,29 +120,29 @@ public class DBConnector {
 		return retValue;
 	}
 	/**
-	 * ÀÜÂ³¤ÎºîÀ®
-	 * @return ¥Ç¡¼¥¿¥Ù¡¼¥¹¤Ø¤ÎÀÜÂ³
-	 * @param driverURL JDBC¥É¥é¥¤¥Ğ¤ÎURL
-	 * @param databaseURL JDBC¥Ç¡¼¥¿¥½¡¼¥¹¤ÎURL
-	 * @param userName JDBC¥æ¡¼¥¶¡¼Ì¾
-	 * @param passWord JDBC¥Ñ¥¹¥ï¡¼¥É
-	 * @exception Îã³°¤Î¾ÜºÙ¤ÊÄêµÁ¤Ï¹Ô¤ï¤Ê¤¤
+	 * æ¥ç¶šã®ä½œæˆ
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã¸ã®æ¥ç¶š
+	 * @param driverURL JDBCãƒ‰ãƒ©ã‚¤ãƒã®URL
+	 * @param databaseURL JDBCãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ã®URL
+	 * @param userName JDBCãƒ¦ãƒ¼ã‚¶ãƒ¼å
+	 * @param passWord JDBCãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+	 * @exception ä¾‹å¤–ã®è©³ç´°ãªå®šç¾©ã¯è¡Œã‚ãªã„
 	 */
 	public Connection createConnection(String driverURL, String databaseURL, String userName, String passWord) throws ClassNotFoundException, SQLException {
 		Connection retValue = null;
-		// ¥É¥é¥¤¥Ğ¤ÎÆÉ¤ß¹ş¤ß
+		// ãƒ‰ãƒ©ã‚¤ãƒã®èª­ã¿è¾¼ã¿
 		Class.forName(driverURL);
-		// ¥Ç¡¼¥¿¥Ù¡¼¥¹¤Ø¤ÎÀÜÂ³
+		// ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã¸ã®æ¥ç¶š
 		retValue = DriverManager.getConnection(databaseURL, userName, passWord);
-		// ÀÜÂ³¤òÊİ»ı¤¹¤ë
+		// æ¥ç¶šã‚’ä¿æŒã™ã‚‹
 		openedConnects.add(retValue);
 		SQLNetServer.logger.log(Level.INFO, "Connecting:" + driverURL + ":" + databaseURL + ":" + username + ":" + password);
-		// ÃÍ¤òÊÖ¤¹
+		// å€¤ã‚’è¿”ã™
 		return retValue;
 	}
 	/**
-	 * ¥³¥Í¥¯¥·¥ç¥ó¤ò³«Êü¤¹¤ë
-	 * @param connection ³«Êü¤¹¤ëÀÜÂ³
+	 * ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’é–‹æ”¾ã™ã‚‹
+	 * @param connection é–‹æ”¾ã™ã‚‹æ¥ç¶š
 	 */
 	public void removeConnection (Connection connection) throws SQLException {
 		if (connection == null) return;
@@ -154,72 +154,72 @@ public class DBConnector {
 		}
 	}
 	/**
-	 * ¤³¤ì¤Ï¤ä¤Ã¤Æ¤¤¤¤¤Î¤«?
-	 * @exception Throwable ¿Æ¥¯¥é¥¹¤ÇÀë¸À¤µ¤ì¤Æ¤¤¤ë
+	 * ã“ã‚Œã¯ã‚„ã£ã¦ã„ã„ã®ã‹?
+	 * @exception Throwable è¦ªã‚¯ãƒ©ã‚¹ã§å®£è¨€ã•ã‚Œã¦ã„ã‚‹
 	 */
 	protected void finalyze() throws Throwable {
 		clearAllConnections();
 		super.finalize();
 	}
 	/**
-	 * ÀÜÂ³¤ò¤¹¤Ù¤Æ¼èÆÀ¤¹¤ë
-	 * @return ÀÜÂ³¤¹¤Ù¤Æ
+	 * æ¥ç¶šã‚’ã™ã¹ã¦å–å¾—ã™ã‚‹
+	 * @return æ¥ç¶šã™ã¹ã¦
 	 */
 	public Iterator<Connection> getConnections() {
 		return openedConnects.listIterator();
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹URL
-	 * @return ¥Ç¡¼¥¿¥Ù¡¼¥¹URL
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹URL
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹URL
 	 */
 	public String getDatabaseURL() {
 		return databaseURL;
 	}
 	/**
-	 * ¥É¥é¥¤¥ĞURL
-	 * @return ¥É¥é¥¤¥ĞURL
+	 * ãƒ‰ãƒ©ã‚¤ãƒURL
+	 * @return ãƒ‰ãƒ©ã‚¤ãƒURL
 	 */
 	public String getDriverURL() {
 		return driverURL;
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹¥Ñ¥¹¥ï¡¼¥É
-	 * @return ¥Ç¡¼¥¿¥Ù¡¼¥¹¥Ñ¥¹¥ï¡¼¥É
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
 	 */
 	public String getPassword() {
 		return password;
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹¥æ¡¼¥¶¡¼Ì¾
-	 * @return ¥Ç¡¼¥¿¥Ù¡¼¥¹¥æ¡¼¥¶¡¼Ì¾
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ¦ãƒ¼ã‚¶ãƒ¼å
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ¦ãƒ¼ã‚¶ãƒ¼å
 	 */
 	public String getUsername() {
 		return username;
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹URL
-	 * @param string ¥Ç¡¼¥¿¥Ù¡¼¥¹URL
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹URL
+	 * @param string ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹URL
 	 */
 	public void setDatabaseURL(String string) {
 		databaseURL = string;
 	}
 	/**
-	 * ¥É¥é¥¤¥ĞURL
-	 * @param string ¥É¥é¥¤¥ĞURL
+	 * ãƒ‰ãƒ©ã‚¤ãƒURL
+	 * @param string ãƒ‰ãƒ©ã‚¤ãƒURL
 	 */
 	public void setDriverURL(String string) {
 		driverURL = string;
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹¥Ñ¥¹¥ï¡¼¥É
-	 * @param string ¥Ç¡¼¥¿¥Ù¡¼¥¹¥Ñ¥¹¥ï¡¼¥É
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+	 * @param string ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
 	 */
 	public void setPassword(String string) {
 		password = string;
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹¥æ¡¼¥¶¡¼Ì¾
-	 * @param string ¥Ç¡¼¥¿¥Ù¡¼¥¹¥æ¡¼¥¶¡¼Ì¾
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ¦ãƒ¼ã‚¶ãƒ¼å
+	 * @param string ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ¦ãƒ¼ã‚¶ãƒ¼å
 	 */
 	public void setUsername(String string) {
 		username = string;

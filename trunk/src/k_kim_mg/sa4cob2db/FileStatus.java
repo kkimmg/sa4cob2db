@@ -1,76 +1,76 @@
 package k_kim_mg.sa4cob2db;
 import java.text.DecimalFormat;
 /**
- * ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹
+ * ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class FileStatus {
-	/** ²¿¤â»ØÄê¤·¤Ê¤¤¥³¡¼¥É */
+	/** ä½•ã‚‚æŒ‡å®šã—ãªã„ã‚³ãƒ¼ãƒ‰ */
 	public static final String NULL_CODE = "     ";
-	/** ´û¤Ë¥¯¥í¡¼¥º¤µ¤ì¤Æ¤¤¤ë */
+	/** æ—¢ã«ã‚¯ãƒ­ãƒ¼ã‚ºã•ã‚Œã¦ã„ã‚‹ */
 	public static final String STATUS_ALREADY_CLOSED = "42";
-	/** ´û¤Ë¥ª¡¼¥×¥ó¤µ¤ì¤Æ¤¤¤ë */
+	/** æ—¢ã«ã‚ªãƒ¼ãƒ—ãƒ³ã•ã‚Œã¦ã„ã‚‹ */
 	public static final String STATUS_ALREADY_OPENED = "41";
-	/** BOF-¥Õ¥¡¥¤¥ë¤Î»ÏÃ¼ */
+	/** BOF-ãƒ•ã‚¡ã‚¤ãƒ«ã®å§‹ç«¯ */
 	public static final String STATUS_BOF = "91";
-	/** DELETE¤Ç¤­¤Ê¤¤¡Ê¥â¡¼¥É¸í¤ê¡Ë */
+	/** DELETEã§ããªã„ï¼ˆãƒ¢ãƒ¼ãƒ‰èª¤ã‚Šï¼‰ */
 	public static final String STATUS_CANT_DELETE = "49";
-	/** ¥ª¡¼¥×¥ó¤Ç¤­¤Ê¤¤¡Ê¥µ¥İ¡¼¥È¤µ¤ì¤Æ¤¤¤Ê¤¤¥ª¡¼¥×¥ó¥â¡¼¥É¡Ë */
+	/** ã‚ªãƒ¼ãƒ—ãƒ³ã§ããªã„ï¼ˆã‚µãƒãƒ¼ãƒˆã•ã‚Œã¦ã„ãªã„ã‚ªãƒ¼ãƒ—ãƒ³ãƒ¢ãƒ¼ãƒ‰ï¼‰ */
 	public static final String STATUS_CANT_OPEN = "37";
-	/** ¥ê¡¼¥É¤Ç¤­¤Ê¤¤¡Ê¥â¡¼¥É¸í¤ê¡Ë */
+	/** ãƒªãƒ¼ãƒ‰ã§ããªã„ï¼ˆãƒ¢ãƒ¼ãƒ‰èª¤ã‚Šï¼‰ */
 	public static final String STATUS_CANT_READ = "47";
-	/** REWRITE¤Ç¤­¤Ê¤¤¡Ê¥â¡¼¥É¸í¤ê¡Ë */
+	/** REWRITEã§ããªã„ï¼ˆãƒ¢ãƒ¼ãƒ‰èª¤ã‚Šï¼‰ */
 	public static final String STATUS_CANT_REWRITE = "49";
-	/** WRITE¤Ç¤­¤Ê¤¤¡Ê¥â¡¼¥É¸í¤ê¡Ë */
+	/** WRITEã§ããªã„ï¼ˆãƒ¢ãƒ¼ãƒ‰èª¤ã‚Šï¼‰ */
 	public static final String STATUS_CANT_WRITE = "48";
-	/** ½ÅÊ£¥­¡¼ */
+	/** é‡è¤‡ã‚­ãƒ¼ */
 	public static final String STATUS_DUPLICATE_KEY = "22";
-	/** ¥µ¥Ö¥­¡¼¤¬½ÅÊ£¤·¤Æ¤¤¤ë */
+	/** ã‚µãƒ–ã‚­ãƒ¼ãŒé‡è¤‡ã—ã¦ã„ã‚‹ */
 	public static final String STATUS_DUPLICATE_SUBKEY = "02";
-	/** EOF-¥Õ¥¡¥¤¥ë¤Î½ªÃ¼ */
+	/** EOF-ãƒ•ã‚¡ã‚¤ãƒ«ã®çµ‚ç«¯ */
 	public static final String STATUS_EOF = "10";
-	/** ¤Ê¤ó¤«ÃÎ¤é¤ó¤±¤É¼ºÇÔ¤·¤¿ */
+	/** ãªã‚“ã‹çŸ¥ã‚‰ã‚“ã‘ã©å¤±æ•—ã—ãŸ */
 	public static final String STATUS_FAILURE = "99";
-	/** ¥Õ¥¡¥¤¥ë¥ª¡¼¥Ğ¡¼ */
+	/** ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒãƒ¼ */
 	public static final String STATUS_FILEOVER = "24";
 	/** INVALID KEY */
 	public static final String STATUS_INVALID_KEY = "23";
-	/** ¥¢¥µ¥¤¥ó¤µ¤ì¤Æ¤¤¤Ê¤¤ */
+	/** ã‚¢ã‚µã‚¤ãƒ³ã•ã‚Œã¦ã„ãªã„ */
 	public static final String STATUS_NOT_ASSIGND = "93";
-	/** ¥ê¡¼¥É¤µ¤ì¤Æ¤¤¤Ê¤¤¡Ê¥ì¥³¡¼¥É¤¬Í­¸ú¤Ê°ÌÃÖ¤Ë¤Ê¤¤¡Ë */
+	/** ãƒªãƒ¼ãƒ‰ã•ã‚Œã¦ã„ãªã„ï¼ˆãƒ¬ã‚³ãƒ¼ãƒ‰ãŒæœ‰åŠ¹ãªä½ç½®ã«ãªã„ï¼‰ */
 	public static final String STATUS_NOT_MOVED = "43";
-	/** ¥ª¡¼¥×¥ó¤·¤Æ¤Ê¤¤ */
+	/** ã‚ªãƒ¼ãƒ—ãƒ³ã—ã¦ãªã„ */
 	public static final String STATUS_NOT_OPENED = "92";
-	/** ¥Õ¥¡¥¤¥ë¤¬Â¸ºß¤·¤Ê¤¤ */
+	/** ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãªã„ */
 	public static final String STATUS_NOTEXIST = "05";
 	/** OK */
 	public static final String STATUS_OK = "00";
-	/** ½àÈ÷¤è¤· */
+	/** æº–å‚™ã‚ˆã— */
 	public static final String STATUS_READY = "90";
-	/** ¥µ¥İ¡¼¥È¤µ¤ì¤Ê¤¤¥ª¥Ú¥ì¡¼¥·¥ç¥ó */
+	/** ã‚µãƒãƒ¼ãƒˆã•ã‚Œãªã„ã‚ªãƒšãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ */
 	public static final String STATUS_UNSUPPORTED_METHOD = "98";
-	/** OK¥¹¥Æ¡¼¥¿¥¹ */
+	/** OKã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
 	public static final FileStatus OK = new FileStatus(STATUS_OK, NULL_CODE, 0, "it's ok.");
-	/** READY¥¹¥Æ¡¼¥¿¥¹ */
+	/** READYã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
 	public static final FileStatus READY = new FileStatus(STATUS_READY, "READY", 0, "it's ready.");
-	/** ¥Õ¥¡¥¤¥ë¤¬¥¢¥µ¥¤¥ó¤µ¤ì¤Æ¤¤¤Ê¤¤ */
+	/** ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚¢ã‚µã‚¤ãƒ³ã•ã‚Œã¦ã„ãªã„ */
 	public static final FileStatus NOT_ASSIGNED = new FileStatus(FileStatus.STATUS_NOT_ASSIGND, FileStatus.NULL_CODE, 0, "file is not assigned");
-	/** ²¿¤é¤«¤Î°Û¾ï */
+	/** ä½•ã‚‰ã‹ã®ç•°å¸¸ */
 	public static final FileStatus FAILURE = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "something failure");
-	/** ¥¹¥Æ¡¼¥¿¥¹¥³¡¼¥É */
+	/** ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚³ãƒ¼ãƒ‰ */
 	private String statusCode = FileStatus.STATUS_OK;
-	/** ¥¹¥Æ¡¼¥¿¥¹¥á¥Ã¥»¡¼¥¸ */
+	/** ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ */
 	private String statusMessage = "";
-	/** SQL¥¹¥Æ¡¼¥¿¥¹ (5·å) */
+	/** SQLã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ (5æ¡) */
 	private String sqlStatus = NULL_CODE;
-	/** ¥¨¥é¡¼¥³¡¼¥É */
+	/** ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ */
 	private int errCode = 0;
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param statusCode ¥³¡¼¥É
-	 * @param sqlStatus SQL¥¹¥Æ¡¼¥¿¥¹
-	 * @param errCode ¥¨¥é¡¼¥³¡¼¥É
-	 * @param statusMessage ¥á¥Ã¥»¡¼¥¸
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param statusCode ã‚³ãƒ¼ãƒ‰
+	 * @param sqlStatus SQLã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	 * @param errCode ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
+	 * @param statusMessage ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 	 */
 	public FileStatus(String statusCode, String sqlStatus, int errCode, String statusMessage) {
 		this.statusCode = statusCode;
@@ -79,15 +79,15 @@ public class FileStatus {
 		this.statusMessage = statusMessage;
 	}
 	/**
-	 * ¥¨¥é¡¼¥³¡¼¥É¤ò¼èÆÀ¤¹¤ë
-	 * @return ¥¨¥é¡¼¥³¡¼¥É(11·å)
+	 * ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹
+	 * @return ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰(11æ¡)
 	 */
 	public int getErrStatus() {
 		return errCode;
 	}
 	/**
-	 * ¥¨¥é¡¼¥³¡¼¥É¤ò¼èÆÀ¤¹¤ë
-	 * @return ¥¨¥é¡¼¥³¡¼¥É(11·å)
+	 * ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹
+	 * @return ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰(11æ¡)
 	 */
 	public String getErrString() {
 		// 12345678901 12345678901
@@ -95,8 +95,8 @@ public class FileStatus {
 		return format.format(getErrStatus());
 	}
 	/**
-	 * SQL¥¹¥Æ¡¼¥¿¥¹¤ò¼èÆÀ¤¹¤ë
-	 * @return SQL¥¹¥Æ¡¼¥¿¥¹(5·å)
+	 * SQLã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’å–å¾—ã™ã‚‹
+	 * @return SQLã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹(5æ¡)
 	 */
 	public String getSqlStatus() {
 		if (sqlStatus == null)
@@ -108,8 +108,8 @@ public class FileStatus {
 		return sqlStatus;
 	}
 	/**
-	 * ¥³¡¼¥É¤ò¼èÆÀ¤¹¤ë
-	 * @return ¥Õ¥¡¥¤¥ë¥¹¥Æ¡¼¥¿¥¹(2·å)
+	 * ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹
+	 * @return ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹(2æ¡)
 	 */
 	public String getStatusCode() {
 		if (statusCode == null)
@@ -121,8 +121,8 @@ public class FileStatus {
 		return statusCode;
 	}
 	/**
-	 * ¥á¥Ã¥»¡¼¥¸¤ò¼èÆÀ¤¹¤ë
-	 * @return ¥á¥Ã¥»¡¼¥¸
+	 * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹
+	 * @return ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 	 */
 	public String getStatusMessage() {
 		if (statusMessage == null)
@@ -132,29 +132,29 @@ public class FileStatus {
 		return statusMessage;
 	}
 	/**
-	 * ¥¨¥é¡¼¥³¡¼¥É¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param errStatus ¥¨¥é¡¼¥³¡¼¥É
+	 * ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param errStatus ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
 	 */
 	protected void setErrStatus(int errStatus) {
 		this.errCode = errStatus;
 	}
 	/**
-	 * SQL¥¹¥Æ¡¼¥¿¥¹¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param sqlStatus SQL¥¹¥Æ¡¼¥¿¥¹
+	 * SQLã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param sqlStatus SQLã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	 */
 	protected void setSqlStatus(String sqlStatus) {
 		this.sqlStatus = sqlStatus;
 	}
 	/**
-	 * ¥³¡¼¥É¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param statusCode ¥³¡¼¥É
+	 * ã‚³ãƒ¼ãƒ‰ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param statusCode ã‚³ãƒ¼ãƒ‰
 	 */
 	protected void setStatusCode(String statusCode) {
 		this.statusCode = statusCode;
 	}
 	/**
-	 * ¥á¥Ã¥»¡¼¥¸¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param statusMessage ¥á¥Ã¥»¡¼¥¸
+	 * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param statusMessage ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 	 */
 	protected void setStatusMessage(String statusMessage) {
 		this.statusMessage = statusMessage;

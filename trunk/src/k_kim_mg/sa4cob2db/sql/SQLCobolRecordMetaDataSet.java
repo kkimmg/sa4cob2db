@@ -6,13 +6,13 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLCobolRecordMetaDataSet extends CobolRecordMetaDataSet {
-	/**JDBC¥É¥é¥¤¥Ğ¡¼URL*/
+	/**JDBCãƒ‰ãƒ©ã‚¤ãƒãƒ¼URL*/
 	protected String driverURL;
-	/**JDBC¥Ç¡¼¥¿¥Ù¡¼¥¹URL*/
+	/**JDBCãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹URL*/
 	protected String  databaseURL;
-	/**JDBC¥Ç¡¼¥¿¥Ù¡¼¥¹¥æ¡¼¥¶¡¼Ì¾*/
+	/**JDBCãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ¦ãƒ¼ã‚¶ãƒ¼å*/
 	protected String  username;
-	/**JDBC¥Ç¡¼¥¿¥Ù¡¼¥¹¥Ñ¥¹¥ï¡¼¥É*/
+	/**JDBCãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰*/
 	protected String  password;
 	/*
 	 * (non-Javadoc)
@@ -27,57 +27,57 @@ public class SQLCobolRecordMetaDataSet extends CobolRecordMetaDataSet {
 		return null;
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹URL
-	 * @return ¥Ç¡¼¥¿¥Ù¡¼¥¹URL
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹URL
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹URL
 	 */
 	public String getDatabaseURL() {
 		return databaseURL;
 	}
 	/**
-	 * ¥É¥é¥¤¥ĞURL
-	 * @return ¥É¥é¥¤¥ĞURL
+	 * ãƒ‰ãƒ©ã‚¤ãƒURL
+	 * @return ãƒ‰ãƒ©ã‚¤ãƒURL
 	 */
 	public String getDriverURL() {
 		return driverURL;
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹¥Ñ¥¹¥ï¡¼¥É
-	 * @return ¥Ç¡¼¥¿¥Ù¡¼¥¹¥Ñ¥¹¥ï¡¼¥É
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
 	 */
 	public String getPassword() {
 		return password;
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹¥æ¡¼¥¶¡¼Ì¾
-	 * @return ¥Ç¡¼¥¿¥Ù¡¼¥¹¥æ¡¼¥¶¡¼Ì¾
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ¦ãƒ¼ã‚¶ãƒ¼å
+	 * @return ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ¦ãƒ¼ã‚¶ãƒ¼å
 	 */
 	public String getUsername() {
 		return username;
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹URL
-	 * @param string ¥Ç¡¼¥¿¥Ù¡¼¥¹URL
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹URL
+	 * @param string ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹URL
 	 */
 	public void setDatabaseURL(String string) {
 		databaseURL = string;
 	}
 	/**
-	 * ¥É¥é¥¤¥ĞURL
-	 * @param string ¥É¥é¥¤¥ĞURL
+	 * ãƒ‰ãƒ©ã‚¤ãƒURL
+	 * @param string ãƒ‰ãƒ©ã‚¤ãƒURL
 	 */
 	public void setDriverURL(String string) {
 		driverURL = string;
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹¥Ñ¥¹¥ï¡¼¥É
-	 * @param string ¥Ç¡¼¥¿¥Ù¡¼¥¹¥Ñ¥¹¥ï¡¼¥É
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+	 * @param string ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
 	 */
 	public void setPassword(String string) {
 		password = string;
 	}
 	/**
-	 * ¥Ç¡¼¥¿¥Ù¡¼¥¹¥æ¡¼¥¶¡¼Ì¾
-	 * @param string ¥Ç¡¼¥¿¥Ù¡¼¥¹¥æ¡¼¥¶¡¼Ì¾
+	 * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ¦ãƒ¼ã‚¶ãƒ¼å
+	 * @param string ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ¦ãƒ¼ã‚¶ãƒ¼å
 	 */
 	public void setUsername(String string) {
 		username = string;

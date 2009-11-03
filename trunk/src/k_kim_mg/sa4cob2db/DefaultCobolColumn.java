@@ -1,13 +1,13 @@
 package k_kim_mg.sa4cob2db;
 /**
- * ¥Ç¥Õ¥©¥ë¥È¤Î¥³¥Ü¥ëÎó
+ * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚³ãƒœãƒ«åˆ—
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class DefaultCobolColumn implements CobolColumn {
 	/**
-	 * ¥Ç¡¼¥¿·¿¤ÎÊ¸»úÉ½¸½¡Ê¤¦¡¼¤ó¡¦¡¦¡¦¡Ë
-	 * @param type ¥Ç¡¼¥¿·¿
-	 * @return Ê¸»úÉ½¸½
+	 * ãƒ‡ãƒ¼ã‚¿å‹ã®æ–‡å­—è¡¨ç¾ï¼ˆã†ãƒ¼ã‚“ãƒ»ãƒ»ãƒ»ï¼‰
+	 * @param type ãƒ‡ãƒ¼ã‚¿å‹
+	 * @return æ–‡å­—è¡¨ç¾
 	 */
 	public static String getTypeString(int type) {
 		String ret = "UNKNOWN";
@@ -45,16 +45,16 @@ public class DefaultCobolColumn implements CobolColumn {
 		}
 		return ret;
 	}
-	/** ¥á¥¿¥Ç¡¼¥¿ */
+	/** ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ */
 	private CobolRecordMetaData cobolRecordMetaData;
 	/*
 	 * (non-Javadoc)
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getFormat()
 	 */
 	private String format;
-	/** ¤³¤ÎÃÍ¤Ê¤éDB¤ËNULL¤ò¥»¥Ã¥È¤¹¤ë */
+	/** ã“ã®å€¤ãªã‚‰DBã«NULLã‚’ã‚»ãƒƒãƒˆã™ã‚‹ */
 	private String forNull = null;
-	/** ¤â¤·DB¾å¤ÎÃÍ¤¬NULL¤Ê¤é */
+	/** ã‚‚ã—DBä¸Šã®å€¤ãŒNULLãªã‚‰ */
 	private String ifNull = null;
 	/*
 	 * (non-Javadoc)
@@ -66,11 +66,11 @@ public class DefaultCobolColumn implements CobolColumn {
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getName
 	 */
 	private String name;
-	/** ¾®¿ôÅÀ°Ê²¼¤Î·å¿ô */
+	/** å°æ•°ç‚¹ä»¥ä¸‹ã®æ¡æ•° */
 	private int numberOfDecimal = 0;
-	/** ¥ª¥ê¥¸¥Ê¥ë */
+	/** ã‚ªãƒªã‚¸ãƒŠãƒ« */
 	private CobolColumn original = this;
-	/** ¤³¤ÎÎó¤ÏÉä¹æÉÕ¤­¤«¡© */
+	/** ã“ã®åˆ—ã¯ç¬¦å·ä»˜ãã‹ï¼Ÿ */
 	private boolean signed = false;
 	/*
 	 * (non-Javadoc)
@@ -82,21 +82,21 @@ public class DefaultCobolColumn implements CobolColumn {
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getType
 	 */
 	private int type;
-	/** ¥Ğ¥¤¥ÈÇÛÎó¢ª¥ª¥Ö¥¸¥§¥¯¥È¤ÎÊÑ´¹¤Ë¼ºÇÔ¤·¤¿¾ì¹ç */
+	/** ãƒã‚¤ãƒˆé…åˆ—â†’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆ */
 	private boolean useOnParseError = false;
-	/** ¥Ğ¥¤¥ÈÇÛÎó¢ª¥ª¥Ö¥¸¥§¥¯¥È¤ÎÊÑ´¹¤Ë¼ºÇÔ¤·¤¿¾ì¹ç */
+	/** ãƒã‚¤ãƒˆé…åˆ—â†’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆ */
 	private Object valueOfParseError = null;
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
-	 * @param meta ¥á¥¿¥Ç¡¼¥¿
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	 * @param meta ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	 */
 	public DefaultCobolColumn(CobolRecordMetaData meta) {
 		this.cobolRecordMetaData = meta;
 	}
 	/**
-	 * Â°À­¤ò¥³¥Ô¡¼¤¹¤ë
-	 * @param copy ¥³¥Ô¡¼ÂĞ¾İ
-	 * @return ¥³¥Ô¡¼ÂĞ¾İ
+	 * å±æ€§ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
+	 * @param copy ã‚³ãƒ”ãƒ¼å¯¾è±¡
+	 * @return ã‚³ãƒ”ãƒ¼å¯¾è±¡
 	 */
 	protected CobolColumn copyTo(CobolColumn copy) {
 		copy.setName(getName());
@@ -132,15 +132,15 @@ public class DefaultCobolColumn implements CobolColumn {
 		return format;
 	}
 	/**
-	 * ¤³¤ÎÃÍ¤Ê¤éDB¤ËNULL¤ò¥»¥Ã¥È¤¹¤ë
-	 * @return ÂåÂØ¤ÎÃÍ
+	 * ã“ã®å€¤ãªã‚‰DBã«NULLã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @return ä»£æ›¿ã®å€¤
 	 */
 	public String getForNull() {
 		return forNull;
 	}
 	/**
-	 * ¤â¤·DB¾å¤ÎÃÍ¤¬NULL¤Ê¤é
-	 * @return ÂåÂØ¤ÎÃÍ
+	 * ã‚‚ã—DBä¸Šã®å€¤ãŒNULLãªã‚‰
+	 * @return ä»£æ›¿ã®å€¤
 	 */
 	public String getIfNull() {
 		return ifNull;
@@ -199,8 +199,8 @@ public class DefaultCobolColumn implements CobolColumn {
 		return type;
 	}
 	/**
-	 * ¥Ğ¥¤¥ÈÇÛÎó¢ª¥ª¥Ö¥¸¥§¥¯¥È¤ÎÊÑ´¹¤Ë¼ºÇÔ¤·¤¿¾ì¹ç
-	 * @return ÂåÂØ¤ÎÃÍ
+	 * ãƒã‚¤ãƒˆé…åˆ—â†’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆ
+	 * @return ä»£æ›¿ã®å€¤
 	 */
 	public Object getValueOfParseError() {
 		return valueOfParseError;
@@ -213,8 +213,8 @@ public class DefaultCobolColumn implements CobolColumn {
 		return signed;
 	}
 	/**
-	 * ¥Ğ¥¤¥ÈÇÛÎó¢ª¥ª¥Ö¥¸¥§¥¯¥È¤ÎÊÑ´¹¤Ë¼ºÇÔ¤·¤¿¾ì¹ç¡¢ÃÍ¤òÀßÄê¤¹¤ë
-	 * @return the ¤¹¤ë¤«¤·¤Ê¤¤¤«
+	 * ãƒã‚¤ãƒˆé…åˆ—â†’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆã€å€¤ã‚’è¨­å®šã™ã‚‹
+	 * @return the ã™ã‚‹ã‹ã—ãªã„ã‹
 	 */
 	public boolean isUseOnParseError() {
 		return useOnParseError;
@@ -237,15 +237,15 @@ public class DefaultCobolColumn implements CobolColumn {
 		format = string;
 	}
 	/**
-	 * ¤³¤ÎÃÍ¤Ê¤éDB¤ËNULL¤ò¥»¥Ã¥È¤¹¤ë
-	 * @param forNull ÂåÂØ¤ÎÃÍ
+	 * ã“ã®å€¤ãªã‚‰DBã«NULLã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	 * @param forNull ä»£æ›¿ã®å€¤
 	 */
 	public void setForNull(String forNull) {
 		this.forNull = forNull;
 	}
 	/**
-	 * ¤â¤·DB¾å¤ÎÃÍ¤¬NULL¤Ê¤é
-	 * @param ifNull ÂåÂØ¤ÎÃÍ
+	 * ã‚‚ã—DBä¸Šã®å€¤ãŒNULLãªã‚‰
+	 * @param ifNull ä»£æ›¿ã®å€¤
 	 */
 	public void setIfNull(String ifNull) {
 		this.ifNull = ifNull;
@@ -308,15 +308,15 @@ public class DefaultCobolColumn implements CobolColumn {
 		type = i;
 	}
 	/**
-	 * ¥Ğ¥¤¥ÈÇÛÎó¢ª¥ª¥Ö¥¸¥§¥¯¥È¤ÎÊÑ´¹¤Ë¼ºÇÔ¤·¤¿¾ì¹ç¡¢ÃÍ¤òÀßÄê¤¹¤ë
-	 * @param useOnParseError ¤¹¤ë¤«¤·¤Ê¤¤¤«
+	 * ãƒã‚¤ãƒˆé…åˆ—â†’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆã€å€¤ã‚’è¨­å®šã™ã‚‹
+	 * @param useOnParseError ã™ã‚‹ã‹ã—ãªã„ã‹
 	 */
 	public void setUseOnParseError(boolean useOnParseError) {
 		this.useOnParseError = useOnParseError;
 	}
 	/**
-	 * ¥Ğ¥¤¥ÈÇÛÎó¢ª¥ª¥Ö¥¸¥§¥¯¥È¤ÎÊÑ´¹¤Ë¼ºÇÔ¤·¤¿¾ì¹ç
-	 * @param valueOfParseError ÂåÂØ¤ÎÃÍ
+	 * ãƒã‚¤ãƒˆé…åˆ—â†’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å¤‰æ›ã«å¤±æ•—ã—ãŸå ´åˆ
+	 * @param valueOfParseError ä»£æ›¿ã®å€¤
 	 */
 	public void setValueOfParseError(Object valueOfParseError) {
 		this.valueOfParseError = valueOfParseError;

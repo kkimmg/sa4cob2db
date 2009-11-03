@@ -13,18 +13,18 @@ import k_kim_mg.sa4cob2db.CobolRecordException;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.DefaultCobolColumn;
 /**
- * SQLÎó
+ * SQLåˆ—
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
-	/** µ¬ÄêÃÍ */
+	/** è¦å®šå€¤ */
 	private String defaultString = "";
-	/** ¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎóÌ¾ */
+	/** ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®åˆ—å */
 	private String originalColumnName = "";
-	/** ÆÉ¼è¡¢½ñ¹şÌµ»ë */
+	/** èª­å–ã€æ›¸è¾¼ç„¡è¦– */
 	private boolean readIgnore = false, rewriteIgnore = false, writeIgnore = false;
 	/**
-	 * ¥³¥ó¥¹¥È¥é¥¯¥¿
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * @param meta
 	 */
 	public SQLCobolColumn(SQLCobolRecordMetaData meta) {
@@ -60,76 +60,76 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		return ret;
 	}
 	/**
-	 * ¤³¤ÎÎó¤¬ÆÉ¤ß¹ş¤ß»şÌµ»ë¤µ¤ì¤ë¾ì¹ç¤ÎÃÍÉ½¸½
-	 * @return ÀßÄê¤Ç¤­¤ë¤Î¤Ï¤È¤ê¤¢¤¨¤ºÊ¸»úÎó¤À¤±¤Ã¤Æ¤³¤È¤Ç¡¦¡¦¡¦¡¦
+	 * ã“ã®åˆ—ãŒèª­ã¿è¾¼ã¿æ™‚ç„¡è¦–ã•ã‚Œã‚‹å ´åˆã®å€¤è¡¨ç¾
+	 * @return è¨­å®šã§ãã‚‹ã®ã¯ã¨ã‚Šã‚ãˆãšæ–‡å­—åˆ—ã ã‘ã£ã¦ã“ã¨ã§ãƒ»ãƒ»ãƒ»ãƒ»
 	 * @throws CobolRecordException
 	 */
 	public String getDefaultString() throws CobolRecordException {
 		return defaultString;
 	}
 	/**
-	 * ¥ª¥ê¥¸¥Ê¥ë¤Î¥ì¥³¡¼¥É¤ÎÎóÌ¾
-	 * @return ¥ª¥ê¥¸¥Ê¥ë¤Î¥ì¥³¡¼¥É¤ÎÎóÌ¾
+	 * ã‚ªãƒªã‚¸ãƒŠãƒ«ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã®åˆ—å
+	 * @return ã‚ªãƒªã‚¸ãƒŠãƒ«ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã®åˆ—å
 	 * @throws CobolRecordException
 	 */
 	public String getOriginalColumnName() throws CobolRecordException {
 		return originalColumnName;
 	}
 	/**
-	 * ÆÉ¤ß¹ş¤ß»ş¤Ë¤³¤ÎÎó¤òÌµ»ë¤¹¤ë¤«¤É¤¦¤«
-	 * @return ÆÉ¤ß¹ş¤ß»ş¤Ë¤³¤ÎÎó¤òÌµ»ë¤¹¤ë¤«¤É¤¦¤«
+	 * èª­ã¿è¾¼ã¿æ™‚ã«ã“ã®åˆ—ã‚’ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹
+	 * @return èª­ã¿è¾¼ã¿æ™‚ã«ã“ã®åˆ—ã‚’ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹
 	 * @throws CobolRecordException
 	 */
 	public boolean isReadIgnore() throws CobolRecordException {
 		return readIgnore;
 	}
 	/**
-	 * ¾å½ñ¤­»ş¤Ë¤³¤ÎÎó¤òÌµ»ë¤¹¤ë¤«¤É¤¦¤«
-	 * @return ¾å½ñ¤­»ş¤Ë¤³¤ÎÎó¤òÌµ»ë¤¹¤ë¤«¤É¤¦¤«
+	 * ä¸Šæ›¸ãæ™‚ã«ã“ã®åˆ—ã‚’ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹
+	 * @return ä¸Šæ›¸ãæ™‚ã«ã“ã®åˆ—ã‚’ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹
 	 * @throws CobolRecordException
 	 */
 	public boolean isRewriteIgnore() throws CobolRecordException {
 		return rewriteIgnore;
 	}
 	/**
-	 * ¿·µ¬½ñ¤­¹ş¤ß»ş¤Ë¤³¤ÎÎó¤òÌµ»ë¤¹¤ë¤«¤É¤¦¤«
-	 * @return ¿·µ¬½ñ¤­¹ş¤ß»ş¤Ë¤³¤ÎÎó¤òÌµ»ë¤¹¤ë¤«¤É¤¦¤«
+	 * æ–°è¦æ›¸ãè¾¼ã¿æ™‚ã«ã“ã®åˆ—ã‚’ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹
+	 * @return æ–°è¦æ›¸ãè¾¼ã¿æ™‚ã«ã“ã®åˆ—ã‚’ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹
 	 * @throws CobolRecordException
 	 */
 	public boolean isWriteIgnore() throws CobolRecordException {
 		return writeIgnore;
 	}
 	/**
-	 * ¥Ç¥Õ¥©¥ë¥È¤ÎÊ¸»úÎó
-	 * @param string ¥Ç¥Õ¥©¥ë¥È¤ÎÊ¸»úÎó
+	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®æ–‡å­—åˆ—
+	 * @param string ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®æ–‡å­—åˆ—
 	 */
 	public void setDefaultString(String string) {
 		defaultString = string;
 	}
 	/**
-	 * SQL·ë²Ì¥»¥Ã¥È¤ÎÎóÌ¾
-	 * @param string SQL·ë²Ì¥»¥Ã¥È¤ÎÎóÌ¾
+	 * SQLçµæœã‚»ãƒƒãƒˆã®åˆ—å
+	 * @param string SQLçµæœã‚»ãƒƒãƒˆã®åˆ—å
 	 */
 	public void setOriginalColumnName(String string) {
 		originalColumnName = string;
 	}
 	/**
-	 * ÆÉ¤ß¹ş¤ß»ş¤Ë¤³¤ÎÎó¤òÌµ»ë¤¹¤ë¤«¤É¤¦¤«
-	 * @param b ÆÉ¤ß¹ş¤ß»ş¤Ë¤³¤ÎÎó¤òÌµ»ë¤¹¤ë¤«¤É¤¦¤«
+	 * èª­ã¿è¾¼ã¿æ™‚ã«ã“ã®åˆ—ã‚’ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹
+	 * @param b èª­ã¿è¾¼ã¿æ™‚ã«ã“ã®åˆ—ã‚’ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹
 	 */
 	public void setReadIgnore(boolean b) {
 		readIgnore = b;
 	}
 	/**
-	 * ¥³¥Ü¥ë¥ì¥³¡¼¥É·Á¼°¤«¤éJDBC·ë²Ì¥»¥Ã¥È¤Ø¤ÎÊÑ´¹
-	 * @param src ¥³¥Ü¥ë¥ì¥³¡¼¥É
-	 * @param dst JDBC·ë²Ì¥»¥Ã¥È
-	 * @throws SQLException SQLÎã³°
-	 * @throws CobolRecordException ¥³¥Ü¥ëÎã³°
+	 * ã‚³ãƒœãƒ«ãƒ¬ã‚³ãƒ¼ãƒ‰å½¢å¼ã‹ã‚‰JDBCçµæœã‚»ãƒƒãƒˆã¸ã®å¤‰æ›
+	 * @param src ã‚³ãƒœãƒ«ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @param dst JDBCçµæœã‚»ãƒƒãƒˆ
+	 * @throws SQLException SQLä¾‹å¤–
+	 * @throws CobolRecordException ã‚³ãƒœãƒ«ä¾‹å¤–
 	 */
 	public void setRecord2ResultSet(CobolRecord src, ResultSet dst) throws SQLException, CobolRecordException {
 		String originalName = getOriginalColumnName();
-		// ¤³¤³¤«¤é
+		// ã“ã“ã‹ã‚‰
 		int sqlColumnIndex = dst.findColumn(originalName);
 		int sqlColumnType = dst.getMetaData().getColumnType(sqlColumnIndex);
 		switch (sqlColumnType) {
@@ -187,11 +187,11 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		}
 	}
 	/**
-	 * JDBC·ë²Ì¥»¥Ã¥È¤«¤é¥³¥Ü¥ë¥ì¥³¡¼¥É·Á¼°¤Ø¤ÎÊÑ´¹
-	 * @param src JDBC·ë²Ì¥»¥Ã¥È
-	 * @param dst ¥³¥Ü¥ë¥ì¥³¡¼¥É
-	 * @throws SQLException SQLÎã³°
-	 * @throws CobolRecordException ¥³¥Ü¥ëÎã³°
+	 * JDBCçµæœã‚»ãƒƒãƒˆã‹ã‚‰ã‚³ãƒœãƒ«ãƒ¬ã‚³ãƒ¼ãƒ‰å½¢å¼ã¸ã®å¤‰æ›
+	 * @param src JDBCçµæœã‚»ãƒƒãƒˆ
+	 * @param dst ã‚³ãƒœãƒ«ãƒ¬ã‚³ãƒ¼ãƒ‰
+	 * @throws SQLException SQLä¾‹å¤–
+	 * @throws CobolRecordException ã‚³ãƒœãƒ«ä¾‹å¤–
 	 */
 	public void setResultSet2Record(ResultSet src, CobolRecord dst) throws SQLException, CobolRecordException {
 		String originalName = getOriginalColumnName();
@@ -225,15 +225,15 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		}
 	}
 	/**
-	 * ¾å½ñ¤­»ş¤Ë¤³¤ÎÎó¤òÌµ»ë¤¹¤ë¤«¤É¤¦¤«
-	 * @param b ¾å½ñ¤­»ş¤Ë¤³¤ÎÎó¤òÌµ»ë¤¹¤ë¤«¤É¤¦¤«
+	 * ä¸Šæ›¸ãæ™‚ã«ã“ã®åˆ—ã‚’ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹
+	 * @param b ä¸Šæ›¸ãæ™‚ã«ã“ã®åˆ—ã‚’ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹
 	 */
 	public void setRewriteIgnore(boolean b) {
 		rewriteIgnore = b;
 	}
 	/**
-	 * ¿·µ¬½ñ¤­¹ş¤ß»ş¤Ë¤³¤ÎÎó¤òÌµ»ë¤¹¤ë¤«¤É¤¦¤«
-	 * @param b ¿·µ¬½ñ¤­¹ş¤ß»ş¤Ë¤³¤ÎÎó¤òÌµ»ë¤¹¤ë¤«¤É¤¦¤«
+	 * æ–°è¦æ›¸ãè¾¼ã¿æ™‚ã«ã“ã®åˆ—ã‚’ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹
+	 * @param b æ–°è¦æ›¸ãè¾¼ã¿æ™‚ã«ã“ã®åˆ—ã‚’ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹
 	 */
 	public void setWriteIgnore(boolean b) {
 		writeIgnore = b;
