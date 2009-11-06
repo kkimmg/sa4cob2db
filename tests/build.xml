@@ -16,7 +16,7 @@
 		<mkdir dir="${build}"/>
 	</target>
 	<target name="compile" depends="init" description="compile the source ">
-		<javac srcdir="${src}" destdir="${build}" encoding="EUC-JP" debug="on">
+		<javac srcdir="${src}" destdir="${build}" debug="on">
 			<classpath refid="cp.acm"/>
 		</javac>
 	</target>
@@ -25,7 +25,7 @@
 		</jar>
 	</target>
 	<target name="samples" depends="compile" description="compile the source ">
-		<javac classpath="${build}" srcdir="${websample}" destdir="${build}" encoding="EUC-JP">
+		<javac classpath="${build}" srcdir="${websample}" destdir="${build}">
 		</javac>
 		<javah classpath="${build}" outputfile="${websample}/JSampleJniCall1.h">
 			<class name="JSampleJniCall1"/>

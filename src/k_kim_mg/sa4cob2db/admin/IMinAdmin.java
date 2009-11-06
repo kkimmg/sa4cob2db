@@ -1,4 +1,4 @@
-﻿package k_kim_mg.sa4cob2db.admin;
+package k_kim_mg.sa4cob2db.admin;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -16,3 +16,4 @@ public interface IMinAdmin extends Remote, Serializable {
 	 */
 	public boolean shutdown(int mode, String admin, String password) throws RemoteException;
 }
+
