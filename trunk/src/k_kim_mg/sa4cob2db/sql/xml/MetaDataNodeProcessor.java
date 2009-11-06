@@ -1,4 +1,4 @@
-﻿package k_kim_mg.sa4cob2db.sql.xml;
+package k_kim_mg.sa4cob2db.sql.xml;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 
 import org.w3c.dom.Node;
@@ -14,3 +14,4 @@ public interface MetaDataNodeProcessor {
 	 */
 	public void processOtherNode(Node node, CobolRecordMetaData meta);
 }
+
