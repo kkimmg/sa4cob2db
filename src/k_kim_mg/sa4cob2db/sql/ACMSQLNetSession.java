@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.sql;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,13 +17,15 @@ import java.util.logging.Level;
 
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.FileStatus;
+
 /**
  * ソケットベースのセッション管理機能
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
-    private static final long serialVersionUID = 1L;
-    /** 通信のうちのコマンド部分を文字列で受けとるためのリーダー */
+	private static final long serialVersionUID = 1L;
+	/** 通信のうちのコマンド部分を文字列で受けとるためのリーダー */
 	protected transient BufferedReader bufferedReader;
 	/** ソケットのアウトプットストリームのバッファ */
 	protected transient BufferedOutputStream bufput;
@@ -33,15 +36,33 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	/** ファイル毎のバイト配列 */
 	protected Map<CobolFile, byte[]> recordBytes = new Hashtable<CobolFile, byte[]>();
 	/** サーバー */
-	private final transient  SQLNetServer server;
+	private final transient SQLNetServer server;
 	/** ソケット */
 	protected transient Socket sock;
 	/** リーダー */
 	protected transient InputStreamReader streamReader;
 	/** ライター */
 	protected transient OutputStreamWriter streamWriter;
+	/** このセッションは初期化済みかどうか */
+	private boolean initialized = false;
+
+	/** このセッションは初期化済みかどうか */
+	protected boolean isInitialized() {
+		return initialized;
+	}
+
+	/**
+	 * このセッションは初期化済みかどうかをセットする
+	 * 
+	 * @param initialized フラグ
+	 */
+	protected void setInitialized(boolean initialized) {
+		this.initialized = initialized;
+	}
+
 	/**
 	 * サーバー
+	 * 
 	 * @param server サーバー
 	 * @param sock ソケット
 	 * @throws Exception 例外
@@ -51,8 +72,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		this.server = server;
 		this.sock = sock;
 	}
+
 	/**
 	 * ファイルをアサインする
+	 * 
 	 * @throws IOException 入出例外
 	 */
 	protected void assign() throws IOException {
@@ -64,6 +87,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * ファイルをクローズする
 	 */
@@ -76,8 +100,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * トランザクションをコミットする
+	 * 
 	 * @throws IOException 入出力例外
 	 */
 	protected void commitTransaction() throws IOException {
@@ -89,6 +115,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
 		}
 	}
+
 	/**
 	 * 現在行の削除
 	 */
@@ -103,8 +130,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * ソケットからファイル名を取得してファイルを返す
+	 * 
 	 * @return ファイルまたはnull
 	 */
 	protected CobolFile getFileFromLine() {
@@ -120,6 +149,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 		return file;
 	}
+
 	/**
 	 * 初期化してサーバーに登録する
 	 */
@@ -132,13 +162,14 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			int login = server.addSession(this, username, password);
 			if (login == SQLNetServer.LOGIN_OK) {
 				try {
+					setInitialized(true);
 					writeLine(FileStatus.OK);
 				} catch (IOException e) {
 					SQLNetServer.logger.log(Level.SEVERE, "Can't Write.", e);
 				}
 			} else {
 				String message = "Something Wrong.";
-				switch (login) { 
+				switch (login) {
 				case SQLNetServer.LOGIN_FAILURE:
 					message = "login failure";
 					break;
@@ -154,8 +185,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			SQLNetServer.logger.log(Level.SEVERE, "Something Wrong.", e);
 		}
 	}
+
 	/**
 	 * カレントレコードの移動
+	 * 
 	 * @throws IOException
 	 */
 	protected void move() throws IOException {
@@ -169,6 +202,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * 次のレコードへ
 	 */
@@ -181,8 +215,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * ファイルを開く
+	 * 
 	 * @throws IOException
 	 */
 	protected void open() throws IOException {
@@ -242,6 +278,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * 前のレコードへ
 	 */
@@ -254,8 +291,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * メソッドへのジャンプ処理
+	 * 
 	 * @param method メソッド
 	 * @throws IOException
 	 */
@@ -314,8 +353,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(new FileStatus(FileStatus.STATUS_UNSUPPORTED_METHOD, FileStatus.NULL_CODE, 0, method + " is not supported."));
 		}
 	}
+
 	/**
 	 * リード
+	 * 
 	 * @throws IOException
 	 */
 	protected void read() throws IOException {
@@ -340,8 +381,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * ソケットからバイト配列を読み取る
+	 * 
 	 * @return バイト配列
 	 * @throws IOException 入出力例外
 	 */
@@ -351,11 +394,13 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		int size = input.read(bytes, 0, ACMNetSession.RECORD_LEN);
 		if (bytes.length != size) {
 			SQLNetServer.logger.warning("unmatch length." + bytes.length + ":" + size);
-		}			
+		}
 		return bytes;
 	}
+
 	/**
 	 * ソケットから文字列を読み取る
+	 * 
 	 * @return 文字列
 	 * @throws IOException 入出力例外
 	 */
@@ -367,11 +412,13 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		SQLNetServer.logger.log(Level.FINEST, "RECIEVE:" + line.trim() + ":" + line.length());
 		if (chars.length != size) {
 			SQLNetServer.logger.warning("unmatch length." + chars.length + ":" + size);
-		}		
+		}
 		return line;
 	}
+
 	/**
 	 * ソケットから文字列を読み取る（null→""に変換）
+	 * 
 	 * @return 文字列
 	 * @throws IOException 入出力例外
 	 */
@@ -379,7 +426,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		String ret = readLine();
 		return (ret == null ? "" : ret.trim());
 	}
-	
+
 	protected void readNext() throws IOException {
 		CobolFile file = getFileFromLine();
 		if (file != null) {
@@ -404,8 +451,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * 更新
+	 * 
 	 * @throws IOException
 	 */
 	protected void rewrite() throws IOException {
@@ -420,8 +469,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * トランザクションをロールバックする
+	 * 
 	 * @throws IOException 入出力例外
 	 */
 	protected void rollbackTransaction() throws IOException {
@@ -433,8 +484,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Runnable#run()
 	 */
 	public void run() {
@@ -455,7 +508,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 						initialize();
 					} else {
 						// ここで初期化済みかチェックする
-						if (true) {
+						if (isInitialized()) {
 							if (method.equals(ACMNetSession.MSG_TERMINATE)) {
 								// 終了
 								terminate();
@@ -489,8 +542,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			}
 		}
 	}
+
 	/**
 	 * オートコミットを設定する
+	 * 
 	 * @throws IOException 入出力例外
 	 */
 	protected void setAutoCommit() throws IOException {
@@ -498,12 +553,14 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		boolean autoCommit = Boolean.parseBoolean(commitString);
 		setAutoCommit(autoCommit);
 	}
+
 	/**
 	 * オートコミットを設定する
-	 * @param autoCommit	コミットモード
+	 * 
+	 * @param autoCommit コミットモード
 	 * @throws IOException 入出力例外
 	 */
-	protected void setAutoCommit (boolean autoCommit) throws IOException {
+	protected void setAutoCommit(boolean autoCommit) throws IOException {
 		try {
 			getConnection().setAutoCommit(autoCommit);
 			writeLine(FileStatus.OK);
@@ -511,8 +568,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
 		}
 	}
+
 	/**
 	 * トランザクションを開始する
+	 * 
 	 * @throws IOException 入出力例外
 	 */
 	protected void setTransactionLevel() throws IOException {
@@ -529,8 +588,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 		setTransactionLevel(level);
 	}
+
 	/**
 	 * 指定したトランザクション遮断レベルでトランザクションを開始する
+	 * 
 	 * @param level トランザクション遮断レベル
 	 * @throws IOException 入出力例外
 	 */
@@ -542,8 +603,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
 		}
 	}
+
 	/**
 	 * 位置付け
+	 * 
 	 * @throws IOException
 	 */
 	protected void start() throws IOException {
@@ -570,8 +633,10 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * 位置付け
+	 * 
 	 * @throws IOException
 	 */
 	protected void startWith() throws IOException {
@@ -599,6 +664,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * セッションの終了
 	 */
@@ -627,11 +693,14 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		} catch (IOException e2) {
 			SQLNetServer.logger.log(Level.SEVERE, "Can't Close.", e2);
 		}
+		setInitialized(false);
 		// 上位クラスの終了処理
 		super.terminate();
 	}
+
 	/**
 	 * 書き込み
+	 * 
 	 * @throws IOException
 	 */
 	protected void write() throws IOException {
@@ -645,16 +714,20 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * ソケットへのファイルステータスの書き込み
+	 * 
 	 * @param status ファイルステータス
 	 * @throws IOException
 	 */
 	protected void writeLine(FileStatus status) throws IOException {
 		writeLine(status.toString());
 	}
+
 	/**
 	 * ソケットへの行書き込み
+	 * 
 	 * @param line 行
 	 * @throws IOException
 	 */
