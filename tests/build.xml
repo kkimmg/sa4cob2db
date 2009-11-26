@@ -6,8 +6,9 @@
 	<property name="src" location="./src"/>
 	<property name="websample" location="./"/>
 	<property name="build" location="./bin"/>
-	<property name="user.name" location="kkimmg@gmail.com"/>
+	<property name="user.name" value="kkimmg@gmail.com"/>
 	<property name="antlib" location="/opt/apache-ant-1.7.0/lib"/>
+	<property name="encoding" value="UTF-8" />
 	<path id="cp.acm">
 		<pathelement location="../acmlibs.jar"/>
 	</path>
