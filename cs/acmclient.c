@@ -12,6 +12,7 @@
 #include    <netdb.h>
 /***************************************/
 #include    "acmclient.h"
+#include    "config.h"
 /***************************************/
 struct in_addr addr;
 struct in_addr *aptr;

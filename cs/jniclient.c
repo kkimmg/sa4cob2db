@@ -9,6 +9,7 @@
 /***************************************/
 #include    <jni.h>
 #include    "jniclient.h"
+#include    "config.h"
 /***************************************/
 #define     SQLJNISERVER "k_kim_mg/sa4cob2db/sql/ACMSQLJNISession"
 /***************************************/
