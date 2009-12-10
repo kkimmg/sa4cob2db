@@ -3,7 +3,7 @@ prefix = @prefix@
 exec_prefix = @exec_prefix@
 libdir = @libdir@
 CC = @CC@
-INSTALL = @INSTALL@
+INSTALL = install
 LN_S = @LN_S@
 JDKLIB = -I$(JAVA_HOME)/include/
 JDKOSLIB = -I$(JAVA_HOME)/include/linux/
@@ -14,12 +14,20 @@ all:
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -shared -v jniclient.c -o jniclient.so
 
 install:
-	$(INSTALL) acmclient.so $(DESTDIR)$(libdir)
-	$(INSTALL) jniclient.so $(DESTDIR)$(libdir)
+	$(INSTALL) acmclient.so $(DESTDIR)$(libdir)/
+	$(INSTALL) jniclient.so $(DESTDIR)$(libdir)/
 
 install_opencobol: install
-	$(LN_S) $(libdir)acmclient.so $(libdir)initializeSessionEnv.so
-	$(LN_S) $(libdir)jniclient.so $(libdir)initializeJNISessionEnv.so
+	$(LN_S) $(libdir)acmclient.so $(libdir)/initializeSessionEnv.so
+	$(LN_S) $(libdir)jniclient.so $(libdir)/initializeJNISessionEnv.so
+
+deinstall:
+	rm $(DESTDIR)$(libdir)/acmclient.so
+	rm $(DESTDIR)$(libdir)/jniclient.so
+
+deinstall_opencobol:
+	rm $(libdir)/initializeSessionEnv.so
+	rm $(libdir)/initializeJNISessionEnv.so
 
 clean:
 	rm acmclient.so
