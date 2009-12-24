@@ -1,0 +1,22 @@
+DESTDIR = 
+INSTALL = @INSTALL@
+INSTDIR = /opt/sa4cob2db
+
+all: 
+	ant dist
+	ant cobpp
+	cd cs; make
+
+doc:
+	ant doc
+
+install: 
+	mkdir $(INSTDIR)
+	$(INSTALL) acmlibs.jar $(INSTDIR)/
+	$(INSTALL) cobpp.jar $(INSTDIR)/	
+	cd cs; make install
+
+clean:
+	ant clean
+	
+

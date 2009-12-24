@@ -8,6 +8,8 @@ AC_CONFIG_HEADERS([cs/config.h])
 
 # Checks for programs.
 AC_PROG_CC
+AC_PROG_INSTALL
+AC_CHECK_PROG(ANT, ant, yes, no)
 
 # Checks for libraries.
 
@@ -17,5 +19,6 @@ AC_PROG_CC
 
 # Checks for library functions.
 
+AC_CONFIG_FILES([Makefile])
 AC_CONFIG_SUBDIRS([cs])
 AC_OUTPUT
