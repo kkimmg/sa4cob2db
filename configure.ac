@@ -6,6 +6,9 @@ AC_INIT(sa4cob2db, 0.1, kkimmg@gmail.com)
 AC_CONFIG_SRCDIR([cs/jniclient.c])
 AC_CONFIG_HEADERS([cs/config.h])
 
+AC_SUBST(INSTDIR, /opt/sa4cob2db)
+AC_ARG_VAR(INSTDIR, install directory)
+
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL

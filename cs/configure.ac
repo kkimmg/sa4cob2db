@@ -11,6 +11,10 @@ AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_LN_S
 
+#AC_SUBST(JAVA_HOME, /usr/lib/jvm/java-6-sun)
+AC_ARG_VAR(JAVA_HOME, java home)
+AC_CHECK_FILE($JAVA_HOME, , AC_MSG_ERROR(Prease Set JAVA_HOME Environment))
+
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-ljvm':
 AC_CHECK_LIB([jvm], [main])
