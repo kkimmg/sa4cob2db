@@ -1,6 +1,6 @@
 DESTDIR = 
 INSTALL = @INSTALL@
-INSTDIR = /opt/sa4cob2db
+INSTDIR = @INSTDIR@
 
 all: 
 	ant dist

@@ -5,6 +5,7 @@ libdir = @libdir@
 CC = @CC@
 INSTALL = @INSTALL@
 LN_S = @LN_S@
+JAVA_HOME = @JAVA_HOME@
 JDKLIB = -I$(JAVA_HOME)/include/
 JDKOSLIB = -I$(JAVA_HOME)/include/linux/
 JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/client
