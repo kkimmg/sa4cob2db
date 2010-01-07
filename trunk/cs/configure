@@ -2065,6 +2065,11 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 ac_config_headers="$ac_config_headers config.h"
 
 
+cat >>confdefs.h <<_ACEOF
+#define ACM_HOME "/opt/sa4cob2db"
+_ACEOF
+
+
 # Checks for programs.
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -2984,7 +2989,7 @@ eval as_val=\$$as_ac_File
    if test "x$as_val" = x""yes; then :
 
 else
-  as_fn_error "Prease Set JAVA_HOME Envronment" "$LINENO" 5
+  as_fn_error "Prease Set JAVA_HOME Environment" "$LINENO" 5
 fi
 
 
