@@ -83,7 +83,7 @@ public class SQLNetServer {
 		}
 	}
 	/** デフォルトの設定ファイル名 */
-	public static final String DEFAULT_CONFIG = "/usr/local/etc/acm/metafile.xml";
+	public static final String DEFAULT_CONFIG = "/opt/sa4cob2db/metafile.xml";
 	/** ログ出力オブジェクト */
 	public static final Logger logger;
 	/** ログイン失敗 */
