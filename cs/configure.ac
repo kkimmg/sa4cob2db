@@ -6,6 +6,8 @@ AC_INIT(sa4cob2db, 0.1, kkimmg@gmail.com)
 AC_CONFIG_SRCDIR([jniclient.c])
 AC_CONFIG_HEADERS([config.h])
 
+AC_DEFINE_UNQUOTED(ACM_HOME,    "/opt/sa4cob2db")
+
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL

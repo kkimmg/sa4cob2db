@@ -12,6 +12,9 @@
 #include    "config.h"
 /***************************************/
 #define     SQLJNISERVER "k_kim_mg/sa4cob2db/sql/ACMSQLJNISession"
+#define     CONFOPTION "-DACM_CONFFILE="
+#define     DEFNAME "/conf/metafile.xml"
+#define     ACM_CONFFILE "ACM_CONFFILE"
 /***************************************/
 JNIEnv *env;
 JavaVM *jvm;
@@ -46,6 +49,8 @@ int width;
 struct timeval timeout;
 int error;
 char stat[3];
+char *configOption;
+char *classpathOption;
 /** ステータスをセッションから取得する */
 extern void getStatus(char *status) {
 	int i;
@@ -78,15 +83,31 @@ extern void getRecord(char *record) {
 	(*env)->DeleteLocalRef(env, rarray);
 	return;
 }
+/** 設定ファイルの名称 */
+void getConfigFile () {
+	char *envconfig;
+	envconfig = getenv(ACM_CONFFILE);
+	if (envconfig == NULL) {
+		configOption = malloc(sizeof(CONFOPTION) + sizeof(ACM_HOME) + sizeof(DEFNAME));
+		strcpy(configOption, CONFOPTION);
+		strcat(configOption, ACM_HOME);
+		strcat(configOption, DEFNAME);
+	} else {
+		configOption = malloc(sizeof(CONFOPTION) + sizeof(envconfig));
+		strcpy(configOption, CONFOPTION);
+		strcat(configOption, envconfig);
+	}
+}
 /**
  * JNI環境の初期化
  */
 extern int
 initializeJNI () {
+	getConfigFile();
 	// JVMを作成する
 	JavaVMOption options[2];
 	options[0].optionString = "-Djava.class.path=../acmlibs.jar:./acmsamples.jar:/usr/share/java/postgresql.jar";
-	options[1].optionString = "-DACM_CONFFILE=../metafile.xml";  
+	options[1].optionString = configOption;  
 	JavaVMInitArgs vm_args;
 	vm_args.version = JNI_VERSION_1_6;
 	vm_args.options = options;
@@ -202,12 +223,14 @@ initializeJNISessionEnv (char *status) {
 /**終了処理*/
 void
 terminateJNISession (char *status) {
-	/** 処理を呼び出してみる */
+	/* 処理を呼び出してみる */
 	(*env)->CallVoidMethod(env, jniserv, midTerminate);
 	/* ステータスチェック */
 	getStatus(status);
-	/** JVMを破棄する */
+	/* JVMを破棄する */
 	(*jvm)->DestroyJavaVM(jvm);
+	/* メモリを開放する */
+	free(configOption);
 	return;
 }
 

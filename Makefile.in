@@ -1,6 +1,6 @@
 DESTDIR = 
 INSTALL = @INSTALL@
-INSTDIR = @INSTDIR@
+ACM_HOME = @ACM_HOME@
 
 all: 
 	ant dist
@@ -11,9 +11,9 @@ doc:
 	ant doc
 
 install: 
-	mkdir $(INSTDIR)
-	$(INSTALL) acmlibs.jar $(INSTDIR)/
-	$(INSTALL) cobpp.jar $(INSTDIR)/	
+	mkdir $(ACM_HOME)
+	$(INSTALL) acmlibs.jar $(ACM_HOME)/
+	$(INSTALL) cobpp.jar $(ACM_HOME)/	
 	cd cs; make install
 
 clean:
