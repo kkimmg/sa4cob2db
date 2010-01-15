@@ -25,7 +25,7 @@
 		</javadoc>
 	</target>
 	<target name="dist" depends="compile" description="generate the distribution">
-		<jar jarfile="acmlibs.jar" basedir="${build}">
+		<jar jarfile="sa4cob2db.jar" basedir="${build}">
 			<manifest>
 				<attribute name="Main-Class" value="k_kim_mg/sa4cob2db/sql/SQLNetServer" />
 			</manifest>
