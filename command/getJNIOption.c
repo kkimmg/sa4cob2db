@@ -1,0 +1,51 @@
+/** 環境変数からJNI関連のオプションを取得する */
+/* 基本のヘッダ */
+#include    <stdio.h>
+#include    <stdlib.h>
+#include    <string.h>
+#include    <sys/param.h>
+#include    <sys/types.h>
+/** JNI関連のヘッダ */
+#include    <jni.h>
+#include    "config.h"
+/** リテラル */
+#define     CLASSPATHOPTION "-Djava.class.path="
+#define     DEFNAME "/conf/metafile.xml"
+#define     JARFILE "/sa4cob2db.jar"
+#define     ACM_CONFFILE "ACM_CONFFILE"
+#define     CLASSPATH "CLASSPATH"
+/** クラスパス */
+char *getClasspath () {
+	static char *classpathOption;
+	char *envpath;
+	envpath = getenv(CLASSPATH);
+	if (envpath == NULL) {
+		classpathOption = (char *)malloc(strlen(CLASSPATHOPTION) + strlen(ACM_HOME) + strlen(JARFILE) );
+		strcpy(classpathOption, CLASSPATHOPTION);
+		strcat(classpathOption, ACM_HOME);
+		strcat(classpathOption, JARFILE);
+	} else {
+		classpathOption = (char *)malloc(strlen(CLASSPATHOPTION) + strlen(envpath) + strlen(":") + strlen(ACM_HOME) + strlen(JARFILE));
+		strcpy(classpathOption, CLASSPATHOPTION);
+		strcat(classpathOption, envpath);
+		strcat(classpathOption, ":");
+		strcat(classpathOption, ACM_HOME);
+		strcat(classpathOption, JARFILE);
+	}
+	return classpathOption;
+}
+/** 設定ファイルの名称 */
+char *getConfigFile () {
+	static char *configOption;
+	char *envconfig;
+	envconfig = getenv(ACM_CONFFILE);
+	if (envconfig == NULL) {
+		configOption = (char *)malloc(strlen(ACM_HOME) + strlen(DEFNAME));
+		strcpy(configOption, ACM_HOME);
+		strcat(configOption, DEFNAME);
+	} else {
+		configOption = (char *)malloc(strlen(envconfig));
+		strcpy(configOption, envconfig);
+	}
+	return configOption;
+}
