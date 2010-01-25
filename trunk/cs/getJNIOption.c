@@ -1,20 +1,22 @@
+/** 環境変数からJNI関連のオプションを取得する */
+/* 基本のヘッダ */
 #include    <stdio.h>
 #include    <stdlib.h>
 #include    <string.h>
 #include    <sys/param.h>
 #include    <sys/types.h>
-
+/** JNI関連のヘッダ */
 #include    <jni.h>
 #include    "config.h"
-
+/** リテラル */
 #define     CLASSPATHOPTION "-Djava.class.path="
 #define     CONFOPTION "-DACM_CONFFILE="
 #define     DEFNAME "/conf/metafile.xml"
 #define     JARFILE "/sa4cob2db.jar"
 #define     ACM_CONFFILE "ACM_CONFFILE"
 #define     CLASSPATH "CLASSPATH"
-/** 設定ファイルの名称 */
-char* getClasspath () {
+/** クラスパス */
+char *getClasspath () {
 	static char *classpathOption;
 	char *envpath;
 	envpath = getenv(CLASSPATH);

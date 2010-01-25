@@ -16,34 +16,17 @@ import org.xml.sax.SAXException;
 
 /**
  * シーケンシャルファイルに出力する
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class Acm2Seq {
-	/**起動ルーチン*/
-	public static void main(String[] args) {
-		Properties properties = new Properties();
-		//-------------------------
-		properties.setProperty("lineout", getEnvValue("lineout", "false"));
-		properties.setProperty("metafile", getEnvValue("metafile", SQLNetServer.DEFAULT_CONFIG));
-		if (args.length >= 1) {
-			properties.setProperty("acmfile", args[0]);
-			if (args.length >= 2) {
-				properties.setProperty("outfile", args[1]);
-			}
-		} else {
-			System.err.println("acmfileが指定されていません。");
-		}
-		//-------------------------
-		Acm2Seq obj = new Acm2Seq();
-		obj.exportTo(properties);
-		// 使い方の説明
-		displayUsage(properties);
-	}
 	/**
 	 * 使い方を説明する
-	 * @param properties	プロパティ
+	 * 
+	 * @param properties
+	 *            プロパティ
 	 */
-	private static void displayUsage (Properties properties) {
+	private static void displayUsage(Properties properties) {
 		String flag = properties.getProperty("display_usage", "true");
 		if (Boolean.parseBoolean(flag)) {
 			System.err.println("java -classpath path_to_jdbc:path_to_acm \"k_kim_mg.sa4cob2db.sql.Acm2Seq\" acmfile outputfile");
@@ -55,28 +38,70 @@ public class Acm2Seq {
 			}
 		}
 	}
+
 	/**
 	 * 環境変数を取得する
+	 * 
 	 * @param key
 	 * @param defaultValue
 	 * @return
 	 */
-	private static String getEnvValue (String key, String defaultValue) {
+	private static String getEnvValue(String key, String defaultValue) {
 		String ret = System.getProperty(key, System.getenv(key));
-		if (ret == null) ret = defaultValue;
-		if (ret.length() == 0) ret = defaultValue;
+		if (ret == null)
+			ret = defaultValue;
+		if (ret.length() == 0)
+			ret = defaultValue;
 		return ret;
 	}
+
+	/** 起動ルーチン */
+	public static void main(String[] args) {
+		Properties properties = new Properties();
+		// -------------------------
+		properties.setProperty("lineout", getEnvValue("lineout", "false"));
+		properties.setProperty("metafile", getEnvValue("metafile", SQLNetServer.DEFAULT_CONFIG));
+		properties.setProperty("display_usage", getEnvValue("display_usage", "false"));
+		if (args.length >= 1) {
+			properties.setProperty("acmfile", args[0]);
+			if (args.length >= 2) {
+				properties.setProperty("outfile", args[1]);
+				if (args.length >= 3) {
+					properties.setProperty("metafile", args[2]);
+					if (args.length >= 4) {
+						properties.setProperty("lineout", args[3]);
+						if (args.length >= 5) {
+							properties.setProperty("display_usage", args[4]);
+						}
+					}
+				}
+			}
+		} else {
+			System.err.println("acmfileが指定されていません。");
+		}
+		// -------------------------
+		Acm2Seq obj = new Acm2Seq();
+		obj.exportTo(properties);
+		// 使い方の説明
+		displayUsage(properties);
+	}
+
 	/** 内部ファイルサーバー */
 	private SQLFileServer fileServer;
+
 	/**
-	 *  ストリームに出力する
-	 * @param file		コボルファイル
-	 * @param stream	ストリーム
-	 * @param line		ライン出力
-	 * @throws IOException	例外
+	 * ストリームに出力する
+	 * 
+	 * @param file
+	 *            コボルファイル
+	 * @param stream
+	 *            ストリーム
+	 * @param line
+	 *            ライン出力
+	 * @throws IOException
+	 *             例外
 	 */
-	protected void exportTo (CobolFile file, OutputStream stream, boolean line) throws IOException {
+	protected void exportTo(CobolFile file, OutputStream stream, boolean line) throws IOException {
 		int count = 0;
 		int recsize = file.getMetaData().getRowSize();
 		FileStatus stat = file.next();
@@ -93,10 +118,9 @@ public class Acm2Seq {
 				count++;
 				// 次のレコードへ
 				stat = file.next();
-				if (stat.getStatusCode() != FileStatus.STATUS_OK &&
-					stat.getStatusCode() != FileStatus.STATUS_EOF) {
+				if (stat.getStatusCode() != FileStatus.STATUS_OK && stat.getStatusCode() != FileStatus.STATUS_EOF) {
 					// 次への移動でのエラー
-				} 
+				}
 			} else {
 				// 読取エラー
 			}
@@ -106,11 +130,14 @@ public class Acm2Seq {
 		// 出力結果
 		System.err.println("Row Count = " + count);
 	}
+
 	/**
 	 * 出力する
-	 * @param properties プロパティ
+	 * 
+	 * @param properties
+	 *            プロパティ
 	 */
-	protected void exportTo (Properties properties) {
+	protected void exportTo(Properties properties) {
 		// ファイル機能の作成
 		fileServer = new SQLFileServer();
 		// メタデータファイル名
@@ -164,12 +191,15 @@ public class Acm2Seq {
 			}
 		}
 	}
+
 	/**
 	 * 名称からコボルファイルを取得する
-	 * @param name	ファイル名
-	 * @return	コボルファイル
+	 * 
+	 * @param name
+	 *            ファイル名
+	 * @return コボルファイル
 	 */
-	protected CobolFile getCobolFile (String name) {
+	protected CobolFile getCobolFile(String name) {
 		SQLCobolRecordMetaData meta = (SQLCobolRecordMetaData) fileServer.metaDataSet.getMetaData(name);
 		SQLFile file = null;
 		if (meta != null) {

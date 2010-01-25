@@ -2,6 +2,7 @@
  * 
  */
 package k_kim_mg.sa4cob2db.sql;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,35 +18,18 @@ import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 
 import org.xml.sax.SAXException;
+
 /**
  * シーケンシャルファイルから入力する
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class Seq2Acm {
-	/** 起動ルーチン */
-	public static void main(String[] args) {
-		Properties properties = new Properties();
-		// -------------------------
-		properties.setProperty("linein", getEnvValue("linein", "false"));
-		properties.setProperty("metafile", getEnvValue("metafile", SQLNetServer.DEFAULT_CONFIG));
-		properties.setProperty("display_usage", getEnvValue("display_usage", "true"));
-		if (args.length >= 1) {
-			properties.setProperty("acmfile", args[0]);
-			if (args.length >= 2) {
-				properties.setProperty("infile", args[1]);
-			}
-		} else {
-			System.err.println("acmfileが指定されていません。");
-		}
-		// -------------------------
-		Seq2Acm obj = new Seq2Acm();
-		obj.importTo(properties);
-		// 使い方の説明
-		displayUsage(properties);
-	}
 	/**
 	 * 使い方を説明する
-	 * @param properties プロパティ
+	 * 
+	 * @param properties
+	 *            プロパティ
 	 */
 	private static void displayUsage(Properties properties) {
 		String flag = properties.getProperty("display_usage", "true");
@@ -59,8 +43,10 @@ public class Seq2Acm {
 			}
 		}
 	}
+
 	/**
 	 * 環境変数を取得する
+	 * 
 	 * @param key
 	 * @param defaultValue
 	 * @return
@@ -73,50 +59,66 @@ public class Seq2Acm {
 			ret = defaultValue;
 		return ret;
 	}
+
+	/** 起動ルーチン */
+	public static void main(String[] args) {
+		Properties properties = new Properties();
+		// -------------------------
+		properties.setProperty("linein", getEnvValue("linein", "false"));
+		properties.setProperty("metafile", getEnvValue("metafile", SQLNetServer.DEFAULT_CONFIG));
+		properties.setProperty("display_usage", getEnvValue("display_usage", "false"));
+		if (args.length >= 1) {
+			properties.setProperty("acmfile", args[0]);
+			if (args.length >= 2) {
+				properties.setProperty("infile", args[1]);
+				if (args.length >= 3) {
+					properties.setProperty("metafile", args[2]);
+					if (args.length >= 4) {
+						properties.setProperty("lineout", args[3]);
+						if (args.length >= 5) {
+							properties.setProperty("display_usage", args[4]);
+						}
+					}
+				}
+			}
+		} else {
+			System.err.println("acmfileが指定されていません。");
+		}
+		// -------------------------
+		Seq2Acm obj = new Seq2Acm();
+		obj.importTo(properties);
+		// 使い方の説明
+		displayUsage(properties);
+	}
+
 	/** 内部ファイルサーバー */
 	private SQLFileServer fileServer;
+
 	/**
-	 * ストリームに出力する
-	 * @param file コボルファイル
-	 * @param stream ストリーム
-	 * @param line ライン出力
-	 * @throws IOException 例外
+	 * 名称からコボルファイルを取得する
+	 * 
+	 * @param name
+	 *            ファイル名
+	 * @return コボルファイル
 	 */
-	protected void importTo(CobolFile file, InputStream stream, boolean line) throws IOException {
-		if (line) {
-			importLineTo(file, stream);
-		} else {
-			importTo(file, stream);
+	protected CobolFile getCobolFile(String name) {
+		SQLCobolRecordMetaData meta = (SQLCobolRecordMetaData) fileServer.metaDataSet.getMetaData(name);
+		SQLFile file = null;
+		if (meta != null) {
+			file = new SQLFile(fileServer.createConnection(), meta);
 		}
+		return file;
 	}
+
 	/**
 	 * ストリームに出力する
-	 * @param file コボルファイル
-	 * @param stream ストリーム
-	 * @throws IOException 例外
-	 */
-	protected void importTo(CobolFile file, InputStream stream) throws IOException {
-		int count = 0;
-		int recsize = file.getMetaData().getRowSize();
-		byte[] record = new byte[recsize];
-		FileStatus stat;
-		while (stream.read(record) > 0) {
-			stat = file.write(record);
-			if (stat != FileStatus.OK) {
-				// エラーになった
-			} else {
-				count++;
-			}
-		}
-		// 終端部分
-		// 出力結果
-		System.err.println("Row Count = " + count);
-	}
-	/**
-	 * ストリームに出力する
-	 * @param file コボルファイル
-	 * @param stream ストリーム
-	 * @throws IOException 例外
+	 * 
+	 * @param file
+	 *            コボルファイル
+	 * @param stream
+	 *            ストリーム
+	 * @throws IOException
+	 *             例外
 	 */
 	protected void importLineTo(CobolFile file, InputStream stream) throws IOException {
 		int count = 0;
@@ -139,9 +141,60 @@ public class Seq2Acm {
 		// 出力結果
 		System.err.println("Row Count = " + count);
 	}
+
+	/**
+	 * ストリームに出力する
+	 * 
+	 * @param file
+	 *            コボルファイル
+	 * @param stream
+	 *            ストリーム
+	 * @throws IOException
+	 *             例外
+	 */
+	protected void importTo(CobolFile file, InputStream stream) throws IOException {
+		int count = 0;
+		int recsize = file.getMetaData().getRowSize();
+		byte[] record = new byte[recsize];
+		FileStatus stat;
+		while (stream.read(record) > 0) {
+			stat = file.write(record);
+			if (stat != FileStatus.OK) {
+				// エラーになった
+			} else {
+				count++;
+			}
+		}
+		// 終端部分
+		// 出力結果
+		System.err.println("Row Count = " + count);
+	}
+
+	/**
+	 * ストリームに出力する
+	 * 
+	 * @param file
+	 *            コボルファイル
+	 * @param stream
+	 *            ストリーム
+	 * @param line
+	 *            ライン出力
+	 * @throws IOException
+	 *             例外
+	 */
+	protected void importTo(CobolFile file, InputStream stream, boolean line) throws IOException {
+		if (line) {
+			importLineTo(file, stream);
+		} else {
+			importTo(file, stream);
+		}
+	}
+
 	/**
 	 * 出力する
-	 * @param properties プロパティ
+	 * 
+	 * @param properties
+	 *            プロパティ
 	 */
 	protected void importTo(Properties properties) {
 		// ファイル機能の作成
@@ -196,18 +249,5 @@ public class Seq2Acm {
 				ex.printStackTrace();
 			}
 		}
-	}
-	/**
-	 * 名称からコボルファイルを取得する
-	 * @param name ファイル名
-	 * @return コボルファイル
-	 */
-	protected CobolFile getCobolFile(String name) {
-		SQLCobolRecordMetaData meta = (SQLCobolRecordMetaData) fileServer.metaDataSet.getMetaData(name);
-		SQLFile file = null;
-		if (meta != null) {
-			file = new SQLFile(fileServer.createConnection(), meta);
-		}
-		return file;
 	}
 }

@@ -13,11 +13,6 @@
 #include    "getJNIOption.h"
 #include    "config.h"
 /***************************************/
-JNIEnv *env;
-JavaVM *jvm;
-jclass clazz;
-jmethodID midMain;
-/***************************************/
 #define    DEFAULT_LINEOUT "true"
 #define    DEFAULT_DIAPLAY_USAGE "false"
 /** オプション */
