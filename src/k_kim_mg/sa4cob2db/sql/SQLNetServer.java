@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.sql;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,13 +28,16 @@ import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 
 import org.xml.sax.SAXException;
+
 /**
  * ソケットベースのサーバー機能
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLNetServer {
 	/**
 	 * ソケットごとの受付機能
+	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	class SocketAccepter implements Runnable {
@@ -41,17 +45,23 @@ public class SQLNetServer {
 		private SQLNetServer server;
 		/** サーバーソケット */
 		private ServerSocket servsock;
+
 		/**
 		 * コンストラクタ
-		 * @param server サーバー
-		 * @param servsock 受付アドレスを表すサーバーソケット
+		 * 
+		 * @param server
+		 *            サーバー
+		 * @param servsock
+		 *            受付アドレスを表すサーバーソケット
 		 */
 		public SocketAccepter(SQLNetServer server, ServerSocket servsock) {
 			this.server = server;
 			this.servsock = servsock;
 		}
+
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Runnable#run()
 		 */
 		public void run() {
@@ -82,8 +92,9 @@ public class SQLNetServer {
 			SQLNetServer.logger.log(Level.INFO, "Now Server Is Ending......");
 		}
 	}
+
 	/** デフォルトの設定ファイル名 */
-	public static final String DEFAULT_CONFIG = "/opt/sa4cob2db/metafile.xml";
+	public static final String DEFAULT_CONFIG = "/opt/sa4cob2db/conf/metafile.xml";
 	/** ログ出力オブジェクト */
 	public static final Logger logger;
 	/** ログイン失敗 */
@@ -102,8 +113,10 @@ public class SQLNetServer {
 		logger = Logger.getLogger(LOGNAME);
 		logger.setLevel(Level.SEVERE);
 	}
+
 	/**
 	 * 環境変数を取得する
+	 * 
 	 * @param key
 	 * @param defaultValue
 	 * @return
@@ -116,6 +129,7 @@ public class SQLNetServer {
 			ret = defaultValue;
 		return ret;
 	}
+
 	/** 起動ルーチン */
 	public static void main(String[] args) {
 		Properties properties = new Properties();
@@ -134,10 +148,14 @@ public class SQLNetServer {
 			SQLNetServer.logger.log(Level.SEVERE, "Exception", e);
 		}
 	}
+
 	/**
 	 * 文字列の配列からプロパティへの変換
-	 * @param args 文字列の配列
-	 * @param properties プロパティ
+	 * 
+	 * @param args
+	 *            文字列の配列
+	 * @param properties
+	 *            プロパティ
 	 */
 	public static void setupArguments(String[] args, Properties properties) {
 		for (int i = 0; i < args.length; i++) {
@@ -156,11 +174,16 @@ public class SQLNetServer {
 			}
 		}
 	}
+
 	/**
 	 * 内部プロパティを環境変数で更新する
-	 * @param properties 内部プロパティ
-	 * @param key キー
-	 * @param envkey 環境キー
+	 * 
+	 * @param properties
+	 *            内部プロパティ
+	 * @param key
+	 *            キー
+	 * @param envkey
+	 *            環境キー
 	 */
 	static void updateProperty(Properties properties, String key, String envkey) {
 		String env = getEnvValue(envkey, "");
@@ -168,6 +191,7 @@ public class SQLNetServer {
 			properties.setProperty(key, env);
 		}
 	}
+
 	/** アドレス */
 	private List<InetAddress> addresses = new ArrayList<InetAddress>();
 	/** 管理者の一覧 */
@@ -194,9 +218,12 @@ public class SQLNetServer {
 	private List<ACMSession> sessions = Collections.synchronizedList(new ArrayList<ACMSession>());
 	/** パスワードセット */
 	private Properties users;
+
 	/**
 	 * コンストラクタ
-	 * @param properties サーバープロパティ
+	 * 
+	 * @param properties
+	 *            サーバープロパティ
 	 */
 	public SQLNetServer(Properties propertie, Properties passwords) throws NumberFormatException, UnknownHostException, IOException, SecurityException {
 		super();
@@ -374,9 +401,12 @@ public class SQLNetServer {
 			}
 		});
 	}
+
 	/**
 	 * セッションの追加
-	 * @param session セッション
+	 * 
+	 * @param session
+	 *            セッション
 	 * @return ログインが成功したかどうかを示すint値
 	 */
 	int addSession(ACMSession session) {
@@ -399,11 +429,16 @@ public class SQLNetServer {
 		}
 		return ret;
 	}
+
 	/**
 	 * ユーザー名とパスワードを確認してセッションの追加
-	 * @param session セッション
-	 * @param user ユーザー名
-	 * @param password パスワード
+	 * 
+	 * @param session
+	 *            セッション
+	 * @param user
+	 *            ユーザー名
+	 * @param password
+	 *            パスワード
 	 * @return ログインが成功したかどうかを示すint値
 	 */
 	public int addSession(ACMSession session, String user, String password) {
@@ -416,10 +451,14 @@ public class SQLNetServer {
 		}
 		return ret;
 	}
+
 	/**
 	 * 管理者を認証する
-	 * @param user ユーザー名
-	 * @param password パスワード
+	 * 
+	 * @param user
+	 *            ユーザー名
+	 * @param password
+	 *            パスワード
 	 * @return true 成功<br>
 	 *         false 失敗
 	 */
@@ -431,10 +470,14 @@ public class SQLNetServer {
 		}
 		return ret;
 	}
+
 	/**
 	 * 認証する
-	 * @param user ユーザー名
-	 * @param password パスワード
+	 * 
+	 * @param user
+	 *            ユーザー名
+	 * @param password
+	 *            パスワード
 	 * @return true 成功<br>
 	 *         false 失敗
 	 */
@@ -446,6 +489,7 @@ public class SQLNetServer {
 		}
 		return ret;
 	}
+
 	/**
 	 * すべてのセッションを削除する
 	 */
@@ -458,9 +502,12 @@ public class SQLNetServer {
 			deleteSession(session);
 		}
 	}
+
 	/**
 	 * セッションの削除
-	 * @param session セッションの削除
+	 * 
+	 * @param session
+	 *            セッションの削除
 	 */
 	protected void deleteSession(ACMSession session) {
 		sessions.remove(session);
@@ -469,51 +516,67 @@ public class SQLNetServer {
 			listener.sessionRemoved(ev, session);
 		}
 	}
+
 	/**
 	 * ファイル提供機能
+	 * 
 	 * @return ファイル提供機能
 	 */
 	public SQLFileServer getFileServer() {
 		return fileServer;
 	}
+
 	/**
 	 * セッションの最大数
+	 * 
 	 * @return セッションの最大数
 	 */
 	public int getMaxSessions() {
 		return maxSessions;
 	}
+
 	/**
 	 * メタデータのセット
+	 * 
 	 * @return メタデータのセット
 	 */
 	public CobolRecordMetaDataSet getMetaDataSet() {
 		return metaDataSet;
 	}
+
 	/**
 	 * このサーバーのその他の値
-	 * @param key キー
+	 * 
+	 * @param key
+	 *            キー
 	 * @return 値
 	 */
 	public String getPropertie(String key) {
 		return properties.getProperty(key);
 	}
+
 	/**
 	 * このサーバーのその他の値
-	 * @param key キー
-	 * @param defaultValue デフォルト値
+	 * 
+	 * @param key
+	 *            キー
+	 * @param defaultValue
+	 *            デフォルト値
 	 * @return 値
 	 */
 	public String getPropertie(String key, String defaultValue) {
 		return properties.getProperty(key, defaultValue);
 	}
+
 	/**
 	 * 現在接続されているセッションの数を取得する
+	 * 
 	 * @return セッション数
 	 */
 	int getSessionCount() {
 		return sessions.size();
 	}
+
 	/**
 	 * サーバー終了イベントを発行する
 	 */
@@ -523,24 +586,34 @@ public class SQLNetServer {
 			listener.serverEnding(ev);
 		}
 	}
+
 	/**
 	 * セッションの最大数
-	 * @param maxSessions セッションの最大数
+	 * 
+	 * @param maxSessions
+	 *            セッションの最大数
 	 */
 	public void setMaxSessions(int maxSessions) {
 		this.maxSessions = maxSessions;
 	}
+
 	/**
 	 * このサーバーのその他の値
-	 * @param key キー
-	 * @param value 値
+	 * 
+	 * @param key
+	 *            キー
+	 * @param value
+	 *            値
 	 */
 	public void setPropertie(String key, String value) {
 		properties.setProperty(key, value);
 	}
+
 	/**
 	 * シャットダウンする
-	 * @param mode モード
+	 * 
+	 * @param mode
+	 *            モード
 	 */
 	public void shutdown(int mode) {
 		if (mode == SHUTDOWN_ABORT) {
@@ -557,6 +630,7 @@ public class SQLNetServer {
 			System.exit(0);
 		}
 	}
+
 	/**
 	 * 強制終了を引っ掛ける
 	 */
@@ -565,9 +639,12 @@ public class SQLNetServer {
 		deleteAllSessions();
 		serverEnding();
 	}
+
 	/**
 	 * 開始処理
-	 * @throws IOException 入出力例外
+	 * 
+	 * @throws IOException
+	 *             入出力例外
 	 */
 	public void startServer() throws IOException {
 		for (int i = 0; i < addresses.size(); i++) {
