@@ -13,8 +13,12 @@
 #include    "getJNIOption.h"
 #include    "config.h"
 /***************************************/
-#define    DEFAULT_LINEOUT "true"
-#define    DEFAULT_DIAPLAY_USAGE "false"
+JNIEnv *env;
+JavaVM *jvm;
+jclass clazz;
+jobject jniserv;
+jmethodID midMainToo;
+/***************************************/
 /** オプション */
 static struct option longopts[] = {
     {"metafile", required_argument, NULL, 'm'},
@@ -26,9 +30,9 @@ static struct option longopts[] = {
 int main (int argc, char *argv[]) {
 	int opt;
 	char* metafile = getConfigFile();
-	char* lineout = DEFAULT_LINOUT;
-	char* display_usage = DEFAULT_DISPLAY_USAGE;
-	while ((opt = getopt_long(argc, argv, "m:l:d:", longopts, NULL)) != -1) {
+	char* lineout = "true";
+	char* display_usage = "false";
+	while ((opt = getopt_long(argc, argv, "m:l:h", longopts, NULL)) != -1) {
 		switch (opt) {
 			case 'm':
                 metafile = optarg;
@@ -37,8 +41,45 @@ int main (int argc, char *argv[]) {
                 lineout = optarg;
 				break;
 			case 'h':
-                display_usage = optarg;
+                display_usage = "true";
 				break;			
 		}
 	}
+    // JVMの生成
+    initailizeJNI();
+    // 入力ファイルと出力ファイルの取得
+    char* acmfile;
+    char* outfile;
+    // 実効
+    (*env)->CallStaticVoidMethod(clazz, midMainToo, acmfile, outfile, metafile, lineout, display_usage);
+}
+
+/**
+ * JNI環境の初期化
+ */
+int
+initializeJNI () {
+	// JVMを作成する
+	JavaVMOption options[2];
+	options[0].optionString = getClasspath();
+	//options[1].optionString = getConfigFile();
+	JavaVMInitArgs vm_args;
+	vm_args.version = JNI_VERSION_1_6;
+	vm_args.options = options;
+	vm_args.nOptions = 2;
+	JNI_GetDefaultJavaVMInitArgs(&vm_args);
+	JNI_CreateJavaVM(&jvm, (void**)&env, &vm_args);
+	// クラスの取得
+	clazz = (*env)->FindClass(env, "k_kim_mg.sa4cob2db.Acm2Seq");
+	if (clazz == 0) {
+		perror("Acm2Seq Class Not Found.");
+		return (-1);
+	}
+	// コンストラクタの取得
+	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	"([B[B[B[B[B)V");
+	if (midMainToo == 0) {
+		perror("method not found.");
+		return -1;
+	}
+	return 0;
 }
