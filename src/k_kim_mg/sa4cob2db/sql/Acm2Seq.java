@@ -85,7 +85,18 @@ public class Acm2Seq {
 		// 使い方の説明
 		displayUsage(properties);
 	}
-
+	/**
+	 * 起動ルーチン
+	 * @param acmfile	入力ファイル
+	 * @param outfile	出力ファイル
+	 * @param metafile	メタデータファイル
+	 * @param lineout	改行を含むかどうか true or false
+	 * @param display_usage	使い方を表示するかどうか
+	 */
+	public static void main_too (String acmfile, String outfile, String metafile, String lineout, String display_usage) {
+		Acm2Seq.main(new String[]{acmfile, outfile, metafile, lineout, display_usage});
+	}
+	
 	/** 内部ファイルサーバー */
 	private SQLFileServer fileServer;
 
