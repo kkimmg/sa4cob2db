@@ -6,6 +6,7 @@ all:
 	ant dist
 	ant cobpp
 	cd cs; make
+	cd command; make
 
 doc:
 	ant doc
@@ -15,6 +16,7 @@ install:
 	$(INSTALL) acmlibs.jar $(ACM_HOME)/
 	$(INSTALL) cobpp.jar $(ACM_HOME)/	
 	cd cs; make install
+	cd command; make install
 
 clean:
 	ant clean

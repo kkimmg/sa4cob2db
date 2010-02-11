@@ -19,13 +19,15 @@ jclass clazz;
 jobject jniserv;
 jmethodID midMainToo;
 /***************************************/
+int initializeJNI();
+/***************************************/
 /** オプション */
 static struct option longopts[] = {
     {"metafile", required_argument, NULL, 'm'},
     {"lineout", required_argument, NULL, 'l'},
     {"help", required_argument, NULL, 'h'},
     {0, 0, 0, 0}
-}
+};
 /** 主処理 */
 int main (int argc, char *argv[]) {
 	int opt;
@@ -46,12 +48,24 @@ int main (int argc, char *argv[]) {
 		}
 	}
     // JVMの生成
-    initailizeJNI();
+    initializeJNI();
     // 入力ファイルと出力ファイルの取得
-    char* acmfile;
-    char* outfile;
+    char* acmfile = "";
+    if (argc > optind) {
+        acmfile = argv[optind];
+    }
+    char* outfile = "";
+    if (argc > optind + 1) {
+        outfile = argv[optind + 1];
+    }
+	jstring s_acmfile = (*env)->NewStringUTF(env, acmfile);
+	jstring s_outfile = (*env)->NewStringUTF(env, outfile);
+	jstring s_metafile = (*env)->NewStringUTF(env, metafile);
+	jstring s_lineout = (*env)->NewStringUTF(env, lineout);
+	jstring s_display_usage = (*env)->NewStringUTF(env, display_usage);
     // 実効
-    (*env)->CallStaticVoidMethod(clazz, midMainToo, acmfile, outfile, metafile, lineout, display_usage);
+    (*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_acmfile, s_outfile, s_metafile, s_lineout, s_display_usage);
+    exit(0);
 }
 
 /**
@@ -60,23 +74,22 @@ int main (int argc, char *argv[]) {
 int
 initializeJNI () {
 	// JVMを作成する
-	JavaVMOption options[2];
+	JavaVMOption options[1];
 	options[0].optionString = getClasspath();
-	//options[1].optionString = getConfigFile();
 	JavaVMInitArgs vm_args;
 	vm_args.version = JNI_VERSION_1_6;
 	vm_args.options = options;
-	vm_args.nOptions = 2;
+	vm_args.nOptions = 1;
 	JNI_GetDefaultJavaVMInitArgs(&vm_args);
 	JNI_CreateJavaVM(&jvm, (void**)&env, &vm_args);
 	// クラスの取得
-	clazz = (*env)->FindClass(env, "k_kim_mg.sa4cob2db.Acm2Seq");
+	clazz = (*env)->FindClass(env, "k_kim_mg/sa4cob2db/sql/Acm2Seq");
 	if (clazz == 0) {
 		perror("Acm2Seq Class Not Found.");
 		return (-1);
 	}
 	// コンストラクタの取得
-	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	"([B[B[B[B[B)V");
+	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	if (midMainToo == 0) {
 		perror("method not found.");
 		return -1;

@@ -1,0 +1,23 @@
+DESTDIR = 
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+CC = @CC@
+INSTALL = @INSTALL@
+JAVA_HOME = @JAVA_HOME@
+JDKLIB = -I$(JAVA_HOME)/include/
+JDKOSLIB = -I$(JAVA_HOME)/include/linux/
+JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/client
+
+all:
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v acm2seq.c getJNIOption.c -o acm2seq
+
+install:
+	$(INSTALL) acmclient.so $(exec_prefix)/
+
+deinstall:
+	rm $(exec_prefix)/acm2seq
+
+clean:
+	rm acm2seq
+	
+
