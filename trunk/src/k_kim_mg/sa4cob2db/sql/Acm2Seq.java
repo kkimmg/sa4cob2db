@@ -9,6 +9,7 @@ import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
 import k_kim_mg.sa4cob2db.CobolFile;
+import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 
@@ -85,18 +86,25 @@ public class Acm2Seq {
 		// 使い方の説明
 		displayUsage(properties);
 	}
+
 	/**
 	 * 起動ルーチン
-	 * @param acmfile	入力ファイル
-	 * @param outfile	出力ファイル
-	 * @param metafile	メタデータファイル
-	 * @param lineout	改行を含むかどうか true or false
-	 * @param display_usage	使い方を表示するかどうか
+	 * 
+	 * @param acmfile
+	 *            入力ファイル
+	 * @param outfile
+	 *            出力ファイル
+	 * @param metafile
+	 *            メタデータファイル
+	 * @param lineout
+	 *            改行を含むかどうか true or false
+	 * @param display_usage
+	 *            使い方を表示するかどうか
 	 */
-	public static void main_too (String acmfile, String outfile, String metafile, String lineout, String display_usage) {
-		Acm2Seq.main(new String[]{acmfile, outfile, metafile, lineout, display_usage});
+	public static void main_too(String acmfile, String outfile, String metafile, String lineout, String display_usage) {
+		Acm2Seq.main(new String[] { acmfile, outfile, metafile, lineout, display_usage });
 	}
-	
+
 	/** 内部ファイルサーバー */
 	private SQLFileServer fileServer;
 
@@ -151,6 +159,7 @@ public class Acm2Seq {
 	protected void exportTo(Properties properties) {
 		// ファイル機能の作成
 		fileServer = new SQLFileServer();
+		CobolRecordMetaDataSet metaset = fileServer.getMetaDataSet();
 		// メタデータファイル名
 		String metaString = properties.getProperty("metafile", SQLNetServer.DEFAULT_CONFIG);
 		String AcmName = properties.getProperty("acmfile", "");
@@ -160,15 +169,27 @@ public class Acm2Seq {
 		File metaFile = new File(metaString);
 		// メタデータ情報の取得
 		NodeReadLoader nodeLoader = new NodeReadLoader();
+
 		CobolFile AcmFile = null;
 		OutputStream fos = null;
 		try {
-			nodeLoader.createMetaDataSet(metaFile, fileServer.getMetaDataSet(), properties);
+			nodeLoader.createMetaDataSet(metaFile, metaset, properties);
+			if (metaset instanceof SQLCobolRecordMetaDataSet) {
+				SQLCobolRecordMetaDataSet sqlset = (SQLCobolRecordMetaDataSet) metaset;
+				SQLNetServer.updateProperty(properties, "jdbcdriverurl", "ACM_JDBCDRIVERURL");
+				SQLNetServer.updateProperty(properties, "jdbcdatabaseurl", "ACM_JDBCDATABASEURL");
+				SQLNetServer.updateProperty(properties, "jdbcusername", "ACM_JDBCUSERNAME");
+				SQLNetServer.updateProperty(properties, "jdbcpassword", "ACM_JDBCPASSWORD");
+				sqlset.setDriverURL(properties.getProperty("jdbcdriverurl"));
+				sqlset.setDatabaseURL(properties.getProperty("jdbcdatabaseurl"));
+				sqlset.setUsername(properties.getProperty("jdbcusername"));
+				sqlset.setPassword(properties.getProperty("jdbcpassword"));
+			}
 			// ACMファイル
 			AcmFile = getCobolFile(AcmName);
 			AcmFile.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_SEQUENCIAL);
 			// 出力ファイル
-			if (OutName.length() == 0) {
+			if (OutName.trim().length() == 0) {
 				// 標準出力
 				fos = System.out;
 			} else {
@@ -188,6 +209,8 @@ public class Acm2Seq {
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
