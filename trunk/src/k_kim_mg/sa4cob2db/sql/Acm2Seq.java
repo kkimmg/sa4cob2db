@@ -123,25 +123,22 @@ public class Acm2Seq {
 	protected void exportTo(CobolFile file, OutputStream stream, boolean line) throws IOException {
 		int count = 0;
 		int recsize = file.getMetaData().getRowSize();
-		FileStatus stat = file.next();
 		byte[] record = new byte[recsize];
+		FileStatus stat = file.read(record);
 		while (stat.getStatusCode() == FileStatus.STATUS_OK) {
-			stat = file.read(record);
+			stream.write(record);
+			if (line) {
+				// ラインシーケンシャル
+				stream.write('\n');
+			}
+			count++;
+			// 次のレコードへ
+			stat = file.next();
 			if (stat.getStatusCode() == FileStatus.STATUS_OK) {
-				// データストリームへ出力
-				stream.write(record);
-				if (line) {
-					// ラインシーケンシャル
-					stream.write('\n');
-				}
-				count++;
-				// 次のレコードへ
-				stat = file.next();
-				if (stat.getStatusCode() != FileStatus.STATUS_OK && stat.getStatusCode() != FileStatus.STATUS_EOF) {
-					// 次への移動でのエラー
-				}
-			} else {
-				// 読取エラー
+				// 次のレコードが存在する場合
+				stat = file.read(record);
+			} else if (stat.getStatusCode() != FileStatus.STATUS_OK && stat.getStatusCode() != FileStatus.STATUS_EOF) {
+				// 次への移動でのエラー
 			}
 		}
 		// 終端部分
