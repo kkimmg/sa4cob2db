@@ -9,11 +9,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Connection;
 import java.util.Properties;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
 import k_kim_mg.sa4cob2db.CobolFile;
+import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 
@@ -25,6 +27,8 @@ import org.xml.sax.SAXException;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class Seq2Acm {
+	/** JDBCコネクション */
+	private Connection connection;
 	/**
 	 * 使い方を説明する
 	 * 
@@ -67,6 +71,7 @@ public class Seq2Acm {
 		properties.setProperty("linein", getEnvValue("linein", "false"));
 		properties.setProperty("metafile", getEnvValue("metafile", SQLNetServer.DEFAULT_CONFIG));
 		properties.setProperty("display_usage", getEnvValue("display_usage", "false"));
+		properties.setProperty("extend", "false");
 		if (args.length >= 1) {
 			properties.setProperty("acmfile", args[0]);
 			if (args.length >= 2) {
@@ -74,9 +79,12 @@ public class Seq2Acm {
 				if (args.length >= 3) {
 					properties.setProperty("metafile", args[2]);
 					if (args.length >= 4) {
-						properties.setProperty("lineout", args[3]);
+						properties.setProperty("linein", args[3]);
 						if (args.length >= 5) {
-							properties.setProperty("display_usage", args[4]);
+							properties.setProperty("extend", args[4]);
+							if (args.length >= 6) {
+								properties.setProperty("display_usage", args[5]);
+							}
 						}
 					}
 				}
@@ -105,7 +113,8 @@ public class Seq2Acm {
 		SQLCobolRecordMetaData meta = (SQLCobolRecordMetaData) fileServer.metaDataSet.getMetaData(name);
 		SQLFile file = null;
 		if (meta != null) {
-			file = new SQLFile(fileServer.createConnection(), meta);
+			connection = fileServer.createConnection();
+			file = new SQLFile(connection, meta);
 		}
 		return file;
 	}
@@ -199,11 +208,14 @@ public class Seq2Acm {
 	protected void importTo(Properties properties) {
 		// ファイル機能の作成
 		fileServer = new SQLFileServer();
+		CobolRecordMetaDataSet metaset = fileServer.getMetaDataSet();
 		// メタデータファイル名
 		String metaString = properties.getProperty("metafile", SQLNetServer.DEFAULT_CONFIG);
 		String AcmName = properties.getProperty("acmfile", "");
 		String InName = properties.getProperty("infile", "");
 		String LineIn = properties.getProperty("linein", "false");
+		String Extend = properties.getProperty("extend", "false");
+		boolean extend = Boolean.parseBoolean(Extend);
 		// メタデータの取得
 		File metaFile = new File(metaString);
 		// メタデータ情報の取得
@@ -212,9 +224,26 @@ public class Seq2Acm {
 		InputStream fis = null;
 		try {
 			nodeLoader.createMetaDataSet(metaFile, fileServer.getMetaDataSet(), properties);
+			if (metaset instanceof SQLCobolRecordMetaDataSet) {
+				SQLCobolRecordMetaDataSet sqlset = (SQLCobolRecordMetaDataSet) metaset;
+				SQLNetServer.updateProperty(properties, "jdbcdriverurl", "ACM_JDBCDRIVERURL");
+				SQLNetServer.updateProperty(properties, "jdbcdatabaseurl", "ACM_JDBCDATABASEURL");
+				SQLNetServer.updateProperty(properties, "jdbcusername", "ACM_JDBCUSERNAME");
+				SQLNetServer.updateProperty(properties, "jdbcpassword", "ACM_JDBCPASSWORD");
+				sqlset.setDriverURL(properties.getProperty("jdbcdriverurl"));
+				sqlset.setDatabaseURL(properties.getProperty("jdbcdatabaseurl"));
+				sqlset.setUsername(properties.getProperty("jdbcusername"));
+				sqlset.setPassword(properties.getProperty("jdbcpassword"));
+			}
 			// ACMファイル
 			AcmFile = getCobolFile(AcmName);
-			AcmFile.open(CobolFile.MODE_OUTPUT, CobolFile.ACCESS_SEQUENCIAL);
+			if (extend) {
+				// 追記モード
+				AcmFile.open(CobolFile.MODE_EXTEND, CobolFile.ACCESS_SEQUENCIAL);
+			} else {
+				// 通常モード
+				AcmFile.open(CobolFile.MODE_OUTPUT, CobolFile.ACCESS_SEQUENCIAL);
+			}
 			// 出力ファイル
 			if (InName.length() == 0) {
 				// 標準出力
