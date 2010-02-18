@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Connection;
 import java.util.Properties;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,6 +22,9 @@ import org.xml.sax.SAXException;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class Acm2Seq {
+	/** JDBCコネクション */
+	private Connection connection;
+
 	/**
 	 * 使い方を説明する
 	 * 
@@ -220,6 +224,11 @@ public class Acm2Seq {
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
+			try {
+				connection.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 
@@ -234,7 +243,8 @@ public class Acm2Seq {
 		SQLCobolRecordMetaData meta = (SQLCobolRecordMetaData) fileServer.metaDataSet.getMetaData(name);
 		SQLFile file = null;
 		if (meta != null) {
-			file = new SQLFile(fileServer.createConnection(), meta);
+			connection = fileServer.createConnection();
+			file = new SQLFile(connection, meta);
 		}
 		return file;
 	}

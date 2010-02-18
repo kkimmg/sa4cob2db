@@ -917,10 +917,11 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 
-	/**
+	/*
 	 * すべて削除する
+	 * @see k_kim_mg.sa4cob2db.CobolFile#truncate()
 	 */
-	void truncate() {
+	public void truncate() {
 		String truncate = meta.getTruncateStatement();
 		if (truncate != null) {
 			if (truncate.trim().length() > 0) {

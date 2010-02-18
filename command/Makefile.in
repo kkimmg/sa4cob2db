@@ -10,14 +10,17 @@ JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/client
 
 all:
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v acm2seq.c getJNIOption.c -o acm2seq
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v seq2acm.c getJNIOption.c -o seq2acm
 
 install:
-	$(INSTALL) acmclient.so $(exec_prefix)/
+	$(INSTALL) acm2seq $(exec_prefix)/
+	$(INSTALL) seq2acm $(exec_prefix)/
 
 deinstall:
 	rm $(exec_prefix)/acm2seq
+	rm $(exec_prefix)/seq2acm
 
 clean:
 	rm acm2seq
-	
+	rm seq2acm
 
