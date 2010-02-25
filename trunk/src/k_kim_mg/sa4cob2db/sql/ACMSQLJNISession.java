@@ -1,12 +1,15 @@
 package k_kim_mg.sa4cob2db.sql;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
@@ -192,6 +195,19 @@ public class ACMSQLJNISession implements ACMSession {
 				sqlset.setDatabaseURL(properties.getProperty("jdbcdatabaseurl"));
 				sqlset.setUsername(properties.getProperty("jdbcusername"));
 				sqlset.setPassword(properties.getProperty("jdbcpassword"));
+			}
+			// /////////////////////////////////////////////////////////
+			// ログの設定
+			String logSetting = properties.getProperty("log", "");
+			if (logSetting.trim().length() > 0) {
+				try {
+					SQLNetServer.logger.log(Level.CONFIG, "Reading Log Setting From " + logSetting);
+					InputStream stream = new FileInputStream(logSetting);
+					LogManager manager = LogManager.getLogManager();
+					manager.readConfiguration(stream);
+				} catch (FileNotFoundException fnfe) {
+					SQLNetServer.logger.log(Level.WARNING, "File Not Found " + logSetting, fnfe);
+				}
 			}
 			// ////////////////////////////////////////////////////////
 			// パスワードの設定

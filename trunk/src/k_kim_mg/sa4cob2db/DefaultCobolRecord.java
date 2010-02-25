@@ -729,7 +729,7 @@ public class DefaultCobolRecord implements CobolRecord {
 		try {
 			if (x == null && column.getIfNull() != null) {
 				x = column.getIfNull();
-			} else {
+			} else if (x == null) {
 				x = "";
 			}
 			String encode = metaData.getEncode();

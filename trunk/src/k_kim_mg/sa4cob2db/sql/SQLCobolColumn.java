@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.sql;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,8 +13,10 @@ import k_kim_mg.sa4cob2db.CobolRecord;
 import k_kim_mg.sa4cob2db.CobolRecordException;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.DefaultCobolColumn;
+
 /**
  * SQL列
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
@@ -23,13 +26,16 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	private String originalColumnName = "";
 	/** 読取、書込無視 */
 	private boolean readIgnore = false, rewriteIgnore = false, writeIgnore = false;
+
 	/**
 	 * コンストラクタ
+	 * 
 	 * @param meta
 	 */
 	public SQLCobolColumn(SQLCobolRecordMetaData meta) {
 		super(meta);
 	}
+
 	// @Override
 	protected CobolColumn copyTo(CobolColumn copy) {
 		super.copyTo(copy);
@@ -47,6 +53,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		}
 		return copy;
 	}
+
 	// @Override
 	public CobolColumn createCopy(CobolRecordMetaData meta) {
 		CobolColumn ret = null;
@@ -59,73 +66,98 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		}
 		return ret;
 	}
+
 	/**
 	 * この列が読み込み時無視される場合の値表現
+	 * 
 	 * @return 設定できるのはとりあえず文字列だけってことで・・・・
 	 * @throws CobolRecordException
 	 */
 	public String getDefaultString() throws CobolRecordException {
 		return defaultString;
 	}
+
 	/**
 	 * オリジナルのレコードの列名
+	 * 
 	 * @return オリジナルのレコードの列名
 	 * @throws CobolRecordException
 	 */
 	public String getOriginalColumnName() throws CobolRecordException {
 		return originalColumnName;
 	}
+
 	/**
 	 * 読み込み時にこの列を無視するかどうか
+	 * 
 	 * @return 読み込み時にこの列を無視するかどうか
 	 * @throws CobolRecordException
 	 */
 	public boolean isReadIgnore() throws CobolRecordException {
 		return readIgnore;
 	}
+
 	/**
 	 * 上書き時にこの列を無視するかどうか
+	 * 
 	 * @return 上書き時にこの列を無視するかどうか
 	 * @throws CobolRecordException
 	 */
 	public boolean isRewriteIgnore() throws CobolRecordException {
 		return rewriteIgnore;
 	}
+
 	/**
 	 * 新規書き込み時にこの列を無視するかどうか
+	 * 
 	 * @return 新規書き込み時にこの列を無視するかどうか
 	 * @throws CobolRecordException
 	 */
 	public boolean isWriteIgnore() throws CobolRecordException {
 		return writeIgnore;
 	}
+
 	/**
 	 * デフォルトの文字列
-	 * @param string デフォルトの文字列
+	 * 
+	 * @param string
+	 *            デフォルトの文字列
 	 */
 	public void setDefaultString(String string) {
 		defaultString = string;
 	}
+
 	/**
 	 * SQL結果セットの列名
-	 * @param string SQL結果セットの列名
+	 * 
+	 * @param string
+	 *            SQL結果セットの列名
 	 */
 	public void setOriginalColumnName(String string) {
 		originalColumnName = string;
 	}
+
 	/**
 	 * 読み込み時にこの列を無視するかどうか
-	 * @param b 読み込み時にこの列を無視するかどうか
+	 * 
+	 * @param b
+	 *            読み込み時にこの列を無視するかどうか
 	 */
 	public void setReadIgnore(boolean b) {
 		readIgnore = b;
 	}
+
 	/**
 	 * コボルレコード形式からJDBC結果セットへの変換
-	 * @param src コボルレコード
-	 * @param dst JDBC結果セット
-	 * @throws SQLException SQL例外
-	 * @throws CobolRecordException コボル例外
+	 * 
+	 * @param src
+	 *            コボルレコード
+	 * @param dst
+	 *            JDBC結果セット
+	 * @throws SQLException
+	 *             SQL例外
+	 * @throws CobolRecordException
+	 *             コボル例外
 	 */
 	public void setRecord2ResultSet(CobolRecord src, ResultSet dst) throws SQLException, CobolRecordException {
 		String originalName = getOriginalColumnName();
@@ -186,15 +218,22 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 			throw new CobolRecordException();
 		}
 	}
+
 	/**
 	 * JDBC結果セットからコボルレコード形式への変換
-	 * @param src JDBC結果セット
-	 * @param dst コボルレコード
-	 * @throws SQLException SQL例外
-	 * @throws CobolRecordException コボル例外
+	 * 
+	 * @param src
+	 *            JDBC結果セット
+	 * @param dst
+	 *            コボルレコード
+	 * @throws SQLException
+	 *             SQL例外
+	 * @throws CobolRecordException
+	 *             コボル例外
 	 */
 	public void setResultSet2Record(ResultSet src, CobolRecord dst) throws SQLException, CobolRecordException {
 		String originalName = getOriginalColumnName();
+		SQLNetServer.logger.fine(originalName + "=" + getType() + "/" + src.getObject(originalName).toString());
 		switch (getType()) {
 		case CobolColumn.TYPE_INTEGER:
 			dst.updateInt(this, src.getInt(originalName));
@@ -220,26 +259,34 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		case CobolColumn.TYPE_FLOAT:
 			dst.updateFloat(this, src.getFloat(originalName));
 			break;
-		// default :
-		// this.SetResultSet2Record(src, this);
+		default:
+			SQLNetServer.logger.warning("Unknown Column Type :" + getType());
 		}
 	}
+
 	/**
 	 * 上書き時にこの列を無視するかどうか
-	 * @param b 上書き時にこの列を無視するかどうか
+	 * 
+	 * @param b
+	 *            上書き時にこの列を無視するかどうか
 	 */
 	public void setRewriteIgnore(boolean b) {
 		rewriteIgnore = b;
 	}
+
 	/**
 	 * 新規書き込み時にこの列を無視するかどうか
-	 * @param b 新規書き込み時にこの列を無視するかどうか
+	 * 
+	 * @param b
+	 *            新規書き込み時にこの列を無視するかどうか
 	 */
 	public void setWriteIgnore(boolean b) {
 		writeIgnore = b;
 	}
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {

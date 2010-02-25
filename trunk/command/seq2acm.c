@@ -20,51 +20,56 @@ jobject jniserv;
 jmethodID midMainToo;
 /***************************************/
 int initializeJNI();
+void display_usage();
 /***************************************/
 /** オプション */
 static struct option longopts[] = {
     {"metafile", required_argument, NULL, 'm'},
-    {"lineout", required_argument, NULL, 'l'},
-    {"help", required_argument, NULL, 'h'},
+    {"linein", required_argument, NULL, 'l'},
+    {"extend", required_argument, NULL, 'e'},
+    {"help", no_argument, NULL, 'h'},
     {0, 0, 0, 0}
 };
 /** 主処理 */
 int main (int argc, char *argv[]) {
 	int opt;
 	char* metafile = getConfigFile();
-	char* lineout = "true";
-	char* display_usage = "false";
+	char* linein = "true";
+	char* extend = "false";
 	while ((opt = getopt_long(argc, argv, "m:l:h", longopts, NULL)) != -1) {
 		switch (opt) {
 			case 'm':
                 metafile = optarg;
 				break;
 			case 'l':
-                lineout = optarg;
+                linein = optarg;
+				break;
+			case 'e':
+				extend = optarg;
 				break;
 			case 'h':
-                display_usage = "true";
+                display_usage();
+				exit(0);
 				break;			
 		}
 	}
     // JVMの生成
     initializeJNI();
     // 入力ファイルと出力ファイルの取得
-    char* acmfile = "";
-    if (argc > optind) {
-        acmfile = argv[optind];
-    }
-    char* outfile = "";
-    if (argc > optind + 1) {
-        outfile = argv[optind + 1];
-    }
-	jstring s_acmfile = (*env)->NewStringUTF(env, acmfile);
-	jstring s_outfile = (*env)->NewStringUTF(env, outfile);
-	jstring s_metafile = (*env)->NewStringUTF(env, metafile);
-	jstring s_lineout = (*env)->NewStringUTF(env, lineout);
-	jstring s_display_usage = (*env)->NewStringUTF(env, display_usage);
-    // 実効
-    (*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_acmfile, s_outfile, s_metafile, s_lineout, s_display_usage);
+	if (argc > optind + 1) {
+		char* acmfile = argv[optind];
+		char* infile = argv[optind + 1];
+		jstring s_acmfile = (*env)->NewStringUTF(env, acmfile);
+		jstring s_infile = (*env)->NewStringUTF(env, infile);
+		jstring s_metafile = (*env)->NewStringUTF(env, metafile);
+		jstring s_linein = (*env)->NewStringUTF(env, linein);
+		jstring s_extend = (*env)->NewStringUTF(env, extend);
+		jstring s_display_usage = (*env)->NewStringUTF(env, "false");
+    	// 実効
+    	(*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_acmfile, s_infile, s_metafile, s_linein, s_extend, s_display_usage);
+	} else {
+		display_usage();
+	}
     exit(0);
 }
 
@@ -83,16 +88,30 @@ initializeJNI () {
 	JNI_GetDefaultJavaVMInitArgs(&vm_args);
 	JNI_CreateJavaVM(&jvm, (void**)&env, &vm_args);
 	// クラスの取得
-	clazz = (*env)->FindClass(env, "k_kim_mg/sa4cob2db/sql/seq2acm");
+	clazz = (*env)->FindClass(env, "k_kim_mg/sa4cob2db/sql/Seq2Acm");
 	if (clazz == 0) {
-		perror("Acm2Seq Class Not Found.");
+		perror("Seq2Acm Class Not Found.");
 		return (-1);
 	}
 	// コンストラクタの取得
-	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	if (midMainToo == 0) {
 		perror("method not found.");
 		return -1;
 	}
 	return 0;
 }
+
+/**
+ * 使い方の説明
+ */
+void
+display_usage () {
+	printf("acm2seq acmfile infile\n");
+	printf("options\n");
+	printf("\t-m/--metafile\tconfiguration file of record layout. default is /opt/sa4cob2db/conf/metafile.xml\n");
+	printf("\t-l/--linein\ttrue/false infile is line file. default is true\n");
+	printf("\t-e/--extend\ttrue/false open acmfile mode is extend. default is false.\n");
+	printf("\t-h/--help\tshow this message.\n");
+}
+

@@ -20,12 +20,13 @@ jobject jniserv;
 jmethodID midMainToo;
 /***************************************/
 int initializeJNI();
+void display_usage();
 /***************************************/
 /** オプション */
 static struct option longopts[] = {
     {"metafile", required_argument, NULL, 'm'},
     {"lineout", required_argument, NULL, 'l'},
-    {"help", required_argument, NULL, 'h'},
+    {"help", no_argument, NULL, 'h'},
     {0, 0, 0, 0}
 };
 /** 主処理 */
@@ -33,7 +34,6 @@ int main (int argc, char *argv[]) {
 	int opt;
 	char* metafile = getConfigFile();
 	char* lineout = "true";
-	char* display_usage = "false";
 	while ((opt = getopt_long(argc, argv, "m:l:h", longopts, NULL)) != -1) {
 		switch (opt) {
 			case 'm':
@@ -43,7 +43,7 @@ int main (int argc, char *argv[]) {
                 lineout = optarg;
 				break;
 			case 'h':
-                display_usage = "true";
+                display_usage();
 				break;			
 		}
 	}
@@ -62,7 +62,7 @@ int main (int argc, char *argv[]) {
 	jstring s_outfile = (*env)->NewStringUTF(env, outfile);
 	jstring s_metafile = (*env)->NewStringUTF(env, metafile);
 	jstring s_lineout = (*env)->NewStringUTF(env, lineout);
-	jstring s_display_usage = (*env)->NewStringUTF(env, display_usage);
+	jstring s_display_usage = (*env)->NewStringUTF(env, "false");
     // 実効
     (*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_acmfile, s_outfile, s_metafile, s_lineout, s_display_usage);
     exit(0);
@@ -96,3 +96,16 @@ initializeJNI () {
 	}
 	return 0;
 }
+
+/**
+ * 使い方の説明
+ */
+void
+display_usage () {
+	printf("acm2seq acmfile outfile\n");
+	printf("options\n");
+	printf("\t-m/--metafile\tconfiguration file of record layout. default is /opt/sa4cob2db/conf/metafile.xml\n");
+	printf("\t-l/--lineout\ttrue/false outfile is line file. default is true\n");
+	printf("\t-h/--help\tshow this message.\n");
+}
+
