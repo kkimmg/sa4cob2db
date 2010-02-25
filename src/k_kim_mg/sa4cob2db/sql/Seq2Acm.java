@@ -6,11 +6,15 @@ package k_kim_mg.sa4cob2db.sql;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -27,8 +31,6 @@ import org.xml.sax.SAXException;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class Seq2Acm {
-	/** JDBCコネクション */
-	private Connection connection;
 	/**
 	 * 使い方を説明する
 	 * 
@@ -38,7 +40,7 @@ public class Seq2Acm {
 	private static void displayUsage(Properties properties) {
 		String flag = properties.getProperty("display_usage", "true");
 		if (Boolean.parseBoolean(flag)) {
-			System.err.println("java -classpath path_to_jdbc:path_to_acm \"k_kim_mg.sa4cob2db.sql.Seq2Acm\" acmfile inputfile");
+			System.err.println("java -classpath path_to_jdbc:path_to_acm \"k_kim_mg.sa4cob2db.sql.Seq2Acm\" acmfile inputfile metafile linein(true/false) extend(true/false) display_usage");
 			java.util.Enumeration<Object> keys = properties.keys();
 			while (keys.hasMoreElements()) {
 				String key = keys.nextElement().toString();
@@ -99,6 +101,31 @@ public class Seq2Acm {
 		displayUsage(properties);
 	}
 
+	/**
+	 * 起動ルーチン
+	 * 
+	 * @param acmfile
+	 *            入力ファイル
+	 * @param outfile
+	 *            出力ファイル
+	 * @param metafile
+	 *            メタデータファイル
+	 * @param linein
+	 *            改行を含むかどうか true or false
+	 * @param extend
+	 *            オープンモード<br/>
+	 *            true 追記モード<br/>
+	 *            false 上書モード
+	 * @param display_usage
+	 *            使い方を表示するかどうか
+	 */
+	public static void main_too(String acmfile, String infile, String metafile, String linein, String extend, String display_usage) {
+		Seq2Acm.main(new String[] { acmfile, infile, metafile, linein, extend, display_usage });
+	}
+
+	/** JDBCコネクション */
+	private Connection connection;
+
 	/** 内部ファイルサーバー */
 	private SQLFileServer fileServer;
 
@@ -131,14 +158,12 @@ public class Seq2Acm {
 	 */
 	protected void importLineTo(CobolFile file, InputStream stream) throws IOException {
 		int count = 0;
-		int recsize = file.getMetaData().getRowSize();
 		InputStreamReader isr = new InputStreamReader(stream);
 		BufferedReader br = new BufferedReader(isr);
 		String row = br.readLine();
-		byte[] record = new byte[recsize];
 		FileStatus stat;
 		while (row != null) {
-			stat = file.write(record);
+			stat = file.write(row.getBytes());
 			if (stat != FileStatus.OK) {
 				// エラーになった
 			} else {
@@ -167,6 +192,7 @@ public class Seq2Acm {
 		byte[] record = new byte[recsize];
 		FileStatus stat;
 		while (stream.read(record) > 0) {
+			SQLNetServer.logger.severe(new String(record));
 			stat = file.write(record);
 			if (stat != FileStatus.OK) {
 				// エラーになった
@@ -234,6 +260,19 @@ public class Seq2Acm {
 				sqlset.setDatabaseURL(properties.getProperty("jdbcdatabaseurl"));
 				sqlset.setUsername(properties.getProperty("jdbcusername"));
 				sqlset.setPassword(properties.getProperty("jdbcpassword"));
+			}
+			// /////////////////////////////////////////////////////////
+			// ログの設定
+			String logSetting = properties.getProperty("log", "");
+			if (logSetting.trim().length() > 0) {
+				try {
+					SQLNetServer.logger.log(Level.CONFIG, "Reading Log Setting From " + logSetting);
+					InputStream stream = new FileInputStream(logSetting);
+					LogManager manager = LogManager.getLogManager();
+					manager.readConfiguration(stream);
+				} catch (FileNotFoundException fnfe) {
+					SQLNetServer.logger.log(Level.WARNING, "File Not Found " + logSetting, fnfe);
+				}
 			}
 			// ACMファイル
 			AcmFile = getCobolFile(AcmName);

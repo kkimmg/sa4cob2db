@@ -1,11 +1,17 @@
 package k_kim_mg.sa4cob2db.sql;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -34,7 +40,7 @@ public class Acm2Seq {
 	private static void displayUsage(Properties properties) {
 		String flag = properties.getProperty("display_usage", "true");
 		if (Boolean.parseBoolean(flag)) {
-			System.err.println("java -classpath path_to_jdbc:path_to_acm \"k_kim_mg.sa4cob2db.sql.Acm2Seq\" acmfile outputfile");
+			System.err.println("java -classpath path_to_jdbc:path_to_acm \"k_kim_mg.sa4cob2db.sql.Acm2Seq\" acmfile outputfile metfile lineout(true/false) display_usage");
 			java.util.Enumeration<Object> keys = properties.keys();
 			while (keys.hasMoreElements()) {
 				String key = keys.nextElement().toString();
@@ -185,6 +191,19 @@ public class Acm2Seq {
 				sqlset.setDatabaseURL(properties.getProperty("jdbcdatabaseurl"));
 				sqlset.setUsername(properties.getProperty("jdbcusername"));
 				sqlset.setPassword(properties.getProperty("jdbcpassword"));
+			}
+			// /////////////////////////////////////////////////////////
+			// ログの設定
+			String logSetting = properties.getProperty("log", "");
+			if (logSetting.trim().length() > 0) {
+				try {
+					SQLNetServer.logger.log(Level.CONFIG, "Reading Log Setting From " + logSetting);
+					InputStream stream = new FileInputStream(logSetting);
+					LogManager manager = LogManager.getLogManager();
+					manager.readConfiguration(stream);
+				} catch (FileNotFoundException fnfe) {
+					SQLNetServer.logger.log(Level.WARNING, "File Not Found " + logSetting, fnfe);
+				}
 			}
 			// ACMファイル
 			AcmFile = getCobolFile(AcmName);
