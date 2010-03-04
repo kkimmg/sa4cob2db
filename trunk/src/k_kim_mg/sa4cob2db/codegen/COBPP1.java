@@ -3,6 +3,7 @@
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package k_kim_mg.sa4cob2db.codegen;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,8 +20,10 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
+
 /**
  * COBOLコードを一部変換してファイルアクセスをACMへのアクセスに変更する
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class COBPP1 implements GeneratorOwner {
@@ -38,18 +41,68 @@ public class COBPP1 implements GeneratorOwner {
 	 * 生成装置
 	 */
 	private CodeGenerator generator = new TCPCodeGenerator(this);
+
 	/**
 	 * メイン
-	 * @param argv ファイル名など
+	 * 
+	 * @param argv
+	 *            ファイル名など
 	 */
 	public static void main(String[] argv) {
 		COBPP1 cobpp = new COBPP1(argv);
 		cobpp.run();
 		System.exit(0);
 	}
+
+	/**
+	 * メイン
+	 * 
+	 * @param infile
+	 * @param outfile
+	 * @param informat
+	 * @param outformat
+	 * @param initrow
+	 * @param increase
+	 * @param acmconsts_file
+	 * @param expand_copy
+	 * @param codegeneratorlisteners
+	 * @param customcodegeneratorclass
+	 */
+	public static void main_too(String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass) {
+		String[] argv = new String[] { infile, outfile };
+		if (informat.trim().length() > 0) {
+			System.setProperty("informat", informat.trim());
+		}
+		if (outformat.trim().length() > 0) {
+			System.setProperty("outformat", outformat.trim());
+		}
+		if (initrow.trim().length() > 0) {
+			System.setProperty("initrow", initrow.trim());
+		}
+		if (increase.trim().length() > 0) {
+			System.setProperty("increase", increase.trim());
+		}
+		if (acmconsts_file.trim().length() > 0) {
+			System.setProperty("acmconsts_file", acmconsts_file.trim());
+		}
+		if (expand_copy.trim().length() > 0) {
+			System.setProperty("expand_copy", expand_copy.trim());
+		}
+		if (codegeneratorlisteners.trim().length() > 0) {
+			System.setProperty("codegeneratorlisteners", codegeneratorlisteners.trim());
+		}
+		if (customcodegeneratorclass.trim().length() > 0) {
+			System.setProperty("customcodegeneratorclass", customcodegeneratorclass.trim());
+		}
+		System.setProperty("display_usage", "false");
+		main(argv);
+	}
+
 	/**
 	 * コンストラクタ
-	 * @param argv 起動パラメータ
+	 * 
+	 * @param argv
+	 *            起動パラメータ
 	 */
 	public COBPP1(String[] argv) {
 		String csn = "";
@@ -170,9 +223,12 @@ public class COBPP1 implements GeneratorOwner {
 			System.err.println("\tcustomcodegeneratorclass=" + generatorClass + "\t::separated class names");
 		}
 	}
+
 	/**
 	 * リスナを追加する
-	 * @param names クラス名(:で区切る？)
+	 * 
+	 * @param names
+	 *            クラス名(:で区切る？)
 	 */
 	void addCodeGeneratorListeners(String namelist) {
 		if (namelist.length() > 0) {
@@ -196,10 +252,14 @@ public class COBPP1 implements GeneratorOwner {
 			}
 		}
 	}
+
 	/**
 	 * 環境変数を取得する
-	 * @param key キー
-	 * @param defaultValue デフォルト値
+	 * 
+	 * @param key
+	 *            キー
+	 * @param defaultValue
+	 *            デフォルト値
 	 * @return 変数の値
 	 */
 	private String getEnvValue(String key, String defaultValue) {
@@ -210,10 +270,11 @@ public class COBPP1 implements GeneratorOwner {
 			ret = defaultValue;
 		return ret;
 	}
+
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * k_kim_mg.sa4cob2db.codegen.GeneratorOwner#generate(java.lang
+	 * 
+	 * @see k_kim_mg.sa4cob2db.codegen.GeneratorOwner#generate(java.lang
 	 * .String)
 	 */
 	public void generate(String text) {
@@ -224,6 +285,7 @@ public class COBPP1 implements GeneratorOwner {
 			initrownum += incrrownum;
 		}
 	}
+
 	@Override
 	public void callBackCopyStatement(ArrayList<String> statement) {
 		if (expandCopy) {
@@ -236,6 +298,7 @@ public class COBPP1 implements GeneratorOwner {
 			}
 		}
 	}
+
 	/**
 	 * 実行
 	 */
@@ -272,22 +335,29 @@ public class COBPP1 implements GeneratorOwner {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * コピー句を展開処理する
+	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	class CopyProcesser {
 		private CopyInfo info;
 		private FileInputStream input2;
+
 		/**
 		 * コンストラクタ
-		 * @param Info コピー句の情報
-		 * @throws IOException 入出力例外
+		 * 
+		 * @param Info
+		 *            コピー句の情報
+		 * @throws IOException
+		 *             入出力例外
 		 */
 		public CopyProcesser(CopyInfo Info) throws IOException {
 			info = Info;
 			input2 = new FileInputStream(info.getFilename());
 		}
+
 		public void run() throws IOException {
 			InputStreamReader isr = new InputStreamReader(input2);
 			BufferedReader br = new BufferedReader(isr);
@@ -303,22 +373,28 @@ public class COBPP1 implements GeneratorOwner {
 			generator.clear();
 		}
 	}
+
 	/**
 	 * こピークの情報
+	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	static class CopyInfo {
 		private ArrayList<String> statement;
 		private String filename;
 		private Properties replacing = new Properties();
+
 		/**
 		 * コンストラクタ
-		 * @param Statement Copy句を服務文字列
+		 * 
+		 * @param Statement
+		 *            Copy句を服務文字列
 		 */
 		public CopyInfo(ArrayList<String> Statement) {
 			statement = Statement;
 			parse();
 		}
+
 		private void parse() {
 			for (int i = 0; i < statement.size(); i++) {
 				String row = statement.get(i);
@@ -340,16 +416,21 @@ public class COBPP1 implements GeneratorOwner {
 				}
 			}
 		}
+
 		/**
 		 * ファイル名
+		 * 
 		 * @return ファイル名
 		 */
 		public String getFilename() {
 			return filename;
 		}
+
 		/**
 		 * 置換された文字列の取得
-		 * @param target 置換前の文字列
+		 * 
+		 * @param target
+		 *            置換前の文字列
 		 * @return 置換後の文字列
 		 */
 		public String getReplacedStatement(String target) {
@@ -364,16 +445,21 @@ public class COBPP1 implements GeneratorOwner {
 			return ret;
 		}
 	}
+
 	/**
 	 * コピー句を展開するかどうか
+	 * 
 	 * @return true 展開する</br> false 展開しない
 	 */
 	public boolean isExpandCopy() {
 		return expandCopy;
 	}
+
 	/**
 	 * コピー句を展開するかどうか
-	 * @param expandCopy true 展開する</br> false 展開しない
+	 * 
+	 * @param expandCopy
+	 *            true 展開する</br> false 展開しない
 	 */
 	public void setExpandCopy(boolean expandCopy) {
 		this.expandCopy = expandCopy;
