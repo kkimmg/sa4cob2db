@@ -63,7 +63,7 @@ int main (int argc, char *argv[]) {
 	jstring s_metafile = (*env)->NewStringUTF(env, metafile);
 	jstring s_lineout = (*env)->NewStringUTF(env, lineout);
 	jstring s_display_usage = (*env)->NewStringUTF(env, "false");
-    // 実効
+    // 実効 String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass
     (*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_acmfile, s_outfile, s_metafile, s_lineout, s_display_usage);
     exit(0);
 }
@@ -88,7 +88,7 @@ initializeJNI () {
 		perror("Acm2Seq Class Not Found.");
 		return (-1);
 	}
-	// コンストラクタの取得
+	// コンストラクタの取得                                             infile           ;  outfile        ; informat       ;   outformat     ;  initrow;  acmconsts_file; expand_copy;listener; custorm
 	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	if (midMainToo == 0) {
 		perror("method not found.");
