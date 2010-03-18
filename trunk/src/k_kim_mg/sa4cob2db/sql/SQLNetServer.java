@@ -624,7 +624,7 @@ public class SQLNetServer {
 				try {
 					wait(1000);
 				} catch (InterruptedException e) {
-					SQLNetServer.logger.log(Level.WARNING, e.getMessage());
+					SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
 				}
 			}
 			System.exit(0);

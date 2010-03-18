@@ -24,23 +24,61 @@ void display_usage();
 /***************************************/
 /** オプション */
 static struct option longopts[] = {
-    {"metafile", required_argument, NULL, 'm'},
-    {"lineout", required_argument, NULL, 'l'},
+    {"informat", required_argument, NULL, 'i'},
+	{"outformat", required_argument, NULL, 'o'},
+	{"initrow", required_argument, NULL, 'r'},
+	{"increase", required_argument, NULL, 'c'},
+	{"acmconsts_file", required_argument, NULL, 'a'},
+	{"expand_copy", required_argument, NULL, 'e'},
+	{"codegenaratorlisteners", required_argument, NULL, 'l'},
+	{"customcodegeneratorclass", required_argument, NULL, 'x'},
+    {"tcp", no_argument, NULL, 't'},
+    {"jni", no_argument, NULL, 'j'},
     {"help", no_argument, NULL, 'h'},
     {0, 0, 0, 0}
 };
 /** 主処理 */
 int main (int argc, char *argv[]) {
 	int opt;
-	char* metafile = getConfigFile();
-	char* lineout = "true";
-	while ((opt = getopt_long(argc, argv, "m:l:h", longopts, NULL)) != -1) {
+	char* informat = "";
+	char* outformat = "";
+	char* initrow = "";
+	char* increase = "";
+	char* acmconsts_file = "";
+	char* expand_copy = "";
+	char* codegenaratorlisteners = "";
+	char* customcodegeneratorclass = "k_kim_mg.sa4cob2db.codegen.JNICodeGenerator";
+	while ((opt = getopt_long(argc, argv, "i:o:r:c:a:e:l:x:tjh", longopts, NULL)) != -1) {
 		switch (opt) {
-			case 'm':
-                metafile = optarg;
+			case 'i':
+                informat = optarg;
+				break;
+			case 'o':
+                outformat = optarg;
+				break;
+			case 'r':
+                initrow = optarg;
+				break;
+			case 'c':
+                increase = optarg;
+				break;
+			case 'a':
+                acmconsts_file = optarg;
+				break;
+			case 'e':
+                expand_copy = optarg;
 				break;
 			case 'l':
-                lineout = optarg;
+                codegenaratorlisteners = optarg;
+				break;
+			case 'x':
+                customcodegeneratorclass = optarg;
+				break;
+			case 't':
+                customcodegeneratorclass = "";
+				break;
+			case 'j':
+                customcodegeneratorclass = "k_kim_mg.sa4cob2db.codegen.JNICodeGenerator";
 				break;
 			case 'h':
                 display_usage();
@@ -50,21 +88,27 @@ int main (int argc, char *argv[]) {
     // JVMの生成
     initializeJNI();
     // 入力ファイルと出力ファイルの取得
-    char* acmfile = "";
+    char* infile = "";
     if (argc > optind) {
-        acmfile = argv[optind];
+        infile = argv[optind];
     }
     char* outfile = "";
     if (argc > optind + 1) {
         outfile = argv[optind + 1];
     }
-	jstring s_acmfile = (*env)->NewStringUTF(env, acmfile);
+	jstring s_infile = (*env)->NewStringUTF(env, infile);
 	jstring s_outfile = (*env)->NewStringUTF(env, outfile);
-	jstring s_metafile = (*env)->NewStringUTF(env, metafile);
-	jstring s_lineout = (*env)->NewStringUTF(env, lineout);
+	jstring s_informat = (*env)->NewStringUTF(env, informat);
+	jstring s_outformat = (*env)->NewStringUTF(env, outformat);
+	jstring s_initrow = (*env)->NewStringUTF(env, initrow);
+	jstring s_increase = (*env)->NewStringUTF(env, increase);
+	jstring s_consts = (*env)->NewStringUTF(env, acmconsts_file);
+	jstring s_expand = (*env)->NewStringUTF(env, expand_copy);
+	jstring s_listeners = (*env)->NewStringUTF(env, codegenaratorlisteners);
+	jstring s_custom = (*env)->NewStringUTF(env, customcodegeneratorclass);
 	jstring s_display_usage = (*env)->NewStringUTF(env, "false");
-    // 実効 String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass
-    (*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_acmfile, s_outfile, s_metafile, s_lineout, s_display_usage);
+    // 実効                                              infile, outfile, informat, outformat, initrow, increase, acmconsts_file, expand_copy, codegeneratorlisteners, customcodegeneratorclass
+    (*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_infile, s_outfile, s_informat, s_outformat, s_initrow, s_increase, s_consts, s_expand, s_listeners, s_custom, s_display_usage);
     exit(0);
 }
 
@@ -83,13 +127,13 @@ initializeJNI () {
 	JNI_GetDefaultJavaVMInitArgs(&vm_args);
 	JNI_CreateJavaVM(&jvm, (void**)&env, &vm_args);
 	// クラスの取得
-	clazz = (*env)->FindClass(env, "k_kim_mg/sa4cob2db/sql/Acm2Seq");
+	clazz = (*env)->FindClass(env, "k_kim_mg/sa4cob2db/codegen/COBPP1");
 	if (clazz == 0) {
-		perror("Acm2Seq Class Not Found.");
+		perror("COBPP1 Class Not Found.");
 		return (-1);
 	}
-	// コンストラクタの取得                                             infile           ;  outfile        ; informat       ;   outformat     ;  initrow;  acmconsts_file; expand_copy;listener; custorm
-	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	// コンストラクタの取得                                             infile           ;  outfile        ; informat       ;   outformat     ;  initrow         ;  acmconsts_file; expand_copy;listener; custom
+	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	if (midMainToo == 0) {
 		perror("method not found.");
 		return -1;
@@ -102,10 +146,18 @@ initializeJNI () {
  */
 void
 display_usage () {
-	printf("acm2seq acmfile outfile\n");
+	printf("cobpp infile outfile\n");
 	printf("options\n");
-	printf("\t-m/--metafile\tconfiguration file of record layout. default is /opt/sa4cob2db/conf/metafile.xml\n");
-	printf("\t-l/--lineout\ttrue/false outfile is line file. default is true\n");
+	printf("\t-i/--informat\tfix or other input source code format. default is fix\n");
+	printf("\t-o/--outformat\tfix or other output source code format default is fix\n");
+	printf("\t-r/--initrow\tinitial row number default is 000010\n");
+	printf("\t-c/--increase\tincrease row number default is 10\n");
+	printf("\t-a/--acmconsts_file\tlocation of ACMCONSTS.CBL\n");
+	printf("\t-e/--expand_copy\texpand file on source directed by copy statement\n");
+	printf("\t-l/--codegenaratorlisteners\teventlistener class names separated by :\n");
+	printf("\t-x/--customcodegeneratorclass\tcustom class for generating souce code\n");
+	printf("\t-t/--tcp\tgenerate for client of sqlnetserver\n");
+	printf("\t-j/--jni\tgenerate for client with JNI\n");
 	printf("\t-h/--help\tshow this message.\n");
 }
 

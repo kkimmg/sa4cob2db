@@ -45,9 +45,9 @@ public class SQLFileServer {
 				ret = connector.createConnection();
 			}
 		} catch (ClassNotFoundException e) {
-			SQLNetServer.logger.log(Level.SEVERE, e.getMessage());
+			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 		} catch (SQLException e) {
-			SQLNetServer.logger.log(Level.SEVERE, e.getMessage());
+			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 		return ret;
 	}
@@ -59,7 +59,7 @@ public class SQLFileServer {
 		try {
 			connector.removeConnection(connection);
 		} catch (SQLException e) {
-			SQLNetServer.logger.log(Level.SEVERE, e.getMessage());
+			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	/**
