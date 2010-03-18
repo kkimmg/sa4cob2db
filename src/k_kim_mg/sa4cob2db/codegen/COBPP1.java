@@ -107,7 +107,7 @@ public class COBPP1 implements GeneratorOwner {
 	public COBPP1(String[] argv) {
 		String csn = "";
 		// 入力ファイル
-		String infile = (argv.length > 0 ? argv[0] : "");
+		String infile = (argv.length > 0 ? argv[0].trim() : "");
 		if (infile == "") {
 			input = System.in;
 		} else {
@@ -119,7 +119,7 @@ public class COBPP1 implements GeneratorOwner {
 			}
 		}
 		// 出力ファイル
-		String outfile = (argv.length > 1 ? argv[1] : "");
+		String outfile = (argv.length > 1 ? argv[1].trim() : "");
 		if (outfile.length() == 0) {
 			output = System.out;
 		} else {
@@ -145,7 +145,7 @@ public class COBPP1 implements GeneratorOwner {
 		if (infmttext.compareToIgnoreCase("free") == 0) {
 			infreeformat = true;
 		}
-		String outfmttext = getEnvValue("outformat", "fix");
+		String outfmttext = getEnvValue("outformat", infmttext);
 		if (outfmttext.compareToIgnoreCase("free") == 0) {
 			outfreeformat = true;
 		} else {

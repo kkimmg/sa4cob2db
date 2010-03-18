@@ -47,13 +47,13 @@ public class MinAdminAdapter extends ACMServerEventAdapter implements ACMServerE
 			// 鐃����
 			SQLNetServer.logger.log(Level.INFO, "Admin Started.");
 		} catch (NumberFormatException e1) {
-			SQLNetServer.logger.log(Level.SEVERE, e1.getMessage());
+			SQLNetServer.logger.log(Level.SEVERE, e1.getMessage(), e1);
 		} catch (AccessException e1) {
-			SQLNetServer.logger.log(Level.SEVERE, e1.getMessage());
+			SQLNetServer.logger.log(Level.SEVERE, e1.getMessage(), e1);
 		} catch (RemoteException e1) {
-			SQLNetServer.logger.log(Level.SEVERE, e1.getMessage());
+			SQLNetServer.logger.log(Level.SEVERE, e1.getMessage(), e1);
 		} catch (AlreadyBoundException e1) {
-			SQLNetServer.logger.log(Level.SEVERE, e1.getMessage());
+			SQLNetServer.logger.log(Level.SEVERE, e1.getMessage(), e1);
 		}
 	}
 }

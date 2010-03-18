@@ -739,11 +739,11 @@ public class NodeReadLoader {
 				}
 			}
 		} catch (ClassNotFoundException e) {
-			SQLNetServer.logger.warning(e.getMessage());
+			SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
 		} catch (InstantiationException e) {
-			SQLNetServer.logger.warning(e.getMessage());
+			SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
 		} catch (IllegalAccessException e) {
-			SQLNetServer.logger.warning(e.getMessage());
+			SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
 		}
 	}
 	/**

@@ -49,7 +49,7 @@ public class MinAdmin extends UnicastRemoteObject implements IMinAdmin {
 				SQLNetServer.logger.log(Level.INFO, "Now Shutdown...");
 				server.shutdown(mode);
 			} catch (Exception e) {
-				SQLNetServer.logger.log(Level.SEVERE, e.getMessage());
+				SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 		return ret;
