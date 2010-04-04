@@ -148,6 +148,16 @@ public class SQLNetServer {
 			SQLNetServer.logger.log(Level.SEVERE, "Exception", e);
 		}
 	}
+	
+	/**
+	 * コマンドでの起動ルーチン 
+	 * メタファイル名しか師弟できない
+	 * @param metaFile	メタファイル名
+	 */
+	public static void main_too(String metaFile) {
+		System.setProperty("ACM_CONFFILE", metaFile);
+		SQLNetServer.main(new String[] {});
+	}
 
 	/**
 	 * 文字列の配列からプロパティへの変換

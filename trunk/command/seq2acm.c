@@ -70,6 +70,7 @@ int main (int argc, char *argv[]) {
 	} else {
 		display_usage();
 	}
+	(*jvm)->DestroyJavaVM(jvm);
     exit(0);
 }
 

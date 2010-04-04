@@ -12,19 +12,23 @@ all:
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v acm2seq.c getJNIOption.c -o acm2seq
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v seq2acm.c getJNIOption.c -o seq2acm
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v cobpp.c   getJNIOption.c -o cobpp
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v sqlnetserver.c   getJNIOption.c -o sqlnetserver
 
 install:
 	$(INSTALL) acm2seq $(exec_prefix)/
 	$(INSTALL) seq2acm $(exec_prefix)/
 	$(INSTALL) cobpp $(exec_prefix)/
+	$(INSTALL) sqlnetserver $(exec_prefix)/
 
 deinstall:
 	rm $(exec_prefix)/acm2seq
 	rm $(exec_prefix)/seq2acm
 	rm $(exec_prefix)/cobpp
+	rm $(exec_prefix)/sqlnetserver
 
 clean:
 	rm acm2seq
 	rm seq2acm
 	rm cobpp
+	rm sqlnetserver
 
