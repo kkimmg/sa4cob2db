@@ -82,6 +82,7 @@ int main (int argc, char *argv[]) {
 				break;
 			case 'h':
                 display_usage();
+				exit(0);
 				break;			
 		}
 	}
@@ -109,6 +110,7 @@ int main (int argc, char *argv[]) {
 	jstring s_display_usage = (*env)->NewStringUTF(env, "false");
     // 実効                                              infile, outfile, informat, outformat, initrow, increase, acmconsts_file, expand_copy, codegeneratorlisteners, customcodegeneratorclass
     (*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_infile, s_outfile, s_informat, s_outformat, s_initrow, s_increase, s_consts, s_expand, s_listeners, s_custom, s_display_usage);
+	(*jvm)->DestroyJavaVM(jvm);
     exit(0);
 }
 

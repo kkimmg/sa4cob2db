@@ -44,6 +44,7 @@ int main (int argc, char *argv[]) {
 				break;
 			case 'h':
                 display_usage();
+				exit(0);
 				break;			
 		}
 	}
@@ -65,6 +66,7 @@ int main (int argc, char *argv[]) {
 	jstring s_display_usage = (*env)->NewStringUTF(env, "false");
     // 実効
     (*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_acmfile, s_outfile, s_metafile, s_lineout, s_display_usage);
+	(*jvm)->DestroyJavaVM(jvm);
     exit(0);
 }
 
