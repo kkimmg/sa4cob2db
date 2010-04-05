@@ -67,8 +67,9 @@ public class COBPP1 implements GeneratorOwner {
 	 * @param expand_copy
 	 * @param codegeneratorlisteners
 	 * @param customcodegeneratorclass
+	 * @param acm_charset
 	 */
-	public static void main_too(String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass) {
+	public static void main_too(String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass, String acm_charset) {
 		String[] argv = new String[] { infile, outfile };
 		if (informat.trim().length() > 0) {
 			System.setProperty("informat", informat.trim());
@@ -93,6 +94,9 @@ public class COBPP1 implements GeneratorOwner {
 		}
 		if (customcodegeneratorclass.trim().length() > 0) {
 			System.setProperty("customcodegeneratorclass", customcodegeneratorclass.trim());
+		}
+		if (acm_charset.trim().length() > 0) {
+			System.setProperty(ACM_CHARSET, acm_charset.trim());
 		}
 		System.setProperty("display_usage", "false");
 		main(argv);
@@ -124,7 +128,7 @@ public class COBPP1 implements GeneratorOwner {
 			output = System.out;
 		} else {
 			try {
-				csn = getEnvValue(ACM_CHARSET, "");
+				csn = getEnvValue(ACM_CHARSET, "").trim();
 				if (csn.length() == 0) {
 					output = new PrintStream(outfile);
 				} else {
@@ -305,7 +309,7 @@ public class COBPP1 implements GeneratorOwner {
 	public void run() {
 		try {
 			InputStreamReader isr = null;
-			String csn = getEnvValue(ACM_CHARSET, "");
+			String csn = getEnvValue(ACM_CHARSET, "").trim();
 			if (csn.length() == 0) {
 				isr = new InputStreamReader(input);
 			} else {
