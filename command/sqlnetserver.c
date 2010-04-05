@@ -47,6 +47,10 @@ int main (int argc, char *argv[]) {
                 display_usage();
 				exit(0);
 				break;			
+			case '?':
+                display_usage();
+				exit(0);
+				break;	
 		}
 	}
     // JVMの生成

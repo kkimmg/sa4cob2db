@@ -88,7 +88,11 @@ int main (int argc, char *argv[]) {
 			case 'h':
                 display_usage();
 				exit(0);
-				break;			
+				break;	
+			case '?':
+                display_usage();
+				exit(0);
+				break;						
 		}
 	}
     // JVMの生成
