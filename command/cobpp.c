@@ -34,6 +34,7 @@ static struct option longopts[] = {
 	{"customcodegeneratorclass", required_argument, NULL, 'x'},
     {"tcp", no_argument, NULL, 't'},
     {"jni", no_argument, NULL, 'j'},
+	{"charset", required_argument, NULL, 's'},
     {"help", no_argument, NULL, 'h'},
     {0, 0, 0, 0}
 };
@@ -48,7 +49,8 @@ int main (int argc, char *argv[]) {
 	char* expand_copy = "";
 	char* codegenaratorlisteners = "";
 	char* customcodegeneratorclass = "k_kim_mg.sa4cob2db.codegen.JNICodeGenerator";
-	while ((opt = getopt_long(argc, argv, "i:o:r:c:a:e:l:x:tjh", longopts, NULL)) != -1) {
+	char* charset = "";
+	while ((opt = getopt_long(argc, argv, "i:o:r:c:a:e:l:x:s:tjh", longopts, NULL)) != -1) {
 		switch (opt) {
 			case 'i':
                 informat = optarg;
@@ -80,6 +82,9 @@ int main (int argc, char *argv[]) {
 			case 'j':
                 customcodegeneratorclass = "k_kim_mg.sa4cob2db.codegen.JNICodeGenerator";
 				break;
+			case 's':
+                charset = optarg;
+				break;
 			case 'h':
                 display_usage();
 				exit(0);
@@ -107,9 +112,11 @@ int main (int argc, char *argv[]) {
 	jstring s_expand = (*env)->NewStringUTF(env, expand_copy);
 	jstring s_listeners = (*env)->NewStringUTF(env, codegenaratorlisteners);
 	jstring s_custom = (*env)->NewStringUTF(env, customcodegeneratorclass);
-	jstring s_display_usage = (*env)->NewStringUTF(env, "false");
-    // 実効                                              infile, outfile, informat, outformat, initrow, increase, acmconsts_file, expand_copy, codegeneratorlisteners, customcodegeneratorclass
-    (*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_infile, s_outfile, s_informat, s_outformat, s_initrow, s_increase, s_consts, s_expand, s_listeners, s_custom, s_display_usage);
+	jstring s_charset = (*env)->NewStringUTF(env, charset);
+    // 実効                                              
+    (*env)->CallStaticVoidMethod(env, clazz, midMainToo, 
+    //infile,   outfile,   informat,   outformat,   initrow,     increase, consts  , expand,  listeners,   custom  , charset
+      s_infile, s_outfile, s_informat, s_outformat, s_initrow, s_increase, s_consts, s_expand, s_listeners, s_custom, s_charset);
 	(*jvm)->DestroyJavaVM(jvm);
     exit(0);
 }
@@ -134,8 +141,10 @@ initializeJNI () {
 		perror("COBPP1 Class Not Found.");
 		return (-1);
 	}
-	// コンストラクタの取得                                             infile           ;  outfile        ; informat       ;   outformat     ;  initrow         ;  acmconsts_file; expand_copy;listener; custom
-	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	// コンストラクタの取得                                             
+	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	
+	//infile           ;  outfile        ; informat        ;   outformat     ;  initrow         ;  increase      ;consts_file      ; expand_copy     ;listener         ; custom          ;  charset
+	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	if (midMainToo == 0) {
 		perror("method not found.");
 		return -1;
@@ -158,6 +167,7 @@ display_usage () {
 	printf("\t-e/--expand_copy\texpand file on source directed by copy statement\n");
 	printf("\t-l/--codegenaratorlisteners\teventlistener class names separated by :\n");
 	printf("\t-x/--customcodegeneratorclass\tcustom class for generating souce code\n");
+	printf("\t-s/--charset\tcharset of source code\n");
 	printf("\t-t/--tcp\tgenerate for client of sqlnetserver\n");
 	printf("\t-j/--jni\tgenerate for client with JNI\n");
 	printf("\t-h/--help\tshow this message.\n");
