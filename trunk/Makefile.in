@@ -13,10 +13,19 @@ doc:
 
 install: 
 	mkdir $(ACM_HOME)
-	$(INSTALL) acmlibs.jar $(ACM_HOME)/
-	$(INSTALL) cobpp.jar $(ACM_HOME)/	
+	mkdir $(ACM_HOME)/conf
+	cp conf/acmlogsetting.properties $(ACM_HOME)/conf/
+	cp conf/adminpass.properties     $(ACM_HOME)/conf/
+	cp conf/metafile.xml             $(ACM_HOME)/conf/
+	cp conf/password.properties      $(ACM_HOME)/conf/
+	cp conf/shutdown.conf            $(ACM_HOME)/conf/
+	$(INSTALL) sa4cob2db.jar         $(ACM_HOME)/
+	$(INSTALL) cobpp.jar             $(ACM_HOME)/	
 	cd cs; make install
 	cd command; make install
+
+deinstall:
+	rm -rfv $(ACM_HOME)
 
 clean:
 	ant clean
