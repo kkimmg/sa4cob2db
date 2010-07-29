@@ -628,6 +628,28 @@ public class NodeReadLoader {
 						classesOfMeta.put(wname, wvalu);
 						SQLNetServer.logger.info("adding other processor of metadata " + wname + ":" + wvalu);
 					}
+				} else if (item.getNodeName().equals("include")) {
+					// 外部のファイルをもとにこのメタデータを更新する
+					NamedNodeMap map = item.getAttributes();
+					Node work = map.getNamedItem("file");
+					if (work != null) {
+						String fname = work.getNodeValue();
+						File wfile = new File(fname);
+						if (wfile.exists() && wfile.canRead()) {
+							NodeReadLoader child = new  NodeReadLoader();
+							try {
+								child.createMetaDataSet(wfile, meta, properties);
+							} catch (ParserConfigurationException e) {
+								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+							} catch (FactoryConfigurationError e) {
+								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+							} catch (SAXException e) {
+								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+							} catch (IOException e) {
+								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+							}
+						}
+					}
 				} else {
 					// なにか新しい要素
 					proessOtherNodeOfSet(item, meta, properties);
