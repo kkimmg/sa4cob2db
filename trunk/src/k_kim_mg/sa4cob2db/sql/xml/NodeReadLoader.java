@@ -1,11 +1,16 @@
 package k_kim_mg.sa4cob2db.sql.xml;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -32,6 +37,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 /**
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
@@ -40,9 +46,12 @@ public class NodeReadLoader {
 	private Properties classesOfMeta = new Properties();
 	/** カスタム動作するノードの登録済みクラスの一覧(全体) */
 	private Properties classesOfSet = new Properties();
+
 	/**
 	 * 別名の作成
-	 * @param node ノード
+	 * 
+	 * @param node
+	 *            ノード
 	 * @return 別名
 	 */
 	protected String createAlias(Node node) {
@@ -59,10 +68,14 @@ public class NodeReadLoader {
 		}
 		return alias.toString().trim();
 	}
+
 	/**
 	 * 列の作成
-	 * @param node ノード
-	 * @param column 列
+	 * 
+	 * @param node
+	 *            ノード
+	 * @param column
+	 *            列
 	 * @return 列
 	 */
 	protected CobolColumn createCobolColumn(Node node, CobolColumn column) {
@@ -151,11 +164,16 @@ public class NodeReadLoader {
 		}
 		return column;
 	}
+
 	/**
 	 * インデックスを作成する
-	 * @param node (情報を保持している)ノード
-	 * @param meta インデックスを追加するファイル
-	 * @param metaset インデックスを取得するためのメタデータセット
+	 * 
+	 * @param node
+	 *            (情報を保持している)ノード
+	 * @param meta
+	 *            インデックスを追加するファイル
+	 * @param metaset
+	 *            インデックスを取得するためのメタデータセット
 	 * @return インデックス情報
 	 * @throws CobolRecordException
 	 *             例外-インデックスファイルが見付からなかったかインデックスに関連する列が見付からなかったか
@@ -207,10 +225,14 @@ public class NodeReadLoader {
 		}
 		return ret;
 	}
+
 	/**
 	 * カスタム列を作成する
-	 * @param node この列の情報を含むノードオブジェクト
-	 * @param meta メタデータ
+	 * 
+	 * @param node
+	 *            この列の情報を含むノードオブジェクト
+	 * @param meta
+	 *            メタデータ
 	 * @return コボル列
 	 */
 	protected CobolColumn createCustomCobolColumn(Node node, CobolRecordMetaData meta) {
@@ -295,15 +317,20 @@ public class NodeReadLoader {
 		}
 		return ret;
 	}
+
 	/**
 	 * メタデータの新規作成
-	 * @param className このメタデータを定義する列
-	 * @param node メタデータの情報を含むノードオブジェクト
-	 * @param parent このメタデータを含むメタデータセット
+	 * 
+	 * @param className
+	 *            このメタデータを定義する列
+	 * @param node
+	 *            メタデータの情報を含むノードオブジェクト
+	 * @param parent
+	 *            このメタデータを含むメタデータセット
 	 * @return メタデータ
 	 */
 	protected CobolRecordMetaData createCustomMetaData(String className, Node node, CobolRecordMetaDataSet parent) throws ClassNotFoundException, SecurityException, IllegalArgumentException, InstantiationException, IllegalAccessException,
-	        InvocationTargetException, ClassCastException {
+			InvocationTargetException, ClassCastException {
 		CobolRecordMetaData ret = null;
 		Class<?> claxx = Class.forName(className);
 		Class<? extends CobolRecordMetaData> clazz = claxx.asSubclass(CobolRecordMetaData.class);
@@ -316,10 +343,14 @@ public class NodeReadLoader {
 		}
 		return ret;
 	}
+
 	/**
 	 * キー列の作成
-	 * @param node ノード
-	 * @param meta メタデータ
+	 * 
+	 * @param node
+	 *            ノード
+	 * @param meta
+	 *            メタデータ
 	 * @return キー列(エラー時はnull)
 	 */
 	protected CobolColumn createKeyColumn(Node node, CobolRecordMetaData meta) {
@@ -346,10 +377,14 @@ public class NodeReadLoader {
 		}
 		return column;
 	}
+
 	/**
 	 * メタデータの新規作成
-	 * @param node ノード
-	 * @param parent メタデータを含むメタデータセット
+	 * 
+	 * @param node
+	 *            ノード
+	 * @param parent
+	 *            メタデータを含むメタデータセット
 	 * @return メタデータ
 	 */
 	protected CobolRecordMetaData createMetaData(Node node, CobolRecordMetaDataSet parent) {
@@ -528,10 +563,14 @@ public class NodeReadLoader {
 		}
 		return meta;
 	}
+
 	/**
 	 * メタデータセットの作成
-	 * @param document 情報を含むドキュメント
-	 * @param meta メタデータセット
+	 * 
+	 * @param document
+	 *            情報を含むドキュメント
+	 * @param meta
+	 *            メタデータセット
 	 * @return メタデータセット
 	 */
 	public CobolRecordMetaDataSet createMetaDataSet(Document document, CobolRecordMetaDataSet meta, Properties properties) {
@@ -547,10 +586,14 @@ public class NodeReadLoader {
 		}
 		return meta;
 	}
+
 	/**
 	 * メタデータセットの作成
-	 * @param file 情報を含むファイル
-	 * @param meta メタデータセット
+	 * 
+	 * @param file
+	 *            情報を含むファイル
+	 * @param meta
+	 *            メタデータセット
 	 * @return メタデータセット
 	 */
 	public CobolRecordMetaDataSet createMetaDataSet(File file, CobolRecordMetaDataSet meta, Properties properties) throws ParserConfigurationException, FactoryConfigurationError, FactoryConfigurationError, SAXException, IOException {
@@ -560,10 +603,14 @@ public class NodeReadLoader {
 		document1 = docBld.parse(file);
 		return createMetaDataSet(document1, meta, properties);
 	}
+
 	/**
 	 * メタデータセットの作成
-	 * @param node 情報を含むノード
-	 * @param meta メタデータセット
+	 * 
+	 * @param node
+	 *            情報を含むノード
+	 * @param meta
+	 *            メタデータセット
 	 * @return メタデータセット
 	 */
 	public CobolRecordMetaDataSet createMetaDataSet(Node node, CobolRecordMetaDataSet meta, Properties properties) {
@@ -581,24 +628,6 @@ public class NodeReadLoader {
 					CobolRecordMetaData meta1 = createMetaData(item, meta);
 					meta.installMetaData(meta1);
 					SQLNetServer.logger.log(Level.CONFIG, "metadata:" + meta1.getName());
-				} else if (item.getNodeName().equals("property")) {
-					// マップ
-					NamedNodeMap map = item.getAttributes();
-					Node work = map.getNamedItem("name");
-					if (work != null) {
-						String wname = work.getNodeValue();
-						String wvalu = getNodeString(item);
-						properties.put(wname, wvalu);
-					}
-				} else if (item.getNodeName().equals("property")) {
-					// マップ
-					NamedNodeMap map = item.getAttributes();
-					Node work = map.getNamedItem("name");
-					if (work != null) {
-						String wname = work.getNodeValue();
-						String wvalu = getNodeString(item);
-						properties.put(wname, wvalu);
-					}
 				} else if (item.getNodeName().equals("property")) {
 					// マップ
 					NamedNodeMap map = item.getAttributes();
@@ -636,8 +665,9 @@ public class NodeReadLoader {
 						String fname = work.getNodeValue();
 						File wfile = new File(fname);
 						if (wfile.exists() && wfile.canRead()) {
-							NodeReadLoader child = new  NodeReadLoader();
+							NodeReadLoader child = new NodeReadLoader();
 							try {
+								SQLNetServer.logger.info("including metadata " + fname);
 								child.createMetaDataSet(wfile, meta, properties);
 							} catch (ParserConfigurationException e) {
 								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
@@ -659,10 +689,14 @@ public class NodeReadLoader {
 		// 返す
 		return meta;
 	}
+
 	/**
 	 * SQL列の作成
-	 * @param node ノード
-	 * @param column SQL列(新規の場合はnull)
+	 * 
+	 * @param node
+	 *            ノード
+	 * @param column
+	 *            SQL列(新規の場合はnull)
 	 * @return SQL列
 	 */
 	protected SQLCobolColumn createSQLCobolColumn(Node node, SQLCobolRecordMetaData meta, SQLCobolColumn column) {
@@ -705,9 +739,12 @@ public class NodeReadLoader {
 		}
 		return column;
 	}
+
 	/**
 	 * ノード直下のテキストを取得する
-	 * @param node ノード
+	 * 
+	 * @param node
+	 *            ノード
 	 * @return 文字列
 	 */
 	protected String getNodeString(Node node) {
@@ -723,9 +760,12 @@ public class NodeReadLoader {
 		}
 		return retvalue.toString().trim();
 	}
+
 	/**
 	 * ノードのテキストを取得する
-	 * @param node ノード
+	 * 
+	 * @param node
+	 *            ノード
 	 * @return ノードのテキスト
 	 */
 	protected String getNodeText(Node node) {
@@ -742,10 +782,14 @@ public class NodeReadLoader {
 		}
 		return buffer.toString().trim();
 	}
+
 	/**
 	 * その他の処理・・・とりあえず何もしない
-	 * @param node ノード
-	 * @param meta メタデータ
+	 * 
+	 * @param node
+	 *            ノード
+	 * @param meta
+	 *            メタデータ
 	 */
 	protected void proessOtherNodeOfMeta(Node node, CobolRecordMetaData meta) {
 		try {
@@ -768,10 +812,14 @@ public class NodeReadLoader {
 			SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
 		}
 	}
+
 	/**
 	 * 何か分からないノードが来たよ?
-	 * @param node ノード
-	 * @param meta メタデータセット
+	 * 
+	 * @param node
+	 *            ノード
+	 * @param meta
+	 *            メタデータセット
 	 */
 	protected void proessOtherNodeOfSet(Node node, CobolRecordMetaDataSet meta, Properties properties) {
 		try {
