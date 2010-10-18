@@ -1,16 +1,12 @@
 package k_kim_mg.sa4cob2db.sql.xml;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -178,7 +174,8 @@ public class NodeReadLoader {
 	 * @throws CobolRecordException
 	 *             例外-インデックスファイルが見付からなかったかインデックスに関連する列が見付からなかったか
 	 */
-	protected CobolIndex createCobolIndex(Node node, CobolRecordMetaData meta, CobolRecordMetaDataSet metaset) throws CobolRecordException {
+	protected CobolIndex createCobolIndex(Node node, CobolRecordMetaData meta,
+			CobolRecordMetaDataSet metaset) throws CobolRecordException {
 		DefaultCobolIndex ret = new DefaultCobolIndex();
 		CobolRecordMetaData idmeta = null;
 		NamedNodeMap map = node.getAttributes();
@@ -202,17 +199,22 @@ public class NodeReadLoader {
 		// 列情報
 		NodeList children = node.getChildNodes();
 		int size = children.getLength();
-		Map<CobolColumn, CobolColumn> fileKey2IndexColumn = ret.getFileKey2IndexColumn();
-		Map<CobolColumn, CobolColumn> indexKey2FileColumn = ret.getIndexKey2FileColumn();
+		Map<CobolColumn, CobolColumn> fileKey2IndexColumn = ret
+				.getFileKey2IndexColumn();
+		Map<CobolColumn, CobolColumn> indexKey2FileColumn = ret
+				.getIndexKey2FileColumn();
 		for (int i = 0; i < size; i++) {
 			Node child = children.item(i);
-			if (child.getNodeName() == "file2index" || child.getNodeName() == "index2file") {
+			if (child.getNodeName() == "file2index"
+					|| child.getNodeName() == "index2file") {
 				NamedNodeMap cld = child.getAttributes();
 				Node filecolumnnode = cld.getNamedItem("filecolumn");
 				Node indexcolumnnode = cld.getNamedItem("indexcolumn");
 				if (filecolumnnode != null && indexcolumnnode != null) {
-					CobolColumn filecolumn = meta.getColumn(filecolumnnode.getNodeValue());
-					CobolColumn indexcolumn = idmeta.getColumn(indexcolumnnode.getNodeValue());
+					CobolColumn filecolumn = meta.getColumn(filecolumnnode
+							.getNodeValue());
+					CobolColumn indexcolumn = idmeta.getColumn(indexcolumnnode
+							.getNodeValue());
 					if (filecolumn != null && indexcolumn != null) {
 						if (child.getNodeName() == "file2index") {
 							fileKey2IndexColumn.put(filecolumn, indexcolumn);
@@ -235,7 +237,8 @@ public class NodeReadLoader {
 	 *            メタデータ
 	 * @return コボル列
 	 */
-	protected CobolColumn createCustomCobolColumn(Node node, CobolRecordMetaData meta) {
+	protected CobolColumn createCustomCobolColumn(Node node,
+			CobolRecordMetaData meta) {
 		CobolColumn ret = null;
 		NamedNodeMap map = node.getAttributes();
 		try {
@@ -257,7 +260,8 @@ public class NodeReadLoader {
 				}
 				String className = classNameNode.getNodeValue();
 				Class<?> clazz0 = Class.forName(className);
-				Class<? extends CobolColumn> clazz = clazz0.asSubclass(CobolColumn.class);
+				Class<? extends CobolColumn> clazz = clazz0
+						.asSubclass(CobolColumn.class);
 				if (constructorTypeNum == 0) {
 					// 引数なし
 					ret = clazz.newInstance();
@@ -265,26 +269,35 @@ public class NodeReadLoader {
 					// メタデータのみを引数にする
 					try {
 						Class<?>[] params = new Class<?>[] { CobolRecordMetaData.class };
-						Constructor<? extends CobolColumn> constructor = clazz.getConstructor(params);
+						Constructor<? extends CobolColumn> constructor = clazz
+								.getConstructor(params);
 						ret = constructor.newInstance(new Object[] { meta });
 					} catch (NoSuchMethodException e) {
-						SQLNetServer.logger.log(Level.WARNING, "can't find constoructor.", e);
+						SQLNetServer.logger.log(Level.WARNING,
+								"can't find constoructor.", e);
 						ret = clazz.newInstance();
 					}
 				} else if (constructorTypeNum == 2) {
 					// XMLノードも利用する
 					try {
-						Class<?>[] params = new Class<?>[] { CobolRecordMetaData.class, Node.class };
-						Constructor<? extends CobolColumn> constructor = clazz.getConstructor(params);
-						ret = constructor.newInstance(new Object[] { meta, node });
+						Class<?>[] params = new Class<?>[] {
+								CobolRecordMetaData.class, Node.class };
+						Constructor<? extends CobolColumn> constructor = clazz
+								.getConstructor(params);
+						ret = constructor
+								.newInstance(new Object[] { meta, node });
 					} catch (NoSuchMethodException e) {
-						SQLNetServer.logger.log(Level.WARNING, "can't find constoructor.", e);
+						SQLNetServer.logger.log(Level.WARNING,
+								"can't find constoructor.", e);
 						try {
 							Class<?>[] params = new Class<?>[] { CobolRecordMetaData.class };
-							Constructor<? extends CobolColumn> constructor = clazz.getConstructor(params);
-							ret = constructor.newInstance(new Object[] { meta });
+							Constructor<? extends CobolColumn> constructor = clazz
+									.getConstructor(params);
+							ret = constructor
+									.newInstance(new Object[] { meta });
 						} catch (NoSuchMethodException e1) {
-							SQLNetServer.logger.log(Level.WARNING, "can't find constoructor.", e1);
+							SQLNetServer.logger.log(Level.WARNING,
+									"can't find constoructor.", e1);
 							ret = clazz.newInstance();
 						}
 					}
@@ -311,7 +324,8 @@ public class NodeReadLoader {
 			ret = new DefaultCobolColumn(meta);
 		}
 		if (ret instanceof SQLCobolColumn) {
-			createSQLCobolColumn(node, (SQLCobolRecordMetaData) meta, (SQLCobolColumn) ret);
+			createSQLCobolColumn(node, (SQLCobolRecordMetaData) meta,
+					(SQLCobolColumn) ret);
 		} else {
 			createCobolColumn(node, ret);
 		}
@@ -329,14 +343,20 @@ public class NodeReadLoader {
 	 *            このメタデータを含むメタデータセット
 	 * @return メタデータ
 	 */
-	protected CobolRecordMetaData createCustomMetaData(String className, Node node, CobolRecordMetaDataSet parent) throws ClassNotFoundException, SecurityException, IllegalArgumentException, InstantiationException, IllegalAccessException,
-			InvocationTargetException, ClassCastException {
+	protected CobolRecordMetaData createCustomMetaData(String className,
+			Node node, CobolRecordMetaDataSet parent)
+			throws ClassNotFoundException, SecurityException,
+			IllegalArgumentException, InstantiationException,
+			IllegalAccessException, InvocationTargetException,
+			ClassCastException {
 		CobolRecordMetaData ret = null;
 		Class<?> claxx = Class.forName(className);
-		Class<? extends CobolRecordMetaData> clazz = claxx.asSubclass(CobolRecordMetaData.class);
+		Class<? extends CobolRecordMetaData> clazz = claxx
+				.asSubclass(CobolRecordMetaData.class);
 		try {
 			Class<?>[] params = new Class<?>[] { Node.class };
-			Constructor<? extends CobolRecordMetaData> constructor = clazz.getConstructor(params);
+			Constructor<? extends CobolRecordMetaData> constructor = clazz
+					.getConstructor(params);
 			ret = constructor.newInstance(new Object[] { node });
 		} catch (NoSuchMethodException e) {
 			ret = clazz.newInstance();
@@ -387,7 +407,8 @@ public class NodeReadLoader {
 	 *            メタデータを含むメタデータセット
 	 * @return メタデータ
 	 */
-	protected CobolRecordMetaData createMetaData(Node node, CobolRecordMetaDataSet parent) {
+	protected CobolRecordMetaData createMetaData(Node node,
+			CobolRecordMetaDataSet parent) {
 		CobolRecordMetaData meta = null;
 		// マップ
 		NamedNodeMap map = node.getAttributes();
@@ -414,19 +435,26 @@ public class NodeReadLoader {
 				try {
 					meta = createCustomMetaData(customName, node, parent);
 				} catch (SecurityException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger
+							.log(Level.CONFIG, "sumething wrong.", e);
 				} catch (IllegalArgumentException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger
+							.log(Level.CONFIG, "sumething wrong.", e);
 				} catch (ClassCastException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger
+							.log(Level.CONFIG, "sumething wrong.", e);
 				} catch (ClassNotFoundException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger
+							.log(Level.CONFIG, "sumething wrong.", e);
 				} catch (InstantiationException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger
+							.log(Level.CONFIG, "sumething wrong.", e);
 				} catch (IllegalAccessException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger
+							.log(Level.CONFIG, "sumething wrong.", e);
 				} catch (InvocationTargetException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger
+							.log(Level.CONFIG, "sumething wrong.", e);
 				} finally {
 					if (meta == null) {
 						meta = new DefaultSQLCobolRecordMetaData();
@@ -448,7 +476,8 @@ public class NodeReadLoader {
 		Node bufinit = map.getNamedItem("bufinit");
 		if (bufinit != null) {
 			try {
-				meta.setInitialSequencialReadBufferSize(Integer.parseInt(bufinit.getNodeValue()));
+				meta.setInitialSequencialReadBufferSize(Integer
+						.parseInt(bufinit.getNodeValue()));
 			} catch (NumberFormatException e) {
 				SQLNetServer.logger.log(Level.CONFIG, "can't read bufsize.", e);
 			}
@@ -457,7 +486,8 @@ public class NodeReadLoader {
 		Node bufmin = map.getNamedItem("bufmin");
 		if (bufmin != null) {
 			try {
-				meta.setMinimumSequencialReadBufferSize(Integer.parseInt(bufmin.getNodeValue()));
+				meta.setMinimumSequencialReadBufferSize(Integer.parseInt(bufmin
+						.getNodeValue()));
 			} catch (NumberFormatException e) {
 				SQLNetServer.logger.log(Level.CONFIG, "can't read bufsize.", e);
 			}
@@ -466,7 +496,8 @@ public class NodeReadLoader {
 		Node bufmax = map.getNamedItem("bufmax");
 		if (bufmax != null) {
 			try {
-				meta.setMaximumSequencialReadBufferSize(Integer.parseInt(bufmax.getNodeValue()));
+				meta.setMaximumSequencialReadBufferSize(Integer.parseInt(bufmax
+						.getNodeValue()));
 			} catch (NumberFormatException e) {
 				SQLNetServer.logger.log(Level.CONFIG, "can't read bufsize.", e);
 			}
@@ -488,13 +519,17 @@ public class NodeReadLoader {
 						sql.append(sqlchild.getNodeValue());
 					}
 				}
-			} else if (child.getNodeName().equals("column") && meta instanceof SQLCobolRecordMetaData) {
+			} else if (child.getNodeName().equals("column")
+					&& meta instanceof SQLCobolRecordMetaData) {
 				// ただの列（ちょっと困る）
-				CobolColumn cobolColumn = createSQLCobolColumn(child, (SQLCobolRecordMetaData) meta, null);
+				CobolColumn cobolColumn = createSQLCobolColumn(child,
+						(SQLCobolRecordMetaData) meta, null);
 				meta.addColumn(cobolColumn);
-			} else if (child.getNodeName().equals("sqlcolumn") && meta instanceof SQLCobolRecordMetaData) {
+			} else if (child.getNodeName().equals("sqlcolumn")
+					&& meta instanceof SQLCobolRecordMetaData) {
 				// SQL列
-				CobolColumn cobolColumn = createSQLCobolColumn(child, (SQLCobolRecordMetaData) meta, null);
+				CobolColumn cobolColumn = createSQLCobolColumn(child,
+						(SQLCobolRecordMetaData) meta, null);
 				meta.addColumn(cobolColumn);
 			} else if (child.getNodeName().equals("customcolumn")) {
 				// カスタム列
@@ -520,12 +555,15 @@ public class NodeReadLoader {
 					for (String classname : classnames) {
 						try {
 							Class<?> clazz0 = Class.forName(classname);
-							Class<? extends CobolFileEventListener> clazz = clazz0.asSubclass(CobolFileEventListener.class);
+							Class<? extends CobolFileEventListener> clazz = clazz0
+									.asSubclass(CobolFileEventListener.class);
 							meta.getListenerClasses().add(clazz);
 						} catch (ClassCastException e) {
-							SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+							SQLNetServer.logger.log(Level.WARNING, e
+									.getMessage(), e);
 						} catch (ClassNotFoundException e) {
-							SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+							SQLNetServer.logger.log(Level.WARNING, e
+									.getMessage(), e);
 						}
 					}
 				}
@@ -543,7 +581,8 @@ public class NodeReadLoader {
 						meta.getCobolIndexes().add(index);
 					}
 				} catch (CobolRecordException e) {
-					SQLNetServer.logger.log(Level.SEVERE, "can't add index.", e);
+					SQLNetServer.logger
+							.log(Level.SEVERE, "can't add index.", e);
 				}
 			} else {
 				// とりあえず考えてない
@@ -573,7 +612,8 @@ public class NodeReadLoader {
 	 *            メタデータセット
 	 * @return メタデータセット
 	 */
-	public CobolRecordMetaDataSet createMetaDataSet(Document document, CobolRecordMetaDataSet meta, Properties properties) {
+	public CobolRecordMetaDataSet createMetaDataSet(Document document,
+			CobolRecordMetaDataSet meta, Properties properties) {
 		if (meta == null) {
 			meta = new SQLCobolRecordMetaDataSet();
 		}
@@ -596,7 +636,10 @@ public class NodeReadLoader {
 	 *            メタデータセット
 	 * @return メタデータセット
 	 */
-	public CobolRecordMetaDataSet createMetaDataSet(File file, CobolRecordMetaDataSet meta, Properties properties) throws ParserConfigurationException, FactoryConfigurationError, FactoryConfigurationError, SAXException, IOException {
+	public CobolRecordMetaDataSet createMetaDataSet(File file,
+			CobolRecordMetaDataSet meta, Properties properties)
+			throws ParserConfigurationException, FactoryConfigurationError,
+			FactoryConfigurationError, SAXException, IOException {
 		Document document1;
 		DocumentBuilder docBld;
 		docBld = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -613,7 +656,8 @@ public class NodeReadLoader {
 	 *            メタデータセット
 	 * @return メタデータセット
 	 */
-	public CobolRecordMetaDataSet createMetaDataSet(Node node, CobolRecordMetaDataSet meta, Properties properties) {
+	public CobolRecordMetaDataSet createMetaDataSet(Node node,
+			CobolRecordMetaDataSet meta, Properties properties) {
 		if (meta == null) {
 			meta = new SQLCobolRecordMetaDataSet();
 		}
@@ -627,7 +671,8 @@ public class NodeReadLoader {
 					// メタデータ
 					CobolRecordMetaData meta1 = createMetaData(item, meta);
 					meta.installMetaData(meta1);
-					SQLNetServer.logger.log(Level.CONFIG, "metadata:" + meta1.getName());
+					SQLNetServer.logger.log(Level.CONFIG, "metadata:"
+							+ meta1.getName());
 				} else if (item.getNodeName().equals("property")) {
 					// マップ
 					NamedNodeMap map = item.getAttributes();
@@ -645,7 +690,9 @@ public class NodeReadLoader {
 						String wname = work.getNodeValue();
 						String wvalu = getNodeString(item);
 						classesOfSet.put(wname, wvalu);
-						SQLNetServer.logger.info("adding other processor of metadataset " + wname + ":" + wvalu);
+						SQLNetServer.logger
+								.info("adding other processor of metadataset "
+										+ wname + ":" + wvalu);
 					}
 				} else if (item.getNodeName().equals("otherofmeta")) {
 					// カスタムノード(メタデータ単体)
@@ -655,7 +702,9 @@ public class NodeReadLoader {
 						String wname = work.getNodeValue();
 						String wvalu = getNodeString(item);
 						classesOfMeta.put(wname, wvalu);
-						SQLNetServer.logger.info("adding other processor of metadata " + wname + ":" + wvalu);
+						SQLNetServer.logger
+								.info("adding other processor of metadata "
+										+ wname + ":" + wvalu);
 					}
 				} else if (item.getNodeName().equals("include")) {
 					// 外部のファイルをもとにこのメタデータを更新する
@@ -667,16 +716,23 @@ public class NodeReadLoader {
 						if (wfile.exists() && wfile.canRead()) {
 							NodeReadLoader child = new NodeReadLoader();
 							try {
-								SQLNetServer.logger.info("including metadata " + fname);
-								child.createMetaDataSet(wfile, meta, properties);
+								SQLNetServer.logger.info("including metadata "
+										+ fname);
+								child
+										.createMetaDataSet(wfile, meta,
+												properties);
 							} catch (ParserConfigurationException e) {
-								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+								SQLNetServer.logger.log(Level.WARNING, e
+										.getMessage(), e);
 							} catch (FactoryConfigurationError e) {
-								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+								SQLNetServer.logger.log(Level.WARNING, e
+										.getMessage(), e);
 							} catch (SAXException e) {
-								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+								SQLNetServer.logger.log(Level.WARNING, e
+										.getMessage(), e);
 							} catch (IOException e) {
-								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+								SQLNetServer.logger.log(Level.WARNING, e
+										.getMessage(), e);
 							}
 						}
 					}
@@ -699,7 +755,8 @@ public class NodeReadLoader {
 	 *            SQL列(新規の場合はnull)
 	 * @return SQL列
 	 */
-	protected SQLCobolColumn createSQLCobolColumn(Node node, SQLCobolRecordMetaData meta, SQLCobolColumn column) {
+	protected SQLCobolColumn createSQLCobolColumn(Node node,
+			SQLCobolRecordMetaData meta, SQLCobolColumn column) {
 		if (column == null) {// 新規の列
 			column = new SQLCobolColumn(meta);
 		}
@@ -797,7 +854,9 @@ public class NodeReadLoader {
 				String name = node.getNodeName();
 				if (classesOfMeta.containsKey(name)) {
 					String classname = classesOfMeta.getProperty(name);
-					Class<? extends MetaDataNodeProcessor> clazz = Class.forName(classname).asSubclass(MetaDataNodeProcessor.class);
+					Class<? extends MetaDataNodeProcessor> clazz = Class
+							.forName(classname).asSubclass(
+									MetaDataNodeProcessor.class);
 					MetaDataNodeProcessor processor = clazz.newInstance();
 					processor.processOtherNode(node, meta);
 				} else {
@@ -821,13 +880,16 @@ public class NodeReadLoader {
 	 * @param meta
 	 *            メタデータセット
 	 */
-	protected void proessOtherNodeOfSet(Node node, CobolRecordMetaDataSet meta, Properties properties) {
+	protected void proessOtherNodeOfSet(Node node, CobolRecordMetaDataSet meta,
+			Properties properties) {
 		try {
 			if (node.getNodeType() != Node.TEXT_NODE) {
 				String name = node.getNodeName();
 				if (classesOfSet.containsKey(name)) {
 					String classname = classesOfSet.getProperty(name);
-					Class<? extends MetaDataSetNodeProcessor> clazz = Class.forName(classname).asSubclass(MetaDataSetNodeProcessor.class);
+					Class<? extends MetaDataSetNodeProcessor> clazz = Class
+							.forName(classname).asSubclass(
+									MetaDataSetNodeProcessor.class);
 					MetaDataSetNodeProcessor processor = clazz.newInstance();
 					processor.processOtherNode(node, meta, properties);
 				} else {
