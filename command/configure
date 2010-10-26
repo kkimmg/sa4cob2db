@@ -2949,9 +2949,9 @@ fi
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-ljvm':
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -ljvm" >&5
-$as_echo_n "checking for main in -ljvm... " >&6; }
-if test "${ac_cv_lib_jvm_main+set}" = set; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for JNI_CreateJavaVM in -ljvm" >&5
+$as_echo_n "checking for JNI_CreateJavaVM in -ljvm... " >&6; }
+if test "${ac_cv_lib_jvm_JNI_CreateJavaVM+set}" = set; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -2959,27 +2959,33 @@ LIBS="-ljvm  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
-
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char JNI_CreateJavaVM ();
 int
 main ()
 {
-return main ();
+return JNI_CreateJavaVM ();
   ;
   return 0;
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_jvm_main=yes
+  ac_cv_lib_jvm_JNI_CreateJavaVM=yes
 else
-  ac_cv_lib_jvm_main=no
+  ac_cv_lib_jvm_JNI_CreateJavaVM=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_jvm_main" >&5
-$as_echo "$ac_cv_lib_jvm_main" >&6; }
-if test "x$ac_cv_lib_jvm_main" = x""yes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_jvm_JNI_CreateJavaVM" >&5
+$as_echo "$ac_cv_lib_jvm_JNI_CreateJavaVM" >&6; }
+if test "x$ac_cv_lib_jvm_JNI_CreateJavaVM" = x""yes; then :
   cat >>confdefs.h <<_ACEOF
 #define HAVE_LIBJVM 1
 _ACEOF

@@ -17,16 +17,12 @@ all:
 install:
 	$(INSTALL) acmclient.so $(DESTDIR)$(libdir)/
 	$(INSTALL) jniclient.so $(DESTDIR)$(libdir)/
-
-install_opencobol: install
 	$(LN_S) $(libdir)/acmclient.so $(libdir)/initializeSessionEnv.so
 	$(LN_S) $(libdir)/jniclient.so $(libdir)/initializeJNISessionEnv.so
 
 deinstall:
 	rm $(DESTDIR)$(libdir)/acmclient.so
 	rm $(DESTDIR)$(libdir)/jniclient.so
-
-deinstall_opencobol:
 	rm $(libdir)/initializeSessionEnv.so
 	rm $(libdir)/initializeJNISessionEnv.so
 

@@ -25,6 +25,8 @@ install:
 	cd command; make install
 
 deinstall:
+	cd cs; make deinstall
+	cd command; make deinstall
 	rm -rfv $(ACM_HOME)
 
 clean:
