@@ -19,7 +19,9 @@ AC_CHECK_FILE($JAVA_HOME, , AC_MSG_ERROR(Prease Set JAVA_HOME Environment))
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-ljvm':
-AC_CHECK_LIB([jvm], [JNI_CreateJavaVM], [], [AC_MSG_ERROR([could not find libjvm])])
+JAVA_CHECK_LIB="-L${JAVA_HOME}/jre/lib/i386 -R${JAVA_HOME}/jre/lib/i386 -L${JAVA_HOME}/jre/lib/i386/server -R${JAVA_HOME}/jre/lib/i386/server"
+LIBS="${JAVA_CHECK_LIB} ${defaultlibs}"
+AC_CHECK_LIB([jvm], [JNI_CreateJavaVM], [JAVA_LDFLAGS="${JAVA_CHECK_LIB} -ljava -ljvm -lverify"], [AC_MSG_ERROR([could not find libjvm])])
 
 # Checks for header files.
 AC_CHECK_HEADERS([arpa/inet.h netdb.h netinet/in.h stdlib.h string.h sys/param.h sys/socket.h unistd.h])

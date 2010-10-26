@@ -3026,6 +3026,8 @@ fi
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-ljvm':
+JAVA_CHECK_LIB="-L${JAVA_HOME}/jre/lib/i386 -R${JAVA_HOME}/jre/lib/i386 -L${JAVA_HOME}/jre/lib/i386/server -R${JAVA_HOME}/jre/lib/i386/server"
+LIBS="${JAVA_CHECK_LIB} ${defaultlibs}"
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for JNI_CreateJavaVM in -ljvm" >&5
 $as_echo_n "checking for JNI_CreateJavaVM in -ljvm... " >&6; }
@@ -3064,12 +3066,9 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_jvm_JNI_CreateJavaVM" >&5
 $as_echo "$ac_cv_lib_jvm_JNI_CreateJavaVM" >&6; }
 if test "x$ac_cv_lib_jvm_JNI_CreateJavaVM" = x""yes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBJVM 1
-_ACEOF
-
-  LIBS="-ljvm $LIBS"
-
+  JAVA_LDFLAGS="${JAVA_CHECK_LIB} -ljava -ljvm -lverify"
+else
+  as_fn_error $? "could not find libjvm" "$LINENO" 5
 fi
 
 
