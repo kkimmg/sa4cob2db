@@ -19,7 +19,7 @@ AC_CHECK_FILE($JAVA_HOME, , AC_MSG_ERROR(Prease Set JAVA_HOME Environment))
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-ljvm':
-AC_CHECK_LIB([jvm], [main])
+AC_CHECK_LIB([jvm], [JNI_CreateJavaVM])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h string.h sys/param.h unistd.h])
