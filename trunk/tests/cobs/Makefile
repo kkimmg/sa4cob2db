@@ -1,7 +1,7 @@
 CC = gcc
 COBC = cobc
-COBPP = ../../command/cobpp -t -s EUCJP
-COBP2 = ../../command/cobpp    -s EUCJP
+COBPP = cobpp -t -s EUCJP
+COBP2 = cobpp    -s EUCJP
 CFLAGS = -v -Wall -g -x
 COBFLAGS = -c `cob-config --cflags`
 #JDKLIB = -I/usr/local/jdk1.5.0/include/
