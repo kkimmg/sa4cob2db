@@ -1,6 +1,6 @@
 DESTDIR = 
 prefix = @prefix@
-exec_prefix = @exec_prefix@
+exec_prefix = @exec_prefix@/bin
 CC = @CC@
 INSTALL = @INSTALL@
 JAVA_HOME = @JAVA_HOME@
