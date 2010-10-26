@@ -6,13 +6,14 @@ INSTALL = @INSTALL@
 JAVA_HOME = @JAVA_HOME@
 JDKLIB = -I$(JAVA_HOME)/include/
 JDKOSLIB = -I$(JAVA_HOME)/include/linux/
-JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/client
+#JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/client
+JVMLINK = -L$(JAVA_HOME)/jre/lib/i386 -R$(JAVA_HOME)/jre/lib/i386 -L$(JAVA_HOME)/jre/lib/i386/client -R$(JAVA_HOME)/jre/lib/i386/client
 
 all:
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v acm2seq.c getJNIOption.c -o acm2seq
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v seq2acm.c getJNIOption.c -o seq2acm
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v cobpp.c   getJNIOption.c -o cobpp
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v sqlnetserver.c   getJNIOption.c -o sqlnetserver
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljava -ljvm -lverify -Wall -v acm2seq.c getJNIOption.c -o acm2seq
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljava -ljvm -lverify -Wall -v seq2acm.c getJNIOption.c -o seq2acm
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljava -ljvm -lverify -Wall -v cobpp.c   getJNIOption.c -o cobpp
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljava -ljvm -lverify -Wall -v sqlnetserver.c   getJNIOption.c -o sqlnetserver
 
 install:
 	$(INSTALL) acm2seq $(exec_prefix)/
