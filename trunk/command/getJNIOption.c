@@ -20,12 +20,12 @@ char *getClasspath () {
 	char *envpath;
 	envpath = getenv(CLASSPATH);
 	if (envpath == NULL) {
-		classpathOption = (char *)malloc(strlen(CLASSPATHOPTION) + strlen(ACM_HOME) + strlen(JARFILE) );
+		classpathOption = (char *)malloc(strlen(CLASSPATHOPTION) + strlen(ACM_HOME) + strlen(JARFILE) + 1);
 		strcpy(classpathOption, CLASSPATHOPTION);
 		strcat(classpathOption, ACM_HOME);
 		strcat(classpathOption, JARFILE);
 	} else {
-		classpathOption = (char *)malloc(strlen(CLASSPATHOPTION) + strlen(envpath) + strlen(":") + strlen(ACM_HOME) + strlen(JARFILE));
+		classpathOption = (char *)malloc(strlen(CLASSPATHOPTION) + strlen(envpath) + strlen(":") + strlen(ACM_HOME) + strlen(JARFILE) + 1);
 		strcpy(classpathOption, CLASSPATHOPTION);
 		strcat(classpathOption, envpath);
 		strcat(classpathOption, ":");
