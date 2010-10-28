@@ -26,7 +26,7 @@ char *getClasspath () {
 		strcat(classpathOption, ACM_HOME);
 		strcat(classpathOption, JARFILE);
 	} else {
-		classpathOption = (char *)malloc(strlen(CLASSPATHOPTION) + strlen(envpath) + strlen(":") + strlen(ACM_HOME) + strlen(JARFILE)　+ 1);
+		classpathOption = (char *)malloc(strlen(CLASSPATHOPTION) + strlen(envpath) + strlen(":") + strlen(ACM_HOME) + strlen(JARFILE) + 1);
 		strcpy(classpathOption, CLASSPATHOPTION);
 		strcat(classpathOption, envpath);
 		strcat(classpathOption, ":");
