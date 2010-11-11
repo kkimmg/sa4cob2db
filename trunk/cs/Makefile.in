@@ -9,11 +9,11 @@ JAVA_HOME = @JAVA_HOME@
 JDKLIB = -I$(JAVA_HOME)/include/
 JDKOSLIB = -I$(JAVA_HOME)/include/linux/
 #JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/client
-JVMLINK = -L$(JAVA_HOME)/jre/lib/i386 -R$(JAVA_HOME)/jre/lib/i386 -L$(JAVA_HOME)/jre/lib/i386/client -R$(JAVA_HOME)/jre/lib/i386/client
+JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/client
 
 all:
 	$(CC)                                        -Wall -shared -v acmclient.c                -o acmclient.so
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljava -ljvm -lverify -Wall -shared -v jniclient.c getJNIOption.c -o jniclient.so
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -shared -v jniclient.c getJNIOption.c -o jniclient.so
 
 install:
 	$(INSTALL) acmclient.so $(DESTDIR)$(libdir)/
