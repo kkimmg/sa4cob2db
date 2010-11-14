@@ -610,6 +610,7 @@ CPPFLAGS
 LDFLAGS
 CFLAGS
 CC
+ACM_HOME
 target_alias
 host_alias
 build_alias
@@ -655,6 +656,7 @@ enable_option_checking
       ac_precious_vars='build_alias
 host_alias
 target_alias
+ACM_HOME
 CC
 CFLAGS
 LDFLAGS
@@ -1270,6 +1272,7 @@ if test -n "$ac_init_help"; then
   cat <<\_ACEOF
 
 Some influential environment variables:
+  ACM_HOME    install directory
   CC          C compiler command
   CFLAGS      C compiler flags
   LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
@@ -2000,9 +2003,12 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 ac_config_headers="$ac_config_headers config.h"
 
 
+ACM_HOME="/opt/sa4cob2db"
+
 cat >>confdefs.h <<_ACEOF
 #define ACM_HOME "/opt/sa4cob2db"
 _ACEOF
+
 
 
 # Checks for programs.
