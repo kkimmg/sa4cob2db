@@ -1,7 +1,8 @@
 DESTDIR = 
-BINDIR = @ACM_HOME@/bin
 CC = @CC@
 INSTALL = @INSTALL@
+ACM_HOME = @ACM_HOME@
+BINDIR = $(ACM_HOME)/bin
 JAVA_HOME = @JAVA_HOME@
 JDKLIB = -I$(JAVA_HOME)/include/
 JDKOSLIB = -I$(JAVA_HOME)/include/linux/

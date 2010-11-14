@@ -1,6 +1,7 @@
 DESTDIR = 
-LIBDIR = @ACM_HOME@/lib
 CC = @CC@
+ACM_HOME = @ACM_HOME@
+LIBDIR = $(ACM_HOME)/lib
 INSTALL = @INSTALL@
 LN_S = @LN_S@
 JAVA_HOME = @JAVA_HOME@
@@ -13,6 +14,7 @@ all:
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -shared -v jniclient.c getJNIOption.c -o jniclient.so
 
 install:
+	mkdir $(LIBDIR)
 	$(INSTALL) acmclient.so $(LIBDIR)/
 	$(INSTALL) jniclient.so $(LIBDIR)/
 	$(LN_S) $(LIBDIR)/acmclient.so $(LIBDIR)/initializeSessionEnv.so
