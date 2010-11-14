@@ -1,31 +1,29 @@
 DESTDIR = 
-prefix = @prefix@
-exec_prefix = @exec_prefix@
-libdir = @libdir@
+LIBDIR = @ACM_HOME@/lib
 CC = @CC@
 INSTALL = @INSTALL@
 LN_S = @LN_S@
 JAVA_HOME = @JAVA_HOME@
 JDKLIB = -I$(JAVA_HOME)/include/
 JDKOSLIB = -I$(JAVA_HOME)/include/linux/
-#JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/client
-JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/client
+JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/server
 
 all:
 	$(CC)                                        -Wall -shared -v acmclient.c                -o acmclient.so
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -shared -v jniclient.c getJNIOption.c -o jniclient.so
 
 install:
-	$(INSTALL) acmclient.so $(DESTDIR)$(libdir)/
-	$(INSTALL) jniclient.so $(DESTDIR)$(libdir)/
-	$(LN_S) $(libdir)/acmclient.so $(libdir)/initializeSessionEnv.so
-	$(LN_S) $(libdir)/jniclient.so $(libdir)/initializeJNISessionEnv.so
+	$(INSTALL) acmclient.so $(LIBDIR)/
+	$(INSTALL) jniclient.so $(LIBDIR)/
+	$(LN_S) $(LIBDIR)/acmclient.so $(LIBDIR)/initializeSessionEnv.so
+	$(LN_S) $(LIBDIR)/jniclient.so $(LIBDIR)/initializeJNISessionEnv.so
 
 deinstall:
-	rm $(DESTDIR)$(libdir)/acmclient.so
-	rm $(DESTDIR)$(libdir)/jniclient.so
-	rm $(libdir)/initializeSessionEnv.so
-	rm $(libdir)/initializeJNISessionEnv.so
+	rm $(LIBDIR)/acmclient.so
+	rm $(LIBDIR)/jniclient.so
+	rm $(LIBDIR)/initializeSessionEnv.so
+	rm $(LIBDIR)/initializeJNISessionEnv.so
+	rm -rv $(LIBDIR)
 
 clean:
 	rm acmclient.so

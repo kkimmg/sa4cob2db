@@ -1,6 +1,5 @@
 DESTDIR = 
-prefix = @prefix@
-exec_prefix = @exec_prefix@/bin
+BINDIR = @ACM_HOME@/bin
 CC = @CC@
 INSTALL = @INSTALL@
 JAVA_HOME = @JAVA_HOME@
@@ -16,16 +15,18 @@ all:
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v sqlnetserver.c   getJNIOption.c -o sqlnetserver
 
 install:
-	$(INSTALL) acm2seq $(exec_prefix)/
-	$(INSTALL) seq2acm $(exec_prefix)/
-	$(INSTALL) cobpp $(exec_prefix)/
-	$(INSTALL) sqlnetserver $(exec_prefix)/
+	mkdir $(BINDIR)
+	$(INSTALL) acm2seq $(BINDIR)/
+	$(INSTALL) seq2acm $(BINDIR)/
+	$(INSTALL) cobpp $(BINDIR)/
+	$(INSTALL) sqlnetserver $(BINDIR)/
 
 deinstall:
-	rm $(exec_prefix)/acm2seq
-	rm $(exec_prefix)/seq2acm
-	rm $(exec_prefix)/cobpp
-	rm $(exec_prefix)/sqlnetserver
+	rm $(BINDIR)/acm2seq
+	rm $(BINDIR)/seq2acm
+	rm $(BINDIR)/cobpp
+	rm $(BINDIR)/sqlnetserver
+	rm -rv $(BINDIR)
 
 clean:
 	rm acm2seq
