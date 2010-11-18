@@ -363,7 +363,6 @@ public class ACMSQLJNISession implements ACMSession {
 	/**
 	 * 次のレコードへ
 	 * @param fileName
-	 * @return
 	 */
 	public void readNext(byte[] fileName) {
 		FileStatus ret = FileStatus.FAILURE;
