@@ -2,7 +2,6 @@
  * 
  */
 package k_kim_mg.sa4cob2db.sql;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,17 +13,13 @@ import java.sql.Connection;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
-
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
-
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
-
 import org.xml.sax.SAXException;
-
 /**
  * シーケンシャルファイルから入力する
  * 
@@ -49,13 +44,12 @@ public class Seq2Acm {
 			}
 		}
 	}
-
 	/**
 	 * 環境変数を取得する
 	 * 
 	 * @param key
 	 * @param defaultValue
-	 * @return
+	 * @return 環境変数の値を示す文字列
 	 */
 	private static String getEnvValue(String key, String defaultValue) {
 		String ret = System.getProperty(key, System.getenv(key));
@@ -65,7 +59,6 @@ public class Seq2Acm {
 			ret = defaultValue;
 		return ret;
 	}
-
 	/** 起動ルーチン */
 	public static void main(String[] args) {
 		Properties properties = new Properties();
@@ -100,14 +93,11 @@ public class Seq2Acm {
 		// 使い方の説明
 		displayUsage(properties);
 	}
-
 	/**
 	 * 起動ルーチン
 	 * 
 	 * @param acmfile
 	 *            入力ファイル
-	 * @param outfile
-	 *            出力ファイル
 	 * @param metafile
 	 *            メタデータファイル
 	 * @param linein
@@ -122,13 +112,10 @@ public class Seq2Acm {
 	public static void main_too(String acmfile, String infile, String metafile, String linein, String extend, String display_usage) {
 		Seq2Acm.main(new String[] { acmfile, infile, metafile, linein, extend, display_usage });
 	}
-
 	/** JDBCコネクション */
 	private Connection connection;
-
 	/** 内部ファイルサーバー */
 	private SQLFileServer fileServer;
-
 	/**
 	 * 名称からコボルファイルを取得する
 	 * 
@@ -145,7 +132,6 @@ public class Seq2Acm {
 		}
 		return file;
 	}
-
 	/**
 	 * ストリームに出力する
 	 * 
@@ -175,7 +161,6 @@ public class Seq2Acm {
 		// 出力結果
 		System.err.println("Row Count = " + count);
 	}
-
 	/**
 	 * ストリームに出力する
 	 * 
@@ -204,7 +189,6 @@ public class Seq2Acm {
 		// 出力結果
 		System.err.println("Row Count = " + count);
 	}
-
 	/**
 	 * ストリームに出力する
 	 * 
@@ -224,7 +208,6 @@ public class Seq2Acm {
 			importTo(file, stream);
 		}
 	}
-
 	/**
 	 * 出力する
 	 * 
