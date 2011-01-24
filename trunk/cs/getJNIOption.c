@@ -19,14 +19,17 @@
 char *getClasspath () {
 	static char *classpathOption;
 	char *envpath;
+	int len;
 	envpath = getenv(CLASSPATH);
 	if (envpath == NULL) {
-		classpathOption = (char *)malloc(strlen(CLASSPATHOPTION) + strlen(ACM_HOME) + strlen(JARFILE) + 1);
+		len = strlen(CLASSPATHOPTION) + strlen(ACM_HOME) + strlen(JARFILE)/* + 1 */;/* printf("len=%i", len) */;
+		classpathOption = (char *)malloc(len);
 		strcpy(classpathOption, CLASSPATHOPTION);
 		strcat(classpathOption, ACM_HOME);
 		strcat(classpathOption, JARFILE);
 	} else {
-		classpathOption = (char *)malloc(strlen(CLASSPATHOPTION) + strlen(envpath) + strlen(":") + strlen(ACM_HOME) + strlen(JARFILE) + 1);
+		len = strlen(CLASSPATHOPTION) + strlen(envpath) + strlen(":") + strlen(ACM_HOME) + strlen(JARFILE);
+		classpathOption = (char *)malloc(len);
 		strcpy(classpathOption, CLASSPATHOPTION);
 		strcat(classpathOption, envpath);
 		strcat(classpathOption, ":");
@@ -39,14 +42,17 @@ char *getClasspath () {
 char *getConfigFile () {
 	static char *configOption;
 	char *envconfig;
+	int len;
 	envconfig = getenv(ACM_CONFFILE);
 	if (envconfig == NULL) {
-		configOption = (char *)malloc(strlen(CONFOPTION) + strlen(ACM_HOME) + strlen(DEFNAME));
+		len = strlen(CONFOPTION) + strlen(ACM_HOME) + strlen(DEFNAME);
+		configOption = (char *)malloc(len);
 		strcpy(configOption, CONFOPTION);
 		strcat(configOption, ACM_HOME);
 		strcat(configOption, DEFNAME);
 	} else {
-		configOption = (char *)malloc(strlen(CONFOPTION) + strlen(envconfig));
+		len = strlen(CONFOPTION) + strlen(envconfig);
+		configOption = (char *)malloc(len);
 		strcpy(configOption, CONFOPTION);
 		strcat(configOption, envconfig);
 	}
