@@ -1,7 +1,7 @@
 package k_kim_mg.sa4cob2db;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
@@ -709,6 +709,24 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 */
 	protected int compare(byte[] record1, byte[] record2)
 			throws CobolRecordException {
+		CobolRecordMetaData meta = getMetaData();
+		return compare(record1, record2, meta.isKeyByValue());
+	}
+
+	/**
+	 * レコードバイト配列の比較 キー列を比較する
+	 * 
+	 * @param record1
+	 *            レコードバイト配列
+	 * @param record2
+	 *            レコードバイト配列
+	 * @return STATUS_EQUAL キーが等しい <br/>
+	 *         STATUS_REC1 record1のキーが小さい <br/>
+	 *         STATUS_REC2 record2のキーが小さい
+	 * @throws CobolRecordException
+	 */
+	protected int compare_byBytes(byte[] record1, byte[] record2)
+			throws CobolRecordException {
 		int ret = COMPARE_EQUAL;
 		CobolRecordMetaData meta = getMetaData();
 		// レコード１
@@ -753,7 +771,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			throws CobolRecordException {
 		if (byValue)
 			return compare_byValue(record1, record2);
-		return compare(record1, record2);
+		return compare_byBytes(record1, record2);
 	}
 
 	/**
@@ -784,14 +802,50 @@ public abstract class AbstractCobolFile implements CobolFile {
 			CobolColumn key = meta.getKey(i);
 			switch (key.getType()) {
 			case CobolColumn.TYPE_DATE:
+			case CobolColumn.TYPE_TIME:
+			case CobolColumn.TYPE_TIMESTAMP:
 				Date date1 = crecord1.getDate(key);
 				Date date2 = crecord2.getDate(key);
 				if (date1.after(date2)) {
-					return COMPARE_REC1;
-				} else if (date1.before(date2)) {
 					return COMPARE_REC2;
+				} else if (date1.before(date2)) {
+					return COMPARE_REC1;
 				}
 				break;
+			case CobolColumn.TYPE_DOUBLE:
+			case CobolColumn.TYPE_FLOAT:
+				double double1 = crecord1.getDouble(key);
+				double double2 = crecord2.getDouble(key);
+				if (double1 > double2) {
+					return COMPARE_REC2;
+				} else if (double1 < double2) {
+					return COMPARE_REC1;
+				}
+				break;
+			case CobolColumn.TYPE_INTEGER:
+			case CobolColumn.TYPE_LONG:
+				long long1 = crecord1.getLong(key);
+				long long2 = crecord2.getLong(key);
+				if (long1 > long2) {
+					return COMPARE_REC2;
+				} else if (long1 < long2) {
+					return COMPARE_REC1;
+				}
+				break;
+			case CobolColumn.TYPE_XCHAR:
+			case CobolColumn.TYPE_NCHAR:
+				String string1 = crecord1.getString(key);
+				String string2 = crecord2.getString(key);
+				int work = string1.compareTo(string2);
+				if (work > 0) {
+					return COMPARE_REC2;
+				} else if (work < 0) {
+					return COMPARE_REC1;
+				}
+				break;
+			case CobolColumn.TYPE_STRUCT:
+			default:
+				return this.compare(record1, record2, false);
 			}
 			i++;
 		}
