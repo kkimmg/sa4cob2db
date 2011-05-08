@@ -502,6 +502,14 @@ public class NodeReadLoader {
 				SQLNetServer.logger.log(Level.CONFIG, "can't read bufsize.", e);
 			}
 		}
+		// 値によるキー比較
+		Node kbv = map.getNamedItem("keyval");
+		if (kbv != null) {
+			String keyval = kbv.getNodeValue().trim();
+			meta.setKeyByValue(Boolean.valueOf(keyval));
+		} else {
+			meta.setKeyByValue(false);
+		}
 		// 子ノードの探索
 		StringBuffer sql = new StringBuffer();
 		String truncate = null;
