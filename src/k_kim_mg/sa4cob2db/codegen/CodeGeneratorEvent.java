@@ -19,7 +19,7 @@ public class CodeGeneratorEvent extends EventObject {
 	/** ピリオドを追加するかどうか */
 	private String period;
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 * @param source	ファイル情報
 	 * @param owner		オーナー
 	 * @param generator	生成クラス

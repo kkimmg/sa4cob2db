@@ -9,12 +9,13 @@ import java.util.Properties;
 
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
- * 鐃緒申癲種申肇鐃緒申鐃緒申弌鐃緒申鬟轡鐃獣トワ申鐃緒申鐃藷すわ申
+ * Remote shutdown
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class RemoteShutdown {
 	/**
-	 * 鐃緒申鐃藷ソ¥申鐃暑か鐃緒申孫圓鐃緒申鐃	 * @param args ����ե�����̾
+	 * shutdown remote server
+	 * @param args name of property file
 	 */
 	public static void main(String[] args) {
 		if (args.length == 0) {
@@ -33,8 +34,8 @@ public class RemoteShutdown {
 		}
 	}
 	/**
-	 * ��⡼�ȥ����С���åȥ�����
-	 * @param properties �������
+	 * shutdown remote server
+	 * @param properties Properties
 	 */
 	public static void shutdown(Properties properties) throws RemoteException, MalformedURLException, NotBoundException {
 		String host = properties.getProperty("host", "localhost");
@@ -45,15 +46,15 @@ public class RemoteShutdown {
 		RemoteShutdown.shutdown(host, port, name, user, password);
 	}
 	/**
-	 * ��⡼�ȥ����С���åȥ�����
-	 * @param host �ۥ���̾
-	 * @param port �ݡ���
-	 * @param name �����С�̾
-	 * @param user �����̾
-	 * @param password �ѥ����
-	 * @throws RemoteException RMI��Ϣ���顼
-	 * @throws MalformedURLException RMI��Ϣ���顼
-	 * @throws NotBoundException RMI��Ϣ���顼
+	 * shutdown remote server
+	 * @param host hostname
+	 * @param port server port
+	 * @param name server name
+	 * @param user administrator name
+	 * @param password administrator password
+	 * @throws RemoteException RMI Exception
+	 * @throws MalformedURLException Invalid URL
+	 * @throws NotBoundException Server Not Found
 	 */
 	public static void shutdown(String host, String port, String name, String user, String password) throws RemoteException, MalformedURLException, NotBoundException {
 		try {

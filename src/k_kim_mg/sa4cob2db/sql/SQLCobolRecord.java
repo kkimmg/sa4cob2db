@@ -24,7 +24,7 @@ public class SQLCobolRecord extends DefaultCobolRecord {
 	/** 内部欠カセット */
 	private ResultSet resultSet;
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 * @param meta メタデータ
 	 * @param result 結果セット
 	 */

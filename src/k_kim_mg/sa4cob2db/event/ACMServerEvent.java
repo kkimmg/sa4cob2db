@@ -15,7 +15,7 @@ public class ACMServerEvent extends EventObject {
 	/** イベントの発生源 */
 	private transient SQLNetServer server;
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 * @param server	イベントの発生源(source)
 	 */
 	public ACMServerEvent (SQLNetServer server) {

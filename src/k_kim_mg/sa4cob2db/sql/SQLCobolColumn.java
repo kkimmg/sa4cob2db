@@ -28,7 +28,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	private boolean readIgnore = false, rewriteIgnore = false, writeIgnore = false;
 
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 * 
 	 * @param meta
 	 */

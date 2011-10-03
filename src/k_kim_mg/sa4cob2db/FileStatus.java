@@ -66,7 +66,7 @@ public class FileStatus {
 	/** エラーコード */
 	private int errCode = 0;
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 * @param statusCode コード
 	 * @param sqlStatus SQLステータス
 	 * @param errCode エラーコード
