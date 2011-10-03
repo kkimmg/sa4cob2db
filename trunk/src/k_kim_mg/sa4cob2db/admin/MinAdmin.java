@@ -9,38 +9,38 @@ import java.util.logging.Level;
 
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
- * 最小の管理機能
+ * Smallest administrative functions
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class MinAdmin extends UnicastRemoteObject implements IMinAdmin {
-	/** バージョン */
+	/** Version */
 	private static final long serialVersionUID = 1L;
-	/** 管理する */
+	/** Managing server */
 	private SQLNetServer server;
 	/**
-	 * コンストラクタ
-	 * @param port 受付ポート
-	 * @throws RemoteException RMIエラー
+	 * Constructor
+	 * @param port RMI Port
+	 * @throws RemoteException RemoteException
 	 */
 	public MinAdmin(SQLNetServer server, int port) throws RemoteException, AlreadyBoundException {
 		super(port);
 		this.server = server;
 	}
 	/**
-	 * コンストラクタ
-	 * @throws RemoteException RMIエラー
+	 * Constructor
+	 * @throws RemoteException RemoteException
 	 */
 	public MinAdmin(SQLNetServer server) throws RemoteException, AlreadyBoundException {
 		super();
 		this.server = server;
 	}
 	/**
-	 * シャットダウンする
-	 * @param mode モード
-	 * @param admin 管理者ユーザー名
-	 * @param password パスワード
-	 * @return true 成功</br>false 失敗
-	 * @throws RemoteException RMIエラー
+	 * Shutdown Server
+	 * @param mode Mode
+	 * @param admin Admin Username
+	 * @param password Admin Password
+	 * @return true Success</br>false Fault
+	 * @throws RemoteException Remote Exception
 	 */
 	public boolean shutdown(int mode, String admin, String password) throws RemoteException {
 		boolean ret = server.confirmAdminPassword(admin, password);

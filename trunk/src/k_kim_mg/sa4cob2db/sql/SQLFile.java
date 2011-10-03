@@ -26,7 +26,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	private transient SQLCobolRecord rowData;
 
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 * 
 	 * @param connection
 	 *            コネクション

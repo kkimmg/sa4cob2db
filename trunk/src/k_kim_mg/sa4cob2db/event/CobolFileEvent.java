@@ -17,7 +17,7 @@ public class CobolFileEvent extends EventObject {
 	/** ファイルステータス */
 	private transient FileStatus status;
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 * @param source	イベントの発生したCobolFileのオブジェクト
 	 */
 	public CobolFileEvent(CobolFile source, FileStatus status) {

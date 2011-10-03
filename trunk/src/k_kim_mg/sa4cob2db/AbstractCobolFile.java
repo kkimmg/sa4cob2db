@@ -69,7 +69,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		private volatile int wi;
 
 		/**
-		 * コンストラクタ<br>
+		 * Constructor<br>
 		 * 最小サイズ:2500<br>
 		 * 初期サイズ:5000<br>
 		 * 最大サイズ:10000<br>
@@ -80,7 +80,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 
 		/**
-		 * コンストラクタ
+		 * Constructor
 		 * 
 		 * @param initSize
 		 *            初期サイズ

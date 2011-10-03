@@ -20,13 +20,13 @@ public class DBConnector {
 	/** ユーザー名 */
 	private String username = "";
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 */
 	public DBConnector() {
 		super();
 	}
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 * @param driverURL JDBCドライバのURL
 	 * @param databaseURL JDBCデータソースのURL
 	 * @param userName JDBCユーザー名
@@ -155,7 +155,7 @@ public class DBConnector {
 	}
 	/**
 	 * これはやっていいのか?
-	 * @exception Throwable 親クラスで宣言されている
+	 * @exception Throwable 親クラスでDeclarationされている
 	 */
 	protected void finalyze() throws Throwable {
 		clearAllConnections();

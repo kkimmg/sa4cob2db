@@ -11,7 +11,7 @@ import k_kim_mg.sa4cob2db.FileStatus;
  */
 public class JNICodeGenerator extends TCPCodeGenerator {
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 * @param owner 呼び元
 	 */
 	public JNICodeGenerator(GeneratorOwner owner) {

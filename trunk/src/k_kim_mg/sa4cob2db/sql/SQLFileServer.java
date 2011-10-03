@@ -17,7 +17,7 @@ public class SQLFileServer {
 	protected/* synchronized */
 	/*  順序 */
 	int sequence = 0;
-	/** コンストラクタ */
+	/** Constructor */
 	public SQLFileServer() {
 		connector = new DBConnector();
 		metaDataSet = new SQLCobolRecordMetaDataSet();

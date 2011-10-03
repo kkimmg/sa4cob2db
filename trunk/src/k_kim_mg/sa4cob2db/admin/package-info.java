@@ -1,4 +1,4 @@
 /**
- * 簡易管理機能というよりリモートのシャットダウン機能
+ * Simplified management features
  */
 package k_kim_mg.sa4cob2db.admin;

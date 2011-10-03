@@ -248,7 +248,7 @@ public class NodeReadLoader {
 				Node constructorType = map.getNamedItem("constructor");
 				int constructorTypeNum = 2;
 				if (constructorType != null) {
-					// コンストラクタの引数の数を指定する
+					// Constructorの引数の数を指定する
 					String constructorTypeStr = constructorType.getNodeValue();
 					if (constructorTypeStr.equals("1")) {
 						constructorTypeNum = 1;

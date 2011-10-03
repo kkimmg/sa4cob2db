@@ -47,7 +47,7 @@ public class ACMSQLJNISession implements ACMSession {
 	public byte[] getStatus() {
 		return status;
 	}
-	/** コンストラクタ */
+	/** Constructor */
 	public ACMSQLJNISession() throws Exception {
 		super();
 	}

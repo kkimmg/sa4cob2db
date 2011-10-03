@@ -87,7 +87,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	/** バイト配列→オブジェクトの変換に失敗した場合 */
 	private Object valueOfParseError = null;
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 * @param meta メタデータ
 	 */
 	public DefaultCobolColumn(CobolRecordMetaData meta) {

@@ -41,7 +41,7 @@ public class SQLNetServer {
 		/** サーバーソケット */
 		private ServerSocket servsock;
 		/**
-		 * コンストラクタ
+		 * Constructor
 		 * 
 		 * @param server
 		 *            サーバー
@@ -216,7 +216,7 @@ public class SQLNetServer {
 	/** パスワードセット */
 	private Properties users;
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 * 
 	 * @param propertie
 	 *            サーバープロパティ

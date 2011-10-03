@@ -179,7 +179,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	Stack<String> stack = new Stack<String>();
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 * @param owner 呼び元
 	 */
 	public TCPCodeGenerator(GeneratorOwner owner) {
@@ -1741,7 +1741,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void whenFd(String text) {
 		process_fd();
 		inFD = false;
-		// レコード宣言
+		// レコードDeclaration
 		current = CobolConsts.FD;
 		if (checkFD(text)) {
 			add_fd("*ACM Genrated File Record");
@@ -1997,7 +1997,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text
 	 */
 	void whenStorage(String text) {
-		// 作業領域宣言
+		// 作業領域Declaration
 		if (inFD) {
 			add("*" + text);
 			add_fd(text);
