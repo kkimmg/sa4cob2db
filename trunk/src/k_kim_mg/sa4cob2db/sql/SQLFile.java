@@ -441,7 +441,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * 内部ファイルの行位置を移動する
+	 * Internalファイルの行位置を移動する
 	 * 
 	 * @return ステータス
 	 */
@@ -585,7 +585,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * 内部ファイルから取得する
+	 * Internalファイルから取得する
 	 * 
 	 * @param record
 	 *            連想するレコード

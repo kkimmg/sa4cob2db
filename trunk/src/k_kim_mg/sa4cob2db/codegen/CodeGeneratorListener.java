@@ -1,128 +1,128 @@
 package k_kim_mg.sa4cob2db.codegen;
 import java.util.EventListener;
 /**
- * コード生成持のイベント
+ * listener of CodeGeneratorEvent
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CodeGeneratorListener extends EventListener {
 	/**
-	 * CLOSEの後
-	 * @param e ジェネレータで発生したイベント
+	 * After CLOSE
+	 * @param e Event
 	 */
 	public void postClose(CodeGeneratorEvent e);
 	/**
-	 * COMMITの後
-	 * @param e ジェネレータで発生したイベント
+	 * After COMMIT
+	 * @param e Event
 	 */
 	public void postCommit(CodeGeneratorEvent e);
 	/**
-	 * DELETEの後
-	 * @param e ジェネレータで発生したイベント
+	 * After DELETE
+	 * @param e Event
 	 */
 	public void postDelete(CodeGeneratorEvent e);
 	/**
-	 * 初期化処理の後
-	 * @param e ジェネレータで発生したイベント
+	 * After Initialize
+	 * @param e Event
 	 */
 	public void postInitialize(CodeGeneratorEvent e);
 	/**
-	 * READの後
-	 * @param e ジェネレータで発生したイベント
+	 * After READ
+	 * @param e Event
 	 */
 	public void postMoveRead(CodeGeneratorEvent e);
 	/**
-	 * OPENの後
-	 * @param e ジェネレータで発生したイベント
+	 * After OPEN
+	 * @param e Event
 	 */
 	public void postOpen(CodeGeneratorEvent e);
 	/**
-	 * READ NEXTの後
-	 * @param e ジェネレータで発生したイベント
+	 * After READ NEXT
+	 * @param e Event
 	 */
 	public void postReadNext(CodeGeneratorEvent e);
 	/**
-	 * REWRITEの後
-	 * @param e ジェネレータで発生したイベント
+	 * After REWRITE
+	 * @param e Event
 	 */
 	public void postRewrite(CodeGeneratorEvent e);
 	/**
-	 * ROLLBACKの後
-	 * @param e ジェネレータで発生したイベント
+	 * After ROLLBACK
+	 * @param e Event
 	 */
 	public void postRollback(CodeGeneratorEvent e);
 	/**
-	 * STARTの後
-	 * @param e ジェネレータで発生したイベント
+	 * After START
+	 * @param e Event
 	 */
 	public void postStart(CodeGeneratorEvent e);
 	/**
-	 * 終了処理の後
-	 * @param e ジェネレータで発生したイベント
+	 * After Terminate
+	 * @param e Event
 	 */
 	public void postTerminate(CodeGeneratorEvent e);
 	/**
-	 * WRITEの後
-	 * @param e ジェネレータで発生したイベント
+	 * After WRITE
+	 * @param e Event
 	 */
 	public void postWrite(CodeGeneratorEvent e);
 	/**
-	 * CLOSEの前
-	 * @param e ジェネレータで発生したイベント
+	 * Before CLOSE
+	 * @param e Event
 	 */
 	public void preClose(CodeGeneratorEvent e);
 	/**
-	 * COMMITの前
-	 * @param e ジェネレータで発生したイベント
+	 * Before COMMIT
+	 * @param e Event
 	 */
 	public void preCommit(CodeGeneratorEvent e);
 	/**
-	 * DELETEの前
-	 * @param e ジェネレータで発生したイベント
+	 * Before DELETE
+	 * @param e Event
 	 */
 	public void preDelete(CodeGeneratorEvent e);
 	/**
-	 * 初期化処理の前
-	 * @param e ジェネレータで発生したイベント
+	 * Before Initialize
+	 * @param e Event
 	 */
 	public void preInitialize(CodeGeneratorEvent e);
 	/**
-	 * READの前
-	 * @param e ジェネレータで発生したイベント
+	 * Before READ
+	 * @param e Event
 	 */
 	public void preMoveRead(CodeGeneratorEvent e);
 	/**
-	 * OPENの前
-	 * @param e ジェネレータで発生したイベント
+	 * Before OPEN
+	 * @param e Event
 	 */
 	public void preOpen(CodeGeneratorEvent e);
 	/**
-	 * READ NEXTの前
-	 * @param e ジェネレータで発生したイベント
+	 * Before READ NEXT
+	 * @param e Event
 	 */
 	public void preReadNext(CodeGeneratorEvent e);
 	/**
-	 * REWRITEの前
-	 * @param e ジェネレータで発生したイベント
+	 * Before REWRITE
+	 * @param e Event
 	 */
 	public void preRewrite(CodeGeneratorEvent e);
 	/**
-	 * ROLLBACKの前
-	 * @param e ジェネレータで発生したイベント
+	 * Before ROLLBACK
+	 * @param e Event
 	 */
 	public void preRollback(CodeGeneratorEvent e);
 	/**
-	 * STARTの前
-	 * @param e ジェネレータで発生したイベント
+	 * Before START
+	 * @param e Event
 	 */
 	public void preStart(CodeGeneratorEvent e);
 	/**
-	 * 終了処理の前
-	 * @param e ジェネレータで発生したイベント
+	 * Before Terminate
+	 * @param e Event
 	 */
 	public void preTerminate(CodeGeneratorEvent e);
 	/**
-	 * WRITEの前
-	 * @param e ジェネレータで発生したイベント
+	 * Before WRITE
+	 * @param e Event
 	 */
 	public void preWrite(CodeGeneratorEvent e);
 }

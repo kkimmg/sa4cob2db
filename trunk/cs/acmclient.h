@@ -109,6 +109,9 @@ extern void initializeSession (char *hostname, char *hostport, char *username,
 /**初期化処理*/
 extern void initializeSessionEnv (char *status);
 
+/**初期化処理*/
+extern void libACMClient ();
+
 /**終了処理*/
 extern void terminateSession (char *status);
 

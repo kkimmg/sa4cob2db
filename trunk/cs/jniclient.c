@@ -150,6 +150,11 @@ initializeJNI () {
 
 /**初期化処理*/
 extern void
+libJNIClient () {
+}
+
+/**初期化処理*/
+extern void
 initializeJNISession (char *username, char *password, char *status) {
 	int i;
 	/* 初期化の初期化！ */

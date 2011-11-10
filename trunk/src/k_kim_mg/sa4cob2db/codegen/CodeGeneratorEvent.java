@@ -2,28 +2,25 @@ package k_kim_mg.sa4cob2db.codegen;
 
 import java.util.EventObject;
 /**
- * ジェネレータで発生したイベント
+ * Event that
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CodeGeneratorEvent extends EventObject {
-	/**
-	 * むむ？
-	 */
 	private static final long serialVersionUID = 1L;
-	/** ファイルの情報 */
+	/** file information */
 	private transient FileInfo file;
-	/** オーナー */
+	/** owner */
 	private transient GeneratorOwner owner;
-	/** 生成クラス */
+	/** generator  */
 	private transient CodeGenerator generator;
-	/** ピリオドを追加するかどうか */
+	/** period string */
 	private String period;
 	/**
 	 * Constructor
-	 * @param source	ファイル情報
-	 * @param owner		オーナー
-	 * @param generator	生成クラス
-	 * @param period	ピリオドを追加するかどうか
+	 * @param source	file information
+	 * @param owner		owner
+	 * @param generator	generator
+	 * @param period	period string
 	 */
 	public CodeGeneratorEvent (FileInfo source, GeneratorOwner owner, CodeGenerator generator, String period) {
 		super(source);
@@ -33,29 +30,29 @@ public class CodeGeneratorEvent extends EventObject {
 		this.period = period;
 	}
 	/**
-	 * ファイルの情報
-	 * @return ファイルの情報
+	 * file information
+	 * @return file information
 	 */
 	public FileInfo getFile() {
 		return file;
 	}
 	/**
-	 * ジェネレータ
-	 * @return ジェネレータ
+	 * generator
+	 * @return generator
 	 */
 	public CodeGenerator getGenerator() {
 		return generator;
 	}
 	/**
-	 * ジェネレータオーナー
-	 * @return ジェネレータオーナー
+	 * owner
+	 * @return owner
 	 */
 	public GeneratorOwner getOwner() {
 		return owner;
 	}
 	/**
-	 * ピリオドを追加するかどうか
-	 * @return ピリオド文字列
+	 * period
+	 * @return period string
 	 */
 	public String getPeriod() {
 		return period;

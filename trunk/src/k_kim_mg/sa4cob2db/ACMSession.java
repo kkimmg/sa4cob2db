@@ -6,13 +6,13 @@ import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 public interface ACMSession extends Serializable {
 	/**
 	 * ファイル(への参照)を作成する
-	 * @param name	ファイル名
+	 * @param name	filename
 	 * @return	ファイルオブジェクト
 	 */
 	public CobolFile createFile(String name);
 	/**
 	 * ファイル(への参照)を開放する
-	 * @param name	ファイル名
+	 * @param name	filename
 	 */
 	public void destroyFile(String name);
 	/**
@@ -22,7 +22,7 @@ public interface ACMSession extends Serializable {
 	public String getSessionId();
 	/**
 	 * 作成済みのファイル(への参照)を取得する
-	 * @param name	ファイル名
+	 * @param name	filename
 	 * @return	ファイルオブジェクト
 	 */
 	public CobolFile getFile(String name);

@@ -5,7 +5,8 @@
 extern void getStatus(char *status);
 /** レコードをセッションから取得する */
 extern void getRecord(char *record);
-/**
+/**初期化処理*/
+extern void libJNIClient ();/**
  * ソケットの初期化
  * サーバー側へのコネクション確立まで
  */

@@ -28,9 +28,9 @@ public class DefaultCobolIndex implements CobolIndex {
 		return indexKeyName;
 	}
 	/**
-	 * ファイル名<br>
-	 * インデックスに相当するCobolFileのファイル名
-	 * @param fileName インデックスのファイル名
+	 * filename<br>
+	 * インデックスに相当するCobolFileのfilename
+	 * @param fileName インデックスのfilename
 	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;

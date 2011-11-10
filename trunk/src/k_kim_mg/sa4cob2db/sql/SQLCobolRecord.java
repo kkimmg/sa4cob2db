@@ -21,7 +21,7 @@ public class SQLCobolRecord extends DefaultCobolRecord {
 	public static final int WRITE = 0;
 	/** JDBCコネクション */
 	private Connection connection;
-	/** 内部欠カセット */
+	/** Internal欠カセット */
 	private ResultSet resultSet;
 	/**
 	 * Constructor
@@ -42,7 +42,7 @@ public class SQLCobolRecord extends DefaultCobolRecord {
 	}
 	/**
 	 * 結果セットの取得
-	 * @return 内部結果セット
+	 * @return Internal結果セット
 	 */
 	protected ResultSet getResultSet() {
 		return resultSet;
@@ -102,7 +102,7 @@ public class SQLCobolRecord extends DefaultCobolRecord {
 	}
 	/**
 	 * 結果セットの設定
-	 * @param resultSet 内部に格納する結果セット
+	 * @param resultSet Internalに格納する結果セット
 	 */
 	protected void setResultSet(ResultSet resultSet) {
 		this.resultSet = resultSet;

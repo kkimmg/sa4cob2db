@@ -10,25 +10,21 @@ JDKOSLIB = -I$(JAVA_HOME)/include/linux/
 JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/server
 
 all:
-	$(CC)                                        -Wall -shared -v acmclient.c                -o acmclient.so
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -shared -v jniclient.c getJNIOption.c -o jniclient.so
+	$(CC)                                        -Wall -shared -v acmclient.c                -o libACMClient.so
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -shared -v jniclient.c getJNIOption.c -o libJNIClient.so
 
 install:
 	mkdir $(LIBDIR)
-	$(INSTALL) acmclient.so $(LIBDIR)/
-	$(INSTALL) jniclient.so $(LIBDIR)/
-	$(LN_S) $(LIBDIR)/acmclient.so $(LIBDIR)/initializeSessionEnv.so
-	$(LN_S) $(LIBDIR)/jniclient.so $(LIBDIR)/initializeJNISessionEnv.so
+	$(INSTALL) libACMClient.so $(LIBDIR)/
+	$(INSTALL) libJNIClient.so $(LIBDIR)/
 
 deinstall:
-	rm $(LIBDIR)/acmclient.so
-	rm $(LIBDIR)/jniclient.so
-	rm $(LIBDIR)/initializeSessionEnv.so
-	rm $(LIBDIR)/initializeJNISessionEnv.so
+	rm $(LIBDIR)/libACMClient.so
+	rm $(LIBDIR)/libJNIClient.so
 	rm -rv $(LIBDIR)
 
 clean:
-	rm acmclient.so
-	rm jniclient.so
+	rm libACMClient.so
+	rm libJNIClient.so
 	
 

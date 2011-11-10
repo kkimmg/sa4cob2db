@@ -1,37 +1,37 @@
 package k_kim_mg.sa4cob2db.codegen;
 
 /**
- * コード生成時のファイルの情報を保持するオブジェクト
+ * An object that holds information about the file during code generation
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface FileInfo {
 	/**
-	 * アクセスモード
-	 * @return	アクセスモード
+	 * Aceess Mode
+	 * @return	Aceess Mode
 	 */
 	public int getAcessMode();
 	/**
-	 * 外部ファイル名
-	 * @return	ファイル名（外部ファイル名？） <br/>
-	 * アサインする（ファイルシステム上の）ファイル名
+	 * Externalfilename
+	 * @return	filename(Externalfilename) <br/>
+	 * name of file to assign
 	 */
 	public String getFileName();
 	/**
-	 * レコード名
-	 * @return	レコード名？ <br/>
-	 * FD句で01レベルの領域名
+	 * RecordName
+	 * @return	RecordName <br/>
+	 * area name of first level
 	 */
 	public String getRecordName();
 	/**
-	 * 内部ファイル名
-	 * @return	ファイル名（内部ファイル名？） <br/>
-	 * SELECT句の次のトークン
+	 * Internalfilename
+	 * @return	filename(Internalfilename) <br/>
+	 * select XXX
 	 */
 	public String getSelectName();
 	/**
-	 * 入出力状態
-	 * @return	入出力状態 <br/>
-	 * 入出力状態を示す領域名(File Status [is] XXXXXX)
+	 * File Status
+	 * @return	File Status Area Name <br/>
+	 * File Status [is] XXX
 	 */
 	public String getStatus();
 }

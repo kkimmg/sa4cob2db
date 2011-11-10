@@ -179,7 +179,7 @@ public class NodeReadLoader {
 		DefaultCobolIndex ret = new DefaultCobolIndex();
 		CobolRecordMetaData idmeta = null;
 		NamedNodeMap map = node.getAttributes();
-		// ファイル名
+		// filename
 		Node filenamenode = map.getNamedItem("filename");
 		if (filenamenode != null) {
 			String filename = filenamenode.getNodeValue();
@@ -715,7 +715,7 @@ public class NodeReadLoader {
 										+ wname + ":" + wvalu);
 					}
 				} else if (item.getNodeName().equals("include")) {
-					// 外部のファイルをもとにこのメタデータを更新する
+					// Externalのファイルをもとにこのメタデータを更新する
 					NamedNodeMap map = item.getAttributes();
 					Node work = map.getNamedItem("file");
 					if (work != null) {

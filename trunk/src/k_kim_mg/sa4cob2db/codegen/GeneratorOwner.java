@@ -9,24 +9,24 @@ package k_kim_mg.sa4cob2db.codegen;
 import java.util.ArrayList;
 
 /**
- * CodeGeneratorを呼び出す機能
+ * calls CodeGenerators Methods
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface GeneratorOwner {
 	/**
-	 * ソースコードを生成する
-	 * @param text	生成するソースコード
+	 * Generate new source from original
+	 * @param text	original source (phisical line)
 	 */
 	public void generate(String text);
 	/**
-	 * コピー句が来たのでなんとかしてください
-	 * @param statement	コピー句
+	 * called by generator when generating copy statement
+	 * @param statement	copy statement
 	 */
 	public void callBackCopyStatement (ArrayList<String> statement);
 	/**
-	 * コピー句を展開するかどうか
-	 * @return true	展開する</br>
-	 *          false	展開しない
+	 * expand copy statement?
+	 * @return true	expand</br>
+	 *          false	don't
 	 */
 	public boolean isExpandCopy();
 }

@@ -1,22 +1,21 @@
 package k_kim_mg.sa4cob2db.codegen;
 /**
- * ソースコードを生成するインターフェース
+ * Code Generator
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CodeGenerator {
 	/**
-	 * ソースコードを生成する
-	 * @param row	行
+	 * parse row text
+	 * @param row	logical row
 	 */
 	public void parse(String row);
 	/**
-	 * クリアする
-	 * 蓄積した行をオーナーに全て渡してクリアする
+	 * pass buffered row to owner and clear buffer.
 	 */
-	public void clear();
+	public void flush();
 	/**
-	 * コード生成持のイベント処理を追加する
-	 * @param listener	コード生成持のイベント処理
+	 * add event listener
+	 * @param listener	listener 
 	 */
 	public void addCodeGeneratorListener(CodeGeneratorListener listener);
 }
