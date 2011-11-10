@@ -61,7 +61,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		private volatile byte[][][] records;
 		/** 読み込み中の位置(ReadingIndex) */
 		private volatile int ri;
-		/** 内部スレッド */
+		/** Internalスレッド */
 		private Thread thread;
 		/** 現在書き込み中のバッファ指定(WritingBuffer) */
 		private volatile int wb;
@@ -634,7 +634,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	private ArrayList<CobolFileEventListener> listeners = new ArrayList<CobolFileEventListener>();
 	/** オープンモード */
 	protected int openmode;
-	/** 内部バッファ */
+	/** Internalバッファ */
 	protected SequencialReadBuffer sequencialReadBuffer = null;
 	/** セッション */
 	private ACMSession session;
@@ -853,9 +853,9 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * 内部バッファの作成
+	 * Internalバッファの作成
 	 * 
-	 * @return デフォルトの内部バッファ
+	 * @return デフォルトのInternalバッファ
 	 */
 	protected SequencialReadBuffer createSequencialReadBuffer() {
 		return new DefaultSequencialReadBuffer(
@@ -1057,7 +1057,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * 内部ファイルの行位置を移動する
+	 * Internalファイルの行位置を移動する
 	 * 
 	 * @return ステータス
 	 */
@@ -1171,7 +1171,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * 内部バッファからレコードを読み取る
+	 * Internalバッファからレコードを読み取る
 	 * 
 	 * @param record
 	 *            レコード
@@ -1189,7 +1189,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * 内部ファイルから取得する
+	 * Internalファイルから取得する
 	 * 
 	 * @param record
 	 *            連想するレコード

@@ -85,7 +85,7 @@ public class SQLNetServer {
 			SQLNetServer.logger.log(Level.INFO, "Now Server Is Ending......");
 		}
 	}
-	/** デフォルトの設定ファイル名 */
+	/** デフォルトの設定filename */
 	public static final String DEFAULT_CONFIG = "/opt/sa4cob2db/conf/metafile.xml";
 	/** ログ出力オブジェクト */
 	public static final Logger logger;
@@ -139,10 +139,10 @@ public class SQLNetServer {
 		}
 	}
 	/**
-	 * コマンドでの起動ルーチン メタファイル名しか師弟できない
+	 * コマンドでの起動ルーチン メタfilenameしか師弟できない
 	 * 
 	 * @param metaFile
-	 *            メタファイル名
+	 *            メタfilename
 	 */
 	public static void main_too(String metaFile) {
 		System.setProperty("ACM_CONFFILE", metaFile);
@@ -174,10 +174,10 @@ public class SQLNetServer {
 		}
 	}
 	/**
-	 * 内部プロパティを環境変数で更新する
+	 * Internalプロパティを環境変数で更新する
 	 * 
 	 * @param properties
-	 *            内部プロパティ
+	 *            Internalプロパティ
 	 * @param key
 	 *            キー
 	 * @param envkey
@@ -230,7 +230,7 @@ public class SQLNetServer {
 		// //////////////////////////////////////////////////////////
 		// ファイル機能の作成
 		fileServer = new SQLFileServer();
-		// メタデータファイル名
+		// メタデータfilename
 		String metaString = getEnvValue("ACM_CONFFILE", DEFAULT_CONFIG);
 		File metaFile = new File(metaString);
 		SQLNetServer.logger.log(Level.INFO, metaFile.getAbsolutePath());

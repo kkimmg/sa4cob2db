@@ -20,7 +20,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
 /**
- * COBOLコードを一部変換してファイルアクセスをACMへのアクセスに変更する
+ * Preprocess COBOL file access to call statement.
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
@@ -33,16 +33,14 @@ public class COBPP1 implements GeneratorOwner {
 	private int initrownum = 10;
 	private int incrrownum = 10;
 	private boolean expandCopy = false;
-	/** ソースコードのキャラクターセットを指定する環境変数の名前 */
+	/** Environment value name of Charset. */
 	public static final String ACM_CHARSET = "acm_pp_charset";
-	/**
-	 * 生成装置
-	 */
+	/** Generator */
 	private CodeGenerator generator = new TCPCodeGenerator(this);
 	/**
-	 * メイン
+	 * main
 	 * 
-	 * @param argv ファイル名など
+	 * @param argv filename and other's
 	 */
 	public static void main(String[] argv) {
 		COBPP1 cobpp = new COBPP1(argv);
@@ -50,18 +48,18 @@ public class COBPP1 implements GeneratorOwner {
 		System.exit(0);
 	}
 	/**
-	 * メイン
+	 * main to...
 	 * 
-	 * @param infile
-	 * @param outfile
-	 * @param informat
-	 * @param outformat
-	 * @param initrow
-	 * @param increase
-	 * @param acmconsts_file
-	 * @param expand_copy
-	 * @param codegeneratorlisteners
-	 * @param customcodegeneratorclass
+	 * @param infile input filename
+	 * @param outfile output filename
+	 * @param informat format "fix" or "free"
+	 * @param outformat format "fix" or "free"
+	 * @param initrow first row number default 10
+	 * @param increase increase row number default 10
+	 * @param acmconsts_file filename of "ACMCONSTS.CBL"
+	 * @param expand_copy expand copy statement default false
+	 * @param codegeneratorlisteners Event listener class name of generator
+	 * @param customcodegeneratorclass custom generator class name if you use
 	 * @param acm_charset
 	 */
 	public static void main_too(String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass, String acm_charset) {
@@ -99,11 +97,11 @@ public class COBPP1 implements GeneratorOwner {
 	/**
 	 * Constructor
 	 * 
-	 * @param argv 起動パラメータ
+	 * @param argv argument values
 	 */
 	public COBPP1(String[] argv) {
 		String csn = "";
-		// 入力ファイル
+		// input file
 		String infile = (argv.length > 0 ? argv[0].trim() : "");
 		if (infile == "") {
 			input = System.in;
@@ -115,7 +113,7 @@ public class COBPP1 implements GeneratorOwner {
 				input = System.in;
 			}
 		}
-		// 出力ファイル
+		// output file
 		String outfile = (argv.length > 1 ? argv[1].trim() : "");
 		if (outfile.length() == 0) {
 			output = System.out;
@@ -137,7 +135,7 @@ public class COBPP1 implements GeneratorOwner {
 				output = System.out;
 			}
 		}
-		// フォーマット
+		// format
 		String infmttext = getEnvValue("informat", "fix");
 		if (infmttext.compareToIgnoreCase("free") == 0) {
 			infreeformat = true;
@@ -163,20 +161,20 @@ public class COBPP1 implements GeneratorOwner {
 				// e.printStackTrace();
 			}
 		}
-		// コピー句の指定
+		// const file
 		String acmconsts_file = getEnvValue("acmconsts_file", CobolConsts.ACMCONSTS_FILE);
 		if (acmconsts_file.trim().length() > 0) {
 			CobolConsts.ACMCONSTS_FILE = acmconsts_file.trim();
 		}
-		// コピー句を展開する
+		// expand copy
 		String expandStr = getEnvValue("expand_copy", "false");
 		expandCopy = Boolean.parseBoolean(expandStr);
-		// イベント処理機能
+		// listeners
 		String namelist = getEnvValue("codegeneratorlisteners", "");
 		if (namelist.length() > 0) {
 			this.addCodeGeneratorListeners(namelist);
 		}
-		// イベント処理機能
+		// custorm generator
 		String generatorClass = getEnvValue("customcodegeneratorclass", "");
 		if (generatorClass.length() > 0) {
 			try {
@@ -202,7 +200,7 @@ public class COBPP1 implements GeneratorOwner {
 		} else {
 			generatorClass = generator.getClass().getName();
 		}
-		// 使いかたを説明する
+		// usage
 		String usageStr = getEnvValue("display_usage", "true");
 		if (Boolean.parseBoolean(usageStr)) {
 			System.err.println("usage:java -cp path_to_jar \"k_kim_mg.sa4cob2db.codegen.COBPP1\" $1 $2");
@@ -221,9 +219,9 @@ public class COBPP1 implements GeneratorOwner {
 		}
 	}
 	/**
-	 * リスナを追加する
+	 * add listeners
 	 * 
-	 * @param names クラス名(:で区切る？)
+	 * @param names class names(separated by ":")
 	 */
 	void addCodeGeneratorListeners(String namelist) {
 		if (namelist.length() > 0) {
@@ -248,11 +246,11 @@ public class COBPP1 implements GeneratorOwner {
 		}
 	}
 	/**
-	 * 環境変数を取得する
+	 * get environment values
 	 * 
-	 * @param key キー
-	 * @param defaultValue デフォルト値
-	 * @return 変数の値
+	 * @param key key
+	 * @param defaultValue default value
+	 * @return value
 	 */
 	private String getEnvValue(String key, String defaultValue) {
 		String ret = System.getProperty(key, System.getenv(key));
@@ -289,7 +287,7 @@ public class COBPP1 implements GeneratorOwner {
 		}
 	}
 	/**
-	 * 実行
+	 * Run
 	 */
 	public void run() {
 		try {
@@ -307,25 +305,21 @@ public class COBPP1 implements GeneratorOwner {
 			}
 			BufferedReader br = new BufferedReader(isr);
 			String row = br.readLine();
-			// String text1;
 			while (row != null) {
-				// text1 = new String(text.getBytes());
-				// cg1.parse(text1);
 				String text = row;
 				if (!infreeformat) {
 					text = row.substring(6);
-					// SQLNetServer.DebugPrint(text);
 				}
 				generator.parse(text);
 				row = br.readLine();
 			}
-			generator.clear();
+			generator.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	/**
-	 * コピー句を展開処理する
+	 * Expand Copy Statement
 	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
@@ -335,13 +329,16 @@ public class COBPP1 implements GeneratorOwner {
 		/**
 		 * Constructor
 		 * 
-		 * @param Info コピー句の情報
-		 * @throws IOException 入出力例外
+		 * @param Info of copy statement
+		 * @throws IOException when file not found.
 		 */
 		public CopyProcesser(CopyInfo Info) throws IOException {
 			info = Info;
 			input2 = new FileInputStream(info.getFilename());
 		}
+		/**
+		 * @throws IOException when something wrong
+		 */
 		public void run() throws IOException {
 			InputStreamReader isr = new InputStreamReader(input2);
 			BufferedReader br = new BufferedReader(isr);
@@ -354,11 +351,11 @@ public class COBPP1 implements GeneratorOwner {
 				generator.parse(info.getReplacedStatement(text));
 				row = br.readLine();
 			}
-			generator.clear();
+			generator.flush();
 		}
 	}
 	/**
-	 * こピークの情報
+	 * Copy Statement
 	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
@@ -369,7 +366,7 @@ public class COBPP1 implements GeneratorOwner {
 		/**
 		 * Constructor
 		 * 
-		 * @param Statement Copy句を服務文字列
+		 * @param Statement Copy Statements
 		 */
 		public CopyInfo(ArrayList<String> Statement) {
 			statement = Statement;
@@ -397,18 +394,18 @@ public class COBPP1 implements GeneratorOwner {
 			}
 		}
 		/**
-		 * ファイル名
+		 * filename
 		 * 
-		 * @return ファイル名
+		 * @return filename
 		 */
 		public String getFilename() {
 			return filename;
 		}
 		/**
-		 * 置換された文字列の取得
+		 * Replaced Statement
 		 * 
-		 * @param target 置換前の文字列
-		 * @return 置換後の文字列
+		 * @param target original statement
+		 * @return replaced statement
 		 */
 		public String getReplacedStatement(String target) {
 			String ret = target;
@@ -423,17 +420,17 @@ public class COBPP1 implements GeneratorOwner {
 		}
 	}
 	/**
-	 * コピー句を展開するかどうか
+	 * expand copy?
 	 * 
-	 * @return true 展開する</br> false 展開しない
+	 * @return true expand</br> false don't
 	 */
 	public boolean isExpandCopy() {
 		return expandCopy;
 	}
 	/**
-	 * コピー句を展開するかどうか
+	 * set expand copy?
 	 * 
-	 * @param expandCopy true 展開する</br> false 展開しない
+	 * @param expandCopy true expand</br> false don't
 	 */
 	public void setExpandCopy(boolean expandCopy) {
 		this.expandCopy = expandCopy;

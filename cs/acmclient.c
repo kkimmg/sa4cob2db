@@ -204,6 +204,11 @@ initializeSession (char *hostname, char *hostport, char *username, char *passwor
 
 /**初期化処理*/
 extern void
+libACMClient () {
+}
+
+/**初期化処理*/
+extern void
 initializeSessionEnv (char *status) {
 	char *hostname, *hostport, *username, *password;
 	hostname = getenv(ACM_HOSTNAME_ENV);

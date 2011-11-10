@@ -132,7 +132,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * ソケットからファイル名を取得してファイルを返す
+	 * ソケットからfilenameを取得してファイルを返す
 	 * 
 	 * @return ファイルまたはnull
 	 */

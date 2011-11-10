@@ -115,7 +115,7 @@ public class Acm2Seq {
 		Acm2Seq.main(new String[] { acmfile, outfile, metafile, lineout, display_usage });
 	}
 
-	/** 内部ファイルサーバー */
+	/** Internalファイルサーバー */
 	private SQLFileServer fileServer;
 
 	/**
@@ -167,7 +167,7 @@ public class Acm2Seq {
 		// ファイル機能の作成
 		fileServer = new SQLFileServer();
 		CobolRecordMetaDataSet metaset = fileServer.getMetaDataSet();
-		// メタデータファイル名
+		// メタデータfilename
 		String metaString = properties.getProperty("metafile", SQLNetServer.DEFAULT_CONFIG);
 		String AcmName = properties.getProperty("acmfile", "");
 		String OutName = properties.getProperty("outfile", "");
@@ -255,7 +255,7 @@ public class Acm2Seq {
 	 * 名称からコボルファイルを取得する
 	 * 
 	 * @param name
-	 *            ファイル名
+	 *            filename
 	 * @return コボルファイル
 	 */
 	protected CobolFile getCobolFile(String name) {

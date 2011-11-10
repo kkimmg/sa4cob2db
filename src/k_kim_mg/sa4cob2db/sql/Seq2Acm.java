@@ -114,13 +114,13 @@ public class Seq2Acm {
 	}
 	/** JDBCコネクション */
 	private Connection connection;
-	/** 内部ファイルサーバー */
+	/** Internalファイルサーバー */
 	private SQLFileServer fileServer;
 	/**
 	 * 名称からコボルファイルを取得する
 	 * 
 	 * @param name
-	 *            ファイル名
+	 *            filename
 	 * @return コボルファイル
 	 */
 	protected CobolFile getCobolFile(String name) {
@@ -218,7 +218,7 @@ public class Seq2Acm {
 		// ファイル機能の作成
 		fileServer = new SQLFileServer();
 		CobolRecordMetaDataSet metaset = fileServer.getMetaDataSet();
-		// メタデータファイル名
+		// メタデータfilename
 		String metaString = properties.getProperty("metafile", SQLNetServer.DEFAULT_CONFIG);
 		String AcmName = properties.getProperty("acmfile", "");
 		String InName = properties.getProperty("infile", "");

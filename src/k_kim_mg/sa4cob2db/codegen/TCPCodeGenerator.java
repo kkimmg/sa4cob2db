@@ -12,29 +12,29 @@ import java.util.regex.Pattern;
 
 import k_kim_mg.sa4cob2db.FileStatus;
 /**
- * 引き渡されたソースコードを蓄積し、変換した結果をオーナーに返す機能
+ * Convert file access code to call statement
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class TCPCodeGenerator implements CodeGenerator {
 	/**
-	 * SELECT句の情報を退避するオブジェクト
+	 * object that store infomation of SELECT Statement
 	 */
 	static class DefaultFileInfo implements FileInfo {
-		/** アクセスモード */
+		/** access mode */
 		int acessMode;
 		/**
-		 * ファイル名（外部ファイル名？） <br/>
-		 * アサインする（ファイルシステム上の）ファイル名
+		 * filename（Externalfilename） <br/>
+		 * To assign (on the file system) filename
 		 */
 		String fileName;
 		/**
-		 * レコード名？ <br/>
-		 * FD句で01レベルの領域名
+		 * RecordName<br/>
+		 * level1 area name
 		 */
 		String recordName;
 		/**
-		 * ファイル名（内部ファイル名？） <br/>
-		 * SELECT句の次のトークン
+		 * filename（Internalfilename） <br/>
+		 * first token from select statement
 		 */
 		String selectName;
 		/**
@@ -85,22 +85,22 @@ public class TCPCodeGenerator implements CodeGenerator {
 			this.acessMode = acessmode;
 		}
 		/**
-		 * ファイル名をセットする
-		 * @param filename セットするファイル名
+		 * filenameをセットする
+		 * @param filename セットするfilename
 		 */
 		public void setFileName(String filename) {
 			this.fileName = filename;
 		}
 		/**
-		 * レコード名をセットする
-		 * @param recordname セットするレコード名
+		 * RecordNameをセットする
+		 * @param recordname セットするRecordName
 		 */
 		public void setRecordName(String recordname) {
 			this.recordName = recordname;
 		}
 		/**
-		 * ファイル名をセットする
-		 * @param selectname セットするファイル名
+		 * filenameをセットする
+		 * @param selectname セットするfilename
 		 */
 		public void setSelectName(String selectname) {
 			this.selectName = selectname;
@@ -113,7 +113,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			this.status = status;
 		}
 	}
-	/** レコード名 */
+	/** RecordName */
 	String acmRecName = null;
 	/** コピー句の一覧 */
 	ArrayList<String> copys = new ArrayList<String>();
@@ -131,7 +131,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	final FileInfo dummyInfo = new DefaultFileInfo();
 	/** 現在処理中のFD句 */
 	ArrayList<String> fdlist = new ArrayList<String>();
-	/** ファイル名（外部ファイル名？）からファイル情報の実体を取得するための索引 */
+	/** filename（Externalfilename？）からファイル情報の実体を取得するための索引 */
 	Hashtable<String, DefaultFileInfo> filenametofile = new Hashtable<String, DefaultFileInfo>();
 	/** 処理中のプログラムは(ACMでない)実際のファイルをアサインするかどうか */
 	boolean hasNonACM = false;
@@ -163,7 +163,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	boolean proceduresection = false;
 	/**
-	 * レコード名からファイル実体を取得するための索引
+	 * RecordNameからファイル実体を取得するための索引
 	 */
 	Hashtable<String, DefaultFileInfo> recordnametofile = new Hashtable<String, DefaultFileInfo>();
 	/**
@@ -269,6 +269,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param period ピリオド(.)文字列
 	 */
 	void addCallInitializeSession(String period) {
+		add("     CALL \"libACMClient\"" + period);
 		add("     CALL \"initializeSessionEnv\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
@@ -614,7 +615,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	/**
 	 * バッファの内容をすべて解析してクリアする
 	 */
-	public void clear() {
+	public void flush() {
 		int size = list.size();
 		for (int i = 0; i < size; i++) {
 			String text = list.get(0);
@@ -1540,8 +1541,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * レコード名の設定
-	 * @param text レコード名を含む行
+	 * RecordNameの設定
+	 * @param text RecordNameを含む行
 	 */
 	void whenACMRecName(String text) {
 		int indexOfEqual = text.indexOf("=") + 1;
@@ -1864,7 +1865,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 				pop();
 			} else {
 				add(text);
-				clear();
+				flush();
 			}
 		}
 	}

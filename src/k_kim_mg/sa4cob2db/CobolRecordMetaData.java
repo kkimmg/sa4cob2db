@@ -181,9 +181,9 @@ public interface CobolRecordMetaData {
 	public int getMinimumSequencialReadBufferSize();
 
 	/**
-	 * レコード名
+	 * RecordName
 	 * 
-	 * @return レコード名
+	 * @return RecordName
 	 */
 	public String getName();
 
@@ -283,10 +283,10 @@ public interface CobolRecordMetaData {
 	public void setMinimumSequencialReadBufferSize(int value);
 
 	/**
-	 * レコード名
+	 * RecordName
 	 * 
 	 * @param name
-	 *            レコード名
+	 *            RecordName
 	 */
 	public void setName(String name);
 }
