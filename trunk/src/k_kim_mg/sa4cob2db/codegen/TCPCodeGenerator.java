@@ -38,8 +38,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		 */
 		String selectName;
 		/**
-		 * 入出力状態 <br/>
-		 * 入出力状態を示す領域名(File Status [is] XXXXXX)
+		 * file status <br/>
+		 * area that store file status(File Status [is] XXXXXX)
 		 */
 		String status;
 		/*
@@ -78,109 +78,73 @@ public class TCPCodeGenerator implements CodeGenerator {
 			return status;
 		}
 		/**
-		 * アクセスモードをセットする
-		 * @param acessmode セットするアクセスモード
+		 * set access mode
+		 * @param acessmode access mode
+		 * 			@see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_INPUT
+		 * 			@see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_OUTPUT
+		 * 			@see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_IO
+		 * 			@see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_EXTEND
 		 */
 		public void setAcessMode(int acessmode) {
 			this.acessMode = acessmode;
 		}
 		/**
-		 * filenameをセットする
-		 * @param filename セットするfilename
+		 * set filename
+		 * @param filename external filename to set
 		 */
 		public void setFileName(String filename) {
 			this.fileName = filename;
 		}
 		/**
-		 * RecordNameをセットする
-		 * @param recordname セットするRecordName
+		 * set recordname
+		 * @param recordname RecordName to set
 		 */
 		public void setRecordName(String recordname) {
 			this.recordName = recordname;
 		}
 		/**
-		 * filenameをセットする
-		 * @param selectname セットするfilename
+		 * set filename
+		 * @param selectname internal filename to set
 		 */
 		public void setSelectName(String selectname) {
 			this.selectName = selectname;
 		}
 		/**
-		 * ステータス領域名をセットする
-		 * @param status セットするステータス領域名
+		 * set file status area name
+		 * @param status area name to set
 		 */
 		public void setStatus(String status) {
 			this.status = status;
 		}
 	}
-	/** RecordName */
-	String acmRecName = null;
-	/** コピー句の一覧 */
-	ArrayList<String> copys = new ArrayList<String>();
-	/** 現在のパターン */
-	String current;
-	/** 現在処理中のファイル情報 */
-	DefaultFileInfo currentinfo = null;
-	/** 変換候補として退避している文字列 */
-	ArrayList<String> currentlist = new ArrayList<String>();
-	/** currentlistsを積み上げる */
-	Stack<ArrayList<String>> currentlists = new Stack<ArrayList<String>>();
-	/** 現在のDIVISION */
-	String division = null;
-	/** ダミーのファイル情報 */
-	final FileInfo dummyInfo = new DefaultFileInfo();
-	/** 現在処理中のFD句 */
-	ArrayList<String> fdlist = new ArrayList<String>();
-	/** filename（Externalfilename？）からファイル情報の実体を取得するための索引 */
-	Hashtable<String, DefaultFileInfo> filenametofile = new Hashtable<String, DefaultFileInfo>();
-	/** 処理中のプログラムは(ACMでない)実際のファイルをアサインするかどうか */
-	boolean hasNonACM = false;
-	/** 現在、ACMファイル処理中か？ */
-	boolean inACM = false;
-	/** コピー句の途中か？ */
-	boolean inCopy = false;
-	/** 現在、FD句を処理中か？ */
-	boolean inFD = false;
-	/** このソースは初期化命令が入力されたか？ */
-	boolean initialized = false;
-	/** PROCEDURE SECTION中の取得済みラベル数 */
-	int label = 0;
-	/**
-	 * レベル--ソースコード中の入れ子レベル
-	 */
-	int level = 0;
-	/**
-	 * 出力前のソースコード
-	 */
-	ArrayList<String> list = new ArrayList<String>();
+	private String acmRecName = null;
+	private ArrayList<String> copys = new ArrayList<String>();
+	private String current;
+	private DefaultFileInfo currentinfo = null;
+	private ArrayList<String> currentlist = new ArrayList<String>();
+	private Stack<ArrayList<String>> currentlists = new Stack<ArrayList<String>>();
+	private String division = null;
+	private final FileInfo dummyInfo = new DefaultFileInfo();
+	private ArrayList<String> fdlist = new ArrayList<String>();
+	private Hashtable<String, DefaultFileInfo> filenametofile = new Hashtable<String, DefaultFileInfo>();
+	private boolean hasNonACM = false;
+	private boolean inACM = false;
+	private boolean inCopy = false;
+	private boolean inFD = false;
+	private boolean initialized = false;
+	private int label = 0;
+	private int level = 0;
+	private ArrayList<String> list = new ArrayList<String>();
 	private ArrayList<CodeGeneratorListener> listeners = new ArrayList<CodeGeneratorListener>();
-	/**
-	 * 親オブジェクト
-	 */
-	GeneratorOwner owner;
-	/**
-	 * Procefure Divisionを処理中かどうか
-	 */
-	boolean proceduresection = false;
-	/**
-	 * RecordNameからファイル実体を取得するための索引
-	 */
-	Hashtable<String, DefaultFileInfo> recordnametofile = new Hashtable<String, DefaultFileInfo>();
-	/**
-	 * セクション
-	 */
-	String section = null;
-	/**
-	 * SELECT名ｋらファイル実体を取得するための索引
-	 */
-	Hashtable<String, DefaultFileInfo> selectnametofile = new Hashtable<String, DefaultFileInfo>();
-	/**
-	 * パターンのスタック
-	 */
-	Stack<String> stack = new Stack<String>();
+	private GeneratorOwner owner;
+	private boolean proceduresection = false;
+	private Hashtable<String, DefaultFileInfo> recordnametofile = new Hashtable<String, DefaultFileInfo>();
+	private String section = null;
+	private Hashtable<String, DefaultFileInfo> selectnametofile = new Hashtable<String, DefaultFileInfo>();
+	private Stack<String> stack = new Stack<String>();
 	/**
 	 * Constructor
-	 * @param owner 呼び元
+	 * @param owner owner
 	 */
 	public TCPCodeGenerator(GeneratorOwner owner) {
 		this.owner = owner;
