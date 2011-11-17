@@ -9,10 +9,10 @@ import java.util.Stack;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import k_kim_mg.sa4cob2db.FileStatus;
 /**
  * Convert file access code to call statement
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class TCPCodeGenerator implements CodeGenerator {
@@ -23,7 +23,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		/** access mode */
 		int acessMode;
 		/**
-		 * filename（Externalfilename） <br/>
+		 * filename(Externalfilename) <br/>
 		 * To assign (on the file system) filename
 		 */
 		String fileName;
@@ -33,7 +33,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		 */
 		String recordName;
 		/**
-		 * filename（Internalfilename） <br/>
+		 * filename(Internalfilename) <br/>
 		 * first token from select statement
 		 */
 		String selectName;
@@ -44,6 +44,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		String status;
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see k_kim_mg.sa4cob2db.codegen.FileInfo#getAcessMode()
 		 */
 		public int getAcessMode() {
@@ -51,6 +52,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see k_kim_mg.sa4cob2db.codegen.FileInfo#getFileName()
 		 */
 		public String getFileName() {
@@ -58,6 +60,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see k_kim_mg.sa4cob2db.codegen.FileInfo#getRecordName()
 		 */
 		public String getRecordName() {
@@ -65,6 +68,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see k_kim_mg.sa4cob2db.codegen.FileInfo#getSelectName()
 		 */
 		public String getSelectName() {
@@ -72,6 +76,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see k_kim_mg.sa4cob2db.codegen.FileInfo#getStatus()
 		 */
 		public String getStatus() {
@@ -79,17 +84,19 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		/**
 		 * set access mode
+		 * 
 		 * @param acessmode access mode
-		 * 			@see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_INPUT
-		 * 			@see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_OUTPUT
-		 * 			@see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_IO
-		 * 			@see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_EXTEND
+		 * @see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_INPUT
+		 * @see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_OUTPUT
+		 * @see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_IO
+		 * @see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_EXTEND
 		 */
 		public void setAcessMode(int acessmode) {
 			this.acessMode = acessmode;
 		}
 		/**
 		 * set filename
+		 * 
 		 * @param filename external filename to set
 		 */
 		public void setFileName(String filename) {
@@ -97,6 +104,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		/**
 		 * set recordname
+		 * 
 		 * @param recordname RecordName to set
 		 */
 		public void setRecordName(String recordname) {
@@ -104,6 +112,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		/**
 		 * set filename
+		 * 
 		 * @param selectname internal filename to set
 		 */
 		public void setSelectName(String selectname) {
@@ -111,6 +120,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		/**
 		 * set file status area name
+		 * 
 		 * @param status area name to set
 		 */
 		public void setStatus(String status) {
@@ -144,22 +154,25 @@ public class TCPCodeGenerator implements CodeGenerator {
 	private Stack<String> stack = new Stack<String>();
 	/**
 	 * Constructor
+	 * 
 	 * @param owner owner
 	 */
 	public TCPCodeGenerator(GeneratorOwner owner) {
 		this.owner = owner;
 	}
 	/**
-	 * 追加
-	 * @param text 追加するテキスト
+	 * add text
+	 * 
+	 * @param text text to add
 	 */
 	void add(String text) {
 		list.add(text);
 		// SQLNetServer.DebugPrint(text);
 	}
 	/**
-	 * FD句の追加
-	 * @param text FD句中のテキスト
+	 * add fd statement
+	 * 
+	 * @param text text of fd statement
 	 */
 	void add_fd(String text) {
 		fdlist.add(text);
@@ -182,25 +195,28 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * CLOSE処理
-	 * @param period "."文字列
+	 * CLOSE
+	 * 
+	 * @param period "." or ""
 	 */
 	void addCallClose(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
 		add("     CALL \"closeACMFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * COMMITの追加
-	 * @param period ピリオド(.)文字列
+	 * COMMIT
+	 * 
+	 * @param period "." or ""
 	 */
 	void addCallCommit(String period) {
 		add("    CALL \"commitACMSession\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * DELETE処理
-	 * @param valid 有効時の処理
-	 * @param invalid 無効時の処理
-	 * @param period "."文字列
+	 * DELETE
+	 * 
+	 * @param valid Lines that runs when file access is valid.
+	 * @param invalid Lines that runs when file access is invalid.
+	 * @param period "." or ""
 	 */
 	void addCallDelete(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -229,17 +245,19 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * InitializeSessionの追加
-	 * @param period ピリオド(.)文字列
+	 * add InitializeSession
+	 * 
+	 * @param period "." or ""
 	 */
 	void addCallInitializeSession(String period) {
 		add("     CALL \"libACMClient\"" + period);
 		add("     CALL \"initializeSessionEnv\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * OPEN INPUT 処理
-	 * @param info ファイルの情報
-	 * @param period ピリオド(.)文字列
+	 * OPEN INPUT
+	 * 
+	 * @param info file information
+	 * @param period "." or ""
 	 */
 	void addCallOpenInput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -260,9 +278,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * OPEN I-O 処理
-	 * @param info ファイルの情報
-	 * @param period ピリオド(.)文字列
+	 * OPEN I-O
+	 * 
+	 * @param info file information
+	 * @param period "." or ""
 	 */
 	void addCallOpenInputOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -283,9 +302,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * OPEN OUTPUT 処理
-	 * @param info ファイルの情報
-	 * @param period ピリオド(.)文字列
+	 * OPEN OUTPUT
+	 * 
+	 * @param info file information
+	 * @param period "." or ""
 	 */
 	void addCallOpenOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -306,12 +326,13 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * READ処理
-	 * @param info ファイル情報
-	 * @param invalid 有効時の処理
-	 * @param notinvalid 無効時ん処理
-	 * @param indexkey 索引名
-	 * @param period ピリオド(.)文字列
+	 * READ
+	 * 
+	 * @param info file information
+	 * @param invalid Lines that runs when file access is valid.
+	 * @param notinvalid Lines that runs when file access is invalid.
+	 * @param indexkey index name
+	 * @param period "." or ""
 	 */
 	void addCallRead(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String indexkey, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -319,10 +340,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("     CALL \"moveReadACMRecord\" USING ");
 		add("                                ACM-FILE-IDENT");
 		if (indexkey == null) {
-			// キーリード
+			// by key
 			add("                                ACM-RECORD");
 		} else {
-			// 索引によるリード
+			// by index
 			add("                                ACM-RECORD");
 			add("                                ACM-INDEX-NAME");
 		}
@@ -331,7 +352,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("         MOVE ACM-RECORD TO " + info.getRecordName());
 		add("     END-IF" + period);
 		if (invalid.size() > 0) {
-			// Invalid 処理
+			// Invalid
 			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_INVALID_KEY + "\"");
 			for (String str : invalid) {
 				if (str.trim().length() > 0) {
@@ -339,7 +360,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 				}
 			}
 			if (notinvalid.size() > 0) {
-				// Not Invalid 処理
+				// Not Invalid
 				add(" ELSE");
 				for (String str : notinvalid) {
 					if (str.trim().length() > 0) {
@@ -351,12 +372,13 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * READ処理
-	 * @param info ファイル情報
-	 * @param atend 有効時の処理
-	 * @param notatend 無効(ファイル終端)時ん処理
-	 * @param indexkey 索引名
-	 * @param period ピリオド(.)文字列
+	 * READ
+	 * 
+	 * @param info file information
+	 * @param atend Lines that runs when file at end.
+	 * @param notatend Lines that runs when file not at end.
+	 * @param indexkey index name
+	 * @param period "." or ""
 	 */
 	void addCallReadNext(FileInfo info, ArrayList<String> atend, ArrayList<String> notatend, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -368,13 +390,13 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("         MOVE ACM-RECORD TO " + info.getRecordName());
 		add("     END-IF" + period);
 		if (atend.size() > 0) {
-			// At End 処理
+			// At End
 			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_EOF + "\"");
 			for (int i = 0; i < atend.size(); i++) {
 				add("         " + atend.get(i));
 			}
 			if (notatend.size() > 0) {
-				// Not At End 処理
+				// Not At End
 				add("     ELSE");
 				for (int i = 0; i < notatend.size(); i++) {
 					add("        " + notatend.get(i));
@@ -384,12 +406,13 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * Rewrite処理
-	 * @param info ファイル情報
-	 * @param invalid 有効時の処理
-	 * @param notinvalid 無効時ん処理
-	 * @param indexkey 索引名
-	 * @param period ピリオド(.)文字列
+	 * Rewrite
+	 * 
+	 * @param info file information
+	 * @param invalid Lines that runs when file access is valid.
+	 * @param notinvalid Lines that runs when file access is invalid.
+	 * @param indexkey index name
+	 * @param period "." or ""
 	 */
 	void addCallRewrite(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -418,19 +441,21 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * ROLLBACKの追加
-	 * @param period ピリオド(.)文字列
+	 * add ROLLBACK
+	 * 
+	 * @param period "." or ""
 	 */
 	void addCallRollback(String period) {
 		add("    CALL \"rollbackACMSession\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * START処理
-	 * @param info ファイル情報
-	 * @param invalid 有効時の処理
-	 * @param notinvalid 無効時ん処理
-	 * @param indexkey 索引名
-	 * @param period ピリオド(.)文字列
+	 * START
+	 * 
+	 * @param info file information
+	 * @param invalid Lines that runs when file access is valid.
+	 * @param notinvalid Lines that runs when file access is invalid.
+	 * @param indexkey index name
+	 * @param period "." or ""
 	 */
 	void addCallStart(FileInfo info, String startModeText, ArrayList<String> invalid, ArrayList<String> notinvalid, String indexkey, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -463,19 +488,21 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * TermincateSessionの追加
-	 * @param period ピリオド(.)文字列
+	 * add TermincateSession
+	 * 
+	 * @param period "." or ""
 	 */
 	void addCallTerminateSession(String period) {
 		add("     CALL  \"terminateSession\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
-	 * WRITE処理
-	 * @param info ファイル情報
-	 * @param invalid 有効時の処理
-	 * @param notinvalid 無効時ん処理
-	 * @param indexkey 索引名
-	 * @param period ピリオド(.)文字列
+	 * WRITE
+	 * 
+	 * @param info file information
+	 * @param invalid Lines that runs when file access is valid.
+	 * @param notinvalid Lines that runs when file access is invalid.
+	 * @param indexkey index name
+	 * @param period "." or ""
 	 */
 	void addCallWrite(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -504,67 +531,68 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * k_kim_mg.sa4cob2db.codegen.CodeGenerator#addCodeGeneratorListener
+	 * 
+	 * @see k_kim_mg.sa4cob2db.codegen.CodeGenerator#addCodeGeneratorListener
 	 * (k_kim_mg.sa4cob2db.codegen.CodeGeneratorListener)
 	 */
 	public void addCodeGeneratorListener(CodeGeneratorListener listener) {
 		listeners.add(listener);
 	}
 	/**
-	 * セッションの初期化
-	 * @param period "."文字列
+	 * add initialize session
+	 * 
+	 * @param period "." or ""
 	 */
 	void addInitializeSession(String period) {
 		FileInfo nullfile = new DefaultFileInfo();
-		// イベント処理
+		// event
 		CodeGeneratorEvent event = new CodeGeneratorEvent(nullfile, owner, this, period);
 		for (CodeGeneratorListener listener : listeners) {
 			listener.preInitialize(event);
 		}
 		// ///////////
 		addCallInitializeSession(period);
-		// イベント処理
+		// event
 		for (CodeGeneratorListener listener : listeners) {
 			listener.postInitialize(event);
 		}
 		// ///////////
 	}
 	/**
-	 * セッションの終了
-	 * @param period "."文字列
+	 * add terminate session
+	 * 
+	 * @param period "." or ""
 	 */
 	void addTerminateSession(String period) {
 		FileInfo nullfile = new DefaultFileInfo();
-		// イベント処理
+		// event
 		CodeGeneratorEvent event = new CodeGeneratorEvent(nullfile, owner, this, period);
 		for (CodeGeneratorListener listener : listeners) {
 			listener.preTerminate(event);
 		}
 		// ///////////
 		addCallTerminateSession(period);
-		// イベント処理
+		// event
 		for (CodeGeneratorListener listener : listeners) {
 			listener.postTerminate(event);
 		}
 		// ///////////
 	}
 	/**
-	 * FD句がACM処理されるかどうか
-	 * @param text
-	 * @return
+	 * is this FD statement be processed?
+	 * 
+	 * @param text FD statement
+	 * @return true yes<br/>
+	 *         false no
 	 */
 	boolean checkFD(String text) {
 		StringTokenizer tokenizer = new StringTokenizer(text);
 		String prev = "", ident = "";
 		while (tokenizer.hasMoreTokens()) {
 			ident = tokenizer.nextToken().replaceAll(CobolConsts.PERIOD_ROW, " ").trim();
-			// ident = tokenizer.nextToken().trim();
 			if (prev.equalsIgnoreCase("fd")) {
 				DefaultFileInfo info = selectnametofile.get(ident);
 				if (info != null) {
-					// info.recordname = ident;
-					// recordnametofile.put(ident, info);
 					currentinfo = info;
 					return true;
 				} else {
@@ -577,7 +605,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return false;
 	}
 	/**
-	 * バッファの内容をすべて解析してクリアする
+	 * write back and clear buffer
 	 */
 	public void flush() {
 		int size = list.size();
@@ -588,8 +616,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * バッファをトークンの集まりに分解する
-	 * @return トークンの集合
+	 * create StringTokenizer from buffer
+	 * 
+	 * @return StringTokenizer
 	 */
 	StringTokenizer current2tokenizer() {
 		StringBuffer sb = new StringBuffer();
@@ -602,9 +631,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return new StringTokenizer(str);
 	}
 	/**
-	 * 現在処理中のDIVISION
-	 * @param text 現在行
-	 * @return DIVISION名
+	 * Current DIVISION
+	 * 
+	 * @param text Current Row
+	 * @return DIVISION Name
 	 */
 	String getDivision(String text) {
 		StringTokenizer tokenizer = new StringTokenizer(text);
@@ -614,9 +644,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return null;
 	}
 	/**
-	 * 現在処理中のSECTION
-	 * @param text 現在行
-	 * @return SECTION名
+	 * Current SECTION
+	 * 
+	 * @param text Current Row
+	 * @return SECTION Name
 	 */
 	String getSection(String text) {
 		StringTokenizer tokenizer = new StringTokenizer(text);
@@ -626,16 +657,18 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return null;
 	}
 	/**
-	 * コピー句を展開するかどうか
-	 * @return true 展開する<br/>
-	 *         false 展開しない
+	 * Expand Copy Statement?
+	 * 
+	 * @return true yes<br/>
+	 *         false no
 	 */
 	public boolean isExpandCopy() {
 		return owner.isExpandCopy();
 	}
 	/**
-	 * 文字列の解析
-	 * @param text 行文字列
+	 * Parse Text
+	 * 
+	 * @param text logical row
 	 */
 	public void parse(String text) {
 		if (inCopy && isExpandCopy()) {
@@ -658,7 +691,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			} else if (Pattern.matches(CobolConsts.ACMROLLBACK, text)) {
 				whenACMRollBack(text);
 			} else if (Pattern.matches(CobolConsts.COMMENT, text)) {
-				add(text); // コメントの場合は追加のみ
+				add(text);
 			} else if (Pattern.matches(CobolConsts.DIVISION, text)) {
 				whenDivision(text);
 			} else if (Pattern.matches(CobolConsts.SECTION, text)) {
@@ -714,15 +747,16 @@ public class TCPCodeGenerator implements CodeGenerator {
 		//
 	}
 	/**
-	 * スタックから回復する
+	 * pop from stack
 	 */
 	void pop() {
 		current = stack.pop();
 		currentlist = currentlists.pop();
 	}
 	/**
-	 * CLOSE処理
-	 * @param period "."文字列
+	 * CLOSE
+	 * 
+	 * @param period "." or ""
 	 */
 	void process_close(String period) {
 		StringTokenizer tokenizer = current2tokenizer();
@@ -744,14 +778,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		for (int i = 0; i < files1.size(); i++) {
 			FileInfo info = files1.get(i);
-			// イベント処理
+			// event
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preClose(event);
 			}
 			// ///////////
 			addCallClose(info, period);
-			// イベント処理
+			// event
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postClose(event);
 			}
@@ -762,15 +796,16 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * コピー句の処理
+	 * process copy statement
 	 */
 	void process_copy() {
 		inCopy = false;
 		owner.callBackCopyStatement(copys);
 	}
 	/**
-	 * DELETE処理
-	 * @param period "."文字列
+	 * DELETE
+	 * 
+	 * @param period "." or ""
 	 */
 	void process_delete(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -841,14 +876,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 			for (int i = 0; i < backup.size(); i++) {
 				add("*" + backup.get(i));
 			}
-			// イベント処理
+			// event
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preDelete(event);
 			}
 			// ///////////
 			addCallDelete(info, invalid, notinvalid, period);
-			// イベント処理
+			// event
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postDelete(event);
 			}
@@ -856,14 +891,15 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * FD句の処理
+	 * 
 	 */
 	void process_fd() {
 		//
 	}
 	/**
-	 * OPEN処理
-	 * @param period "."文字列
+	 * OPEN
+	 * 
+	 * @param period "." or ""
 	 */
 	void process_open(String period) {
 		StringTokenizer tokenizer = current2tokenizer();
@@ -912,14 +948,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		for (int i = 0; i < input1.size(); i++) {
 			FileInfo info = input1.get(i);
-			// イベント処理
+			// event
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preOpen(event);
 			}
 			// ///////////
 			addCallOpenInput(info, period);
-			// イベント処理
+			// event
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postOpen(event);
 			}
@@ -927,14 +963,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		for (int i = 0; i < output1.size(); i++) {
 			FileInfo info = output1.get(i);
-			// イベント処理
+			// event
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preOpen(event);
 			}
 			// ///////////
 			addCallOpenOutput(info, period);
-			// イベント処理
+			// event
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postOpen(event);
 			}
@@ -942,14 +978,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		for (int i = 0; i < io1.size(); i++) {
 			FileInfo info = io1.get(i);
-			// イベント処理
+			// event
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preOpen(event);
 			}
 			// ///////////
 			addCallOpenInputOutput(info, period);
-			// イベント処理
+			// event
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postOpen(event);
 			}
@@ -967,7 +1003,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		currentlist.clear();
 	}
 	/**
-	 * @param period "."文字列
+	 * READ
+	 * 
+	 * @param period "." or ""
 	 */
 	void process_read(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -1071,29 +1109,29 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 		if (info.acessMode == CobolConsts.ORG_SEQUENTIAL || _next.equalsIgnoreCase("next")) {
-			// イベント処理
+			// event
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preReadNext(event);
 			}
 			// ///////////
-			// Read Next 処理
+			// Read Next
 			addCallReadNext(info, atend, notatend, period);
-			// イベント処理
+			// event
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postReadNext(event);
 			}
 			// ///////////
 		} else {
-			// イベント処理
+			// event
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preMoveRead(event);
 			}
 			// ///////////
-			// read 処理
+			// read
 			addCallRead(info, invalid, notinvalid, indexkey, period);
-			// イベント処理
+			// event
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postMoveRead(event);
 			}
@@ -1101,8 +1139,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * 更新処理
-	 * @param period "."文字列
+	 * REWRITE
+	 * 
+	 * @param period "." or ""
 	 */
 	void process_rewrite(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -1177,14 +1216,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 			for (int i = 0; i < backup.size(); i++) {
 				add("*" + backup.get(i));
 			}
-			// イベント処理
+			// event
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
 				listener.preRewrite(event);
 			}
 			// ///////////
 			addCallRewrite(info, invalid, notinvalid, period);
-			// イベント処理
+			// event
 			for (CodeGeneratorListener listener : listeners) {
 				listener.postRewrite(event);
 			}
@@ -1192,7 +1231,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * 
+	 * SELECT STATEMENT
 	 */
 	void process_select() {
 		// ArrayList backup = new ArrayList();
@@ -1251,7 +1290,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		// SQLNetServer.DebugPrint("File-Converted:" + info);
 	}
 	/**
-	 * @param period "."文字列
+	 * START
+	 * 
+	 * @param period "." or ""
 	 */
 	void process_start(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -1290,14 +1331,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 						startmodetext = "IS-EQUAL-TO";
 						indexkey = token;
 					} else if ((prev.equalsIgnoreCase("THAN") && prev2.equalsIgnoreCase("GRATER") && prev3.equalsIgnoreCase("IS") && prev4.equalsIgnoreCase("KEY"))
-					        || (prev.equalsIgnoreCase(">") && prev2.equalsIgnoreCase("IS") && prev3.equalsIgnoreCase("KEY"))) {
+							|| (prev.equalsIgnoreCase(">") && prev2.equalsIgnoreCase("IS") && prev3.equalsIgnoreCase("KEY"))) {
 						// startmode = CobolFile.IS_GREATER_THAN;
 						startmodetext = "IS-GREATER-THAN";
 						indexkey = token;
 					} else if ((prev.equalsIgnoreCase("THAN") && prev2.equalsIgnoreCase("LESS") && prev3.equalsIgnoreCase("NOT") && prev4.equalsIgnoreCase("IS") && prev5.equalsIgnoreCase("KEY"))
-					        || (prev.equalsIgnoreCase("<") && prev2.equalsIgnoreCase("NOT") && prev3.equalsIgnoreCase("IS") && prev4.equalsIgnoreCase("KEY"))
-					        || (prev.equalsIgnoreCase("TO") && prev2.equalsIgnoreCase("EQUAL") && prev3.equalsIgnoreCase("OR") && prev4.equalsIgnoreCase("THAN") && prev5.equalsIgnoreCase("GREATER") && prev6.equalsIgnoreCase("IS") && prev7
-					                .equalsIgnoreCase("KEY")) || (prev.equalsIgnoreCase(">=") && prev2.equalsIgnoreCase("IS") && prev3.equalsIgnoreCase("KEY"))) {
+							|| (prev.equalsIgnoreCase("<") && prev2.equalsIgnoreCase("NOT") && prev3.equalsIgnoreCase("IS") && prev4.equalsIgnoreCase("KEY"))
+							|| (prev.equalsIgnoreCase("TO") && prev2.equalsIgnoreCase("EQUAL") && prev3.equalsIgnoreCase("OR") && prev4.equalsIgnoreCase("THAN") && prev5.equalsIgnoreCase("GREATER") && prev6.equalsIgnoreCase("IS") && prev7
+									.equalsIgnoreCase("KEY")) || (prev.equalsIgnoreCase(">=") && prev2.equalsIgnoreCase("IS") && prev3.equalsIgnoreCase("KEY"))) {
 						// startmode = CobolFile.IS_GREATER_THAN_OR_EQUAL_TO;
 						startmodetext = "IS-GREATER-THAN-OR-EQUAL-TO";
 						indexkey = token;
@@ -1358,22 +1399,23 @@ public class TCPCodeGenerator implements CodeGenerator {
 				}
 			}
 		}
-		// イベント処理
+		// event
 		CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 		for (CodeGeneratorListener listener : listeners) {
 			listener.preStart(event);
 		}
 		// ///////////
 		addCallStart(info, startmodetext, invalid, notinvalid, indexkey, period);
-		// イベント処理
+		// event
 		for (CodeGeneratorListener listener : listeners) {
 			listener.postStart(event);
 		}
 		// ///////////
 	}
 	/**
-	 * WRITEを処理する
-	 * @param period 行末のピリオド
+	 * WRITE
+	 * 
+	 * @param period "." or ""
 	 */
 	void process_write(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -1448,21 +1490,21 @@ public class TCPCodeGenerator implements CodeGenerator {
 		for (int i = 0; i < backup.size(); i++) {
 			add("*" + backup.get(i));
 		}
-		// イベント処理
+		// event
 		CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
 		for (CodeGeneratorListener listener : listeners) {
 			listener.preWrite(event);
 		}
 		// ///////////
 		addCallWrite(info, invalid, notinvalid, period);
-		// イベント処理
+		// event
 		for (CodeGeneratorListener listener : listeners) {
 			listener.postWrite(event);
 		}
 		// ///////////
 	}
 	/**
-	 * 現在の編集内容を対比する
+	 * push to stack
 	 */
 	void push() {
 		if (current != null)
@@ -1472,7 +1514,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 	/**
 	 * コミットモードを設定する<br/>
 	 * 無条件で行末にピリオドを設定することに注意
-	 * @param text true/falseを含む文字列
+	 * 
+	 * @param text comment row
 	 */
 	void whenACMAutoCommit(String text) {
 		int indexOfEqual = text.indexOf("=") + 1;
@@ -1483,12 +1526,13 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * トランザクションをコミットする
+	 * 
 	 * @param text 行文字列<br/>
-	 *            行文字列が".(ピリオド)"で終わっていたら行末にピリオドをつける
+	 * 
 	 */
 	void whenACMCommit(String text) {
 		String period = (Pattern.matches(CobolConsts.PERIOD, text) ? "." : "");
-		// イベント処理
+		// event
 		{
 			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
@@ -1496,7 +1540,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 		addCallCommit(period);
-		// イベント処理
+		// event
 		{
 			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
@@ -1506,6 +1550,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * RecordNameの設定
+	 * 
 	 * @param text RecordNameを含む行
 	 */
 	void whenACMRecName(String text) {
@@ -1514,12 +1559,13 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * トランザクションをロールバックする
+	 * 
 	 * @param text 行文字列<br/>
-	 *            行文字列が".(ピリオド)"で終わっていたら行末にピリオドをつける
+	 * 
 	 */
 	void whenACMRollBack(String text) {
 		String period = (Pattern.matches(CobolConsts.PERIOD, text) ? "." : "");
-		// イベント処理
+		// event
 		{
 			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
@@ -1527,7 +1573,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 		addCallRollback(period);
-		// イベント処理
+		// event
 		{
 			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
 			for (CodeGeneratorListener listener : listeners) {
@@ -1537,6 +1583,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * ACMファイル指示の開始
+	 * 
 	 * @param text 開始行
 	 */
 	void whenACMSTART(String text) {
@@ -1548,6 +1595,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	/**
 	 * トランザクションレベルの設定<br/>
 	 * 無条件で行末にピリオドを設定することに注意
+	 * 
 	 * @param text レベル文字列を含んだ行
 	 */
 	void whenACMTransactionIsolation(String text) {
@@ -1559,6 +1607,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * CLOSE命令
+	 * 
 	 * @param text キーワードを含む行
 	 */
 	void whenClose(String text) {
@@ -1575,6 +1624,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * コピー句がきたとき
+	 * 
 	 * @param text コピー句を含む行
 	 */
 	void whenCopy(String text) {
@@ -1598,6 +1648,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * DELETE句
+	 * 
 	 * @param text キーワードを含む行
 	 */
 	void whenDelete(String text) {
@@ -1613,6 +1664,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * DIVISION句を含む行
+	 * 
 	 * @param text キーワードを含む行
 	 */
 	void whenDivision(String text) {
@@ -1635,6 +1687,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * END DELETE句
+	 * 
 	 * @param text キーワードを含む行
 	 */
 	void whenEndDelete(String text) {
@@ -1662,6 +1715,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * END WRITE対応
+	 * 
 	 * @param text 行文字列
 	 */
 	void whenEndRewrite(String text) {
@@ -1729,7 +1783,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text
 	 */
 	void whenLabel(String text) {
-		// ラベル（気にしない？）
+		// ラベル(気にしない？)
 		add(text);
 		if (proceduresection) {
 			label++;
@@ -1917,7 +1971,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text
 	 */
 	void whenSelect(String text) {
-		// セレクト（ファイルアサインの始まり）
+		// セレクト(ファイルアサインの始まり)
 		current = CobolConsts.SELECT;
 		if (inACM) {
 			add("*" + text);
@@ -1962,7 +2016,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text
 	 */
 	void whenStorage(String text) {
-		// 作業領域Declaration
 		if (inFD) {
 			add("*" + text);
 			add_fd(text);
