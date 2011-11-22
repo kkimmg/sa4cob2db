@@ -1512,8 +1512,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		currentlists.push(currentlist);
 	}
 	/**
-	 * コミットモードを設定する<br/>
-	 * 無条件で行末にピリオドを設定することに注意
+	 * set auto commit mode<br/>
+	 * add "." to end of line
 	 * 
 	 * @param text comment row
 	 */
@@ -1525,9 +1525,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                    ACM-STATUS-ALL.");
 	}
 	/**
-	 * トランザクションをコミットする
+	 * commit transaction
 	 * 
-	 * @param text 行文字列<br/>
+	 * @param text line
 	 * 
 	 */
 	void whenACMCommit(String text) {
@@ -1549,18 +1549,18 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * RecordNameの設定
+	 * set RecordName
 	 * 
-	 * @param text RecordNameを含む行
+	 * @param text line
 	 */
 	void whenACMRecName(String text) {
 		int indexOfEqual = text.indexOf("=") + 1;
 		acmRecName = text.substring(indexOfEqual);
 	}
 	/**
-	 * トランザクションをロールバックする
+	 * rollback transaction
 	 * 
-	 * @param text 行文字列<br/>
+	 * @param text line
 	 * 
 	 */
 	void whenACMRollBack(String text) {
