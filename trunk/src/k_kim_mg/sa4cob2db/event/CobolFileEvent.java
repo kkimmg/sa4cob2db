@@ -5,16 +5,12 @@ import java.util.EventObject;
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.FileStatus;
 /**
- * コボルファイルのイベント
+ * file event
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CobolFileEvent extends EventObject {
-
-	/** 自動でできた */
 	private static final long serialVersionUID = 1L;
-	/** ファイル */
 	private transient CobolFile file = null;
-	/** ファイルステータス */
 	private transient FileStatus status;
 	/**
 	 * Constructor

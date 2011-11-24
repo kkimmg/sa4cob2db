@@ -1582,21 +1582,17 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * ACMファイル指示の開始
-	 * 
-	 * @param text 開始行
+	 * start of file define
+	 * @param text line
 	 */
 	void whenACMSTART(String text) {
-		// ACM開始コメント
 		add("*" + text);
 		inACM = true;
 		acmRecName = null;
 	}
 	/**
-	 * トランザクションレベルの設定<br/>
-	 * 無条件で行末にピリオドを設定することに注意
-	 * 
-	 * @param text レベル文字列を含んだ行
+	 * set transaction level
+	 * @param text line
 	 */
 	void whenACMTransactionIsolation(String text) {
 		int indexOfEqual = text.indexOf("=") + 1;
@@ -1606,13 +1602,11 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                   ACM-STATUS-ALL.");
 	}
 	/**
-	 * CLOSE命令
-	 * 
-	 * @param text キーワードを含む行
+	 * CLOSE
+	 * @param text line
 	 */
 	void whenClose(String text) {
 		push();
-		// ファイルクローズ
 		current = CobolConsts.CLOSE;
 		add("*" + text);
 		currentlist.add(text);
@@ -1620,12 +1614,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			process_close(".");
 			pop();
 		}
-		// ------↓ここからpush!-------/
 	}
 	/**
-	 * コピー句がきたとき
-	 * 
-	 * @param text コピー句を含む行
+	 * copy statement
+	 * @param text line
 	 */
 	void whenCopy(String text) {
 		if (isExpandCopy()) {
@@ -1637,7 +1629,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 				process_copy();
 			}
 		} else {
-			// コピー句
 			if (inFD) {
 				add("*" + text);
 				add_fd(text);
@@ -1647,13 +1638,11 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * DELETE句
-	 * 
-	 * @param text キーワードを含む行
+	 * DELETE
+	 * @param text line
 	 */
 	void whenDelete(String text) {
 		push();
-		// ファイルオープン
 		current = CobolConsts.DELETE;
 		add("*" + text);
 		currentlist.add(text);
@@ -1663,18 +1652,15 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * DIVISION句を含む行
-	 * 
-	 * @param text キーワードを含む行
+	 * DIVISION
+	 * @param text line
 	 */
 	void whenDivision(String text) {
 		add(text);
-		// ファイルコントロールの終了
 		if (current == CobolConsts.FD) {
 			process_fd();
 			inFD = false;
 		}
-		// ディビジョン
 		current = CobolConsts.DIVISION;
 		division = getDivision(text);
 		if (division.equalsIgnoreCase("data")) {
@@ -1686,9 +1672,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * END DELETE句
-	 * 
-	 * @param text キーワードを含む行
+	 * END DELETE
+	 * @param text line
 	 */
 	void whenEndDelete(String text) {
 		currentlist.add(text);
@@ -1701,7 +1686,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		level--;
 	}
 	/**
-	 * @param text
+	 * END READ
+	 * @param text line
 	 */
 	void whenEndRead(String text) {
 		currentlist.add(text);
@@ -1714,9 +1700,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		level--;
 	}
 	/**
-	 * END WRITE対応
-	 * 
-	 * @param text 行文字列
+	 * END WRITE
+	 * @param text line
 	 */
 	void whenEndRewrite(String text) {
 		currentlist.add(text);
@@ -1729,7 +1714,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		level--;
 	}
 	/**
-	 * @param text
+	 * END START
+	 * @param text line
 	 */
 	void whenEndStart(String text) {
 		currentlist.add(text);
@@ -1742,7 +1728,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		level--;
 	}
 	/**
-	 * @param text
+	 * END WRITE
+	 * @param text line
 	 */
 	void whenEndWrite(String text) {
 		currentlist.add(text);
@@ -1755,12 +1742,12 @@ public class TCPCodeGenerator implements CodeGenerator {
 		level--;
 	}
 	/**
-	 * @param text
+	 * FD Statement
+	 * @param text line
 	 */
 	void whenFd(String text) {
 		process_fd();
 		inFD = false;
-		// レコードDeclaration
 		current = CobolConsts.FD;
 		if (checkFD(text)) {
 			add_fd("*ACM Genrated File Record");
@@ -1772,18 +1759,18 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * @param text
+	 * FILE CONTROLL
+	 * @param text line
 	 */
 	void whenFileControl(String text) {
 		add("*" + text);
-		// ファイルコントロールの始まり
 		current = CobolConsts.FILECONTROL;
 	}
 	/**
-	 * @param text
+	 * LABEL
+	 * @param text line
 	 */
 	void whenLabel(String text) {
-		// ラベル(気にしない？)
 		add(text);
 		if (proceduresection) {
 			label++;
@@ -1794,7 +1781,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * @param text
+	 * OTHER
+	 * @param text line
 	 */
 	void whenNoMatchAny(String text) {
 		if (inCopy && isExpandCopy()) {
@@ -1830,7 +1818,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * @param text
+	 * only period line
+	 * @param text line
 	 */
 	void whenOnlyPeriod(String text) {
 		if (inCopy && isExpandCopy()) {
@@ -1888,11 +1877,11 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * @param text
+	 * OPEN
+	 * @param text line
 	 */
 	void whenOpen(String text) {
 		push();
-		// ファイルオープン
 		current = CobolConsts.OPEN;
 		add("*" + text);
 		currentlist.add(text);
@@ -1902,7 +1891,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * @param text
+	 * READ
+	 * @param text line
 	 */
 	void whenRead(String text) {
 		push();
@@ -1917,7 +1907,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * @param text
+	 * REWRITE
+	 * @param text line
 	 */
 	void whenRewrite(String text) {
 		//
@@ -1933,15 +1924,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * @param text
+	 * SECTION
+	 * @param text line
 	 */
 	void whenSection(String text) {
-		// ファイルコントロールの終了
 		if (current == CobolConsts.FD) {
 			process_fd();
 			inFD = false;
 		}
-		// セクション
 		current = CobolConsts.SECTION;
 		section = getSection(text);
 		if (section.equalsIgnoreCase("working-storage")) {
@@ -1968,10 +1958,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * @param text
+	 * SELECT
+	 * @param text line
 	 */
 	void whenSelect(String text) {
-		// セレクト(ファイルアサインの始まり)
 		current = CobolConsts.SELECT;
 		if (inACM) {
 			add("*" + text);
@@ -1986,7 +1976,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * @param text
+	 * START
+	 * @param text line
 	 */
 	void whenStart(String text) {
 		//
@@ -2002,7 +1993,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * @param text
+	 * STOP RUN
+	 * @param text line
 	 */
 	void whenStopRun(String text) {
 		if (Pattern.matches(CobolConsts.PERIOD, text)) {
@@ -2013,7 +2005,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add(text);
 	}
 	/**
-	 * @param text
+	 * STORAGE
+	 * @param text line
 	 */
 	void whenStorage(String text) {
 		if (inFD) {
@@ -2024,7 +2017,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
-	 * @param text
+	 * WRITE
+	 * @param text line
 	 */
 	void whenWrite(String text) {
 		//

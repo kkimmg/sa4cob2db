@@ -5,20 +5,18 @@ import java.util.EventObject;
 import k_kim_mg.sa4cob2db.ACMSession;
 import k_kim_mg.sa4cob2db.CobolFile;
 /**
- * ACMSessionに関するイベント
+ * event related session
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSessionEvent extends EventObject {
-	/**
-	 * 勝手にできる
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private ACMSession session;
 	private CobolFile file;
 	/**
 	 * Constructor
-	 * @param source	セッション
-	 * @param file		ファイル
+	 * @param source	session
+	 * @param file		file
 	 */
 	public ACMSessionEvent(ACMSession source, CobolFile file) {
 		super(source);
@@ -26,15 +24,15 @@ public class ACMSessionEvent extends EventObject {
 		this.file = file;
 	}
 	/**
-	 * イベント発生源のファイル
-	 * @return イベント発生源のファイル
+	 * file
+	 * @return file
 	 */
 	public CobolFile getFile() {
 		return file;
 	}
 	/**
-	 * イベント発生源のセッション
-	 * @return イベント発生源のセッション(sourceの代わり)
+	 * session
+	 * @return session
 	 */
 	public ACMSession getSession() {
 		return session;
