@@ -1,30 +1,30 @@
 package k_kim_mg.sa4cob2db.event;
 import k_kim_mg.sa4cob2db.ACMSession;
 /**
- * SQLNetServerのイベントを捕捉する
+ * catch server event
  * @author kenji
  */
 public interface ACMServerEventListener {
 	/**
-	 * サーバーが開始された
-	 * @param e イベントオブジェクト
+	 * server started
+	 * @param e event
 	 */
 	public void serverStarted(ACMServerEvent e);
 	/**
-	 * サーバーが終了する
-	 * @param e イベントオブジェクト
+	 * server ending
+	 * @param e event
 	 */
 	public void serverEnding(ACMServerEvent e);
 	/**
-	 * セッションが追加された
-	 * @param e サーバオブジェクト
-	 * @param session 追加されたセッション
+	 * session added
+	 * @param e event
+	 * @param session added session
 	 */
 	public void sessionAdded(ACMServerEvent e, ACMSession session);
 	/**
-	 * セッションが削除された
-	 * @param e サーバオブジェクト
-	 * @param session 削除されたセッション
+	 * session removed
+	 * @param e event
+	 * @param session removed session
 	 */
 	public void sessionRemoved(ACMServerEvent e, ACMSession session);
 }
