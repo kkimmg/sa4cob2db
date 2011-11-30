@@ -6,8 +6,7 @@ BINDIR = $(ACM_HOME)/bin
 JAVA_HOME = @JAVA_HOME@
 JDKLIB = -I$(JAVA_HOME)/include/
 JDKOSLIB = -I$(JAVA_HOME)/include/linux/
-#JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/server
-JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/server
+JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/client
 
 all:
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v acm2seq.c getJNIOption.c -o acm2seq
