@@ -1,5 +1,4 @@
 package k_kim_mg.sa4cob2db;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
@@ -7,26 +6,23 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
-
 import k_kim_mg.sa4cob2db.event.CobolFileEvent;
 import k_kim_mg.sa4cob2db.event.CobolFileEventAdapter;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
-
 /**
- * コボルファイルの基本型<br>
- * このクラスではイベントを発生させないので実装クラス側でイベントを発生させてちょ。
+ * This class does not generate an event.<br/>
+ * Please raise an event on the implementation class
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract class AbstractCobolFile implements CobolFile {
 	/**
-	 * シーケンシャルファイルのバッファ
+	 * buffer of Sequential file
 	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
-	protected class DefaultSequencialReadBuffer implements Runnable,
-			SequencialReadBuffer {
+	protected class DefaultSequencialReadBuffer implements Runnable, SequencialReadBuffer {
 		/** バッファの使用中フラグ */
 		private volatile boolean[][] buffStatus;
 		/** 読み込みを継続するかどうか */
@@ -67,7 +63,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 		private volatile int wb;
 		/** 過去込み中の位置(WritingIndex) */
 		private volatile int wi;
-
 		/**
 		 * Constructor<br>
 		 * 最小サイズ:2500<br>
@@ -78,19 +73,14 @@ public abstract class AbstractCobolFile implements CobolFile {
 		public DefaultSequencialReadBuffer() {
 			this(5000, 2500, 10000);
 		}
-
 		/**
 		 * Constructor
 		 * 
-		 * @param initSize
-		 *            初期サイズ
-		 * @param minSize
-		 *            最小サイズ
-		 * @param maxSize
-		 *            最大サイズ
+		 * @param initSize 初期サイズ
+		 * @param minSize 最小サイズ
+		 * @param maxSize 最大サイズ
 		 */
-		public DefaultSequencialReadBuffer(int initSize, int minSize,
-				int maxSize) {
+		public DefaultSequencialReadBuffer(int initSize, int minSize, int maxSize) {
 			this.initSize = initSize;
 			this.minSize = minSize;
 			this.maxSize = maxSize;
@@ -117,12 +107,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 			// バッファの初期化
 			initBuffers();
 		}
-
 		/**
 		 * バッファの初期化
 		 * 
-		 * @param size
-		 *            バッファサイズ(最大サイズの半分)
+		 * @param size バッファサイズ(最大サイズの半分)
 		 */
 		void initBuffers() {
 			records = new byte[2][dimentionSize][];
@@ -147,7 +135,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 			// まだ最終レコードまでいってない
 			lastRead = false;
 		}
-
 		/**
 		 * バッファ読み込みを待機するべきかどうか？ <br>
 		 * 1.初期サイズに到達していない <br>
@@ -176,7 +163,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 			}
 			return ret;
 		}
-
 		/**
 		 * バッファ作成を待機するべきかどうか？<br>
 		 * 1.バッファが最大サイズに達している <br>
@@ -189,12 +175,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 			// バッファが最大サイズに達しているか
 			// 書き込み先のバッファが未使用であれば待機する
 			boolean ret = false;
-
 			ret = (cs >= maxSize);
 			ret = (ret || buffStatus[wb][wi]);
 			return ret;
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -212,8 +196,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 				try {
 					this.wait(1000);
 				} catch (InterruptedException e) {
-					SQLNetServer.logger.log(Level.SEVERE,
-							"Interrupted To Read Wait", e);
+					SQLNetServer.logger.log(Level.SEVERE, "Interrupted To Read Wait", e);
 				}
 			}
 			// ファイルステータスを返す
@@ -229,7 +212,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 			}
 			return ret;
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -240,9 +222,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			if (cs <= minSize && initCleared && !lastRead) {
 				initCleared = false;
 			}
-			System.arraycopy(records[rb][ri], 0, record, 0,
-					(records[rb][ri].length > record.length ? record.length
-							: records[rb][ri].length));
+			System.arraycopy(records[rb][ri], 0, record, 0, (records[rb][ri].length > record.length ? record.length : records[rb][ri].length));
 			FileStatus ret = readStatus[rb][ri];
 			if (lastRead) {
 				readStatus[rb][ri] = STATUS_EOF;
@@ -250,24 +230,20 @@ public abstract class AbstractCobolFile implements CobolFile {
 			buffStatus[rb][ri] = false;
 			return ret;
 		}
-
 		/**
 		 * 実行
 		 */
 		public void run() {
-
 			cont = true;
 			FileStatus ns, rs; // NextStatus, ReadStatus
 			while (cont) {
 				// 読み込み待ち
 				while (isWaitToWrite() && cont) {
 					try {
-						SQLNetServer.logger.log(Level.FINEST,
-								"Buffering is Waiting");
+						SQLNetServer.logger.log(Level.FINEST, "Buffering is Waiting");
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
-						SQLNetServer.logger.log(Level.SEVERE,
-								"Interrupted To Write Wait", e);
+						SQLNetServer.logger.log(Level.SEVERE, "Interrupted To Write Wait", e);
 					}
 				}
 				if (cont) {
@@ -303,8 +279,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 						buffStatus[wb][wi] = true;
 					} else {
 						// 何らかのエラー
-						SQLNetServer.logger.log(Level.SEVERE,
-								ns.getStatusMessage());
+						SQLNetServer.logger.log(Level.SEVERE, ns.getStatusMessage());
 						cont = false;
 						readStatus[wb][wi] = ns;
 						buffStatus[wb][wi] = true;
@@ -312,7 +287,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				}
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -325,14 +299,12 @@ public abstract class AbstractCobolFile implements CobolFile {
 			thread.start();
 		}
 	}
-
 	/**
 	 * イベントを実行するためのクラス
 	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
-	protected class InnerCobolFileEventAdapter implements
-			CobolFileEventListener {
+	protected class InnerCobolFileEventAdapter implements CobolFileEventListener {
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -344,7 +316,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.postClose(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -356,7 +327,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.postDelete(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -368,7 +338,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.postMove(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -380,7 +349,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.postNext(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -392,7 +360,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.postOpen(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -404,7 +371,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.postPrevious(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -416,7 +382,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.postRead(e, record);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -428,7 +393,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.postRewrite(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -440,7 +404,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.postStart(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -452,7 +415,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.postStart(e, indexname);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -464,7 +426,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.postWrite(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -476,7 +437,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.preClose(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -488,7 +448,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.preDelete(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -500,7 +459,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.preMove(e, record);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -512,7 +470,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.preNext(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -524,7 +481,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.preOpen(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -536,7 +492,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.prePrevious(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -548,7 +503,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.preRead(e);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -560,7 +514,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.preRewrite(e, record);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -572,7 +525,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.preStart(e, record);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -584,7 +536,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 				listener.preStart(e, indexname, record);
 			}
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -597,7 +548,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 			}
 		}
 	}
-
 	/** ２つのレコード（キー）は等しい */
 	protected static final int COMPARE_EQUAL = 0;
 	/** レコード１が小さい */
@@ -606,12 +556,9 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected static final int COMPARE_REC2 = 2;
 	private static final long serialVersionUID = 1L;
 	/** エンドオブファイル */
-	protected static final FileStatus STATUS_EOF = new FileStatus(
-			FileStatus.STATUS_EOF, FileStatus.NULL_CODE, 0, "end of file.");
+	protected static final FileStatus STATUS_EOF = new FileStatus(FileStatus.STATUS_EOF, FileStatus.NULL_CODE, 0, "end of file.");
 	/** 原因不明のデフォルトの失敗ステータス */
-	protected static final FileStatus STATUS_UNKNOWN_ERROR = new FileStatus(
-			FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0,
-			"Unknown Error.");
+	protected static final FileStatus STATUS_UNKNOWN_ERROR = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "Unknown Error.");
 	/** アクセスモード */
 	protected int accessMode;
 	/** 現在使用しているインデックス */
@@ -627,9 +574,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	/**
 	 * バッファの初期サイズ、最小サイズ、最大サイズ
 	 */
-	private int initialSequencialReadBufferSize = 0,
-			maximumSequencialReadBufferSize = 0,
-			minimumSequencialReadBufferSize = 0;
+	private int initialSequencialReadBufferSize = 0, maximumSequencialReadBufferSize = 0, minimumSequencialReadBufferSize = 0;
 	/** イベントリスナ */
 	private ArrayList<CobolFileEventListener> listeners = new ArrayList<CobolFileEventListener>();
 	/** オープンモード */
@@ -638,7 +583,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected SequencialReadBuffer sequencialReadBuffer = null;
 	/** セッション */
 	private ACMSession session;
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -648,7 +592,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public void addCobolFileEventListener(CobolFileEventListener listener) {
 		listeners.add(listener);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -666,7 +609,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		indexName2Index.put(index.getIndexKeyName(), index);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -676,7 +618,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public void bindSession(ACMSession session) {
 		this.session = session;
 	}
-
 	/**
 	 * インデックスを閉じる
 	 * 
@@ -694,39 +635,31 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
-
 	/**
 	 * レコードバイト配列の比較 キー列を比較する
 	 * 
-	 * @param record1
-	 *            レコードバイト配列
-	 * @param record2
-	 *            レコードバイト配列
+	 * @param record1 レコードバイト配列
+	 * @param record2 レコードバイト配列
 	 * @return STATUS_EQUAL キーが等しい <br/>
 	 *         STATUS_REC1 record1のキーが小さい <br/>
 	 *         STATUS_REC2 record2のキーが小さい
 	 * @throws CobolRecordException
 	 */
-	protected int compare(byte[] record1, byte[] record2)
-			throws CobolRecordException {
+	protected int compare(byte[] record1, byte[] record2) throws CobolRecordException {
 		CobolRecordMetaData meta = getMetaData();
 		return compare(record1, record2, meta.isKeyByValue());
 	}
-
 	/**
 	 * レコードバイト配列の比較 キー列を比較する
 	 * 
-	 * @param record1
-	 *            レコードバイト配列
-	 * @param record2
-	 *            レコードバイト配列
+	 * @param record1 レコードバイト配列
+	 * @param record2 レコードバイト配列
 	 * @return STATUS_EQUAL キーが等しい <br/>
 	 *         STATUS_REC1 record1のキーが小さい <br/>
 	 *         STATUS_REC2 record2のキーが小さい
 	 * @throws CobolRecordException
 	 */
-	protected int compare_byBytes(byte[] record1, byte[] record2)
-			throws CobolRecordException {
+	protected int compare_byBytes(byte[] record1, byte[] record2) throws CobolRecordException {
 		int ret = COMPARE_EQUAL;
 		CobolRecordMetaData meta = getMetaData();
 		// レコード１
@@ -752,42 +685,33 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
-
 	/**
 	 * レコードバイト配列の比較 キー列を比較する
 	 * 
-	 * @param record1
-	 *            レコードバイト配列
-	 * @param record2
-	 *            レコードバイト配列
-	 * @param byValue
-	 *            キー比較を列の値として評価するかどうか
+	 * @param record1 レコードバイト配列
+	 * @param record2 レコードバイト配列
+	 * @param byValue キー比較を列の値として評価するかどうか
 	 * @return STATUS_EQUAL キーが等しい <br/>
 	 *         STATUS_REC1 record1のキーが小さい <br/>
 	 *         STATUS_REC2 record2のキーが小さい
 	 * @throws CobolRecordException
 	 */
-	protected int compare(byte[] record1, byte[] record2, boolean byValue)
-			throws CobolRecordException {
+	protected int compare(byte[] record1, byte[] record2, boolean byValue) throws CobolRecordException {
 		if (byValue)
 			return compare_byValue(record1, record2);
 		return compare_byBytes(record1, record2);
 	}
-
 	/**
 	 * レコードバイト配列の比較 キー列を比較する
 	 * 
-	 * @param record1
-	 *            レコードバイト配列
-	 * @param record2
-	 *            レコードバイト配列
+	 * @param record1 レコードバイト配列
+	 * @param record2 レコードバイト配列
 	 * @return STATUS_EQUAL キーが等しい <br/>
 	 *         STATUS_REC1 record1のキーが小さい <br/>
 	 *         STATUS_REC2 record2のキーが小さい
 	 * @throws CobolRecordException
 	 */
-	protected int compare_byValue(byte[] record1, byte[] record2)
-			throws CobolRecordException {
+	protected int compare_byValue(byte[] record1, byte[] record2) throws CobolRecordException {
 		int ret = COMPARE_EQUAL;
 		CobolRecordMetaData meta = getMetaData();
 		// レコード１
@@ -851,19 +775,14 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
-
 	/**
 	 * Internalバッファの作成
 	 * 
 	 * @return デフォルトのInternalバッファ
 	 */
 	protected SequencialReadBuffer createSequencialReadBuffer() {
-		return new DefaultSequencialReadBuffer(
-				getInitialSequencialReadBufferSize(),
-				getMinimumSequencialReadBufferSize(),
-				getMaximumSequencialReadBufferSize());
+		return new DefaultSequencialReadBuffer(getInitialSequencialReadBufferSize(), getMinimumSequencialReadBufferSize(), getMaximumSequencialReadBufferSize());
 	}
-
 	/**
 	 * アクセスモード
 	 * 
@@ -872,7 +791,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public int getAccessMode() {
 		return accessMode;
 	}
-
 	/**
 	 * 現在使用中のインデックスを取得する
 	 * 
@@ -881,7 +799,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public CobolIndex getCurrentIndex() {
 		return currentIndex;
 	}
-
 	/**
 	 * イベントを実行するためのオブジェクト
 	 * 
@@ -890,12 +807,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected CobolFileEventListener getEventProcessor() {
 		return eventer;
 	}
-
 	/**
 	 * インデックス名からインデックスの取得
 	 * 
-	 * @param name
-	 *            インデックス名
+	 * @param name インデックス名
 	 * @return インデックス、ただし無かったらnull
 	 */
 	protected CobolIndex getIndex(String name) {
@@ -907,12 +822,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return indexName2Index.get(name);
 	}
-
 	/**
 	 * コボルインデックスからインデックスファイルの取得
 	 * 
-	 * @param index
-	 *            インデックス
+	 * @param index インデックス
 	 * @return インデックスファイル、ただし無かったらnull
 	 */
 	protected CobolFile getIndexFile(CobolIndex index) {
@@ -927,7 +840,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return index2File.get(index);
 	}
-
 	/**
 	 * 初期バッファさイズ
 	 * 
@@ -936,7 +848,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected int getInitialSequencialReadBufferSize() {
 		return initialSequencialReadBufferSize;
 	}
-
 	/**
 	 * 最大バッファサイズ
 	 * 
@@ -945,7 +856,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected int getMaximumSequencialReadBufferSize() {
 		return maximumSequencialReadBufferSize;
 	}
-
 	/**
 	 * 最小バッファサイズ
 	 * 
@@ -954,7 +864,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected int getMinimumSequencialReadBufferSize() {
 		return minimumSequencialReadBufferSize;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -963,7 +872,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public int getOpenMode() {
 		return openmode;
 	}
-
 	/**
 	 * リードバッファの取得
 	 * 
@@ -972,7 +880,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected SequencialReadBuffer getSequencialReadBuffer() {
 		return sequencialReadBuffer;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -982,37 +889,31 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public ACMSession getSession() {
 		return session;
 	}
-
 	/**
 	 * ファイルが終端まで読み込まれたか？
 	 * 
 	 * @return ファイルが終端まで読み込まれたかどうか
 	 */
 	public abstract boolean isLastMoved();
-
 	/**
 	 * 位置づけ処理
 	 * 
-	 * @param row
-	 *            何行目？
+	 * @param row 何行目？
 	 * @return ステータス
 	 */
 	public abstract FileStatus move(int row);
-
 	/**
 	 * 行セットの一番最初に移動する
 	 * 
 	 * @return ステータス
 	 */
 	public abstract FileStatus moveFirst();
-
 	/**
 	 * 行セットの一番最後に移動する
 	 * 
 	 * @return ステータス
 	 */
 	public abstract FileStatus moveLast();
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1022,24 +923,18 @@ public abstract class AbstractCobolFile implements CobolFile {
 		if (getAccessMode() == CobolFile.ACCESS_DYNAMIC && currentIndex != null) {
 			return nextOnIndex();
 		}
-		if (getMaximumSequencialReadBufferSize() > 0
-				&& sequencialReadBuffer != null
-				&& getAccessMode() == CobolFile.ACCESS_SEQUENCIAL
-				&& getOpenMode() == CobolFile.MODE_INPUT) {
+		if (getMaximumSequencialReadBufferSize() > 0 && sequencialReadBuffer != null && getAccessMode() == CobolFile.ACCESS_SEQUENCIAL && getOpenMode() == CobolFile.MODE_INPUT) {
 			return nextOnBuffer();
 		}
 		return nextOnFile();
 	}
-
 	/**
 	 * row行分次のレコードへ移動する
 	 * 
-	 * @param row
-	 *            行数
+	 * @param row 行数
 	 * @return ステータス
 	 */
 	public abstract FileStatus next(int row);
-
 	/**
 	 * バッファ上の位置を移動する
 	 * 
@@ -1048,21 +943,18 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public FileStatus nextOnBuffer() {
 		FileStatus ret = null;
 		if (sequencialReadBuffer == null) {
-			ret = new FileStatus(FileStatus.STATUS_FAILURE,
-					FileStatus.NULL_CODE, 0, "buffer is null.");
+			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "buffer is null.");
 		} else {
 			ret = sequencialReadBuffer.nextBuffer();
 		}
 		return ret;
 	}
-
 	/**
 	 * Internalファイルの行位置を移動する
 	 * 
 	 * @return ステータス
 	 */
 	protected abstract FileStatus nextOnFile();
-
 	/**
 	 * インデックスに応じた順番のレコード次位置に移動する
 	 * 
@@ -1070,8 +962,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 */
 	protected FileStatus nextOnIndex() {
 		if (currentIndex == null) {
-			return new FileStatus(FileStatus.STATUS_FAILURE,
-					FileStatus.NULL_CODE, 0, "not started");
+			return new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "not started");
 		}
 		// インデックスレコード
 		CobolFile currentIndexFile = getIndexFile(currentIndex);
@@ -1090,18 +981,14 @@ public abstract class AbstractCobolFile implements CobolFile {
 				try {
 					indexrecord.setRecord(indexbytes);
 					// インデックス→主ファイル
-					Map<CobolColumn, CobolColumn> map1 = currentIndex
-							.getFileKey2IndexColumn();
-					Set<Map.Entry<CobolColumn, CobolColumn>> set = map1
-							.entrySet();
-					Iterator<Map.Entry<CobolColumn, CobolColumn>> ite = set
-							.iterator();
+					Map<CobolColumn, CobolColumn> map1 = currentIndex.getFileKey2IndexColumn();
+					Set<Map.Entry<CobolColumn, CobolColumn>> set = map1.entrySet();
+					Iterator<Map.Entry<CobolColumn, CobolColumn>> ite = set.iterator();
 					while (ite.hasNext()) {
 						Map.Entry<CobolColumn, CobolColumn> ent = ite.next();
 						CobolColumn indexColumn = ent.getKey();
 						CobolColumn fileColumn = ent.getValue();
-						mainrecord.updateBytes(fileColumn,
-								indexrecord.getBytes(indexColumn));
+						mainrecord.updateBytes(fileColumn, indexrecord.getBytes(indexColumn));
 					}
 					// 主ファイルを検索
 					byte[] record = new byte[meta.getRowSize()];
@@ -1109,14 +996,12 @@ public abstract class AbstractCobolFile implements CobolFile {
 					ret = move(record);
 				} catch (CobolRecordException e) {
 					SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
-					ret = new FileStatus(FileStatus.STATUS_FAILURE,
-							FileStatus.NULL_CODE, 0, e.getMessage());
+					ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
 				}
 			}
 		}
 		return ret;
 	}
-
 	/**
 	 * インデックスを開く
 	 * 
@@ -1126,8 +1011,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		FileStatus ret = FileStatus.OK;
 		if (index2File != null) {
 			for (CobolFile idfile : index2File.values()) {
-				FileStatus stat = idfile.open(CobolFile.MODE_INPUT,
-						CobolFile.ACCESS_DYNAMIC);
+				FileStatus stat = idfile.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_DYNAMIC);
 				if (!stat.getStatusCode().equals(FileStatus.STATUS_OK)) {
 					ret = stat;
 				}
@@ -1135,16 +1019,13 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
-
 	/**
 	 * row行分前のレコードへ移動する
 	 * 
-	 * @param row
-	 *            行数
+	 * @param row 行数
 	 * @return ステータス
 	 */
 	public abstract FileStatus previous(int row);
-
 	/**
 	 * thisオブジェクトを返す
 	 * 
@@ -1154,49 +1035,39 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected CobolFile proxy() {
 		return this;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#read(byte[])
 	 */
 	public FileStatus read(byte[] record) {
-		if (getMaximumSequencialReadBufferSize() > 0
-				&& sequencialReadBuffer != null
-				&& getAccessMode() == CobolFile.ACCESS_SEQUENCIAL
-				&& getOpenMode() == CobolFile.MODE_INPUT) {
+		if (getMaximumSequencialReadBufferSize() > 0 && sequencialReadBuffer != null && getAccessMode() == CobolFile.ACCESS_SEQUENCIAL && getOpenMode() == CobolFile.MODE_INPUT) {
 			return readFromBuffer(record);
 		}
 		return readFromFile(record);
 	}
-
 	/**
 	 * Internalバッファからレコードを読み取る
 	 * 
-	 * @param record
-	 *            レコード
+	 * @param record レコード
 	 * @return ファイルステータス
 	 */
 	public FileStatus readFromBuffer(byte[] record) {
 		FileStatus ret = null;
 		if (sequencialReadBuffer == null) {
-			ret = new FileStatus(FileStatus.STATUS_FAILURE,
-					FileStatus.NULL_CODE, 0, "buffer is null.");
+			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "buffer is null.");
 		} else {
 			ret = sequencialReadBuffer.readBuffer(record);
 		}
 		return ret;
 	}
-
 	/**
 	 * Internalファイルから取得する
 	 * 
-	 * @param record
-	 *            連想するレコード
+	 * @param record 連想するレコード
 	 * @return ステータス
 	 */
 	protected abstract FileStatus readFromFile(byte[] record);
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1206,7 +1077,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public void removeCobolFileEventListener(CobolFileEventListener listener) {
 		listeners.remove(listener);
 	}
-
 	/**
 	 * 現在使用中のインデックスをクリアする<br>
 	 * つまりインデックスを使用していない状態にする<br>
@@ -1216,72 +1086,55 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public void resetCurrentIndex() {
 		setCurrentIndex(null);
 	}
-
 	/**
 	 * 現在使用中のインデックスを設定する
 	 * 
-	 * @param currentIndex
-	 *            インデックス<br>
+	 * @param currentIndex インデックス<br>
 	 *            使用しない場合はnull
 	 */
 	public void setCurrentIndex(CobolIndex currentIndex) {
 		this.currentIndex = currentIndex;
 	}
-
 	/**
 	 * 初期バッファさイズ
 	 * 
-	 * @param initialSequencialReadBufferSize
-	 *            初期バッファさイズ
+	 * @param initialSequencialReadBufferSize 初期バッファさイズ
 	 */
-	protected void setInitialSequencialReadBufferSize(
-			int initialSequencialReadBufferSize) {
+	protected void setInitialSequencialReadBufferSize(int initialSequencialReadBufferSize) {
 		this.initialSequencialReadBufferSize = initialSequencialReadBufferSize;
 	}
-
 	/**
 	 * 　最大バッファサイズ
 	 * 
-	 * @param maximumSequencialReadBufferSize
-	 *            最大バッファサイズ
+	 * @param maximumSequencialReadBufferSize 最大バッファサイズ
 	 */
-	protected void setMaximumSequencialReadBufferSize(
-			int maximumSequencialReadBufferSize) {
+	protected void setMaximumSequencialReadBufferSize(int maximumSequencialReadBufferSize) {
 		this.maximumSequencialReadBufferSize = maximumSequencialReadBufferSize;
 	}
-
 	/**
 	 * 最小バッファサイズ
 	 * 
-	 * @param minimumSequencialReadBufferSize
-	 *            最小バッファサイズ
+	 * @param minimumSequencialReadBufferSize 最小バッファサイズ
 	 */
-	protected void setMinimumSequencialReadBufferSize(
-			int minimumSequencialReadBufferSize) {
+	protected void setMinimumSequencialReadBufferSize(int minimumSequencialReadBufferSize) {
 		this.minimumSequencialReadBufferSize = minimumSequencialReadBufferSize;
 	}
-
 	/**
 	 * リードバッファのセット
 	 * 
-	 * @param sequencialReadBuffer
-	 *            リードバッファ
+	 * @param sequencialReadBuffer リードバッファ
 	 */
-	protected void setSequencialReadBuffer(
-			SequencialReadBuffer sequencialReadBuffer) {
+	protected void setSequencialReadBuffer(SequencialReadBuffer sequencialReadBuffer) {
 		this.sequencialReadBuffer = sequencialReadBuffer;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#start(int, byte[], boolean)
 	 */
 	public FileStatus start(int mode, byte[] record, boolean duplicates) {
-		return (duplicates ? startDuplicates(mode, record)
-				: start(mode, record));
+		return (duplicates ? startDuplicates(mode, record) : start(mode, record));
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1299,21 +1152,17 @@ public abstract class AbstractCobolFile implements CobolFile {
 			mainrecord.setRecord(record);
 			try {
 				CobolRecordMetaData indexmeta = indexFile.getMetaData();
-				DefaultCobolRecord indexrecord = new DefaultCobolRecord(
-						indexmeta);
+				DefaultCobolRecord indexrecord = new DefaultCobolRecord(indexmeta);
 				byte[] indexbytes = new byte[indexmeta.getRowSize()];
 				// 主ファイル→インデックス
-				Map<CobolColumn, CobolColumn> map0 = index
-						.getIndexKey2FileColumn();
+				Map<CobolColumn, CobolColumn> map0 = index.getIndexKey2FileColumn();
 				Set<Map.Entry<CobolColumn, CobolColumn>> set0 = map0.entrySet();
-				Iterator<Map.Entry<CobolColumn, CobolColumn>> ite0 = set0
-						.iterator();
+				Iterator<Map.Entry<CobolColumn, CobolColumn>> ite0 = set0.iterator();
 				while (ite0.hasNext()) {
 					Map.Entry<CobolColumn, CobolColumn> ent0 = ite0.next();
 					CobolColumn indexColumn = ent0.getKey();
 					CobolColumn fileColumn = ent0.getValue();
-					indexrecord.updateBytes(indexColumn,
-							mainrecord.getBytes(fileColumn));
+					indexrecord.updateBytes(indexColumn, mainrecord.getBytes(fileColumn));
 				}
 				// インデックスを検索
 				/* int len = */indexrecord.getRecord(indexbytes);
@@ -1322,18 +1171,14 @@ public abstract class AbstractCobolFile implements CobolFile {
 					ret = indexFile.read(indexbytes);
 					indexrecord.setRecord(indexbytes);
 					// インデックス→主ファイル
-					Map<CobolColumn, CobolColumn> map1 = index
-							.getFileKey2IndexColumn();
-					Set<Map.Entry<CobolColumn, CobolColumn>> set1 = map1
-							.entrySet();
-					Iterator<Map.Entry<CobolColumn, CobolColumn>> ite1 = set1
-							.iterator();
+					Map<CobolColumn, CobolColumn> map1 = index.getFileKey2IndexColumn();
+					Set<Map.Entry<CobolColumn, CobolColumn>> set1 = map1.entrySet();
+					Iterator<Map.Entry<CobolColumn, CobolColumn>> ite1 = set1.iterator();
 					while (ite1.hasNext()) {
 						Map.Entry<CobolColumn, CobolColumn> ent1 = ite1.next();
 						CobolColumn indexColumn = ent1.getKey();
 						CobolColumn fileColumn = ent1.getValue();
-						mainrecord.updateBytes(fileColumn,
-								indexrecord.getBytes(indexColumn));
+						mainrecord.updateBytes(fileColumn, indexrecord.getBytes(indexColumn));
 					}
 					// 主ファイルを検索
 					/* len = */mainrecord.getRecord(record);
@@ -1345,13 +1190,11 @@ public abstract class AbstractCobolFile implements CobolFile {
 			} catch (CobolRecordException e) {
 				SQLNetServer.logger.log(Level.SEVERE, "Exception", e);
 				// この中の例外はそのまま外に出す
-				ret = new FileStatus(FileStatus.STATUS_FAILURE,
-						e.getSQLState(), e.getErrorCode(), e.getMessage());
+				ret = new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 			} catch (Exception ex) {
 				SQLNetServer.logger.log(Level.SEVERE, "Exception", ex);
 				// そのほかの例外
-				ret = new FileStatus(FileStatus.STATUS_FAILURE,
-						FileStatus.NULL_CODE, 0, ex.getMessage());
+				ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, ex.getMessage());
 			}
 		} else {
 			// ２次キーなしで検索
@@ -1360,27 +1203,22 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
-
 	/**
 	 * バッファリングの開始 リードオンリーで順ファイルの時、バッファリングを開始する
 	 */
 	public void startBuffer() {
-		if ((getMaximumSequencialReadBufferSize() > 0
-				&& getAccessMode() == CobolFile.ACCESS_SEQUENCIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
+		if ((getMaximumSequencialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENCIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
 			if (sequencialReadBuffer == null) {
 				sequencialReadBuffer = createSequencialReadBuffer();
 			}
 			getSequencialReadBuffer().startBuffering();
 		}
 	}
-
 	/**
 	 * 位置付けする（重複あり）
 	 * 
-	 * @param mode
-	 *            モード(EQ GT など)
-	 * @param record
-	 *            キーを含むレコード
+	 * @param mode モード(EQ GT など)
+	 * @param record キーを含むレコード
 	 * @return ステータス
 	 */
 	public abstract FileStatus startDuplicates(int mode, byte[] record);

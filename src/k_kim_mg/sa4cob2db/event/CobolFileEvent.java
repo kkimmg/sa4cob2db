@@ -14,7 +14,8 @@ public class CobolFileEvent extends EventObject {
 	private transient FileStatus status;
 	/**
 	 * Constructor
-	 * @param source	イベントの発生したCobolFileのオブジェクト
+	 * @param source	event happened object
+	 * @param status	filestatus
 	 */
 	public CobolFileEvent(CobolFile source, FileStatus status) {
 		super(source);
@@ -22,22 +23,22 @@ public class CobolFileEvent extends EventObject {
 		this.status = status;
 	}
 	/**
-	 * sourceでキャストを咲けたい場合
-	 * @return sourceと同等のファイル	
+	 * be equal to source
+	 * @return source	
 	 */
 	public CobolFile getFile () {
 		return file;
 	}
 	/**
-	 * ファイルステータス
-	 * @return ファイルステータス
+	 * filestatus
+	 * @return filestatus
 	 */
 	public FileStatus getStatus() {
 		return status;
 	}
 	/**
-	 * ファイルステータス
-	 * @param status ファイルステータス
+	 * filestatus
+	 * @param status filestatus
 	 */
 	public void setStatus(FileStatus status) {
 		this.status = status;
