@@ -1,126 +1,126 @@
 package k_kim_mg.sa4cob2db.event;
 import java.util.EventListener;
 /**
- * コボルファイルのアクセスで発生したイベントを処理する機能
+ * listener interface
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CobolFileEventListener extends EventListener {
 	/**
-	 * CLOSEの後
-	 * @param e CobolFileで発生したイベント
+	 * after CLOSE
+	 * @param e CobolFile
 	 */
 	public void postClose(CobolFileEvent e);
 	/**
-	 * DELETEの後
-	 * @param e CobolFileで発生したイベント
+	 * after DELETE
+	 * @param e CobolFile
 	 */
 	public void postDelete(CobolFileEvent e);
 	/**
-	 * READの後
-	 * @param e CobolFileで発生したイベント
+	 * after READ
+	 * @param e CobolFile
 	 */
 	public void postMove(CobolFileEvent e);
 	/**
-	 * NEXTの後
-	 * @param e CobolFileで発生したイベント
+	 * after NEXT
+	 * @param e CobolFile
 	 */
 	public void postNext(CobolFileEvent e);
 	/**
-	 * OPENの後
-	 * @param e CobolFileで発生したイベント
+	 * after OPEN
+	 * @param e CobolFile
 	 */
 	public void postOpen(CobolFileEvent e);
 	/**
-	 * PREVIOUSの後
-	 * @param e CobolFileで発生したイベント
+	 * after PREVIOUS
+	 * @param e CobolFile
 	 */
 	public void postPrevious(CobolFileEvent e);
 	/**
-	 * READの後
-	 * @param e CobolFileで発生したイベント
-	 * @param record 読み込んだレコード
+	 * after READ
+	 * @param e CobolFile
+	 * @param record reading record
 	 */
 	public void postRead(CobolFileEvent e, byte[] record);
 	/**
-	 * REWRITEの後
-	 * @param e CobolFileで発生したイベント
+	 * after REWRITE
+	 * @param e CobolFile
 	 */
 	public void postRewrite(CobolFileEvent e);
 	/**
-	 * STARTの後
-	 * @param e CobolFileで発生したイベント
+	 * after START
+	 * @param e CobolFile
 	 */
 	public void postStart(CobolFileEvent e);
 	/**
-	 * STARTの後
-	 * @param e CobolFileで発生したイベント
-	 * @param indexname インデックスの名称
+	 * after START
+	 * @param e CobolFile
+	 * @param indexname index name
 	 */
 	public void postStart(CobolFileEvent e, String indexname);
 	/**
-	 * WRITEの後
-	 * @param e CobolFileで発生したイベント
+	 * after WRITE
+	 * @param e CobolFile
 	 */
 	public void postWrite(CobolFileEvent e);
 	/**
-	 * CLOSEの前
-	 * @param e CobolFileで発生したイベント
+	 * before CLOSE
+	 * @param e CobolFile
 	 */
 	public void preClose(CobolFileEvent e);
 	/**
-	 * DELETEの前
-	 * @param e CobolFileで発生したイベント
+	 * before DELETE
+	 * @param e CobolFile
 	 */
 	public void preDelete(CobolFileEvent e);
 	/**
-	 * READの前
-	 * @param e CobolFileで発生したイベント
-	 * @param record キーレコード
+	 * before READ
+	 * @param e CobolFile
+	 * @param record key record
 	 */
 	public void preMove(CobolFileEvent e, byte[] record);
 	/**
-	 * NEXTの前
-	 * @param e CobolFileで発生したイベント
+	 * before NEXT
+	 * @param e CobolFile
 	 */
 	public void preNext(CobolFileEvent e);
 	/**
-	 * OPENの前
-	 * @param e CobolFileで発生したイベント
+	 * before OPEN
+	 * @param e CobolFile
 	 */
 	public void preOpen(CobolFileEvent e);
 	/**
-	 * PREVIOUSの前
-	 * @param e CobolFileで発生したイベント
+	 * before PREVIOUS
+	 * @param e CobolFile
 	 */
 	public void prePrevious(CobolFileEvent e);
 	/**
-	 * READの前
-	 * @param e CobolFileで発生したイベント
+	 * before READ
+	 * @param e CobolFile
 	 */
 	public void preRead(CobolFileEvent e);
 	/**
-	 * REWRITEの前
-	 * @param e CobolFileで発生したイベント
-	 * @param record 書き込みレコード
+	 * before REWRITE
+	 * @param e CobolFile
+	 * @param record writing record
 	 */
 	public void preRewrite(CobolFileEvent e, byte[] record);
 	/**
-	 * STARTの前
-	 * @param e CobolFileで発生したイベント
-	 * @param record キーレコード
+	 * before START
+	 * @param e CobolFile
+	 * @param record key record
 	 */
 	public void preStart(CobolFileEvent e, byte[] record);
 	/**
-	 * STARTの前
-	 * @param e CobolFileで発生したイベント
-	 * @param indexname インデックスの名称
-	 * @param record キーレコード
+	 * before START
+	 * @param e CobolFile
+	 * @param indexname indexname
+	 * @param record key record
 	 */
 	public void preStart(CobolFileEvent e, String indexname, byte[] record);
 	/**
-	 * WRITEの前
-	 * @param e CobolFileで発生したイベント
-	 * @param record 書き込みレコード
+	 * before WRITE
+	 * @param e CobolFile
+	 * @param record writing record
 	 */
 	public void preWrite(CobolFileEvent e, byte[] record);
 }
