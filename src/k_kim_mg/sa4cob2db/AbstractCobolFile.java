@@ -23,52 +23,28 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	protected class DefaultSequencialReadBuffer implements Runnable, SequencialReadBuffer {
-		/** バッファの使用中フラグ */
 		private volatile boolean[][] buffStatus;
-		/** 読み込みを継続するかどうか */
 		private volatile boolean cont = true;
-		/** 現在のサイズ (CurrentSize) */
 		private volatile int cs;
-		/** 配列サイズ */
 		private int dimentionSize;
-		/** 初期サイズに(一旦)到達した */
 		private volatile boolean initCleared = false;
-		/**
-		 * 初期サイズ <br>
-		 * 1.未初期化の状態でこの数値を下回った場合は待機する<br>
-		 * 2.一旦minSizeを下回ったあと、この数値を下回った場合は待機する
-		 */
 		private int initSize;
-		/** EOFか？ */
 		private volatile boolean lastRead = false;
-		/** 最大サイズ */
 		private int maxSize;
-		/**
-		 * 最小サイズ このサイズを下回ったらinitSizeまで読み込みを待機する
-		 */
 		private int minSize;
-		/** Next処理のファイルステータス */
 		private volatile FileStatus[][] nextStatus;
-		/** 現在読み込み中のバッファ指定(ReadingBuffer) */
 		private volatile int rb;
-		/** Read処理のファイルステータス */
 		private volatile FileStatus[][] readStatus;
-		/** レコードのバッファ */
 		private volatile byte[][][] records;
-		/** 読み込み中の位置(ReadingIndex) */
 		private volatile int ri;
-		/** Internalスレッド */
 		private Thread thread;
-		/** 現在書き込み中のバッファ指定(WritingBuffer) */
 		private volatile int wb;
-		/** 過去込み中の位置(WritingIndex) */
 		private volatile int wi;
 		/**
 		 * Constructor<br>
-		 * 最小サイズ:2500<br>
-		 * 初期サイズ:5000<br>
-		 * 最大サイズ:10000<br>
-		 * で作成する
+		 * minumumsize:2500<br>
+		 * initialsize:5000<br>
+		 * maximumsize:10000<br>
 		 */
 		public DefaultSequencialReadBuffer() {
 			this(5000, 2500, 10000);
@@ -76,16 +52,15 @@ public abstract class AbstractCobolFile implements CobolFile {
 		/**
 		 * Constructor
 		 * 
-		 * @param initSize 初期サイズ
-		 * @param minSize 最小サイズ
-		 * @param maxSize 最大サイズ
+		 * @param initSize initial size
+		 * @param minSize minimum size
+		 * @param maxSize maximum size
 		 */
 		public DefaultSequencialReadBuffer(int initSize, int minSize, int maxSize) {
 			this.initSize = initSize;
 			this.minSize = minSize;
 			this.maxSize = maxSize;
 			cs = 0;
-			// バッファサイズの決定
 			if (maxSize % 2 != 0) {
 				dimentionSize = (maxSize + 1) / 2;
 			} else {
@@ -104,22 +79,20 @@ public abstract class AbstractCobolFile implements CobolFile {
 					cont = false;
 				}
 			});
-			// バッファの初期化
+			// 
 			initBuffers();
 		}
 		/**
-		 * バッファの初期化
-		 * 
-		 * @param size バッファサイズ(最大サイズの半分)
+		 * initialize buffer
 		 */
 		void initBuffers() {
 			records = new byte[2][dimentionSize][];
 			nextStatus = new FileStatus[2][dimentionSize];
 			readStatus = new FileStatus[2][dimentionSize];
 			buffStatus = new boolean[2][dimentionSize];
-			// レコードサイズ
+			// 
 			int recSize = getMetaData().getRowSize();
-			// バッファの初期化処理
+			// 
 			for (int i = 0; i < 2; i++) {
 				for (int j = 0; j < dimentionSize; j++) {
 					buffStatus[i][j] = false;
@@ -132,48 +105,39 @@ public abstract class AbstractCobolFile implements CobolFile {
 			wi = 0;
 			rb = 0;
 			ri = -1;
-			// まだ最終レコードまでいってない
+			// 
 			lastRead = false;
 		}
 		/**
-		 * バッファ読み込みを待機するべきかどうか？ <br>
-		 * 1.初期サイズに到達していない <br>
-		 * 2.読み込み対象バッファがまだ有効ではない<br>
-		 * 3.バッファのサイズが0より小さい
-		 * 
-		 * @return true 待機せよ<br>
-		 *         false 待機しない
+		 * wait? 
+		 * @return true wait<br>
+		 *         false no wait
 		 */
 		boolean isWaitToRead() {
 			boolean ret = false;
 			if (!lastRead) {
 				// EOFでないこと
 				if (!initCleared && cs < initSize) {
-					// 初期サイズに到達していない
+					// initialsizeに到達していない
 					ret = true;
 				}
 				if (!buffStatus[rb][ri]) {
-					// 読み込み対象バッファがまだ有効ではない
+					// 読み込み対象bufferがまだ有効ではない
 					ret = true;
 				}
 				if (cs < 0) {
-					// バッファサイズが0より小さい
+					// buffersizeが0より小さい
 					ret = true;
 				}
 			}
 			return ret;
 		}
 		/**
-		 * バッファ作成を待機するべきかどうか？<br>
-		 * 1.バッファが最大サイズに達している <br>
-		 * 2.書き込み先のバッファが未使用である
-		 * 
-		 * @return true 待機せよ<br>
-		 *         false 待機しない
+		 * wait?
+		 * @return true wait<br>
+		 *         false no wait
 		 */
 		boolean isWaitToWrite() {
-			// バッファが最大サイズに達しているか
-			// 書き込み先のバッファが未使用であれば待機する
 			boolean ret = false;
 			ret = (cs >= maxSize);
 			ret = (ret || buffStatus[wb][wi]);
@@ -185,13 +149,13 @@ public abstract class AbstractCobolFile implements CobolFile {
 		 * @see k_kim_mg.sa4cob2db.SequencialReadBuffer#nextBuffer()
 		 */
 		public synchronized FileStatus nextBuffer() {
-			// 読み込み位置の変更
+			// 
 			ri++;
 			if (ri >= dimentionSize) {
 				rb = (rb == 0 ? 1 : 0);
 				ri = 0;
 			}
-			// 読み込み待機
+			// 
 			while (isWaitToRead()) {
 				try {
 					this.wait(1000);
@@ -199,7 +163,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 					SQLNetServer.logger.log(Level.SEVERE, "Interrupted To Read Wait", e);
 				}
 			}
-			// ファイルステータスを返す
+			// 
 			FileStatus ret = nextStatus[rb][ri];
 			if (ret != null) {
 				if (!ret.getStatusCode().equals(FileStatus.STATUS_OK)) {
@@ -231,13 +195,13 @@ public abstract class AbstractCobolFile implements CobolFile {
 			return ret;
 		}
 		/**
-		 * 実行
+		 * make buffer
 		 */
 		public void run() {
 			cont = true;
 			FileStatus ns, rs; // NextStatus, ReadStatus
 			while (cont) {
-				// 読み込み待ち
+				// 
 				while (isWaitToWrite() && cont) {
 					try {
 						SQLNetServer.logger.log(Level.FINEST, "Buffering is Waiting");
@@ -247,22 +211,17 @@ public abstract class AbstractCobolFile implements CobolFile {
 					}
 				}
 				if (cont) {
-					// 読み込み実行
+					// 
 					ns = nextOnFile();
 					nextStatus[wb][wi] = ns;
 					if (ns.getStatusCode().equals(FileStatus.STATUS_OK)) {
 						rs = readFromFile(records[wb][wi]);
 						readStatus[wb][wi] = rs;
 						buffStatus[wb][wi] = true;
-						// 次へ
+						// 
 						cs++;
 						wi++;
 						if (wi >= dimentionSize) {
-							// SQLNetServer.logger.log(Level.FINEST,
-							// "changing
-							// writing buffer:" + wi + " >= " +
-							// dimentionSize +
-							// " : " + wb);
 							wb = (wb == 0 ? 1 : 0);
 							wi = 0;
 						}
@@ -270,15 +229,12 @@ public abstract class AbstractCobolFile implements CobolFile {
 							initCleared = true;
 						}
 					} else if (ns.getStatusCode().equals(FileStatus.STATUS_EOF)) {
-						// エンド オブ ファイル
-						// SQLNetServer.logger.log(Level.FINEST, "buffering
-						// end." + thread.getName());
 						lastRead = true;
 						cont = false;
 						readStatus[wb][wi] = ns;
 						buffStatus[wb][wi] = true;
 					} else {
-						// 何らかのエラー
+						// 
 						SQLNetServer.logger.log(Level.SEVERE, ns.getStatusMessage());
 						cont = false;
 						readStatus[wb][wi] = ns;
@@ -572,14 +528,14 @@ public abstract class AbstractCobolFile implements CobolFile {
 	/** インデックス名からインデックスを取得する */
 	protected Map<String, CobolIndex> indexName2Index;
 	/**
-	 * バッファの初期サイズ、最小サイズ、最大サイズ
+	 * bufferのinitialsize、minimumsize、maximumsize
 	 */
 	private int initialSequencialReadBufferSize = 0, maximumSequencialReadBufferSize = 0, minimumSequencialReadBufferSize = 0;
 	/** イベントリスナ */
 	private ArrayList<CobolFileEventListener> listeners = new ArrayList<CobolFileEventListener>();
 	/** オープンモード */
 	protected int openmode;
-	/** Internalバッファ */
+	/** Internalbuffer */
 	protected SequencialReadBuffer sequencialReadBuffer = null;
 	/** セッション */
 	private ACMSession session;
@@ -776,9 +732,9 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * Internalバッファの作成
+	 * Internalbufferの作成
 	 * 
-	 * @return デフォルトのInternalバッファ
+	 * @return デフォルトのInternalbuffer
 	 */
 	protected SequencialReadBuffer createSequencialReadBuffer() {
 		return new DefaultSequencialReadBuffer(getInitialSequencialReadBufferSize(), getMinimumSequencialReadBufferSize(), getMaximumSequencialReadBufferSize());
@@ -841,25 +797,25 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return index2File.get(index);
 	}
 	/**
-	 * 初期バッファさイズ
+	 * initialbufferさイズ
 	 * 
-	 * @return 初期バッファさイズ
+	 * @return initialbufferさイズ
 	 */
 	protected int getInitialSequencialReadBufferSize() {
 		return initialSequencialReadBufferSize;
 	}
 	/**
-	 * 最大バッファサイズ
+	 * maximumbuffersize
 	 * 
-	 * @return 最大バッファサイズ
+	 * @return maximumbuffersize
 	 */
 	protected int getMaximumSequencialReadBufferSize() {
 		return maximumSequencialReadBufferSize;
 	}
 	/**
-	 * 最小バッファサイズ
+	 * minimumbuffersize
 	 * 
-	 * @return 最小バッファサイズ
+	 * @return minimumbuffersize
 	 */
 	protected int getMinimumSequencialReadBufferSize() {
 		return minimumSequencialReadBufferSize;
@@ -873,9 +829,9 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return openmode;
 	}
 	/**
-	 * リードバッファの取得
+	 * リードbufferの取得
 	 * 
-	 * @return リードバッファ
+	 * @return リードbuffer
 	 */
 	protected SequencialReadBuffer getSequencialReadBuffer() {
 		return sequencialReadBuffer;
@@ -936,7 +892,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 */
 	public abstract FileStatus next(int row);
 	/**
-	 * バッファ上の位置を移動する
+	 * buffer上の位置を移動する
 	 * 
 	 * @return ファイルステータス
 	 */
@@ -1047,7 +1003,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return readFromFile(record);
 	}
 	/**
-	 * Internalバッファからレコードを読み取る
+	 * Internalbufferからレコードを読み取る
 	 * 
 	 * @param record レコード
 	 * @return ファイルステータス
@@ -1096,33 +1052,33 @@ public abstract class AbstractCobolFile implements CobolFile {
 		this.currentIndex = currentIndex;
 	}
 	/**
-	 * 初期バッファさイズ
+	 * initialbufferさイズ
 	 * 
-	 * @param initialSequencialReadBufferSize 初期バッファさイズ
+	 * @param initialSequencialReadBufferSize initialbufferさイズ
 	 */
 	protected void setInitialSequencialReadBufferSize(int initialSequencialReadBufferSize) {
 		this.initialSequencialReadBufferSize = initialSequencialReadBufferSize;
 	}
 	/**
-	 * 　最大バッファサイズ
+	 * 　maximumbuffersize
 	 * 
-	 * @param maximumSequencialReadBufferSize 最大バッファサイズ
+	 * @param maximumSequencialReadBufferSize maximumbuffersize
 	 */
 	protected void setMaximumSequencialReadBufferSize(int maximumSequencialReadBufferSize) {
 		this.maximumSequencialReadBufferSize = maximumSequencialReadBufferSize;
 	}
 	/**
-	 * 最小バッファサイズ
+	 * minimumbuffersize
 	 * 
-	 * @param minimumSequencialReadBufferSize 最小バッファサイズ
+	 * @param minimumSequencialReadBufferSize minimumbuffersize
 	 */
 	protected void setMinimumSequencialReadBufferSize(int minimumSequencialReadBufferSize) {
 		this.minimumSequencialReadBufferSize = minimumSequencialReadBufferSize;
 	}
 	/**
-	 * リードバッファのセット
+	 * リードbufferのセット
 	 * 
-	 * @param sequencialReadBuffer リードバッファ
+	 * @param sequencialReadBuffer リードbuffer
 	 */
 	protected void setSequencialReadBuffer(SequencialReadBuffer sequencialReadBuffer) {
 		this.sequencialReadBuffer = sequencialReadBuffer;
@@ -1204,7 +1160,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * バッファリングの開始 リードオンリーで順ファイルの時、バッファリングを開始する
+	 * bufferリングの開始 リードオンリーで順ファイルの時、bufferリングを開始する
 	 */
 	public void startBuffer() {
 		if ((getMaximumSequencialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENCIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
