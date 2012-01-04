@@ -42,9 +42,9 @@ public abstract class AbstractCobolFile implements CobolFile {
 		private volatile int wi;
 		/**
 		 * Constructor<br>
-		 * minumumsize:2500<br>
-		 * initialsize:5000<br>
-		 * maximumsize:10000<br>
+		 * minimum size:2500<br>
+		 * initial size:5000<br>
+		 * maximum size:10000<br>
 		 */
 		public DefaultSequencialReadBuffer() {
 			this(5000, 2500, 10000);
@@ -109,7 +109,8 @@ public abstract class AbstractCobolFile implements CobolFile {
 			lastRead = false;
 		}
 		/**
-		 * wait? 
+		 * wait?
+		 * 
 		 * @return true wait<br>
 		 *         false no wait
 		 */
@@ -118,7 +119,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			if (!lastRead) {
 				// EOFでないこと
 				if (!initCleared && cs < initSize) {
-					// initialsizeに到達していない
+					// initial sizeに到達していない
 					ret = true;
 				}
 				if (!buffStatus[rb][ri]) {
@@ -126,7 +127,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 					ret = true;
 				}
 				if (cs < 0) {
-					// buffersizeが0より小さい
+					// buffer sizeが0より小さい
 					ret = true;
 				}
 			}
@@ -134,6 +135,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		/**
 		 * wait?
+		 * 
 		 * @return true wait<br>
 		 *         false no wait
 		 */
@@ -256,7 +258,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 	}
 	/**
-	 * イベントを実行するためのクラス
+	 * listen cobol file event
 	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
@@ -504,40 +506,33 @@ public abstract class AbstractCobolFile implements CobolFile {
 			}
 		}
 	}
-	/** ２つのレコード（キー）は等しい */
+	/** Two record keys are equal */
 	protected static final int COMPARE_EQUAL = 0;
-	/** レコード１が小さい */
+	/** Record 1 is small */
 	protected static final int COMPARE_REC1 = 1;
-	/** レコード２が小さい */
+	/** Record 2 is small */
 	protected static final int COMPARE_REC2 = 2;
 	private static final long serialVersionUID = 1L;
-	/** エンドオブファイル */
+	/** EOF */
 	protected static final FileStatus STATUS_EOF = new FileStatus(FileStatus.STATUS_EOF, FileStatus.NULL_CODE, 0, "end of file.");
-	/** 原因不明のデフォルトの失敗ステータス */
+	/** Something failure */
 	protected static final FileStatus STATUS_UNKNOWN_ERROR = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "Unknown Error.");
-	/** アクセスモード */
+	/** Accessmode */
 	protected int accessMode;
-	/** 現在使用しているインデックス */
+	/** index current in use */
 	protected CobolIndex currentIndex = null;
-	/** 現在使用しているインデックスファイル */
-	// protected CobolFile currentIndexFile = null;
-	/** イベントを実行する部分 */
+	/** event listener */
 	private CobolFileEventListener eventer = new InnerCobolFileEventAdapter();
-	/** インデックスからインデックスファイルを取得する */
+	/** map of index and file */
 	protected Map<CobolIndex, CobolFile> index2File;
-	/** インデックス名からインデックスを取得する */
+	/** map of file and index */
 	protected Map<String, CobolIndex> indexName2Index;
-	/**
-	 * bufferのinitialsize、minimumsize、maximumsize
-	 */
 	private int initialSequencialReadBufferSize = 0, maximumSequencialReadBufferSize = 0, minimumSequencialReadBufferSize = 0;
-	/** イベントリスナ */
 	private ArrayList<CobolFileEventListener> listeners = new ArrayList<CobolFileEventListener>();
-	/** オープンモード */
+	/** open mode */
 	protected int openmode;
-	/** Internalbuffer */
+	/** Internal buffer */
 	protected SequencialReadBuffer sequencialReadBuffer = null;
-	/** セッション */
 	private ACMSession session;
 	/*
 	 * (non-Javadoc)
