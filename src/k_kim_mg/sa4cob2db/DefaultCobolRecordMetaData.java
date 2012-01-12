@@ -128,18 +128,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#findColumn(jp.ne.biglobe
-	 * .mvh.k_kim_mg.acm.CobolColumn, int)
-	 */
-	public int findColumn(CobolColumn column, int index)
-			throws CobolRecordException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#findColumn(java.lang .String)
 	 */
 	public int findColumn(String name) throws CobolRecordException {
