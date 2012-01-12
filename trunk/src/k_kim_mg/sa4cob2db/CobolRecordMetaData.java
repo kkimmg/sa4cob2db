@@ -54,18 +54,6 @@ public interface CobolRecordMetaData {
 	public int findColumn(CobolColumn column) throws CobolRecordException;
 
 	/**
-	 * 列位置の取得
-	 * 
-	 * @param column
-	 *            位置を取得する列
-	 * @param index
-	 *            配列内の位置
-	 * @return 列の位置
-	 */
-	public int findColumn(CobolColumn column, int index)
-			throws CobolRecordException;
-
-	/**
 	 * 名前から列の位置を取得する
 	 * 
 	 * @param name

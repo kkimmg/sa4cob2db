@@ -5,15 +5,15 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 
 import org.w3c.dom.Node;
 /**
- * その他のノードを処理する(メタデータセット全体)
+ * Process metadata set in node 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface MetaDataSetNodeProcessor {
 	/**
-	 * その他のノードを処理する
-	 * @param node ノード
-	 * @param meta メタデータセット
-	 * @param properties プロパティ
+	 * Process metadata set in node
+	 * @param node xml node
+	 * @param meta metadata set
+	 * @param properties properties
 	 */
 	public void processOtherNode(Node node, CobolRecordMetaDataSet meta, Properties properties);
 }

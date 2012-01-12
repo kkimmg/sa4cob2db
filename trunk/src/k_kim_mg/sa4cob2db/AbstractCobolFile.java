@@ -1098,14 +1098,12 @@ public abstract class AbstractCobolFile implements CobolFile {
 		CobolFile indexFile = getIndexFile(index);
 		if (index != null && indexFile != null) {
 			CobolRecordMetaData meta = getMetaData();
-			// 主ファイルレコード
 			DefaultCobolRecord mainrecord = new DefaultCobolRecord(meta);
 			mainrecord.setRecord(record);
 			try {
 				CobolRecordMetaData indexmeta = indexFile.getMetaData();
 				DefaultCobolRecord indexrecord = new DefaultCobolRecord(indexmeta);
 				byte[] indexbytes = new byte[indexmeta.getRowSize()];
-				// 主ファイル→インデックス
 				Map<CobolColumn, CobolColumn> map0 = index.getIndexKey2FileColumn();
 				Set<Map.Entry<CobolColumn, CobolColumn>> set0 = map0.entrySet();
 				Iterator<Map.Entry<CobolColumn, CobolColumn>> ite0 = set0.iterator();
@@ -1115,13 +1113,11 @@ public abstract class AbstractCobolFile implements CobolFile {
 					CobolColumn fileColumn = ent0.getValue();
 					indexrecord.updateBytes(indexColumn, mainrecord.getBytes(fileColumn));
 				}
-				// インデックスを検索
-				/* int len = */indexrecord.getRecord(indexbytes);
+				indexrecord.getRecord(indexbytes);
 				ret = indexFile.start(mode, indexbytes, index.isDuplicates());
 				if (ret.getStatusCode() == FileStatus.STATUS_OK) {
 					ret = indexFile.read(indexbytes);
 					indexrecord.setRecord(indexbytes);
-					// インデックス→主ファイル
 					Map<CobolColumn, CobolColumn> map1 = index.getFileKey2IndexColumn();
 					Set<Map.Entry<CobolColumn, CobolColumn>> set1 = map1.entrySet();
 					Iterator<Map.Entry<CobolColumn, CobolColumn>> ite1 = set1.iterator();
@@ -1131,8 +1127,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 						CobolColumn fileColumn = ent1.getValue();
 						mainrecord.updateBytes(fileColumn, indexrecord.getBytes(indexColumn));
 					}
-					// 主ファイルを検索
-					/* len = */mainrecord.getRecord(record);
+					mainrecord.getRecord(record);
 					ret = move(record);
 					if (ret.getStatusCode() == FileStatus.STATUS_OK) {
 						currentIndex = index;
@@ -1140,22 +1135,19 @@ public abstract class AbstractCobolFile implements CobolFile {
 				}
 			} catch (CobolRecordException e) {
 				SQLNetServer.logger.log(Level.SEVERE, "Exception", e);
-				// この中の例外はそのまま外に出す
 				ret = new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 			} catch (Exception ex) {
 				SQLNetServer.logger.log(Level.SEVERE, "Exception", ex);
-				// そのほかの例外
 				ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, ex.getMessage());
 			}
 		} else {
-			// ２次キーなしで検索
 			resetCurrentIndex();
 			ret = start(mode, record);
 		}
 		return ret;
 	}
 	/**
-	 * bufferリングの開始 リードオンリーで順ファイルの時、bufferリングを開始する
+	 * starts buffering
 	 */
 	public void startBuffer() {
 		if ((getMaximumSequencialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENCIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
@@ -1166,11 +1158,11 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 	}
 	/**
-	 * 位置付けする（重複あり）
+	 * locate or START
 	 * 
-	 * @param mode モード(EQ GT など)
-	 * @param record キーを含むレコード
-	 * @return ステータス
+	 * @param mode MODE (EQ or GT etc)
+	 * @param record record includes key value
+	 * @return status
 	 */
 	public abstract FileStatus startDuplicates(int mode, byte[] record);
 }
