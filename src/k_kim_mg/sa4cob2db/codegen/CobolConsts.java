@@ -14,6 +14,8 @@ public abstract class CobolConsts {
 	public static final String ACMSTART = "^\\*ACMFILE\\s*";
 	/**Declaration of ACM Record Name */
 	public static final String ACMRECNAME = "^\\*ACMRECNAME=.*";
+	/**Redefine ACM Assign File Name */
+	public static final String ACMASSIGNNAME = "^\\*ACMASSIGNNAME=.*";
 	/**Declare ACM Transaction*/
 	public static final String ACMTRANS = "^\\*ACMTRANSACTION=.*";
 	/**Declaration Auto Commit*/

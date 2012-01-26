@@ -1,6 +1,6 @@
 #!/bin/bash
 ACMLIBS_DIR=${ACMLIBS_DIR:-"."}
-ACM_METAFILE=${ACM_METAFILE:-"/opt/sa4cob2db/conf/metafile.xml"}
+ACM_CONFFILE=${ACM_CONFFILE:-"/opt/sa4cob2db/conf/metafile.xml"}
 JDBC_JARFILE=${JDBC_JARFILE:-"/usr/share/java/postgresql.jar"}
 
 acmlibs=$ACMLIBS_DIR"/sa4cob2db.jar"
