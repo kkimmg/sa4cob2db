@@ -32,7 +32,7 @@ public class ACMSQLJNISession implements ACMSession {
 	/** SQLセッション */
 	ACMSQLSession superobj;
 	/** 読み込み対象レコード */
-	byte[] readingRecord = new byte[8192];
+	byte[] readingRecord = new byte[ACMNetSession.RECORD_LEN];
 	/** ファイルステータス */
 	byte[] status = new byte[255];
 	/**

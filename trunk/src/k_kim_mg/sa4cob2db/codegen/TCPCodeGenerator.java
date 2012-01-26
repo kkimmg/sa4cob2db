@@ -128,6 +128,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	private String acmRecName = null;
+	private String acmAssignName = null;
 	private ArrayList<String> copys = new ArrayList<String>();
 	private String current;
 	private DefaultFileInfo currentinfo = null;
@@ -682,6 +683,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 				whenACMSTART(text);
 			} else if (Pattern.matches(CobolConsts.ACMRECNAME, text)) {
 				whenACMRecName(text);
+			} else if (Pattern.matches(CobolConsts.ACMASSIGNNAME, text)) {
+				whenACMAssignName(text);
 			} else if (Pattern.matches(CobolConsts.ACMTRANS, text)) {
 				whenACMTransactionIsolation(text);
 			} else if (Pattern.matches(CobolConsts.ACMAUTO, text)) {
@@ -1278,12 +1281,13 @@ public class TCPCodeGenerator implements CodeGenerator {
 				}
 			}
 		}
-		if (info.recordName == null) {
-			if (acmRecName != null) {
-				info.recordName = acmRecName;
-				recordnametofile.put(info.recordName, info);
-			}
+		if (acmAssignName != null) {
+			info.fileName = acmAssignName;
 		}
+		if (acmRecName != null) {
+			info.recordName = acmRecName;
+		}
+		recordnametofile.put(info.recordName, info);
 		selectnametofile.put(info.selectName, info);
 		filenametofile.put(info.fileName, info);
 		currentlist.clear();
@@ -1558,6 +1562,15 @@ public class TCPCodeGenerator implements CodeGenerator {
 		acmRecName = text.substring(indexOfEqual);
 	}
 	/**
+	 * set AssignName
+	 * 
+	 * @param text line
+	 */
+	void whenACMAssignName(String text) {
+		int indexOfEqual = text.indexOf("=") + 1;
+		acmAssignName = text.substring(indexOfEqual);
+	}
+	/**
 	 * rollback transaction
 	 * 
 	 * @param text line
@@ -1583,15 +1596,18 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * start of file define
+	 * 
 	 * @param text line
 	 */
 	void whenACMSTART(String text) {
 		add("*" + text);
 		inACM = true;
 		acmRecName = null;
+		acmAssignName = null;
 	}
 	/**
 	 * set transaction level
+	 * 
 	 * @param text line
 	 */
 	void whenACMTransactionIsolation(String text) {
@@ -1603,6 +1619,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * CLOSE
+	 * 
 	 * @param text line
 	 */
 	void whenClose(String text) {
@@ -1617,6 +1634,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * copy statement
+	 * 
 	 * @param text line
 	 */
 	void whenCopy(String text) {
@@ -1639,6 +1657,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * DELETE
+	 * 
 	 * @param text line
 	 */
 	void whenDelete(String text) {
@@ -1653,6 +1672,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * DIVISION
+	 * 
 	 * @param text line
 	 */
 	void whenDivision(String text) {
@@ -1673,6 +1693,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * END DELETE
+	 * 
 	 * @param text line
 	 */
 	void whenEndDelete(String text) {
@@ -1687,6 +1708,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * END READ
+	 * 
 	 * @param text line
 	 */
 	void whenEndRead(String text) {
@@ -1701,6 +1723,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * END WRITE
+	 * 
 	 * @param text line
 	 */
 	void whenEndRewrite(String text) {
@@ -1715,6 +1738,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * END START
+	 * 
 	 * @param text line
 	 */
 	void whenEndStart(String text) {
@@ -1729,6 +1753,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * END WRITE
+	 * 
 	 * @param text line
 	 */
 	void whenEndWrite(String text) {
@@ -1743,6 +1768,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * FD Statement
+	 * 
 	 * @param text line
 	 */
 	void whenFd(String text) {
@@ -1760,6 +1786,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * FILE CONTROLL
+	 * 
 	 * @param text line
 	 */
 	void whenFileControl(String text) {
@@ -1768,6 +1795,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * LABEL
+	 * 
 	 * @param text line
 	 */
 	void whenLabel(String text) {
@@ -1782,6 +1810,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * OTHER
+	 * 
 	 * @param text line
 	 */
 	void whenNoMatchAny(String text) {
@@ -1819,6 +1848,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * only period line
+	 * 
 	 * @param text line
 	 */
 	void whenOnlyPeriod(String text) {
@@ -1878,6 +1908,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * OPEN
+	 * 
 	 * @param text line
 	 */
 	void whenOpen(String text) {
@@ -1892,6 +1923,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * READ
+	 * 
 	 * @param text line
 	 */
 	void whenRead(String text) {
@@ -1908,6 +1940,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * REWRITE
+	 * 
 	 * @param text line
 	 */
 	void whenRewrite(String text) {
@@ -1925,6 +1958,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * SECTION
+	 * 
 	 * @param text line
 	 */
 	void whenSection(String text) {
@@ -1959,6 +1993,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * SELECT
+	 * 
 	 * @param text line
 	 */
 	void whenSelect(String text) {
@@ -1977,6 +2012,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * START
+	 * 
 	 * @param text line
 	 */
 	void whenStart(String text) {
@@ -1994,6 +2030,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * STOP RUN
+	 * 
 	 * @param text line
 	 */
 	void whenStopRun(String text) {
@@ -2006,6 +2043,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * STORAGE
+	 * 
 	 * @param text line
 	 */
 	void whenStorage(String text) {
@@ -2018,6 +2056,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * WRITE
+	 * 
 	 * @param text line
 	 */
 	void whenWrite(String text) {

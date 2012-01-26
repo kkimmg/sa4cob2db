@@ -202,23 +202,23 @@ public class NodeReadLoader {
 		return ret;
 	}
 	/**
-	 * カスタム列を作成する
+	 * create cobol column custom class
 	 * 
-	 * @param node この列の情報を含むノードオブジェクト
-	 * @param meta メタデータ
-	 * @return コボル列
+	 * @param node Node
+	 * @param meta parent
+	 * @return column
 	 */
 	protected CobolColumn createCustomCobolColumn(Node node, CobolRecordMetaData meta) {
 		CobolColumn ret = null;
 		NamedNodeMap map = node.getAttributes();
 		try {
-			// 列名
+			// classname
 			Node classNameNode = map.getNamedItem("classname");
 			if (classNameNode != null) {
 				Node constructorType = map.getNamedItem("constructor");
 				int constructorTypeNum = 2;
 				if (constructorType != null) {
-					// Constructorの引数の数を指定する
+					// type of Constructor
 					String constructorTypeStr = constructorType.getNodeValue();
 					if (constructorTypeStr.equals("1")) {
 						constructorTypeNum = 1;
@@ -232,10 +232,10 @@ public class NodeReadLoader {
 				Class<?> clazz0 = Class.forName(className);
 				Class<? extends CobolColumn> clazz = clazz0.asSubclass(CobolColumn.class);
 				if (constructorTypeNum == 0) {
-					// 引数なし
+					// no param
 					ret = clazz.newInstance();
 				} else if (constructorTypeNum == 1) {
-					// メタデータのみを引数にする
+					// only parent
 					try {
 						Class<?>[] params = new Class<?>[] { CobolRecordMetaData.class };
 						Constructor<? extends CobolColumn> constructor = clazz.getConstructor(params);
@@ -245,7 +245,7 @@ public class NodeReadLoader {
 						ret = clazz.newInstance();
 					}
 				} else if (constructorTypeNum == 2) {
-					// XMLノードも利用する
+					// with node
 					try {
 						Class<?>[] params = new Class<?>[] { CobolRecordMetaData.class, Node.class };
 						Constructor<? extends CobolColumn> constructor = clazz.getConstructor(params);
@@ -671,12 +671,27 @@ public class NodeReadLoader {
 	 * @return SQL列
 	 */
 	protected SQLCobolColumn createSQLCobolColumn(Node node, SQLCobolRecordMetaData meta, SQLCobolColumn column) {
+		NamedNodeMap map = node.getAttributes();
 		if (column == null) {// 新規の列
-			column = new SQLCobolColumn(meta);
+			// name
+			Node name = map.getNamedItem("name");
+			if (name != null) {
+				String namestr = name.getNodeValue().trim();
+				try {
+					CobolColumn work = meta.getColumn(namestr);
+					if (work instanceof SQLCobolColumn) {
+						column = (SQLCobolColumn) work;
+					}
+				} catch (CobolRecordException e) {
+					// Not Operation
+				}
+			}
+			if (column == null) {
+				column = new SQLCobolColumn(meta);
+			}
 		}
 		// 基本設定
 		createCobolColumn(node, column);
-		NamedNodeMap map = node.getAttributes();
 		// SQL列名
 		Node originalColumnName = map.getNamedItem("originalColumnName");
 		if (originalColumnName != null) {
