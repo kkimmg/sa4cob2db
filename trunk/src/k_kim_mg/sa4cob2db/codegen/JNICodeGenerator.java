@@ -3,22 +3,46 @@
  */
 package k_kim_mg.sa4cob2db.codegen;
 import java.util.ArrayList;
-
 import k_kim_mg.sa4cob2db.FileStatus;
 /**
  * Convert file access code to call statement
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class JNICodeGenerator extends TCPCodeGenerator {
 	/**
 	 * Constructor
+	 * 
 	 * @param owner GeneratorOwner
 	 */
 	public JNICodeGenerator(GeneratorOwner owner) {
 		super(owner);
 	}
 	/**
+	 * add commit mode<br/>
+	 * Note that setting the period to end unconditional
+	 * 
+	 * @param text string includes "=" true/false
+	 */
+	void addACMAutoCommit(String option, String period) {
+		add("    MOVE \"" + option + "\" TO ACM-OPTION" + period);
+		add("    CALL \"setJNICommitMode\" USING ACM-OPTION");
+		add("                                    ACM-STATUS-ALL" + period);
+	}
+	/**
+	 * set transaction level<br/>
+	 * Note that setting the period to end unconditional
+	 * 
+	 * @param text string includes transaction level
+	 */
+	void addACMTransactionIsolation(String option, String period) {
+		add("    MOVE \"" + option + "\" TO ACM-OPTION" + period);
+		add("    CALL \"setJNITransMode\" USING ACM-OPTION");
+		add("                                   ACM-STATUS-ALL" + period);
+	}
+	/**
 	 * CLOSE
+	 * 
 	 * @param period Period Character
 	 */
 	void addCallClose(FileInfo info, String period) {
@@ -27,6 +51,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	}
 	/**
 	 * ADD CALL COMMIT
+	 * 
 	 * @param period Period Character
 	 */
 	void addCallCommit(String period) {
@@ -34,7 +59,8 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	}
 	/**
 	 * DELETE
-	 * @param valid Lines that runs when file access is valid. 
+	 * 
+	 * @param valid Lines that runs when file access is valid.
 	 * @param invalid Lines that runs when file access is invalid.
 	 * @param period Period Character
 	 */
@@ -66,6 +92,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	}
 	/**
 	 * add InitializeSession
+	 * 
 	 * @param period Period Character
 	 */
 	void addCallInitializeSession(String period) {
@@ -74,6 +101,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	}
 	/**
 	 * OPEN INPUT
+	 * 
 	 * @param info FileInfo Object
 	 * @param period Period Character
 	 */
@@ -97,6 +125,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	}
 	/**
 	 * OPEN I-O
+	 * 
 	 * @param info FileInfo Object
 	 * @param period Period Character
 	 */
@@ -120,6 +149,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	}
 	/**
 	 * OPEN OUTPUT
+	 * 
 	 * @param info FileInfo Object
 	 * @param period Period Character
 	 */
@@ -143,6 +173,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	}
 	/**
 	 * READ
+	 * 
 	 * @param info FileInfo Object
 	 * @param invalid valid Lines that runs when file access is invalid.
 	 * @param notinvalid valid Lines that runs when file access is valid.
@@ -186,6 +217,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	}
 	/**
 	 * READ Next
+	 * 
 	 * @param info FileInfo Object
 	 * @param atend row lines at EOF.
 	 * @param notatend row lines not at EOF.
@@ -219,6 +251,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	}
 	/**
 	 * Rewrite
+	 * 
 	 * @param info FileInfo Object
 	 * @param invalid valid Lines that runs when file access is invalid.
 	 * @param notinvalid valid Lines that runs when file access is valid.
@@ -253,6 +286,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	}
 	/**
 	 * add ROLLBACK
+	 * 
 	 * @param period Period Character
 	 */
 	void addCallRollback(String period) {
@@ -260,6 +294,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	}
 	/**
 	 * START
+	 * 
 	 * @param info FileInfo Object
 	 * @param invalid valid Lines that runs when file access is invalid.
 	 * @param notinvalid valid Lines that runs when file access is valid.
@@ -298,6 +333,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	}
 	/**
 	 * add TermincateSession
+	 * 
 	 * @param period Period Character
 	 */
 	void addCallTerminateSession(String period) {
@@ -305,6 +341,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	}
 	/**
 	 * WRITE
+	 * 
 	 * @param info FileInfo Object
 	 * @param invalid valid Lines that runs when file access is invalid.
 	 * @param notinvalid valid Lines that runs when file access is valid.
@@ -337,27 +374,32 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		}
 	}
 	/**
-	 * add commit mode<br/>
-	 * Note that setting the period to end unconditional
-	 * @param text string includes "=" true/false 
+	 * add "setACMOption" function
+	 * 
+	 * @param name option name
+	 * @param value option value
+	 * @param period "." or ""
 	 */
-	void whenACMAutoCommit(String text) {
-		int indexOfEqual = text.indexOf("=") + 1;
-		String option = text.substring(indexOfEqual);
-		add("    MOVE \"" + option + "\" TO ACM-OPTION.");
-		add("    CALL \"setJNICommitMode\" USING ACM-OPTION");
-		add("                                    ACM-STATUS-ALL.");
+	void addGetACMOption(String name, String value, String period) {
+		if (name != null) {
+			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
+			add("    CALL \"getJNIOption\" USING ACM-OPTION-NAME" + period);
+			add("    MOVE " + value + " TO ACM-OPTION-VALUE" + period);
+		}
 	}
 	/**
-	 * set transaction level<br/>
-	 * Note that setting the period to end unconditional
-	 * @param text string includes transaction level
+	 * add "setACMOption" function
+	 * 
+	 * @param name option name
+	 * @param value option value
+	 * @param period "." or ""
 	 */
-	void whenACMTransactionIsolation(String text) {
-		int indexOfEqual = text.indexOf("=") + 1;
-		String option = text.substring(indexOfEqual);
-		add("    MOVE \"" + option + "\" TO ACM-OPTION.");
-		add("    CALL \"setJNITransMode\" USING ACM-OPTION");
-		add("                                   ACM-STATUS-ALL.");
+	void addSetACMOption(String name, String value, String period) {
+		if (name != null) {
+			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
+			add("    MOVE " + value + " TO ACM-OPTION-VALUE" + period);
+			add("    CALL \"setJNIOption\" USING ACM-OPTION-NAME");
+			add("                                    ACM-OPTION-VALUE" + period);
+		}
 	}
 }

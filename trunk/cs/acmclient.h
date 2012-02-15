@@ -10,6 +10,10 @@
 #define FILE_STARTMODE_MAX (FILE_STARTMODE_LEN - 1)
 #define FILE_INDEXNAME_LEN 226
 #define FILE_INDEXNAME_MAX (FILE_INDEXNAME_LEN - 1)
+#define OPTIONNAME_LEN 30
+#define OPTIONNAME_MAX (FILE_STARTMODE_LEN - 1)
+#define OPTIONVALUE_LEN 226
+#define OPTIONVALUE_MAX (FILE_INDEXNAME_LEN - 1)
 #define RECORD_LEN 8192
 #define RECORD_MAX (RECORD_LEN - 1)
 /*********************************/
@@ -57,6 +61,8 @@
 #define MSG_AUTOCOMMIT    "SETAUTO"
 #define MSG_COMMIT        "COMMIT"
 #define MSG_ROLLBACK      "ROLLBACK"
+#define MSG_SETOPTION     "SETOPTION"
+#define MSG_GETOPTION     "GETOPTION"
 /*********************************/
 #define ACM_HOSTNAME_ENV  "ACM_HOSTNAME"
 #define ACM_HOSTPORT_ENV  "ACM_HOSTPPRT"
@@ -260,3 +266,6 @@ extern void setACMCommitMode (char *commitmode, char *status);
 */
 extern void setACMTransMode (char *transmode, char *status);
 
+extern void setACMOption (char *name, char *value);
+
+extern void getACMOption (char *name, char *value);

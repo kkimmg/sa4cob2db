@@ -7,54 +7,50 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
-
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
-
 import k_kim_mg.sa4cob2db.ACMSession;
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
-
 import org.xml.sax.SAXException;
 /**
  * JNIベースのサーバー機能
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSQLJNISession implements ACMSession {
 	static final String NOT_ASSIGNED = FileStatus.NOT_ASSIGNED.toString();
 	private static final long serialVersionUID = 1L;
-	/** SQLセッション */
+	/** Session */
 	ACMSQLSession superobj;
-	/** 読み込み対象レコード */
+	/** record */
 	byte[] readingRecord = new byte[ACMNetSession.RECORD_LEN];
-	/** ファイルステータス */
+	/** option value */
+	byte[] optionValue = new byte[ACMNetSession.OPTIONVALUE_LEN];
+	final byte[] initalOption;
+	/** FILE STATUS */
 	byte[] status = new byte[255];
-	/**
-	 * @return the readingRecord
-	 */
-	public byte[] getReadingRecord() {
-		return readingRecord;
-	}
-	/**
-	 * @return the status
-	 */
-	public byte[] getStatus() {
-		return status;
-	}
+	private Hashtable<String, String> options;
 	/** Constructor */
 	public ACMSQLJNISession() throws Exception {
 		super();
+		byte[] work = new byte[ACMNetSession.OPTIONVALUE_LEN];
+		for (int i = 0; i < work.length; i++) {
+			work[i] = ' ';
+		}
+		initalOption = work;
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * k_kim_mg.sa4cob2db.ACMSession#addACMSessionEventListener(
+	 * 
+	 * @see k_kim_mg.sa4cob2db.ACMSession#addACMSessionEventListener(
 	 * k_kim_mg.sa4cob2db.event.ACMSessionEventListener)
 	 */
 	@Override
@@ -63,6 +59,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 	/**
 	 * ファイルをアサインする
+	 * 
 	 * @throws IOException 入出例外
 	 */
 	public void assign(byte[] fileName) {
@@ -92,6 +89,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 	/**
 	 * トランザクションをコミットする
+	 * 
 	 * @throws IOException 入出力例外
 	 */
 	public void commitTransaction() {
@@ -107,8 +105,8 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * k_kim_mg.sa4cob2db.ACMSession#createFile(java.lang.String)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.ACMSession#createFile(java.lang.String)
 	 */
 	@Override
 	public CobolFile createFile(String name) {
@@ -130,15 +128,21 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * k_kim_mg.sa4cob2db.ACMSession#destroyFile(java.lang.String)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.ACMSession#destroyFile(java.lang.String)
 	 */
 	@Override
 	public void destroyFile(String name) {
 		superobj.destroyFile(name);
 	}
+	@Override
+	public String getACMOption(String key) {
+		String ret = options.get(key);
+		return (ret != null ? ret : "");
+	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.ACMSession#getFile(java.lang.String)
 	 */
 	@Override
@@ -147,6 +151,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 	/**
 	 * モード文字列からint値を得る
+	 * 
 	 * @param bytes モードを表す文字列のバイト配列
 	 * @return
 	 */
@@ -164,13 +169,37 @@ public class ACMSQLJNISession implements ACMSession {
 		}
 		return mode;
 	}
+	/**
+	 * record
+	 * 
+	 * @return the readingRecord
+	 */
+	public byte[] getReadingRecord() {
+		return readingRecord;
+	}
+	/**
+	 * option value
+	 * @return value
+	 */
+	public byte[] getOptionValue() {
+		return optionValue;
+	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.ACMSession#getSessionId()
 	 */
 	@Override
 	public String getSessionId() {
 		return superobj.getSessionId();
+	}
+	/**
+	 * FILE STATUS
+	 * 
+	 * @return FILE STATUS
+	 */
+	public byte[] getStatus() {
+		return status;
 	}
 	/**
 	 * 初期化してサーバーに登録する
@@ -362,6 +391,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 	/**
 	 * 次のレコードへ
+	 * 
 	 * @param fileName
 	 */
 	public void readNext(byte[] fileName) {
@@ -383,8 +413,8 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * k_kim_mg.sa4cob2db.ACMSession#removeACMSessionEventListener
+	 * 
+	 * @see k_kim_mg.sa4cob2db.ACMSession#removeACMSessionEventListener
 	 * (k_kim_mg.sa4cob2db.event.ACMSessionEventListener)
 	 */
 	@Override
@@ -420,17 +450,27 @@ public class ACMSQLJNISession implements ACMSession {
 		}
 		setFileStatus2Bytes(ret, status);
 	}
-	/**
-	 * オートコミットを設定する
-	 * @throws IOException 入出力例外
-	 */
-	public void setAutoCommit(byte[] commitBytes) {
-		String commitString = new String(commitBytes).trim();
-		boolean autoCommit = Boolean.parseBoolean(commitString);
-		setAutoCommit(autoCommit);
+	@Override
+	public void setACMOption(String key, String value) {
+		options.put(key, value);
+	}
+	public void setJNIOption(byte[] key, byte[] value) {
+		String s_key = new String(key);
+		String s_val = new String(value);
+		setACMOption(s_key, s_val);
+	}
+	public void getJNIOption(byte[] key) {
+		String s_key = new String(key);
+		String s_val = options.get(s_key);
+		byte[] optValue = s_val.getBytes();
+		int l = optionValue.length;
+		int j = optValue.length;
+		System.arraycopy(initalOption, 0, optionValue, 0, l);
+		System.arraycopy(optValue, 0, optionValue, 0, (l > j ? j : l));
 	}
 	/**
 	 * オートコミットを設定する
+	 * 
 	 * @param autoCommit コミットモード 入出力例外
 	 */
 	public void setAutoCommit(boolean autoCommit) {
@@ -444,7 +484,18 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
+	 * オートコミットを設定する
+	 * 
+	 * @throws IOException 入出力例外
+	 */
+	public void setAutoCommit(byte[] commitBytes) {
+		String commitString = new String(commitBytes).trim();
+		boolean autoCommit = Boolean.parseBoolean(commitString);
+		setAutoCommit(autoCommit);
+	}
+	/**
 	 * ファイルステータスをバイト配列に転記する
+	 * 
 	 * @param source ファイルステータス
 	 * @param dist ステータス
 	 */
@@ -455,6 +506,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 	/**
 	 * トランザクションを開始する
+	 * 
 	 * @throws IOException 入出力例外
 	 */
 	public void setTransactionLevel(byte[] levelBytes) {
@@ -473,6 +525,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 	/**
 	 * 指定したトランザクション遮断レベルでトランザクションを開始する
+	 * 
 	 * @param level トランザクション遮断レベル 入出力例外
 	 */
 	public void setTransactionLevel(int level) {

@@ -1110,3 +1110,92 @@ setACMTransMode (char *transmode, char *status) {
 	return;
 }
 
+extern void
+setACMOption (char *name, char *value) {
+	name[_MAX] = '\0';
+	value[_MAX] = '\0';
+	/* 送信（コマンド） */
+	if (sendMessage (MSG_SETOPTION) < 0) {
+		strcpy (status, STATUS_SEND_ERROR);
+		return;
+	}
+	/* 受信 (ステータス) */
+	if (recieveStatus () == 0) {
+		strcpy (status, STATUS_RECV_ERROR);
+		return;
+	}
+	/* ステータスチェック */
+	if (strcmp (stat, STATUS_READY) != 0) {
+		strcpy (status, buf);
+		return;
+	}
+	/* 送信（オプション名） */
+	if (sendMessage (name) < 0) {
+		strcpy (status, STATUS_SEND_ERROR);
+		return;
+	}
+	/* 受信 (ステータス) */
+	if (recieveStatus () == 0) {
+		strcpy (status, STATUS_RECV_ERROR);
+		return;
+	}
+	/* ステータスチェック */
+	if (strcmp (stat, STATUS_READY) != 0) {
+		strcpy (status, buf);
+		return;
+	}
+	/* 送信（値） */
+	if (sendMessage (value) < 0) {
+		strcpy (status, STATUS_SEND_ERROR);
+		return;
+	}
+	/* 受信 (ステータス) */
+	if (recieveStatus () == 0) {
+		strcpy (status, STATUS_RECV_ERROR);
+		return;
+	}
+	/* ステータスチェック */
+	strcpy (status, buf);
+	return;
+}
+
+extern void
+getACMOption (char *name, char *value) {
+	name[_MAX] = '\0';
+	/* 送信（コマンド） */
+	if (sendMessage (MSG_GETOPTION) < 0) {
+		strcpy (status, STATUS_SEND_ERROR);
+		return;
+	}
+	/* 受信 (ステータス) */
+	if (recieveStatus () == 0) {
+		strcpy (status, STATUS_RECV_ERROR);
+		return;
+	}
+	/* ステータスチェック */
+	if (strcmp (stat, STATUS_READY) != 0) {
+		strcpy (status, buf);
+		return;
+	}
+	/* 送信（オプション名） */
+	if (sendMessage (name) < 0) {
+		strcpy (status, STATUS_SEND_ERROR);
+		return;
+	}
+	/* 受信 (データ) */
+	if (recieveRecord () == 0) {
+		strcpy (status, STATUS_RECV_ERROR);
+		return;
+	}
+	/* 受信したデータをレコード領域に転送 */
+	memmove (record, recbuf, (len > OPTIONVALUE_MAX ? OPTIONVALUE_MAX : len));
+	/* 受信 (ステータス) */
+	if (recieveStatus () == 0) {
+		strcpy (status, STATUS_RECV_ERROR);
+		return;
+	}
+	/* ステータスチェック */
+	strcpy (status, buf);
+	return;
+}
+

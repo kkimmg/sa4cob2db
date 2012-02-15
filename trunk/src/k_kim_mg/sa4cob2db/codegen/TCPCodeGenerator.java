@@ -144,7 +144,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	private boolean inFD = false;
 	private boolean initialized = false;
 	private int label = 0;
-	private int level = 0;
 	private ArrayList<String> list = new ArrayList<String>();
 	private ArrayList<CodeGeneratorListener> listeners = new ArrayList<CodeGeneratorListener>();
 	private GeneratorOwner owner;
@@ -194,6 +193,28 @@ public class TCPCodeGenerator implements CodeGenerator {
 				}
 			}
 		}
+	}
+	/**
+	 * add commit mode<br/>
+	 * Note that setting the period to end unconditional
+	 * 
+	 * @param text string includes "=" true/false
+	 */
+	void addACMAutoCommit(String option, String period) {
+		add("    MOVE \"" + option + "\" TO ACM-OPTION" + period);
+		add("    CALL \"setTCPCommitMode\" USING ACM-OPTION");
+		add("                                    ACM-STATUS-ALL" + period);
+	}
+	/**
+	 * set transaction level<br/>
+	 * Note that setting the period to end unconditional
+	 * 
+	 * @param text string includes transaction level
+	 */
+	void addACMTransactionIsolation(String option, String period) {
+		add("    MOVE \"" + option + "\" TO ACM-OPTION" + period);
+		add("    CALL \"setTCPTransMode\" USING ACM-OPTION");
+		add("                                   ACM-STATUS-ALL" + period);
 	}
 	/**
 	 * CLOSE
@@ -540,6 +561,21 @@ public class TCPCodeGenerator implements CodeGenerator {
 		listeners.add(listener);
 	}
 	/**
+	 * add "setACMOption" function
+	 * 
+	 * @param name option name
+	 * @param value option value
+	 * @param period "." or ""
+	 */
+	void addGetACMOption(String name, String value, String period) {
+		if (name != null) {
+			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
+			add("    CALL \"getACMOption\" USING ACM-OPTION-NAME");
+			add("                                ACM-OPTION-VALUE" + period);
+			add("    MOVE ACM-OPTION-VALUE TO " + value + period);
+		}
+	}
+	/**
 	 * add initialize session
 	 * 
 	 * @param period "." or ""
@@ -558,6 +594,21 @@ public class TCPCodeGenerator implements CodeGenerator {
 			listener.postInitialize(event);
 		}
 		// ///////////
+	}
+	/**
+	 * add "setACMOption" function
+	 * 
+	 * @param name option name
+	 * @param value option value
+	 * @param period "." or ""
+	 */
+	void addSetACMOption(String name, String value, String period) {
+		if (name != null) {
+			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
+			add("    MOVE " + value + " TO ACM-OPTION-VALUE" + period);
+			add("    CALL \"setACMOption\" USING ACM-OPTION-NAME");
+			add("                                    ACM-OPTION-VALUE" + period);
+		}
 	}
 	/**
 	 * add terminate session
@@ -606,17 +657,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return false;
 	}
 	/**
-	 * write back and clear buffer
-	 */
-	public void flush() {
-		int size = list.size();
-		for (int i = 0; i < size; i++) {
-			String text = list.get(0);
-			owner.generate(text);
-			list.remove(0);
-		}
-	}
-	/**
 	 * create StringTokenizer from buffer
 	 * 
 	 * @return StringTokenizer
@@ -630,6 +670,17 @@ public class TCPCodeGenerator implements CodeGenerator {
 		currentlist.clear();
 		String str = sb.toString();
 		return new StringTokenizer(str);
+	}
+	/**
+	 * write back and clear buffer
+	 */
+	public void flush() {
+		int size = list.size();
+		for (int i = 0; i < size; i++) {
+			String text = list.get(0);
+			owner.generate(text);
+			list.remove(0);
+		}
 	}
 	/**
 	 * Current DIVISION
@@ -693,6 +744,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 				whenACMCommit(text);
 			} else if (Pattern.matches(CobolConsts.ACMROLLBACK, text)) {
 				whenACMRollBack(text);
+			} else if (Pattern.matches(CobolConsts.ACMGETOPTION, text)) {
+				whenACMGetOption(text);
+			} else if (Pattern.matches(CobolConsts.ACMSETOPTION, text)) {
+				whenACMSetOption(text);
 			} else if (Pattern.matches(CobolConsts.COMMENT, text)) {
 				add(text);
 			} else if (Pattern.matches(CobolConsts.DIVISION, text)) {
@@ -875,7 +930,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 				}
 			}
 			//
-			add("* ACM Generated Write");
+			add("* ACM Generated Delete");
 			for (int i = 0; i < backup.size(); i++) {
 				add("*" + backup.get(i));
 			}
@@ -1516,17 +1571,26 @@ public class TCPCodeGenerator implements CodeGenerator {
 		currentlists.push(currentlist);
 	}
 	/**
+	 * set AssignName
+	 * 
+	 * @param text line
+	 */
+	void whenACMAssignName(String text) {
+		int indexOfEqual = text.indexOf("=") + 1;
+		acmAssignName = text.substring(indexOfEqual);
+	}
+	/**
 	 * set auto commit mode<br/>
 	 * add "." to end of line
 	 * 
 	 * @param text comment row
 	 */
 	void whenACMAutoCommit(String text) {
+		String period = (Pattern.matches(CobolConsts.PERIOD, text.trim()) ? "." : "");
+		text = (period.length() != 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
 		int indexOfEqual = text.indexOf("=") + 1;
 		String option = text.substring(indexOfEqual);
-		add("    MOVE \"" + option + "\" TO ACM-OPTION.");
-		add("    CALL \"setACMCommitMode\" USING ACM-OPTION");
-		add("                                    ACM-STATUS-ALL.");
+		addACMAutoCommit(option, period);
 	}
 	/**
 	 * commit transaction
@@ -1535,7 +1599,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * 
 	 */
 	void whenACMCommit(String text) {
-		String period = (Pattern.matches(CobolConsts.PERIOD, text) ? "." : "");
+		String period = (Pattern.matches(CobolConsts.PERIOD, text.trim()) ? "." : "");
 		// event
 		{
 			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
@@ -1553,6 +1617,29 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
+	 * set option value<br/>
+	 * add "." to end of line
+	 * 
+	 * @param text comment row
+	 */
+	void whenACMGetOption(String text) {
+		String name = null;
+		String value = "";
+		String period = (Pattern.matches(CobolConsts.PERIOD_ROW, text.trim()) ? "." : "");
+		text = (period.length() != 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
+		StringTokenizer tokenizer = new StringTokenizer(text);
+		while (tokenizer.hasMoreTokens()) {
+			String token = tokenizer.nextToken();
+			int indexOfEqual = token.indexOf("=") + 1;
+			if (Pattern.matches(CobolConsts.NAME_EQUAL, token)) {
+				name = token.substring(indexOfEqual);
+			} else if (Pattern.matches(CobolConsts.TO_EQUAL, token)) {
+				value = token.substring(indexOfEqual);
+			}
+		}
+		addGetACMOption(name, value, period);
+	}
+	/**
 	 * set RecordName
 	 * 
 	 * @param text line
@@ -1562,22 +1649,13 @@ public class TCPCodeGenerator implements CodeGenerator {
 		acmRecName = text.substring(indexOfEqual);
 	}
 	/**
-	 * set AssignName
-	 * 
-	 * @param text line
-	 */
-	void whenACMAssignName(String text) {
-		int indexOfEqual = text.indexOf("=") + 1;
-		acmAssignName = text.substring(indexOfEqual);
-	}
-	/**
 	 * rollback transaction
 	 * 
 	 * @param text line
 	 * 
 	 */
 	void whenACMRollBack(String text) {
-		String period = (Pattern.matches(CobolConsts.PERIOD, text) ? "." : "");
+		String period = (Pattern.matches(CobolConsts.PERIOD, text.trim()) ? "." : "");
 		// event
 		{
 			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
@@ -1593,6 +1671,31 @@ public class TCPCodeGenerator implements CodeGenerator {
 				listener.postRollback(event);
 			}
 		}
+	}
+	/**
+	 * set option value<br/>
+	 * add "." to end of line
+	 * 
+	 * @param text comment row
+	 */
+	void whenACMSetOption(String text) {
+		String name = null;
+		String value = "";
+		String period = (Pattern.matches(CobolConsts.PERIOD_ROW, text.trim()) ? "." : "");
+		text = (period.length() != 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
+		StringTokenizer tokenizer = new StringTokenizer(text);
+		while (tokenizer.hasMoreTokens()) {
+			String token = tokenizer.nextToken();
+			int indexOfEqual = token.indexOf("=") + 1;
+			if (Pattern.matches(CobolConsts.NAME_EQUAL, token)) {
+				name = token.substring(indexOfEqual);
+			} else if (Pattern.matches(CobolConsts.FROM_EQUAL, token)) {
+				value = token.substring(indexOfEqual);
+			} else if (Pattern.matches(CobolConsts.VALUE_EQUAL, token)) {
+				value = token.substring(indexOfEqual);
+			}
+		}
+		addSetACMOption(name, value, period);
 	}
 	/**
 	 * start of file define
@@ -1611,11 +1714,11 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text line
 	 */
 	void whenACMTransactionIsolation(String text) {
+		String period = (Pattern.matches(CobolConsts.PERIOD, text.trim()) ? "." : "");
+		text = (period.length() != 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
 		int indexOfEqual = text.indexOf("=") + 1;
 		String option = text.substring(indexOfEqual);
-		add("    MOVE \"" + option + "\" TO ACM-OPTION.");
-		add("    CALL \"setACMTransMode\" USING ACM-OPTION");
-		add("                                   ACM-STATUS-ALL.");
+		addACMTransactionIsolation(option, period);
 	}
 	/**
 	 * CLOSE
@@ -1704,7 +1807,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 			process_delete("");
 		}
 		pop();
-		level--;
 	}
 	/**
 	 * END READ
@@ -1719,7 +1821,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 			process_read("");
 		}
 		pop();
-		level--;
 	}
 	/**
 	 * END WRITE
@@ -1734,7 +1835,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 			process_rewrite("");
 		}
 		pop();
-		level--;
 	}
 	/**
 	 * END START
@@ -1749,7 +1849,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 			process_start("");
 		}
 		pop();
-		level--;
 	}
 	/**
 	 * END WRITE
@@ -1764,7 +1863,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 			process_write("");
 		}
 		pop();
-		level--;
 	}
 	/**
 	 * FD Statement
@@ -1885,19 +1983,16 @@ public class TCPCodeGenerator implements CodeGenerator {
 			} else if (current == CobolConsts.READ) {
 				// add("*" + text);
 				currentlist.add(text);
-				level--;
 				process_read(".");
 				pop();
 			} else if (current == CobolConsts.WRITE) {
 				// add("*" + text);
 				currentlist.add(text);
-				level--;
 				process_write(".");
 				pop();
 			} else if (current == CobolConsts.START) {
 				// add("*" + text);
 				currentlist.add(text);
-				level--;
 				process_start(".");
 				pop();
 			} else {
@@ -1930,10 +2025,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		push();
 		//
 		current = CobolConsts.READ;
-		level++;
 		currentlist.add(text);
 		if (Pattern.matches(CobolConsts.PERIOD, text)) {
-			level--;
 			process_read(".");
 			pop();
 		}
@@ -1948,10 +2041,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		push();
 		//
 		current = CobolConsts.REWRITE;
-		level++;
 		currentlist.add(text);
 		if (Pattern.matches(CobolConsts.PERIOD, text)) {
-			level--;
 			process_rewrite(".");
 			pop();
 		}
@@ -2020,10 +2111,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		push();
 		//
 		current = CobolConsts.START;
-		level++;
 		currentlist.add(text);
 		if (Pattern.matches(CobolConsts.PERIOD, text)) {
-			level--;
 			process_start(".");
 			pop();
 		}
@@ -2064,10 +2153,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		push();
 		//
 		current = CobolConsts.WRITE;
-		level++;
 		currentlist.add(text);
 		if (Pattern.matches(CobolConsts.PERIOD, text)) {
-			level--;
 			process_write(".");
 			pop();
 		}

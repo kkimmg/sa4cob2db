@@ -15,6 +15,10 @@ public abstract interface ACMNetSession {
 	public static final int FILE_STARTMODE_MAX = (FILE_STARTMODE_LEN - 1);
 	public static final int FILE_INDEXNAME_LEN = 226;
 	public static final int FILE_INDEXNAME_MAX = (FILE_INDEXNAME_LEN - 1);
+	public static final int OPTIONNAME_LEN = 30;
+	public static final int OPTIONNAME_MAX = (FILE_STARTMODE_LEN - 1);
+	public static final int OPTIONVALUE_LEN = 226;
+	public static final int OPTIONVALUE_MAX = (FILE_INDEXNAME_LEN - 1);
 	public static final int HOSTNAME_LEN = 256;
 	public static final int HOSTNAME_MAX = (FILE_IDENT_LEN - 1);
 	public static final int PORT_LEN = 6;

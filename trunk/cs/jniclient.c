@@ -38,6 +38,7 @@ jmethodID midStartWith;
 jmethodID midTerminate;
 jmethodID midWrite;
 jmethodID midGetReadingRecord, midGetStatus;
+jmethodID midGetOption, midSetOption;
 struct servent *se;
 int soc, portno, len;
 char buf[255];
@@ -135,13 +136,17 @@ initializeJNI () {
 			= (*env)->GetMethodID(env, clazz, "getReadingRecord",
 									"()[B");
 	midGetStatus	= (*env)->GetMethodID(env, clazz, "getStatus",	"()[B");
+	midGetOption	= (*env)->GetMethodID(env, clazz, "getJNIOption",
+									"([B[B)V");
+	midSetOption	= (*env)->GetMethodID(env, clazz, "setJNIOption",
+									"([B[B)V");
 	if (midAssign == 0 || midClose == 0 || midCommitTransaction == 0 
 	 || midDelete == 0 || midInitialize == 0 || midMove == 0 || midNext == 0 
 	 || midOpen == 0 || midPrevious == 0 || midRead == 0 || midReadNext == 0 
 	 || midRewrite == 0 || midRollbackTransaction == 0 || midSetAutoCommit == 0
 	 || midSetTransactionLevel == 0 || midStart == 0 || midStartWith == 0
 	 || midTerminate == 0 || midWrite == 0 || midGetReadingRecord == 0
-	 || midGetStatus == 0) {
+	 || midGetStatus == 0 || midGetOption == 0 || midSetOption == 0) {
 		perror("method not found.");
 		return -1;
 	}
