@@ -26,4 +26,9 @@ public interface ACMSessionEventListener extends EventListener {
 	 * @param e	event
 	 */
 	public void transactionRollbacked(ACMSessionEvent e);
+	/**
+	 * option set event
+	 * @param e event
+	 */
+	public void optionSetted (ACMOptionSetEvent e);
 }

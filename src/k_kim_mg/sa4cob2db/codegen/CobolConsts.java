@@ -24,6 +24,18 @@ public abstract class CobolConsts {
 	public static final String ACMCOMMIT = "^\\*ACMCOMMIT.*";
 	/**Rollback*/
 	public static final String ACMROLLBACK = "^\\*ACMROLLBACK.*";
+	/**Set optional value to ... */
+	public static final String ACMSETOPTION = "^\\*ACMSETOPTION=.*";
+	/**Get optional value from ... */
+	public static final String ACMGETOPTION = "^\\*ACMGETOPTION=.*";
+	/**NAME=*/
+	public static final String NAME_EQUAL = "\\sNAME\\s=.*";
+	/**TO=*/
+	public static final String TO_EQUAL = "\\s*TO\\s=.*";
+	/**FROM=*/
+	public static final String FROM_EQUAL = "\\s*FROM\\s=.*";
+	/**VALUE=*/
+	public static final String VALUE_EQUAL = "\\s*VALUE\\s=.*";
 	/**AT END Statement*/
 	public static final String ATEND = "^\\s*[aA][tT]\\s*[eE][nN][dD].*";
 	/**CLOSE Command*/

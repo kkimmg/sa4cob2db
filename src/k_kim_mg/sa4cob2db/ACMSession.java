@@ -36,4 +36,16 @@ public interface ACMSession extends Serializable {
 	 * @param listener イベントリスナ
 	 */
 	public void removeACMSessionEventListener(ACMSessionEventListener listener);
+	/**
+	 * set option value
+	 * @param key key
+	 * @param value value
+	 */
+	public void setACMOption(String key, String value);
+	/**
+	 * get option value
+	 * @param key key
+	 * @return option value
+	 */
+	public String getACMOption(String key);
 }

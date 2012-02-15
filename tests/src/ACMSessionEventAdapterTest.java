@@ -1,3 +1,4 @@
+import k_kim_mg.sa4cob2db.event.ACMOptionSetEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEventAdapter;
 
@@ -38,4 +39,9 @@ public class ACMSessionEventAdapterTest extends ACMSessionEventAdapter {
     public void transactionRollbacked(ACMSessionEvent e) {
     	System.err.println("Session Rollbacked.");
     }
+
+	@Override
+	public void optionSetted(ACMOptionSetEvent e) {
+		System.err.println("Option Set:" + e.getKey() + "=" + e.getValue());
+	}
 }
