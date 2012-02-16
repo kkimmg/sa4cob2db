@@ -1111,9 +1111,9 @@ setACMTransMode (char *transmode, char *status) {
 }
 
 extern void
-setACMOption (char *name, char *value) {
-	name[_MAX] = '\0';
-	value[_MAX] = '\0';
+setACMOption (char *name, char *value, char *status) {
+	name[OPTIONNAME_MAX] = '\0';
+	value[OPTIONVALUE_MAX] = '\0';
 	/* 送信（コマンド） */
 	if (sendMessage (MSG_SETOPTION) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
@@ -1160,8 +1160,8 @@ setACMOption (char *name, char *value) {
 }
 
 extern void
-getACMOption (char *name, char *value) {
-	name[_MAX] = '\0';
+getACMOption (char *name, char *value, char *status) {
+	name[OPTIONNAME_MAX] = '\0';
 	/* 送信（コマンド） */
 	if (sendMessage (MSG_GETOPTION) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
