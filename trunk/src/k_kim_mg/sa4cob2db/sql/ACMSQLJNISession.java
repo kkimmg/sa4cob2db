@@ -149,6 +149,16 @@ public class ACMSQLJNISession implements ACMSession {
 	public CobolFile getFile(String name) {
 		return superobj.getFile(name);
 	}
+	public void getJNIOption(byte[] key) {
+		String s_key = new String(key);
+		String s_val = options.get(s_key);
+		byte[] optValue = s_val.getBytes();
+		int l = optionValue.length;
+		int j = optValue.length;
+		System.arraycopy(initalOption, 0, optionValue, 0, l);
+		System.arraycopy(optValue, 0, optionValue, 0, (l > j ? j : l));
+		setFileStatus2Bytes(FileStatus.OK, status);
+	}
 	/**
 	 * モード文字列からint値を得る
 	 * 
@@ -170,19 +180,19 @@ public class ACMSQLJNISession implements ACMSession {
 		return mode;
 	}
 	/**
+	 * option value
+	 * @return value
+	 */
+	public byte[] getOptionValue() {
+		return optionValue;
+	}
+	/**
 	 * record
 	 * 
 	 * @return the readingRecord
 	 */
 	public byte[] getReadingRecord() {
 		return readingRecord;
-	}
-	/**
-	 * option value
-	 * @return value
-	 */
-	public byte[] getOptionValue() {
-		return optionValue;
 	}
 	/*
 	 * (non-Javadoc)
@@ -454,20 +464,6 @@ public class ACMSQLJNISession implements ACMSession {
 	public void setACMOption(String key, String value) {
 		options.put(key, value);
 	}
-	public void setJNIOption(byte[] key, byte[] value) {
-		String s_key = new String(key);
-		String s_val = new String(value);
-		setACMOption(s_key, s_val);
-	}
-	public void getJNIOption(byte[] key) {
-		String s_key = new String(key);
-		String s_val = options.get(s_key);
-		byte[] optValue = s_val.getBytes();
-		int l = optionValue.length;
-		int j = optValue.length;
-		System.arraycopy(initalOption, 0, optionValue, 0, l);
-		System.arraycopy(optValue, 0, optionValue, 0, (l > j ? j : l));
-	}
 	/**
 	 * オートコミットを設定する
 	 * 
@@ -503,6 +499,12 @@ public class ACMSQLJNISession implements ACMSession {
 		String string = source.toString();
 		byte[] bytes = string.getBytes();
 		System.arraycopy(bytes, 0, dest, 0, (bytes.length < dest.length ? bytes.length : dest.length));
+	}
+	public void setJNIOption(byte[] key, byte[] value) {
+		String s_key = new String(key);
+		String s_val = new String(value);
+		setACMOption(s_key, s_val);
+		setFileStatus2Bytes(FileStatus.OK, status);
 	}
 	/**
 	 * トランザクションを開始する

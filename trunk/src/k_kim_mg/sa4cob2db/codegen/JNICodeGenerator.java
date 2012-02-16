@@ -383,8 +383,23 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	void addGetACMOption(String name, String value, String period) {
 		if (name != null) {
 			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
-			add("    CALL \"getJNIOption\" USING ACM-OPTION-NAME" + period);
-			add("    MOVE " + value + " TO ACM-OPTION-VALUE" + period);
+			add("    CALL \"getJNIOption\" USING ACM-OPTION-NAME");
+			add("                                ACM-STATUS-ALL" + period);
+			add("    MOVE ACM-OPTION-VALUE TO " + value + period);
+		}
+	}
+	/**
+	 * add "setACMOption" function
+	 * 
+	 * @param name option name
+	 * @param value option value
+	 * @param period "." or ""
+	 */
+	void addGetACMOption(String name, String period) {
+		if (name != null) {
+			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
+			add("    CALL \"getJNIOption\" USING ACM-OPTION-NAME");
+			add("                                ACM-STATUS-ALL" + period);
 		}
 	}
 	/**
@@ -399,7 +414,8 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
 			add("    MOVE " + value + " TO ACM-OPTION-VALUE" + period);
 			add("    CALL \"setJNIOption\" USING ACM-OPTION-NAME");
-			add("                                    ACM-OPTION-VALUE" + period);
+			add("                                ACM-OPTION-VALUE");
+			add("                                ACM-STATUS-ALL" + period);
 		}
 	}
 }

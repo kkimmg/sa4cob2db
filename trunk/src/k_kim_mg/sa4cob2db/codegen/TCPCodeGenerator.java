@@ -571,8 +571,24 @@ public class TCPCodeGenerator implements CodeGenerator {
 		if (name != null) {
 			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
 			add("    CALL \"getACMOption\" USING ACM-OPTION-NAME");
-			add("                                ACM-OPTION-VALUE" + period);
+			add("                                ACM-OPTION-VALUE");
+			add("                                ACM-STATUS-ALL" + period);
 			add("    MOVE ACM-OPTION-VALUE TO " + value + period);
+		}
+	}
+	/**
+	 * add "setACMOption" function
+	 * 
+	 * @param name option name
+	 * @param value option value
+	 * @param period "." or ""
+	 */
+	void addGetACMOption(String name, String period) {
+		if (name != null) {
+			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
+			add("    CALL \"getACMOption\" USING ACM-OPTION-NAME");
+			add("                                ACM-OPTION-VALUE");
+			add("                                ACM-STATUS-ALL" + period);
 		}
 	}
 	/**
@@ -607,7 +623,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
 			add("    MOVE " + value + " TO ACM-OPTION-VALUE" + period);
 			add("    CALL \"setACMOption\" USING ACM-OPTION-NAME");
-			add("                                    ACM-OPTION-VALUE" + period);
+			add("                                ACM-OPTION-VALUE");
+			add("                                ACM-STATUS-ALL" + period);
 		}
 	}
 	/**
@@ -1637,7 +1654,25 @@ public class TCPCodeGenerator implements CodeGenerator {
 				value = token.substring(indexOfEqual);
 			}
 		}
-		addGetACMOption(name, value, period);
+		// event
+		{
+			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
+			for (CodeGeneratorListener listener : listeners) {
+				listener.preGetOption(event);
+			}
+		}
+		if (value == null || value.trim().length() == 0) {
+			addGetACMOption(name, period);
+		} else {
+			addGetACMOption(name, value, period);
+		}
+		// event
+		{
+			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
+			for (CodeGeneratorListener listener : listeners) {
+				listener.postGetOption(event);
+			}
+		}
 	}
 	/**
 	 * set RecordName
@@ -1695,7 +1730,21 @@ public class TCPCodeGenerator implements CodeGenerator {
 				value = token.substring(indexOfEqual);
 			}
 		}
+		// event
+		{
+			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
+			for (CodeGeneratorListener listener : listeners) {
+				listener.preSetOption(event);
+			}
+		}
 		addSetACMOption(name, value, period);
+		// event
+		{
+			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
+			for (CodeGeneratorListener listener : listeners) {
+				listener.postSetOption(event);
+			}
+		}
 	}
 	/**
 	 * start of file define

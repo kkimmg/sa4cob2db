@@ -266,6 +266,6 @@ extern void setACMCommitMode (char *commitmode, char *status);
 */
 extern void setACMTransMode (char *transmode, char *status);
 
-extern void setACMOption (char *name, char *value);
+extern void setACMOption (char *name, char *value, char *status);
 
-extern void getACMOption (char *name, char *value);
+extern void getACMOption (char *name, char *value, char *status);

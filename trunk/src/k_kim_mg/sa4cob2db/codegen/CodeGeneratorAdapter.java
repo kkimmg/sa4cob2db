@@ -23,6 +23,11 @@ public class CodeGeneratorAdapter implements CodeGeneratorListener {
 	 */
 	public void postDelete(CodeGeneratorEvent e) {
 	}
+	@Override
+	public void postGetOption(CodeGeneratorEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorListener#postInitialize(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
@@ -58,6 +63,11 @@ public class CodeGeneratorAdapter implements CodeGeneratorListener {
 	 * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorListener#postRollback(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
 	 */
 	public void postRollback(CodeGeneratorEvent e) {
+	}
+	@Override
+	public void postSetOption(CodeGeneratorEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	/*
 	 * (non-Javadoc)
@@ -95,6 +105,11 @@ public class CodeGeneratorAdapter implements CodeGeneratorListener {
 	 */
 	public void preDelete(CodeGeneratorEvent e) {
 	}
+	@Override
+	public void preGetOption(CodeGeneratorEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorListener#preInitialize(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
@@ -130,6 +145,11 @@ public class CodeGeneratorAdapter implements CodeGeneratorListener {
 	 * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorListener#preRollback(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
 	 */
 	public void preRollback(CodeGeneratorEvent e) {
+	}
+	@Override
+	public void preSetOption(CodeGeneratorEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	/*
 	 * (non-Javadoc)
