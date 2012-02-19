@@ -166,6 +166,8 @@ extern void setJNICommitMode (char *commitmode, char *status);
 */
 extern void setJNITransMode (char *transmode, char *status);
 
+extern void getOptionValue(char *record);
+
 extern void setJNISetOption (char *name, char *value);
 
 extern void setJNIGetOption (char *name, char *value);

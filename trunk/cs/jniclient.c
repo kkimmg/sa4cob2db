@@ -37,7 +37,7 @@ jmethodID midStart;
 jmethodID midStartWith;
 jmethodID midTerminate;
 jmethodID midWrite;
-jmethodID midGetReadingRecord, midGetStatus;
+jmethodID midGetReadingRecord, midGetStatus, midGetOptionValue;
 jmethodID midGetOption, midSetOption;
 struct servent *se;
 int soc, portno, len;
@@ -69,7 +69,7 @@ extern void getRecord(char *record) {
 	int i;
 	jobject rarray;
 	rarray = (*env)->CallObjectMethod(env, jniserv, midGetReadingRecord);
-	jsize rlen = 8192;
+	jsize rlen = RECORD_LEN;
 	jboolean rbl;
 	jbyte *rpoint = (*env)->GetByteArrayElements(env, rarray, &rbl); 
 	for (i = 0; i < rlen; i++) {
@@ -140,6 +140,9 @@ initializeJNI () {
 									"([B[B)V");
 	midSetOption	= (*env)->GetMethodID(env, clazz, "setJNIOption",
 									"([B[B)V");
+	midGetOptionValue
+			= (*env)->GetMethodID(env, clazz, "getOptionValue",
+									"()[B");
 	if (midAssign == 0 || midClose == 0 || midCommitTransaction == 0 
 	 || midDelete == 0 || midInitialize == 0 || midMove == 0 || midNext == 0 
 	 || midOpen == 0 || midPrevious == 0 || midRead == 0 || midReadNext == 0 
@@ -775,4 +778,22 @@ setJNITransMode (char *transmode, char *status) {
 	(*env)->DeleteLocalRef(env, tarray);
 	return;
 }
+
+/** レコードをセッションから取得する */
+extern void getOptionValue(char *value) {
+	int i;
+	jobject rarray;
+	rarray = (*env)->CallObjectMethod(env, jniserv, midGetOptionValue);
+	jsize rlen = OPTIONVALUE_LEN;
+	jboolean rbl;
+	jbyte *rpoint = (*env)->GetByteArrayElements(env, rarray, &rbl); 
+	for (i = 0; i < rlen; i++) {
+		value[i] = rpoint[i];
+	}
+	(*env)->ReleaseByteArrayElements(env, rarray, rpoint, 0);
+	/** ローカル参照を削除する */
+	(*env)->DeleteLocalRef(env, rarray);
+	return;
+}
+
 
