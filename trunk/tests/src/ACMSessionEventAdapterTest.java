@@ -25,6 +25,14 @@ public class ACMSessionEventAdapterTest extends ACMSessionEventAdapter {
 	}
 
 	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.event.ACMSessionEventAdapter#optionSetted(k_kim_mg.sa4cob2db.event.ACMOptionSetEvent)
+	 */
+	@Override
+	public void optionSetted(ACMOptionSetEvent e) {
+		System.err.println("Option Set:" + e.getKey() + "=" + e.getValue());
+	}
+
+	/* (non-Javadoc)
      * @see k_kim_mg.sa4cob2db.event.ACMSessionEventAdapter#transactionCommited(k_kim_mg.sa4cob2db.event.ACMSessionEvent)
      */
     @Override
@@ -39,9 +47,4 @@ public class ACMSessionEventAdapterTest extends ACMSessionEventAdapter {
     public void transactionRollbacked(ACMSessionEvent e) {
     	System.err.println("Session Rollbacked.");
     }
-
-	@Override
-	public void optionSetted(ACMOptionSetEvent e) {
-		System.err.println("Option Set:" + e.getKey() + "=" + e.getValue());
-	}
 }

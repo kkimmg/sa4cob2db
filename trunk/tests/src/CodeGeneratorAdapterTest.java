@@ -1,34 +1,6 @@
 import k_kim_mg.sa4cob2db.codegen.CodeGeneratorAdapter;
 import k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent;
 public class CodeGeneratorAdapterTest extends CodeGeneratorAdapter {
-	/* (non-Javadoc)
-     * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorAdapter#postCommit(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
-     */
-    @Override
-    public void postCommit(CodeGeneratorEvent e) {
-    	System.err.println("postCommit");
-    }
-	/* (non-Javadoc)
-     * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorAdapter#postRollback(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
-     */
-    @Override
-    public void postRollback(CodeGeneratorEvent e) {
-    	System.err.println("postRollbacke");
-    }
-	/* (non-Javadoc)
-     * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorAdapter#preCommit(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
-     */
-    @Override
-    public void preCommit(CodeGeneratorEvent e) {
-    	System.err.println("preCommit");
-    }
-	/* (non-Javadoc)
-     * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorAdapter#preRollback(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
-     */
-    @Override
-    public void preRollback(CodeGeneratorEvent e) {
-    	System.err.println("preRollback");
-    }
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -38,6 +10,13 @@ public class CodeGeneratorAdapterTest extends CodeGeneratorAdapter {
 	public void postClose(CodeGeneratorEvent e) {
 		System.err.println("postClose" + e.getFile().toString() + e.getPeriod());
 	}
+	/* (non-Javadoc)
+     * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorAdapter#postCommit(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
+     */
+    @Override
+    public void postCommit(CodeGeneratorEvent e) {
+    	System.err.println("postCommit");
+    }
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -46,6 +25,13 @@ public class CodeGeneratorAdapterTest extends CodeGeneratorAdapter {
 	@Override
 	public void postDelete(CodeGeneratorEvent e) {
 		System.err.println("postDelete" + e.getFile().toString() + e.getPeriod());
+	}
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorAdapter#postGetOption(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
+	 */
+	@Override
+	public void postGetOption(CodeGeneratorEvent e) {
+		System.err.println("postGetOption" + e.getPeriod());
 	}
 	/*
 	 * (non-Javadoc)
@@ -92,6 +78,20 @@ public class CodeGeneratorAdapterTest extends CodeGeneratorAdapter {
 	public void postRewrite(CodeGeneratorEvent e) {
 		System.err.println("postRewrite" + e.getFile().toString() + e.getPeriod());
 	}
+	/* (non-Javadoc)
+     * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorAdapter#postRollback(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
+     */
+    @Override
+    public void postRollback(CodeGeneratorEvent e) {
+    	System.err.println("postRollbacke");
+    }
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorAdapter#postSetOption(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
+	 */
+	@Override
+	public void postSetOption(CodeGeneratorEvent e) {
+		System.err.println("postSetOption" + e.getPeriod());
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -128,6 +128,13 @@ public class CodeGeneratorAdapterTest extends CodeGeneratorAdapter {
 	public void preClose(CodeGeneratorEvent e) {
 		System.err.println("preClose" + e.getFile().toString() + e.getPeriod());
 	}
+	/* (non-Javadoc)
+     * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorAdapter#preCommit(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
+     */
+    @Override
+    public void preCommit(CodeGeneratorEvent e) {
+    	System.err.println("preCommit");
+    }
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -136,6 +143,13 @@ public class CodeGeneratorAdapterTest extends CodeGeneratorAdapter {
 	@Override
 	public void preDelete(CodeGeneratorEvent e) {
 		System.err.println("preDelete" + e.getFile().toString() + e.getPeriod());
+	}
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorAdapter#preGetOption(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
+	 */
+	@Override
+	public void preGetOption(CodeGeneratorEvent e) {
+		System.err.println("preGetOption" + e.getPeriod());
 	}
 	/*
 	 * (non-Javadoc)
@@ -181,6 +195,20 @@ public class CodeGeneratorAdapterTest extends CodeGeneratorAdapter {
 	@Override
 	public void preRewrite(CodeGeneratorEvent e) {
 		System.err.println("preRewrite" + e.getFile().toString() + e.getPeriod());
+	}
+	/* (non-Javadoc)
+     * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorAdapter#preRollback(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
+     */
+    @Override
+    public void preRollback(CodeGeneratorEvent e) {
+    	System.err.println("preRollback");
+    }
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.codegen.CodeGeneratorAdapter#preSetOption(k_kim_mg.sa4cob2db.codegen.CodeGeneratorEvent)
+	 */
+	@Override
+	public void preSetOption(CodeGeneratorEvent e) {
+		System.err.println("preSetOption" + e.getPeriod());
 	}
 	/*
 	 * (non-Javadoc)
