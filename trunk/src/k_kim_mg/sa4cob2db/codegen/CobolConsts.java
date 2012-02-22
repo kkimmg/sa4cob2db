@@ -29,7 +29,7 @@ public abstract class CobolConsts {
 	/**Get optional value from ... */
 	public static final String ACMGETOPTION = "^\\*ACMGETOPTION.*";
 	/**NAME=*/
-	public static final String NAME_EQUAL = "\\sNAME=.*";
+	public static final String NAME_EQUAL = "\\s*NAME=.*";
 	/**TO=*/
 	public static final String TO_EQUAL = "\\s*TO=.*";
 	/**FROM=*/
