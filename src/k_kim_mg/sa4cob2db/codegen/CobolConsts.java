@@ -25,9 +25,9 @@ public abstract class CobolConsts {
 	/**Rollback*/
 	public static final String ACMROLLBACK = "^\\*ACMROLLBACK.*";
 	/**Set optional value to ... */
-	public static final String ACMSETOPTION = "^\\*ACMSETOPTION *";
+	public static final String ACMSETOPTION = "^\\*ACMSETOPTION.*";
 	/**Get optional value from ... */
-	public static final String ACMGETOPTION = "^\\*ACMGETOPTION *";
+	public static final String ACMGETOPTION = "^\\*ACMGETOPTION.*";
 	/**NAME=*/
 	public static final String NAME_EQUAL = "\\sNAME\\s=.*";
 	/**TO=*/
