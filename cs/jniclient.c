@@ -137,7 +137,7 @@ initializeJNI () {
 									"()[B");
 	midGetStatus	= (*env)->GetMethodID(env, clazz, "getStatus",	"()[B");
 	midGetOption	= (*env)->GetMethodID(env, clazz, "getJNIOption",
-									"([B[B)V");
+									"([B)V");
 	midSetOption	= (*env)->GetMethodID(env, clazz, "setJNIOption",
 									"([B[B)V");
 	midGetOptionValue
@@ -149,7 +149,7 @@ initializeJNI () {
 	 || midRewrite == 0 || midRollbackTransaction == 0 || midSetAutoCommit == 0
 	 || midSetTransactionLevel == 0 || midStart == 0 || midStartWith == 0
 	 || midTerminate == 0 || midWrite == 0 || midGetReadingRecord == 0
-	 || midGetStatus == 0 || midGetOption == 0 || midSetOption == 0) {
+	 || midGetStatus == 0 || midGetOption == 0 || midSetOption == 0 || midGetOptionValue == 0) {
 		perror("method not found.");
 		return -1;
 	}
