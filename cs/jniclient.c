@@ -734,7 +734,7 @@ extern void
 setJNICommitMode (char *commitmode, char *status) {
 	int i;
 	/** コミットモード */
-	commitmode[255] = '\0';
+	commitmode[FILE_OPTION_MAX] = '\0';
 	jsize clen = strlen(commitmode);
 	jbyteArray carray = (*env)->NewByteArray(env, clen);
 	jboolean cbl;
@@ -761,7 +761,7 @@ extern void
 setJNITransMode (char *transmode, char *status) {
 	int i;
 	/** トランザクションモード */
-	transmode[255] = '\0';
+	transmode[FILE_OPTION_MAX] = '\0';
 	jsize tlen = strlen(transmode);
 	jbyteArray tarray = (*env)->NewByteArray(env, tlen);
 	jboolean tbl;
@@ -796,4 +796,56 @@ extern void getOptionValue(char *value) {
 	return;
 }
 
+extern void
+setJNIOption (char *name, char *value) {
+	int i;
+	/** name */
+	name[OPTIONNAME_MAX] = '\0';
+	jsize nlen = strlen(name);
+	jbyteArray narray = (*env)->NewByteArray(env, nlen);
+	jboolean nbl;
+	jbyte *npoint = (*env)->GetByteArrayElements(env, narray, &nbl); 
+	for (i = 0; i < nlen; i++) {
+		npoint[i] = name[i];
+	}
+	(*env)->ReleaseByteArrayElements(env, narray, npoint, 0);
+	/** value */
+	name[OPTIONVALUE_MAX] = '\0';
+	jsize vlen = strlen(value);
+	jbyteArray varray = (*env)->NewByteArray(env, vlen);
+	jboolean vbl;
+	jbyte *vpoint = (*env)->GetByteArrayElements(env, varray, &vbl); 
+	for (i = 0; i < vlen; i++) {
+		vpoint[i] = value[i];
+	}
+	(*env)->ReleaseByteArrayElements(env, varray, vpoint, 0);
+	/** 処理を呼び出してみる */
+	(*env)->CallVoidMethod(env, jniserv, midSetOption, narray, varray);
+	/** ローカル参照を削除する */
+	(*env)->DeleteLocalRef(env, narray);
+	(*env)->DeleteLocalRef(env, varray);
+	return;
+}
+
+extern void
+getJNIOption (char *name, char *value) {
+	int i;
+	/** name */
+	name[OPTIONNAME_MAX] = '\0';
+	jsize nlen = strlen(name);
+	jbyteArray narray = (*env)->NewByteArray(env, nlen);
+	jboolean nbl;
+	jbyte *npoint = (*env)->GetByteArrayElements(env, narray, &nbl); 
+	for (i = 0; i < nlen; i++) {
+		npoint[i] = name[i];
+	}
+	(*env)->ReleaseByteArrayElements(env, narray, npoint, 0);
+	/** 処理を呼び出してみる */
+	(*env)->CallVoidMethod(env, jniserv, midGetOption, narray);
+	/** ローカル参照を削除する */
+	(*env)->DeleteLocalRef(env, narray);
+	/** value */
+	getOptionValue(value);
+	return;
+}
 
