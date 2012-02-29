@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -37,7 +36,6 @@ public class ACMSQLJNISession implements ACMSession {
 	final byte[] initalOption;
 	/** FILE STATUS */
 	byte[] status = new byte[255];
-	private Hashtable<String, String> options;
 	/** Constructor */
 	public ACMSQLJNISession() throws Exception {
 		super();
@@ -137,7 +135,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 	@Override
 	public String getACMOption(String key) {
-		String ret = options.get(key);
+		String ret = superobj.getACMOption(key);
 		return (ret != null ? ret : "");
 	}
 	/*
@@ -151,7 +149,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 	public void getJNIOption(byte[] key) {
 		String s_key = new String(key);
-		String s_val = options.get(s_key);
+		String s_val = getACMOption(s_key);
 		byte[] optValue = s_val.getBytes();
 		int l = optionValue.length;
 		int j = optValue.length;
@@ -462,7 +460,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 	@Override
 	public void setACMOption(String key, String value) {
-		options.put(key, value);
+		superobj.setACMOption(key, value);
 	}
 	/**
 	 * オートコミットを設定する
