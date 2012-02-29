@@ -5,11 +5,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import k_kim_mg.sa4cob2db.ACMSession;
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.CobolIndex;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
+import k_kim_mg.sa4cob2db.event.ACMOptionSetEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
@@ -26,7 +28,7 @@ public class ACMSQLSession implements ACMSession {
 	private final transient SQLFileServer server;
 	/** セッションID */
 	protected String sessionId;
-	private Hashtable<String, String> options;
+	private Properties options;
 	/**
 	 * セッションの作成
 	 * 
@@ -38,7 +40,7 @@ public class ACMSQLSession implements ACMSession {
 		initializeSessionID();
 		files = new Hashtable<String, CobolFile>();
 		connection = server.createConnection();
-		options = new Hashtable<String, String>();
+		options = new Properties();
 	}
 	/*
 	 * (non-Javadoc)
@@ -201,8 +203,7 @@ public class ACMSQLSession implements ACMSession {
 	}
 	@Override
 	public String getACMOption(String key) {
-		String ret = options.get(key);
-		return (ret != null ? ret : "");
+		return options.getProperty(key, "");
 	}
 	/**
 	 * コネクション
@@ -258,7 +259,11 @@ public class ACMSQLSession implements ACMSession {
 	}
 	@Override
 	public void setACMOption(String key, String value) {
-		options.put(key, value);
+		options.setProperty(key, value);
+		ACMOptionSetEvent e = new ACMOptionSetEvent(this, key, value);
+		for (ACMSessionEventListener listener : listeners) {
+			listener.optionSetted(e);
+		}
 	}
 	/**
 	 * セッションの終了
