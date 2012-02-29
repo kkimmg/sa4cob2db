@@ -22,6 +22,8 @@ cobpp_acm:
 	$(COBPP) 			WRTTEST.cob       ACMWRTTEST.cob
 	$(COBPP) 			IDXTEST.cob       ACMIDXTEST.cob
 	$(COBPP) 			WRTTEST4.cob      ACMWRTTEST4.cob
+	$(COBPP) 			SEQTEST4.cob      ACMSEQTEST4.cob
+	$(COBPP) 			OPTTEST.cob       ACMOPTTEST.cob
 
 cobpp_jni:
 	$(COBP2) 			SEQTEST2.cob      JNISEQTEST2.cob
@@ -32,7 +34,9 @@ cobpp_jni:
 	$(COBP2) 			SEQTEST.cob       JNISEQTEST.cob
 	$(COBP2) 			WRTTEST.cob       JNIWRTTEST.cob
 	$(COBP2) 			IDXTEST.cob       JNIIDXTEST.cob
-	$(COBP2) 			WRTTEST4.cob       JNIWRTTEST4.cob
+	$(COBP2) 			WRTTEST4.cob      JNIWRTTEST4.cob
+	$(COBP2) 			SEQTEST4.cob      JNISEQTEST4.cob
+	$(COBP2) 			OPTTEST.cob      JNIOPTTEST.cob
 	
 link_consts:
 	$(CP) ../../cobs/ACMCONSTS.CBL ./
@@ -45,10 +49,13 @@ cobc_std:
 	$(COBC) $(CFLAGS) 		STTTEST.cob    -o STTTEST
 	$(COBC) $(CFLAGS) 		DYNTEST.cob    -o DYNTEST
 	$(COBC) $(CFLAGS) 		IDXTEST.cob    -o IDXTEST
+	$(COBC) $(CFLAGS) 		WRTTEST4.cob   -o WRTTEST4
+	$(COBC) $(CFLAGS) 		SEQTEST4.cob   -o SEQTEST4
+	$(COBC) $(CFLAGS) 		OPTTEST.cob    -o IDXTEST
 
 cobc_acm: link_consts cobpp_acm
-	$(COBC) $(CFLAGS) 		ACMSEQTEST.cob -o ACMSEQTEST	
-	$(COBC) $(CFLAGS) 		ACMWRTTEST.cob -o ACMWRTTEST
+	$(COBC) $(CFLAGS) 		ACMSEQTEST.cob  -o ACMSEQTEST	
+	$(COBC) $(CFLAGS) 		ACMWRTTEST.cob  -o ACMWRTTEST
 	$(COBC) $(CFLAGS) 		ACMSEQTEST2.cob -o ACMSEQTEST2
 	$(COBC) $(CFLAGS) 		ACMWRTTEST2.cob -o ACMWRTTEST2
 	$(COBC) $(CFLAGS) 		ACMSEQTEST2.cob -o ACMSEQTEST2
@@ -57,10 +64,12 @@ cobc_acm: link_consts cobpp_acm
 	$(COBC) $(CFLAGS) 		ACMDYNTEST1.cob -o ACMDYNTEST1
 	$(COBC) $(CFLAGS) 		ACMIDXTEST.cob  -o ACMIDXTEST
 	$(COBC) $(CFLAGS) 		ACMWRTTEST4.cob -o ACMWRTTEST4
+	$(COBC) $(CFLAGS) 		ACMSEQTEST4.cob -o ACMSEQTEST4
+	$(COBC) $(CFLAGS) 		ACMOPTTEST.cob  -o ACMOPTTEST
 
 cobc_jni: link_consts cobpp_jni
-	$(COBC) $(CFLAGS) 		JNISEQTEST.cob -o JNISEQTEST	
-	$(COBC) $(CFLAGS) 		JNIWRTTEST.cob -o JNIWRTTEST
+	$(COBC) $(CFLAGS) 		JNISEQTEST.cob  -o JNISEQTEST	
+	$(COBC) $(CFLAGS) 		JNIWRTTEST.cob  -o JNIWRTTEST
 	$(COBC) $(CFLAGS) 		JNISEQTEST2.cob -o JNISEQTEST2
 	$(COBC) $(CFLAGS) 		JNIWRTTEST2.cob -o JNIWRTTEST2
 	$(COBC) $(CFLAGS) 		JNISEQTEST2.cob -o JNISEQTEST2
@@ -69,6 +78,8 @@ cobc_jni: link_consts cobpp_jni
 	$(COBC) $(CFLAGS) 		JNIDYNTEST1.cob -o JNIDYNTEST1
 	$(COBC) $(CFLAGS) 		JNIIDXTEST.cob  -o JNIIDXTEST
 	$(COBC) $(CFLAGS) 		JNIWRTTEST4.cob -o JNIWRTTEST4
+	$(COBC) $(CFLAGS) 		JNISEQTEST4.cob -o JNISEQTEST4
+	$(COBC) $(CFLAGS) 		JNIOPTTEST.cob  -o JNIOPTTEST
 
 clean_cobs:
 	rm ACMSEQTEST.cob
@@ -80,6 +91,8 @@ clean_cobs:
 	rm ACMDYNTEST1.cob
 	rm ACMIDXTEST.cob
 	rm ACMWRTTEST4.cob
+	rm ACMSEQTEST4.cob
+	rm ACMOPTTEST.cob
 	rm JNISEQTEST.cob
 	rm JNIWRTTEST.cob
 	rm JNISEQTEST2.cob
@@ -89,6 +102,8 @@ clean_cobs:
 	rm JNIDYNTEST1.cob
 	rm JNIIDXTEST.cob
 	rm JNIWRTTEST4.cob
+	rm JNISEQTEST4.cob
+	rm JNIOPTTEST.cob
 	rm ACMCONSTS.CBL
 
 clean_stdobj:
@@ -110,6 +125,8 @@ clean_acmobj:
 	rm ACMDYNTEST1
 	rm ACMIDXTEST
 	rm ACMWRTTEST4
+	rm ACMSEQTEST4
+	rm ACMOPTTEST
 	
 clean_jniobj:
 	rm JNISEQTEST
@@ -121,6 +138,8 @@ clean_jniobj:
 	rm JNIDYNTEST1
 	rm JNIIDXTEST
 	rm JNIWRTTEST4
+	rm JNISEQTEST4
+	rm JNIOPTTEST
 	
 clean_obj: clean_stdobj clean_acmobj clean_jniobj
 
