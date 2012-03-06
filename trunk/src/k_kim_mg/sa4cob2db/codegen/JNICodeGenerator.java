@@ -100,7 +100,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		add("     CALL \"initializeJNISessionEnv\" USING ACM-STATUS-ALL" + period);
 		for (FileInfo info : getSelectnametofile().values()) {
 			add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
-			add("     CALL \"assignACMFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
+			add("     CALL \"assignJNIFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 		}
 	}
 	/**
