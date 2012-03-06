@@ -3,9 +3,11 @@ import java.lang.reflect.Constructor;
 import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 import k_kim_mg.sa4cob2db.ACMSession;
 import k_kim_mg.sa4cob2db.CobolFile;
@@ -98,50 +100,54 @@ public class ACMSQLSession implements ACMSession {
 	 */
 	public CobolFile createFile(String name) {
 		CobolFile ret = null;
-		CobolRecordMetaData meta = server.metaDataSet.getMetaData(name);
-		try {
-			if (meta instanceof SQLCobolRecordMetaData) {
-				SQLCobolRecordMetaData sqlmeta = (SQLCobolRecordMetaData) meta;
-				ret = createSQLFile(sqlmeta);
-			} else if (meta.getCustomFileClassName() != null && meta.getCustomFileClassName().trim().length() > 0) {
-				// カスタムクラスを利用する
-				ret = createCustomFile(meta);
-			}
-		} catch (Exception e) {
-			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
-		}
-		if (ret != null) {
-			ret.bindSession(this);
-			files.put(name, ret);
-			// イベントリスナを登録する
-			List<Class<? extends CobolFileEventListener>> listenerClasses = meta.getListenerClasses();
-			for (Class<? extends CobolFileEventListener> listenerClass : listenerClasses) {
-				CobolFileEventListener listener;
-				try {
-					listener = listenerClass.newInstance();
-					ret.addCobolFileEventListener(listener);
-				} catch (Exception e) {
-					SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
+		if (files.containsKey(name)) {
+			ret = files.get(name);
+		} else {
+			CobolRecordMetaData meta = server.metaDataSet.getMetaData(name);
+			try {
+				if (meta instanceof SQLCobolRecordMetaData) {
+					SQLCobolRecordMetaData sqlmeta = (SQLCobolRecordMetaData) meta;
+					ret = createSQLFile(sqlmeta);
+				} else if (meta.getCustomFileClassName() != null && meta.getCustomFileClassName().trim().length() > 0) {
+					// カスタムクラスを利用する
+					ret = createCustomFile(meta);
 				}
+			} catch (Exception e) {
+				SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 			}
-			// インデックスを作成する
-			List<CobolIndex> indexes = meta.getCobolIndexes();
-			if (indexes != null) {
-				for (CobolIndex index : indexes) {
+			if (ret != null) {
+				ret.bindSession(this);
+				files.put(name, ret);
+				// イベントリスナを登録する
+				List<Class<? extends CobolFileEventListener>> listenerClasses = meta.getListenerClasses();
+				for (Class<? extends CobolFileEventListener> listenerClass : listenerClasses) {
+					CobolFileEventListener listener;
 					try {
-						String indexFileName = index.getFileName();
-						CobolFile indexFile = createFile(indexFileName);
-						ret.addIndex(index, indexFile);
+						listener = listenerClass.newInstance();
+						ret.addCobolFileEventListener(listener);
 					} catch (Exception e) {
 						SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 					}
 				}
+				// インデックスを作成する
+				List<CobolIndex> indexes = meta.getCobolIndexes();
+				if (indexes != null) {
+					for (CobolIndex index : indexes) {
+						try {
+							String indexFileName = index.getFileName();
+							CobolFile indexFile = createFile(indexFileName);
+							ret.addIndex(index, indexFile);
+						} catch (Exception e) {
+							SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
+						}
+					}
+				}
 			}
-		}
-		// セッションのイベント発生
-		ACMSessionEvent e = new ACMSessionEvent(this, ret);
-		for (ACMSessionEventListener listener : listeners) {
-			listener.fileCreated(e);
+			// セッションのイベント発生
+			ACMSessionEvent e = new ACMSessionEvent(this, ret);
+			for (ACMSessionEventListener listener : listeners) {
+				listener.fileCreated(e);
+			}
 		}
 		return ret;
 	}
@@ -271,5 +277,19 @@ public class ACMSQLSession implements ACMSession {
 	protected void terminate() {
 		server.removeConnection(connection);
 		connection = null;
+	}
+	/**
+	 * ファイル名の一覧
+	 * @return ファイル名の一覧
+	 */
+	protected Set<String> getFileNames() {
+		return files.keySet();
+	}
+	/**
+	 * ファイルの一覧
+	 * @return ファイルの一覧
+	 */
+	protected Collection<CobolFile> getFileCollection () {
+		return files.values();		
 	}
 }

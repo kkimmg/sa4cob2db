@@ -98,6 +98,10 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	void addCallInitializeSession(String period) {
 		add("     CALL \"libJNIClient\"" + period);
 		add("     CALL \"initializeJNISessionEnv\" USING ACM-STATUS-ALL" + period);
+		for (FileInfo info : getSelectnametofile().values()) {
+			add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
+			add("     CALL \"assignACMFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
+		}
 	}
 	/**
 	 * OPEN INPUT
@@ -107,7 +111,6 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	 */
 	void addCallOpenInput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
-		add("     CALL \"assignJNIFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 		add("     CALL \"openJNIFile\"   USING ACM-FILE-IDENT");
 		add("                                ACM-OPENMODE-INPUT");
 		switch (info.getAcessMode()) {
@@ -131,7 +134,6 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	 */
 	void addCallOpenInputOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
-		add("     CALL \"assignJNIFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 		add("     CALL \"openJNIFile\"   USING ACM-FILE-IDENT");
 		add("                                ACM-OPENMODE-IO");
 		switch (info.getAcessMode()) {
@@ -155,7 +157,6 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	 */
 	void addCallOpenOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
-		add("     CALL \"assignJNIFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 		add("     CALL \"openJNIFile\"   USING ACM-FILE-IDENT");
 		add("                                ACM-OPENMODE-OUTPUT");
 		switch (info.getAcessMode()) {
