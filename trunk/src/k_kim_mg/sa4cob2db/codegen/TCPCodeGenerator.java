@@ -274,6 +274,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void addCallInitializeSession(String period) {
 		add("     CALL \"libACMClient\"" + period);
 		add("     CALL \"initializeSessionEnv\" USING ACM-STATUS-ALL" + period);
+		for (FileInfo info : getSelectnametofile().values()) {
+			add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
+			add("     CALL \"assignACMFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
+		}
 	}
 	/**
 	 * OPEN INPUT
@@ -283,7 +287,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void addCallOpenInput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
-		add("     CALL \"assignACMFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 		add("     CALL \"openACMFile\"   USING ACM-FILE-IDENT");
 		add("                                ACM-OPENMODE-INPUT");
 		switch (info.getAcessMode()) {
@@ -307,7 +310,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void addCallOpenInputOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
-		add("     CALL \"assignACMFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 		add("     CALL \"openACMFile\"   USING ACM-FILE-IDENT");
 		add("                                ACM-OPENMODE-IO");
 		switch (info.getAcessMode()) {
@@ -331,7 +333,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void addCallOpenOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
-		add("     CALL \"assignACMFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 		add("     CALL \"openACMFile\"   USING ACM-FILE-IDENT");
 		add("                                ACM-OPENMODE-OUTPUT");
 		switch (info.getAcessMode()) {
@@ -567,13 +568,12 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param value option value
 	 * @param period "." or ""
 	 */
-	void addGetACMOption(String name, String value, String period) {
+	void addGetACMOption(String name, String period) {
 		if (name != null) {
 			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
 			add("    CALL \"getACMOption\" USING ACM-OPTION-NAME");
 			add("                                ACM-OPTION-VALUE");
 			add("                                ACM-STATUS-ALL" + period);
-			add("    MOVE ACM-OPTION-VALUE TO " + value + period);
 		}
 	}
 	/**
@@ -583,12 +583,13 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param value option value
 	 * @param period "." or ""
 	 */
-	void addGetACMOption(String name, String period) {
+	void addGetACMOption(String name, String value, String period) {
 		if (name != null) {
 			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
 			add("    CALL \"getACMOption\" USING ACM-OPTION-NAME");
 			add("                                ACM-OPTION-VALUE");
 			add("                                ACM-STATUS-ALL" + period);
+			add("    MOVE ACM-OPTION-VALUE TO " + value + period);
 		}
 	}
 	/**
@@ -713,6 +714,22 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return null;
 	}
 	/**
+	 * ファイルの一覧
+	 * 
+	 * @returnファイルの一覧
+	 */
+	public Hashtable<String, DefaultFileInfo> getFilenametofile() {
+		return filenametofile;
+	}
+	/**
+	 * ファイルの一覧
+	 * 
+	 * @returnファイルの一覧
+	 */
+	public Hashtable<String, DefaultFileInfo> getRecordnametofile() {
+		return recordnametofile;
+	}
+	/**
 	 * Current SECTION
 	 * 
 	 * @param text Current Row
@@ -724,6 +741,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 			return tokenizer.nextToken();
 		}
 		return null;
+	}
+	/**
+	 * ファイルの一覧
+	 * 
+	 * @returnファイルの一覧
+	 */
+	public Hashtable<String, DefaultFileInfo> getSelectnametofile() {
+		return selectnametofile;
 	}
 	/**
 	 * Expand Copy Statement?
