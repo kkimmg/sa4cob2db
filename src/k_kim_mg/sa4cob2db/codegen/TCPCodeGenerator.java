@@ -201,9 +201,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text string includes "=" true/false
 	 */
 	void addACMAutoCommit(String option, String period) {
-		add("    MOVE \"" + option + "\" TO ACM-OPTION" + period);
-		add("    CALL \"setTCPCommitMode\" USING ACM-OPTION");
-		add("                                    ACM-STATUS-ALL" + period);
+		add("     MOVE \"" + option + "\" TO ACM-OPTION" + period);
+		add("     CALL \"setTCPCommitMode\" USING ACM-OPTION");
+		add("                                     ACM-STATUS-ALL" + period);
 	}
 	/**
 	 * set transaction level<br/>
@@ -212,9 +212,20 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text string includes transaction level
 	 */
 	void addACMTransactionIsolation(String option, String period) {
-		add("    MOVE \"" + option + "\" TO ACM-OPTION" + period);
-		add("    CALL \"setTCPTransMode\" USING ACM-OPTION");
-		add("                                   ACM-STATUS-ALL" + period);
+		add("     MOVE \"" + option + "\" TO ACM-OPTION" + period);
+		add("     CALL \"setTCPTransMode\" USING ACM-OPTION");
+		add("                                    ACM-STATUS-ALL" + period);
+	}
+	/**
+	 * add File Assigns
+	 * 
+	 * @param period "." or ""
+	 */
+	void addAssignFiles(String period) {
+		for (FileInfo info : getSelectnametofile().values()) {
+			add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
+			add("     CALL \"assignACMFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
+		}
 	}
 	/**
 	 * CLOSE
@@ -274,10 +285,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void addCallInitializeSession(String period) {
 		add("     CALL \"libACMClient\"" + period);
 		add("     CALL \"initializeSessionEnv\" USING ACM-STATUS-ALL" + period);
-		for (FileInfo info : getSelectnametofile().values()) {
-			add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
-			add("     CALL \"assignACMFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
-		}
 	}
 	/**
 	 * OPEN INPUT
@@ -570,10 +577,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void addGetACMOption(String name, String period) {
 		if (name != null) {
-			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
-			add("    CALL \"getACMOption\" USING ACM-OPTION-NAME");
-			add("                                ACM-OPTION-VALUE");
-			add("                                ACM-STATUS-ALL" + period);
+			add("     MOVE " + name + " TO ACM-OPTION-NAME" + period);
+			add("     CALL \"getACMOption\" USING ACM-OPTION-NAME");
+			add("                                 ACM-OPTION-VALUE");
+			add("                                 ACM-STATUS-ALL" + period);
 		}
 	}
 	/**
@@ -585,11 +592,11 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void addGetACMOption(String name, String value, String period) {
 		if (name != null) {
-			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
-			add("    CALL \"getACMOption\" USING ACM-OPTION-NAME");
-			add("                                ACM-OPTION-VALUE");
-			add("                                ACM-STATUS-ALL" + period);
-			add("    MOVE ACM-OPTION-VALUE TO " + value + period);
+			add("     MOVE " + name + " TO ACM-OPTION-NAME" + period);
+			add("     CALL \"getACMOption\" USING ACM-OPTION-NAME");
+			add("                                 ACM-OPTION-VALUE");
+			add("                                 ACM-STATUS-ALL" + period);
+			add("     MOVE ACM-OPTION-VALUE TO " + value + period);
 		}
 	}
 	/**
@@ -598,19 +605,22 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param period "." or ""
 	 */
 	void addInitializeSession(String period) {
-		FileInfo nullfile = new DefaultFileInfo();
-		// event
-		CodeGeneratorEvent event = new CodeGeneratorEvent(nullfile, owner, this, period);
-		for (CodeGeneratorListener listener : listeners) {
-			listener.preInitialize(event);
+		if (!getOwner().isSubprogram()) {
+			FileInfo nullfile = new DefaultFileInfo();
+			// event
+			CodeGeneratorEvent event = new CodeGeneratorEvent(nullfile, owner, this, period);
+			for (CodeGeneratorListener listener : listeners) {
+				listener.preInitialize(event);
+			}
+			// ///////////
+			addCallInitializeSession(period);
+			// event
+			for (CodeGeneratorListener listener : listeners) {
+				listener.postInitialize(event);
+			}
+			// ///////////
 		}
-		// ///////////
-		addCallInitializeSession(period);
-		// event
-		for (CodeGeneratorListener listener : listeners) {
-			listener.postInitialize(event);
-		}
-		// ///////////
+		addAssignFiles(period);
 	}
 	/**
 	 * add "setACMOption" function
@@ -621,11 +631,11 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void addSetACMOption(String name, String value, String period) {
 		if (name != null) {
-			add("    MOVE " + name + " TO ACM-OPTION-NAME" + period);
-			add("    MOVE " + value + " TO ACM-OPTION-VALUE" + period);
-			add("    CALL \"setACMOption\" USING ACM-OPTION-NAME");
-			add("                                ACM-OPTION-VALUE");
-			add("                                ACM-STATUS-ALL" + period);
+			add("     MOVE " + name + " TO ACM-OPTION-NAME" + period);
+			add("     MOVE " + value + " TO ACM-OPTION-VALUE" + period);
+			add("     CALL \"setACMOption\" USING ACM-OPTION-NAME");
+			add("                                 ACM-OPTION-VALUE");
+			add("                                 ACM-STATUS-ALL" + period);
 		}
 	}
 	/**
@@ -720,6 +730,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	public Hashtable<String, DefaultFileInfo> getFilenametofile() {
 		return filenametofile;
+	}
+	/**
+	 * Get GeneratorOwner
+	 * 
+	 * @return GeneratorOwner
+	 */
+	public GeneratorOwner getOwner() {
+		return owner;
 	}
 	/**
 	 * ファイルの一覧
@@ -1611,6 +1629,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		if (current != null)
 			stack.push(current);
 		currentlists.push(currentlist);
+	}
+	/**
+	 * Set GeneratorOwner
+	 * 
+	 * @param owner GeneratorOwner
+	 */
+	public void setOwner(GeneratorOwner owner) {
+		this.owner = owner;
 	}
 	/**
 	 * set AssignName
