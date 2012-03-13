@@ -233,7 +233,6 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	 */
 	public void setResultSet2Record(ResultSet src, CobolRecord dst) throws SQLException, CobolRecordException {
 		String originalName = getOriginalColumnName();
-		SQLNetServer.logger.fine(originalName + "=" + getType() + "/" + src.getObject(originalName).toString());
 		switch (getType()) {
 		case CobolColumn.TYPE_INTEGER:
 			dst.updateInt(this, src.getInt(originalName));

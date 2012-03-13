@@ -18,4 +18,14 @@ public interface CodeGenerator {
 	 * @param listener	listener 
 	 */
 	public void addCodeGeneratorListener(CodeGeneratorListener listener);
+	/**
+	 * Get GeneratorOwner
+	 * @return GeneratorOwner
+	 */
+	public GeneratorOwner getOwner();
+	/**
+	 * Set GeneratorOwner
+	 * @param owner GeneratorOwner
+	 */
+	public void setOwner(GeneratorOwner owner);
 }

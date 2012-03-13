@@ -29,4 +29,10 @@ public interface GeneratorOwner {
 	 *          false	don't
 	 */
 	public boolean isExpandCopy();
+	/**
+	 * don't initialize?
+	 * @return true	yes</br>
+	 *          false	not
+	 */
+	public boolean isSubprogram();
 }

@@ -20,7 +20,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
 /**
- * Preprocess COBOL file access to call statement.
+ * PreProcessing COBOL file access to call statement.
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
@@ -33,6 +33,7 @@ public class COBPP1 implements GeneratorOwner {
 	private int initrownum = 10;
 	private int incrrownum = 10;
 	private boolean expandCopy = false;
+	private boolean subprogram = false;
 	/** Environment value name of Charset. */
 	public static final String ACM_CHARSET = "acm_pp_charset";
 	/** Generator */
@@ -60,9 +61,10 @@ public class COBPP1 implements GeneratorOwner {
 	 * @param expand_copy expand copy statement default false
 	 * @param codegeneratorlisteners Event listener class name of generator
 	 * @param customcodegeneratorclass custom generator class name if you use
+	 * @param s_subprogram true if processing program is subprogram
 	 * @param acm_charset
 	 */
-	public static void main_too(String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass, String acm_charset) {
+	public static void main_too(String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass, String acm_charset, String s_subprogram) {
 		String[] argv = new String[] { infile, outfile };
 		if (informat.trim().length() > 0) {
 			System.setProperty("informat", informat.trim());
@@ -90,6 +92,9 @@ public class COBPP1 implements GeneratorOwner {
 		}
 		if (acm_charset.trim().length() > 0) {
 			System.setProperty(ACM_CHARSET, acm_charset.trim());
+		}
+		if (s_subprogram.trim().length() > 0) {
+			System.setProperty("subprogram", s_subprogram.trim());
 		}
 		System.setProperty("display_usage", "false");
 		main(argv);
@@ -200,6 +205,9 @@ public class COBPP1 implements GeneratorOwner {
 		} else {
 			generatorClass = generator.getClass().getName();
 		}
+		// subprogram
+		String subprogramStr = getEnvValue("subprogram", "false");
+		subprogram = Boolean.parseBoolean(subprogramStr);
 		// usage
 		String usageStr = getEnvValue("display_usage", "true");
 		if (Boolean.parseBoolean(usageStr)) {
@@ -215,6 +223,7 @@ public class COBPP1 implements GeneratorOwner {
 			System.err.println("\tdisplay_usage=" + usageStr + "\t:true or false or space");
 			System.err.println("\tacm_pp_charset=" + csn + "\t:chaset encodeing");
 			System.err.println("\tcodegeneratorlisteners=" + namelist + "\t::separated class names");
+			System.err.println("\tsubprogram=" + subprogramStr + "\t:true or false or space");
 			System.err.println("\tcustomcodegeneratorclass=" + generatorClass + "\t::separated class names");
 		}
 	}
@@ -434,5 +443,11 @@ public class COBPP1 implements GeneratorOwner {
 	 */
 	public void setExpandCopy(boolean expandCopy) {
 		this.expandCopy = expandCopy;
+	}
+	public boolean isSubprogram() {
+		return subprogram;
+	}
+	public void setSubprogram(boolean subprogram) {
+		this.subprogram = subprogram;
 	}
 }
