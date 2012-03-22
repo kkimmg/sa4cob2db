@@ -1,4 +1,4 @@
-﻿import k_kim_mg.sa4cob2db.ACMSession;
+import k_kim_mg.sa4cob2db.ACMSession;
 import k_kim_mg.sa4cob2db.event.ACMServerEvent;
 import k_kim_mg.sa4cob2db.event.ACMServerEventAdapter;
 /**
