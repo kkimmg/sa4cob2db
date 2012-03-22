@@ -2,7 +2,10 @@ CC = gcc
 COBC = cobc
 COBPP = cobpp -t -s EUCJP
 COBP2 = cobpp    -s EUCJP
+COBP3 = cobpp -t -s EUCJP -b
+COBP4 = cobpp    -s EUCJP -b
 CFLAGS = -v -Wall -g -x
+MFLAGS = -v -Wall -g -m
 COBFLAGS = -c `cob-config --cflags`
 #JDKLIB = -I/usr/local/jdk1.5.0/include/
 #JDKOSLIB = -I/usr/local/jdk1.5.0/include/freebsd/
@@ -24,6 +27,8 @@ cobpp_acm:
 	$(COBPP) 			WRTTEST4.cob      ACMWRTTEST4.cob
 	$(COBPP) 			SEQTEST4.cob      ACMSEQTEST4.cob
 	$(COBPP) 			OPTTEST.cob       ACMOPTTEST.cob
+	$(COBPP) 			MAINTEST.cob      ACMMAINTEST.cob
+	$(COBP3) 			SUBTEST.cob       ACMSUBTEST.cob
 
 cobpp_jni:
 	$(COBP2) 			SEQTEST2.cob      JNISEQTEST2.cob
@@ -36,7 +41,9 @@ cobpp_jni:
 	$(COBP2) 			IDXTEST.cob       JNIIDXTEST.cob
 	$(COBP2) 			WRTTEST4.cob      JNIWRTTEST4.cob
 	$(COBP2) 			SEQTEST4.cob      JNISEQTEST4.cob
-	$(COBP2) 			OPTTEST.cob      JNIOPTTEST.cob
+	$(COBP2) 			OPTTEST.cob       JNIOPTTEST.cob
+	$(COBP2) 			MAINTEST.cob      JNIMAINTEST.cob
+	$(COBP4) 			SUBTEST.cob       JNISUBTEST.cob
 	
 link_consts:
 	$(CP) ../../cobs/ACMCONSTS.CBL ./
@@ -52,6 +59,8 @@ cobc_std:
 	$(COBC) $(CFLAGS) 		WRTTEST4.cob   -o WRTTEST4
 	$(COBC) $(CFLAGS) 		SEQTEST4.cob   -o SEQTEST4
 	$(COBC) $(CFLAGS) 		OPTTEST.cob    -o IDXTEST
+	$(COBC) $(CFLAGS) 		MAINTEST.cob   -o MAINTEST
+	$(COBC) $(MFLAGS) 		SUBTEST.cob    -o SUBTEST.so
 
 cobc_acm: link_consts cobpp_acm
 	$(COBC) $(CFLAGS) 		ACMSEQTEST.cob  -o ACMSEQTEST	
@@ -66,6 +75,8 @@ cobc_acm: link_consts cobpp_acm
 	$(COBC) $(CFLAGS) 		ACMWRTTEST4.cob -o ACMWRTTEST4
 	$(COBC) $(CFLAGS) 		ACMSEQTEST4.cob -o ACMSEQTEST4
 	$(COBC) $(CFLAGS) 		ACMOPTTEST.cob  -o ACMOPTTEST
+	$(COBC) $(CFLAGS) 		ACMMAINTEST.cob -o ACMMAINTEST
+	$(COBC) $(MFLAGS) 		ACMSUBTEST.cob  -o ACMSUBTEST.so
 
 cobc_jni: link_consts cobpp_jni
 	$(COBC) $(CFLAGS) 		JNISEQTEST.cob  -o JNISEQTEST	
@@ -80,6 +91,8 @@ cobc_jni: link_consts cobpp_jni
 	$(COBC) $(CFLAGS) 		JNIWRTTEST4.cob -o JNIWRTTEST4
 	$(COBC) $(CFLAGS) 		JNISEQTEST4.cob -o JNISEQTEST4
 	$(COBC) $(CFLAGS) 		JNIOPTTEST.cob  -o JNIOPTTEST
+	$(COBC) $(CFLAGS) 		JNIMAINTEST.cob -o JNIMAINTEST
+	$(COBC) $(MFLAGS) 		JNISUBTEST.cob  -o JNISUBTEST.so
 
 clean_cobs:
 	rm ACMSEQTEST.cob
@@ -93,6 +106,8 @@ clean_cobs:
 	rm ACMWRTTEST4.cob
 	rm ACMSEQTEST4.cob
 	rm ACMOPTTEST.cob
+	rm ACMMAINTEST.cob
+	rm ACMSUBTEST.cob
 	rm JNISEQTEST.cob
 	rm JNIWRTTEST.cob
 	rm JNISEQTEST2.cob
@@ -105,6 +120,8 @@ clean_cobs:
 	rm JNISEQTEST4.cob
 	rm JNIOPTTEST.cob
 	rm ACMCONSTS.CBL
+	rm JNIMAINTEST.cob
+	rm JNISUBTEST.cob
 
 clean_stdobj:
 	rm SEQTEST
@@ -114,7 +131,12 @@ clean_stdobj:
 	rm STTTEST
 	rm DYNTEST
 	rm IDXTEST
-	
+	rm WRTTEST4
+	rm SEQTEST4
+	rm OPTTEST
+	rm MAINTEST
+	rm SUBTEST
+
 clean_acmobj:
 	rm ACMSEQTEST
 	rm ACMWRTTEST
@@ -127,6 +149,8 @@ clean_acmobj:
 	rm ACMWRTTEST4
 	rm ACMSEQTEST4
 	rm ACMOPTTEST
+	rm ACMMAINTEST
+	rm ACMSUBTEST
 	
 clean_jniobj:
 	rm JNISEQTEST
@@ -140,6 +164,8 @@ clean_jniobj:
 	rm JNIWRTTEST4
 	rm JNISEQTEST4
 	rm JNIOPTTEST
+	rm ACMMAINTEST
+	rm ACMSUBTEST
 	
 clean_obj: clean_stdobj clean_acmobj clean_jniobj
 

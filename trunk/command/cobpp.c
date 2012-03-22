@@ -87,7 +87,7 @@ int main (int argc, char *argv[]) {
 			case 's':
                 charset = optarg;
 				break;
-			case 's':
+			case 'b':
                 subprogram = "true";
 				break;
 			case 'h':
