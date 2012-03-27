@@ -830,7 +830,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		} else if (isInInsert()) {
 			if (Pattern.matches(CobolConsts.ACMINSERTEND, text)) {
-				insertComment(text);
+				whenInsertEnd(text);
 			} else {
 				insertComment(text);
 			}
