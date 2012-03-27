@@ -2,7 +2,12 @@
 000200*サンプルプログラム
 000300*入力ファイル(SEQ)→出力ファイル(SEQ)の転記処理
 000400 IDENTIFICATION              DIVISION.
+      *ACMCOMMENTSTART
 000500 PROGRAM-ID.                 SUBTEST.
+      *ACMCOMMENTEND
+      *ACMINSERTSTART
+      *PROGRAM-ID.                 JNISUBTEST.
+      *ACMINSERTEND
 000600*AUTHOR.                     KENJI KIMURA.
 000700 ENVIRONMENT                 DIVISION.
 000800 CONFIGURATION               SECTION.
