@@ -152,6 +152,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	private String section = null;
 	private Hashtable<String, DefaultFileInfo> selectnametofile = new Hashtable<String, DefaultFileInfo>();
 	private Stack<String> stack = new Stack<String>();
+	private boolean inCommentOut = false, inInsert = false;
 	/**
 	 * Constructor
 	 * 
@@ -685,6 +686,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return false;
 	}
 	/**
+	 * Comment Out Row
+	 * @param text logical row
+	 */
+	void commentOut(String text) {
+		String right = (text.length() > 1 ? text.substring(1) : "");
+		add("*" + right);
+	}
+	/**
 	 * create StringTokenizer from buffer
 	 * 
 	 * @return StringTokenizer
@@ -769,6 +778,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return selectnametofile;
 	}
 	/**
+	 * Insert Row
+	 * @param text logical row
+	 */
+	void insertComment(String text) {
+		String right = (text.length() > 1 ? text.substring(1) : "");
+		add(" " + right);
+	}
+	/**
 	 * Expand Copy Statement?
 	 * 
 	 * @return true yes<br/>
@@ -778,16 +795,44 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return owner.isExpandCopy();
 	}
 	/**
+	 * Comment outing...
+	 * 
+	 * @return in/out
+	 */
+	public boolean isInCommentOut() {
+		return inCommentOut;
+	}
+	/**
+	 * Inserting...
+	 * 
+	 * @return in/out
+	 */
+	public boolean isInInsert() {
+		return inInsert;
+	}
+	/**
 	 * Parse Text
 	 * 
 	 * @param text logical row
 	 */
 	public void parse(String text) {
-		if (inCopy && isExpandCopy()) {
+		if (isInCommentOut()) {
+			if (Pattern.matches(CobolConsts.ACMCOMMENTEND, text)) {
+				whenCommentEnd(text);
+			} else {
+				commentOut(text);
+			}
+		} else if (inCopy && isExpandCopy()) {
 			if (Pattern.matches(CobolConsts.PERIOD, text)) {
 				whenOnlyPeriod(text);
 			} else {
 				whenNoMatchAny(text);
+			}
+		} else if (isInInsert()) {
+			if (Pattern.matches(CobolConsts.ACMINSERTEND, text)) {
+				insertComment(text);
+			} else {
+				insertComment(text);
 			}
 		} else {
 			if (Pattern.matches(CobolConsts.ACMSTART, text)) {
@@ -808,6 +853,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 				whenACMGetOption(text);
 			} else if (Pattern.matches(CobolConsts.ACMSETOPTION, text)) {
 				whenACMSetOption(text);
+			} else if (Pattern.matches(CobolConsts.ACMCOMMENTSTART, text)) {
+				whenCommentStart(text);
+			} else if (Pattern.matches(CobolConsts.ACMCOMMENTEND, text)) {
+				whenCommentEnd(text);
+			} else if (Pattern.matches(CobolConsts.ACMINSERTSTART, text)) {
+				whenInsertStart(text);
+			} else if (Pattern.matches(CobolConsts.ACMINSERTEND, text)) {
+				whenInsertEnd(text);
 			} else if (Pattern.matches(CobolConsts.COMMENT, text)) {
 				add(text);
 			} else if (Pattern.matches(CobolConsts.DIVISION, text)) {
@@ -1631,6 +1684,22 @@ public class TCPCodeGenerator implements CodeGenerator {
 		currentlists.push(currentlist);
 	}
 	/**
+	 * Comment outing...
+	 * 
+	 * @param inCommentOut in/out
+	 */
+	public void setInCommentOut(boolean inCommentOut) {
+		this.inCommentOut = inCommentOut;
+	}
+	/**
+	 * Inserting
+	 * 
+	 * @param inInsert in/out
+	 */
+	public void setInInsert(boolean inInsert) {
+		this.inInsert = inInsert;
+	}
+	/**
 	 * Set GeneratorOwner
 	 * 
 	 * @param owner GeneratorOwner
@@ -1836,6 +1905,20 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
+	 * End of Comment
+	 * @param text logical row
+	 */
+	void whenCommentEnd(String text) {
+		setInCommentOut(false);
+	}
+	/**
+	 * Start of Comment
+	 * @param text logical row
+	 */
+	void whenCommentStart(String text) {
+		setInCommentOut(true);
+	}
+	/**
 	 * copy statement
 	 * 
 	 * @param text line
@@ -1990,6 +2073,20 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void whenFileControl(String text) {
 		add("*" + text);
 		current = CobolConsts.FILECONTROL;
+	}
+	/**
+	 * End of Insert
+	 * @param text logical row
+	 */
+	void whenInsertEnd(String text) {
+		setInInsert(false);
+	}
+	/**
+	 * Start of Insert
+	 * @param text logical row
+	 */
+	void whenInsertStart(String text) {
+		setInInsert(true);
 	}
 	/**
 	 * LABEL

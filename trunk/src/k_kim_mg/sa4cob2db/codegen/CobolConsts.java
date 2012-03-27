@@ -10,6 +10,17 @@ package k_kim_mg.sa4cob2db.codegen;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract class CobolConsts {
+	//////////////////////////
+	// Don't Sort Members!! //
+	//////////////////////////
+	/** Start of Comment out */
+	public static final String ACMCOMMENTSTART = "^\\*ACMCOMMENTSTART.*";
+	/** End of Comment out */
+	public static final String ACMCOMMENTEND = "^\\*ACMCOMMENTEND.*";
+	/** Start of Comment in */
+	public static final String ACMINSERTSTART = "^\\*ACMINSERTSTART.*";
+	/** End of Comment in */
+	public static final String ACMINSERTEND = "^\\*ACMINSERTEND.*";
 	/**Declare Start of AMFILE */
 	public static final String ACMSTART = "^\\*ACMFILE\\s*";
 	/**Declaration of ACM Record Name */
