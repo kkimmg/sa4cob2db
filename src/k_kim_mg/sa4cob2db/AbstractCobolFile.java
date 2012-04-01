@@ -605,6 +605,22 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * 
 	 * @param record1 レコードバイト配列
 	 * @param record2 レコードバイト配列
+	 * @param byValue キー比較を列の値として評価するかどうか
+	 * @return STATUS_EQUAL キーが等しい <br/>
+	 *         STATUS_REC1 record1のキーが小さい <br/>
+	 *         STATUS_REC2 record2のキーが小さい
+	 * @throws CobolRecordException
+	 */
+	protected int compare(byte[] record1, byte[] record2, boolean byValue) throws CobolRecordException {
+		if (byValue)
+			return compare_byValue(record1, record2);
+		return compare_byBytes(record1, record2);
+	}
+	/**
+	 * レコードバイト配列の比較 キー列を比較する
+	 * 
+	 * @param record1 レコードバイト配列
+	 * @param record2 レコードバイト配列
 	 * @return STATUS_EQUAL キーが等しい <br/>
 	 *         STATUS_REC1 record1のキーが小さい <br/>
 	 *         STATUS_REC2 record2のキーが小さい
@@ -635,22 +651,6 @@ public abstract class AbstractCobolFile implements CobolFile {
 			i++;
 		}
 		return ret;
-	}
-	/**
-	 * レコードバイト配列の比較 キー列を比較する
-	 * 
-	 * @param record1 レコードバイト配列
-	 * @param record2 レコードバイト配列
-	 * @param byValue キー比較を列の値として評価するかどうか
-	 * @return STATUS_EQUAL キーが等しい <br/>
-	 *         STATUS_REC1 record1のキーが小さい <br/>
-	 *         STATUS_REC2 record2のキーが小さい
-	 * @throws CobolRecordException
-	 */
-	protected int compare(byte[] record1, byte[] record2, boolean byValue) throws CobolRecordException {
-		if (byValue)
-			return compare_byValue(record1, record2);
-		return compare_byBytes(record1, record2);
 	}
 	/**
 	 * レコードバイト配列の比較 キー列を比較する
