@@ -58,7 +58,7 @@ cobc_std:
 	$(COBC) $(CFLAGS) 		IDXTEST.cob    -o IDXTEST
 	$(COBC) $(CFLAGS) 		WRTTEST4.cob   -o WRTTEST4
 	$(COBC) $(CFLAGS) 		SEQTEST4.cob   -o SEQTEST4
-	$(COBC) $(CFLAGS) 		OPTTEST.cob    -o IDXTEST
+	$(COBC) $(CFLAGS) 		OPTTEST.cob    -o OPTTEST
 	$(COBC) $(CFLAGS) 		MAINTEST.cob   -o MAINTEST
 	$(COBC) $(MFLAGS) 		SUBTEST.cob    -o SUBTEST.so
 

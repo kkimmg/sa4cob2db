@@ -11,9 +11,9 @@
 	<property name="maxsessions">10</property>
 	<otherofset name = "otherofset1">CustromNodeTest</otherofset>
 	<otherofmeta name = "otherofmeta1">CustromNodeTest</otherofmeta>
-	<metadata name="idxtest" encode="UTF-8">
+	<metadata name="idxtest" encode="UTF-8" keyval="true">
 		<statement>
-			select seisu, id from test where seisu >= 0 order by seisu</statement>
+			select seisu, id from test order by seisu</statement>
 		<sqlcolumn name="seisu" type="1" start="0" length="7"
 			signed="true" originalColumnName="seisu" defaultString="" readIgnore="false"
 			rewriteIgnore="false" writeIgnore="false" />
