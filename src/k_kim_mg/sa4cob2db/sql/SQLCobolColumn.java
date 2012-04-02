@@ -226,7 +226,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 			dst.updateBigDecimal(this, src.getBigDecimal(originalName));
 			break;
 		case CobolColumn.TYPE_XCHAR:
-			dst.updateString(this, src.getString(originalName).trim());
+			dst.updateString(this, src.getString(originalName));
 			break;
 		case CobolColumn.TYPE_DATE:
 			dst.updateDate(this, src.getDate(originalName));
