@@ -937,8 +937,8 @@ public abstract class AbstractCobolFile implements CobolFile {
 					Iterator<Map.Entry<CobolColumn, CobolColumn>> ite = set.iterator();
 					while (ite.hasNext()) {
 						Map.Entry<CobolColumn, CobolColumn> ent = ite.next();
-						CobolColumn indexColumn = ent.getKey();
-						CobolColumn fileColumn = ent.getValue();
+						CobolColumn indexColumn = ent.getValue();
+						CobolColumn fileColumn = ent.getKey();
 						mainrecord.updateBytes(fileColumn, indexrecord.getBytes(indexColumn));
 					}
 					// 主ファイルを検索
@@ -1123,8 +1123,8 @@ public abstract class AbstractCobolFile implements CobolFile {
 					Iterator<Map.Entry<CobolColumn, CobolColumn>> ite1 = set1.iterator();
 					while (ite1.hasNext()) {
 						Map.Entry<CobolColumn, CobolColumn> ent1 = ite1.next();
-						CobolColumn indexColumn = ent1.getKey();
-						CobolColumn fileColumn = ent1.getValue();
+						CobolColumn indexColumn = ent1.getValue();
+						CobolColumn fileColumn = ent1.getKey();
 						mainrecord.updateBytes(fileColumn, indexrecord.getBytes(indexColumn));
 					}
 					mainrecord.getRecord(record);
