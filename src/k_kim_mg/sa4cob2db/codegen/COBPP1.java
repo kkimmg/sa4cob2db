@@ -64,7 +64,8 @@ public class COBPP1 implements GeneratorOwner {
 	 * @param s_subprogram true if processing program is subprogram
 	 * @param acm_charset
 	 */
-	public static void main_too(String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass, String acm_charset, String s_subprogram) {
+	public static void main_too(String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass,
+			String acm_charset, String s_subprogram) {
 		String[] argv = new String[] { infile, outfile };
 		if (informat.trim().length() > 0) {
 			System.setProperty("informat", informat.trim());
@@ -317,7 +318,7 @@ public class COBPP1 implements GeneratorOwner {
 			while (row != null) {
 				String text = row;
 				if (!infreeformat) {
-					text = row.substring(6);
+					text = row.substring(6, (row.length() > 73 ? 73 : row.length()));
 				}
 				generator.parse(text);
 				row = br.readLine();
