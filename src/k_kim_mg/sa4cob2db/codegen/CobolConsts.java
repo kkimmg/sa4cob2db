@@ -124,5 +124,5 @@ public abstract class CobolConsts {
 	/**WRITE Command*/
 	public static final String WRITE = "^\\s*[wW][rR][iI][tT][eE]\\s.*";
 	/**Name of file that includes Literals*/
-	static String ACMCONSTS_FILE = "ACMCONSTS.CBL";
+	public static String ACMCONSTS_FILE = "ACMCONSTS.CBL";
 }

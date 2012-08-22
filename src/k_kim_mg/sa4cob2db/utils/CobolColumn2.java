@@ -24,6 +24,16 @@ public interface CobolColumn2 extends CobolColumn {
 	public int getOccurs();
 	public void setOccurs(int ocuurs);
 	/**
+	 * 再定義項目
+	 * @return 再定義項目の名前
+	 */
+	public String getRedefines();
+	/**
+	 * 再定義項目
+	 * @param redefines 再定義項目の名前
+	 */
+	public void setRedefines(String redefines);
+	/**
 	 * XMLノードに出力する
 	 * 
 	 * @param document XML Document
@@ -33,4 +43,9 @@ public interface CobolColumn2 extends CobolColumn {
 	 * @return 終了位置
 	 */
 	public int exportToNode(Document document, Node parent, int start, String fix);
+	/**
+	 * Is This Valid Column?
+	 * @return true/false
+	 */
+	public boolean isValidColumn();
 }
