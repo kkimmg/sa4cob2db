@@ -1,8 +1,9 @@
 package k_kim_mg.sa4cob2db.utils;
+import java.util.List;
 import k_kim_mg.sa4cob2db.CobolColumn;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-public interface CobolColumn2 extends CobolColumn {
+public interface CobolColumn2 extends CobolColumn, List<CobolColumn2> {
 	/**
 	 * 分析する
 	 * @param logical 論理行
