@@ -7,7 +7,10 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*implements CobolColumn2*/ {
+public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
+																		 * implements
+																		 * CobolColumn2
+																		 */{
 	static final int CUR_NONE = 0;
 	static final int CUR_LEVEL = 1;
 	static final int CUR_NAME = 2;
@@ -38,7 +41,6 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*implem
 	static final int TYPE_V = 8;
 	public MetadataCobolColumn() {
 	}
-	
 	public CobolColumn createCopy(CobolRecordMetaData meta) {
 		return null;
 	}
@@ -64,10 +66,21 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*implem
 			map.setNamedItem(setNodeAttribute(document, "type", getType()));
 			map.setNamedItem(setNodeAttribute(document, "start", start));
 			map.setNamedItem(setNodeAttribute(document, "length", getLength()));
-			map.setNamedItem(setNodeAttribute(document, "signed", isSigned()));
-			map.setNamedItem(setNodeAttribute(document, "format", getFormat()));
-			map.setNamedItem(setNodeAttribute(document, "forNull", getForNull()));
-			map.setNamedItem(setNodeAttribute(document, "ifNull", getIfNull()));
+			if (isSigned()) {
+				map.setNamedItem(setNodeAttribute(document, "signed", isSigned()));
+			}
+			String l_format = getFormat();
+			if (l_format != null && l_format.length() > 0) {
+				map.setNamedItem(setNodeAttribute(document, "format", getFormat()));
+			}
+			String l_forNull = getForNull();
+			if (l_forNull != null && l_forNull.length() > 0) {
+				map.setNamedItem(setNodeAttribute(document, "forNull", getForNull()));
+			}
+			String l_ifNull = getIfNull();
+			if (l_ifNull != null && l_ifNull.length() > 0) {
+				map.setNamedItem(setNodeAttribute(document, "ifNull", getIfNull()));
+			}
 			parent.appendChild(node);
 			ret = start + getLength();
 		}
@@ -76,75 +89,57 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*implem
 		}
 		return ret;
 	}
-	
 	public CobolRecordMetaData getCobolRecordMetaData() {
 		return null;
 	}
-	
 	public String getFormat() {
 		return format;
 	}
-	
 	public String getForNull() {
 		return forNull;
 	}
-	
 	public String getIfNull() {
 		return ifNull;
 	}
-	
 	public int getLength() {
 		return length;
 	}
-	
 	public int getLevel() {
 		return level;
 	}
-	
 	public String getName() {
 		return name;
 	}
-	
 	public int getNumberOfDecimal() {
 		return numberOfDecimal;
 	}
-	
 	public int getOccurs() {
 		return occurs;
 	}
-	
 	public CobolColumn getOriginalCobolColumn() {
 		return null;
 	}
-	
 	public int getPhysicalLength() {
 		return getLength();
 	}
-	
 	public String getRedefines() {
 		return redefines;
 	}
-	
 	public int getStart() {
 		return start;
 	}
-	
 	public int getType() {
 		return type;
 	}
-	
 	public Object getValueOfParseError() {
 		return null;
 	}
-	
 	public boolean isSigned() {
 		return signed;
 	}
-	
 	public boolean isUseOnParseError() {
 		return false;
 	}
-	
 	public boolean isValidColumn() {
 		return validColumn;
 	}
@@ -159,7 +154,6 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*implem
 		}
 		return ret;
 	}
-	
 	public int parce(String logical) {
 		int status = CUR_NONE;
 		StringTokenizer tokenizer = new StringTokenizer(logical);
@@ -307,10 +301,18 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*implem
 		} else {
 			if ((l_type & TYPE_9) == TYPE_9) {
 				if ((l_type & TYPE_V) == TYPE_V) {
-					setType(CobolColumn.TYPE_DOUBLE);
+					if ((Math.pow(10, l_length) - 1) > Float.MAX_VALUE) {
+						setType(CobolColumn.TYPE_DOUBLE);
+					} else {
+						setType(CobolColumn.TYPE_FLOAT);
+					}
 					setNumberOfDecimal(l_decimal);
 				} else {
-					setType(CobolColumn.TYPE_LONG);
+					if ((int) (Math.pow(10, l_length) - 1) > Integer.MAX_VALUE) {
+						setType(CobolColumn.TYPE_LONG);
+					} else {
+						setType(CobolColumn.TYPE_INTEGER);
+					}
 				}
 				if (l_format.length() > 0) {
 					setFormat(l_format.toString());
@@ -322,29 +324,23 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*implem
 		}
 		return CUR_OTHER;
 	}
-	
 	public void setCobolRecordMetaData(CobolRecordMetaData cobolRecordMetaData) {
 	}
-	
 	public void setFormat(String format) {
 		this.format = format;
 	}
-	
 	public void setForNull(String forNull) {
 		this.forNull = forNull;
 	}
-	
 	public void setIfNull(String ifNull) {
 		this.ifNull = ifNull;
 	}
-	
 	public void setLength(int length) {
 		this.length = length;
 	}
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -359,7 +355,6 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*implem
 		attr.setValue(value);
 		return attr;
 	}
-	
 	public void setNumberOfDecimal(int decimal) {
 		this.numberOfDecimal = decimal;
 	}
@@ -368,31 +363,22 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*implem
 			return;
 		this.occurs = occurs;
 	}
-	
 	public void setOriginalCobolColumn(CobolColumn original) {
 	}
-	
 	public void setPhysicalLength(int length) {
 		setLength(length);
 	}
-	
 	public void setRedefines(String redefines) {
 		this.redefines = redefines;
 	}
-	
 	public void setSigned(boolean signed) {
 		this.signed = signed;
 	}
-	
 	public void setStart(int start) {
 		this.start = start;
 	}
-	
 	public void setType(int type) {
 		this.type = type;
-	}
-	
-	public void setUseOnParseError(boolean useOnParseError) {
 	}
 	/**
 	 * set ValidColumn
@@ -401,8 +387,5 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*implem
 	 */
 	public void setValidColumn(boolean validColumn) {
 		this.validColumn = validColumn;
-	}
-	
-	public void setValueOfParseError(Object valueOfParseError) {
 	}
 }
