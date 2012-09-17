@@ -9,7 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
-	private MetadataCobolColumn dummy = new MetadataCobolColumn() {
+	private MetadataCobolColumn dummy = new MetadataCobolColumn(this) {
 		public int getLevel() {
 			return -1;
 		}
@@ -35,7 +35,7 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 		return ret;
 	}
 	public void parse(String txt) {
-		MetadataCobolColumn work = new MetadataCobolColumn();
+		MetadataCobolColumn work = new MetadataCobolColumn(this);
 		int i = work.parce(txt);
 		if (i == 1) {
 			if (root == null) {
@@ -68,5 +68,11 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 			parent.add(work);
 		}
 		previous = work;
+	}
+	public boolean containsKey (String key) {
+		return map.containsKey(key);
+	}
+	public MetadataCobolColumn get (String key) {
+		return map.get(key);
 	}
 }

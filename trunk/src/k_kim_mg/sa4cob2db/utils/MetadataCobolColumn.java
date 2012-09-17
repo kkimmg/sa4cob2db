@@ -39,10 +39,9 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 	static final int TYPE_9 = 2;
 	static final int TYPE_S = 4;
 	static final int TYPE_V = 8;
-	public MetadataCobolColumn() {
-	}
-	public CobolColumn createCopy(CobolRecordMetaData meta) {
-		return null;
+	MetaCobolRecordMetaData meta;
+	public MetadataCobolColumn(MetaCobolRecordMetaData meta) {
+		this.meta = meta;
 	}
 	public int exportToNode(Document document, Node parent, int start, String fix) {
 		int ret = start;
@@ -59,10 +58,21 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 	int exportToNode1(Document document, Node parent, int start, String fix) {
 		int ret = start;
 		Node node;
+		String l_redefines = getRedefines();
+		if (l_redefines != null && l_redefines.length() > 0) {
+			if (meta.containsKey(l_redefines)) {
+				MetadataCobolColumn src = meta.get(l_redefines);
+				if (src != null) {
+					start = src.getStart();
+					ret = start;
+				}
+			}
+		}
+		this.start = start;
 		if (getLength() > 0) {
 			node = document.createElement("sqlcolumn");
 			NamedNodeMap map = node.getAttributes();
-			map.setNamedItem(setNodeAttribute(document, "name", getName()));
+			map.setNamedItem(setNodeAttribute(document, "name", getName() + fix));
 			map.setNamedItem(setNodeAttribute(document, "type", getType()));
 			map.setNamedItem(setNodeAttribute(document, "start", start));
 			map.setNamedItem(setNodeAttribute(document, "length", getLength()));
@@ -71,15 +81,19 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 			}
 			String l_format = getFormat();
 			if (l_format != null && l_format.length() > 0) {
-				map.setNamedItem(setNodeAttribute(document, "format", getFormat()));
+				map.setNamedItem(setNodeAttribute(document, "format", l_format));
 			}
 			String l_forNull = getForNull();
 			if (l_forNull != null && l_forNull.length() > 0) {
-				map.setNamedItem(setNodeAttribute(document, "forNull", getForNull()));
+				map.setNamedItem(setNodeAttribute(document, "forNull", l_forNull));
 			}
 			String l_ifNull = getIfNull();
 			if (l_ifNull != null && l_ifNull.length() > 0) {
-				map.setNamedItem(setNodeAttribute(document, "ifNull", getIfNull()));
+				map.setNamedItem(setNodeAttribute(document, "ifNull", l_ifNull));
+			}
+			int decimal = getNumberOfDecimal();
+			if (decimal > 0) {
+				map.setNamedItem(setNodeAttribute(document, "decimal", String.valueOf(decimal)));
 			}
 			parent.appendChild(node);
 			ret = start + getLength();
@@ -152,7 +166,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 				ret = trimToken(r2);
 			}
 		}
-		return ret;
+		return ret.toUpperCase();
 	}
 	public int parce(String logical) {
 		int status = CUR_NONE;
@@ -173,13 +187,13 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 					status = CUR_NAME;
 					break;
 				case CUR_NAME:
-					if (curr.equalsIgnoreCase("PIC") || curr.equalsIgnoreCase("PICTURE")) {
+					if (curr.equals("PIC") || curr.equals("PICTURE")) {
 						status = CUR_PIC;
 					}
-					if (curr == "OCCURS") {
+					if (curr.equals("OCCURS")) {
 						status = CUR_OCCURS;
 					}
-					if (curr.equalsIgnoreCase("REDEFINES")) {
+					if (curr.equals("REDEFINES")) {
 						status = CUR_REDEFINES;
 					}
 					break;
@@ -195,12 +209,16 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 					break;
 				case CUR_REDEFINES:
 					redefines = curr;
+					status = CUR_OTHER;
 					break;
 				case CUR_OTHER:
-					if (curr.equalsIgnoreCase("OCCURS")) {
+					if (curr.equals("OCCURS")) {
 						status = CUR_OCCURS;
-					} else if (curr == "USAGE") {
+					} else if (curr.equals("USAGE")) {
 						status = CUR_USAGE;
+					}
+					if (curr.equals("REDEFINES")) {
+						status = CUR_REDEFINES;
 					}
 					break;
 				}
@@ -212,7 +230,6 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 	}
 	int parcePicture(String token) {
 		String picture = token.trim();
-		System.out.println("parsepicture:" + picture);
 		int l_type = TYPE_NONE;
 		int l_length = 0;
 		int l_decimal = 0;
@@ -229,7 +246,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 					int temp = Integer.parseInt(text);
 					l_length += temp;
 					inKakko = false;
-					break;
+					// break;
 				} else {
 					buf.append(c);
 				}
@@ -247,7 +264,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 				case 'v':
 					l_decimal = l_length;
 					l_type |= TYPE_V;
-					System.out.println(l_type + ":" + TYPE_V + ":" + new String(new char[] { c }));
+					//System.out.println(l_type + ":" + TYPE_V + ":" + new String(new char[] { c }));
 					break;
 				case 'A':
 				case 'a':
@@ -256,21 +273,21 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 					t = c;
 					l_type |= TYPE_X;
 					l_length++;
-					System.out.println(l_type + ":" + TYPE_X + ":" + new String(new char[] { c }));
+					//System.out.println(l_type + ":" + TYPE_X + ":" + new String(new char[] { c }));
 					break;
 				case 'S':
 				case 's':
 					t = c;
 					l_type |= TYPE_S;
-					l_length++;
-					System.out.println(l_type + ":" + TYPE_S + ":" + new String(new char[] { c }));
+					// l_length++;
+					//System.out.println(l_type + ":" + TYPE_S + ":" + new String(new char[] { c }));
 					break;
 				case '9':
 					t = c;
 					l_type |= TYPE_9;
 					l_length++;
 					l_format.append('0');
-					System.out.println(l_type + ":" + TYPE_9 + ":" + new String(new char[] { c }));
+					//System.out.println(l_type + ":" + TYPE_9 + ":" + new String(new char[] { c }));
 					break;
 				case 'Z':
 				case 'z':
@@ -278,7 +295,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 					l_type |= TYPE_9;
 					l_length++;
 					l_format.append('#');
-					System.out.println(l_type + ":" + TYPE_9 + ":" + new String(new char[] { c }));
+					//System.out.println(l_type + ":" + TYPE_9 + ":" + new String(new char[] { c }));
 					break;
 				case '.':
 					if (i < picture.length()) {
@@ -286,7 +303,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 						l_decimal = l_length;
 						l_length++;
 						l_format.append(".");
-						System.out.println(l_type + ":" + TYPE_V + ":" + new String(new char[] { c }));
+						//System.out.println(l_type + ":" + TYPE_V + ":" + new String(new char[] { c }));
 					}
 					break;
 				default:
