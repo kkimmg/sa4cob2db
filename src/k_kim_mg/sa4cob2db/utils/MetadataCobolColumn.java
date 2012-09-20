@@ -1,5 +1,6 @@
 package k_kim_mg.sa4cob2db.utils;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.StringTokenizer;
 import k_kim_mg.sa4cob2db.CobolColumn;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
@@ -11,6 +12,11 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 																		 * implements
 																		 * CobolColumn2
 																		 */{
+	public static Properties reps;
+	static {
+		reps = new Properties();
+		reps.setProperty("-", "_");
+	}
 	static final int CUR_NONE = 0;
 	static final int CUR_LEVEL = 1;
 	static final int CUR_NAME = 2;
@@ -22,7 +28,6 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 	public static String HF = "_";
 	private int level = 0;
 	private int occurs = 0;
-	// private List<CobolColumn2> lowers = new ArrayList<CobolColumn2>();
 	private String format;
 	private String forNull;
 	private String ifNull;
@@ -73,6 +78,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 			node = document.createElement("sqlcolumn");
 			NamedNodeMap map = node.getAttributes();
 			map.setNamedItem(setNodeAttribute(document, "name", getName() + fix));
+			map.setNamedItem(setNodeAttribute(document, "originalColumnName", getOriginalColumnName() + fix));
 			map.setNamedItem(setNodeAttribute(document, "type", getType()));
 			map.setNamedItem(setNodeAttribute(document, "start", start));
 			map.setNamedItem(setNodeAttribute(document, "length", getLength()));
@@ -103,8 +109,16 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 		}
 		return ret;
 	}
-	public CobolRecordMetaData getCobolRecordMetaData() {
-		return null;
+	public String getOriginalColumnName() {
+		String ret = getName();
+		for (String x : reps.stringPropertyNames()) {
+			String val = reps.getProperty(x);
+			ret = ret.replaceAll(x, val);
+		}
+		return ret;
+	}
+	public MetaCobolRecordMetaData getCobolRecordMetaData() {
+		return meta;
 	}
 	public String getFormat() {
 		return format;
@@ -130,9 +144,6 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 	public int getOccurs() {
 		return occurs;
 	}
-	public CobolColumn getOriginalCobolColumn() {
-		return null;
-	}
 	public int getPhysicalLength() {
 		return getLength();
 	}
@@ -145,14 +156,8 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 	public int getType() {
 		return type;
 	}
-	public Object getValueOfParseError() {
-		return null;
-	}
 	public boolean isSigned() {
 		return signed;
-	}
-	public boolean isUseOnParseError() {
-		return false;
 	}
 	public boolean isValidColumn() {
 		return validColumn;
@@ -264,7 +269,8 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 				case 'v':
 					l_decimal = l_length;
 					l_type |= TYPE_V;
-					//System.out.println(l_type + ":" + TYPE_V + ":" + new String(new char[] { c }));
+					// System.out.println(l_type + ":" + TYPE_V + ":" + new
+					// String(new char[] { c }));
 					break;
 				case 'A':
 				case 'a':
@@ -273,21 +279,24 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 					t = c;
 					l_type |= TYPE_X;
 					l_length++;
-					//System.out.println(l_type + ":" + TYPE_X + ":" + new String(new char[] { c }));
+					// System.out.println(l_type + ":" + TYPE_X + ":" + new
+					// String(new char[] { c }));
 					break;
 				case 'S':
 				case 's':
 					t = c;
 					l_type |= TYPE_S;
 					// l_length++;
-					//System.out.println(l_type + ":" + TYPE_S + ":" + new String(new char[] { c }));
+					// System.out.println(l_type + ":" + TYPE_S + ":" + new
+					// String(new char[] { c }));
 					break;
 				case '9':
 					t = c;
 					l_type |= TYPE_9;
 					l_length++;
 					l_format.append('0');
-					//System.out.println(l_type + ":" + TYPE_9 + ":" + new String(new char[] { c }));
+					// System.out.println(l_type + ":" + TYPE_9 + ":" + new
+					// String(new char[] { c }));
 					break;
 				case 'Z':
 				case 'z':
@@ -295,7 +304,8 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 					l_type |= TYPE_9;
 					l_length++;
 					l_format.append('#');
-					//System.out.println(l_type + ":" + TYPE_9 + ":" + new String(new char[] { c }));
+					// System.out.println(l_type + ":" + TYPE_9 + ":" + new
+					// String(new char[] { c }));
 					break;
 				case '.':
 					if (i < picture.length()) {
@@ -303,7 +313,8 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 						l_decimal = l_length;
 						l_length++;
 						l_format.append(".");
-						//System.out.println(l_type + ":" + TYPE_V + ":" + new String(new char[] { c }));
+						// System.out.println(l_type + ":" + TYPE_V + ":" + new
+						// String(new char[] { c }));
 					}
 					break;
 				default:
@@ -380,11 +391,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 			return;
 		this.occurs = occurs;
 	}
-	public void setOriginalCobolColumn(CobolColumn original) {
-	}
-	public void setPhysicalLength(int length) {
-		setLength(length);
-	}
+
 	public void setRedefines(String redefines) {
 		this.redefines = redefines;
 	}
@@ -399,7 +406,6 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 	}
 	/**
 	 * set ValidColumn
-	 * 
 	 * @param validColumn true/false
 	 */
 	public void setValidColumn(boolean validColumn) {

@@ -16,7 +16,7 @@ import k_kim_mg.sa4cob2db.codegen.CobolConsts;
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
-public class COBPP2 /* implements GeneratorOwner */{
+public class Cbl2MetaData{
 	private InputStream input;
 	private boolean infreeformat = false;
 	private boolean expandCopy = false;
@@ -30,7 +30,7 @@ public class COBPP2 /* implements GeneratorOwner */{
 	 * @param argv filename and other's
 	 */
 	public static void main(String[] argv) {
-		COBPP2 cobpp = new COBPP2(argv);
+		Cbl2MetaData cobpp = new Cbl2MetaData(argv);
 		cobpp.run();
 		System.exit(0);
 	}
@@ -92,7 +92,7 @@ public class COBPP2 /* implements GeneratorOwner */{
 	 * 
 	 * @param argv argument values
 	 */
-	public COBPP2(String[] argv) {
+	public Cbl2MetaData(String[] argv) {
 		String csn = "";
 		// input file
 		String infile = (argv.length > 0 ? argv[0].trim() : "");

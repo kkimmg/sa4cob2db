@@ -76,7 +76,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	 * @throws CobolRecordException
 	 */
 	public String getOriginalColumnName() throws CobolRecordException {
-		return originalColumnName;
+		return (originalColumnName != null && originalColumnName.length() > 0 ? originalColumnName : getName());
 	}
 	/**
 	 * 読み込み時にこの列を無視するかどうか
