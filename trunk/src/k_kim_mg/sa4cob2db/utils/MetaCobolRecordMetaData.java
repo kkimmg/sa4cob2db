@@ -27,7 +27,7 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 			Node node = document.createElement("metadata");
 			NamedNodeMap map = node.getAttributes();
 			Attr attr = document.createAttribute("name");
-			attr.setValue(root.getName());
+			attr.setValue(root.getOriginalColumnName());
 			map.setNamedItem(attr);
 			rootNode.appendChild(node);
 			ret = x.exportToNode(document, node, ret, "");
