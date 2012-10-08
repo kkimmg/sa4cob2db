@@ -28,6 +28,17 @@ public interface CobolColumn {
 	public static int TYPE_TIMESTAMP = 10;
 	/** 英数字型 */
 	public static int TYPE_XCHAR = 2;
+	/** USAGE DISPLAY (Default) */
+	public static int USAGE_DISPLAY = 0;
+	/** USAGE DISPLAY (Binary Or Computatinal) */
+	public static int USAGE_BINARY = 1;
+	/** USAGE DISPLAY (Packed Decimal or Comp-3) */
+	public static int USAGE_COMP_3 = 2;
+	/** USAGE DISPLAY (National Characters) */
+	public static int USAGE_NATIONAL = 4;
+	/** USAGE DISPLAY (Index) */
+	public static int USAGE_INDEX = 8;
+
 	/**
 	 * コピーの作成
 	 * @return コピー？
@@ -176,4 +187,14 @@ public interface CobolColumn {
 	 * @param valueOfParseError 代替の値
 	 */
 	public void setValueOfParseError(Object valueOfParseError);
+	/**
+	 * get Usage
+	 * @return Usage int value (Display = 0...)
+	 */
+	public int getUsage();
+	/**
+	 * set Usage
+	 * @param usage int value (Display = 0...)
+	 */
+	public void setUsage(int usage);
 }

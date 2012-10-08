@@ -10,6 +10,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 	private MetadataCobolColumn dummy = new MetadataCobolColumn(this) {
+		private static final long serialVersionUID = 1L;
+
 		public int getLevel() {
 			return -1;
 		}
