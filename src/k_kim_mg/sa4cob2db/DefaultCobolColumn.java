@@ -1,11 +1,13 @@
 package k_kim_mg.sa4cob2db;
 /**
  * デフォルトのコボル列
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class DefaultCobolColumn implements CobolColumn {
 	/**
 	 * データ型の文字表現（うーん・・・）
+	 * 
 	 * @param type データ型
 	 * @return 文字表現
 	 */
@@ -49,6 +51,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	private CobolRecordMetaData cobolRecordMetaData;
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getFormat()
 	 */
 	private String format;
@@ -58,11 +61,13 @@ public class DefaultCobolColumn implements CobolColumn {
 	private String ifNull = null;
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getLength
 	 */
 	private int length;
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getName
 	 */
 	private String name;
@@ -74,11 +79,13 @@ public class DefaultCobolColumn implements CobolColumn {
 	private boolean signed = false;
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getStart
 	 */
 	private int start;
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getType
 	 */
 	private int type;
@@ -86,8 +93,11 @@ public class DefaultCobolColumn implements CobolColumn {
 	private boolean useOnParseError = false;
 	/** バイト配列→オブジェクトの変換に失敗した場合 */
 	private Object valueOfParseError = null;
+	/** usage */
+	private int usage = CobolColumn.USAGE_DISPLAY;
 	/**
 	 * Constructor
+	 * 
 	 * @param meta メタデータ
 	 */
 	public DefaultCobolColumn(CobolRecordMetaData meta) {
@@ -95,6 +105,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/**
 	 * 属性をコピーする
+	 * 
 	 * @param copy コピー対象
 	 * @return コピー対象
 	 */
@@ -120,6 +131,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getCobolRecordMetaData()
 	 */
 	public CobolRecordMetaData getCobolRecordMetaData() {
@@ -127,6 +139,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getFormat()
 	 */
 	public String getFormat() {
@@ -134,6 +147,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/**
 	 * この値ならDBにNULLをセットする
+	 * 
 	 * @return 代替の値
 	 */
 	public String getForNull() {
@@ -141,6 +155,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/**
 	 * もしDB上の値がNULLなら
+	 * 
 	 * @return 代替の値
 	 */
 	public String getIfNull() {
@@ -148,6 +163,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getLength()
 	 */
 	public int getLength() {
@@ -155,6 +171,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getName()
 	 */
 	public String getName() {
@@ -162,6 +179,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getNumberOfDecimal()
 	 */
 	public int getNumberOfDecimal() {
@@ -169,6 +187,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getOriginalCobolColumn()
 	 */
 	public CobolColumn getOriginalCobolColumn() {
@@ -176,6 +195,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getPhysicalLength()
 	 */
 	public int getPhysicalLength() {
@@ -187,6 +207,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getStart()
 	 */
 	public int getStart() {
@@ -194,6 +215,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getType()
 	 */
 	public int getType() {
@@ -201,6 +223,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/**
 	 * バイト配列→オブジェクトの変換に失敗した場合
+	 * 
 	 * @return 代替の値
 	 */
 	public Object getValueOfParseError() {
@@ -208,6 +231,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#isSigned()
 	 */
 	public boolean isSigned() {
@@ -215,6 +239,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/**
 	 * バイト配列→オブジェクトの変換に失敗した場合、値を設定する
+	 * 
 	 * @return the するかしないか
 	 */
 	public boolean isUseOnParseError() {
@@ -222,8 +247,8 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * k_kim_mg.sa4cob2db.CobolColumn#setCobolRecordMetaData(jp.
+	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolColumn#setCobolRecordMetaData(jp.
 	 * ne.biglobe.mvh.k_kim_mg.acm.CobolRecordMetaData)
 	 */
 	public void setCobolRecordMetaData(CobolRecordMetaData cobolRecordMetaData) {
@@ -231,14 +256,15 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * k_kim_mg.sa4cob2db.CobolColumn#setFormat(java.lang.String)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolColumn#setFormat(java.lang.String)
 	 */
 	public void setFormat(String string) {
 		format = string;
 	}
 	/**
 	 * この値ならDBにNULLをセットする
+	 * 
 	 * @param forNull 代替の値
 	 */
 	public void setForNull(String forNull) {
@@ -246,6 +272,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/**
 	 * もしDB上の値がNULLなら
+	 * 
 	 * @param ifNull 代替の値
 	 */
 	public void setIfNull(String ifNull) {
@@ -253,6 +280,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#setLength(int)
 	 */
 	public void setLength(int i) {
@@ -260,6 +288,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#setName(java.lang.String)
 	 */
 	public void setName(String string) {
@@ -267,6 +296,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#setNumberOfDecimal(int)
 	 */
 	public void setNumberOfDecimal(int numberOfDecimal) {
@@ -274,8 +304,8 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * k_kim_mg.sa4cob2db.CobolColumn#setOriginalCobolColumn(jp.
+	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolColumn#setOriginalCobolColumn(jp.
 	 * ne.biglobe.mvh.k_kim_mg.acm.CobolColumn)
 	 */
 	public void setOriginalCobolColumn(CobolColumn original) {
@@ -283,12 +313,14 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#setPhysicalLength(int)
 	 */
 	public void setPhysicalLength(int length) {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#setSigned(boolean)
 	 */
 	public void setSigned(boolean signed) {
@@ -296,6 +328,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#setStart(int)
 	 */
 	public void setStart(int i) {
@@ -303,6 +336,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#setType(int)
 	 */
 	public void setType(int i) {
@@ -310,6 +344,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/**
 	 * バイト配列→オブジェクトの変換に失敗した場合、値を設定する
+	 * 
 	 * @param useOnParseError するかしないか
 	 */
 	public void setUseOnParseError(boolean useOnParseError) {
@@ -317,9 +352,18 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	/**
 	 * バイト配列→オブジェクトの変換に失敗した場合
+	 * 
 	 * @param valueOfParseError 代替の値
 	 */
 	public void setValueOfParseError(Object valueOfParseError) {
 		this.valueOfParseError = valueOfParseError;
+	}
+	@Override
+	public int getUsage() {
+		return this.usage;
+	}
+	@Override
+	public void setUsage(int usage) {
+		this.usage = usage;
 	}
 }
