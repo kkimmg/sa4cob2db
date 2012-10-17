@@ -114,6 +114,16 @@ public class NodeReadLoader {
 			} catch (NumberFormatException e) {
 			}
 		}
+		// decimal size
+		Node usage = map.getNamedItem("usage");
+		if (usage != null) {
+			String usagestr = usage.getNodeValue();
+			try {
+				int usageint = Integer.parseInt(usagestr);
+				column.setUsage(usageint);
+			} catch (NumberFormatException e) {
+			}
+		}
 		// format
 		Node format = map.getNamedItem("format");
 		if (format != null) {

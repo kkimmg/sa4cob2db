@@ -32,6 +32,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 	private String forNull;
 	private String ifNull;
 	private int length;
+	private int usage = 0;
 	private String name;
 	private int numberOfDecimal;
 	private int start;
@@ -100,6 +101,10 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 			int decimal = getNumberOfDecimal();
 			if (decimal > 0) {
 				map.setNamedItem(setNodeAttribute(document, "decimal", String.valueOf(decimal)));
+			}
+			int usage = getUsage();
+			if (usage > 0) {
+				map.setNamedItem(setNodeAttribute(document, "usage", String.valueOf(usage)));
 			}
 			parent.appendChild(node);
 			ret = start + getLength();
@@ -210,6 +215,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 					status = CUR_OTHER;
 					break;
 				case CUR_USAGE:
+					parceUsage(curr);
 					status = CUR_OTHER;
 					break;
 				case CUR_REDEFINES:
@@ -232,6 +238,18 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 			setLevel(0);
 		}
 		return getLevel();
+	}
+	void parceUsage(String token) {
+		String l_usage = token.trim();
+		if (l_usage.equals("BINARY") || l_usage.equals("BINARY.") || l_usage.equals("COMP") || l_usage.equals("COMP.") || l_usage.equals("COMPUTATIONAL") || l_usage.equals("COMPUTATIONAL.")) {
+			usage = CobolColumn.USAGE_BINARY;
+		} else if (l_usage.equals("PACKED-DECIMAL") || l_usage.equals("PACKED-DECIMAL.") || l_usage.equals("COMP-3") || l_usage.equals("COMP-3.") || l_usage.equals("COMPUTATIONAL-3") || l_usage.equals("COMPUTATIONAL-3.")) {
+			usage = CobolColumn.USAGE_COMP_3;
+		} else if (l_usage.equals("NATIONAL") || l_usage.equals("NATIONAL.")) {
+			usage = CobolColumn.USAGE_NATIONAL;
+		} else if (l_usage.equals("INDEX") || l_usage.equals("INDEX.")) {
+			usage = CobolColumn.USAGE_INDEX;
+		}
 	}
 	int parcePicture(String token) {
 		String picture = token.trim();
@@ -391,7 +409,6 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 			return;
 		this.occurs = occurs;
 	}
-
 	public void setRedefines(String redefines) {
 		this.redefines = redefines;
 	}
@@ -406,9 +423,13 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 	}
 	/**
 	 * set ValidColumn
+	 * 
 	 * @param validColumn true/false
 	 */
 	public void setValidColumn(boolean validColumn) {
 		this.validColumn = validColumn;
+	}
+	public int getUsage() {
+		return usage;
 	}
 }
