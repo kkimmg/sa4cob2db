@@ -101,6 +101,11 @@ public interface CobolColumn {
 	 */
 	public int getType();
 	/**
+	 * get Usage
+	 * @return Usage int value (Display = 0...)
+	 */
+	public int getUsage();
+	/**
 	 * バイト配列→オブジェクトの変換に失敗した場合
 	 * @return 代替の値
 	 */
@@ -178,6 +183,11 @@ public interface CobolColumn {
 	 */
 	public void setType(int type);
 	/**
+	 * set Usage
+	 * @param usage int value (Display = 0...)
+	 */
+	public void setUsage(int usage);
+	/**
 	 * バイト配列→オブジェクトの変換に失敗した場合、値を設定する
 	 * @param useOnParseError するかしないか
 	 */
@@ -187,14 +197,4 @@ public interface CobolColumn {
 	 * @param valueOfParseError 代替の値
 	 */
 	public void setValueOfParseError(Object valueOfParseError);
-	/**
-	 * get Usage
-	 * @return Usage int value (Display = 0...)
-	 */
-	public int getUsage();
-	/**
-	 * set Usage
-	 * @param usage int value (Display = 0...)
-	 */
-	public void setUsage(int usage);
 }

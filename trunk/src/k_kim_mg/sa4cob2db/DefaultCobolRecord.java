@@ -8,10 +8,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
-
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
  * デフォルトのコボルレコード
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class DefaultCobolRecord implements CobolRecord {
@@ -23,6 +23,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	private byte[] record;
 	/**
 	 * コボルレコード
+	 * 
 	 * @param meta メタデータ
 	 */
 	public DefaultCobolRecord(CobolRecordMetaData meta) {
@@ -30,6 +31,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * 列インデックスの取得 (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#findColumn(java.lang.String)
 	 */
 	public int findColumn(String columnName) throws CobolRecordException {
@@ -48,6 +50,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * k_kim_mg.sa4cob2db.CobolRecord#getBigDecimal(k_kim_mg.sa4cob2db.CobolColumn
 	 * )
@@ -65,6 +68,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * k_kim_mg.sa4cob2db.CobolRecord#getBoolean(k_kim_mg.sa4cob2db.CobolColumn)
 	 */
@@ -82,7 +86,9 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#getByte( k_kim_mg.sa4cob2db.CobolColumn)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getByte(
+	 * k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	public byte getByte(CobolColumn column) throws CobolRecordException {
 		String work = getString(column);
@@ -92,16 +98,52 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#getBytes(.mvh
 	 * k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	public byte[] getBytes(CobolColumn column) throws CobolRecordException {
+		return getBytesDisplay(column);
+	}
+	protected byte[] getBytesAuto(CobolColumn column) throws CobolRecordException {
+		byte[] ret = null;
+		switch (column.getUsage()) {
+		case CobolColumn.USAGE_COMP_3:
+			ret = getBytesComp3(column);
+			break;
+		default:
+			ret = getBytesDisplay(column);
+			break;
+		}
+		return ret;
+	}
+	protected byte[] getBytesDisplay(CobolColumn column) throws CobolRecordException {
 		byte[] ret = new byte[column.getPhysicalLength()];
 		System.arraycopy(record, column.getStart(), ret, 0, ret.length);
 		return ret;
 	}
+	protected byte[] getBytesComp3(CobolColumn column) throws CobolRecordException {
+		byte[] ret = new byte[column.getPhysicalLength()];
+		byte[] wrk = new byte[column.getPhysicalLength() / 2 + 1];
+		System.arraycopy(record, column.getStart(), wrk, 0, wrk.length);
+		int i = ret.length - 1, j = wrk.length - 1;
+		while (i >= 0 && j >= 0) {
+			byte byt = wrk[j];
+			byte low = (byte) (0x0F & byt);
+			ret[i] = low;
+			if (i > 0) {
+				byte hig = (byte) (0xF0 & byt);
+				hig <<= 4;
+				ret[i - 1] = hig;
+			}
+			i -= 2;
+			j--;
+		}
+		return ret;
+	}
 	/**
 	 * レコードに含まれる列
+	 * 
 	 * @param columnIndex 列インデックス
 	 * @return インデックスで指定した列
 	 */
@@ -110,7 +152,9 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#getDate( k_kim_mg.sa4cob2db.CobolColumn)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getDate(
+	 * k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	public Date getDate(CobolColumn column) throws CobolRecordException {
 		Date ret = null;
@@ -162,9 +206,11 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#getDouble(.mvh
 	 * k_kim_mg.sa4cob2db.CobolColumn)
 	 */
+	@SuppressWarnings("null")
 	public double getDouble(CobolColumn column) throws CobolRecordException {
 		double ret = 0;
 		if (isColumnFormatted(column)) {
@@ -193,7 +239,15 @@ public class DefaultCobolRecord implements CobolRecord {
 			}
 		} else {
 			int byt;
-			byte[] bytes = getBytes(column);
+			byte[] bytes = null;
+			switch (column.getUsage()) {
+			case CobolColumn.USAGE_COMP_3:
+				getBytesComp3(column);
+				break;
+			default:
+				getBytes(column);
+				break;
+			}
 			for (int i = 0; i < bytes.length - 1; i++) {
 				// 各バイトの積み上げ
 				byt = bytes[i];
@@ -217,9 +271,11 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#getFloat(.mvh
 	 * k_kim_mg.sa4cob2db.CobolColumn)
 	 */
+	@SuppressWarnings("null")
 	public float getFloat(CobolColumn column) throws CobolRecordException {
 		float ret = 0;
 		if (isColumnFormatted(column)) {
@@ -248,7 +304,15 @@ public class DefaultCobolRecord implements CobolRecord {
 			}
 		} else {
 			int byt;
-			byte[] bytes = getBytes(column);
+			byte[] bytes = null;
+			switch (column.getUsage()) {
+			case CobolColumn.USAGE_COMP_3:
+				getBytesComp3(column);
+				break;
+			default:
+				getBytes(column);
+				break;
+			}
 			for (int i = 0; i < bytes.length - 1; i++) {
 				// 各バイトの積み上げ
 				byt = bytes[i];
@@ -272,8 +336,10 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#getInt(k_kim_mg .acm.CobolColumn)
 	 */
+	@SuppressWarnings("null")
 	public int getInt(CobolColumn column) throws CobolRecordException {
 		int ret = 0;
 		if (isColumnFormatted(column)) {
@@ -302,7 +368,15 @@ public class DefaultCobolRecord implements CobolRecord {
 			}
 		} else {
 			int byt;
-			byte[] bytes = getBytes(column);
+			byte[] bytes = null;
+			switch (column.getUsage()) {
+			case CobolColumn.USAGE_COMP_3:
+				getBytesComp3(column);
+				break;
+			default:
+				getBytes(column);
+				break;
+			}
 			for (int i = 0; i < bytes.length - 1; i++) {
 				// 各バイトの積み上げ
 				byt = bytes[i];
@@ -326,8 +400,11 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#getLong( k_kim_mg.sa4cob2db.CobolColumn)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getLong(
+	 * k_kim_mg.sa4cob2db.CobolColumn)
 	 */
+	@SuppressWarnings("null")
 	public long getLong(CobolColumn column) throws CobolRecordException {
 		long ret = 0;
 		if (isColumnFormatted(column)) {
@@ -356,7 +433,15 @@ public class DefaultCobolRecord implements CobolRecord {
 			}
 		} else {
 			int byt;
-			byte[] bytes = getBytes(column);
+			byte[] bytes = null;
+			switch (column.getUsage()) {
+			case CobolColumn.USAGE_COMP_3:
+				getBytesComp3(column);
+				break;
+			default:
+				getBytes(column);
+				break;
+			}
 			for (int i = 0; i < bytes.length - 1; i++) {
 				// 各バイトの積み上げ
 				byt = bytes[i];
@@ -380,6 +465,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#getMetaData()
 	 */
 	public CobolRecordMetaData getMetaData() throws CobolRecordException {
@@ -387,6 +473,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#getRecord(byte[])
 	 */
 	public int getRecord(byte[] bs) throws CobolRecordException {
@@ -396,6 +483,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#getShort(.mvh
 	 * k_kim_mg.sa4cob2db.CobolColumn)
 	 */
@@ -407,6 +495,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#getString(.mvh
 	 * k_kim_mg.sa4cob2db.CobolColumn)
 	 */
@@ -448,6 +537,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/**
 	 * この列は書式が設定されているか？
+	 * 
 	 * @param column 列
 	 * @return true:書式有り<br>
 	 *         false:書式無し
@@ -463,6 +553,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/**
 	 * このレコードのメタデータをセットする
+	 * 
 	 * @param data メタデータ
 	 */
 	public void setMetaData(CobolRecordMetaData data) {
@@ -482,6 +573,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see jp.int v =
 	 * bi.intValue();ne.biglobe.mvhk_kim_mg.sa4cob2db.CobolRecord
 	 * #setRecord(byte[])
@@ -493,6 +585,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateBigDecimal(
 	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, java.math.BigDecimal)
 	 */
@@ -501,6 +594,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateBoolean(
 	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, boolean)
 	 */
@@ -513,6 +607,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateByte(.mvh
 	 * k_kim_mg.sa4cob2db.CobolColumn, byte)
 	 */
@@ -521,10 +616,29 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateBytes(.
 	 * mvhk_kim_mg.sa4cob2db.CobolColumn, byte[])
 	 */
 	public void updateBytes(CobolColumn column, byte[] x) throws CobolRecordException {
+		updateBytesDisplay(column, x);
+	}
+	protected void updateBytesAuto(CobolColumn column, byte[] x) throws CobolRecordException {
+		switch (column.getUsage()) {
+		case CobolColumn.USAGE_COMP_3:
+			updateBytesComp3(column, x);
+			break;
+		default:
+			updateBytesDisplay(column, x);
+			break;
+		}
+	}
+	/**
+	 * @param column
+	 * @param x
+	 * @throws CobolRecordException
+	 */
+	protected void updateBytesDisplay(CobolColumn column, byte[] x) throws CobolRecordException {
 		int i = 0;
 		int cstart = column.getStart();
 		int clength = column.getPhysicalLength();
@@ -533,8 +647,30 @@ public class DefaultCobolRecord implements CobolRecord {
 			i++;
 		}
 	}
+	protected void updateBytesComp3(CobolColumn column, byte[] x) throws CobolRecordException {
+		int cstart = column.getStart();
+		int wlength = column.getPhysicalLength();
+		int xlength = x.length;
+		int clength = wlength / 2 + 1;
+		int i = clength - 1;
+		int j = xlength - 1;
+		while (i >= 0 && j >= 0) {
+			byte cmp = 0xF;
+			byte low = x[i];
+			cmp &= low;
+			if (i > 0) {
+				byte hig = x[i - 1];
+				hig <<= 4;
+				cmp &= hig;
+			}
+			record[cstart + j] = cmp;
+			i -= 2;
+			j--;
+		}
+	}
 	/**
 	 * バイト配int v = bi.intValue();列を右から書き込む
+	 * 
 	 * @param column 書き込む列
 	 * @param x 値
 	 * @throws CobolRecordException 列がないとか
@@ -551,6 +687,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateDate(.mvh
 	 * k_kim_mg.sa4cob2db.CobolColumn, java.util.Date)
 	 */
@@ -565,6 +702,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateDouble(
 	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, double)
 	 */
@@ -604,11 +742,19 @@ public class DefaultCobolRecord implements CobolRecord {
 				}
 				bd = bd.movePointRight(1);
 			}
-			updateBytes(column, bytes);
+			switch (column.getUsage()) {
+			case CobolColumn.USAGE_COMP_3:
+				updateBytesComp3(column, bytes);
+				break;
+			default:
+				updateBytes(column, bytes);
+				break;
+			}
 		}
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateFloat(.
 	 * mvhk_kim_mg.sa4cob2db.CobolColumn, float)
 	 */
@@ -617,6 +763,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateInt(.mvh
 	 * k_kim_mg.sa4cob2db.CobolColumn, int)
 	 */
@@ -625,6 +772,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateLong(.mvh
 	 * k_kim_mg.sa4cob2db.CobolColumn, long)
 	 */
@@ -654,12 +802,20 @@ public class DefaultCobolRecord implements CobolRecord {
 					v /= 10;
 					i--;
 				}
-				updateBytes(column, bytes);
+				switch (column.getUsage()) {
+				case CobolColumn.USAGE_COMP_3:
+					updateBytesComp3(column, bytes);
+					break;
+				default:
+					updateBytes(column, bytes);
+					break;
+				}
 			}
 		}
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateNull(.mvh
 	 * k_kim_mg.sa4cob2db.CobolColumn)
 	 */
@@ -683,10 +839,11 @@ public class DefaultCobolRecord implements CobolRecord {
 		} else {
 			// 未知のデータ型
 		}
-		updateBytes(column, x);
+		updateBytesAuto(column, x);
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateObject(
 	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, java.lang.Object)
 	 */
@@ -706,6 +863,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateObject(
 	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, java.lang.Object, int)
 	 */
@@ -714,6 +872,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateShort(.
 	 * mvhk_kim_mg.sa4cob2db.CobolColumn, short)
 	 */
@@ -722,6 +881,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateString(
 	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, java.lang.String)
 	 */
@@ -744,6 +904,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/**
 	 * 列を右詰めで更新する
+	 * 
 	 * @param column 更新する列
 	 * @param x 更新する値
 	 * @throws CobolRecordException 何かうまくいかなかったらしい

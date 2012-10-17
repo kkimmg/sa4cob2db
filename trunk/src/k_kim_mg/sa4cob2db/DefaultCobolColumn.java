@@ -360,7 +360,19 @@ public class DefaultCobolColumn implements CobolColumn {
 	}
 	@Override
 	public int getUsage() {
-		return this.usage;
+		int ret = this.usage;
+		switch (getType()) {
+		case CobolColumn.TYPE_DOUBLE:
+		case CobolColumn.TYPE_FLOAT:
+		case CobolColumn.TYPE_INTEGER:
+		case CobolColumn.TYPE_LONG:
+			// Do Nothing
+			break;
+		default:
+			ret = CobolColumn.USAGE_DISPLAY;
+			break;
+		}
+		return ret;
 	}
 	@Override
 	public void setUsage(int usage) {
