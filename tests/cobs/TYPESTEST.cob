@@ -81,8 +81,10 @@
 123456     MOVE  9.99              TO  TYPE-PERIOD.
 123456     MOVE  56                TO  TYPE-PLUS.
 123456     MOVE  -5678             TO  TYPE-MINUS.
-123456     MOVE  56                TO  TYPE-CR.
-123456     MOVE  56                TO  TYPE-DB.
+123456     MOVE  56                TO  TYPE-CR1.
+123456     MOVE  56                TO  TYPE-DB1.
+123456     MOVE  -56               TO  TYPE-CR2.
+123456     MOVE  -56               TO  TYPE-DB2.
 123456     MOVE  56                TO  TYPE-Z.
 123456     MOVE  56                TO  TYPE-AST.
 123456*    MOVE  56                TO  TYPE-BS.

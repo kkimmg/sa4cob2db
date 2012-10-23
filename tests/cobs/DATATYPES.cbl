@@ -17,8 +17,10 @@
 000350   10 TYPE-PERIOD             PIC  9.99.
 000350   10 TYPE-PLUS               PIC  +999.
 000350   10 TYPE-MINUS              PIC  -999.
-000350   10 TYPE-CR                 PIC  9CR.
-000350   10 TYPE-DB                 PIC  9DB.
+000350   10 TYPE-CR1                PIC  9CR.
+000350   10 TYPE-DB1                PIC  9DB.
+000350   10 TYPE-CR2                PIC  9CR.
+000350   10 TYPE-DB2                PIC  9DB.
 000350   10 TYPE-Z                  PIC  ZZZ9.
 000350   10 TYPE-AST                PIC  ***9.
 000350*  10 TYPE-BS                 PIC  \\\9.

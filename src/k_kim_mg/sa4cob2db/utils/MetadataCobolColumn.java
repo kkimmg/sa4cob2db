@@ -45,6 +45,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 	static final int TYPE_9 = 2;
 	static final int TYPE_S = 4;
 	static final int TYPE_V = 8;
+	static final int TYPE_N = 16;
 	MetaCobolRecordMetaData meta;
 	public MetadataCobolColumn(MetaCobolRecordMetaData meta) {
 		this.meta = meta;
@@ -257,7 +258,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 		int l_length = 0;
 		int l_decimal = 0;
 		StringBuffer l_format = new StringBuffer();
-		char t;
+		char t = 0;
 		char c;
 		StringBuffer buf = new StringBuffer();
 		boolean inKakko = false;
@@ -300,6 +301,15 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 					// System.out.println(l_type + ":" + TYPE_X + ":" + new
 					// String(new char[] { c }));
 					break;
+				case 'N':
+				case 'n':
+					t = c;
+					l_type |= TYPE_X;
+					l_type |= TYPE_N;
+					l_length += 2;
+					// System.out.println(l_type + ":" + TYPE_X + ":" + new
+					// String(new char[] { c }));
+					break;
 				case 'S':
 				case 's':
 					t = c;
@@ -311,8 +321,10 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 				case '9':
 					t = c;
 					l_type |= TYPE_9;
-					l_length++;
-					l_format.append('0');
+					if (t != 'S' && t != 's') {
+						l_length++;
+						l_format.append('0');
+					}
 					// System.out.println(l_type + ":" + TYPE_9 + ":" + new
 					// String(new char[] { c }));
 					break;
@@ -335,6 +347,38 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 						// String(new char[] { c }));
 					}
 					break;
+				case 'P':
+				case 'p':
+					// 0 length
+					break;
+				case 'B':
+				case 'b':
+					switch (t) {
+					case 'D':
+					case 'd':
+						break;
+					case 'X':
+					case 'x':
+						l_length++;
+						break;
+					case 'N':
+					case 'n':
+						l_length += 2;
+						break;
+					}
+					break;
+				case '*':
+				case '\\':
+				case ',':
+				case '/':
+				case '+':
+				case '-':
+				case 'C':
+				case 'c':
+				case 'D':
+				case 'd':
+				case 'R':
+				case 'r':
 				default:
 					l_length++;
 					break;
