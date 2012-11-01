@@ -2,11 +2,12 @@ package k_kim_mg.sa4cob2db;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
@@ -204,6 +205,11 @@ public class DefaultCobolRecord implements CobolRecord {
 		}
 		return ret;
 	}
+	Map<CobolColumn, NumberFormat> formats = new HashMap<CobolColumn, NumberFormat>();
+	NumberFormat getFormater (CobolColumn column) {
+		NumberFormat formater = (formats.containsKey(column) ? formats.get(column) : CobolFormat.createFormatter(column));
+		return formater;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -215,7 +221,7 @@ public class DefaultCobolRecord implements CobolRecord {
 		double ret = 0;
 		if (isColumnFormatted(column)) {
 			try {
-				NumberFormat formater = new DecimalFormat(column.getFormat());
+				NumberFormat formater = getFormater(column);
 				String work = getString(column);
 				if (work == null) {
 					ret = 0;
@@ -280,7 +286,7 @@ public class DefaultCobolRecord implements CobolRecord {
 		float ret = 0;
 		if (isColumnFormatted(column)) {
 			try {
-				NumberFormat formater = new DecimalFormat(column.getFormat());
+				NumberFormat formater = getFormater(column);
 				String work = getString(column);
 				if (work == null) {
 					ret = 0;
@@ -344,7 +350,7 @@ public class DefaultCobolRecord implements CobolRecord {
 		int ret = 0;
 		if (isColumnFormatted(column)) {
 			try {
-				NumberFormat formater = new DecimalFormat(column.getFormat());
+				NumberFormat formater = getFormater(column);
 				String work = getString(column);
 				if (work == null) {
 					ret = 0;
@@ -409,7 +415,7 @@ public class DefaultCobolRecord implements CobolRecord {
 		long ret = 0;
 		if (isColumnFormatted(column)) {
 			try {
-				NumberFormat formater = new DecimalFormat(column.getFormat());
+				NumberFormat formater = getFormater(column);
 				String work = getString(column);
 				if (work == null) {
 					ret = 0;
@@ -708,7 +714,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	 */
 	public void updateDouble(CobolColumn column, double x) throws CobolRecordException {
 		if (isColumnFormatted(column)) {
-			DecimalFormat df = new DecimalFormat(column.getFormat());
+			NumberFormat df = getFormater(column);
 			updateStringR(column, df.format(x));
 		} else {
 			boolean b = (x < 0);
@@ -783,7 +789,7 @@ public class DefaultCobolRecord implements CobolRecord {
 		} else {
 			if (isColumnFormatted(column)) {
 				// 書式化されている
-				DecimalFormat df = new DecimalFormat(column.getFormat());
+				NumberFormat df = getFormater(column);
 				updateStringR(column, df.format(x));
 			} else {
 				// 書式がない

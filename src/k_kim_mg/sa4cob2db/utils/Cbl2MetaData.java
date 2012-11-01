@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
 import k_kim_mg.sa4cob2db.codegen.CobolConsts;
 /**
  * PreProcessing COBOL file access to call statement.
@@ -30,6 +31,11 @@ public class Cbl2MetaData{
 	 * @param argv filename and other's
 	 */
 	public static void main(String[] argv) {
+		////////////////////
+		String fm = "***00";
+		DecimalFormat df = new DecimalFormat(fm);
+		System.out.println(fm + " = " + df.format(-1000));
+		///////////////////
 		Cbl2MetaData cobpp = new Cbl2MetaData(argv);
 		cobpp.run();
 		System.exit(0);
