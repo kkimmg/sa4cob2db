@@ -8,10 +8,8 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
-																		 * implements
-																		 * CobolColumn2
-																		 */{
+public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
+	private static final long serialVersionUID = 1L;
 	public static Properties reps;
 	static {
 		reps = new Properties();
@@ -43,9 +41,10 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 	static final int TYPE_NONE = 0;
 	static final int TYPE_X = 1;
 	static final int TYPE_9 = 2;
-	static final int TYPE_S = 4;
-	static final int TYPE_V = 8;
-	static final int TYPE_N = 16;
+	static final int TYPE_Z = 4;
+	static final int TYPE_S = 8;
+	static final int TYPE_V = 16;
+	static final int TYPE_N = 32;
 	MetaCobolRecordMetaData meta;
 	public MetadataCobolColumn(MetaCobolRecordMetaData meta) {
 		this.meta = meta;
@@ -262,6 +261,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 		char c;
 		StringBuffer buf = new StringBuffer();
 		boolean inKakko = false;
+		boolean withKakko = false;
 		for (int i = 0; i < picture.length(); i++) {
 			c = picture.charAt(i);
 			if (inKakko) {
@@ -279,6 +279,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 				case '(':
 					l_length--;
 					inKakko = true;
+					withKakko = true;
 					buf = new StringBuffer();
 					if (l_format.length() > 0) {
 						l_format.deleteCharAt(l_format.length() - 1);
@@ -288,8 +289,6 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 				case 'v':
 					l_decimal = l_length;
 					l_type |= TYPE_V;
-					// System.out.println(l_type + ":" + TYPE_V + ":" + new
-					// String(new char[] { c }));
 					break;
 				case 'A':
 				case 'a':
@@ -298,8 +297,6 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 					t = c;
 					l_type |= TYPE_X;
 					l_length++;
-					// System.out.println(l_type + ":" + TYPE_X + ":" + new
-					// String(new char[] { c }));
 					break;
 				case 'N':
 				case 'n':
@@ -307,16 +304,12 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 					l_type |= TYPE_X;
 					l_type |= TYPE_N;
 					l_length += 2;
-					// System.out.println(l_type + ":" + TYPE_X + ":" + new
-					// String(new char[] { c }));
 					break;
 				case 'S':
 				case 's':
 					t = c;
+					l_type |= TYPE_9;
 					l_type |= TYPE_S;
-					// l_length++;
-					// System.out.println(l_type + ":" + TYPE_S + ":" + new
-					// String(new char[] { c }));
 					break;
 				case '9':
 					t = c;
@@ -325,17 +318,17 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 						l_length++;
 						l_format.append('0');
 					}
-					// System.out.println(l_type + ":" + TYPE_9 + ":" + new
-					// String(new char[] { c }));
+					break;
+				case '0':
+					l_length++;
 					break;
 				case 'Z':
 				case 'z':
 					t = c;
 					l_type |= TYPE_9;
+					l_type |= TYPE_Z;
 					l_length++;
 					l_format.append('#');
-					// System.out.println(l_type + ":" + TYPE_9 + ":" + new
-					// String(new char[] { c }));
 					break;
 				case '.':
 					if (i < picture.length()) {
@@ -343,8 +336,6 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 						l_decimal = l_length;
 						l_length++;
 						l_format.append(".");
-						// System.out.println(l_type + ":" + TYPE_V + ":" + new
-						// String(new char[] { c }));
 					}
 					break;
 				case 'P':
@@ -356,6 +347,9 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 					switch (t) {
 					case 'D':
 					case 'd':
+						t = c;
+						l_length++;
+						l_format.append(c);
 						break;
 					case 'X':
 					case 'x':
@@ -377,8 +371,21 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> /*
 				case 'c':
 				case 'D':
 				case 'd':
+					t = c;
+					l_length++;
+					l_format.append(c);
+					break;
 				case 'R':
 				case 'r':
+					switch (t) {
+					case 'C':
+					case 'c':
+						t = c;
+						l_length++;
+						l_format.append(c);
+						break;
+					}
+					break;
 				default:
 					l_length++;
 					break;
