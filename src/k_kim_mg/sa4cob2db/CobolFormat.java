@@ -22,14 +22,41 @@ public class CobolFormat extends DecimalFormat {
 			this.sla = sla;
 			this.bs = bs;
 			this.ast = ast;
-			parse();
+			parsePicture();
 		}
 		private void parse() {
 			StringBuilder builder = new StringBuilder(column.getLength());
-			for (int i = 0; i < column.getLength(); i++) {
+			int len = column.getLength();
+			int nod = column.getNumberOfDecimal();
+			for (int i = 0; i < len - nod; i++) {
+				builder.append("#");
+			}
+			if (nod > 0) {
+				builder.append(".");
+			}
+			for (int i = 0; i < nod; i++) {
 				builder.append("#");
 			}
 			logicalPattern = builder.toString();
+		}
+		/**
+		 * 
+		 */
+		public void parsePicture() {
+			String text = column.getFormat();
+			StringBuilder output = new StringBuilder();
+			for (int i = 0; i < text.length(); i++) {
+				char c = text.charAt(i);
+				if (c == '9') {
+					output.append('0');
+				} else if (c == '.' || c == ',') {
+					output.append(c);
+				} else if (c == 'Z' || c == 'z') {
+					output.append('#');
+				} else if (c == '-' || c == '+' || c == '*' || c == '\\') {
+					output.append('#');
+				}
+			}
 		}
 		public boolean isDb() {
 			return db;
@@ -123,11 +150,28 @@ public class CobolFormat extends DecimalFormat {
 	public CobolFormat(PatternFlags flags) {
 		super(flags.getLogicalPattern());
 		this.flags = flags;
+		if (flags.isDb()) {
+			setNegativeSuffix("DB");
+		}
+		if (flags.isCr()) {
+			setNegativeSuffix("CR");
+		}
+		if (flags.isPlus()) {
+			setPositivePrefix("+");
+		}
 	}
 	@Override
-	public Number parse(String arg0) throws ParseException {
-		// TODO Auto-generated method stub
-		return super.parse(arg0);
+	public Number parse(String text) throws ParseException {
+		StringBuffer output = new StringBuffer(text.length());
+		for (int i = 0; i < text.length(); i++) {
+			char c = text.charAt(i);
+			if (c == '/' || c == '*' || c == '\\') {
+				//do nothing
+			} else {
+				output.append(c);
+			}
+		}
+		return super.parse(output.toString());
 	}
 	@Override
 	public StringBuffer format(double number, StringBuffer result, FieldPosition fieldPosition) {
