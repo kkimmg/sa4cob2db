@@ -183,7 +183,7 @@ public class SQLNetServer {
 	 * @param envkey
 	 *            環境キー
 	 */
-	static void updateProperty(Properties properties, String key, String envkey) {
+	public static void updateProperty(Properties properties, String key, String envkey) {
 		String env = getEnvValue(envkey, "");
 		if (env.length() > 0) {
 			properties.setProperty(key, env);

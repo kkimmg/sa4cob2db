@@ -82,7 +82,7 @@ public class SQLFileServer {
 	 * @return メタデータ
 	 */
 	public CobolRecordMetaData getMetaData(int i) {
-		return metaDataSet.getMetaData(i);
+		return metaDataSet.get(i);
 	}
 	/**
 	 * メタデータの取得
@@ -94,7 +94,7 @@ public class SQLFileServer {
 	}
 	/** 登録されたメタデータの数 */
 	public int getMetaDataCount() {
-		return metaDataSet.getMetaDataCount();
+		return metaDataSet.size();
 	}
 	/**
 	 * メタデータを取得する
