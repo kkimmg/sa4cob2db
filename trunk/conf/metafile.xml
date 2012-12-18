@@ -97,4 +97,36 @@
 		<otherofmeta1></otherofmeta1>
 	</metadata>
 	<otherofset1></otherofset1>
-</metadataset>
+    <metadata name="DATA_TYPES" >
+        <sqlcolumn            name="TYPE-A"            length="4"            originalColumnName="TYPE_A"            start="0"            type="2" />
+        <sqlcolumn            name="TYPE-X"            length="10"            originalColumnName="TYPE_X"            start="4"            type="2" />
+        <sqlcolumn            name="TYPE-9"            length="18"            originalColumnName="TYPE_9"            start="14"            type="1" />
+        <sqlcolumn            name="TYPE-SP"            length="5"            originalColumnName="TYPE_SP"            signed="true"            start="32"            type="1" />
+        <sqlcolumn            name="TYPE-SM"            length="5"            originalColumnName="TYPE_SM"            signed="true"            start="37"            type="1" />
+        <sqlcolumn            name="TYPE-V"            decimal="1"            format="000"            length="3"            originalColumnName="TYPE_V"            start="42"            type="5" />
+        <sqlcolumn            name="TYPE-P"            format="00"            length="2"            originalColumnName="TYPE_P"            start="45"            type="1" />
+        <sqlcolumn            name="TYPE-0"            length="4"            originalColumnName="TYPE_0"            start="47"            type="2" />
+        <sqlcolumn            name="TYPE-XB"            length="3"            originalColumnName="TYPE_XB"            start="51"            type="2" />
+        <sqlcolumn            name="TYPE-CONMA"            format="0,000"            length="5"            originalColumnName="TYPE_CONMA"            start="54"            type="1" />
+        <sqlcolumn            name="TYPE-SLASH"            format="00/00"            length="5"            originalColumnName="TYPE_SLASH"            start="59"            type="1" />
+        <sqlcolumn            name="TYPE-PERIOD"            decimal="1"            format="0.00"            length="4"            originalColumnName="TYPE_PERIOD"            start="64"            type="5" />
+        <sqlcolumn            name="TYPE-PLUS"            format="+000"            length="4"            originalColumnName="TYPE_PLUS"            start="68"            type="1" />
+        <sqlcolumn            name="TYPE-MINUS"            format="-000"            length="4"            originalColumnName="TYPE_MINUS"            start="72"            type="1" />        <sqlcolumn            name="TYPE-CR1"            format="0CR"            length="3"            originalColumnName="TYPE_CR1"            start="76"            type="1" />
+        <sqlcolumn            name="TYPE-DB1"            format="0DB"            length="3"            originalColumnName="TYPE_DB1"            start="79"            type="1" />
+        <sqlcolumn            name="TYPE-CR2"            format="0CR"            length="3"            originalColumnName="TYPE_CR2"            start="82"            type="1" />
+        <sqlcolumn            name="TYPE-DB2"            format="0DB"            length="3"            originalColumnName="TYPE_DB2"            start="85"            type="1" />
+        <sqlcolumn            name="TYPE-Z"            format="###0"            length="4"            originalColumnName="TYPE_Z"            start="88"            type="1" />
+        <sqlcolumn            name="TYPE-AST"            format="***0"            length="4"            originalColumnName="TYPE_AST"            start="92"            type="1" />
+        <sqlcolumn            name="TYPE-FOM1"            format="0,000"            length="5"            originalColumnName="TYPE_FOM1"            start="96"            type="1" />
+        <sqlcolumn            name="TYPE-FOM2"            format="0,"            length="5"            originalColumnName="TYPE_FOM2"            start="101"            type="1" />
+        <sqlcolumn            name="TYPE-FOM3"            format="+000"            length="4"            originalColumnName="TYPE_FOM3"            start="106"            type="1" />
+        <sqlcolumn            name="TYPE-FOM4"            format="-000"            length="4"            originalColumnName="TYPE_FOM4"            start="110"            type="1" />
+        <sqlcolumn            name="TYPE-FOM8"            format="##0"            length="3"            originalColumnName="TYPE_FOM8"            start="114"            type="1" />
+        <sqlcolumn            name="TYPE-FOM9"            format="#,##0"            length="5"            originalColumnName="TYPE_FOM9"            start="117"            type="1" />
+        <sqlcolumn            name="TYPE-DISP"            length="3"            originalColumnName="TYPE_DISP"            signed="true"            start="122"            type="1" />
+        <sqlcolumn            name="TYPE-PACKED-DECIMAL"            length="3"            originalColumnName="TYPE_PACKED_DECIMAL"            signed="true"            start="125"            type="1"            usage="2" />
+        <sqlcolumn            name="TYPE-COMP-3"            length="4"            originalColumnName="TYPE_COMP_3"            signed="true"            start="128"            type="1"            usage="2" />
+        <keycolumn>TYPE-A</keycolumn>
+        <keycolumn>TYPE-X</keycolumn>
+        <keycolumn>TYPE-9</keycolumn>
+    </metadata></metadataset>
