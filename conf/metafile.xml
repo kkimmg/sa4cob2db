@@ -98,6 +98,7 @@
 	</metadata>
 	<otherofset1></otherofset1>
     <metadata name="DATA_TYPES" >
+        <statement>select * from DATA_TYPES order by TYPE_A,TYPE_X,TYPE_9</statement>
         <sqlcolumn            name="TYPE-A"            length="4"            originalColumnName="TYPE_A"            start="0"            type="2" />
         <sqlcolumn            name="TYPE-X"            length="10"            originalColumnName="TYPE_X"            start="4"            type="2" />
         <sqlcolumn            name="TYPE-9"            length="18"            originalColumnName="TYPE_9"            start="14"            type="1" />
