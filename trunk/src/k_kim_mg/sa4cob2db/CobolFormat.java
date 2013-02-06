@@ -10,10 +10,10 @@ import java.text.ParseException;
  */
 public class CobolFormat extends DecimalFormat {
 	protected static class PatternFlags {
-		boolean db = false, cr = false, plus = false, minus = false, sla = false, bs = false, ast = false;
+		boolean db = false, cr = false, plus = false, minus = false, sla = false, bs = false, ast = false, z = false;
 		private CobolColumn column;
-		String logicalPattern;
-		public PatternFlags(CobolColumn column, boolean db, boolean cr, boolean plus, boolean minus, boolean sla, boolean bs, boolean ast) {
+		private String logicalPattern;
+		public PatternFlags(CobolColumn column, boolean db, boolean cr, boolean plus, boolean minus, boolean sla, boolean bs, boolean ast, boolean srp) {
 			this.column = column;
 			this.db = db;
 			this.cr = cr;
@@ -22,22 +22,8 @@ public class CobolFormat extends DecimalFormat {
 			this.sla = sla;
 			this.bs = bs;
 			this.ast = ast;
+			this.z = srp;
 			parsePicture();
-		}
-		private void parse() {
-			StringBuilder builder = new StringBuilder(column.getLength());
-			int len = column.getLength();
-			int nod = column.getNumberOfDecimal();
-			for (int i = 0; i < len - nod; i++) {
-				builder.append("#");
-			}
-			if (nod > 0) {
-				builder.append(".");
-			}
-			for (int i = 0; i < nod; i++) {
-				builder.append("#");
-			}
-			logicalPattern = builder.toString();
 		}
 		/**
 		 * 
@@ -46,17 +32,24 @@ public class CobolFormat extends DecimalFormat {
 			String text = column.getFormat();
 			StringBuilder output = new StringBuilder();
 			for (int i = 0; i < text.length(); i++) {
-				char c = text.charAt(i);
-				if (c == '9') {
+				char c = text.toUpperCase().charAt(i);
+				if (c == '9' || c == '0') {
 					output.append('0');
 				} else if (c == '.' || c == ',') {
 					output.append(c);
-				} else if (c == 'Z' || c == 'z') {
+				} else if (c == '/') {
+					output.append(',');
+				} else if (c == '*' || c == '\\') {
 					output.append('#');
-				} else if (c == '-' || c == '+' || c == '*' || c == '\\') {
+				} else if (c == 'Z' || c == '#') {
 					output.append('#');
+				} else if (c == '-' || c == '+') {
+					output.append('#');
+					// } else {
+					// output.append(c);
 				}
 			}
+			logicalPattern = output.toString();
 		}
 		public boolean isDb() {
 			return db;
@@ -100,16 +93,26 @@ public class CobolFormat extends DecimalFormat {
 		public void setAst(boolean ast) {
 			this.ast = ast;
 		}
+		public CobolColumn getColumn() {
+			return column;
+		}
 		public String getOriginalPattern() {
 			return column.getFormat();
 		}
 		public String getLogicalPattern() {
 			return logicalPattern;
 		}
+		public boolean isSrp() {
+			return z;
+		}
+		public void setSrp(boolean srp) {
+			this.z = srp;
+		}
 	}
 	public static NumberFormat createFormatter(CobolColumn column) {
 		String pattern = column.getFormat();
-		boolean l_db = false, l_cr = false, l_plus = false, l_minus = false, l_sla = false, l_bs = false, l_ast = false;
+		boolean l_db = false, l_cr = false, l_plus = false, l_minus = false, l_sla = false, l_bs = false, l_ast = false, l_z = false;
+		;
 		NumberFormat df = null;
 		if (pattern.toUpperCase().contains("DB")) {
 			l_db = true;
@@ -132,8 +135,14 @@ public class CobolFormat extends DecimalFormat {
 		if (pattern.toUpperCase().contains("*")) {
 			l_ast = true;
 		}
-		if (l_db | l_cr | l_plus | l_minus | l_sla | l_bs | l_ast) {
-			PatternFlags flags = new PatternFlags(column, l_db, l_cr, l_plus, l_minus, l_sla, l_bs, l_ast);
+		if (pattern.toUpperCase().contains("Z")) {
+			l_z = true;
+		}
+		if (pattern.toUpperCase().contains("#")) {
+			l_z = true;
+		}
+		if (l_db | l_cr | l_plus | l_minus | l_sla | l_bs | l_ast | l_z) {
+			PatternFlags flags = new PatternFlags(column, l_db, l_cr, l_plus, l_minus, l_sla, l_bs, l_ast, l_z);
 			df = new CobolFormat(flags);
 		} else {
 			df = new DecimalFormat(pattern);
@@ -149,12 +158,17 @@ public class CobolFormat extends DecimalFormat {
 	 */
 	public CobolFormat(PatternFlags flags) {
 		super(flags.getLogicalPattern());
+		System.err.println("CobolFormat.new" + flags.getOriginalPattern() + ":" + flags.getLogicalPattern());
 		this.flags = flags;
 		if (flags.isDb()) {
 			setNegativeSuffix("DB");
+			setPositiveSuffix("  ");
+			setNegativePrefix("");
 		}
 		if (flags.isCr()) {
 			setNegativeSuffix("CR");
+			setPositiveSuffix("  ");
+			setNegativePrefix("");
 		}
 		if (flags.isPlus()) {
 			setPositivePrefix("+");
@@ -166,21 +180,38 @@ public class CobolFormat extends DecimalFormat {
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
 			if (c == '/' || c == '*' || c == '\\') {
-				//do nothing
+				// do nothing
+			} else if (c == ' ') {
+				if (flags.isDb() || flags.isCr()) {
+					if (i >= text.length() -2) {
+						output.append(' ');
+					}
+				}
 			} else {
 				output.append(c);
 			}
 		}
+		System.err.println("CobolFormat.parse(" + flags.getColumn().getName() + ")" + text + ":" + flags.getOriginalPattern() + ":" + flags.getLogicalPattern());
 		return super.parse(output.toString());
 	}
 	@Override
 	public StringBuffer format(double number, StringBuffer result, FieldPosition fieldPosition) {
 		// TODO Auto-generated method stub
-		return super.format(number, result, fieldPosition);
+		StringBuffer ret = super.format(number, result, fieldPosition);
+		int off = flags.getColumn().getLength() - ret.length();
+		for (int i = 0; i < off; i++) {
+			ret.insert(0, ' ');
+		}
+		return ret;
 	}
 	@Override
 	public StringBuffer format(long number, StringBuffer result, FieldPosition fieldPosition) {
 		// TODO Auto-generated method stub
-		return super.format(number, result, fieldPosition);
+		StringBuffer ret = super.format(number, result, fieldPosition);
+		int off = flags.getColumn().getLength() - ret.length();
+		for (int i = 0; i < off; i++) {
+			ret.insert(0, ' ');
+		}
+		return ret;
 	}
 }
