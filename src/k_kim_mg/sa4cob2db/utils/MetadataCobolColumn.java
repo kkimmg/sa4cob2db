@@ -261,7 +261,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 		char c;
 		StringBuffer buf = new StringBuffer();
 		boolean inKakko = false;
-		boolean withKakko = false;
+		//boolean withKakko = false;
 		for (int i = 0; i < picture.length(); i++) {
 			c = picture.charAt(i);
 			if (inKakko) {
@@ -279,7 +279,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 				case '(':
 					l_length--;
 					inKakko = true;
-					withKakko = true;
+					//withKakko = true;
 					buf = new StringBuffer();
 					if (l_format.length() > 0) {
 						l_format.deleteCharAt(l_format.length() - 1);

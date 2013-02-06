@@ -128,14 +128,23 @@ public class DefaultCobolRecord implements CobolRecord {
 		byte[] wrk = new byte[column.getPhysicalLength() / 2 + 1];
 		System.arraycopy(record, column.getStart(), wrk, 0, wrk.length);
 		int i = ret.length - 1, j = wrk.length - 1;
+		byte byt = wrk[j];
+		byte hig = (byte) ((0x0F & byt) | 0x70);
+		hig <<= 4;
+		byte low = (byte) (0xF0 & byt);
+		low >>>= 4;
+		low &= 0x0F;
+		ret[i] = (byte) (hig | low);
+		i--;
+		j--;
 		while (i >= 0 && j >= 0) {
-			byte byt = wrk[j];
-			byte low = (byte) (0x0F & byt);
+			byt = wrk[j];
+			low = (byte) ((0x0F & byt) | 0x30);
 			ret[i] = low;
 			if (i > 0) {
-				byte hig = (byte) (0xF0 & byt);
-				hig <<= 4;
-				ret[i - 1] = hig;
+				hig = (byte) (0xF0 & byt);
+				hig >>>= 4;
+				ret[i - 1] = (byte) (hig | 0x30);
 			}
 			i -= 2;
 			j--;
@@ -206,7 +215,7 @@ public class DefaultCobolRecord implements CobolRecord {
 		return ret;
 	}
 	Map<CobolColumn, NumberFormat> formats = new HashMap<CobolColumn, NumberFormat>();
-	NumberFormat getFormater (CobolColumn column) {
+	NumberFormat getFormatter(CobolColumn column) {
 		NumberFormat formater = (formats.containsKey(column) ? formats.get(column) : CobolFormat.createFormatter(column));
 		return formater;
 	}
@@ -216,17 +225,16 @@ public class DefaultCobolRecord implements CobolRecord {
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#getDouble(.mvh
 	 * k_kim_mg.sa4cob2db.CobolColumn)
 	 */
-	@SuppressWarnings("null")
 	public double getDouble(CobolColumn column) throws CobolRecordException {
 		double ret = 0;
 		if (isColumnFormatted(column)) {
 			try {
-				NumberFormat formater = getFormater(column);
+				NumberFormat formater = getFormatter(column);
 				String work = getString(column);
 				if (work == null) {
 					ret = 0;
 				} else {
-					Number number = formater.parse(work);
+					Number number = formater.parse(work/* .trim() */);
 					ret = number.doubleValue();
 				}
 			} catch (ParseException e) {
@@ -248,10 +256,10 @@ public class DefaultCobolRecord implements CobolRecord {
 			byte[] bytes = null;
 			switch (column.getUsage()) {
 			case CobolColumn.USAGE_COMP_3:
-				getBytesComp3(column);
+				bytes = getBytesComp3(column);
 				break;
 			default:
-				getBytes(column);
+				bytes = getBytes(column);
 				break;
 			}
 			for (int i = 0; i < bytes.length - 1; i++) {
@@ -281,17 +289,16 @@ public class DefaultCobolRecord implements CobolRecord {
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#getFloat(.mvh
 	 * k_kim_mg.sa4cob2db.CobolColumn)
 	 */
-	@SuppressWarnings("null")
 	public float getFloat(CobolColumn column) throws CobolRecordException {
 		float ret = 0;
 		if (isColumnFormatted(column)) {
 			try {
-				NumberFormat formater = getFormater(column);
+				NumberFormat formater = getFormatter(column);
 				String work = getString(column);
 				if (work == null) {
 					ret = 0;
 				} else {
-					Number number = formater.parse(work);
+					Number number = formater.parse(work/* .trim() */);
 					ret = number.floatValue();
 				}
 			} catch (ParseException e) {
@@ -313,10 +320,10 @@ public class DefaultCobolRecord implements CobolRecord {
 			byte[] bytes = null;
 			switch (column.getUsage()) {
 			case CobolColumn.USAGE_COMP_3:
-				getBytesComp3(column);
+				bytes = getBytesComp3(column);
 				break;
 			default:
-				getBytes(column);
+				bytes = getBytes(column);
 				break;
 			}
 			for (int i = 0; i < bytes.length - 1; i++) {
@@ -345,17 +352,16 @@ public class DefaultCobolRecord implements CobolRecord {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#getInt(k_kim_mg .acm.CobolColumn)
 	 */
-	@SuppressWarnings("null")
 	public int getInt(CobolColumn column) throws CobolRecordException {
 		int ret = 0;
 		if (isColumnFormatted(column)) {
 			try {
-				NumberFormat formater = getFormater(column);
+				NumberFormat formatter = getFormatter(column);
 				String work = getString(column);
 				if (work == null) {
 					ret = 0;
 				} else {
-					Number number = formater.parse(work);
+					Number number = formatter.parse(work/* .trim() */);
 					ret = number.intValue();
 				}
 			} catch (ParseException e) {
@@ -377,10 +383,10 @@ public class DefaultCobolRecord implements CobolRecord {
 			byte[] bytes = null;
 			switch (column.getUsage()) {
 			case CobolColumn.USAGE_COMP_3:
-				getBytesComp3(column);
+				bytes = getBytesComp3(column);
 				break;
 			default:
-				getBytes(column);
+				bytes = getBytes(column);
 				break;
 			}
 			for (int i = 0; i < bytes.length - 1; i++) {
@@ -410,17 +416,16 @@ public class DefaultCobolRecord implements CobolRecord {
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#getLong(
 	 * k_kim_mg.sa4cob2db.CobolColumn)
 	 */
-	@SuppressWarnings("null")
 	public long getLong(CobolColumn column) throws CobolRecordException {
 		long ret = 0;
 		if (isColumnFormatted(column)) {
 			try {
-				NumberFormat formater = getFormater(column);
+				NumberFormat formater = getFormatter(column);
 				String work = getString(column);
 				if (work == null) {
 					ret = 0;
 				} else {
-					Number number = formater.parse(work);
+					Number number = formater.parse(work/* .trim() */);
 					ret = number.longValue();
 				}
 			} catch (ParseException e) {
@@ -442,10 +447,10 @@ public class DefaultCobolRecord implements CobolRecord {
 			byte[] bytes = null;
 			switch (column.getUsage()) {
 			case CobolColumn.USAGE_COMP_3:
-				getBytesComp3(column);
+				bytes = getBytesComp3(column);
 				break;
 			default:
-				getBytes(column);
+				bytes = getBytes(column);
 				break;
 			}
 			for (int i = 0; i < bytes.length - 1; i++) {
@@ -658,16 +663,27 @@ public class DefaultCobolRecord implements CobolRecord {
 		int wlength = column.getPhysicalLength();
 		int xlength = x.length;
 		int clength = wlength / 2 + 1;
-		int i = clength - 1;
-		int j = xlength - 1;
+		int i = xlength - 1;
+		int j = clength - 1;
+		byte cmp = 0x0;
+		byte low = (byte) (x[i] & 0xf0);
+		low >>>= 4;
+		cmp |= low;
+		byte hig = (byte) (x[i] & 0x0f);
+		hig <<= 4;
+		cmp |= hig;
+		record[cstart + j] = cmp;
+		i--;
+		j--;
 		while (i >= 0 && j >= 0) {
-			byte cmp = 0xF;
-			byte low = x[i];
-			cmp &= low;
+			cmp = 0x0;
+			low = (byte) (x[i] & 0x0f);
+			cmp |= low;
 			if (i > 0) {
-				byte hig = x[i - 1];
+				hig = (byte) (x[i - 1] & 0x0f);
 				hig <<= 4;
-				cmp &= hig;
+				cmp |= hig;
+			} else {
 			}
 			record[cstart + j] = cmp;
 			i -= 2;
@@ -714,7 +730,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	 */
 	public void updateDouble(CobolColumn column, double x) throws CobolRecordException {
 		if (isColumnFormatted(column)) {
-			NumberFormat df = getFormater(column);
+			NumberFormat df = getFormatter(column);
 			updateStringR(column, df.format(x));
 		} else {
 			boolean b = (x < 0);
@@ -789,8 +805,9 @@ public class DefaultCobolRecord implements CobolRecord {
 		} else {
 			if (isColumnFormatted(column)) {
 				// 書式化されている
-				NumberFormat df = getFormater(column);
-				updateStringR(column, df.format(x));
+				NumberFormat df = getFormatter(column);
+				String s = df.format(x);
+				updateStringR(column, s);
 			} else {
 				// 書式がない
 				boolean b = (x < 0);
