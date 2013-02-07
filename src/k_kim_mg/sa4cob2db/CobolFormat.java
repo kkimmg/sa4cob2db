@@ -3,16 +3,42 @@ import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * Format for Cobol
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CobolFormat extends DecimalFormat {
-	protected static class PatternFlags {
+	static class InsertChar {
+		private int index;
+		private byte replace;
+		public InsertChar(int index, byte replace) {
+			this.index = index;
+			this.replace = replace;
+		}
+		public int getIndex() {
+			return index;
+		}
+		public void setIndex(int index) {
+			this.index = index;
+		}
+		public byte getReplace() {
+			return replace;
+		}
+		public void setReplace(char replace) {
+			this.replace = Character.toString(replace).getBytes()[0];
+		}
+		public void setReplace(byte replace) {
+			this.replace = replace;
+		}
+	}
+	static class PatternFlags {
 		boolean db = false, cr = false, plus = false, minus = false, sla = false, bs = false, ast = false, z = false;
 		private CobolColumn column;
 		private String logicalPattern;
+		private List<InsertChar> inserts = new ArrayList<InsertChar>();
 		public PatternFlags(CobolColumn column, boolean db, boolean cr, boolean plus, boolean minus, boolean sla, boolean bs, boolean ast, boolean srp) {
 			this.column = column;
 			this.db = db;
@@ -172,6 +198,11 @@ public class CobolFormat extends DecimalFormat {
 		}
 		if (flags.isPlus()) {
 			setPositivePrefix("+");
+			setNegativePrefix("-");
+		}
+		if (flags.isMinus()) {
+			setPositivePrefix("");
+			setNegativePrefix("-");
 		}
 	}
 	@Override
@@ -183,7 +214,7 @@ public class CobolFormat extends DecimalFormat {
 				// do nothing
 			} else if (c == ' ') {
 				if (flags.isDb() || flags.isCr()) {
-					if (i >= text.length() -2) {
+					if (i >= text.length() - 2) {
 						output.append(' ');
 					}
 				}
