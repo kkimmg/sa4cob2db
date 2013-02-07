@@ -13,8 +13,8 @@ import java.util.List;
 public class CobolFormat extends DecimalFormat {
 	static class InsertChar {
 		private int index;
-		private byte replace;
-		public InsertChar(int index, byte replace) {
+		private char replace;
+		public InsertChar(int index, char replace) {
 			this.index = index;
 			this.replace = replace;
 		}
@@ -24,13 +24,11 @@ public class CobolFormat extends DecimalFormat {
 		public void setIndex(int index) {
 			this.index = index;
 		}
-		public byte getReplace() {
+		public char getReplace() {
 			return replace;
 		}
 		public void setReplace(char replace) {
-			this.replace = Character.toString(replace).getBytes()[0];
-		}
-		public void setReplace(byte replace) {
+			
 			this.replace = replace;
 		}
 	}
@@ -65,8 +63,10 @@ public class CobolFormat extends DecimalFormat {
 					output.append(c);
 				} else if (c == '/') {
 					output.append(',');
+					inserts.add(new InsertChar(i, c));
 				} else if (c == '*' || c == '\\') {
 					output.append('#');
+					inserts.add(new InsertChar(i, c));
 				} else if (c == 'Z' || c == '#') {
 					output.append('#');
 				} else if (c == '-' || c == '+') {
@@ -133,6 +133,9 @@ public class CobolFormat extends DecimalFormat {
 		}
 		public void setSrp(boolean srp) {
 			this.z = srp;
+		}
+		public List<InsertChar> getInserts() {
+			return inserts;
 		}
 	}
 	public static NumberFormat createFormatter(CobolColumn column) {
@@ -233,6 +236,24 @@ public class CobolFormat extends DecimalFormat {
 		for (int i = 0; i < off; i++) {
 			ret.insert(0, ' ');
 		}
+		for (InsertChar ins : flags.getInserts()) {
+			char c = ret.charAt(ins.getIndex());
+			switch (ins.getReplace()) {
+			case '/':
+				ret.setCharAt(ins.getIndex(), '/');
+				break;
+			case '*':
+				if (ret.charAt(ins.getIndex()) == ' ') {
+					ret.setCharAt(ins.getIndex(), '*');
+				}
+				break;
+			case '\\':
+				if (ret.charAt(ins.getIndex()) == ' ') {
+					ret.setCharAt(ins.getIndex(), '\\');
+				}
+				break;
+			}
+		}
 		return ret;
 	}
 	@Override
@@ -242,6 +263,26 @@ public class CobolFormat extends DecimalFormat {
 		int off = flags.getColumn().getLength() - ret.length();
 		for (int i = 0; i < off; i++) {
 			ret.insert(0, ' ');
+		}
+		for (InsertChar ins : flags.getInserts()) {
+			int i = ins.getIndex();
+			char c = ret.charAt(ins.getIndex());
+			char r = ins.getReplace();
+			switch (r) {
+			case '/':
+				ret.setCharAt(i, '/');
+				break;
+			case '*':
+				if (c == ' ') {
+					ret.setCharAt(i, '*');
+				}
+				break;
+			case '\\':
+				if (c == ' ') {
+					ret.setCharAt(i, '\\');
+				}
+				break;
+			}
 		}
 		return ret;
 	}
