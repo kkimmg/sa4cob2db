@@ -180,6 +180,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 	/**
 	 * option value
+	 * 
 	 * @return value
 	 */
 	public byte[] getOptionValue() {
@@ -234,6 +235,11 @@ public class ACMSQLJNISession implements ACMSession {
 				sqlset.setUsername(properties.getProperty("jdbcusername"));
 				sqlset.setPassword(properties.getProperty("jdbcpassword"));
 			}
+			if (superobj == null) {
+				System.err.println("superobj is null.");
+			} else {
+				System.err.println("superobj is not null.");
+			}
 			// /////////////////////////////////////////////////////////
 			// ログの設定
 			String logSetting = properties.getProperty("log", "");
@@ -247,6 +253,11 @@ public class ACMSQLJNISession implements ACMSession {
 					SQLNetServer.logger.log(Level.WARNING, "File Not Found " + logSetting, fnfe);
 				}
 			}
+			if (superobj == null) {
+				System.err.println("superobj is null.");
+			} else {
+				System.err.println("superobj is not null.");
+			}
 			// ////////////////////////////////////////////////////////
 			// パスワードの設定
 			Properties users = new Properties();
@@ -259,9 +270,17 @@ public class ACMSQLJNISession implements ACMSession {
 				FileInputStream fio = new FileInputStream(userFile);
 				users.load(fio);
 			}
+			if (superobj == null) {
+				System.err.println("superobj is null.");
+			} else {
+				System.err.println("superobj is not null.");
+			}
 			superobj = new ACMSQLSession(sqlfileserver);
-			if (superobj == null) {System.err.println("superobj is null.");}
-			else {System.err.println("superobj is not null.");}
+			if (superobj == null) {
+				System.err.println("superobj is null.");
+			} else {
+				System.err.println("superobj is not null.");
+			}
 		} catch (ParserConfigurationException e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
@@ -578,10 +597,10 @@ public class ACMSQLJNISession implements ACMSession {
 	 */
 	public void terminate() {
 		try {
-			if (superobj == null) System.err.println("superobj is null.");
-			Hashtable<String, CobolFile> files =superobj.files;
+			if (superobj == null)
+				System.err.println("superobj is null.");
+			Hashtable<String, CobolFile> files = superobj.files;
 			Enumeration<String> keys = files.keys();
-			
 			while (keys.hasMoreElements()) {
 				String key = keys.nextElement();
 				destroyFile(key);
