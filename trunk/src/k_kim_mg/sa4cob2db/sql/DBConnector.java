@@ -124,9 +124,7 @@ public class DBConnector {
 	public Connection createConnection(String driverURL, String databaseURL, String userName, String passWord) throws ClassNotFoundException, SQLException {
 		Connection retValue = null;
 		Class.forName(driverURL);
-		SQLNetServer.logger.log(Level.INFO, "Connecting3:" + driverURL + ":" + databaseURL + ":" + username + ":" + password);
 		retValue = DriverManager.getConnection(databaseURL, userName, passWord);
-		SQLNetServer.logger.log(Level.INFO, "Connecting4:" + driverURL + ":" + databaseURL + ":" + username + ":" + password);
 		openedConnects.add(retValue);
 		return retValue;
 	}
