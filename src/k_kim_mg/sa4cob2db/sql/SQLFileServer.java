@@ -46,8 +46,10 @@ public class SQLFileServer {
 			}
 		} catch (ClassNotFoundException e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
 		} catch (SQLException e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
 		}
 		return ret;
 	}
