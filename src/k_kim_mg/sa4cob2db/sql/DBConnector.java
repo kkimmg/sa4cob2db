@@ -129,13 +129,16 @@ public class DBConnector {
 	 * @exception 例外の詳細な定義は行わない
 	 */
 	public Connection createConnection(String driverURL, String databaseURL, String userName, String passWord) throws ClassNotFoundException, SQLException {
-		
+		SQLNetServer.logger.log(Level.INFO, "Connecting1:" + driverURL + ":" + databaseURL + ":" + username + ":" + password);
 		Connection retValue = null;
 		try {
+			SQLNetServer.logger.log(Level.INFO, "Connecting2:" + driverURL + ":" + databaseURL + ":" + username + ":" + password);
 		// ドライバの読み込み
 		Class.forName(driverURL);
+		SQLNetServer.logger.log(Level.INFO, "Connecting3:" + driverURL + ":" + databaseURL + ":" + username + ":" + password);
 		// データベースへの接続
 		retValue = DriverManager.getConnection(databaseURL, userName, passWord);
+		SQLNetServer.logger.log(Level.INFO, "Connecting4:" + driverURL + ":" + databaseURL + ":" + username + ":" + password);
 		// 接続を保持する
 		openedConnects.add(retValue);
 		SQLNetServer.logger.log(Level.INFO, "Connecting:" + driverURL + ":" + databaseURL + ":" + username + ":" + password);
