@@ -276,7 +276,7 @@ public class ACMSQLJNISession implements ACMSession {
 				System.err.println("superobj is not null.");
 			}
 			try {
-			superobj = new ACMSQLSession(sqlfileserver);
+				superobj = new ACMSQLSession(sqlfileserver);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -601,8 +601,9 @@ public class ACMSQLJNISession implements ACMSession {
 	 */
 	public void terminate() {
 		try {
-			if (superobj == null)    {
-				System.err.println("superobj is null.4");}
+			if (superobj == null) {
+				System.err.println("superobj is null.4");
+			}
 			Hashtable<String, CobolFile> files = superobj.files;
 			Enumeration<String> keys = files.keys();
 			while (keys.hasMoreElements()) {
