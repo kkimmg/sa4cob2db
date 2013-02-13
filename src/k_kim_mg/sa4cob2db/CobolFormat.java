@@ -11,32 +11,79 @@ import java.util.List;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CobolFormat extends DecimalFormat {
+	/**
+	 * index and character for replace
+	 * 
+	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
+	 */
 	static class InsertChar {
 		private int index;
 		private char replace;
+		/**
+		 * Constructor
+		 * 
+		 * @param index index
+		 * @param replace character
+		 */
 		public InsertChar(int index, char replace) {
 			this.index = index;
 			this.replace = replace;
 		}
+		/**
+		 * get index
+		 * 
+		 * @return index
+		 */
 		public int getIndex() {
 			return index;
 		}
+		/**
+		 * set index
+		 * 
+		 * @param index index
+		 */
 		public void setIndex(int index) {
 			this.index = index;
 		}
+		/**
+		 * get character
+		 * 
+		 * @return character
+		 */
 		public char getReplace() {
 			return replace;
 		}
+		/**
+		 * set character
+		 * 
+		 * @param replace character
+		 */
 		public void setReplace(char replace) {
-			
 			this.replace = replace;
 		}
 	}
+	/**
+	 * 
+	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
+	 */
 	static class PatternFlags {
-		boolean db = false, cr = false, plus = false, minus = false, sla = false, bs = false, ast = false, z = false;
+		private boolean db = false, cr = false, plus = false, minus = false, sla = false, bs = false, ast = false, z = false;
 		private CobolColumn column;
 		private String logicalPattern;
 		private List<InsertChar> inserts = new ArrayList<InsertChar>();
+		/**
+		 * constructor
+		 * 
+		 * @param column column to format
+		 * @param db DB
+		 * @param cr CR
+		 * @param plus +
+		 * @param minus -
+		 * @param sla /
+		 * @param bs \
+		 * @param ast *
+		 * @param srp #
+		 */
 		public PatternFlags(CobolColumn column, boolean db, boolean cr, boolean plus, boolean minus, boolean sla, boolean bs, boolean ast, boolean srp) {
 			this.column = column;
 			this.db = db;
@@ -50,7 +97,7 @@ public class CobolFormat extends DecimalFormat {
 			parsePicture();
 		}
 		/**
-		 * 
+		 * parse picture statement
 		 */
 		public void parsePicture() {
 			String text = column.getFormat();
@@ -77,6 +124,11 @@ public class CobolFormat extends DecimalFormat {
 			}
 			logicalPattern = output.toString();
 		}
+		/**
+		 * DB
+		 * 
+		 * @return has DB true/false
+		 */
 		public boolean isDb() {
 			return db;
 		}
@@ -187,7 +239,8 @@ public class CobolFormat extends DecimalFormat {
 	 */
 	public CobolFormat(PatternFlags flags) {
 		super(flags.getLogicalPattern());
-		System.err.println("CobolFormat.new" + flags.getOriginalPattern() + ":" + flags.getLogicalPattern());
+		// System.err.println("CobolFormat.new" + flags.getOriginalPattern() +
+		// ":" + flags.getLogicalPattern());
 		this.flags = flags;
 		if (flags.isDb()) {
 			setNegativeSuffix("DB");
@@ -225,41 +278,15 @@ public class CobolFormat extends DecimalFormat {
 				output.append(c);
 			}
 		}
-		System.err.println("CobolFormat.parse(" + flags.getColumn().getName() + ")" + text + ":" + flags.getOriginalPattern() + ":" + flags.getLogicalPattern());
 		return super.parse(output.toString());
 	}
 	@Override
 	public StringBuffer format(double number, StringBuffer result, FieldPosition fieldPosition) {
-		// TODO Auto-generated method stub
 		StringBuffer ret = super.format(number, result, fieldPosition);
-		int off = flags.getColumn().getLength() - ret.length();
-		for (int i = 0; i < off; i++) {
-			ret.insert(0, ' ');
-		}
-		for (InsertChar ins : flags.getInserts()) {
-			char c = ret.charAt(ins.getIndex());
-			switch (ins.getReplace()) {
-			case '/':
-				ret.setCharAt(ins.getIndex(), '/');
-				break;
-			case '*':
-				if (ret.charAt(ins.getIndex()) == ' ') {
-					ret.setCharAt(ins.getIndex(), '*');
-				}
-				break;
-			case '\\':
-				if (ret.charAt(ins.getIndex()) == ' ') {
-					ret.setCharAt(ins.getIndex(), '\\');
-				}
-				break;
-			}
-		}
+		replaceChars(ret, flags);
 		return ret;
 	}
-	@Override
-	public StringBuffer format(long number, StringBuffer result, FieldPosition fieldPosition) {
-		// TODO Auto-generated method stub
-		StringBuffer ret = super.format(number, result, fieldPosition);
+	StringBuffer replaceChars(StringBuffer ret, PatternFlags flags) {
 		int off = flags.getColumn().getLength() - ret.length();
 		for (int i = 0; i < off; i++) {
 			ret.insert(0, ' ');
@@ -284,6 +311,12 @@ public class CobolFormat extends DecimalFormat {
 				break;
 			}
 		}
+		return ret;
+	}
+	@Override
+	public StringBuffer format(long number, StringBuffer result, FieldPosition fieldPosition) {
+		StringBuffer ret = super.format(number, result, fieldPosition);
+		replaceChars(ret, flags);
 		return ret;
 	}
 }

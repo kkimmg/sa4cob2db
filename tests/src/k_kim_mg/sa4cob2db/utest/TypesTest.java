@@ -18,6 +18,10 @@ import org.junit.Test;
 public class TypesTest {
 	CobolRecordMetaData meta;
 	CobolRecord record;
+	/**
+	 * set up
+	 * @throws Exception exception 
+	 */
 	@Before
 	public void setUp() throws Exception {
 		// meta
@@ -195,7 +199,7 @@ public class TypesTest {
 		// TYPE-FOM2
 		column = new DefaultCobolColumn(meta);
 		column.setName("TYPE-FOM2");
-		column.setFormat("0,");
+		column.setFormat("0,000");
 		column.setLength(5);
 		column.setStart(101);
 		column.setType(CobolColumn.TYPE_INTEGER);
@@ -258,9 +262,28 @@ public class TypesTest {
 		column.setType(CobolColumn.TYPE_INTEGER);
 		column.setUsage(CobolColumn.USAGE_COMP_3);
 		meta.addColumn(column);
+		// TYPE-FOM5
+		column = new DefaultCobolColumn(meta);
+		column.setName("TYPE-FOM5");
+		column.setFormat("\\,\\\\9");
+		column.setLength(5);
+		column.setStart(132);
+		column.setType(CobolColumn.TYPE_INTEGER);
+		meta.addColumn(column);
+		// TYPE-FOM7
+		column = new DefaultCobolColumn(meta);
+		column.setName("TYPE-FOM7");
+		column.setFormat("\\\\,\\\\9");
+		column.setLength(6);
+		column.setStart(137);
+		column.setType(CobolColumn.TYPE_INTEGER);
+		meta.addColumn(column);
 		// Record
 		record = new DefaultCobolRecord(meta);
 	}
+	/**
+	 * 0
+	 */
 	@Test
 	public void testTYPE_0() {
 		CobolColumn column;
@@ -275,6 +298,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * 9
+	 */
 	@Test
 	public void testTYPE_9() {
 		CobolColumn column;
@@ -289,6 +315,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * A
+	 */
 	@Test
 	public void testTYPE_A() {
 		CobolColumn column;
@@ -302,6 +331,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * ,
+	 */
 	@Test
 	public void testTYPE_CONMA() {
 		CobolColumn column;
@@ -316,6 +348,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * P
+	 */
 	@Test
 	public void testTYPE_P() {
 		CobolColumn column;
@@ -329,6 +364,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * S9
+	 */
 	@Test
 	public void testTYPE_SM() {
 		CobolColumn column;
@@ -342,6 +380,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * S9
+	 */
 	@Test
 	public void testTYPE_SP() {
 		CobolColumn column;
@@ -355,6 +396,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * V
+	 */
 	@Test
 	public void testTYPE_V() {
 		CobolColumn column;
@@ -371,6 +415,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * X
+	 */
 	@Test
 	public void testTYPE_X() {
 		CobolColumn column;
@@ -385,6 +432,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * B
+	 */
 	@Test
 	public void testTYPE_XB() {
 		CobolColumn column;
@@ -399,6 +449,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * /
+	 */
 	@Test
 	public void testTYPE_SLASH() {
 		CobolColumn column;
@@ -413,6 +466,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * .
+	 */
 	@Test
 	public void testTYPE_PERIOD() {
 		CobolColumn column;
@@ -427,6 +483,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * +
+	 */
 	@Test
 	public void testTYPE_PLUS() {
 		CobolColumn column;
@@ -441,6 +500,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * -
+	 */
 	@Test
 	public void testTYPE_MINUS() {
 		CobolColumn column;
@@ -455,6 +517,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * CR
+	 */
 	@Test
 	public void testTYPE_CR1() {
 		CobolColumn column;
@@ -469,6 +534,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * DB
+	 */
 	@Test
 	public void testTYPE_DB1() {
 		CobolColumn column;
@@ -483,6 +551,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * CR
+	 */
 	@Test
 	public void testTYPE_CR2() {
 		CobolColumn column;
@@ -497,6 +568,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * DB
+	 */
 	@Test
 	public void testTYPE_DB2() {
 		CobolColumn column;
@@ -511,6 +585,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * Z
+	 */
 	@Test
 	public void testTYPE_Z() {
 		CobolColumn column;
@@ -525,6 +602,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * *
+	 */
 	@Test
 	public void testTYPE_AST() {
 		CobolColumn column;
@@ -539,6 +619,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * 9,999
+	 */
 	@Test
 	public void testTYPE_FOM1() {
 		CobolColumn column;
@@ -553,24 +636,166 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * 9,000
+	 */
 	@Test
 	public void testTYPE_FOM2() {
+		CobolColumn column;
+		int i = 8000;
+		try {
+			column = meta.getColumn("TYPE-FOM2");
+			record.updateInt(column, i);
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "8,000", record.getString(column));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
+	/**
+	 * +999
+	 */
 	@Test
 	public void testTYPE_FOM3() {
+		CobolColumn column;
+		int i = 56;
+		try {
+			column = meta.getColumn("TYPE-FOM3");
+			record.updateInt(column, i);
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "+056", record.getString(column));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		i = -56;
+		try {
+			column = meta.getColumn("TYPE-FOM3");
+			record.updateInt(column, i);
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "-056", record.getString(column));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
+	/**
+	 * -999
+	 */
 	@Test
 	public void testTYPE_FOM4() {
+		CobolColumn column;
+		int i = -56;
+		try {
+			column = meta.getColumn("TYPE-FOM4");
+			record.updateInt(column, i);
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "-056", record.getString(column));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
+	/**
+	 * \999
+	 */
+	@Test
+	public void testTYPE_FOM5() {
+		CobolColumn column;
+		int i = 567;
+		try {
+			column = meta.getColumn("TYPE-FOM5");
+			record.updateInt(column, i);
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", " \\567", record.getString(column));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		i = 5678;
+		try {
+			column = meta.getColumn("TYPE-FOM5");
+			record.updateInt(column, i);
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "\\,678", record.getString(column));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+	/**
+	 * \9,999
+	 */
+	@Test
+	public void testTYPE_FOM7() {
+		CobolColumn column;
+		int i = 5678;
+		try {
+			column = meta.getColumn("TYPE-FOM7");
+			record.updateInt(column, i);
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "\\5,678", record.getString(column));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		
+	}
+	/**
+	 * ZZZ
+	 */
 	@Test
 	public void testTYPE_FOM8() {
+		CobolColumn column;
+		int i = 56;
+		try {
+			column = meta.getColumn("TYPE-FOM8");
+			record.updateInt(column, i);
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", " 56", record.getString(column));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
+	/**
+	 * 9,999
+	 */
 	@Test
 	public void testTYPE_FOM9() {
+		CobolColumn column;
+		int i = 5678;
+		try {
+			column = meta.getColumn("TYPE-FOM9");
+			record.updateInt(column, i);
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "5,678", record.getString(column));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
+	/**
+	 * USAGE DISPLAY
+	 */
 	@Test
 	public void testTYPE_DISP() {
+		CobolColumn column;
+		int i = 567;
+		try {
+			column = meta.getColumn("TYPE-DISP");
+			record.updateInt(column, i);
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "567", record.getString(column));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
+	/**
+	 * USAGE COMP-3
+	 */
 	@Test
 	public void testTYPE_PACKED_DECIMAL() {
 		CobolColumn column;
@@ -593,6 +818,9 @@ public class TypesTest {
 			fail(e.getMessage());
 		}
 	}
+	/**
+	 * USAGE COMP-3
+	 */
 	@Test
 	public void testTYPE_COMP_3() {
 		CobolColumn column;

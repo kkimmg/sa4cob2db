@@ -1,5 +1,4 @@
 package k_kim_mg.sa4cob2db.sql;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,31 +10,23 @@ import java.sql.Connection;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
-
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
-
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
-
 import org.xml.sax.SAXException;
-
 /**
- * シーケンシャルファイルに出力する
+ * create sequecial file
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class Acm2Seq {
-	/** JDBCコネクション */
-	private Connection connection;
-
 	/**
-	 * 使い方を説明する
+	 * display usage
 	 * 
-	 * @param properties
-	 *            プロパティ
+	 * @param properties properties
 	 */
 	private static void displayUsage(Properties properties) {
 		String flag = properties.getProperty("display_usage", "true");
@@ -49,13 +40,12 @@ public class Acm2Seq {
 			}
 		}
 	}
-
 	/**
-	 * 環境変数を取得する
+	 * get environment values
 	 * 
-	 * @param key
-	 * @param defaultValue
-	 * @return
+	 * @param key env key
+	 * @param defaultValue default value
+	 * @return value
 	 */
 	private static String getEnvValue(String key, String defaultValue) {
 		String ret = System.getProperty(key, System.getenv(key));
@@ -65,8 +55,11 @@ public class Acm2Seq {
 			ret = defaultValue;
 		return ret;
 	}
-
-	/** 起動ルーチン */
+	/**
+	 * main
+	 * 
+	 * @param args arguments
+	 */
 	public static void main(String[] args) {
 		Properties properties = new Properties();
 		// -------------------------
@@ -88,47 +81,36 @@ public class Acm2Seq {
 				}
 			}
 		} else {
-			System.err.println("acmfileが指定されていません。");
+			System.err.println("needs acmfile.");
 		}
 		// -------------------------
 		Acm2Seq obj = new Acm2Seq();
 		obj.exportTo(properties);
-		// 使い方の説明
+		// display
 		displayUsage(properties);
 	}
-
 	/**
-	 * 起動ルーチン
+	 * main
 	 * 
-	 * @param acmfile
-	 *            入力ファイル
-	 * @param outfile
-	 *            出力ファイル
-	 * @param metafile
-	 *            メタデータファイル
-	 * @param lineout
-	 *            改行を含むかどうか true or false
-	 * @param display_usage
-	 *            使い方を表示するかどうか
+	 * @param acmfile input filename
+	 * @param outfile output file
+	 * @param metafile meta data
+	 * @param lineout it's line seq?/true or false
+	 * @param display_usage display usage?/true or false
 	 */
 	public static void main_too(String acmfile, String outfile, String metafile, String lineout, String display_usage) {
 		Acm2Seq.main(new String[] { acmfile, outfile, metafile, lineout, display_usage });
 	}
-
-	/** Internalファイルサーバー */
+	/** JDBC connection */
+	private Connection connection;
 	private SQLFileServer fileServer;
-
 	/**
 	 * ストリームに出力する
 	 * 
-	 * @param file
-	 *            コボルファイル
-	 * @param stream
-	 *            ストリーム
-	 * @param line
-	 *            ライン出力
-	 * @throws IOException
-	 *             例外
+	 * @param file コボルファイル
+	 * @param stream ストリーム
+	 * @param line ライン出力
+	 * @throws IOException 例外
 	 */
 	protected void exportTo(CobolFile file, OutputStream stream, boolean line) throws IOException {
 		int count = 0;
@@ -156,12 +138,10 @@ public class Acm2Seq {
 		// 出力結果
 		System.err.println("Row Count = " + count);
 	}
-
 	/**
 	 * 出力する
 	 * 
-	 * @param properties
-	 *            プロパティ
+	 * @param properties プロパティ
 	 */
 	protected void exportTo(Properties properties) {
 		// ファイル機能の作成
@@ -176,7 +156,6 @@ public class Acm2Seq {
 		File metaFile = new File(metaString);
 		// メタデータ情報の取得
 		NodeReadLoader nodeLoader = new NodeReadLoader();
-
 		CobolFile AcmFile = null;
 		OutputStream fos = null;
 		try {
@@ -250,12 +229,10 @@ public class Acm2Seq {
 			}
 		}
 	}
-
 	/**
 	 * 名称からコボルファイルを取得する
 	 * 
-	 * @param name
-	 *            filename
+	 * @param name filename
 	 * @return コボルファイル
 	 */
 	protected CobolFile getCobolFile(String name) {

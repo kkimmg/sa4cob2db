@@ -733,9 +733,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return null;
 	}
 	/**
-	 * ファイルの一覧
+	 * file list
 	 * 
-	 * @returnファイルの一覧
+	 * @return file list(filename to file)
 	 */
 	public Hashtable<String, DefaultFileInfo> getFilenametofile() {
 		return filenametofile;
@@ -749,9 +749,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return owner;
 	}
 	/**
-	 * ファイルの一覧
+	 * file list
 	 * 
-	 * @returnファイルの一覧
+	 * @return file list(recordname to file)
 	 */
 	public Hashtable<String, DefaultFileInfo> getRecordnametofile() {
 		return recordnametofile;
@@ -770,9 +770,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		return null;
 	}
 	/**
-	 * ファイルの一覧
+	 * file name
 	 * 
-	 * @returnファイルの一覧
+	 * @return file name (selectname to file)
 	 */
 	public Hashtable<String, DefaultFileInfo> getSelectnametofile() {
 		return selectnametofile;
