@@ -7,17 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 public class DBConnector {
-	/** データベースURL */
 	private String databaseURL = "";
-	/** デフォルトのコネクション */
 	private Connection dfCnnct = null;
-	/** ドライバURL */
 	private String driverURL = "";
-	/** これまでに開いたコネクション */
 	private List<Connection> openedConnects = new ArrayList<Connection>();
-	/** パスワード */
 	private String password = "";
-	/** ユーザー名 */
 	private String username = "";
 	/**
 	 * Constructor
@@ -116,7 +110,6 @@ public class DBConnector {
 		} else {
 			retValue = createConnection(driverURL, databaseURL, username, password);
 		}
-		SQLNetServer.logger.log(Level.INFO, "Connecting:" + driverURL + ":" + databaseURL + ":" + username + ":" + password + ":" + forth);
 		return retValue;
 	}
 	/**
@@ -129,23 +122,12 @@ public class DBConnector {
 	 * @exception 例外の詳細な定義は行わない
 	 */
 	public Connection createConnection(String driverURL, String databaseURL, String userName, String passWord) throws ClassNotFoundException, SQLException {
-		SQLNetServer.logger.log(Level.INFO, "Connecting1:" + driverURL + ":" + databaseURL + ":" + username + ":" + password);
 		Connection retValue = null;
-		try {
-			SQLNetServer.logger.log(Level.INFO, "Connecting2:" + driverURL + ":" + databaseURL + ":" + username + ":" + password);
-		// ドライバの読み込み
 		Class.forName(driverURL);
 		SQLNetServer.logger.log(Level.INFO, "Connecting3:" + driverURL + ":" + databaseURL + ":" + username + ":" + password);
-		// データベースへの接続
 		retValue = DriverManager.getConnection(databaseURL, userName, passWord);
 		SQLNetServer.logger.log(Level.INFO, "Connecting4:" + driverURL + ":" + databaseURL + ":" + username + ":" + password);
-		// 接続を保持する
 		openedConnects.add(retValue);
-		SQLNetServer.logger.log(Level.INFO, "Connecting:" + driverURL + ":" + databaseURL + ":" + username + ":" + password);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		// 値を返す
 		return retValue;
 	}
 	/**
