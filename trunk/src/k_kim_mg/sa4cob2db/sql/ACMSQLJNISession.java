@@ -235,11 +235,6 @@ public class ACMSQLJNISession implements ACMSession {
 				sqlset.setUsername(properties.getProperty("jdbcusername"));
 				sqlset.setPassword(properties.getProperty("jdbcpassword"));
 			}
-			if (superobj == null) {
-				System.err.println("superobj is null0.");
-			} else {
-				System.err.println("superobj is not null.");
-			}
 			// /////////////////////////////////////////////////////////
 			// ログの設定
 			String logSetting = properties.getProperty("log", "");
@@ -253,12 +248,6 @@ public class ACMSQLJNISession implements ACMSession {
 					SQLNetServer.logger.log(Level.WARNING, "File Not Found " + logSetting, fnfe);
 				}
 			}
-			if (superobj == null) {
-				System.err.println("superobj is null.1");
-			} else {
-				System.err.println("superobj is not null.");
-			}
-			// ////////////////////////////////////////////////////////
 			// パスワードの設定
 			Properties users = new Properties();
 			String userFile = properties.getProperty("authfile", "");
@@ -270,21 +259,7 @@ public class ACMSQLJNISession implements ACMSession {
 				FileInputStream fio = new FileInputStream(userFile);
 				users.load(fio);
 			}
-			if (superobj == null) {
-				System.err.println("superobj is null.2");
-			} else {
-				System.err.println("superobj is not null.");
-			}
-			try {
-				superobj = new ACMSQLSession(sqlfileserver);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-			if (superobj == null) {
-				System.err.println("superobj is null.3");
-			} else {
-				System.err.println("superobj is not null.");
-			}
+			superobj = new ACMSQLSession(sqlfileserver);
 		} catch (ParserConfigurationException e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
