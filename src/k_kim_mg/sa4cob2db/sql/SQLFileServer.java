@@ -44,6 +44,7 @@ public class SQLFileServer {
 			} else {
 				ret = connector.createConnection();
 			}
+			System.err.println("ret is " + ret);
 		} catch (ClassNotFoundException e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();
