@@ -254,7 +254,7 @@ public class ACMSQLJNISession implements ACMSession {
 				}
 			}
 			if (superobj == null) {
-				System.err.println("superobj is null.");
+				System.err.println("superobj is null.1");
 			} else {
 				System.err.println("superobj is not null.");
 			}
@@ -271,13 +271,13 @@ public class ACMSQLJNISession implements ACMSession {
 				users.load(fio);
 			}
 			if (superobj == null) {
-				System.err.println("superobj is null.");
+				System.err.println("superobj is null.2");
 			} else {
 				System.err.println("superobj is not null.");
 			}
 			superobj = new ACMSQLSession(sqlfileserver);
 			if (superobj == null) {
-				System.err.println("superobj is null.");
+				System.err.println("superobj is null.3");
 			} else {
 				System.err.println("superobj is not null.");
 			}
