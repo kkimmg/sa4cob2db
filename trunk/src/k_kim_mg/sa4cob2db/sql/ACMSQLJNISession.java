@@ -576,6 +576,7 @@ public class ACMSQLJNISession implements ACMSession {
 	 */
 	public void terminate() {
 		try {
+			if (superobj == null) System.err.println("superobj is null.");
 			Hashtable<String, CobolFile> files =superobj.files;
 			Enumeration<String> keys = files.keys();
 			
