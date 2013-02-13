@@ -260,6 +260,8 @@ public class ACMSQLJNISession implements ACMSession {
 				users.load(fio);
 			}
 			superobj = new ACMSQLSession(sqlfileserver);
+			if (superobj == null) {System.err.println("superobj is null.");}
+			else {System.err.println("superobj is not null.");}
 		} catch (ParserConfigurationException e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
