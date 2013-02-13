@@ -236,7 +236,7 @@ public class ACMSQLJNISession implements ACMSession {
 				sqlset.setPassword(properties.getProperty("jdbcpassword"));
 			}
 			if (superobj == null) {
-				System.err.println("superobj is null.");
+				System.err.println("superobj is null0.");
 			} else {
 				System.err.println("superobj is not null.");
 			}
@@ -275,7 +275,11 @@ public class ACMSQLJNISession implements ACMSession {
 			} else {
 				System.err.println("superobj is not null.");
 			}
+			try {
 			superobj = new ACMSQLSession(sqlfileserver);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 			if (superobj == null) {
 				System.err.println("superobj is null.3");
 			} else {
