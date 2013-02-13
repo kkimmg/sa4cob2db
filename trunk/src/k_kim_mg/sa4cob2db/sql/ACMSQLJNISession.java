@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -575,7 +576,9 @@ public class ACMSQLJNISession implements ACMSession {
 	 */
 	public void terminate() {
 		try {
-			Enumeration<String> keys = superobj.files.keys();
+			Hashtable<String, CobolFile> files =superobj.files;
+			Enumeration<String> keys = files.keys();
+			
 			while (keys.hasMoreElements()) {
 				String key = keys.nextElement();
 				destroyFile(key);

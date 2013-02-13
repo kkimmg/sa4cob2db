@@ -11,28 +11,25 @@ import java.util.Map;
 import java.util.logging.Level;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
- * デフォルトのコボルレコード
+ * Default Cobol Record
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class DefaultCobolRecord implements CobolRecord {
-	/** レコードのバイト配列 */
 	private byte[] initialrecord;
-	/** メタデータ */
 	private CobolRecordMetaData metaData;
-	/** レコードのバイト配列 */
 	private byte[] record;
+	private Map<CobolColumn, NumberFormat> formats = new HashMap<CobolColumn, NumberFormat>();
 	/**
-	 * コボルレコード
+	 * Constructor
 	 * 
-	 * @param meta メタデータ
+	 * @param meta metadata
 	 */
 	public DefaultCobolRecord(CobolRecordMetaData meta) {
 		setMetaData(meta);
 	}
 	/*
-	 * 列インデックスの取得 (non-Javadoc)
-	 * 
+	 * (non-Javadoc)
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#findColumn(java.lang.String)
 	 */
 	public int findColumn(String columnName) throws CobolRecordException {
@@ -118,14 +115,9 @@ public class DefaultCobolRecord implements CobolRecord {
 		}
 		return ret;
 	}
-	protected byte[] getBytesDisplay(CobolColumn column) throws CobolRecordException {
-		byte[] ret = new byte[column.getPhysicalLength()];
-		System.arraycopy(record, column.getStart(), ret, 0, ret.length);
-		return ret;
-	}
 	protected byte[] getBytesComp3(CobolColumn column) throws CobolRecordException {
-		byte[] ret = new byte[column.getPhysicalLength()];
-		byte[] wrk = new byte[column.getPhysicalLength() / 2 + 1];
+		byte[] ret = new byte[column.getLength()];
+		byte[] wrk = new byte[column.getPhysicalLength()];
 		System.arraycopy(record, column.getStart(), wrk, 0, wrk.length);
 		int i = ret.length - 1, j = wrk.length - 1;
 		byte byt = wrk[j];
@@ -149,6 +141,11 @@ public class DefaultCobolRecord implements CobolRecord {
 			i -= 2;
 			j--;
 		}
+		return ret;
+	}
+	protected byte[] getBytesDisplay(CobolColumn column) throws CobolRecordException {
+		byte[] ret = new byte[column.getPhysicalLength()];
+		System.arraycopy(record, column.getStart(), ret, 0, ret.length);
 		return ret;
 	}
 	/**
@@ -213,11 +210,6 @@ public class DefaultCobolRecord implements CobolRecord {
 			}
 		}
 		return ret;
-	}
-	Map<CobolColumn, NumberFormat> formats = new HashMap<CobolColumn, NumberFormat>();
-	NumberFormat getFormatter(CobolColumn column) {
-		NumberFormat formater = (formats.containsKey(column) ? formats.get(column) : CobolFormat.createFormatter(column));
-		return formater;
 	}
 	/*
 	 * (non-Javadoc)
@@ -346,6 +338,15 @@ public class DefaultCobolRecord implements CobolRecord {
 			}
 		}
 		return ret;
+	}
+	/**
+	 * get NumberFormat object
+	 * @param column column to format
+	 * @return NumberFormat object if not exists create object
+	 */
+	protected NumberFormat getFormatter(CobolColumn column) {
+		NumberFormat formater = (formats.containsKey(column) ? formats.get(column) : CobolFormat.createFormatter(column));
+		return formater;
 	}
 	/*
 	 * (non-Javadoc)
@@ -634,6 +635,12 @@ public class DefaultCobolRecord implements CobolRecord {
 	public void updateBytes(CobolColumn column, byte[] x) throws CobolRecordException {
 		updateBytesDisplay(column, x);
 	}
+	/**
+	 * update bytes
+	 * @param column column
+	 * @param x value
+	 * @throws CobolRecordException exception
+	 */
 	protected void updateBytesAuto(CobolColumn column, byte[] x) throws CobolRecordException {
 		switch (column.getUsage()) {
 		case CobolColumn.USAGE_COMP_3:
@@ -645,24 +652,15 @@ public class DefaultCobolRecord implements CobolRecord {
 		}
 	}
 	/**
-	 * @param column
-	 * @param x
-	 * @throws CobolRecordException
+	 * update bytes (usage comp-3)
+	 * @param column column
+	 * @param x value
+	 * @throws CobolRecordException exception
 	 */
-	protected void updateBytesDisplay(CobolColumn column, byte[] x) throws CobolRecordException {
-		int i = 0;
-		int cstart = column.getStart();
-		int clength = column.getPhysicalLength();
-		while (i < clength && i < x.length) {
-			record[cstart + i] = x[i];
-			i++;
-		}
-	}
 	protected void updateBytesComp3(CobolColumn column, byte[] x) throws CobolRecordException {
 		int cstart = column.getStart();
-		int wlength = column.getPhysicalLength();
 		int xlength = x.length;
-		int clength = wlength / 2 + 1;
+		int clength = column.getPhysicalLength();
 		int i = xlength - 1;
 		int j = clength - 1;
 		byte cmp = 0x0;
@@ -691,11 +689,26 @@ public class DefaultCobolRecord implements CobolRecord {
 		}
 	}
 	/**
-	 * バイト配int v = bi.intValue();列を右から書き込む
+	 * update byte (usage display)
+	 * @param column
+	 * @param x
+	 * @throws CobolRecordException
+	 */
+	protected void updateBytesDisplay(CobolColumn column, byte[] x) throws CobolRecordException {
+		int i = 0;
+		int cstart = column.getStart();
+		int clength = column.getPhysicalLength();
+		while (i < clength && i < x.length) {
+			record[cstart + i] = x[i];
+			i++;
+		}
+	}
+	/**
+	 * right justification
 	 * 
-	 * @param column 書き込む列
-	 * @param x 値
-	 * @throws CobolRecordException 列がないとか
+	 * @param column column
+	 * @param x value
+	 * @throws CobolRecordException exception
 	 */
 	public void updateBytesR(CobolColumn column, byte[] x) throws CobolRecordException {
 		int i = 0;
@@ -735,7 +748,7 @@ public class DefaultCobolRecord implements CobolRecord {
 		} else {
 			boolean b = (x < 0);
 			// さぁ、ここからが問題ですな
-			byte[] bytes = new byte[column.getPhysicalLength()];
+			byte[] bytes = new byte[column.getLength()];
 			BigDecimal bi = BigDecimal.valueOf(x).abs();
 			BigDecimal bd = BigDecimal.valueOf(x).abs();
 			int lob = bytes.length - column.getNumberOfDecimal();// 整数部の長さ
@@ -812,7 +825,7 @@ public class DefaultCobolRecord implements CobolRecord {
 				// 書式がない
 				boolean b = (x < 0);
 				long v = (b ? -x : x);
-				int len = column.getPhysicalLength();
+				int len = column.getLength();
 				byte[] bytes = new byte[len];
 				int i = len - 1;
 				bytes[i] = (byte) ((b ? 0x70 : 0x30) | (v % 10));// [length -
@@ -926,11 +939,11 @@ public class DefaultCobolRecord implements CobolRecord {
 		}
 	}
 	/**
-	 * 列を右詰めで更新する
+	 * right justification
 	 * 
-	 * @param column 更新する列
-	 * @param x 更新する値
-	 * @throws CobolRecordException 何かうまくいかなかったらしい
+	 * @param column column
+	 * @param x value
+	 * @throws CobolRecordException exception
 	 */
 	public void updateStringR(CobolColumn column, String x) throws CobolRecordException {
 		try {

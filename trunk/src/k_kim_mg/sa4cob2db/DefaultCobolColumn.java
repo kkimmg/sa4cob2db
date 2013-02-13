@@ -1,15 +1,15 @@
 package k_kim_mg.sa4cob2db;
 /**
- * デフォルトのコボル列
+ * Default Cobol Column
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class DefaultCobolColumn implements CobolColumn {
 	/**
-	 * データ型の文字表現（うーん・・・）
+	 * data types
 	 * 
-	 * @param type データ型
-	 * @return 文字表現
+	 * @param type data type
+	 * @return name
 	 */
 	public static String getTypeString(int type) {
 		String ret = "UNKNOWN";
@@ -47,58 +47,24 @@ public class DefaultCobolColumn implements CobolColumn {
 		}
 		return ret;
 	}
-	/** メタデータ */
 	private CobolRecordMetaData cobolRecordMetaData;
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolColumn#getFormat()
-	 */
 	private String format;
-	/** この値ならDBにNULLをセットする */
 	private String forNull = null;
-	/** もしDB上の値がNULLなら */
 	private String ifNull = null;
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolColumn#getLength
-	 */
 	private int length;
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolColumn#getName
-	 */
 	private String name;
-	/** 小数点以下の桁数 */
 	private int numberOfDecimal = 0;
-	/** オリジナル */
 	private CobolColumn original = this;
-	/** この列は符号付きか？ */
 	private boolean signed = false;
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolColumn#getStart
-	 */
 	private int start;
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolColumn#getType
-	 */
 	private int type;
-	/** バイト配列→オブジェクトの変換に失敗した場合 */
 	private boolean useOnParseError = false;
-	/** バイト配列→オブジェクトの変換に失敗した場合 */
 	private Object valueOfParseError = null;
-	/** usage */
 	private int usage = CobolColumn.USAGE_DISPLAY;
 	/**
 	 * Constructor
 	 * 
-	 * @param meta メタデータ
+	 * @param meta meta data
 	 */
 	public DefaultCobolColumn(CobolRecordMetaData meta) {
 		this.cobolRecordMetaData = meta;
@@ -202,6 +168,9 @@ public class DefaultCobolColumn implements CobolColumn {
 		int ret = getLength();
 		if (getType() == CobolColumn.TYPE_NCHAR) {
 			ret *= 2;
+		}
+		if (getUsage() == CobolColumn.USAGE_COMP_3) {
+			ret = ret / 2 + 1;
 		}
 		return ret;
 	}
