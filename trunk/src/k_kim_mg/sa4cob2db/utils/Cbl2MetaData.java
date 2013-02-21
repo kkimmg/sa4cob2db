@@ -13,7 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import k_kim_mg.sa4cob2db.codegen.CobolConsts;
 /**
- * PreProcessing COBOL file access to call statement.
+ * generate meta data file from cobol source.
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
@@ -56,8 +56,7 @@ public class Cbl2MetaData{
 	 * @param s_subprogram true if processing program is subprogram
 	 * @param acm_charset
 	 */
-	public static void main_too(String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass,
-			String acm_charset, String s_subprogram) {
+	public static void main_too(String infile, String outfile, String informat, String outformat, String acm_charset) {
 		String[] argv = new String[] { infile, outfile };
 		if (informat.trim().length() > 0) {
 			System.setProperty("informat", informat.trim());
@@ -65,30 +64,10 @@ public class Cbl2MetaData{
 		if (outformat.trim().length() > 0) {
 			System.setProperty("outformat", outformat.trim());
 		}
-		if (initrow.trim().length() > 0) {
-			System.setProperty("initrow", initrow.trim());
-		}
-		if (increase.trim().length() > 0) {
-			System.setProperty("increase", increase.trim());
-		}
-		if (acmconsts_file.trim().length() > 0) {
-			System.setProperty("acmconsts_file", acmconsts_file.trim());
-		}
-		if (expand_copy.trim().length() > 0) {
-			System.setProperty("expand_copy", expand_copy.trim());
-		}
-		if (codegeneratorlisteners.trim().length() > 0) {
-			System.setProperty("codegeneratorlisteners", codegeneratorlisteners.trim());
-		}
-		if (customcodegeneratorclass.trim().length() > 0) {
-			System.setProperty("customcodegeneratorclass", customcodegeneratorclass.trim());
-		}
 		if (acm_charset.trim().length() > 0) {
 			System.setProperty(ACM_CHARSET, acm_charset.trim());
 		}
-		if (s_subprogram.trim().length() > 0) {
-			System.setProperty("subprogram", s_subprogram.trim());
-		}
+
 		System.setProperty("display_usage", "false");
 		main(argv);
 	}
@@ -119,25 +98,13 @@ public class Cbl2MetaData{
 		if (infmttext.compareToIgnoreCase("free") == 0) {
 			infreeformat = true;
 		}
-		String outfmttext = getEnvValue("outformat", infmttext);
-		// const file
-		String acmconsts_file = getEnvValue("acmconsts_file", CobolConsts.ACMCONSTS_FILE);
-		if (acmconsts_file.trim().length() > 0) {
-			CobolConsts.ACMCONSTS_FILE = acmconsts_file.trim();
-		}
-		// expand copy
-		String expandStr = getEnvValue("expand_copy", "false");
-		expandCopy = Boolean.parseBoolean(expandStr);
 		// usage
 		String usageStr = getEnvValue("display_usage", "true");
 		if (Boolean.parseBoolean(usageStr)) {
-			System.err.println("usage:java -cp path_to_jar \"k_kim_mg.sa4cob2db.codegen.COBPP2\" $1 $2");
+			System.err.println("usage:java -cp path_to_jar " + getClass().getName() + " $1 $2");
 			System.err.println("\t$1=" + infile);
 			System.err.println("\t$2=" + outfile);
 			System.err.println("\tinformat=" + infmttext + "\t:fix or free");
-			System.err.println("\toutformat=" + outfmttext + "\t:fix or free");
-			System.err.println("\tacmconsts_file=" + acmconsts_file);
-			System.err.println("\texpand_copy=" + expandStr + "\t:true or false or space");
 			System.err.println("\tdisplay_usage=" + usageStr + "\t:true or false or space");
 			System.err.println("\tacm_pp_charset=" + csn + "\t:chaset encodeing");
 		}
@@ -156,15 +123,6 @@ public class Cbl2MetaData{
 		if (ret.length() == 0)
 			ret = defaultValue;
 		return ret;
-	}
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see k_kim_mg.sa4cob2db.codegen.GeneratorOwner#generate(java.lang
-	 * .String)
-	 */
-	public void generate(String text) {
-		// TODO
 	}
 	/**
 	 * Run

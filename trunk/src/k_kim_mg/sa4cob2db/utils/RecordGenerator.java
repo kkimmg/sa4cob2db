@@ -23,16 +23,19 @@ import org.w3c.dom.Node;
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
-public class RecordGenerator /* implements CodeGenerator */{
+public class RecordGenerator {
 	private ArrayList<MetaCobolRecordMetaData> records = new ArrayList<MetaCobolRecordMetaData>();
 	private MetaCobolRecordMetaData curr;
 	private String buffer = "";
+	/**
+	 * parse text
+	 * @param txt text
+	 */
 	public void parse(String txt) {
 		String row = txt.trim();
 		String last = txt.substring(txt.length(), txt.length());
 		StringTokenizer tokenizer = new StringTokenizer(row);
 		if (buffer.length() <= 0) {
-			// 最初
 			if (tokenizer.hasMoreTokens()) {
 				String first = tokenizer.nextToken();
 				int level = -1;
@@ -56,6 +59,9 @@ public class RecordGenerator /* implements CodeGenerator */{
 			flush();
 		}
 	}
+	/**
+	 * flush
+	 */
 	public void flush() {
 		if (curr != null) {
 			curr.parse(buffer);
@@ -63,9 +69,9 @@ public class RecordGenerator /* implements CodeGenerator */{
 		buffer = "";
 	}
 	/**
-	 * XMLノードに出力する
+	 * export to node
 	 * 
-	 * @param outname 出力ファイル名
+	 * @param outname output file name
 	 */
 	public int exportToNode(String outname) {
 		int ret = 0;
@@ -80,10 +86,10 @@ public class RecordGenerator /* implements CodeGenerator */{
 		return ret;
 	}
 	/**
-	 * XMLノードに出力する
+	 * export to node
 	 * 
 	 * @param document XML Document
-	 * @param outname 出力ファイル名
+	 * @param outname output file name
 	 */
 	public int exportToNode(Document document, String outname) {
 		int ret = 0;

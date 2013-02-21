@@ -63,7 +63,7 @@ public class CobolFormat extends DecimalFormat {
 		}
 	}
 	/**
-	 * 
+	 * pattern
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	static class PatternFlags {
@@ -190,6 +190,11 @@ public class CobolFormat extends DecimalFormat {
 			return inserts;
 		}
 	}
+	/**
+	 * create format
+	 * @param column column
+	 * @return format
+	 */
 	public static NumberFormat createFormatter(CobolColumn column) {
 		String pattern = column.getFormat();
 		boolean l_db = false, l_cr = false, l_plus = false, l_minus = false, l_sla = false, l_bs = false, l_ast = false, l_z = false;
@@ -286,6 +291,12 @@ public class CobolFormat extends DecimalFormat {
 		replaceChars(ret, flags);
 		return ret;
 	}
+	/**
+	 * replace ' ' to '/*\\'
+	 * @param ret StringBuffer
+	 * @param flags pattern
+	 * @return StringBuffer
+	 */
 	StringBuffer replaceChars(StringBuffer ret, PatternFlags flags) {
 		int off = flags.getColumn().getLength() - ret.length();
 		for (int i = 0; i < off; i++) {

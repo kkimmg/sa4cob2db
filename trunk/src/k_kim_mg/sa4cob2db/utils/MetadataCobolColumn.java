@@ -45,7 +45,13 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	static final int TYPE_S = 8;
 	static final int TYPE_V = 16;
 	static final int TYPE_N = 32;
+	/** meta data */
 	MetaCobolRecordMetaData meta;
+	/**
+	 * Constructor
+	 * 
+	 * @param meta meta data
+	 */
 	public MetadataCobolColumn(MetaCobolRecordMetaData meta) {
 		this.meta = meta;
 	}
@@ -261,7 +267,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 		char c;
 		StringBuffer buf = new StringBuffer();
 		boolean inKakko = false;
-		//boolean withKakko = false;
+		// boolean withKakko = false;
 		for (int i = 0; i < picture.length(); i++) {
 			c = picture.charAt(i);
 			if (inKakko) {
@@ -279,7 +285,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 				case '(':
 					l_length--;
 					inKakko = true;
-					//withKakko = true;
+					// withKakko = true;
 					buf = new StringBuffer();
 					if (l_format.length() > 0) {
 						l_format.deleteCharAt(l_format.length() - 1);
@@ -321,6 +327,9 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 					break;
 				case '0':
 					l_length++;
+					if ((l_type & TYPE_9) == TYPE_9) {
+						l_format.append('0');
+					}
 					break;
 				case 'Z':
 				case 'z':
