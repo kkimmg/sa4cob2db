@@ -10,32 +10,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.text.DecimalFormat;
-import k_kim_mg.sa4cob2db.codegen.CobolConsts;
 /**
  * generate meta data file from cobol source.
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
-public class Cbl2MetaData{
-	private InputStream input;
-	private boolean infreeformat = false;
-	private boolean expandCopy = false;
+public class Cbl2MetaData {
 	/** Environment value name of Charset. */
 	public static final String ACM_CHARSET = "acm_pp_charset";
-	/** Generator */
-	private RecordGenerator generator = new RecordGenerator();
 	/**
 	 * main
 	 * 
 	 * @param argv filename and other's
 	 */
 	public static void main(String[] argv) {
-		////////////////////
-		String fm = "***00";
-		DecimalFormat df = new DecimalFormat(fm);
-		System.out.println(fm + " = " + df.format(-1000));
-		///////////////////
+		// /////////////////
 		Cbl2MetaData cobpp = new Cbl2MetaData(argv);
 		cobpp.run();
 		System.exit(0);
@@ -45,32 +34,23 @@ public class Cbl2MetaData{
 	 * 
 	 * @param infile input filename
 	 * @param outfile output filename
-	 * @param informat format "fix" or "free"
-	 * @param outformat format "fix" or "free"
-	 * @param initrow first row number default 10
-	 * @param increase increase row number default 10
-	 * @param acmconsts_file filename of "ACMCONSTS.CBL"
-	 * @param expand_copy expand copy statement default false
-	 * @param codegeneratorlisteners Event listener class name of generator
-	 * @param customcodegeneratorclass custom generator class name if you use
-	 * @param s_subprogram true if processing program is subprogram
+	 * @param informat cobol is freeformat?
 	 * @param acm_charset
 	 */
-	public static void main_too(String infile, String outfile, String informat, String outformat, String acm_charset) {
+	public static void main_too(String infile, String outfile, String informat, String acm_charset) {
 		String[] argv = new String[] { infile, outfile };
 		if (informat.trim().length() > 0) {
 			System.setProperty("informat", informat.trim());
 		}
-		if (outformat.trim().length() > 0) {
-			System.setProperty("outformat", outformat.trim());
-		}
 		if (acm_charset.trim().length() > 0) {
 			System.setProperty(ACM_CHARSET, acm_charset.trim());
 		}
-
 		System.setProperty("display_usage", "false");
 		main(argv);
 	}
+	private RecordGenerator generator = new RecordGenerator();
+	private boolean infreeformat = false;
+	private InputStream input;
 	private String outfile;
 	/**
 	 * Constructor
@@ -156,21 +136,5 @@ public class Cbl2MetaData{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	/**
-	 * expand copy?
-	 * 
-	 * @return true expand</br> false don't
-	 */
-	public boolean isExpandCopy() {
-		return expandCopy;
-	}
-	/**
-	 * set expand copy?
-	 * 
-	 * @param expandCopy true expand</br> false don't
-	 */
-	public void setExpandCopy(boolean expandCopy) {
-		this.expandCopy = expandCopy;
 	}
 }

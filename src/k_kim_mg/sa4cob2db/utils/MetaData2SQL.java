@@ -18,7 +18,7 @@ import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 import org.xml.sax.SAXException;
 /**
- * シーケンシャルファイルに出力する
+ * generate create table statement
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
@@ -40,33 +40,17 @@ public class MetaData2SQL {
 			}
 		}
 	}
-	/**
-	 * 環境変数を取得する
-	 * 
-	 * @param key
-	 * @param defaultValue
-	 * @return
-	 */
-	private static String getEnvValue(String key, String defaultValue) {
-		String ret = System.getProperty(key, System.getenv(key));
-		if (ret == null)
-			ret = defaultValue;
-		if (ret.length() == 0)
-			ret = defaultValue;
-		return ret;
-	}
 	/** 起動ルーチン */
 	public static void main(String[] args) {
 		Properties properties = new Properties();
 		// -------------------------
-		properties.setProperty("metafile", getEnvValue("metafile", SQLNetServer.DEFAULT_CONFIG));
 		if (args.length >= 1) {
-			properties.setProperty("metafile", args[0]);
+			properties.setProperty("infile", args[0]);
 			if (args.length >= 2) {
 				properties.setProperty("outfile", args[1]);
 			}
 		} else {
-			System.err.println("metafileが指定されていません。");
+			System.err.println("not defined infile");
 		}
 		// -------------------------
 		MetaData2SQL obj = new MetaData2SQL();
@@ -158,11 +142,12 @@ public class MetaData2SQL {
 				}
 				CobolColumn column = meta.getKey(i);
 				if (column instanceof SQLCobolColumn) {
-					SQLCobolColumn sqlcolumn = (SQLCobolColumn)column;
+					SQLCobolColumn sqlcolumn = (SQLCobolColumn) column;
 					try {
 						keysBuf.append(sqlcolumn.getOriginalColumnName());
 					} catch (CobolRecordException e) {
-						keysBuf.append(sqlcolumn.getName());;
+						keysBuf.append(sqlcolumn.getName());
+						;
 					}
 				}
 			}
