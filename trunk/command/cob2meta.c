@@ -34,52 +34,14 @@ static struct option longopts[] = {
 int main (int argc, char *argv[]) {
 	int opt;
 	char* informat = "";
-	char* outformat = "";
-	char* initrow = "";
-	char* increase = "";
-	char* acmconsts_file = "";
-	char* expand_copy = "";
-	char* codegenaratorlisteners = "";
-	char* customcodegeneratorclass = "k_kim_mg.sa4cob2db.codegen.JNICodeGenerator";
 	char* charset = "";
-	char* subprogram = "false";
-	while ((opt = getopt_long(argc, argv, "i:o:r:c:a:e:l:x:s:tjbh", longopts, NULL)) != -1) {
+	while ((opt = getopt_long(argc, argv, "i:o:s:h", longopts, NULL)) != -1) {
 		switch (opt) {
 			case 'i':
                 informat = optarg;
 				break;
-			case 'o':
-                outformat = optarg;
-				break;
-			case 'r':
-                initrow = optarg;
-				break;
-			case 'c':
-                increase = optarg;
-				break;
-			case 'a':
-                acmconsts_file = optarg;
-				break;
-			case 'e':
-                expand_copy = optarg;
-				break;
-			case 'l':
-                codegenaratorlisteners = optarg;
-				break;
-			case 'x':
-                customcodegeneratorclass = optarg;
-				break;
-			case 't':
-                customcodegeneratorclass = "";
-				break;
-			case 'j':
-                customcodegeneratorclass = "k_kim_mg.sa4cob2db.codegen.JNICodeGenerator";
-				break;
 			case 's':
                 charset = optarg;
-				break;
-			case 'b':
-                subprogram = "true";
 				break;
 			case 'h':
                 display_usage();
@@ -105,20 +67,12 @@ int main (int argc, char *argv[]) {
 	jstring s_infile = (*env)->NewStringUTF(env, infile);
 	jstring s_outfile = (*env)->NewStringUTF(env, outfile);
 	jstring s_informat = (*env)->NewStringUTF(env, informat);
-	jstring s_outformat = (*env)->NewStringUTF(env, outformat);
-	jstring s_initrow = (*env)->NewStringUTF(env, initrow);
-	jstring s_increase = (*env)->NewStringUTF(env, increase);
-	jstring s_consts = (*env)->NewStringUTF(env, acmconsts_file);
-	jstring s_expand = (*env)->NewStringUTF(env, expand_copy);
-	jstring s_listeners = (*env)->NewStringUTF(env, codegenaratorlisteners);
-	jstring s_custom = (*env)->NewStringUTF(env, customcodegeneratorclass);
 	jstring s_charset = (*env)->NewStringUTF(env, charset);
-	jstring s_subprogram = (*env)->NewStringUTF(env, subprogram);
 
-    // 実効                                              
+    // 実効
     (*env)->CallStaticVoidMethod(env, clazz, midMainToo, 
-    //infile,   outfile,   informat,   outformat,   initrow,     increase, consts  , expand,  listeners,   custom  , charset
-      s_infile, s_outfile, s_informat, s_outformat, s_initrow, s_increase, s_consts, s_expand, s_listeners, s_custom, s_charset, s_subprogram);
+    //infile,   outfile,   informat,   charset
+      s_infile, s_outfile, s_informat, s_charset);
 	(*jvm)->DestroyJavaVM(jvm);
     exit(0);
 }
@@ -138,15 +92,15 @@ initializeJNI () {
 	JNI_GetDefaultJavaVMInitArgs(&vm_args);
 	JNI_CreateJavaVM(&jvm, (void**)&env, &vm_args);
 	// クラスの取得
-	clazz = (*env)->FindClass(env, "k_kim_mg/sa4cob2db/codegen/COBPP1");
+	clazz = (*env)->FindClass(env, "k_kim_mg/sa4cob2db/utils/Cbl2MetaData");
 	if (clazz == 0) {
 		perror("COBPP1 Class Not Found.");
 		return (-1);
 	}
-	// コンストラクタの取得                                             
-	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	
-	//infile           ;  outfile        ;  charset
-	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	// コンストラクタの取得
+	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",
+	//infile           ;  outfile        ;  informat       ;  charset
+	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	if (midMainToo == 0) {
 		perror("method not found.");
 		return -1;
