@@ -42,10 +42,10 @@
 004300     PERFORM   OUT-WRITE.
 004600     PERFORM   FL-CLOSE.
 123456*    *****************************************
-003900     PERFORM   FL-OPEN2.
-004000     PERFORM   OUT-READ.
-004300     PERFORM   OUT-DISPLAY.
-004600     PERFORM   FL-CLOSE.
+003900*    PERFORM   FL-OPEN2.
+004000*    PERFORM   OUT-READ.
+004300*    PERFORM   OUT-DISPLAY.
+004600*    PERFORM   FL-CLOSE.
 123456*    *****************************************
 004700     PERFORM   TERM.
 004800     STOP RUN.
@@ -126,8 +126,10 @@
 123456     DISPLAY  "TYPE-PERIOD         "  TYPE-PERIOD.
 123456     DISPLAY  "TYPE-PLUS           "  TYPE-PLUS.
 123456     DISPLAY  "TYPE-MINUS          "  TYPE-MINUS.
-123456     DISPLAY  "TYPE-CR             "  TYPE-CR.
-123456     DISPLAY  "TYPE-DB             "  TYPE-DB.
+123456     DISPLAY  "TYPE-CR             "  TYPE-CR1.
+123456     DISPLAY  "TYPE-CR             "  TYPE-CR2.
+123456     DISPLAY  "TYPE-DB             "  TYPE-DB1.
+123456     DISPLAY  "TYPE-DB             "  TYPE-DB2.
 123456     DISPLAY  "TYPE-Z              "  TYPE-Z.
 123456     DISPLAY  "TYPE-AST            "  TYPE-AST.
 123456*    DISPLAY  "TYPE-BS             "  TYPE-BS.
