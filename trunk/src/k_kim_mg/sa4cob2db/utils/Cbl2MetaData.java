@@ -10,14 +10,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import k_kim_mg.sa4cob2db.codegen.COBPP1;
 /**
  * generate meta data file from cobol source.
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class Cbl2MetaData {
-	/** Environment value name of Charset. */
-	public static final String ACM_CHARSET = "acm_pp_charset";
 	/**
 	 * main
 	 * 
@@ -43,7 +42,7 @@ public class Cbl2MetaData {
 			System.setProperty("informat", informat.trim());
 		}
 		if (acm_charset.trim().length() > 0) {
-			System.setProperty(ACM_CHARSET, acm_charset.trim());
+			System.setProperty(COBPP1.ACM_CHARSET, acm_charset.trim());
 		}
 		System.setProperty("display_usage", "false");
 		main(argv);
@@ -110,7 +109,7 @@ public class Cbl2MetaData {
 	public void run() {
 		try {
 			InputStreamReader isr = null;
-			String csn = getEnvValue(ACM_CHARSET, "").trim();
+			String csn = getEnvValue(COBPP1.ACM_CHARSET, "").trim();
 			if (csn.length() == 0) {
 				isr = new InputStreamReader(input);
 			} else {
