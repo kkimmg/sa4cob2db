@@ -137,7 +137,7 @@ public class MetaData2SQL {
 			} else {
 				writer.write(",\n");
 			}
-			writer.write("\tCONSTRAINT PKEY PRIMARY KEY (" + keysBuf.toString() + ")");
+			writer.write("\tPRIMARY KEY (" + keysBuf.toString() + ")");
 		}
 		//
 		writer.write("\n);\n");
