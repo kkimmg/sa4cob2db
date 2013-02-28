@@ -14,7 +14,7 @@ all:
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v cobpp.c   getJNIOption.c -o cobpp
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v sqlnetserver.c   getJNIOption.c -o sqlnetserver
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v cob2meta.c   getJNIOption.c -o cob2meta
-
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -v meta2sql.c   getJNIOption.c -o meta2sql
 
 install:
 	mkdir $(BINDIR)
@@ -23,6 +23,7 @@ install:
 	$(INSTALL) cobpp $(BINDIR)/
 	$(INSTALL) sqlnetserver $(BINDIR)/
 	$(INSTALL) cob2meta $(BINDIR)/
+	$(INSTALL) meta2sql $(BINDIR)/
 
 deinstall:
 	rm $(BINDIR)/acm2seq
@@ -30,6 +31,7 @@ deinstall:
 	rm $(BINDIR)/cobpp
 	rm $(BINDIR)/sqlnetserver
 	rm $(BINDIR)/cob2meta
+	rm $(BINDIR)/meta2sql
 	rm -rv $(BINDIR)
 
 clean:
@@ -38,4 +40,5 @@ clean:
 	rm cobpp
 	rm sqlnetserver
 	rm cob2meta
+	rm meta2sql
 

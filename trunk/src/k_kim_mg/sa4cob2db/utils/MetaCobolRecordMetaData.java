@@ -8,10 +8,17 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+/**
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
+ */
 public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 	private MetadataCobolColumn dummy = new MetadataCobolColumn(this) {
 		private static final long serialVersionUID = 1L;
-
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see k_kim_mg.sa4cob2db.utils.MetadataCobolColumn#getLevel()
+		 */
 		public int getLevel() {
 			return -1;
 		}
@@ -23,6 +30,11 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 	private List<MetadataCobolColumn> firsts = new ArrayList<MetadataCobolColumn>();
 	private List<MetadataCobolColumn> list = new ArrayList<MetadataCobolColumn>();
 	private Stack<MetadataCobolColumn> stack = new Stack<MetadataCobolColumn>();
+	/**
+	 * @param document
+	 * @param rootNode
+	 * @return
+	 */
 	public int exportToNode(Document document, Node rootNode) {
 		int ret = 0;
 		for (MetadataCobolColumn x : firsts) {
@@ -36,6 +48,9 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 		}
 		return ret;
 	}
+	/**
+	 * @param txt
+	 */
 	public void parse(String txt) {
 		MetadataCobolColumn work = new MetadataCobolColumn(this);
 		int i = work.parce(txt);
@@ -71,10 +86,18 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 		}
 		previous = work;
 	}
-	public boolean containsKey (String key) {
+	/**
+	 * @param key
+	 * @return
+	 */
+	public boolean containsKey(String key) {
 		return map.containsKey(key);
 	}
-	public MetadataCobolColumn get (String key) {
+	/**
+	 * @param key
+	 * @return
+	 */
+	public MetadataCobolColumn get(String key) {
 		return map.get(key);
 	}
 }
