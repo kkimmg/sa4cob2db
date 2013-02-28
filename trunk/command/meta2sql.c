@@ -59,10 +59,10 @@ int main (int argc, char *argv[]) {
         outfile = argv[optind + 1];
     }
     jstring s_infile = (*env)->NewStringUTF(env, infile);
-	jstring s_outfile = (*env)->NewStringUTF(env, outfile);
-	jstring s_charset = (*env)->NewStringUTF(env, charset);
+    jstring s_outfile = (*env)->NewStringUTF(env, outfile);
+    jstring s_charset = (*env)->NewStringUTF(env, charset);
     //
-    (*env)->CallStaticVoidMethod(env, clazz, midMainToo
+    (*env)->CallStaticVoidMethod(env, clazz, midMainToo,
     //infile,   outfile,   charset
       s_infile, s_outfile, s_charset);
 	(*jvm)->DestroyJavaVM(jvm);
