@@ -23,29 +23,12 @@ import org.xml.sax.SAXException;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class MetaData2SQL {
-	/**
-	 * 使い方を説明する
-	 * 
-	 * @param properties プロパティ
-	 */
-	private static void displayUsage(Properties properties) {
-		String flag = properties.getProperty("display_usage", "false");
-		if (Boolean.parseBoolean(flag)) {
-			System.err.println("java -classpath path_to_jdbc:path_to_acm \"k_kim_mg.sa4cob2db.sql.Acm2Seq\" acmfile outputfile metfile lineout(true/false) display_usage");
-			java.util.Enumeration<Object> keys = properties.keys();
-			while (keys.hasMoreElements()) {
-				String key = keys.nextElement().toString();
-				String val = properties.getProperty(key);
-				System.err.println(key + " = " + val);
-			}
-		}
-	}
-	/** 起動ルーチン */
+	/** main */
 	public static void main(String[] args) {
 		Properties properties = new Properties();
 		// -------------------------
 		if (args.length >= 1) {
-			properties.setProperty("infile", args[0]);
+			properties.setProperty("metafile", args[0]);
 			if (args.length >= 2) {
 				properties.setProperty("outfile", args[1]);
 			}
@@ -55,15 +38,12 @@ public class MetaData2SQL {
 		// -------------------------
 		MetaData2SQL obj = new MetaData2SQL();
 		obj.exportTo(properties);
-		// 使い方の説明
-		displayUsage(properties);
 	}
 	/**
-	 * 起動ルーチン
+	 * usage
 	 * 
-	 * @param acmfile 入力ファイル
-	 * @param outfile 出力ファイル
-	 * @param metafile メタデータファイル
+	 * @param metafile meta data file
+	 * @param outfile sql file
 	 */
 	public static void main_too(String metafile, String outfile) {
 		MetaData2SQL.main(new String[] { metafile, outfile, });
@@ -73,11 +53,9 @@ public class MetaData2SQL {
 	/**
 	 * ストリームに出力する
 	 * 
-	 * @param file コボルファイル
-	 * @param stream ストリーム
-	 * @param line ライン出力
-	 * @throws IOException 例外
-	 * @throws CobolRecordException
+	 * @param meta meta data
+	 * @param stream output stream
+	 * @throws IOException io exception
 	 */
 	protected void exportTo(CobolRecordMetaData meta, OutputStream stream) throws IOException {
 		boolean first = true;
@@ -158,47 +136,35 @@ public class MetaData2SQL {
 			}
 			writer.write("\tCONSTRAINT PKEY PRIMARY KEY (" + keysBuf.toString() + ")");
 		}
-		// 終端部分
+		// 
 		writer.write("\n);");
 		writer.flush();
 	}
 	/**
-	 * 出力する
+	 * export
 	 * 
-	 * @param properties プロパティ
+	 * @param properties properties
 	 */
 	protected void exportTo(Properties properties) {
-		// ファイル機能の作成
 		fileServer = new SQLFileServer();
 		CobolRecordMetaDataSet metaset = fileServer.getMetaDataSet();
-		// メタデータfilename
 		String metaString = properties.getProperty("metafile", SQLNetServer.DEFAULT_CONFIG);
 		String OutName = properties.getProperty("outfile", metaString + ".sql");
-		// メタデータの取得
 		File metaFile = new File(metaString);
-		// メタデータ情報の取得
 		NodeReadLoader nodeLoader = new NodeReadLoader();
-		// CobolFile AcmFile = null;
 		OutputStream fos = null;
 		try {
 			nodeLoader.createMetaDataSet(metaFile, metaset, properties);
-			// /////////////////////////////////////////////////////////
-			// ACMファイル
-			// AcmFile = getCobolFile(AcmName);
-			// AcmFile.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_SEQUENCIAL);
-			// 出力ファイル
+			// out file
 			if (OutName.trim().length() == 0) {
-				// 標準出力
 				fos = System.out;
 			} else {
-				// ファイルへ
 				fos = new FileOutputStream(OutName);
 			}
-			// 出力処理
+			// export
 			for (CobolRecordMetaData meta : metaset.toArray()) {
 				exportTo(meta, fos);
 			}
-			// 終了処理
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		} catch (FactoryConfigurationError e) {
