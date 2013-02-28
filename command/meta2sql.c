@@ -32,8 +32,11 @@ int main (int argc, char *argv[]) {
 	int opt;
 	char* informat = "";
 	char* charset = "";
-	while ((opt = getopt_long(argc, argv, "h", longopts, NULL)) != -1) {
+	while ((opt = getopt_long(argc, argv, "s:h", longopts, NULL)) != -1) {
 		switch (opt) {
+			case 's':
+		        charset = optarg;
+				break;
 			case 'h':
                 display_usage();
 				exit(0);
@@ -55,8 +58,13 @@ int main (int argc, char *argv[]) {
     if (argc > optind + 1) {
         outfile = argv[optind + 1];
     }
+    jstring s_infile = (*env)->NewStringUTF(env, infile);
+	jstring s_outfile = (*env)->NewStringUTF(env, outfile);
+	jstring s_charset = (*env)->NewStringUTF(env, charset);
     //
-    (*env)->CallStaticVoidMethod(env, clazz, midMainToo);
+    (*env)->CallStaticVoidMethod(env, clazz, midMainToo
+    //infile,   outfile,   charset
+      s_infile, s_outfile, s_charset);
 	(*jvm)->DestroyJavaVM(jvm);
     exit(0);
 }
@@ -81,7 +89,8 @@ initializeJNI () {
 		return (-1);
 	}
 	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",
-	"()V");
+	//infile           ;  outfile        ;  charset
+	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	if (midMainToo == 0) {
 		perror("method not found.");
 		return -1;
@@ -96,6 +105,7 @@ void
 display_usage () {
 	printf("cobpp infile outfile\n");
 	printf("options\n");
+	printf("\t-s/--charset\tcharset of source code\n");
 	printf("\t-h/--help\tshow this message.\n");
 }
 

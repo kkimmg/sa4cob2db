@@ -12,6 +12,7 @@ import k_kim_mg.sa4cob2db.CobolColumn;
 import k_kim_mg.sa4cob2db.CobolRecordException;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
+import k_kim_mg.sa4cob2db.codegen.COBPP1;
 import k_kim_mg.sa4cob2db.sql.SQLCobolColumn;
 import k_kim_mg.sa4cob2db.sql.SQLFileServer;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
@@ -45,7 +46,10 @@ public class MetaData2SQL {
 	 * @param metafile meta data file
 	 * @param outfile sql file
 	 */
-	public static void main_too(String metafile, String outfile) {
+	public static void main_too(String metafile, String outfile, String acm_charset) {
+		if (acm_charset.trim().length() > 0) {
+			System.setProperty(COBPP1.ACM_CHARSET, acm_charset.trim());
+		}
 		MetaData2SQL.main(new String[] { metafile, outfile, });
 	}
 	/** Internalファイルサーバー */
@@ -57,10 +61,9 @@ public class MetaData2SQL {
 	 * @param stream output stream
 	 * @throws IOException io exception
 	 */
-	protected void exportTo(CobolRecordMetaData meta, OutputStream stream) throws IOException {
+	protected void exportTo(CobolRecordMetaData meta, Writer writer) throws IOException {
 		boolean first = true;
 		String name = meta.getName();
-		Writer writer = new OutputStreamWriter(stream);
 		writer.write("CREATE TABLE " + name + " (\n");
 		int count = meta.getColumnCount();
 		for (int i = 0; i < count; i++) {
@@ -136,7 +139,7 @@ public class MetaData2SQL {
 			}
 			writer.write("\tCONSTRAINT PKEY PRIMARY KEY (" + keysBuf.toString() + ")");
 		}
-		// 
+		//
 		writer.write("\n);");
 		writer.flush();
 	}
@@ -161,10 +164,13 @@ public class MetaData2SQL {
 			} else {
 				fos = new FileOutputStream(OutName);
 			}
+			String csn = getEnvValue(COBPP1.ACM_CHARSET, "").trim();
+			Writer writer = (csn.length() == 0 ? new OutputStreamWriter(fos) : new OutputStreamWriter(fos, csn));
 			// export
 			for (CobolRecordMetaData meta : metaset.toArray()) {
-				exportTo(meta, fos);
+				exportTo(meta, writer);
 			}
+			writer.close();
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		} catch (FactoryConfigurationError e) {
@@ -182,5 +188,20 @@ public class MetaData2SQL {
 				ex.printStackTrace();
 			}
 		}
+	}
+	/**
+	 * get environment values
+	 * 
+	 * @param key key
+	 * @param defaultValue default value
+	 * @return value
+	 */
+	private String getEnvValue(String key, String defaultValue) {
+		String ret = System.getProperty(key, System.getenv(key));
+		if (ret == null)
+			ret = defaultValue;
+		if (ret.length() == 0)
+			ret = defaultValue;
+		return ret;
 	}
 }
