@@ -46,7 +46,7 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 			map.setNamedItem(attr);
 			rootNode.appendChild(node);
 			Node stmt = document.createElement("statement");
-			Node sql = document.createTextNode("select * from" + root.getOriginalColumnName() + ";") ;
+			Node sql = document.createTextNode("select * from " + root.getOriginalColumnName() + ";") ;
 			stmt.appendChild(sql);
 			node.appendChild(stmt);
 			ret = x.exportToNode(document, node, ret, "");
