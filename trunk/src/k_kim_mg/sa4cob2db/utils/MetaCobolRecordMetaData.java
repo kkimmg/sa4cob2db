@@ -37,6 +37,7 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 	 */
 	public int exportToNode(Document document, Node rootNode) {
 		int ret = 0;
+		
 		for (MetadataCobolColumn x : firsts) {
 			Node node = document.createElement("metadata");
 			NamedNodeMap map = node.getAttributes();
@@ -44,6 +45,10 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 			attr.setValue(root.getOriginalColumnName());
 			map.setNamedItem(attr);
 			rootNode.appendChild(node);
+			Node stmt = document.createElement("statement");
+			Node sql = document.createTextNode("select * from" + root.getOriginalColumnName() + ";") ;
+			stmt.appendChild(sql);
+			node.appendChild(stmt);
 			ret = x.exportToNode(document, node, ret, "");
 		}
 		return ret;
@@ -71,9 +76,6 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 		} else if (i > 1) {
 			list.add(work);
 			map.put(work.getName(), work);
-			// if (work.getLevel() == previous.getLevel()) {
-			// Do Nothing
-			// }
 			if (work.getLevel() > previous.getLevel()) {
 				stack.push(parent);
 				parent = previous;
