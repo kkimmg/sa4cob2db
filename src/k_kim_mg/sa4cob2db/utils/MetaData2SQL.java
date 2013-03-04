@@ -52,10 +52,10 @@ public class MetaData2SQL {
 		}
 		MetaData2SQL.main(new String[] { metafile, outfile, });
 	}
-	/** Internalファイルサーバー */
+	/** internal file server */
 	private SQLFileServer fileServer;
 	/**
-	 * ストリームに出力する
+	 * export
 	 * 
 	 * @param meta meta data
 	 * @param stream output stream
