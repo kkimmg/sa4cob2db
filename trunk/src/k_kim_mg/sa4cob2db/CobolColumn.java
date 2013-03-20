@@ -8,29 +8,29 @@ package k_kim_mg.sa4cob2db;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CobolColumn {
-	/** 日付型 */
+	/** Date */
 	public static int TYPE_DATE = 7;
-	/** 小数点型 */
+	/** Double */
 	public static int TYPE_DOUBLE = 6;
-	/** 小数点型 */
+	/** Float */
 	public static int TYPE_FLOAT = 5;
-	/** 整数型 */
+	/** Integer */
 	public static int TYPE_INTEGER = 1;
-	/** 整数型 */
+	/** Long */
 	public static int TYPE_LONG = 4;
-	/** 日本語型 */
+	/** Graphic Characters */
 	public static int TYPE_NCHAR = 3;
-	/** 構造体型 */
+	/** Struct */
 	public static int TYPE_STRUCT = 11;
-	/** 時刻型 */
+	/** Time */
 	public static int TYPE_TIME = 8;
-	/** 日付時刻型 */
+	/** TimeStamp */
 	public static int TYPE_TIMESTAMP = 10;
-	/** 英数字型 */
+	/** Characters */
 	public static int TYPE_XCHAR = 2;
 	/** USAGE DISPLAY (Default) */
 	public static int USAGE_DISPLAY = 0;
-	/** USAGE DISPLAY (Binary Or Computatinal) */
+	/** USAGE DISPLAY (Binary Or Computational) */
 	public static int USAGE_BINARY = 1;
 	/** USAGE DISPLAY (Packed Decimal or Comp-3) */
 	public static int USAGE_COMP_3 = 2;
@@ -40,64 +40,64 @@ public interface CobolColumn {
 	public static int USAGE_INDEX = 8;
 
 	/**
-	 * コピーの作成
-	 * @return コピー？
+	 * create copy
+	 * @return copy
 	 */
 	public CobolColumn createCopy(CobolRecordMetaData meta);
 	/**
-	 * レコード情報の取得
-	 * @return レコードレイアウト
+	 * get meta data
+	 * @return meta data
 	 */
 	public CobolRecordMetaData getCobolRecordMetaData();
 	/**
-	 * 列の書式を表す文字列
-	 * @return 書式文字列
+	 * get format
+	 * @return format
 	 */
 	public String getFormat();
 	/**
-	 * この値ならDBにNULLをセットする
-	 * @return 代替の値
+	 * This value sets NULL in DB
+	 * @return value
 	 */
 	public String getForNull();
 	/**
-	 * もしDB上の値がNULLなら
-	 * @return 代替の値
+	 * return this value if DB value is NULL
+	 * @return value
 	 */
 	public String getIfNull();
 	/**
-	 * 列の長さ
-	 * @return 列幅
+	 * length
+	 * @return length
 	 */
 	public int getLength();
 	/**
-	 * 列を識別するための名称
-	 * @return 列名
+	 * name
+	 * @return name
 	 */
 	public String getName();
 	/**
-	 * 数値型の列の小数点以下の桁数
-	 * @return 数値型の列の小数点以下の桁数
+	 * get decimal digit
+	 * @return decimal digit
 	 */
 	public int getNumberOfDecimal();
 	/**
-	 * この列のベースになる列
-	 * @return オリジナル列
+	 * column what copied from
+	 * @return base column
 	 */
 	public CobolColumn getOriginalCobolColumn();
 	/**
-	 * 列のバイト長を返す
-	 * @return 物理長
+	 * get physical length
+	 * @return physical length
 	 */
 	public int getPhysicalLength();
 	/**
-	 * 列の開始位置<br/>
-	 * 0で始まります
-	 * @return 開始位置
+	 * get start location<br/>
+	 * starts from 0
+	 * @return start
 	 */
 	public int getStart();
 	/**
-	 * 列のデータ型
-	 * @return データ型
+	 * get data type
+	 * @return data type
 	 */
 	public int getType();
 	/**
@@ -106,14 +106,14 @@ public interface CobolColumn {
 	 */
 	public int getUsage();
 	/**
-	 * バイト配列→オブジェクトの変換に失敗した場合
-	 * @return 代替の値
+	 * set this value when parse error
+	 * @return value
 	 */
 	public Object getValueOfParseError();
 	/**
-	 * 数値型の列が＋ーの符号を持つかどうか
-	 * @return true 符号付き<br/>
-	 *         false 符号なし
+	 * is S9
+	 * @return true signed<br/>
+	 *         false not
 	 */
 	public boolean isSigned();
 	/**

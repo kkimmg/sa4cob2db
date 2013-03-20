@@ -27,8 +27,8 @@ public abstract interface ACMNetSession {
 	public static final int USERNAME_MAX = (FILE_IDENT_LEN - 1);
 	public static final int PASSWORD_LEN = 256;
 	public static final int PASSWORD_MAX = (FILE_IDENT_LEN - 1);
-	public static final int RECORD_LEN = 8192;
-	public static final int RECORD_MAX = (RECORD_LEN - 1);
+	public static final int INITIAL_RECORD_LEN = 8192;
+	public static final int INITIAL_RECORD_MAX = (INITIAL_RECORD_LEN - 1);
 	
 	public static final String MSG_ASSIGN = "ASSIGN";
 	public static final String MSG_CLOSE = "CLOSE";

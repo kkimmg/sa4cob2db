@@ -13,6 +13,7 @@ import k_kim_mg.sa4cob2db.ACMSession;
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.CobolIndex;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
+import k_kim_mg.sa4cob2db.event.ACMLengthChangedEvent;
 import k_kim_mg.sa4cob2db.event.ACMOptionSetEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
@@ -26,11 +27,12 @@ public class ACMSQLSession implements ACMSession {
 	protected Hashtable<String, CobolFile> files;
 	/** イベントリスナ */
 	protected ArrayList<ACMSessionEventListener> listeners = new ArrayList<ACMSessionEventListener>();
+	private int maxLength;
+	private Properties options;
 	/** ファイルサーバー */
 	private final transient SQLFileServer server;
 	/** セッションID */
 	protected String sessionId;
-	private Properties options;
 	/**
 	 * セッションの作成
 	 * 
@@ -228,6 +230,29 @@ public class ACMSQLSession implements ACMSession {
 		return files.get(name);
 	}
 	/**
+	 * ファイルの一覧
+	 * 
+	 * @return ファイルの一覧
+	 */
+	protected Collection<CobolFile> getFileCollection() {
+		return files.values();
+	}
+	/**
+	 * ファイル名の一覧
+	 * 
+	 * @return ファイル名の一覧
+	 */
+	protected Set<String> getFileNames() {
+		return files.keySet();
+	}
+	@Override
+	public int getMaxLength() {
+		if (maxLength <= 0) {
+			maxLength = ACMNetSession.INITIAL_RECORD_LEN;
+		}
+		return maxLength;
+	}
+	/**
 	 * セッションID
 	 * 
 	 * @return セッションID
@@ -271,25 +296,24 @@ public class ACMSQLSession implements ACMSession {
 			listener.optionSetted(e);
 		}
 	}
+	@Override
+	public void setMaxLength(int length) {
+		int oldLength = getMaxLength();
+		if (length <= 0) {
+			maxLength = ACMNetSession.INITIAL_RECORD_LEN;
+		} else {
+			maxLength = length;
+		}
+		ACMLengthChangedEvent e = new ACMLengthChangedEvent(this, oldLength, maxLength);
+		for (ACMSessionEventListener listener : listeners) {
+			listener.lengthChanged(e);
+		}
+	}
 	/**
-	 * セッションの終了
+	 * terminate session
 	 */
 	protected void terminate() {
 		server.removeConnection(connection);
 		connection = null;
-	}
-	/**
-	 * ファイル名の一覧
-	 * @return ファイル名の一覧
-	 */
-	protected Set<String> getFileNames() {
-		return files.keySet();
-	}
-	/**
-	 * ファイルの一覧
-	 * @return ファイルの一覧
-	 */
-	protected Collection<CobolFile> getFileCollection () {
-		return files.values();		
 	}
 }

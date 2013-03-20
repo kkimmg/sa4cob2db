@@ -28,15 +28,15 @@ import org.xml.sax.SAXException;
 public class ACMSQLJNISession implements ACMSession {
 	static final String NOT_ASSIGNED = FileStatus.NOT_ASSIGNED.toString();
 	private static final long serialVersionUID = 1L;
-	/** Session */
-	ACMSQLSession superobj;
-	/** record */
-	byte[] readingRecord = new byte[ACMNetSession.RECORD_LEN];
+	final byte[] initalOption;
 	/** option value */
 	byte[] optionValue = new byte[ACMNetSession.OPTIONVALUE_LEN];
-	final byte[] initalOption;
+	/** record */
+	byte[] readingRecord = new byte[ACMNetSession.INITIAL_RECORD_LEN];
 	/** FILE STATUS */
 	byte[] status = new byte[255];
+	/** Session */
+	ACMSQLSession superobj;
 	/** Constructor */
 	public ACMSQLJNISession() throws Exception {
 		super();
@@ -157,6 +157,10 @@ public class ACMSQLJNISession implements ACMSession {
 		System.arraycopy(initalOption, 0, optionValue, 0, l);
 		System.arraycopy(optValue, 0, optionValue, 0, (l > j ? j : l));
 		setFileStatus2Bytes(FileStatus.OK, status);
+	}
+	@Override
+	public int getMaxLength() {
+		return superobj.getMaxLength();
 	}
 	/**
 	 * モード文字列からint値を得る
@@ -505,6 +509,14 @@ public class ACMSQLJNISession implements ACMSession {
 		setACMOption(s_key, s_val);
 		setFileStatus2Bytes(FileStatus.OK, status);
 	}
+	@Override
+	public void setMaxLength(int length) {
+		if (length <= 0) {
+			length = ACMNetSession.INITIAL_RECORD_LEN;
+		}
+		readingRecord = new byte[getMaxLength()];
+		superobj.setMaxLength(length);
+	}
 	/**
 	 * トランザクションを開始する
 	 * 
@@ -572,7 +584,7 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * セッションの終了
+	 * terminate
 	 */
 	public void terminate() {
 		try {
@@ -588,14 +600,12 @@ public class ACMSQLJNISession implements ACMSession {
 			setFileStatus2Bytes(FileStatus.FAILURE, status);
 			return;
 		}
-		// セッションを管理外にする
 		// server.deleteSession(this);
-		// 上位クラスの終了処理
 		superobj.terminate();
 		setFileStatus2Bytes(FileStatus.OK, status);
 	}
 	/**
-	 * 書き込み
+	 * write file
 	 */
 	public void write(byte[] fileName, byte[] record) {
 		FileStatus ret = FileStatus.FAILURE;

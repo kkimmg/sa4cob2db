@@ -82,7 +82,7 @@ public class DefaultCobolColumn implements CobolColumn {
 		copy.setLength(getLength());
 		copy.setSigned(isSigned());
 		copy.setFormat(getFormat());
-		copy.setOriginalCobolColumn(getOriginalCobolColumn());
+		copy.setOriginalCobolColumn(this);
 		copy.setForNull(getForNull());
 		copy.setIfNull(getIfNull());
 		copy.setUseOnParseError(isUseOnParseError());

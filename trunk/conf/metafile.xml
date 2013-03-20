@@ -3,8 +3,8 @@
 	<property name="jdbcdriverurl">org.postgresql.Driver</property>
 	<property name="jdbcdatabaseurl">jdbc:postgresql://127.0.0.1:5432/test</property>
 	<property name="jdbcusername">testuser</property>
-	<property name="jdbcpassword">hogehoge</property>
-	<property name="address">192.168.1.1,127.0.0.1</property>
+	<property name="jdbcpassword">testpass</property>
+	<property name="address">127.0.0.1</property>
 	<property name="log">/opt/sa4cob2db/conf/acmlogsetting.properties</property>
 	<property name="authfile">/opt/sa4cob2db/conf/password.properties</property>
 	<property name="adminfile">/opt/sa4cob2db/conf/adminpass.properties</property>
@@ -130,4 +130,5 @@
         <keycolumn>TYPE-A</keycolumn>
         <keycolumn>TYPE-X</keycolumn>
         <keycolumn>TYPE-9</keycolumn>
-    </metadata></metadataset>
+    </metadata>
+</metadataset>

@@ -22,4 +22,7 @@ public class ACMSessionEventAdapter implements ACMSessionEventListener {
 	@Override
 	public void optionSetted(ACMOptionSetEvent e) {
 	}
+	@Override
+	public void lengthChanged(ACMLengthChangedEvent e) {
+	}
 }

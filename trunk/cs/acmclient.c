@@ -21,7 +21,8 @@ struct sockaddr_in server;
 struct servent *se;
 int soc, portno, len;
 char buf[255];
-char recbuf[RECORD_LEN];
+int record_len, record_max;
+char *recbuf;
 fd_set Mask, readOk;
 int width;
 struct timeval timeout;
@@ -33,6 +34,13 @@ char stat[3];
  */
 extern int
 initialize (char *hostname, char *hostport) {
+	record_len = RECORD_LEN;
+	record_max = RECORD_MAX;
+	recbuf = malloc(record_len);
+	if (recbuf == NULL) {
+		fprintf(stderr, "can't malloc\n");
+		return (-1);
+	}
 	/* ホスト名がIPアドレスと仮定してホスト情報取得 */
 	if ((addr.s_addr = inet_addr (hostname)) == -1) {
 		/* ホスト名が名称としてホスト情報取得 */
@@ -102,7 +110,7 @@ sendMessage (char *message) {
  */
 extern int
 sendRecord (char *record) {
-	int ret = send (soc, record, RECORD_LEN, 0);
+	int ret = send (soc, record, record_len, 0);
 	return ret;
 }
 
@@ -246,6 +254,8 @@ terminateSession (char *status) {
 	/* ステータスチェック */
 	buf[len] = '\0';
 	strcpy (status, buf);
+	//
+	free(recbuf);
 	return;
 }
 
@@ -1199,3 +1209,49 @@ getACMOption (char *name, char *value, char *status) {
 	return;
 }
 
+extern void
+setACMMaxLength (char *length, char *status) {
+	length[OPTIONVALUE_MAX] = '\0';
+	int w_length;
+	if ((w_length = atoi (length)) == 0) {
+		fprintf (stderr, "bad length\n");
+		return (-1);
+	}
+	/* 送信（コマンド） */
+	if (sendMessage (MSG_SETLENGTH) < 0) {
+		strcpy (status, STATUS_SEND_ERROR);
+		return;
+	}
+	/* 受信 (ステータス) */
+	if (recieveStatus () == 0) {
+		strcpy (status, STATUS_RECV_ERROR);
+		return;
+	}
+	/* ステータスチェック */
+	if (strcmp (stat, STATUS_READY) != 0) {
+		strcpy (status, buf);
+		return;
+	}
+	/* 送信（値） */
+	if (sendMessage (length) < 0) {
+		strcpy (status, STATUS_SEND_ERROR);
+		return;
+	}
+	/* 受信 (ステータス) */
+	if (recieveStatus () == 0) {
+		strcpy (status, STATUS_RECV_ERROR);
+		return;
+	}
+	//
+	free(recbuf);
+	record_len = w_length;
+	record_max = record_len - 1;
+	recbuf = malloc(record_len);
+	if (recbuf == NULL) {
+		fprintf(stderr, "can't malloc\n");
+		return (-1);
+	}
+	/* ステータスチェック */
+	strcpy (status, buf);
+	return;
+}
