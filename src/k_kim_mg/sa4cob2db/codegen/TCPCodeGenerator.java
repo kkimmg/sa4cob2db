@@ -1740,7 +1740,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void whenACMAutoCommit(String text) {
 		String period = (Pattern.matches(CobolConsts.PERIOD, text.trim()) ? "." : "");
-		text = (period.length() == 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
+		text = (period.length() != 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
 		int indexOfEqual = text.indexOf("=") + 1;
 		String option = text.substring(indexOfEqual);
 		addACMAutoCommit(option, period);
@@ -1891,7 +1891,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void whenACMSetLength(String text) {
 		int value = 0;
 		String period = (Pattern.matches(CobolConsts.PERIOD_ROW, text.trim()) ? "." : "");
-		text = (period.length() == 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
+		text = (period.length() != 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
+		System.err.println(text + "=" + text.trim() + ":" + text.trim().substring(0, text.length() - 1));
 		StringTokenizer tokenizer = new StringTokenizer(text);
 		while (tokenizer.hasMoreTokens() && value <= 0) {
 			String token = tokenizer.nextToken();
@@ -1937,7 +1938,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void whenACMTransactionIsolation(String text) {
 		String period = (Pattern.matches(CobolConsts.PERIOD, text.trim()) ? "." : "");
-		text = (period.length() == 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
+		text = (period.length() != 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
 		int indexOfEqual = text.indexOf("=") + 1;
 		String option = text.substring(indexOfEqual);
 		addACMTransactionIsolation(option, period);
