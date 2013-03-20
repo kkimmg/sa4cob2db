@@ -89,7 +89,11 @@ public class MetaData2SQL {
 						break;
 					case CobolColumn.TYPE_FLOAT:
 					case CobolColumn.TYPE_DOUBLE:
-						buf.append("NUMERIC(" + sqlcolumn.getLength() + "," + (sqlcolumn.getLength() - sqlcolumn.getNumberOfDecimal()) + ")");
+						if (sqlcolumn.getNumberOfDecimal() > 0) {
+							buf.append("NUMERIC(" + sqlcolumn.getLength() + "," + (sqlcolumn.getLength() - sqlcolumn.getNumberOfDecimal()) + ")");
+						} else {
+							buf.append("FLOAT");
+						}
 						break;
 					case CobolColumn.TYPE_DATE:
 						buf.append("DATE");

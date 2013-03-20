@@ -63,6 +63,7 @@
 #define MSG_ROLLBACK      "ROLLBACK"
 #define MSG_SETOPTION     "SETOPTION"
 #define MSG_GETOPTION     "GETOPTION"
+#define MSG_SETLENGTH     "SETLENGTH"
 /*********************************/
 #define ACM_HOSTNAME_ENV  "ACM_HOSTNAME"
 #define ACM_HOSTPORT_ENV  "ACM_HOSTPPRT"
@@ -269,3 +270,5 @@ extern void setACMTransMode (char *transmode, char *status);
 extern void setACMOption (char *name, char *value, char *status);
 
 extern void getACMOption (char *name, char *value, char *status);
+
+extern void setACMMaxLength (char *length, char *status);

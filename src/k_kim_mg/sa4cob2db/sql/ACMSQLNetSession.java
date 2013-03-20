@@ -121,7 +121,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			// ファイルの取得
 			file = getFile(name);
 		} catch (IOException e) {
-			// 
+			//
 			SQLNetServer.logger.log(Level.SEVERE, "Can't Write.", e);
 		}
 		return file;
@@ -338,6 +338,9 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		} else if (method.equals("SETOPTION")) {
 			writeLine(FileStatus.READY);
 			setTCPOption();
+		} else if (method.equals("SETLENGTH")) {
+			writeLine(FileStatus.READY);
+			setMaxLength();
 		} else if (method.equals("GETOPTION")) {
 			writeLine(FileStatus.READY);
 			getTCPOption();
@@ -361,12 +364,12 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			if (recordBytes.containsKey(file)) {
 				readingRecord = recordBytes.get(file);
 			} else {
-				int recordLength = (file.getMetaData() == null ? ACMNetSession.RECORD_LEN : file.getMetaData().getRowSize());
+				int recordLength = (file.getMetaData() == null ? getMaxLength() : file.getMetaData().getRowSize());
 				readingRecord = new byte[recordLength];
 			}
 			// リード処理
 			FileStatus status = file.read(readingRecord);
-			// 
+			//
 			bufput.write(readingRecord);
 			bufput.flush();
 			//
@@ -384,8 +387,8 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	 */
 	protected byte[] readBytes() throws IOException {
 		/** ソケットから読み取るバイト配列 */
-		byte[] bytes = new byte[ACMNetSession.RECORD_LEN];
-		int size = input.read(bytes, 0, ACMNetSession.RECORD_LEN);
+		byte[] bytes = new byte[getMaxLength()];
+		int size = input.read(bytes, 0, getMaxLength());
 		if (bytes.length != size) {
 			SQLNetServer.logger.warning("unmatch length." + bytes.length + ":" + size);
 		}
@@ -399,8 +402,8 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	 */
 	protected String readLine() throws IOException {
 		/** ソケットから読み取る文字列を作成するためのChar配列 */
-		char[] chars = new char[ACMNetSession.RECORD_LEN];
-		int size = streamReader.read(chars, 0, ACMNetSession.RECORD_LEN);
+		char[] chars = new char[getMaxLength()];
+		int size = streamReader.read(chars, 0, getMaxLength());
 		String line = new String(chars);
 		SQLNetServer.logger.log(Level.FINEST, "RECIEVE:" + line.trim() + ":" + line.length());
 		if (chars.length != size) {
@@ -415,12 +418,12 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			if (recordBytes.containsKey(file)) {
 				readingRecord = recordBytes.get(file);
 			} else {
-				int recordLength = (file.getMetaData() == null ? ACMNetSession.RECORD_LEN : file.getMetaData().getRowSize());
+				int recordLength = (file.getMetaData() == null ? getMaxLength() : file.getMetaData().getRowSize());
 				readingRecord = new byte[recordLength];
 			}
 			// リード処理
 			FileStatus status = file.read(readingRecord);
-			// 
+			//
 			bufput.write(readingRecord);
 			bufput.flush();
 			//
@@ -484,7 +487,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			streamReader = new InputStreamReader(input);
 			bufferedReader = new BufferedReader(streamReader);
 			output = sock.getOutputStream();
-			bufput = new BufferedOutputStream(output, ACMNetSession.RECORD_LEN);
+			bufput = new BufferedOutputStream(output, getMaxLength());
 			// boutput = new BufferedOutputStream(output);
 			streamWriter = new OutputStreamWriter(output);
 			// bufferedWriter = new BufferedWriter(streamWriter);
@@ -561,6 +564,25 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	 */
 	protected void setInitialized(boolean initialized) {
 		this.initialized = initialized;
+	}
+	/**
+	 * set max length
+	 * 
+	 * @throws IOException
+	 */
+	protected void setMaxLength() throws IOException {
+		String s_length = readTrim();
+		try {
+			int length = Integer.parseInt(s_length);
+			setMaxLength(length);
+			if (length == getMaxLength()) {
+				writeLine(FileStatus.OK);
+			} else {
+				writeLine(FileStatus.FAILURE);
+			}
+		} catch (NumberFormatException e) {
+			writeLine(FileStatus.FAILURE);
+		}
 	}
 	/**
 	 * set option

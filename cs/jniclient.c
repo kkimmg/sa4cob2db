@@ -39,10 +39,12 @@ jmethodID midTerminate;
 jmethodID midWrite;
 jmethodID midGetReadingRecord, midGetStatus, midGetOptionValue;
 jmethodID midGetOption, midSetOption;
+jmethodID midSetLength;
 struct servent *se;
 int soc, portno, len;
 char buf[255];
-char recbuf[RECORD_LEN];
+int record_len, record_max;
+char *recbuf;
 fd_set Mask, readOk;
 int width;
 struct timeval timeout;
@@ -85,6 +87,13 @@ extern void getRecord(char *record) {
  */
 extern int
 initializeJNI () {
+	reocrd_len = RECORD_LEN;
+	record_max = RECORD_MAX;
+	recbuf = malloc(record_len);
+	if (recbuf == NULL) {
+		fprintf(stderr, "can't malloc\n");
+		return (-1);
+	}
 	// JVMを作成する
 	JavaVMOption options[2];
 	options[0].optionString = getClasspath();
@@ -143,13 +152,34 @@ initializeJNI () {
 	midGetOptionValue
 			= (*env)->GetMethodID(env, clazz, "getOptionValue",
 									"()[B");
-	if (midAssign == 0 || midClose == 0 || midCommitTransaction == 0 
-	 || midDelete == 0 || midInitialize == 0 || midMove == 0 || midNext == 0 
-	 || midOpen == 0 || midPrevious == 0 || midRead == 0 || midReadNext == 0 
-	 || midRewrite == 0 || midRollbackTransaction == 0 || midSetAutoCommit == 0
-	 || midSetTransactionLevel == 0 || midStart == 0 || midStartWith == 0
-	 || midTerminate == 0 || midWrite == 0 || midGetReadingRecord == 0
-	 || midGetStatus == 0 || midGetOption == 0 || midSetOption == 0 || midGetOptionValue == 0) {
+	midSetLength
+			= (*env)->GetMethodID(env, clazz, "setMaxLength",
+									"(I)V");
+
+	if (midAssign == 0
+	 || midClose == 0
+	 || midCommitTransaction == 0 
+	 || midDelete == 0
+	 || midInitialize == 0
+	 || midMove == 0
+	 || midNext == 0 
+	 || midOpen == 0
+	 || midPrevious == 0
+	 || midRead == 0 || midReadNext == 0 
+	 || midRewrite == 0
+	 || midRollbackTransaction == 0
+	 || midSetAutoCommit == 0
+	 || midSetTransactionLevel == 0
+	 || midStart == 0
+	 || midStartWith == 0
+	 || midTerminate == 0
+	 || midWrite == 0
+	 || midGetReadingRecord == 0
+	 || midGetStatus == 0
+	 || midGetOption == 0
+	 || midSetOption == 0
+	 || midGetOptionValue == 0
+	 || midSetLength == 0) {
 		perror("method not found.");
 		return -1;
 	}
@@ -222,6 +252,8 @@ terminateJNISession (char *status) {
 	getStatus(status);
 	/* JVMを破棄する */
 	(*jvm)->DestroyJavaVM(jvm);
+	//
+	free(recbuf);
 	return;
 }
 
@@ -810,7 +842,7 @@ setJNIOption (char *name, char *value) {
 	}
 	(*env)->ReleaseByteArrayElements(env, narray, npoint, 0);
 	/** value */
-	name[OPTIONVALUE_MAX] = '\0';
+	value[OPTIONVALUE_MAX] = '\0';
 	jsize vlen = strlen(value);
 	jbyteArray varray = (*env)->NewByteArray(env, vlen);
 	jboolean vbl;
@@ -849,3 +881,20 @@ getJNIOption (char *name, char *value) {
 	return;
 }
 
+extern void
+setJNIMaxLength (char *length) {
+	/** value */
+	length[OPTIONVALUE_MAX] = '\0';
+	int w_length;
+	if ((w_length = atoi (length)) == 0) {
+		fprintf (stderr, "bad length\n");
+		return (-1);
+	}
+	jint j_length;
+	j_length = w_length;
+	/** 処理を呼び出してみる */
+	(*env)->CallVoidMethod(env, jniserv, midSetLength, j_length);
+	/** ローカル参照を削除する */
+	(*env)->DeleteLocalRef(env, varray);
+	return;
+}

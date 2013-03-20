@@ -31,4 +31,9 @@ public interface ACMSessionEventListener extends EventListener {
 	 * @param e event
 	 */
 	public void optionSetted (ACMOptionSetEvent e);
+	/**
+	 * max record length changed
+	 * @param e evnet
+	 */
+	public void lengthChanged (ACMLengthChangedEvent e);
 }
