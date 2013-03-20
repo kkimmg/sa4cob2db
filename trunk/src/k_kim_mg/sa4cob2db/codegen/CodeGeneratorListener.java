@@ -71,6 +71,11 @@ public interface CodeGeneratorListener extends EventListener {
 	 */
 	public void postSetOption(CodeGeneratorEvent e);
 	/**
+	 * After Set Length
+	 * @param e Event
+	 */
+	public void postSetLength(CodeGeneratorEvent e);
+	/**
 	 * After START
 	 * 
 	 * @param e Event
@@ -152,6 +157,11 @@ public interface CodeGeneratorListener extends EventListener {
 	 * @param e Event
 	 */
 	public void preSetOption(CodeGeneratorEvent e);
+	/**
+	 * Before Set Length
+	 * @param e Event
+	 */
+	public void preSetLength(CodeGeneratorEvent e);
 	/**
 	 * Before START
 	 * 
