@@ -1215,7 +1215,7 @@ setACMMaxLength (char *length, char *status) {
 	int w_length;
 	if ((w_length = atoi (length)) == 0) {
 		fprintf (stderr, "bad length\n");
-		return (-1);
+		return;
 	}
 	/* 送信（コマンド） */
 	if (sendMessage (MSG_SETLENGTH) < 0) {
