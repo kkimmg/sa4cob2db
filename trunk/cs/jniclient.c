@@ -71,7 +71,7 @@ extern void getRecord(char *record) {
 	int i;
 	jobject rarray;
 	rarray = (*env)->CallObjectMethod(env, jniserv, midGetReadingRecord);
-	jsize rlen = RECORD_LEN;
+	jsize rlen = record_len;
 	jboolean rbl;
 	jbyte *rpoint = (*env)->GetByteArrayElements(env, rarray, &rbl); 
 	for (i = 0; i < rlen; i++) {
@@ -490,7 +490,7 @@ writeJNIRecord (char *name, char *record, char *status) {
 	}
 	(*env)->ReleaseByteArrayElements(env, narray, npoint, 0);
 	/** レコード */
-	jsize rlen = RECORD_LEN;
+	jsize rlen = record_len;
 	jbyteArray rarray = (*env)->NewByteArray(env, rlen);
 	jboolean rbl;
 	jbyte *rpoint = (*env)->GetByteArrayElements(env, rarray, &rbl);
@@ -528,7 +528,7 @@ rewriteJNIRecord (char *name, char *record, char *status) {
 	}
 	(*env)->ReleaseByteArrayElements(env, narray, npoint, 0);
 	/** レコード */
-	jsize rlen = RECORD_LEN;
+	jsize rlen = record_len;
 	jbyteArray rarray = (*env)->NewByteArray(env, rlen);
 	jboolean rbl;
 	jbyte *rpoint = (*env)->GetByteArrayElements(env, rarray, &rbl); 
@@ -566,7 +566,7 @@ deleteJNIRecord (char *name, char *record, char *status) {
 	}
 	(*env)->ReleaseByteArrayElements(env, narray, npoint, 0);
 	/** レコード */
-	jsize rlen = RECORD_LEN;
+	jsize rlen = record_len;
 	jbyteArray rarray = (*env)->NewByteArray(env, rlen);
 	jboolean rbl;
 	jbyte *rpoint = (*env)->GetByteArrayElements(env, rarray, &rbl); 
@@ -604,7 +604,7 @@ moveJNIRecord (char *name, char *record, char *status) {
 	}
 	(*env)->ReleaseByteArrayElements(env, narray, npoint, 0);
 	/** レコード */
-	jsize rlen = RECORD_LEN;
+	jsize rlen = record_len;
 	jbyteArray rarray = (*env)->NewByteArray(env, rlen);
 	jboolean rbl;
 	jbyte *rpoint = (*env)->GetByteArrayElements(env, rarray, &rbl); 
@@ -642,7 +642,7 @@ startJNIRecord (char *name, char *record, char *startmode, char *status) {
 	}
 	(*env)->ReleaseByteArrayElements(env, narray, npoint, 0);
 	/** レコード */
-	jsize rlen = RECORD_LEN;
+	jsize rlen = record_len;
 	jbyteArray rarray = (*env)->NewByteArray(env, rlen);
 	jboolean rbl;
 	jbyte *rpoint = (*env)->GetByteArrayElements(env, rarray, &rbl); 
@@ -691,7 +691,7 @@ startJNIRecordWith (char *name, char *record, char *indexname, char *startmode, 
 	}
 	(*env)->ReleaseByteArrayElements(env, narray, npoint, 0);
 	/** レコード */
-	jsize rlen = RECORD_LEN;
+	jsize rlen = record_len;
 	jbyteArray rarray = (*env)->NewByteArray(env, rlen);
 	jboolean rbl;
 	jbyte *rpoint = (*env)->GetByteArrayElements(env, rarray, &rbl); 
@@ -901,7 +901,7 @@ setJNIMaxLength (char *length) {
 	recbuf = malloc(record_len);
 	if (recbuf == NULL) {
 		fprintf(stderr, "can't malloc\n");
-		return (-1);
+		return;
 	}
 	return;
 }

@@ -1892,7 +1892,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		int value = 0;
 		String period = (Pattern.matches(CobolConsts.PERIOD_ROW, text.trim()) ? "." : "");
 		text = (period.length() != 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
-		System.err.println(text + "=" + text.trim() + ":" + text.trim().substring(0, text.length() - 1));
 		StringTokenizer tokenizer = new StringTokenizer(text);
 		while (tokenizer.hasMoreTokens() && value <= 0) {
 			String token = tokenizer.nextToken();
