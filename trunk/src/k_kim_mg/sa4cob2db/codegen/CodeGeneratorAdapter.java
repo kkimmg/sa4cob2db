@@ -25,8 +25,6 @@ public class CodeGeneratorAdapter implements CodeGeneratorListener {
 	}
 	@Override
 	public void postGetOption(CodeGeneratorEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	/*
 	 * (non-Javadoc)
@@ -65,9 +63,10 @@ public class CodeGeneratorAdapter implements CodeGeneratorListener {
 	public void postRollback(CodeGeneratorEvent e) {
 	}
 	@Override
+	public void postSetLength(CodeGeneratorEvent e) {
+	}
+	@Override
 	public void postSetOption(CodeGeneratorEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	/*
 	 * (non-Javadoc)
@@ -107,8 +106,6 @@ public class CodeGeneratorAdapter implements CodeGeneratorListener {
 	}
 	@Override
 	public void preGetOption(CodeGeneratorEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	/*
 	 * (non-Javadoc)
@@ -147,9 +144,10 @@ public class CodeGeneratorAdapter implements CodeGeneratorListener {
 	public void preRollback(CodeGeneratorEvent e) {
 	}
 	@Override
+	public void preSetLength(CodeGeneratorEvent e) {
+	}
+	@Override
 	public void preSetOption(CodeGeneratorEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	/*
 	 * (non-Javadoc)
