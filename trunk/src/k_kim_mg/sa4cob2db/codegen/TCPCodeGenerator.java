@@ -1779,7 +1779,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		String name = null;
 		String value = "";
 		String period = (Pattern.matches(CobolConsts.PERIOD_ROW, text.trim()) ? "." : "");
-		text = (period.length() == 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
+		text = (period.length() != 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
 		StringTokenizer tokenizer = new StringTokenizer(text);
 		while (tokenizer.hasMoreTokens()) {
 			String token = tokenizer.nextToken();
@@ -1853,7 +1853,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		String name = null;
 		String value = "";
 		String period = (Pattern.matches(CobolConsts.PERIOD_ROW, text.trim()) ? "." : "");
-		text = (period.length() == 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
+		text = (period.length() != 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
 		StringTokenizer tokenizer = new StringTokenizer(text);
 		while (tokenizer.hasMoreTokens()) {
 			String token = tokenizer.nextToken();
