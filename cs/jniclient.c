@@ -894,5 +894,14 @@ setJNIMaxLength (char *length) {
 	j_length = w_length;
 	/** 処理を呼び出してみる */
 	(*env)->CallVoidMethod(env, jniserv, midSetLength, j_length);
+	//
+	free(recbuf);
+	record_len = w_length;
+	record_max = record_len - 1;
+	recbuf = malloc(record_len);
+	if (recbuf == NULL) {
+		fprintf(stderr, "can't malloc\n");
+		return (-1);
+	}
 	return;
 }
