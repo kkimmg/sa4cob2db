@@ -426,4 +426,16 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("                                 ACM-STATUS-ALL" + period);
 		}
 	}
+	/**
+	 * add "setACMLength" function
+	 * @param value new length
+	 * @param period "." or ""
+	 */
+	void addSetMaxLength(int value, String period) {
+		if (value > 0) {
+			add("     MOVE " + value + " TO ACM-OPTION-VALUE" + period);
+			add("     CALL \"setJNIMaxLength\" USING ACM-OPTION-VALUE");
+			add("                                    ACM-STATUS-ALL" + period);
+		}
+	}
 }

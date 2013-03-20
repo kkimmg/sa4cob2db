@@ -640,6 +640,18 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
+	 * add "setACMLength" function
+	 * @param value new length
+	 * @param period "." or ""
+	 */
+	void addSetMaxLength(int value, String period) {
+		if (value > 0) {
+			add("     MOVE " + value + " TO ACM-OPTION-VALUE" + period);
+			add("     CALL \"setACMMaxLength\" USING ACM-OPTION-VALUE");
+			add("                                    ACM-STATUS-ALL" + period);
+		}
+	}
+	/**
 	 * add terminate session
 	 * 
 	 * @param period "." or ""
@@ -687,6 +699,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * Comment Out Row
+	 * 
 	 * @param text logical row
 	 */
 	void commentOut(String text) {
@@ -779,6 +792,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * Insert Row
+	 * 
 	 * @param text logical row
 	 */
 	void insertComment(String text) {
@@ -853,6 +867,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 				whenACMGetOption(text);
 			} else if (Pattern.matches(CobolConsts.ACMSETOPTION, text)) {
 				whenACMSetOption(text);
+			} else if (Pattern.matches(CobolConsts.ACMSETLENGTH, text)) {
+				whenACMSetLength(text);
 			} else if (Pattern.matches(CobolConsts.ACMCOMMENTSTART, text)) {
 				whenCommentStart(text);
 			} else if (Pattern.matches(CobolConsts.ACMCOMMENTEND, text)) {
@@ -1867,6 +1883,43 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 	}
 	/**
+	 * set option value<br/>
+	 * add "." to end of line
+	 * 
+	 * @param text comment row
+	 */
+	void whenACMSetLength(String text) {
+		int value = 0;
+		String period = (Pattern.matches(CobolConsts.PERIOD_ROW, text.trim()) ? "." : "");
+		text = (period.length() != 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
+		StringTokenizer tokenizer = new StringTokenizer(text);
+		while (tokenizer.hasMoreTokens() && value <= 0) {
+			String token = tokenizer.nextToken();
+			try {
+				value = Integer.parseInt(token);
+			} catch (NumberFormatException e) {
+				// do nothing
+			}
+		}
+		if (value > 0) {
+			// event
+			{
+				CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
+				for (CodeGeneratorListener listener : listeners) {
+					listener.preSetOption(event);
+				}
+			}
+			addSetMaxLength(value, period);
+			// event
+			{
+				CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
+				for (CodeGeneratorListener listener : listeners) {
+					listener.postSetOption(event);
+				}
+			}
+		}
+	}
+	/**
 	 * start of file define
 	 * 
 	 * @param text line
@@ -1906,6 +1959,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * End of Comment
+	 * 
 	 * @param text logical row
 	 */
 	void whenCommentEnd(String text) {
@@ -1913,6 +1967,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * Start of Comment
+	 * 
 	 * @param text logical row
 	 */
 	void whenCommentStart(String text) {
@@ -2076,6 +2131,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * End of Insert
+	 * 
 	 * @param text logical row
 	 */
 	void whenInsertEnd(String text) {
@@ -2083,6 +2139,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 	/**
 	 * Start of Insert
+	 * 
 	 * @param text logical row
 	 */
 	void whenInsertStart(String text) {
