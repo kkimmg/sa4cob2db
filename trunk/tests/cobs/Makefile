@@ -30,6 +30,7 @@ cobpp_acm:
 	$(COBPP) 			MAINTEST.cob      ACMMAINTEST.cob
 	$(COBPP) 			TYPESTEST.cob     ACMTYPESTEST.cob
 	$(COBP3) 			SUBTEST.cob       ACMSUBTEST.cob
+	$(COBPP) 			LENTEST.cob       ACMLENTEST.cob
 
 cobpp_jni:
 	$(COBP2) 			SEQTEST2.cob      JNISEQTEST2.cob
@@ -46,6 +47,7 @@ cobpp_jni:
 	$(COBP2) 			MAINTEST.cob      JNIMAINTEST.cob
 	$(COBP2) 			TYPESTEST.cob     JNITYPESTEST.cob
 	$(COBP4) 			SUBTEST.cob       JNISUBTEST.cob
+	$(COBP2) 			LENTEST.cob       JNILENTEST.cob
 	
 link_consts:
 	$(CP) ../../cobs/ACMCONSTS.CBL ./
@@ -64,6 +66,7 @@ cobc_std:
 	$(COBC) $(CFLAGS) 		MAINTEST.cob   -o MAINTEST
 	$(COBC) $(CFLAGS) 		TYPESTEST.cob  -o TYPESTEST
 	$(COBC) $(MFLAGS) 		SUBTEST.cob    -o SUBTEST.so
+	$(COBC) $(CFLAGS) 		LENTEST.cob    -o LENTEST
 
 cobc_acm: link_consts cobpp_acm
 	$(COBC) $(CFLAGS) 		ACMSEQTEST.cob   -o ACMSEQTEST	
@@ -81,6 +84,7 @@ cobc_acm: link_consts cobpp_acm
 	$(COBC) $(CFLAGS) 		ACMMAINTEST.cob  -o ACMMAINTEST
 	$(COBC) $(CFLAGS) 		ACMTYPESTEST.cob -o ACMTYPESTEST
 	$(COBC) $(MFLAGS) 		ACMSUBTEST.cob   -o ACMSUBTEST.so
+	$(COBC) $(CFLAGS) 		ACMLENTEST.cob   -o ACMLENTEST	
 
 cobc_jni: link_consts cobpp_jni
 	$(COBC) $(CFLAGS) 		JNISEQTEST.cob   -o JNISEQTEST	
@@ -98,6 +102,7 @@ cobc_jni: link_consts cobpp_jni
 	$(COBC) $(CFLAGS) 		JNIMAINTEST.cob  -o JNIMAINTEST
 	$(COBC) $(CFLAGS) 		JNITYPESTEST.cob -o JNITYPESTEST
 	$(COBC) $(MFLAGS) 		JNISUBTEST.cob   -o JNISUBTEST.so
+	$(COBC) $(CFLAGS) 		JNILENTEST.cob   -o JNILENTEST	
 
 clean_cobs:
 	rm ACMSEQTEST.cob
@@ -129,6 +134,8 @@ clean_cobs:
 	rm JNIMAINTEST.cob
 	rm JNITYPESTEST.cob
 	rm JNISUBTEST.cob
+	rm ACMLENTEST.cob
+	rm JNILENTEST.cob
 
 clean_stdobj:
 	rm SEQTEST
@@ -144,6 +151,7 @@ clean_stdobj:
 	rm MAINTEST
 	rm TYPESTEST
 	rm SUBTEST
+	rm LENTEST
 
 clean_acmobj:
 	rm ACMSEQTEST
@@ -160,7 +168,8 @@ clean_acmobj:
 	rm ACMMAINTEST
 	rm ACMTYPESTEST
 	rm ACMSUBTEST
-	
+	rm ACMLENTEST
+
 clean_jniobj:
 	rm JNISEQTEST
 	rm JNIWRTTEST
@@ -176,7 +185,8 @@ clean_jniobj:
 	rm JNIMAINTEST
 	rm JNITYPESTEST
 	rm JNISUBTEST
-	
+	rm JNILENTEST
+
 clean_obj: clean_stdobj clean_acmobj clean_jniobj
 
 clean: clean_cobs clean_obj

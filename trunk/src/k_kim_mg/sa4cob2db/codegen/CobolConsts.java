@@ -39,6 +39,8 @@ public abstract class CobolConsts {
 	public static final String ACMSETOPTION = "^\\*ACMSETOPTION.*";
 	/**Get optional value from ... */
 	public static final String ACMGETOPTION = "^\\*ACMGETOPTION.*";
+	/**Set Max Record length ... */
+	public static final String ACMSETLENGTH = "^\\*ACMSETLENGTH.*";
 	/**NAME=*/
 	public static final String NAME_EQUAL = "\\s*NAME=.*";
 	/**TO=*/
