@@ -87,7 +87,7 @@ extern void getRecord(char *record) {
  */
 extern int
 initializeJNI () {
-	reocrd_len = RECORD_LEN;
+	record_len = RECORD_LEN;
 	record_max = RECORD_MAX;
 	recbuf = malloc(record_len);
 	if (recbuf == NULL) {
@@ -888,13 +888,11 @@ setJNIMaxLength (char *length) {
 	int w_length;
 	if ((w_length = atoi (length)) == 0) {
 		fprintf (stderr, "bad length\n");
-		return (-1);
+		return;
 	}
 	jint j_length;
 	j_length = w_length;
 	/** 処理を呼び出してみる */
 	(*env)->CallVoidMethod(env, jniserv, midSetLength, j_length);
-	/** ローカル参照を削除する */
-	(*env)->DeleteLocalRef(env, varray);
 	return;
 }
