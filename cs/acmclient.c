@@ -481,7 +481,7 @@ readACMRecord (char *name, char *record, char *status) {
 		return;
 	}
 	/* 受信したデータをレコード領域に転送 */
-	memmove (record, recbuf, (len > RECORD_MAX ? RECORD_MAX : len));
+	memmove (record, recbuf, (len > record_max ? record_max : len));
 	/* 受信 (ステータス) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
@@ -527,7 +527,7 @@ readNextACMRecord (char *name, char *record, char *status) {
 		return;
 	}
 	/* 受信したデータをレコード領域に転送 */
-	memmove (record, recbuf, (len > RECORD_MAX ? RECORD_MAX : len));
+	memmove (record, recbuf, (len > record_max ? record_max : len));
 	/* 受信 (ステータス) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
@@ -580,7 +580,7 @@ moveReadACMRecordWith (char *name, char *record, char *indexname, char *status) 
 extern void
 writeACMRecord (char *name, char *record, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
-	record[RECORD_MAX] = '\0';
+	record[record_max] = '\0';
 	/* 送信（コマンド） */
 	if (sendMessage (MSG_WRITE) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
@@ -635,7 +635,7 @@ writeACMRecord (char *name, char *record, char *status) {
 extern void
 rewriteACMRecord (char *name, char *record, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
-	record[RECORD_MAX] = '\0';
+	record[record_max] = '\0';
 	/* 送信（コマンド） */
 	if (sendMessage (MSG_REWRITE) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
@@ -744,7 +744,7 @@ deleteACMRecord (char *name, char *record, char *status) {
 extern void
 moveACMRecord (char *name, char *record, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
-	record[RECORD_MAX] = '\0';
+	record[record_max] = '\0';
 	/* 送信（コマンド） */
 	if (sendMessage (MSG_MOVE) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
@@ -799,7 +799,7 @@ moveACMRecord (char *name, char *record, char *status) {
 extern void
 startACMRecord (char *name, char *record, char *startmode, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
-	record[RECORD_MAX] = '\0';
+	record[record_max] = '\0';
 	/* 送信（コマンド） */
 	if (sendMessage (MSG_START) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
@@ -856,7 +856,7 @@ startACMRecordWith (char *name, char *record, char *indexname, char *startmode, 
 	name[FILE_IDENT_MAX] = '\0';
 	indexname[FILE_INDEXNAME_MAX] = '\0';
 	startmode[FILE_STARTMODE_MAX] = '\0';
-	record[RECORD_MAX] = '\0';
+	record[record_max] = '\0';
 	/* 送信（コマンド） */
 	if (sendMessage (MSG_STTTWITH) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
@@ -942,7 +942,7 @@ extern void
 moveACMRecordWith (char *name, char *record, char *indexname, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
 	indexname[FILE_OPTION_MAX] = '\0';
-	record[RECORD_MAX] = '\0';
+	record[record_max] = '\0';
 	/* 送信（コマンド） */
 	if (sendMessage (MSG_MOVE) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
@@ -1249,7 +1249,7 @@ setACMMaxLength (char *length, char *status) {
 	recbuf = malloc(record_len);
 	if (recbuf == NULL) {
 		fprintf(stderr, "can't malloc\n");
-		return (-1);
+		return;
 	}
 	/* ステータスチェック */
 	strcpy (status, buf);
