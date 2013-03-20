@@ -2330,6 +2330,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		} else if (section.equalsIgnoreCase("file")) {
 			add("*" + text);
 		} else if (division.equalsIgnoreCase("procedure") & !initialized) {
+			add(text);
 			addInitializeSession(".");
 			initialized = true;
 		} else {
