@@ -82,17 +82,9 @@ extern int initialize (char *hostname, char *hostport);
  */
 extern int sendReturn (void);
 
-/**
- * メッセージの送信
- * @param message	メッセージ
- */
+
 extern int sendMessage (char *message);
 
-/**
- * メッセージの受信
- * @return 受信メッセージ長またはエラー
- *         エラー時にも0を返す
- */
 extern int recieveMessage ();
 
 /**
