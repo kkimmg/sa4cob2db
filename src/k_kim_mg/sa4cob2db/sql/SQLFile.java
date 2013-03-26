@@ -489,11 +489,11 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		try {
 			if (resultSet != null) {
 				// 既に使用されていないかどうかの確認
-				SQLNetServer.logger.log(Level.INFO, "すでにオープンされている");
+				SQLNetServer.logger.log(Level.INFO, "already opened.");
 				ret = new FileStatus(FileStatus.STATUS_ALREADY_OPENED, FileStatus.NULL_CODE, 0, "resultset isn't null.");
 			} else if (rowData != null) {
 				// 既に使用されていないかどうかの確認
-				SQLNetServer.logger.log(Level.INFO, "すでにオープンされている");
+				SQLNetServer.logger.log(Level.INFO, "already opened.");
 				ret = new FileStatus(FileStatus.STATUS_ALREADY_OPENED, FileStatus.NULL_CODE, 0, "rowData isn't null.");
 			} else {
 				// データベース関連処理
