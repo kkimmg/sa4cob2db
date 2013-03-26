@@ -390,7 +390,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	 */
 	protected byte[] readBytes() throws IOException {
 		/** ソケットから読み取るバイト配列 */
-		byte[] bytes = new byte[(getMaxLength() < 256 ? 256: getMaxLength())];
+		byte[] bytes = new byte[getMaxLength()];
 		int size = input.read(bytes, 0, bytes.length);
 		if (bytes.length != size) {
 			SQLNetServer.logger.warning("unmatch length." + bytes.length + ":" + size);
@@ -405,7 +405,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	 */
 	protected String readLine() throws IOException {
 		/** ソケットから読み取る文字列を作成するためのChar配列 */
-		char[] chars = new char[(getMaxLength() < 256 ? 256: getMaxLength())];
+		char[] chars = new char[ACMNetSession.COMMANDLINE_MAX];
 		int size = streamReader.read(chars, 0, chars.length);
 		String line = new String(chars);
 		SQLNetServer.logger.log(Level.FINEST, "RECIEVE:" + line.trim() + ":" + line.length());

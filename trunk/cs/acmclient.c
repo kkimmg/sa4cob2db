@@ -102,9 +102,6 @@ sendReturn (void) {
  */
 extern int
 sendMessage (char *message) {
-fprintf(stderr, "sendMessage:%d=", strlen(message));
-fprintf(stderr, message);
-fprintf(stderr, "\n");
 	int ret = send (soc, message, strlen (message), 0);
 	return ret;
 }
@@ -131,9 +128,6 @@ recieveMessage () {
 	if ((len = recv (soc, buf, sizeof (buf), 0)) < 0) {
 		return 0;
 	}
-fprintf(stderr, "recieveMessage:%d:", sizeof(buf));
-fprintf(stderr, buf);
-fprintf(stderr, "\n");
 	return len;
 }
 
