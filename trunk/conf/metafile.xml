@@ -9,8 +9,8 @@
 	<property name="authfile">/opt/sa4cob2db/conf/password.properties</property>
 	<property name="adminfile">/opt/sa4cob2db/conf/adminpass.properties</property>
 	<property name="maxsessions">10</property>
-	<otherofset name = "otherofset1">CustromNodeTest</otherofset>
-	<otherofmeta name = "otherofmeta1">CustromNodeTest</otherofmeta>
+	<otherofset name = "otherofset1">k_kim_mg.sa4cob2db.test.CustromNodeTest</otherofset>
+	<otherofmeta name = "otherofmeta1">k_kim_mg.sa4cob2db.test.CustromNodeTest</otherofmeta>
 	<metadata name="idxtest" encode="UTF-8" keyval="true">
 		<statement>
 			select seisu, id from test order by seisu</statement>
@@ -21,7 +21,7 @@
 			originalColumnName="id" defaultString="" readIgnore="false"
 			rewriteIgnore="false" writeIgnore="false" />
 		<keycolumn>seisu</keycolumn>
-		<listener>CobolFileEventAdapterTest
+		<listener>k_kim_mg.sa4cob2db.test.CobolFileEventAdapterTest
 		</listener>
 	</metadata>
 	<metadata name="dbtests" encode="UTF-8" bufinit="500" bufmin="250"
@@ -56,7 +56,7 @@
 			<file2index filecolumn="id" indexcolumn="id" />
 		</indexfile>
 		<truncate>delete from test</truncate>
-		<listener>CobolFileEventAdapterTest
+		<listener>k_kim_mg.sa4cob2db.test.CobolFileEventAdapterTest
 		</listener>
 	</metadata>
 	<metadata name="customtest" customClassName="CustomCobolMetaDataTest">
@@ -92,7 +92,7 @@
 			<file2index filecolumn="id" indexcolumn="id" />
 		</indexfile>
 		<truncate>delete from test</truncate>
-		<listener>CobolFileEventAdapterTest
+		<listener>k_kim_mg.sa4cob2db.test.CobolFileEventAdapterTest
 		</listener>
 		<otherofmeta1></otherofmeta1>
 	</metadata>

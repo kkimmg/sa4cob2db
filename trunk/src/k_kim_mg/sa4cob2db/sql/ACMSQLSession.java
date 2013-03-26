@@ -27,7 +27,7 @@ public class ACMSQLSession implements ACMSession {
 	protected Hashtable<String, CobolFile> files;
 	/** イベントリスナ */
 	protected ArrayList<ACMSessionEventListener> listeners = new ArrayList<ACMSessionEventListener>();
-	private int maxLength;
+	private int maxLength = ACMNetSession.INITIAL_RECORD_LEN;;
 	private Properties options;
 	/** ファイルサーバー */
 	private final transient SQLFileServer server;

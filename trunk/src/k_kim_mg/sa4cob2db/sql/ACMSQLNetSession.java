@@ -365,6 +365,9 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 				readingRecord = recordBytes.get(file);
 			} else {
 				int recordLength = (file.getMetaData() == null ? getMaxLength() : file.getMetaData().getRowSize());
+				if (recordLength > getMaxLength()) {
+					recordLength = getMaxLength();
+				}
 				readingRecord = new byte[recordLength];
 			}
 			// リード処理
@@ -387,8 +390,8 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	 */
 	protected byte[] readBytes() throws IOException {
 		/** ソケットから読み取るバイト配列 */
-		byte[] bytes = new byte[getMaxLength()];
-		int size = input.read(bytes, 0, getMaxLength());
+		byte[] bytes = new byte[(getMaxLength() < 256 ? 256: getMaxLength())];
+		int size = input.read(bytes, 0, bytes.length);
 		if (bytes.length != size) {
 			SQLNetServer.logger.warning("unmatch length." + bytes.length + ":" + size);
 		}
@@ -402,8 +405,8 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	 */
 	protected String readLine() throws IOException {
 		/** ソケットから読み取る文字列を作成するためのChar配列 */
-		char[] chars = new char[getMaxLength()];
-		int size = streamReader.read(chars, 0, getMaxLength());
+		char[] chars = new char[(getMaxLength() < 256 ? 256: getMaxLength())];
+		int size = streamReader.read(chars, 0, chars.length);
 		String line = new String(chars);
 		SQLNetServer.logger.log(Level.FINEST, "RECIEVE:" + line.trim() + ":" + line.length());
 		if (chars.length != size) {
@@ -417,8 +420,12 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			byte[] readingRecord;
 			if (recordBytes.containsKey(file)) {
 				readingRecord = recordBytes.get(file);
+				SQLNetServer.logger.warning(new String(readingRecord));
 			} else {
 				int recordLength = (file.getMetaData() == null ? getMaxLength() : file.getMetaData().getRowSize());
+				if (recordLength > getMaxLength()) {
+					recordLength = getMaxLength();
+				}
 				readingRecord = new byte[recordLength];
 			}
 			// リード処理
