@@ -433,7 +433,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	 */
 	void addSetMaxLength(int value, String period) {
 		if (value > 0) {
-			add("     MOVE " + value + " TO ACM-OPTION-VALUE" + period);
+			add("     MOVE \"" + value + "\" TO ACM-OPTION-VALUE" + period);
 			add("     CALL \"setJNIMaxLength\" USING ACM-OPTION-VALUE");
 			add("                                    ACM-STATUS-ALL" + period);
 		}

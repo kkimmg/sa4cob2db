@@ -41,6 +41,8 @@ initialize (char *hostname, char *hostport) {
 		fprintf(stderr, "can't malloc\n");
 		return (-1);
 	}
+	memset(recbuf, ' ', record_max);
+	recbuf[record_max] = '\0';
 	/* ホスト名がIPアドレスと仮定してホスト情報取得 */
 	if ((addr.s_addr = inet_addr (hostname)) == -1) {
 		/* ホスト名が名称としてホスト情報取得 */
@@ -100,6 +102,9 @@ sendReturn (void) {
  */
 extern int
 sendMessage (char *message) {
+fprintf(stderr, "sendMessage:%d=", strlen(message));
+fprintf(stderr, message);
+fprintf(stderr, "\n");
 	int ret = send (soc, message, strlen (message), 0);
 	return ret;
 }
@@ -121,9 +126,14 @@ sendRecord (char *record) {
  */
 extern int
 recieveMessage () {
+	memset(buf, ' ', 254);
+	buf[255] = '\0';
 	if ((len = recv (soc, buf, sizeof (buf), 0)) < 0) {
 		return 0;
 	}
+fprintf(stderr, "recieveMessage:%d:", sizeof(buf));
+fprintf(stderr, buf);
+fprintf(stderr, "\n");
 	return len;
 }
 
@@ -149,7 +159,7 @@ recieveStatus () {
  */
 extern int
 recieveRecord () {
-	if ((len = recv (soc, recbuf, sizeof (recbuf), 0)) < 0) {
+	if ((len = recv (soc, recbuf, record_len, 0)) < 0) {
 		return 0;
 	}
 	return len;
@@ -1251,6 +1261,8 @@ setACMMaxLength (char *length, char *status) {
 		fprintf(stderr, "can't malloc\n");
 		return;
 	}
+	memset(recbuf, ' ', record_max);
+	recbuf[record_max] = '\0';
 	/* ステータスチェック */
 	strcpy (status, buf);
 	return;
