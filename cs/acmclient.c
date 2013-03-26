@@ -1208,7 +1208,7 @@ getACMOption (char *name, char *value, char *status) {
 		return;
 	}
 	/* 受信したデータをレコード領域に転送 */
-	memmove (value, recbuf, (len > OPTIONVALUE_MAX ? OPTIONVALUE_MAX : len));
+	memmove (value, buf, (len > OPTIONVALUE_MAX ? OPTIONVALUE_MAX : len));
 	/* 受信 (ステータス) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
