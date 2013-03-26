@@ -20,7 +20,7 @@ struct hostent *host;
 struct sockaddr_in server;
 struct servent *se;
 int soc, portno, len;
-char buf[255];
+char buf[256];
 int record_len, record_max;
 char *recbuf;
 fd_set Mask, readOk;
@@ -103,6 +103,11 @@ sendReturn (void) {
 extern int
 sendMessage (char *message) {
 	int ret = send (soc, message, strlen (message), 0);
+/*
+fprintf(stderr, "sendMessage:%d:", strlen(message));
+fprintf(stderr, message);
+fprintf(stderr, ":%d\n", ret);
+*/
 	return ret;
 }
 
@@ -116,20 +121,21 @@ sendRecord (char *record) {
 	return ret;
 }
 
-/**
- * メッセージの受信
- * @return 受信メッセージ長またはエラー
- *         エラー時にも0を返す
- */
 extern int
 recieveMessage () {
-	memset(buf, ' ', 254);
+	memset(buf, ' ', 255);
 	buf[255] = '\0';
-	if ((len = recv (soc, buf, sizeof (buf), 0)) < 0) {
+	if ((len = recv (soc, buf, 256, 0)) < 0) {
 		return 0;
 	}
+/*
+fprintf(stderr, "recvMessage:%d:", len);
+fprintf(stderr, buf);
+fprintf(stderr, ":%d\n", strlen(buf));
+*/
 	return len;
 }
+
 
 /**
  * ファイルステータスの受信
@@ -1197,7 +1203,7 @@ getACMOption (char *name, char *value, char *status) {
 		return;
 	}
 	/* 受信 (データ) */
-	if (recieveRecord () == 0) {
+	if (recieveMessage () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}

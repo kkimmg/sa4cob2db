@@ -759,7 +759,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	 * @throws IOException
 	 */
 	protected void writeLine(String line) throws IOException {
-		SQLNetServer.logger.log(Level.FINEST, "SENDING:" + line);
+		SQLNetServer.logger.log(Level.FINEST, "SENDING:" + line + ":" + line.length());
 		streamWriter.write(line, 0, line.length());
 		streamWriter.flush();
 	}
