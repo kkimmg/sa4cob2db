@@ -4,9 +4,10 @@ package k_kim_mg.sa4cob2db.sql;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract interface ACMNetSession {
-	/** ステータスのバイト長 */
 	public static final int STATUS_LEN = 3;
 	public static final int STATUS_MAX = (STATUS_LEN - 1);
+	public static final int COMMANDLINE_LEN = 256;
+	public static final int COMMANDLINE_MAX = (COMMANDLINE_LEN - 1);
 	public static final int FILE_IDENT_LEN = 256;
 	public static final int FILE_IDENT_MAX = (FILE_IDENT_LEN - 1);
 	public static final int FILE_OPTION_LEN = 256;
