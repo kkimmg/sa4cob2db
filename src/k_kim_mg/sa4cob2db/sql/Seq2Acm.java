@@ -21,16 +21,15 @@ import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 import org.xml.sax.SAXException;
 /**
- * シーケンシャルファイルから入力する
+ * import from sequential file
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class Seq2Acm {
 	/**
-	 * 使い方を説明する
+	 * display usage
 	 * 
-	 * @param properties
-	 *            プロパティ
+	 * @param properties properties
 	 */
 	private static void displayUsage(Properties properties) {
 		String flag = properties.getProperty("display_usage", "true");
@@ -45,11 +44,11 @@ public class Seq2Acm {
 		}
 	}
 	/**
-	 * 環境変数を取得する
+	 * get from environment values
 	 * 
-	 * @param key
-	 * @param defaultValue
-	 * @return 環境変数の値を示す文字列
+	 * @param key key
+	 * @param defaultValue default value
+	 * @return environment value
 	 */
 	private static String getEnvValue(String key, String defaultValue) {
 		String ret = System.getProperty(key, System.getenv(key));
@@ -59,7 +58,7 @@ public class Seq2Acm {
 			ret = defaultValue;
 		return ret;
 	}
-	/** 起動ルーチン */
+	/** main */
 	public static void main(String[] args) {
 		Properties properties = new Properties();
 		// -------------------------
@@ -85,43 +84,34 @@ public class Seq2Acm {
 				}
 			}
 		} else {
-			System.err.println("acmfileが指定されていません。");
+			System.err.println("infile required");
 		}
 		// -------------------------
 		Seq2Acm obj = new Seq2Acm();
 		obj.importTo(properties);
-		// 使い方の説明
 		displayUsage(properties);
 	}
 	/**
-	 * 起動ルーチン
+	 * main
 	 * 
-	 * @param acmfile
-	 *            入力ファイル
-	 * @param metafile
-	 *            メタデータファイル
-	 * @param linein
-	 *            改行を含むかどうか true or false
-	 * @param extend
-	 *            オープンモード<br/>
-	 *            true 追記モード<br/>
-	 *            false 上書モード
-	 * @param display_usage
-	 *            使い方を表示するかどうか
+	 * @param acmfile file
+	 * @param metafile mete data
+	 * @param linein is it line sequential file?
+	 * @param extend mode<br/>
+	 *            true extend<br/>
+	 *            false overwrite
+	 * @param display_usage display usage?
 	 */
 	public static void main_too(String acmfile, String infile, String metafile, String linein, String extend, String display_usage) {
 		Seq2Acm.main(new String[] { acmfile, infile, metafile, linein, extend, display_usage });
 	}
-	/** JDBCコネクション */
 	private Connection connection;
-	/** Internalファイルサーバー */
 	private SQLFileServer fileServer;
 	/**
-	 * 名称からコボルファイルを取得する
+	 * get file from name
 	 * 
-	 * @param name
-	 *            filename
-	 * @return コボルファイル
+	 * @param name filename
+	 * @return file name
 	 */
 	protected CobolFile getCobolFile(String name) {
 		SQLCobolRecordMetaData meta = (SQLCobolRecordMetaData) fileServer.metaDataSet.getMetaData(name);
@@ -133,14 +123,11 @@ public class Seq2Acm {
 		return file;
 	}
 	/**
-	 * ストリームに出力する
+	 * import form line sequential file
 	 * 
-	 * @param file
-	 *            コボルファイル
-	 * @param stream
-	 *            ストリーム
-	 * @throws IOException
-	 *             例外
+	 * @param file file
+	 * @param stream stream
+	 * @throws IOException exception
 	 */
 	protected void importLineTo(CobolFile file, InputStream stream) throws IOException {
 		int count = 0;
@@ -162,14 +149,11 @@ public class Seq2Acm {
 		System.err.println("Row Count = " + count);
 	}
 	/**
-	 * ストリームに出力する
+	 * import form sequential file
 	 * 
-	 * @param file
-	 *            コボルファイル
-	 * @param stream
-	 *            ストリーム
-	 * @throws IOException
-	 *             例外
+	 * @param file file
+	 * @param stream stream
+	 * @throws IOException exception
 	 */
 	protected void importTo(CobolFile file, InputStream stream) throws IOException {
 		int count = 0;
@@ -190,16 +174,12 @@ public class Seq2Acm {
 		System.err.println("Row Count = " + count);
 	}
 	/**
-	 * ストリームに出力する
+	 * import form (line) sequential file
 	 * 
-	 * @param file
-	 *            コボルファイル
-	 * @param stream
-	 *            ストリーム
-	 * @param line
-	 *            ライン出力
-	 * @throws IOException
-	 *             例外
+	 * @param file file
+	 * @param stream stream
+	 * @param line is it line sequential file?
+	 * @throws IOException exception
 	 */
 	protected void importTo(CobolFile file, InputStream stream, boolean line) throws IOException {
 		if (line) {
@@ -209,27 +189,26 @@ public class Seq2Acm {
 		}
 	}
 	/**
-	 * 出力する
+	 * import from file
 	 * 
-	 * @param properties
-	 *            プロパティ
+	 * @param properties key-value set
 	 */
 	protected void importTo(Properties properties) {
-		// ファイル機能の作成
+		//
 		fileServer = new SQLFileServer();
 		CobolRecordMetaDataSet metaset = fileServer.getMetaDataSet();
-		// メタデータfilename
+		//
 		String metaString = properties.getProperty("metafile", SQLNetServer.DEFAULT_CONFIG);
-		String AcmName = properties.getProperty("acmfile", "");
-		String InName = properties.getProperty("infile", "");
-		String LineIn = properties.getProperty("linein", "false");
-		String Extend = properties.getProperty("extend", "false");
-		boolean extend = Boolean.parseBoolean(Extend);
-		// メタデータの取得
+		String acmName = properties.getProperty("acmfile", "");
+		String inName = properties.getProperty("infile", "");
+		String lineIn = properties.getProperty("linein", "false");
+		String extend_s = properties.getProperty("extend", "false");
+		boolean extend = Boolean.parseBoolean(extend_s);
+		//
 		File metaFile = new File(metaString);
-		// メタデータ情報の取得
+		//
 		NodeReadLoader nodeLoader = new NodeReadLoader();
-		CobolFile AcmFile = null;
+		CobolFile acmFile = null;
 		InputStream fis = null;
 		try {
 			nodeLoader.createMetaDataSet(metaFile, fileServer.getMetaDataSet(), properties);
@@ -245,7 +224,6 @@ public class Seq2Acm {
 				sqlset.setPassword(properties.getProperty("jdbcpassword"));
 			}
 			// /////////////////////////////////////////////////////////
-			// ログの設定
 			String logSetting = properties.getProperty("log", "");
 			if (logSetting.trim().length() > 0) {
 				try {
@@ -257,29 +235,43 @@ public class Seq2Acm {
 					SQLNetServer.logger.log(Level.WARNING, "File Not Found " + logSetting, fnfe);
 				}
 			}
-			// ACMファイル
-			AcmFile = getCobolFile(AcmName);
-			if (extend) {
-				// 追記モード
-				AcmFile.open(CobolFile.MODE_EXTEND, CobolFile.ACCESS_SEQUENCIAL);
+			//
+			acmFile = getCobolFile(acmName);
+			if (acmFile != null) {
+				try {
+					if (extend) {
+						acmFile.open(CobolFile.MODE_EXTEND, CobolFile.ACCESS_SEQUENTIAL);
+					} else {
+						acmFile.open(CobolFile.MODE_OUTPUT, CobolFile.ACCESS_SEQUENTIAL);
+					}
+					//
+					if (inName.length() == 0) {
+						fis = System.in;
+					} else {
+						fis = new FileInputStream(inName);
+					}
+					boolean bool = false;
+					bool = Boolean.valueOf(lineIn);
+					//
+					importTo(acmFile, fis, bool);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						acmFile.close();
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+					try {
+						fis.close();
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
 			} else {
-				// 通常モード
-				AcmFile.open(CobolFile.MODE_OUTPUT, CobolFile.ACCESS_SEQUENCIAL);
+				System.err.println("can't find " + acmName + ".");
+				SQLNetServer.logger.log(Level.SEVERE, "can't find " + acmName + ".");
 			}
-			// 出力ファイル
-			if (InName.length() == 0) {
-				// 標準出力
-				fis = System.in;
-			} else {
-				// ファイルへ
-				fis = new FileInputStream(InName);
-			}
-			// ライン出力
-			boolean bool = false;
-			bool = Boolean.valueOf(LineIn);
-			// 出力処理
-			importTo(AcmFile, fis, bool);
-			// 終了処理
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		} catch (FactoryConfigurationError e) {
@@ -290,12 +282,7 @@ public class Seq2Acm {
 			e.printStackTrace();
 		} finally {
 			try {
-				AcmFile.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-			try {
-				fis.close();
+				connection.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

@@ -21,8 +21,7 @@ import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 import org.xml.sax.SAXException;
 /**
- * JNIベースのサーバー機能
- * 
+ * connect cobol and java by JNI
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSQLJNISession implements ACMSession {
@@ -57,9 +56,9 @@ public class ACMSQLJNISession implements ACMSession {
 		superobj.addACMSessionEventListener(listener);
 	}
 	/**
-	 * ファイルをアサインする
-	 * 
-	 * @throws IOException 入出例外
+	 * assign
+	 * @param fileName file name
+	 * @throws IOException IO Exception
 	 */
 	public void assign(byte[] fileName) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -73,7 +72,8 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * ファイルをクローズする
+	 * close
+	 * @param fileName file name
 	 */
 	public void close(byte[] fileName) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -87,9 +87,9 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * トランザクションをコミットする
+	 * commit
 	 * 
-	 * @throws IOException 入出力例外
+	 * @throws IOException io exception
 	 */
 	public void commitTransaction() {
 		FileStatus ret = FileStatus.FAILURE;
@@ -112,7 +112,9 @@ public class ACMSQLJNISession implements ACMSession {
 		return superobj.createFile(name);
 	}
 	/**
-	 * 現在行の削除
+	 * delete
+	 * @param fileName file name
+	 * @param record record includes key value
 	 */
 	public void delete(byte[] fileName, byte[] record) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -148,6 +150,10 @@ public class ACMSQLJNISession implements ACMSession {
 	public CobolFile getFile(String name) {
 		return superobj.getFile(name);
 	}
+	/**
+	 * get option
+	 * @param key key
+	 */
 	public void getJNIOption(byte[] key) {
 		String s_key = new String(key);
 		String s_val = getACMOption(s_key);
@@ -163,9 +169,9 @@ public class ACMSQLJNISession implements ACMSession {
 		return superobj.getMaxLength();
 	}
 	/**
-	 * モード文字列からint値を得る
+	 * mode to int value
 	 * 
-	 * @param bytes モードを表す文字列のバイト配列
+	 * @param bytes mode
 	 * @return
 	 */
 	int getModeBytes2ModeInt(byte[] bmode) {
@@ -216,7 +222,9 @@ public class ACMSQLJNISession implements ACMSession {
 		return status;
 	}
 	/**
-	 * 初期化してサーバーに登録する
+	 * initialize
+	 * @param acmUsername user name
+	 * @param acmPassword password
 	 */
 	public void initialize(byte[] acmUsername, byte[] acmPassword) {
 		FileStatus ret = FileStatus.OK;
@@ -240,7 +248,7 @@ public class ACMSQLJNISession implements ACMSession {
 				sqlset.setPassword(properties.getProperty("jdbcpassword"));
 			}
 			// /////////////////////////////////////////////////////////
-			// ログの設定
+			// logging
 			String logSetting = properties.getProperty("log", "");
 			if (logSetting.trim().length() > 0) {
 				try {
@@ -252,11 +260,11 @@ public class ACMSQLJNISession implements ACMSession {
 					SQLNetServer.logger.log(Level.WARNING, "File Not Found " + logSetting, fnfe);
 				}
 			}
-			// パスワードの設定
+			// password
 			Properties users = new Properties();
 			String userFile = properties.getProperty("authfile", "");
 			if (userFile == "") {
-				users.put("", "");// デフォルトパスワード
+				users.put("", "");// default
 				SQLNetServer.logger.log(Level.CONFIG, "authfile is null. using default password.");
 			} else {
 				SQLNetServer.logger.log(Level.CONFIG, "Loading authfile " + userFile + ".");
@@ -283,7 +291,9 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * カレントレコードの移動
+	 * move to 
+	 * @param fileName file name
+	 * @param record record includes key value
 	 */
 	public void move(byte[] fileName, byte[] record) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -297,7 +307,8 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * 次のレコードへ
+	 * next record
+	 * @param fileName file name
 	 */
 	public void next(byte[] fileName) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -311,7 +322,10 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * ファイルを開く
+	 * open
+	 * @param fileName file name
+	 * @param bmode open mode
+	 * @param baccessmode access mode
 	 */
 	public void open(byte[] fileName, byte[] bmode, byte[] baccessmode) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -319,52 +333,41 @@ public class ACMSQLJNISession implements ACMSession {
 		CobolFile file = getFile(FileName);
 		if (file != null) {
 			// ////////////////////////////////////////////////////
-			// オープンモード
 			int mode = -1;
 			String modeString = new String(bmode).trim();
 			if (modeString.equalsIgnoreCase("INPUT")) {
-				// 読み込みモード
 				mode = CobolFile.MODE_INPUT;
 			} else if (modeString.equalsIgnoreCase("OUTPUT")) {
-				// 書き込みモード
 				mode = CobolFile.MODE_OUTPUT;
 			} else if (modeString.equalsIgnoreCase("EXTEND")) {
-				// 追記モード
 				mode = CobolFile.MODE_EXTEND;
 			} else if (modeString.equalsIgnoreCase("IO")) {
-				// 入出力モード
 				mode = CobolFile.MODE_INPUT_OUTPUT;
 			}
 			// //////////////////////////////////////////////////////
-			// アクセスモード
 			int accessmode = -1;
 			String accessmodeString = new String(baccessmode).trim();
 			if (accessmodeString.equalsIgnoreCase("SEQUENC")) {
-				// 順アクセス
-				accessmode = CobolFile.ACCESS_SEQUENCIAL;
+				accessmode = CobolFile.ACCESS_SEQUENTIAL;
 			} else if (accessmodeString.equalsIgnoreCase("RANDOM")) {
-				// 動的アクセス
 				accessmode = CobolFile.ACCESS_RANDOM;
 			} else if (accessmodeString.equalsIgnoreCase("DYNAMIC")) {
-				// 乱アクセス
 				accessmode = CobolFile.ACCESS_DYNAMIC;
 			}
 			// ////////////////////////////////////////////////////
-			// オープンモード
 			if (mode == CobolFile.MODE_INPUT || mode == CobolFile.MODE_OUTPUT || mode == CobolFile.MODE_EXTEND || mode == CobolFile.MODE_INPUT_OUTPUT) {
-				// モードが正しい
+				// valid mode
 			} else {
-				// モード不正
+				// invalid mode
 				ret = new FileStatus(FileStatus.STATUS_CANT_OPEN, FileStatus.NULL_CODE, 0, "can't open file");
 				setFileStatus2Bytes(ret, status);
 			}
 			// //////////////////////////////////////////////////////
-			// アクセスモード
-			if (accessmode == CobolFile.ACCESS_SEQUENCIAL || accessmode == CobolFile.ACCESS_DYNAMIC || accessmode == CobolFile.ACCESS_RANDOM) {
-				// モードが正しい
+			if (accessmode == CobolFile.ACCESS_SEQUENTIAL || accessmode == CobolFile.ACCESS_DYNAMIC || accessmode == CobolFile.ACCESS_RANDOM) {
+				// valid mode
 				ret = file.open(mode, accessmode);
 			} else {
-				// モード不正
+				// invalid mode
 				ret = new FileStatus(FileStatus.STATUS_CANT_OPEN, FileStatus.NULL_CODE, 0, "can't open file");
 				setFileStatus2Bytes(ret, status);
 			}
@@ -374,7 +377,8 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * 前のレコードへ
+	 * previous mode
+	 * @param fileName file name
 	 */
 	public void previous(byte[] fileName) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -388,14 +392,14 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * リード
+	 * read current record
+	 * @param fileName file name
 	 */
 	public void read(byte[] fileName) {
 		FileStatus ret = FileStatus.FAILURE;
 		String FileName = new String(fileName).trim();
 		CobolFile file = getFile(FileName);
 		if (file != null) {
-			// リード処理
 			ret = file.read(readingRecord);
 		} else {
 			ret = FileStatus.NOT_ASSIGNED;
@@ -403,9 +407,8 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * 次のレコードへ
-	 * 
-	 * @param fileName
+	 * read and next
+     * @param fileName file name
 	 */
 	public void readNext(byte[] fileName) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -413,10 +416,9 @@ public class ACMSQLJNISession implements ACMSession {
 		CobolFile file = getFile(FileName);
 		if (file != null) {
 			;
-			// リード処理
+			// read current record
 			ret = file.read(readingRecord);
 			if (ret.getStatusCode().equals(FileStatus.STATUS_OK)) {
-				// 次処理
 				file.next();
 			}
 		} else {
@@ -435,7 +437,9 @@ public class ACMSQLJNISession implements ACMSession {
 		superobj.removeACMSessionEventListener(listener);
 	}
 	/**
-	 * 更新
+	 * rewrite(update)
+	 * @param fileName file name
+	 * @param record record includes value
 	 */
 	public void rewrite(byte[] fileName, byte[] record) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -444,13 +448,12 @@ public class ACMSQLJNISession implements ACMSession {
 		if (file != null) {
 			ret = file.rewrite(record);
 		} else {
-			// readLine();// ダミーリード
 			ret = FileStatus.NOT_ASSIGNED;
 		}
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * トランザクションをロールバックする 入出力例外
+	 * rollback
 	 */
 	public void rollbackTransaction() {
 		FileStatus ret = FileStatus.FAILURE;
@@ -468,9 +471,9 @@ public class ACMSQLJNISession implements ACMSession {
 		superobj.setACMOption(key, value);
 	}
 	/**
-	 * オートコミットを設定する
+	 * set auto commit
 	 * 
-	 * @param autoCommit コミットモード 入出力例外
+	 * @param autoCommit true/false
 	 */
 	public void setAutoCommit(boolean autoCommit) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -483,9 +486,9 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * オートコミットを設定する
+	 * set auto commit
 	 * 
-	 * @throws IOException 入出力例外
+	 * @throws IOException "true"/"false"
 	 */
 	public void setAutoCommit(byte[] commitBytes) {
 		String commitString = new String(commitBytes).trim();
@@ -493,16 +496,22 @@ public class ACMSQLJNISession implements ACMSession {
 		setAutoCommit(autoCommit);
 	}
 	/**
-	 * ファイルステータスをバイト配列に転記する
-	 * 
-	 * @param source ファイルステータス
-	 * @param dist ステータス
+	 * file status
+	 * object to text
+	 * @param source status object
+	 * @param dist status text
 	 */
 	void setFileStatus2Bytes(FileStatus source, byte[] dest) {
 		String string = source.toString();
 		byte[] bytes = string.getBytes();
 		System.arraycopy(bytes, 0, dest, 0, (bytes.length < dest.length ? bytes.length : dest.length));
 	}
+	
+	/**
+	 * set option
+	 * @param key key
+	 * @param value value
+	 */
 	public void setJNIOption(byte[] key, byte[] value) {
 		String s_key = new String(key);
 		String s_val = new String(value);
@@ -518,9 +527,8 @@ public class ACMSQLJNISession implements ACMSession {
 		superobj.setMaxLength(length);
 	}
 	/**
-	 * トランザクションを開始する
-	 * 
-	 * @throws IOException 入出力例外
+	 * start transaction
+	 * @param levelBytes transaction level
 	 */
 	public void setTransactionLevel(byte[] levelBytes) {
 		String levelString = new String(levelBytes).trim();
@@ -537,9 +545,9 @@ public class ACMSQLJNISession implements ACMSession {
 		setTransactionLevel(level);
 	}
 	/**
-	 * 指定したトランザクション遮断レベルでトランザクションを開始する
+	 * start transaction
 	 * 
-	 * @param level トランザクション遮断レベル 入出力例外
+	 * @param level transaction level
 	 */
 	public void setTransactionLevel(int level) {
 		FileStatus ret = FileStatus.FAILURE;
@@ -552,7 +560,10 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * 位置付け
+	 * start
+	 * @param fileName file name
+	 * @param modeBytes mode
+	 * @param record record includes key value
 	 */
 	public void start(byte[] fileName, byte[] modeBytes, byte[] record) {
 		int mode = getModeBytes2ModeInt(modeBytes);
@@ -562,13 +573,16 @@ public class ACMSQLJNISession implements ACMSession {
 		if (file != null) {
 			ret = file.start(mode, record);
 		} else {
-			// readLine();// ダミーリード
 			ret = FileStatus.NOT_ASSIGNED;
 		}
 		setFileStatus2Bytes(ret, status);
 	}
 	/**
-	 * 位置付け
+	 * start
+	 * @param fileName file name
+	 * @param skey sub key
+	 * @param modeBytes mode
+	 * @param record record includes key value
 	 */
 	public void startWith(byte[] fileName, byte[] skey, byte[] modeBytes, byte[] record) {
 		int mode = getModeBytes2ModeInt(modeBytes);
@@ -605,7 +619,9 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(FileStatus.OK, status);
 	}
 	/**
-	 * write file
+	 * write(insert)
+	 * @param fileName file name
+	 * @param record record includes value
 	 */
 	public void write(byte[] fileName, byte[] record) {
 		FileStatus ret = FileStatus.FAILURE;

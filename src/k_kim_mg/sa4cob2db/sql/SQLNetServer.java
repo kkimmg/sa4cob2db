@@ -25,28 +25,28 @@ import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 import org.xml.sax.SAXException;
 /**
- * ソケットベースのサーバー機能
+ * SocketベースのServer機能
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLNetServer {
 	/**
-	 * ソケットごとの受付機能
+	 * Socketごとの受付機能
 	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	class SocketAccepter implements Runnable {
-		/** サーバー */
+		/** Server */
 		private SQLNetServer server;
-		/** サーバーソケット */
+		/** ServerSocket */
 		private ServerSocket servsock;
 		/**
 		 * Constructor
 		 * 
 		 * @param server
-		 *            サーバー
+		 *            Server
 		 * @param servsock
-		 *            受付アドレスを表すサーバーソケット
+		 *            受付アドレスを表すServerSocket
 		 */
 		public SocketAccepter(SQLNetServer server, ServerSocket servsock) {
 			this.server = server;
@@ -207,7 +207,7 @@ public class SQLNetServer {
 	private int port = 12345;
 	/** その他の値 */
 	private Properties properties;
-	/** サーバーイベントリスナ */
+	/** Serverイベントリスナ */
 	private List<ACMServerEventListener> serverListeners = new ArrayList<ACMServerEventListener>();
 	/** セッションイベントリスナ */
 	private List<Class<? extends ACMSessionEventListener>> sessionListeners = new ArrayList<Class<? extends ACMSessionEventListener>>();
@@ -219,7 +219,7 @@ public class SQLNetServer {
 	 * Constructor
 	 * 
 	 * @param propertie
-	 *            サーバープロパティ
+	 *            Serverプロパティ
 	 * @param passwords
 	 *            パスワード
 	 */
@@ -360,7 +360,7 @@ public class SQLNetServer {
 			}
 		}
 		// ////////////////////////////////////////////////////////
-		// サーバーイベントの設定
+		// Serverイベントの設定
 		String serverlisteners = properties.getProperty("serverlisteners", "");
 		logger.log(Level.CONFIG, "serverlisteners:" + serverlisteners + ".");
 		if (serverlisteners != "") {
@@ -382,7 +382,7 @@ public class SQLNetServer {
 			}
 		}
 		// ////////////////////////////////////////////////////////
-		// サーバーイベントの実行
+		// Serverイベントの実行
 		ACMServerEvent ev = new ACMServerEvent(this);
 		for (ACMServerEventListener listener : serverListeners) {
 			try {
@@ -392,7 +392,7 @@ public class SQLNetServer {
 			}
 		}
 		// ////////////////////////////////////////////////////////
-		// サーバー終了の登録
+		// Server終了の登録
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run() {
 				shutdownHook();
@@ -533,7 +533,7 @@ public class SQLNetServer {
 		return metaDataSet;
 	}
 	/**
-	 * このサーバーのその他の値
+	 * このServerのその他の値
 	 * 
 	 * @param key
 	 *            キー
@@ -543,7 +543,7 @@ public class SQLNetServer {
 		return properties.getProperty(key);
 	}
 	/**
-	 * このサーバーのその他の値
+	 * このServerのその他の値
 	 * 
 	 * @param key
 	 *            キー
@@ -563,7 +563,7 @@ public class SQLNetServer {
 		return sessions.size();
 	}
 	/**
-	 * サーバー終了イベントを発行する
+	 * Server終了イベントを発行する
 	 */
 	void serverEnding() {
 		ACMServerEvent ev = new ACMServerEvent(this);
@@ -581,7 +581,7 @@ public class SQLNetServer {
 		this.maxSessions = maxSessions;
 	}
 	/**
-	 * このサーバーのその他の値
+	 * このServerのその他の値
 	 * 
 	 * @param key
 	 *            キー
@@ -624,12 +624,12 @@ public class SQLNetServer {
 	 * 開始処理
 	 * 
 	 * @throws IOException
-	 *             入出力例外
+	 *             IO Exception
 	 */
 	public void startServer() throws IOException {
 		for (int i = 0; i < addresses.size(); i++) {
 			InetAddress address = addresses.get(i);
-			// サーバーソケットの作成
+			// ServerSocketの作成
 			ServerSocket servsock = new ServerSocket(port, backlog, address);
 			SocketAccepter accepter = new SocketAccepter(this, servsock);
 			Thread th = new Thread(accepter);

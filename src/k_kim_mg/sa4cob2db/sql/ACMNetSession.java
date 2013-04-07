@@ -1,6 +1,6 @@
 package k_kim_mg.sa4cob2db.sql;
 /**
- * セッションに関するリテラルを提供する
+ * consts
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract interface ACMNetSession {

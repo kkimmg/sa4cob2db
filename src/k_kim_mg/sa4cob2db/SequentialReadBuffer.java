@@ -4,20 +4,20 @@ package k_kim_mg.sa4cob2db;
  * シーケンシャルファイルの読み込みバッファ
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
-public interface SequencialReadBuffer {
+public interface SequentialReadBuffer {
 	/**
-	 * バッファ位置を変更する
-	 * @return ファイルステータス
+	 * move to next buffer
+	 * @return status
 	 */
 	public FileStatus nextBuffer ();
 	/**
-	 * バッファを読み込む<br/>
-	 * @param record	レコード
-	 * @return	ファイルステータス
+	 * read current buffer record
+	 * @param record	record
+	 * @return	status
 	 */
 	public FileStatus readBuffer (byte[] record);
 	/**
-	 * バッファリングの開始
+	 * start buffering
 	 */
 	public void startBuffering ();
 }

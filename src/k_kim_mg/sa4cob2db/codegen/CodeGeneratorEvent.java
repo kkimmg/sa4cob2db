@@ -1,28 +1,29 @@
 package k_kim_mg.sa4cob2db.codegen;
-
 import java.util.EventObject;
 /**
  * Event that
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CodeGeneratorEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
 	/** file information */
-	private transient FileInfo file;
+	private FileInfo file;
 	/** owner */
-	private transient GeneratorOwner owner;
-	/** generator  */
-	private transient CodeGenerator generator;
+	private GeneratorOwner owner;
+	/** generator */
+	private CodeGenerator generator;
 	/** period string */
 	private String period;
 	/**
 	 * Constructor
-	 * @param source	file information
-	 * @param owner		owner
-	 * @param generator	generator
-	 * @param period	period string
+	 * 
+	 * @param source file information
+	 * @param owner owner
+	 * @param generator generator
+	 * @param period period string
 	 */
-	public CodeGeneratorEvent (FileInfo source, GeneratorOwner owner, CodeGenerator generator, String period) {
+	public CodeGeneratorEvent(FileInfo source, GeneratorOwner owner, CodeGenerator generator, String period) {
 		super(source);
 		this.file = source;
 		this.owner = owner;
@@ -31,6 +32,7 @@ public class CodeGeneratorEvent extends EventObject {
 	}
 	/**
 	 * file information
+	 * 
 	 * @return file information
 	 */
 	public FileInfo getFile() {
@@ -38,6 +40,7 @@ public class CodeGeneratorEvent extends EventObject {
 	}
 	/**
 	 * generator
+	 * 
 	 * @return generator
 	 */
 	public CodeGenerator getGenerator() {
@@ -45,6 +48,7 @@ public class CodeGeneratorEvent extends EventObject {
 	}
 	/**
 	 * owner
+	 * 
 	 * @return owner
 	 */
 	public GeneratorOwner getOwner() {
@@ -52,6 +56,7 @@ public class CodeGeneratorEvent extends EventObject {
 	}
 	/**
 	 * period
+	 * 
 	 * @return period string
 	 */
 	public String getPeriod() {

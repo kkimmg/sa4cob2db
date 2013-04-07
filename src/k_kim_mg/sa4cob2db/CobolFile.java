@@ -15,7 +15,7 @@ public interface CobolFile extends Serializable {
 	/** アクセスモード */
 	public static final int ACCESS_RANDOM = 2;
 	/** アクセスモード */
-	public static final int ACCESS_SEQUENCIAL = 0;
+	public static final int ACCESS_SEQUENTIAL = 0;
 	/**
 	 * IS EQUAL TO IS =
 	 */
