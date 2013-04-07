@@ -31,9 +31,9 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		this.connection = connection;
 		this.meta = meta;
 		// バッファ情報の設定
-		setInitialSequencialReadBufferSize(meta.getInitialSequencialReadBufferSize());
-		setMinimumSequencialReadBufferSize(meta.getMinimumSequencialReadBufferSize());
-		setMaximumSequencialReadBufferSize(meta.getMaximumSequencialReadBufferSize());
+		setInitialSequentialReadBufferSize(meta.getInitialSequencialReadBufferSize());
+		setMinimumSequentialReadBufferSize(meta.getMinimumSequencialReadBufferSize());
+		setMaximumSequentialReadBufferSize(meta.getMaximumSequencialReadBufferSize());
 	}
 	/*
 	 * (non-Javadoc)
@@ -471,7 +471,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			SQLNetServer.logger.log(Level.SEVERE, "can't open.", e);
 			ret = getSQLException2FileStatus(e);
 		}
-		if ((getMaximumSequencialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENTIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
+		if ((getMaximumSequentialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENTIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
 			// バッファリングの開始
 			startBuffer();
 		}
