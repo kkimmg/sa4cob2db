@@ -301,12 +301,12 @@ public class NodeReadLoader {
 		return ret;
 	}
 	/**
-	 * メタデータの新規作成
+	 * create custom meta data
 	 * 
-	 * @param className このメタデータを定義する列
-	 * @param node メタデータの情報を含むノードオブジェクト
-	 * @param parent このメタデータを含むメタデータセット
-	 * @return メタデータ
+	 * @param className class name
+	 * @param node xml node
+	 * @param parent parent is meta data set
+	 * @return meta data
 	 */
 	protected CobolRecordMetaData createCustomMetaData(String className, Node node, CobolRecordMetaDataSet parent) throws ClassNotFoundException, SecurityException, IllegalArgumentException, InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassCastException {
@@ -323,23 +323,21 @@ public class NodeReadLoader {
 		return ret;
 	}
 	/**
-	 * キー列の作成
+	 * create key column
 	 * 
-	 * @param node ノード
-	 * @param meta メタデータ
-	 * @return キー列(エラー時はnull)
+	 * @param node xml node
+	 * @param meta meta data
+	 * @return column / null when key is not found.
 	 */
 	protected CobolColumn createKeyColumn(Node node, CobolRecordMetaData meta) {
 		CobolColumn column = null;
 		try {
-			// 子ノードの探索
 			StringBuffer keyName = new StringBuffer();
 			NodeList children = node.getChildNodes();
 			int size = children.getLength();
 			for (int i = 0; i < size; i++) {
 				Node child = children.item(i);
 				if (child.getNodeType() == Node.TEXT_NODE) {
-					// キー名
 					keyName.append(child.getNodeValue());
 				}
 			}
@@ -354,18 +352,16 @@ public class NodeReadLoader {
 		return column;
 	}
 	/**
-	 * メタデータの新規作成
+	 * create meta data
 	 * 
-	 * @param node ノード
-	 * @param parent メタデータを含むメタデータセット
-	 * @return メタデータ
+	 * @param node xml node
+	 * @param parent meta data set
+	 * @return meta data
 	 */
 	protected CobolRecordMetaData createMetaData(Node node, CobolRecordMetaDataSet parent) {
 		//
 		CobolRecordMetaData meta = null;
-		// マップ
 		NamedNodeMap map = node.getAttributes();
-		// このメタデータの名前
 		Node name = map.getNamedItem("name");
 		if (name != null) {
 			String nm = name.getNodeValue().trim();
@@ -375,9 +371,10 @@ public class NodeReadLoader {
 		if (meta == null) {
 			Node custom = map.getNamedItem("customClassName");
 			if (custom == null || custom.getNodeValue().trim().length() == 0) {
-				// 新規のメタデータ
+
 				Node base = map.getNamedItem("base");
 				if (base != null) {
+					// exsists base object
 					String basename = base.getNodeValue().trim();
 					CobolRecordMetaData work = parent.getMetaData(basename);
 					if (work != null) {
@@ -386,11 +383,11 @@ public class NodeReadLoader {
 						meta = new DefaultSQLCobolRecordMetaData();
 					}
 				} else {
-					// 何もベースにしていない場合
+					// new
 					meta = new DefaultSQLCobolRecordMetaData();
 				}
 			} else {
-				// カスタムのメタデータ
+				// custom
 				String customName = custom.getNodeValue();
 				try {
 					meta = createCustomMetaData(customName, node, parent);
@@ -424,12 +421,12 @@ public class NodeReadLoader {
 		if (name != null) {
 			meta.setName(name.getNodeValue().trim());
 		}
-		// このエンコーディング
+		// endoding
 		Node encode = map.getNamedItem("encode");
 		if (encode != null) {
 			meta.setEncode(encode.getNodeValue().trim());
 		}
-		// バッファの初期サイズ
+		// initial size of buffer
 		Node bufinit = map.getNamedItem("bufinit");
 		if (bufinit != null) {
 			try {
@@ -438,7 +435,7 @@ public class NodeReadLoader {
 				SQLNetServer.logger.log(Level.CONFIG, "can't read bufsize.", e);
 			}
 		}
-		// バッファの最小サイズ
+		// minimum size of buffer
 		Node bufmin = map.getNamedItem("bufmin");
 		if (bufmin != null) {
 			try {
@@ -447,7 +444,7 @@ public class NodeReadLoader {
 				SQLNetServer.logger.log(Level.CONFIG, "can't read bufsize.", e);
 			}
 		}
-		// バッファの最大サイズ
+		// maximmu size of buffer
 		Node bufmax = map.getNamedItem("bufmax");
 		if (bufmax != null) {
 			try {
@@ -456,7 +453,7 @@ public class NodeReadLoader {
 				SQLNetServer.logger.log(Level.CONFIG, "can't read bufsize.", e);
 			}
 		}
-		// 値によるキー比較
+		// how to compare
 		Node kbv = map.getNamedItem("keyval");
 		if (kbv != null) {
 			String keyval = kbv.getNodeValue().trim();
@@ -464,7 +461,7 @@ public class NodeReadLoader {
 		} else {
 			meta.setKeyByValue(false);
 		}
-		// 子ノードの探索
+		// children
 		StringBuffer sql = new StringBuffer();
 		String truncate = null;
 		NodeList children = node.getChildNodes();
@@ -472,7 +469,7 @@ public class NodeReadLoader {
 		for (int i = 0; i < size; i++) {
 			Node child = children.item(i);
 			if (child.getNodeName().equals("statement")) {
-				// SQLステートメント
+				// SQLstatement
 				NodeList sqlchildren = child.getChildNodes();
 				int sqlsize = sqlchildren.getLength();
 				for (int j = 0; j < sqlsize; j++) {
@@ -482,32 +479,32 @@ public class NodeReadLoader {
 					}
 				}
 			} else if (child.getNodeName().equals("column") && meta instanceof SQLCobolRecordMetaData) {
-				// ただの列（ちょっと困る）
+				// column
 				CobolColumn cobolColumn = createSQLCobolColumn(child, (SQLCobolRecordMetaData) meta, null);
 				meta.addColumn(cobolColumn);
 			} else if (child.getNodeName().equals("sqlcolumn") && meta instanceof SQLCobolRecordMetaData) {
-				// SQL列
+				// SQL column
 				CobolColumn cobolColumn = createSQLCobolColumn(child, (SQLCobolRecordMetaData) meta, null);
 				meta.addColumn(cobolColumn);
 			} else if (child.getNodeName().equals("customcolumn")) {
-				// カスタム列
+				// custom olumn
 				CobolColumn cobolColumn = createCustomCobolColumn(child, meta);
 				meta.addColumn(cobolColumn);
 			} else if (child.getNodeName().equals("keycolumn")) {
-				// キー列
+				// key column
 				CobolColumn cobolColumn = createKeyColumn(child, meta);
 				if (cobolColumn != null) {
 					meta.addKey(cobolColumn);
 				}
 			} else if (child.getNodeName().equals("alias")) {
-				// 別名
+				// alias
 				String alias = createAlias(child);
 				if (alias.length() > 0) {
 					meta.addAlias(alias);
 				}
 			} else if (child.getNodeName().equals("listener")) {
-				// 別名
-				String namelist = getNodeText(child);
+				// alias
+				String namelist = getNodeString(child);
 				if (namelist.length() > 0) {
 					String[] classnames = namelist.split(":");
 					for (String classname : classnames) {
@@ -523,13 +520,13 @@ public class NodeReadLoader {
 					}
 				}
 			} else if (child.getNodeName().equals("truncate")) {
-				// すべて削除
-				String wtruncate = getNodeText(child);
+				// truncate
+				String wtruncate = getNodeString(child);
 				if (wtruncate.length() > 0) {
 					truncate = wtruncate;
 				}
 			} else if (child.getNodeName().equals("indexfile")) {
-				// インデックス
+				// index
 				try {
 					CobolIndex index = createCobolIndex(child, meta, parent);
 					if (index != null) {
@@ -539,15 +536,15 @@ public class NodeReadLoader {
 					SQLNetServer.logger.log(Level.SEVERE, "can't add index.", e);
 				}
 			} else {
-				// とりあえず考えてない
+				// other
 				proessOtherNodeOfMeta(child, meta);
 			}
 		}
 		if (meta instanceof SQLCobolRecordMetaData) {
-			// SQLステートメントをセットする
+			// set SQL statement
 			SQLCobolRecordMetaData metasql = (SQLCobolRecordMetaData) meta;
 			metasql.setSelectStatement(sql.toString().trim());
-			// すべて削除をセットする
+			// set truncate statement
 			if (truncate != null) {
 				if (truncate.trim().length() > 0) {
 					metasql.setTruncateStatement(truncate.trim());
@@ -557,11 +554,11 @@ public class NodeReadLoader {
 		return meta;
 	}
 	/**
-	 * メタデータセットの作成
+	 * create meta data set
 	 * 
-	 * @param document 情報を含むドキュメント
-	 * @param meta メタデータセット
-	 * @return メタデータセット
+	 * @param document xml document
+	 * @param meta meta data set
+	 * @return meta data set
 	 */
 	public CobolRecordMetaDataSet createMetaDataSet(Document document, CobolRecordMetaDataSet meta, Properties properties) {
 		if (meta == null) {
@@ -577,11 +574,11 @@ public class NodeReadLoader {
 		return meta;
 	}
 	/**
-	 * メタデータセットの作成
+	 * create meta data set
 	 * 
-	 * @param file 情報を含むファイル
-	 * @param meta メタデータセット
-	 * @return メタデータセット
+	 * @param file xml file
+	 * @param meta meta data set
+	 * @return meta data set
 	 */
 	public CobolRecordMetaDataSet createMetaDataSet(File file, CobolRecordMetaDataSet meta, Properties properties) throws ParserConfigurationException, FactoryConfigurationError, FactoryConfigurationError, SAXException, IOException {
 		Document document1;
@@ -591,11 +588,11 @@ public class NodeReadLoader {
 		return createMetaDataSet(document1, meta, properties);
 	}
 	/**
-	 * メタデータセットの作成
+	 * create meta data set
 	 * 
-	 * @param node 情報を含むノード
-	 * @param meta メタデータセット
-	 * @return メタデータセット
+	 * @param node xml node
+	 * @param meta meta data set
+	 * @return meta data set
 	 */
 	public CobolRecordMetaDataSet createMetaDataSet(Node node, CobolRecordMetaDataSet meta, Properties properties) {
 		if (meta == null) {
@@ -608,12 +605,12 @@ public class NodeReadLoader {
 			for (int i = 0; i < len; i++) {
 				Node item = items.item(i);
 				if (item.getNodeName().equals("metadata")) {
-					// メタデータ
+					// meta data
 					CobolRecordMetaData meta1 = createMetaData(item, meta);
 					meta.installMetaData(meta1);
 					SQLNetServer.logger.log(Level.CONFIG, "metadata:" + meta1.getName());
 				} else if (item.getNodeName().equals("property")) {
-					// マップ
+					// map
 					NamedNodeMap map = item.getAttributes();
 					Node work = map.getNamedItem("name");
 					if (work != null) {
@@ -622,7 +619,7 @@ public class NodeReadLoader {
 						properties.put(wname, wvalu);
 					}
 				} else if (item.getNodeName().equals("otherofset")) {
-					// カスタムノード(メタデータ全体)
+					// custom xml node(meta data)
 					NamedNodeMap map = item.getAttributes();
 					Node work = map.getNamedItem("name");
 					if (work != null) {
@@ -632,7 +629,7 @@ public class NodeReadLoader {
 						SQLNetServer.logger.info("adding other processor of metadataset " + wname + ":" + wvalu);
 					}
 				} else if (item.getNodeName().equals("otherofmeta")) {
-					// カスタムノード(メタデータ単体)
+					// custom xml node(meta data)
 					NamedNodeMap map = item.getAttributes();
 					Node work = map.getNamedItem("name");
 					if (work != null) {
@@ -642,7 +639,7 @@ public class NodeReadLoader {
 						SQLNetServer.logger.info("adding other processor of metadata " + wname + ":" + wvalu);
 					}
 				} else if (item.getNodeName().equals("include")) {
-					// Externalのファイルをもとにこのメタデータを更新する
+					// include
 					NamedNodeMap map = item.getAttributes();
 					Node work = map.getNamedItem("file");
 					if (work != null) {
@@ -665,25 +662,24 @@ public class NodeReadLoader {
 						}
 					}
 				} else {
-					// なにか新しい要素
+					// other
 					proessOtherNodeOfSet(item, meta, properties);
 				}
 			}
 		}
-		// 返す
 		return meta;
 	}
 	/**
-	 * SQL列の作成
+	 * create SQL column
 	 * 
-	 * @param node ノード
-	 * @param column SQL列(新規の場合はnull)
-	 * @return SQL列
+	 * @param node xml node
+	 * @param column SQLcolumn
+	 * @return SQL column
 	 */
 	protected SQLCobolColumn createSQLCobolColumn(Node node, SQLCobolRecordMetaData meta, SQLCobolColumn column) {
 		NamedNodeMap map = node.getAttributes();
-		if (column == null) {// 新規の列
-			// name
+		if (column == null) {
+			// new
 			Node name = map.getNamedItem("name");
 			if (name != null) {
 				String namestr = name.getNodeValue().trim();
@@ -700,33 +696,33 @@ public class NodeReadLoader {
 				column = new SQLCobolColumn(meta);
 			}
 		}
-		// 基本設定
+		// base settings
 		createCobolColumn(node, column);
-		// SQL列名
+		// SQL column name
 		Node originalColumnName = map.getNamedItem("originalColumnName");
 		if (originalColumnName != null) {
 			column.setOriginalColumnName(originalColumnName.getNodeValue());
 		}
-		// デフォルトの文字列
+		// default value
 		Node defaultString = map.getNamedItem("defaultString");
 		if (defaultString != null) {
 			column.setDefaultString(defaultString.getNodeValue());
 		}
-		// 読み取り不可
+		// don't read
 		Node readIgnore = map.getNamedItem("readIgnore");
 		if (readIgnore != null) {
 			String readIgnorestr = readIgnore.getNodeValue();
 			boolean readIgnoreBool = Boolean.getBoolean(readIgnorestr);
 			column.setReadIgnore(readIgnoreBool);
 		}
-		// 上書き不可
+		// don't set value when rewrite/update
 		Node rewriteIgnore = map.getNamedItem("rewriteIgnore");
 		if (rewriteIgnore != null) {
 			String rewriteIgnorestr = rewriteIgnore.getNodeValue();
 			boolean rewriteIgnoreBool = Boolean.getBoolean(rewriteIgnorestr);
 			column.setRewriteIgnore(rewriteIgnoreBool);
 		}
-		// 新規書き込み不可
+		// don't set value when write/insert
 		Node writeIgnore = map.getNamedItem("writeIgnore");
 		if (writeIgnore != null) {
 			String writeIgnorestr = writeIgnore.getNodeValue();
@@ -736,10 +732,10 @@ public class NodeReadLoader {
 		return column;
 	}
 	/**
-	 * ノード直下のテキストを取得する
+	 * get node text
 	 * 
-	 * @param node ノード
-	 * @return 文字列
+	 * @param node xml node
+	 * @return text
 	 */
 	protected String getNodeString(Node node) {
 		StringBuffer retvalue = new StringBuffer();
@@ -748,37 +744,17 @@ public class NodeReadLoader {
 		for (int i = 0; i < size; i++) {
 			Node child = children.item(i);
 			if (child.getNodeType() == Node.TEXT_NODE) {
-				// 別名
 				retvalue.append(child.getNodeValue().trim());
 			}
 		}
 		return retvalue.toString().trim();
 	}
+
 	/**
-	 * ノードのテキストを取得する
-	 * 
-	 * @param node ノード
-	 * @return ノードのテキスト
-	 */
-	protected String getNodeText(Node node) {
-		// 子ノードの探索
-		StringBuffer buffer = new StringBuffer();
-		NodeList children = node.getChildNodes();
-		int size = children.getLength();
-		for (int i = 0; i < size; i++) {
-			Node child = children.item(i);
-			if (child.getNodeType() == Node.TEXT_NODE) {
-				// 別名
-				buffer.append(child.getNodeValue().trim());
-			}
-		}
-		return buffer.toString().trim();
-	}
-	/**
-	 * その他の処理・・・とりあえず何もしない
-	 * 
-	 * @param node ノード
-	 * @param meta メタデータ
+	 * process other node
+	 * load proseccor class & process current node 
+	 * @param node xml node
+	 * @param meta meta data
 	 */
 	protected void proessOtherNodeOfMeta(Node node, CobolRecordMetaData meta) {
 		try {
@@ -802,10 +778,10 @@ public class NodeReadLoader {
 		}
 	}
 	/**
-	 * 何か分からないノードが来たよ?
-	 * 
-	 * @param node ノード
-	 * @param meta メタデータセット
+	 * process other node
+	 * load proseccor class & process current node 
+	 * @param node xml node
+	 * @param meta meta data
 	 */
 	protected void proessOtherNodeOfSet(Node node, CobolRecordMetaDataSet meta, Properties properties) {
 		try {

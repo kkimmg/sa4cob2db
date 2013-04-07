@@ -22,7 +22,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
-	protected class DefaultSequencialReadBuffer implements Runnable, SequencialReadBuffer {
+	protected class DefaultSequentialReadBuffer implements Runnable, SequentialReadBuffer {
 		private volatile boolean[][] buffStatus;
 		private volatile boolean cont = true;
 		private volatile int cs;
@@ -46,7 +46,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		 * initial size:5000<br>
 		 * maximum size:10000<br>
 		 */
-		public DefaultSequencialReadBuffer() {
+		public DefaultSequentialReadBuffer() {
 			this(5000, 2500, 10000);
 		}
 		/**
@@ -56,7 +56,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		 * @param minSize minimum size
 		 * @param maxSize maximum size
 		 */
-		public DefaultSequencialReadBuffer(int initSize, int minSize, int maxSize) {
+		public DefaultSequentialReadBuffer(int initSize, int minSize, int maxSize) {
 			this.initSize = initSize;
 			this.minSize = minSize;
 			this.maxSize = maxSize;
@@ -148,7 +148,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.SequencialReadBuffer#nextBuffer()
+		 * @see k_kim_mg.sa4cob2db.SequentialReadBuffer#nextBuffer()
 		 */
 		public synchronized FileStatus nextBuffer() {
 			// 
@@ -181,7 +181,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.SequencialReadBuffer#readBuffer(byte [])
+		 * @see k_kim_mg.sa4cob2db.SequentialReadBuffer#readBuffer(byte [])
 		 */
 		public synchronized FileStatus readBuffer(byte[] record) {
 			cs--;
@@ -248,7 +248,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.SequencialReadBuffer#startBuffering()
+		 * @see k_kim_mg.sa4cob2db.SequentialReadBuffer#startBuffering()
 		 */
 		public void startBuffering() {
 			if (thread != null)
@@ -527,12 +527,12 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected Map<CobolIndex, CobolFile> index2File;
 	/** map of file and index */
 	protected Map<String, CobolIndex> indexName2Index;
-	private int initialSequencialReadBufferSize = 0, maximumSequencialReadBufferSize = 0, minimumSequencialReadBufferSize = 0;
+	private int initialSequentialReadBufferSize = 0, maximumSequentialReadBufferSize = 0, minimumSequentialReadBufferSize = 0;
 	private ArrayList<CobolFileEventListener> listeners = new ArrayList<CobolFileEventListener>();
 	/** open mode */
 	protected int openmode;
 	/** Internal buffer */
-	protected SequencialReadBuffer sequencialReadBuffer = null;
+	protected SequentialReadBuffer SequentialReadBuffer = null;
 	private ACMSession session;
 	/*
 	 * (non-Javadoc)
@@ -731,8 +731,8 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * 
 	 * @return デフォルトのInternalbuffer
 	 */
-	protected SequencialReadBuffer createSequencialReadBuffer() {
-		return new DefaultSequencialReadBuffer(getInitialSequencialReadBufferSize(), getMinimumSequencialReadBufferSize(), getMaximumSequencialReadBufferSize());
+	protected SequentialReadBuffer createSequentialReadBuffer() {
+		return new DefaultSequentialReadBuffer(getInitialSequentialReadBufferSize(), getMinimumSequentialReadBufferSize(), getMaximumSequentialReadBufferSize());
 	}
 	/**
 	 * アクセスモード
@@ -796,24 +796,24 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * 
 	 * @return initialbufferさイズ
 	 */
-	protected int getInitialSequencialReadBufferSize() {
-		return initialSequencialReadBufferSize;
+	protected int getInitialSequentialReadBufferSize() {
+		return initialSequentialReadBufferSize;
 	}
 	/**
 	 * maximumbuffersize
 	 * 
 	 * @return maximumbuffersize
 	 */
-	protected int getMaximumSequencialReadBufferSize() {
-		return maximumSequencialReadBufferSize;
+	protected int getMaximumSequentialReadBufferSize() {
+		return maximumSequentialReadBufferSize;
 	}
 	/**
 	 * minimumbuffersize
 	 * 
 	 * @return minimumbuffersize
 	 */
-	protected int getMinimumSequencialReadBufferSize() {
-		return minimumSequencialReadBufferSize;
+	protected int getMinimumSequentialReadBufferSize() {
+		return minimumSequentialReadBufferSize;
 	}
 	/*
 	 * (non-Javadoc)
@@ -828,8 +828,8 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * 
 	 * @return リードbuffer
 	 */
-	protected SequencialReadBuffer getSequencialReadBuffer() {
-		return sequencialReadBuffer;
+	protected SequentialReadBuffer getSequentialReadBuffer() {
+		return SequentialReadBuffer;
 	}
 	/*
 	 * (non-Javadoc)
@@ -874,7 +874,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		if (getAccessMode() == CobolFile.ACCESS_DYNAMIC && currentIndex != null) {
 			return nextOnIndex();
 		}
-		if (getMaximumSequencialReadBufferSize() > 0 && sequencialReadBuffer != null && getAccessMode() == CobolFile.ACCESS_SEQUENCIAL && getOpenMode() == CobolFile.MODE_INPUT) {
+		if (getMaximumSequentialReadBufferSize() > 0 && SequentialReadBuffer != null && getAccessMode() == CobolFile.ACCESS_SEQUENTIAL && getOpenMode() == CobolFile.MODE_INPUT) {
 			return nextOnBuffer();
 		}
 		return nextOnFile();
@@ -893,10 +893,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 */
 	public FileStatus nextOnBuffer() {
 		FileStatus ret = null;
-		if (sequencialReadBuffer == null) {
+		if (SequentialReadBuffer == null) {
 			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "buffer is null.");
 		} else {
-			ret = sequencialReadBuffer.nextBuffer();
+			ret = SequentialReadBuffer.nextBuffer();
 		}
 		return ret;
 	}
@@ -992,7 +992,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * @see k_kim_mg.sa4cob2db.CobolFile#read(byte[])
 	 */
 	public FileStatus read(byte[] record) {
-		if (getMaximumSequencialReadBufferSize() > 0 && sequencialReadBuffer != null && getAccessMode() == CobolFile.ACCESS_SEQUENCIAL && getOpenMode() == CobolFile.MODE_INPUT) {
+		if (getMaximumSequentialReadBufferSize() > 0 && SequentialReadBuffer != null && getAccessMode() == CobolFile.ACCESS_SEQUENTIAL && getOpenMode() == CobolFile.MODE_INPUT) {
 			return readFromBuffer(record);
 		}
 		return readFromFile(record);
@@ -1005,10 +1005,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 */
 	public FileStatus readFromBuffer(byte[] record) {
 		FileStatus ret = null;
-		if (sequencialReadBuffer == null) {
+		if (SequentialReadBuffer == null) {
 			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "buffer is null.");
 		} else {
-			ret = sequencialReadBuffer.readBuffer(record);
+			ret = SequentialReadBuffer.readBuffer(record);
 		}
 		return ret;
 	}
@@ -1049,34 +1049,34 @@ public abstract class AbstractCobolFile implements CobolFile {
 	/**
 	 * initialbufferさイズ
 	 * 
-	 * @param initialSequencialReadBufferSize initialbufferさイズ
+	 * @param initialSequentialReadBufferSize initialbufferさイズ
 	 */
-	protected void setInitialSequencialReadBufferSize(int initialSequencialReadBufferSize) {
-		this.initialSequencialReadBufferSize = initialSequencialReadBufferSize;
+	protected void setInitialSequentialReadBufferSize(int initialSequentialReadBufferSize) {
+		this.initialSequentialReadBufferSize = initialSequentialReadBufferSize;
 	}
 	/**
 	 * 　maximumbuffersize
 	 * 
-	 * @param maximumSequencialReadBufferSize maximumbuffersize
+	 * @param maximumSequentialReadBufferSize maximumbuffersize
 	 */
-	protected void setMaximumSequencialReadBufferSize(int maximumSequencialReadBufferSize) {
-		this.maximumSequencialReadBufferSize = maximumSequencialReadBufferSize;
+	protected void setMaximumSequentialReadBufferSize(int maximumSequentialReadBufferSize) {
+		this.maximumSequentialReadBufferSize = maximumSequentialReadBufferSize;
 	}
 	/**
 	 * minimumbuffersize
 	 * 
-	 * @param minimumSequencialReadBufferSize minimumbuffersize
+	 * @param minimumSequentialReadBufferSize minimumbuffersize
 	 */
-	protected void setMinimumSequencialReadBufferSize(int minimumSequencialReadBufferSize) {
-		this.minimumSequencialReadBufferSize = minimumSequencialReadBufferSize;
+	protected void setMinimumSequentialReadBufferSize(int minimumSequentialReadBufferSize) {
+		this.minimumSequentialReadBufferSize = minimumSequentialReadBufferSize;
 	}
 	/**
 	 * リードbufferのセット
 	 * 
-	 * @param sequencialReadBuffer リードbuffer
+	 * @param SequentialReadBuffer リードbuffer
 	 */
-	protected void setSequencialReadBuffer(SequencialReadBuffer sequencialReadBuffer) {
-		this.sequencialReadBuffer = sequencialReadBuffer;
+	protected void setSequentialReadBuffer(SequentialReadBuffer SequentialReadBuffer) {
+		this.SequentialReadBuffer = SequentialReadBuffer;
 	}
 	/*
 	 * (non-Javadoc)
@@ -1150,11 +1150,11 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * starts buffering
 	 */
 	public void startBuffer() {
-		if ((getMaximumSequencialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENCIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
-			if (sequencialReadBuffer == null) {
-				sequencialReadBuffer = createSequencialReadBuffer();
+		if ((getMaximumSequentialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENTIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
+			if (SequentialReadBuffer == null) {
+				SequentialReadBuffer = createSequentialReadBuffer();
 			}
-			getSequencialReadBuffer().startBuffering();
+			getSequentialReadBuffer().startBuffering();
 		}
 	}
 	/**

@@ -105,12 +105,12 @@ public class Acm2Seq {
 	private Connection connection;
 	private SQLFileServer fileServer;
 	/**
-	 * ストリームに出力する
+	 * export
 	 * 
-	 * @param file コボルファイル
-	 * @param stream ストリーム
-	 * @param line ライン出力
-	 * @throws IOException 例外
+	 * @param file cobol file
+	 * @param stream stream
+	 * @param line line out
+	 * @throws IOException exception
 	 */
 	protected void exportTo(CobolFile file, OutputStream stream, boolean line) throws IOException {
 		int count = 0;
@@ -120,43 +120,36 @@ public class Acm2Seq {
 		while (stat.getStatusCode() == FileStatus.STATUS_OK) {
 			stream.write(record);
 			if (line) {
-				// ラインシーケンシャル
+				// line sequencial
 				stream.write('\n');
 			}
 			count++;
-			// 次のレコードへ
+			// next
 			stat = file.next();
 			if (stat.getStatusCode() == FileStatus.STATUS_OK) {
-				// 次のレコードが存在する場合
 				stat = file.read(record);
 			} else if (stat.getStatusCode() != FileStatus.STATUS_OK && stat.getStatusCode() != FileStatus.STATUS_EOF) {
-				// 次への移動でのエラー
+				// do nothing
 			}
 		}
-		// 終端部分
 		stream.flush();
-		// 出力結果
 		System.err.println("Row Count = " + count);
 	}
 	/**
-	 * 出力する
+	 * export
 	 * 
-	 * @param properties プロパティ
+	 * @param properties key-value set
 	 */
 	protected void exportTo(Properties properties) {
-		// ファイル機能の作成
 		fileServer = new SQLFileServer();
 		CobolRecordMetaDataSet metaset = fileServer.getMetaDataSet();
-		// メタデータfilename
 		String metaString = properties.getProperty("metafile", SQLNetServer.DEFAULT_CONFIG);
-		String AcmName = properties.getProperty("acmfile", "");
-		String OutName = properties.getProperty("outfile", "");
-		String LineOut = properties.getProperty("lineout", "false");
-		// メタデータの取得
+		String acmName = properties.getProperty("acmfile", "");
+		String outName = properties.getProperty("outfile", "");
+		String lineOut = properties.getProperty("lineout", "false");
 		File metaFile = new File(metaString);
-		// メタデータ情報の取得
 		NodeReadLoader nodeLoader = new NodeReadLoader();
-		CobolFile AcmFile = null;
+		CobolFile acmFile = null;
 		OutputStream fos = null;
 		try {
 			nodeLoader.createMetaDataSet(metaFile, metaset, properties);
@@ -172,7 +165,6 @@ public class Acm2Seq {
 				sqlset.setPassword(properties.getProperty("jdbcpassword"));
 			}
 			// /////////////////////////////////////////////////////////
-			// ログの設定
 			String logSetting = properties.getProperty("log", "");
 			if (logSetting.trim().length() > 0) {
 				try {
@@ -184,23 +176,43 @@ public class Acm2Seq {
 					SQLNetServer.logger.log(Level.WARNING, "File Not Found " + logSetting, fnfe);
 				}
 			}
-			// ACMファイル
-			AcmFile = getCobolFile(AcmName);
-			AcmFile.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_SEQUENCIAL);
-			// 出力ファイル
-			if (OutName.trim().length() == 0) {
-				// 標準出力
-				fos = System.out;
+			//
+			acmFile = getCobolFile(acmName);
+			if (acmFile != null) {
+				try {
+					acmFile.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_SEQUENTIAL);
+					//
+					if (outName.trim().length() == 0) {
+						// stdout
+						fos = System.out;
+					} else {
+						// to file
+						fos = new FileOutputStream(outName);
+					}
+					// line out
+					boolean bool = false;
+					bool = Boolean.valueOf(lineOut);
+					//
+					exportTo(acmFile, fos, bool);
+					//
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						acmFile.close();
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+					try {
+						fos.close();
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
 			} else {
-				// ファイルへ
-				fos = new FileOutputStream(OutName);
+				System.err.println("can't find " + acmName + ".");
+				SQLNetServer.logger.log(Level.SEVERE, "can't find " + acmName + ".");
 			}
-			// ライン出力
-			boolean bool = false;
-			bool = Boolean.valueOf(LineOut);
-			// 出力処理
-			exportTo(AcmFile, fos, bool);
-			// 終了処理
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		} catch (FactoryConfigurationError e) {
@@ -213,16 +225,6 @@ public class Acm2Seq {
 			e.printStackTrace();
 		} finally {
 			try {
-				AcmFile.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-			try {
-				fos.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-			try {
 				connection.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -230,10 +232,10 @@ public class Acm2Seq {
 		}
 	}
 	/**
-	 * 名称からコボルファイルを取得する
+	 * get cobol file from name
 	 * 
 	 * @param name filename
-	 * @return コボルファイル
+	 * @return cobol file
 	 */
 	protected CobolFile getCobolFile(String name) {
 		SQLCobolRecordMetaData meta = (SQLCobolRecordMetaData) fileServer.metaDataSet.getMetaData(name);

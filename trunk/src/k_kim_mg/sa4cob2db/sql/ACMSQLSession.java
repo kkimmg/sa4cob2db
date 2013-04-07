@@ -22,15 +22,15 @@ import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 public class ACMSQLSession implements ACMSession {
 	private static final long serialVersionUID = 1L;
 	/** SQLコネクション */
-	protected transient Connection connection;
+	protected Connection connection;
 	/** 開いたファイル */
 	protected Hashtable<String, CobolFile> files;
 	/** イベントリスナ */
 	protected ArrayList<ACMSessionEventListener> listeners = new ArrayList<ACMSessionEventListener>();
 	private int maxLength = ACMNetSession.INITIAL_RECORD_LEN;;
 	private Properties options;
-	/** ファイルサーバー */
-	private final transient SQLFileServer server;
+	/** ファイルServer */
+	private final SQLFileServer server;
 	/** セッションID */
 	protected String sessionId;
 	/**

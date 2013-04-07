@@ -1,37 +1,31 @@
 package k_kim_mg.sa4cob2db.sql;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
-
 import k_kim_mg.sa4cob2db.AbstractCobolFile;
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.CobolRecordException;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.event.CobolFileEvent;
-
 /**
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLFile extends AbstractCobolFile implements CobolFile {
 	private static final long serialVersionUID = 1L;
-	private transient Connection connection;
+	private Connection connection;
 	private boolean lastShowed = false;
-	private transient SQLCobolRecordMetaData meta;
-	private transient ResultSet resultSet;
+	private SQLCobolRecordMetaData meta;
+	private ResultSet resultSet;
 	private int rowCount = 0;
-	private transient SQLCobolRecord rowData;
-
+	private SQLCobolRecord rowData;
 	/**
 	 * Constructor
 	 * 
-	 * @param connection
-	 *            コネクション
-	 * @param meta
-	 *            メタデータ
+	 * @param connection コネクション
+	 * @param meta メタデータ
 	 */
 	public SQLFile(Connection connection, SQLCobolRecordMetaData meta) {
 		this.connection = connection;
@@ -41,7 +35,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		setMinimumSequencialReadBufferSize(meta.getMinimumSequencialReadBufferSize());
 		setMaximumSequencialReadBufferSize(meta.getMaximumSequencialReadBufferSize());
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -69,7 +62,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postClose(getFileStatus2Event(ret));
 		return ret;
 	}
-
 	/**
 	 * レコードの作成
 	 * 
@@ -78,20 +70,16 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	public SQLCobolRecord createCobolRecord() {
 		return createCobolRecord(meta, resultSet);
 	}
-
 	/**
 	 * レコードの作成
 	 * 
-	 * @param meta
-	 *            メタデータ
-	 * @param resultSet
-	 *            結果セット
+	 * @param meta メタデータ
+	 * @param resultSet 結果セット
 	 * @return レコード
 	 */
 	protected SQLCobolRecord createCobolRecord(SQLCobolRecordMetaData meta, ResultSet resultSet) {
 		return new SQLCobolRecord(meta, connection, resultSet);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -124,7 +112,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postDelete(getFileStatus2Event(ret));
 		return ret;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -140,29 +127,24 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return row;
 	}
-
 	/**
 	 * Java例外からファイルステータスへ変換する
 	 * 
-	 * @param e
-	 *            java例外
+	 * @param e java例外
 	 * @return ファイルステータス
 	 */
 	protected FileStatus getException2FileStatus(Exception e) {
 		return new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
 	}
-
 	/**
 	 * ファイルステータスからファイルイベントを発生させる
 	 * 
-	 * @param stat
-	 *            ファイルステータス
+	 * @param stat ファイルステータス
 	 * @return ファイルイベント
 	 */
 	protected CobolFileEvent getFileStatus2Event(FileStatus stat) {
 		return new CobolFileEvent(this, stat);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -171,7 +153,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	public CobolRecordMetaData getMetaData() {
 		return meta;
 	}
-
 	/**
 	 * READYイベントを発生させる
 	 * 
@@ -180,7 +161,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	protected CobolFileEvent getReadyEvent() {
 		return new CobolFileEvent(this, FileStatus.READY);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -190,18 +170,15 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		setRowCount();
 		return rowCount;
 	}
-
 	/**
 	 * SQL例外からファイルステータスへ変換する
 	 * 
-	 * @param e
-	 *            SQL例外
+	 * @param e SQL例外
 	 * @return ファイルステータス
 	 */
 	protected FileStatus getSQLException2FileStatus(SQLException e) {
 		return new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -210,7 +187,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	public boolean isLastMoved() {
 		return lastShowed;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -219,7 +195,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	public boolean isOpened() {
 		return !(resultSet == null && rowData == null);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -277,16 +252,12 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postMove(getFileStatus2Event(ret));
 		return ret;
 	}
-
 	/**
 	 * レコードの位置付け
 	 * 
-	 * @param record
-	 *            キーレコード
-	 * @param start
-	 *            開始位置
-	 * @param end
-	 *            終端
+	 * @param record キーレコード
+	 * @param start 開始位置
+	 * @param end 終端
 	 * @return ファイルステータス
 	 */
 	protected FileStatus move(byte[] record, int start, int end) {
@@ -346,7 +317,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -366,7 +336,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (ok ? FileStatus.OK : STATUS_UNKNOWN_ERROR);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -382,7 +351,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (ok ? FileStatus.OK : STATUS_UNKNOWN_ERROR);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -400,7 +368,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (ok ? FileStatus.OK : STATUS_UNKNOWN_ERROR);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -413,7 +380,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postNext(getFileStatus2Event(ret)); // イベント処理
 		return ret;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -439,7 +405,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (ok ? FileStatus.OK : STATUS_UNKNOWN_ERROR);
 	}
-
 	/**
 	 * Internalファイルの行位置を移動する
 	 * 
@@ -473,7 +438,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (ok ? FileStatus.OK : AbstractCobolFile.STATUS_EOF);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -482,7 +446,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	public FileStatus open(int mode, int accessmode) {
 		this.openmode = mode;
 		this.accessMode = accessmode;
-		int resultSetType = (accessmode == CobolFile.ACCESS_SEQUENCIAL ? ResultSet.TYPE_FORWARD_ONLY : ResultSet.TYPE_SCROLL_INSENSITIVE);
+		int resultSetType = (accessmode == CobolFile.ACCESS_SEQUENTIAL ? ResultSet.TYPE_FORWARD_ONLY : ResultSet.TYPE_SCROLL_INSENSITIVE);
 		int resultSetConcurrency = (mode == CobolFile.MODE_INPUT ? ResultSet.CONCUR_READ_ONLY : ResultSet.CONCUR_UPDATABLE);
 		getEventProcessor().preOpen(getReadyEvent());
 		FileStatus ret = FileStatus.OK;
@@ -507,7 +471,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			SQLNetServer.logger.log(Level.SEVERE, "can't open.", e);
 			ret = getSQLException2FileStatus(e);
 		}
-		if ((getMaximumSequencialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENCIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
+		if ((getMaximumSequencialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENTIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
 			// バッファリングの開始
 			startBuffer();
 		}
@@ -525,7 +489,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postOpen(getFileStatus2Event(ret));
 		return ret;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -549,7 +512,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postPrevious(getFileStatus2Event(ret));
 		return ret;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -570,7 +532,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (ok ? FileStatus.OK : STATUS_UNKNOWN_ERROR);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -583,12 +544,10 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postRead(getFileStatus2Event(ret), record); // イベント処理
 		return ret;
 	}
-
 	/**
 	 * Internalファイルから取得する
 	 * 
-	 * @param record
-	 *            連想するレコード
+	 * @param record 連想するレコード
 	 * @return ステータス
 	 */
 	protected FileStatus readFromFile(byte[] record) {
@@ -610,7 +569,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (length == meta.getRowSize() ? FileStatus.OK : new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "RecordSize MissMatch."));
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -639,7 +597,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postRewrite(getFileStatus2Event(ret));
 		return ret;
 	}
-
 	/**
 	 * 現在の行番号を設定する
 	 */
@@ -653,7 +610,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -683,7 +639,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postStart(getReadyEvent());
 		return ret;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -697,7 +652,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postStart(getReadyEvent(), IndexName);
 		return ret;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -728,12 +682,10 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postStart(getReadyEvent());
 		return ret;
 	}
-
 	/**
 	 * キーの重複がある場合の検索は順処理で行う
 	 * 
-	 * @param record
-	 *            キーレコード
+	 * @param record キーレコード
 	 * @return ファイルステータス
 	 */
 	public FileStatus startDuplicatesEqual(byte[] record) {
@@ -779,12 +731,10 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
-
 	/**
 	 * 位置付け（=）
 	 * 
-	 * @param record
-	 *            キーを含むレコード
+	 * @param record キーを含むレコード
 	 * @return ステータス
 	 */
 	FileStatus startEqual(byte[] record) {
@@ -826,12 +776,10 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
-
 	/**
 	 * 位置付け（Greater）
 	 * 
-	 * @param record
-	 *            キーを含むレコード
+	 * @param record キーを含むレコード
 	 * @return ステータス
 	 */
 	FileStatus startGreater(byte[] record) {
@@ -871,12 +819,10 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
-
 	/**
 	 * 位置付け（Greater Equal）
 	 * 
-	 * @param record
-	 *            キーを含むレコード
+	 * @param record キーを含むレコード
 	 * @return ステータス
 	 */
 	FileStatus startGreaterEqual(byte[] record) {
@@ -916,9 +862,9 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
-
 	/*
 	 * すべて削除する
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#truncate()
 	 */
 	public void truncate() {
@@ -940,7 +886,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			}
 		}
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
