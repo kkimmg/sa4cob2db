@@ -225,7 +225,9 @@ public class Acm2Seq {
 			e.printStackTrace();
 		} finally {
 			try {
-				connection.close();
+				if (connection != null) {
+					connection.close();
+				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

@@ -2,6 +2,7 @@
  * 
  */
 package k_kim_mg.sa4cob2db.sql;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,6 +21,7 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 import org.xml.sax.SAXException;
+
 /**
  * import from sequential file
  * 
@@ -29,7 +31,8 @@ public class Seq2Acm {
 	/**
 	 * display usage
 	 * 
-	 * @param properties properties
+	 * @param properties
+	 *            properties
 	 */
 	private static void displayUsage(Properties properties) {
 		String flag = properties.getProperty("display_usage", "true");
@@ -43,11 +46,14 @@ public class Seq2Acm {
 			}
 		}
 	}
+
 	/**
 	 * get from environment values
 	 * 
-	 * @param key key
-	 * @param defaultValue default value
+	 * @param key
+	 *            key
+	 * @param defaultValue
+	 *            default value
 	 * @return environment value
 	 */
 	private static String getEnvValue(String key, String defaultValue) {
@@ -58,6 +64,7 @@ public class Seq2Acm {
 			ret = defaultValue;
 		return ret;
 	}
+
 	/** main */
 	public static void main(String[] args) {
 		Properties properties = new Properties();
@@ -91,26 +98,35 @@ public class Seq2Acm {
 		obj.importTo(properties);
 		displayUsage(properties);
 	}
+
 	/**
 	 * main
 	 * 
-	 * @param acmfile file
-	 * @param metafile mete data
-	 * @param linein is it line sequential file?
-	 * @param extend mode<br/>
+	 * @param acmfile
+	 *            file
+	 * @param metafile
+	 *            mete data
+	 * @param linein
+	 *            is it line sequential file?
+	 * @param extend
+	 *            mode<br/>
 	 *            true extend<br/>
 	 *            false overwrite
-	 * @param display_usage display usage?
+	 * @param display_usage
+	 *            display usage?
 	 */
 	public static void main_too(String acmfile, String infile, String metafile, String linein, String extend, String display_usage) {
 		Seq2Acm.main(new String[] { acmfile, infile, metafile, linein, extend, display_usage });
 	}
+
 	private Connection connection;
 	private SQLFileServer fileServer;
+
 	/**
 	 * get file from name
 	 * 
-	 * @param name filename
+	 * @param name
+	 *            filename
 	 * @return file name
 	 */
 	protected CobolFile getCobolFile(String name) {
@@ -122,12 +138,16 @@ public class Seq2Acm {
 		}
 		return file;
 	}
+
 	/**
 	 * import form line sequential file
 	 * 
-	 * @param file file
-	 * @param stream stream
-	 * @throws IOException exception
+	 * @param file
+	 *            file
+	 * @param stream
+	 *            stream
+	 * @throws IOException
+	 *             exception
 	 */
 	protected void importLineTo(CobolFile file, InputStream stream) throws IOException {
 		int count = 0;
@@ -148,12 +168,16 @@ public class Seq2Acm {
 		// 出力結果
 		System.err.println("Row Count = " + count);
 	}
+
 	/**
 	 * import form sequential file
 	 * 
-	 * @param file file
-	 * @param stream stream
-	 * @throws IOException exception
+	 * @param file
+	 *            file
+	 * @param stream
+	 *            stream
+	 * @throws IOException
+	 *             exception
 	 */
 	protected void importTo(CobolFile file, InputStream stream) throws IOException {
 		int count = 0;
@@ -173,13 +197,18 @@ public class Seq2Acm {
 		// 出力結果
 		System.err.println("Row Count = " + count);
 	}
+
 	/**
 	 * import form (line) sequential file
 	 * 
-	 * @param file file
-	 * @param stream stream
-	 * @param line is it line sequential file?
-	 * @throws IOException exception
+	 * @param file
+	 *            file
+	 * @param stream
+	 *            stream
+	 * @param line
+	 *            is it line sequential file?
+	 * @throws IOException
+	 *             exception
 	 */
 	protected void importTo(CobolFile file, InputStream stream, boolean line) throws IOException {
 		if (line) {
@@ -188,10 +217,12 @@ public class Seq2Acm {
 			importTo(file, stream);
 		}
 	}
+
 	/**
 	 * import from file
 	 * 
-	 * @param properties key-value set
+	 * @param properties
+	 *            key-value set
 	 */
 	protected void importTo(Properties properties) {
 		//
@@ -282,7 +313,9 @@ public class Seq2Acm {
 			e.printStackTrace();
 		} finally {
 			try {
-				connection.close();
+				if (connection != null) {
+					connection.close();
+				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
