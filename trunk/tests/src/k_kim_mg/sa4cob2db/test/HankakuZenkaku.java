@@ -9,7 +9,7 @@ import k_kim_mg.sa4cob2db.sql.SQLCobolColumn;
 import k_kim_mg.sa4cob2db.sql.SQLCobolRecordMetaData;
 
 /**
- * 日本語文字列の半角←→全角変換用ユーティリティクラス
+ * 日本語文字 columnの半角←→全角変換用ユーティリティクラス
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  * @version 1.0
  */
@@ -74,7 +74,7 @@ public class HankakuZenkaku extends SQLCobolColumn {
 			return zenkaku;
 		}
 	}
-	/**	変換用文字列セット */
+	/**	変換用文字 columnセット */
 	private static final HanZenSet[] MOJISET =
 		new HanZenSet[] {
 			new HanZenSet('!', '！'),
@@ -235,7 +235,7 @@ public class HankakuZenkaku extends SQLCobolColumn {
 			new HanZenSet('ン', 'ン'),
 			new HanZenSet('゛', '゛'),
 			new HanZenSet('゜', '゜')};
-	/**	変換用文字列セット */
+	/**	変換用文字 columnセット */
 	private static final HanZenSet2[] MOJISET2 =
 		new HanZenSet2[] {
 			new HanZenSet2(" ", "　"),
@@ -430,7 +430,7 @@ public class HankakuZenkaku extends SQLCobolColumn {
 			new HanZenSet2("ヴ", "ヴ"),
 			new HanZenSet2("ヵ", "ヵ"),
 			new HanZenSet2("ヶ", "ヶ")};
-	/**	変換用文字列セット */
+	/**	変換用文字 columnセット */
 	private static final HanZenSet2[] MOJISET3 =
 		new HanZenSet2[] {
 			new HanZenSet2(" ", "　"),

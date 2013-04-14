@@ -5,10 +5,10 @@ import java.util.List;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 
 /**
- * メタデータ
+ * meta data
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
- * @version 1.0 コボルファイルのレコードレイアウトに関する情報を格納する
+ * @version 1.0 cobol fileのrecordレイアウトに関する情報を格納する
  */
 public interface CobolRecordMetaData {
 	/**
@@ -20,18 +20,18 @@ public interface CobolRecordMetaData {
 	public void addAlias(String alias);
 
 	/**
-	 * 列の追加
+	 *  columnの追加
 	 * 
 	 * @param column
-	 *            追加する列
+	 *            追加する column
 	 */
 	public void addColumn(CobolColumn column);
 
 	/**
-	 * キー列の追加
+	 * キー columnの追加
 	 * 
 	 * @param column
-	 *            追加する列
+	 *            追加する column
 	 */
 	public void addKey(CobolColumn column);
 
@@ -43,24 +43,24 @@ public interface CobolRecordMetaData {
 	public CobolRecordMetaData createCopy();
 
 	/**
-	 * 列の位置を取得する
+	 *  columnの位置を取得する
 	 * 
 	 * @param column
-	 *            列
-	 * @return 列の位置
+	 *             column
+	 * @return  columnの位置
 	 * @throws CobolRecordException
-	 *             列が見つからなかったとき
+	 *              columnが見つからなかったとき
 	 */
 	public int findColumn(CobolColumn column) throws CobolRecordException;
 
 	/**
-	 * 名前から列の位置を取得する
+	 * 名前から columnの位置を取得する
 	 * 
 	 * @param name
-	 *            列名
-	 * @return 列の位置
+	 *             column名
+	 * @return  columnの位置
 	 * @throws CobolRecordException
-	 *             列が見つからなかったとき
+	 *              columnが見つからなかったとき
 	 */
 	public int findColumn(String name) throws CobolRecordException;
 
@@ -74,7 +74,7 @@ public interface CobolRecordMetaData {
 	public String getAlias(int i);
 
 	/**
-	 * このレコードが持っている別名の数
+	 * このrecordが持っている別名の数
 	 * 
 	 * @return 別名の数
 	 */
@@ -88,83 +88,83 @@ public interface CobolRecordMetaData {
 	public List<CobolIndex> getCobolIndexes();
 
 	/**
-	 * このレコードに登録されている列
+	 * このrecordに登録されている column
 	 * 
 	 * @param i
-	 *            列インデックス
-	 * @return 列
+	 *             columnインデックス
+	 * @return  column
 	 */
 	public CobolColumn getColumn(int i);
 
 	/**
-	 * このレコードに登録されている列
+	 * このrecordに登録されている column
 	 * 
 	 * @param name
-	 *            列名
-	 * @return 列
+	 *             column名
+	 * @return  column
 	 */
 	public CobolColumn getColumn(String name) throws CobolRecordException;
 
 	/**
-	 * このレコードに登録されている列の数
+	 * このrecordに登録されている columnの数
 	 * 
-	 * @return このレコードに登録されている列の数
+	 * @return このrecordに登録されている columnの数
 	 */
 	public int getColumnCount();
 
 	/**
-	 * このメタデータは特別なクラスからインスタンスを作成する
+	 * このmeta dataは特別なクラスからインスタンスを作成する
 	 * 
 	 * @return クラス名、指定しない場合は""またはnull
 	 */
 	public String getCustomFileClassName();
 
 	/**
-	 * レコードのエンコード
+	 * recordのエンコード
 	 */
 	public String getEncode();
 
 	/**
-	 * 順ファイルの読み取りバッファの初期サイズ
+	 * 順fileの読み取りバッファの初期サイズ
 	 * 
-	 * @return 順ファイルの読み取りバッファの初期サイズ
+	 * @return 順fileの読み取りバッファの初期サイズ
 	 */
 	public int getInitialSequencialReadBufferSize();
 
 	/**
-	 * キー指定された列
+	 * キー指定された column
 	 * 
 	 * @param i
 	 *            指定された順番
-	 * @return キー列
+	 * @return キー column
 	 */
 	public CobolColumn getKey(int i);
 
 	/**
-	 * キー指定された列の数を返す
+	 * キー指定された columnの数を返す
 	 * 
-	 * @return キー指定された列の数
+	 * @return キー指定された columnの数
 	 */
 	public int getKeyCount();
 
 	/**
-	 * イベントリスナのクラスのリスト
+	 * event listenerのクラスのリスト
 	 * 
 	 * @return リスト
 	 */
 	public List<Class<? extends CobolFileEventListener>> getListenerClasses();
 
 	/**
-	 * 順ファイルの読み取りバッファの初期サイズ
+	 * 順fileの読み取りバッファの初期サイズ
 	 * 
-	 * @return 順ファイルの読み取りバッファの初期サイズ
+	 * @return 順fileの読み取りバッファの初期サイズ
 	 */
 	public int getMaximumSequencialReadBufferSize();
 
 	/**
-	 * 順ファイルの読み取りバッファの最小サイズ
+	 * 順fileの読み取りバッファの最小サイズ
 	 * 
-	 * @return 順ファイルの読み取りバッファの最小サイズ
+	 * @return 順fileの読み取りバッファの最小サイズ
 	 */
 	public int getMinimumSequencialReadBufferSize();
 
@@ -176,9 +176,9 @@ public interface CobolRecordMetaData {
 	public String getName();
 
 	/**
-	 * このレコードの1レコードあたりのバイト数を返します
+	 * このrecordの1recordあたりのバイト数を返します
 	 * 
-	 * @return このレコードの1レコードあたりのバイト数
+	 * @return このrecordの1recordあたりのバイト数
 	 */
 	public int getRowSize();
 
@@ -199,34 +199,34 @@ public interface CobolRecordMetaData {
 	public void removeAlias(String alias);
 
 	/**
-	 * 列の削除
+	 *  columnの削除
 	 * 
 	 * @param column
-	 *            削除する列
+	 *            削除する column
 	 */
 	public void removeColumn(CobolColumn column);
 
 	/**
-	 * 列の削除
+	 *  columnの削除
 	 * 
 	 * @param index
-	 *            削除する列インデックス
+	 *            削除する columnインデックス
 	 */
 	public void removeColumn(int index);
 
 	/**
-	 * キー列の削除
+	 * キー columnの削除
 	 * 
 	 * @param column
-	 *            削除するキー列
+	 *            削除するキー column
 	 */
 	public void removeKey(CobolColumn column);
 
 	/**
-	 * キー列の削除
+	 * キー columnの削除
 	 * 
 	 * @param index
-	 *            削除するキー列インデックス
+	 *            削除するキー columnインデックス
 	 */
 	public void removeKey(int index);
 
@@ -239,10 +239,10 @@ public interface CobolRecordMetaData {
 	public void setEncode(String string);
 
 	/**
-	 * 順ファイルの読み取りバッファの初期サイズ
+	 * 順fileの読み取りバッファの初期サイズ
 	 * 
 	 * @param value
-	 *            順ファイルの読み取りバッファの初期サイズ
+	 *            順fileの読み取りバッファの初期サイズ
 	 */
 	public void setInitialSequencialReadBufferSize(int value);
 
@@ -255,18 +255,18 @@ public interface CobolRecordMetaData {
 	public void setKeyByValue(boolean keyByValue);
 
 	/**
-	 * 順ファイルの読み取りバッファの最大サイズ
+	 * 順fileの読み取りバッファの最大サイズ
 	 * 
 	 * @param value
-	 *            順ファイルの読み取りバッファの最大サイズ
+	 *            順fileの読み取りバッファの最大サイズ
 	 */
 	public void setMaximumSequencialReadBufferSize(int value);
 
 	/**
-	 * 順ファイルの読み取りバッファの最小サイズ
+	 * 順fileの読み取りバッファの最小サイズ
 	 * 
 	 * @param value
-	 *            順ファイルの読み取りバッファの最小サイズ
+	 *            順fileの読み取りバッファの最小サイズ
 	 */
 	public void setMinimumSequencialReadBufferSize(int value);
 

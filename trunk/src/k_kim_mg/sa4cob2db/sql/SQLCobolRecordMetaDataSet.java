@@ -6,13 +6,13 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLCobolRecordMetaDataSet extends CobolRecordMetaDataSet {
-	/**JDBCドライバーURL*/
+	/**JDBC driverURL*/
 	protected String driverURL;
-	/**JDBCデータベースURL*/
+	/**JDBC database URL*/
 	protected String  databaseURL;
-	/**JDBCデータベースユーザー名*/
+	/**JDBC database user name*/
 	protected String  username;
-	/**JDBCデータベースパスワード*/
+	/**JDBC database password*/
 	protected String  password;
 	/*
 	 * (non-Javadoc)
@@ -27,57 +27,57 @@ public class SQLCobolRecordMetaDataSet extends CobolRecordMetaDataSet {
 		return null;
 	}
 	/**
-	 * データベースURL
-	 * @return データベースURL
+	 * get database URL
+	 * @return database URL
 	 */
 	public String getDatabaseURL() {
 		return databaseURL;
 	}
 	/**
-	 * ドライバURL
-	 * @return ドライバURL
+	 * get driver URL
+	 * @return driver URL
 	 */
 	public String getDriverURL() {
 		return driverURL;
 	}
 	/**
-	 * データベースパスワード
-	 * @return データベースパスワード
+	 * get database password
+	 * @return database password
 	 */
 	public String getPassword() {
 		return password;
 	}
 	/**
-	 * データベースユーザー名
-	 * @return データベースユーザー名
+	 * get database user name
+	 * @return database user name
 	 */
 	public String getUsername() {
 		return username;
 	}
 	/**
-	 * データベースURL
-	 * @param string データベースURL
+	 * set database URL
+	 * @param string database URL
 	 */
 	public void setDatabaseURL(String string) {
 		databaseURL = string;
 	}
 	/**
-	 * ドライバURL
-	 * @param string ドライバURL
+	 * set driver URL
+	 * @param string driver URL
 	 */
 	public void setDriverURL(String string) {
 		driverURL = string;
 	}
 	/**
-	 * データベースパスワード
-	 * @param string データベースパスワード
+	 * set database password
+	 * @param string database password
 	 */
 	public void setPassword(String string) {
 		password = string;
 	}
 	/**
-	 * データベースユーザー名
-	 * @param string データベースユーザー名
+	 * set database user name
+	 * @param string database user name
 	 */
 	public void setUsername(String string) {
 		username = string;

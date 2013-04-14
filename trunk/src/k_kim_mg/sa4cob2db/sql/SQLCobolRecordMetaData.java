@@ -1,30 +1,29 @@
 package k_kim_mg.sa4cob2db.sql;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 /**
- * データベースアクセスに関するSQL文を提供する機能
+ * provides SQL statements
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface SQLCobolRecordMetaData extends CobolRecordMetaData {
 	/**
-	 * Select文
+	 * get Select statement
 	 * @return SELECT Column... From Table Where Column = value .... OrderBy
-	 *         .... 形式のSelect文
 	 */
 	public String getSelectStatement();
 	/**
-	 * Select文
+	 * set Select statment
 	 * @param string SELECT Column... From Table Where Column = value ....
-	 *            OrderBy .... 形式のSelect文
+	 *            OrderBy 
 	 */
 	public void setSelectStatement(String string);
 	/**
-	 * "すべて削除"ステートメントの取得
-	 * @return	"すべて削除"ステートメント
+	 * get delete all statement
+	 * @return	delete from .... or
 	 */
 	public String getTruncateStatement();
 	/**
-	 * "すべて削除"ステートメントをセットする
-	 * @param statement	"すべて削除"ステートメント
+	 * set delete all statement
+	 * @param statement	delete from .... or
 	 */
 	public void setTruncateStatement(String statement);
 }

@@ -5,35 +5,33 @@ import java.util.logging.Level;
 
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 /**
- * 登録済みのメタデータからファイルオブジェクトを作ったりする機能
+ * provides file from meta data
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLFileServer {
-	/** SQLコネクション用ユーティリティ */
+	/** connector */
 	protected DBConnector connector;
-	/** メタデータのセット */
+	/** meta data set */
 	protected SQLCobolRecordMetaDataSet metaDataSet;
-	/** セッションIDのためのシーケンス */
-	protected/* synchronized */
-	/*  順序 */
-	int sequence = 0;
+	/** sequence for sessionID */
+	protected int sequence = 0;
 	/** Constructor */
 	public SQLFileServer() {
 		connector = new DBConnector();
 		metaDataSet = new SQLCobolRecordMetaDataSet();
 	}
 	/**
-	 * 接続の作成
-	 * @return 接続
+	 * create connection
+	 * @return connection
 	 */
 	public Connection createConnection() {
 		return createConnection(true);
 	}
 	/**
-	 * 接続の作成
-	 * @param what true 常に新たに接続を作成する<br/>
-	 *            false 既に接続が存在したら新たに接続を作成しない。
-	 * @return 接続
+	 * create connection
+	 * @param what true always new connection<br/>
+	 *            false not new
+	 * @return connection
 	 */
 	public Connection createConnection(boolean what) {
 		Connection ret = null;
@@ -54,8 +52,8 @@ public class SQLFileServer {
 		return ret;
 	}
 	/**
-	 * 接続の開放
-	 * @param connection 開放する接続
+	 * release connection
+	 * @param connection connection
 	 */
 	public void removeConnection (Connection connection) {
 		try {
@@ -65,77 +63,77 @@ public class SQLFileServer {
 		}
 	}
 	/**
-	 * データベースURL
-	 * @return データベースURL
+	 * get database URL
+	 * @return databaseURL
 	 */
 	private String getDatabaseURL() {
 		return metaDataSet.getDatabaseURL();
 	}
 	/**
-	 * ドライバURL
-	 * @return ドライバURL
+	 * get driver URL
+	 * @return  driver URL
 	 */
 	private String getDriverURL() {
 		return metaDataSet.getDriverURL();
 	}
 	/**
-	 * メタデータの取得
-	 * @param i i番目のめたデータを取得する
-	 * @return メタデータ
+	 * get meta data
+	 * @param i i'th meta data
+	 * @return meta data
 	 */
 	public CobolRecordMetaData getMetaData(int i) {
 		return metaDataSet.get(i);
 	}
 	/**
-	 * メタデータの取得
-	 * @param name メタデータ名
-	 * @return メタデータ
+	 * get meta data
+	 * @param name meta data name
+	 * @return meta data
 	 */
 	public CobolRecordMetaData getMetaData(String name) {
 		return metaDataSet.getMetaData(name);
 	}
-	/** 登録されたメタデータの数 */
+	/** get count of meta data */
 	public int getMetaDataCount() {
 		return metaDataSet.size();
 	}
 	/**
-	 * メタデータを取得する
-	 * @return メタデータ
+	 * get meta data set
+	 * @return meta data set
 	 */
 	public SQLCobolRecordMetaDataSet getMetaDataSet() {
 		return metaDataSet;
 	}
 	/**
-	 * データベースパスワード
-	 * @return データベースパスワード
+	 * get database password
+	 * @return database password
 	 */
 	private String getPassword() {
 		return metaDataSet.getPassword();
 	}
 	/**
-	 * データベースユーザー名
-	 * @return データベースユーザー名
+	 * get database user name
+	 * @return database user name
 	 */
 	private String getUsername() {
 		return metaDataSet.getUsername();
 	}
 	/**
-	 * メタデータを登録する
-	 * @param meta メタデータ
+	 * add meta data
+	 * @param meta meta data
 	 */
 	public void installMetaData(CobolRecordMetaData meta) {
 		metaDataSet.installMetaData(meta);
 	}
 	/**
-	 * メタデータを削除する
-	 * @param meta メタデータ
+	 * delete meta data
+	 * @param meta meta data
 	 */
 	public void removeMetaData(CobolRecordMetaData meta) {
 		metaDataSet.removeMetaData(meta);
 	}
 	/**
-	 * メタデータをセットする
-	 * @param set メタデータ
+	 * set meta data set
+	 * @param set meta data set
 	 */
 	public void setMetaDataSet(SQLCobolRecordMetaDataSet set) {
 		metaDataSet = set;

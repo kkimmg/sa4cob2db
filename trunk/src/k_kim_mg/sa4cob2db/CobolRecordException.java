@@ -1,7 +1,7 @@
 package k_kim_mg.sa4cob2db;
 import java.sql.SQLException;
 /**
- * コボルレコード例外
+ * cobol recordexception
  * @author	木村憲司
  * @version 1.0
  */

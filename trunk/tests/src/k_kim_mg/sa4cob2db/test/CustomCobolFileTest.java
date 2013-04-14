@@ -10,9 +10,9 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	private static final long serialVersionUID = 1L;
 	/** 実装されていないオペレーション */
 	private static FileStatus UNSUPPORTED_METHOD = new FileStatus(FileStatus.STATUS_UNSUPPORTED_METHOD, FileStatus.NULL_CODE, 0, "unsupported operation");
-	/** メタデータ */
+	/** meta data */
 	private CobolRecordMetaData meta = null;
-	/** ファイルが開かれたかどうか */
+	/** fileが開かれたかどうか */
 	private boolean opened = false;
 	/** 何かの値 */
 	private int value = 0;

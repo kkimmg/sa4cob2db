@@ -12,16 +12,13 @@ import k_kim_mg.sa4cob2db.CobolRecordException;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.DefaultCobolColumn;
 /**
- * SQL列
+ * SQL column
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
-	/** 規定値 */
 	private String defaultString = "";
-	/** データベースの列名 */
 	private String originalColumnName = "";
-	/** 読取、書込無視 */
 	private boolean readIgnore = false, rewriteIgnore = false, writeIgnore = false;
 	/**
 	 * Constructor
@@ -31,7 +28,9 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	public SQLCobolColumn(SQLCobolRecordMetaData meta) {
 		super(meta);
 	}
-	// @Override
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.DefaultCobolColumn#copyTo(k_kim_mg.sa4cob2db.CobolColumn)
+	 */
 	protected CobolColumn copyTo(CobolColumn copy) {
 		super.copyTo(copy);
 		if (copy instanceof SQLCobolColumn) {
@@ -48,7 +47,9 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		}
 		return copy;
 	}
-	// @Override
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.DefaultCobolColumn#createCopy(k_kim_mg.sa4cob2db.CobolRecordMetaData)
+	 */
 	public CobolColumn createCopy(CobolRecordMetaData meta) {
 		CobolColumn ret = null;
 		if (meta instanceof SQLCobolRecordMetaData) {
@@ -61,85 +62,84 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		return ret;
 	}
 	/**
-	 * この列が読み込み時無視される場合の値表現
+	 * default string
 	 * 
-	 * @return 設定できるのはとりあえず文字列だけってことで・・・・
-	 * @throws CobolRecordException
+	 * @return default value
+	 * @throws CobolRecordException exception 
 	 */
 	public String getDefaultString() throws CobolRecordException {
 		return defaultString;
 	}
 	/**
-	 * オリジナルのレコードの列名
+	 * get SQL column name
 	 * 
-	 * @return オリジナルのレコードの列名
-	 * @throws CobolRecordException
+	 * @return column name
+	 * @throws CobolRecordException exception
 	 */
 	public String getOriginalColumnName() throws CobolRecordException {
 		return (originalColumnName != null && originalColumnName.length() > 0 ? originalColumnName : getName());
 	}
 	/**
-	 * 読み込み時にこの列を無視するかどうか
+	 * ignore when reading record?
 	 * 
-	 * @return 読み込み時にこの列を無視するかどうか
-	 * @throws CobolRecordException
+	 * @return ignore:true / no:false
+	 * @throws CobolRecordException exception
 	 */
 	public boolean isReadIgnore() throws CobolRecordException {
 		return readIgnore;
 	}
 	/**
-	 * 上書き時にこの列を無視するかどうか
+	 * ignore when rewrite/update record?
 	 * 
-	 * @return 上書き時にこの列を無視するかどうか
-	 * @throws CobolRecordException
+	 * @return ignore:true / no:false
+	 * @throws CobolRecordException exception
 	 */
 	public boolean isRewriteIgnore() throws CobolRecordException {
 		return rewriteIgnore;
 	}
 	/**
-	 * 新規書き込み時にこの列を無視するかどうか
+	 * ignore when write/insert record?
 	 * 
-	 * @return 新規書き込み時にこの列を無視するかどうか
-	 * @throws CobolRecordException
+	 * @return ignore:true / no:false
+	 * @throws CobolRecordException exception
 	 */
 	public boolean isWriteIgnore() throws CobolRecordException {
 		return writeIgnore;
 	}
 	/**
-	 * デフォルトの文字列
+	 * set default string
 	 * 
-	 * @param string デフォルトの文字列
+	 * @param string default string
 	 */
 	public void setDefaultString(String string) {
 		defaultString = string;
 	}
 	/**
-	 * SQL結果セットの列名
+	 * set SQL column name
 	 * 
-	 * @param string SQL結果セットの列名
+	 * @param name column name
 	 */
-	public void setOriginalColumnName(String string) {
-		originalColumnName = string;
+	public void setOriginalColumnName(String name) {
+		originalColumnName = name;
 	}
 	/**
-	 * 読み込み時にこの列を無視するかどうか
+	 * ignore when reading record?
 	 * 
-	 * @param b 読み込み時にこの列を無視するかどうか
+	 * @param b ignore:true / no:false
 	 */
 	public void setReadIgnore(boolean b) {
 		readIgnore = b;
 	}
 	/**
-	 * コボルレコード形式からJDBC結果セットへの変換
+	 * move cobol record to SQL result set 
 	 * 
-	 * @param src コボルレコード
-	 * @param dst JDBC結果セット
-	 * @throws SQLException SQL例外
-	 * @throws CobolRecordException コボル例外
+	 * @param src cobol record
+	 * @param dst SQL result set
+	 * @throws SQLException SQLexception
+	 * @throws CobolRecordException cobol exception
 	 */
 	public void setRecord2ResultSet(CobolRecord src, ResultSet dst) throws SQLException, CobolRecordException {
 		String originalName = getOriginalColumnName();
-		// ここから
 		int sqlColumnIndex = dst.findColumn(originalName);
 		int sqlColumnType = dst.getMetaData().getColumnType(sqlColumnIndex);
 		switch (sqlColumnType) {
@@ -197,12 +197,12 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		}
 	}
 	/**
-	 * JDBC結果セットからコボルレコード形式への変換
+	 * move result set to COBOL record
 	 * 
-	 * @param src JDBC結果セット
-	 * @param dst コボルレコード
-	 * @throws SQLException SQL例外
-	 * @throws CobolRecordException コボル例外
+	 * @param src result set
+	 * @param dst COBOL record
+	 * @throws SQLException SQLexception
+	 * @throws CobolRecordException COBOL exception
 	 */
 	public void setResultSet2Record(ResultSet src, CobolRecord dst) throws SQLException, CobolRecordException {
 		if (src == null) {
@@ -248,17 +248,17 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		}
 	}
 	/**
-	 * 上書き時にこの列を無視するかどうか
+	 * ignore when rewrite/update record?
 	 * 
-	 * @param b 上書き時にこの列を無視するかどうか
+	 * @param b ignore:true / no:false
 	 */
 	public void setRewriteIgnore(boolean b) {
 		rewriteIgnore = b;
 	}
 	/**
-	 * 新規書き込み時にこの列を無視するかどうか
+	 * ignore when write/insert record?
 	 * 
-	 * @param b 新規書き込み時にこの列を無視するかどうか
+	 * @param b ignore:true / no:false
 	 */
 	public void setWriteIgnore(boolean b) {
 		writeIgnore = b;

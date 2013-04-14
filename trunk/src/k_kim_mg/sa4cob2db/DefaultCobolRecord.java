@@ -149,10 +149,10 @@ public class DefaultCobolRecord implements CobolRecord {
 		return ret;
 	}
 	/**
-	 * レコードに含まれる列
+	 * recordに含まれる column
 	 * 
-	 * @param columnIndex 列インデックス
-	 * @return インデックスで指定した列
+	 * @param columnIndex  columnインデックス
+	 * @return インデックスで指定した column
 	 */
 	public CobolColumn getColumn(int columnIndex) {
 		return metaData.getColumn(columnIndex);
@@ -167,7 +167,7 @@ public class DefaultCobolRecord implements CobolRecord {
 		Date ret = null;
 		String datestr = getString(column);
 		if (datestr == null) {
-			// 日付を露すべき文字列がすでにnull
+			// 日付を露すべき文字 columnがすでにnull
 			ret = null;
 		} else {
 			String fmt = column.getFormat();
@@ -175,7 +175,7 @@ public class DefaultCobolRecord implements CobolRecord {
 				fmt = "yyyyMMdd";
 			DateFormat dateformat = new SimpleDateFormat(fmt);
 			try {
-				// 文字列から変換する
+				// 文字 columnから変換する
 				ret = dateformat.parse(datestr);
 				String nvl = column.getForNull();
 				if (nvl != null) {
@@ -191,7 +191,7 @@ public class DefaultCobolRecord implements CobolRecord {
 						// 代替値を設定する
 						ret = (Date) val;
 					} else if (val != null) {
-						// 代替値を文字列から設定する
+						// 代替値を文字 columnから設定する
 						String work = val.toString();
 						try {
 							ret = dateformat.parse(work);
@@ -529,7 +529,7 @@ public class DefaultCobolRecord implements CobolRecord {
 			retValue = new String(record, start, length);
 			SQLNetServer.logger.log(Level.SEVERE, uee.getMessage(), uee);
 		} catch (IndexOutOfBoundsException ioe) {
-			// 入れる範囲外が発生したので空文字列を返す
+			// 入れる範囲外が発生したので空文字 columnを返す
 			retValue = "";
 			SQLNetServer.logger.log(Level.SEVERE, ioe.getMessage(), ioe);
 		}
@@ -542,15 +542,15 @@ public class DefaultCobolRecord implements CobolRecord {
 		return retValue;
 	}
 	/**
-	 * JDBC結果セットからレコードに変換する
+	 * JDBC結果セットからrecordに変換する
 	 */
 	public void initializeRecord() {
 		System.arraycopy(initialrecord, 0, record, 0, record.length);
 	}
 	/**
-	 * この列は書式が設定されているか？
+	 * この columnは書式が設定されているか？
 	 * 
-	 * @param column 列
+	 * @param column  column
 	 * @return true:書式有り<br>
 	 *         false:書式無し
 	 */
@@ -564,9 +564,9 @@ public class DefaultCobolRecord implements CobolRecord {
 		return ret;
 	}
 	/**
-	 * このレコードのメタデータをセットする
+	 * このrecordのmeta dataをセットする
 	 * 
-	 * @param data メタデータ
+	 * @param data meta data
 	 */
 	public void setMetaData(CobolRecordMetaData data) {
 		metaData = data;
@@ -581,7 +581,7 @@ public class DefaultCobolRecord implements CobolRecord {
 			}
 		}
 		System.arraycopy(record, 0, initialrecord, 0, initialrecord.length);
-		// SQLNetServer.DebugPrint("レコード長：" + record.length);
+		// SQLNetServer.DebugPrint("record長：" + record.length);
 	}
 	/*
 	 * (non-Javadoc)

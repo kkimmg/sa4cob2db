@@ -15,18 +15,18 @@ import k_kim_mg.sa4cob2db.DefaultCobolRecord;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLCobolRecord extends DefaultCobolRecord {
-	/** 更新モード */
+	/** rewriting */
 	public static final int REWRITE = 1;
-	/** 追記モード */
+	/** writing */
 	public static final int WRITE = 0;
-	/** JDBCコネクション */
+	/** JDBC Connection */
 	private Connection connection;
-	/** Internal欠カセット */
+	/** jdbc result set */
 	private ResultSet resultSet;
 	/**
 	 * Constructor
-	 * @param meta メタデータ
-	 * @param result 結果セット
+	 * @param meta meta data
+	 * @param result result set
 	 */
 	public SQLCobolRecord(SQLCobolRecordMetaData meta, Connection connection, ResultSet result) {
 		super(meta);
@@ -34,27 +34,34 @@ public class SQLCobolRecord extends DefaultCobolRecord {
 		this.resultSet = result;
 	}
 	/**
-	 * JDBCコネクションの取得
-	 * @return JDBCコネクション
+	 * get Connection
+	 * @return JDBCConnection
 	 */
 	public Connection getConnection() {
 		return connection;
 	}
 	/**
-	 * 結果セットの取得
-	 * @return Internal結果セット
+	 * get result set
+	 * @return result set
 	 */
 	protected ResultSet getResultSet() {
 		return resultSet;
 	}
 	/**
-	 * レコードからJDBC結果セットへ変換する
+	 * move record to SQL result
+	 * @param type
+	 * @throws CobolRecordException
+	 * @throws SQLException
 	 */
 	public void record2result(int type) throws CobolRecordException, SQLException {
 		record2result(resultSet, type);
 	}
 	/**
-	 * レコードからJDBC結果セットへ変換する
+	 * move values to SQL result
+	 * @param result SQL result
+	 * @param type WRITE/REWRITE
+	 * @throws CobolRecordException exception
+	 * @throws SQLException exception
 	 */
 	protected void record2result(ResultSet result, int type) throws CobolRecordException, SQLException {
 		int count = getMetaData().getColumnCount();
@@ -69,9 +76,9 @@ public class SQLCobolRecord extends DefaultCobolRecord {
 		}
 	}
 	/**
-	 * JDBC結果セットからレコードに変換する
-	 * @param result 結果セット
-	 * @param column 列
+	 * move values from SQL result
+	 * @param result SQL result
+	 * @param column  column
 	 */
 	protected void result2column(ResultSet result, SQLCobolColumn column) throws SQLException {
 		if (!column.isReadIgnore()) {
@@ -79,14 +86,14 @@ public class SQLCobolRecord extends DefaultCobolRecord {
 		}
 	}
 	/**
-	 * JDBC結果セットからレコードに変換する
+	 * move values from SQL result
 	 */
 	public void result2record() throws CobolRecordException, SQLException {
 		result2record(resultSet);
 	}
 	/**
-	 * JDBC結果セットからレコードに変換する
-	 * @param result 結果セット
+	 * move values from SQL result
+	 * @param result SQL result
 	 */
 	protected void result2record(ResultSet result) throws CobolRecordException, SQLException {
 		initializeRecord();
@@ -94,15 +101,14 @@ public class SQLCobolRecord extends DefaultCobolRecord {
 		for (int i = 0; i < count; i++) {
 			CobolColumn columnCheck = getMetaData().getColumn(i);
 			if (columnCheck instanceof SQLCobolColumn) {
-				// 普通の列
 				SQLCobolColumn column = (SQLCobolColumn) columnCheck;
 				result2column(result, column);
 			}
 		}
 	}
 	/**
-	 * 結果セットの設定
-	 * @param resultSet Internalに格納する結果セット
+	 * set SQL result
+	 * @param resultSet SQL result
 	 */
 	protected void setResultSet(ResultSet resultSet) {
 		this.resultSet = resultSet;

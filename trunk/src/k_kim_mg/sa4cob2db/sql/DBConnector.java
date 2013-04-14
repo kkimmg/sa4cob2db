@@ -21,10 +21,11 @@ public class DBConnector {
 	}
 	/**
 	 * Constructor
-	 * @param driverURL JDBCドライバのURL
-	 * @param databaseURL JDBCデータソースのURL
-	 * @param userName JDBCユーザー名
-	 * @param passWord JDBCパスワード
+	 * 
+	 * @param driverURL JDBCDriverURL
+	 * @param databaseURL JDBCDatasourceURL
+	 * @param userName JDBCuser name
+	 * @param passWord JDBCpassword
 	 */
 	public DBConnector(String driverURL, String databaseURL, String userName, String passWord) {
 		this();
@@ -34,19 +35,19 @@ public class DBConnector {
 		this.password = passWord;
 	}
 	/**
-	 * 全ての接続を削除
+	 * clear all connections
 	 */
 	public void clearAllConnections() {
-		SQLNetServer.logger.log(Level.INFO, "全ての接続を削除します");
+		SQLNetServer.logger.log(Level.INFO, "closing all connections");
 		try {
 			for (int i = 0; i < openedConnects.size(); i++) {
 				try {
 					Connection wc = openedConnects.get(i);
 					if (!(wc.isClosed())) {
-						SQLNetServer.logger.log(Level.INFO, "接続を解除します");
+						SQLNetServer.logger.log(Level.INFO, "closing...");
 						wc.close();
 					} else {
-						SQLNetServer.logger.log(Level.INFO, "すでに解除されています");
+						SQLNetServer.logger.log(Level.INFO, "already closed");
 					}
 				} catch (SQLException se) {
 					se.printStackTrace();
@@ -59,7 +60,7 @@ public class DBConnector {
 		}
 	}
 	/**
-	 * 無駄な接続の削除
+	 * remove closed connections
 	 */
 	public void clearConnections() {
 		try {
@@ -67,36 +68,41 @@ public class DBConnector {
 				try {
 					Connection wc = openedConnects.get(i);
 					if (wc.isClosed()) {
-						SQLNetServer.logger.log(Level.INFO, "接続を削除します");
+						SQLNetServer.logger.log(Level.INFO, "removing");
 						openedConnects.remove(i);
 						i--;
 					}
 				} catch (SQLException se) {
-					SQLNetServer.logger.log(Level.WARNING, "接続状態を確認できません");
+					SQLNetServer.logger.log(Level.WARNING, se.getMessage());
 					se.printStackTrace();
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException aie) {
-			SQLNetServer.logger.log(Level.SEVERE, "ロジックエラー");
+			SQLNetServer.logger.log(Level.SEVERE, aie.getMessage());
 			aie.printStackTrace();
 		} catch (Exception e) {
+			SQLNetServer.logger.log(Level.SEVERE, e.getMessage());
 			e.printStackTrace();
 		}
 	}
 	/**
-	 * 接続の作成
-	 * @return データベースへの接続
-	 * @exception 例外の詳細な定義は行わない
+	 * create Connection
+	 * 
+	 * @return connection
+	 * @throws ClassNotFoundException can't find class
+	 * @throws SQLException other exception
 	 */
 	public Connection createConnection() throws ClassNotFoundException, SQLException {
 		return createConnection(false);
 	}
 	/**
-	 * 接続の作成
-	 * @param forth true 常に新たに接続を作成する<br/>
-	 *               false 既に接続が存在したら新たに接続を作成しない。
-	 * @return データベースへの接続
-	 * @exception 例外の詳細な定義は行わない
+	 * create connection
+	 * 
+	 * @param forth true return new connection<br/>
+	 *            false return exist connection
+	 * 
+	 * @throws ClassNotFoundException can't find class
+	 * @throws SQLException sql exception
 	 */
 	public Connection createConnection(boolean forth) throws ClassNotFoundException, SQLException {
 		Connection retValue = null;
@@ -113,13 +119,15 @@ public class DBConnector {
 		return retValue;
 	}
 	/**
-	 * 接続の作成
-	 * @return データベースへの接続
-	 * @param driverURL JDBCドライバのURL
-	 * @param databaseURL JDBCデータソースのURL
-	 * @param userName JDBCユーザー名
-	 * @param passWord JDBCパスワード
-	 * @exception 例外の詳細な定義は行わない
+	 * create connection
+	 * 
+	 * @return connection
+	 * @param driverURL JDBCdriverURL
+	 * @param databaseURL JDBCdatasourceURL
+	 * @param userName JDBC user name
+	 * @param passWord JDBC password
+	 * @throws ClassNotFoundException can't find class
+	 * @throws SQLException sql exception
 	 */
 	public Connection createConnection(String driverURL, String databaseURL, String userName, String passWord) throws ClassNotFoundException, SQLException {
 		Connection retValue = null;
@@ -129,11 +137,13 @@ public class DBConnector {
 		return retValue;
 	}
 	/**
-	 * コネクションを開放する
-	 * @param connection 開放する接続
+	 * close Connection
+	 * 
+	 * @param connection connection
 	 */
-	public void removeConnection (Connection connection) throws SQLException {
-		if (connection == null) return;
+	public void removeConnection(Connection connection) throws SQLException {
+		if (connection == null)
+			return;
 		if (!connection.isClosed()) {
 			connection.close();
 		}
@@ -142,72 +152,82 @@ public class DBConnector {
 		}
 	}
 	/**
-	 * これはやっていいのか?
-	 * @exception Throwable 親クラスでDeclarationされている
+	 * close all connection
+	 * 
+	 * @exception Throwable all
 	 */
 	protected void finalyze() throws Throwable {
 		clearAllConnections();
 		super.finalize();
 	}
 	/**
-	 * 接続をすべて取得する
-	 * @return 接続すべて
+	 * connections
+	 * 
+	 * @return connections
 	 */
 	public Iterator<Connection> getConnections() {
 		return openedConnects.listIterator();
 	}
 	/**
-	 * データベースURL
-	 * @return データベースURL
+	 * databaseURL
+	 * 
+	 * @return databaseURL
 	 */
 	public String getDatabaseURL() {
 		return databaseURL;
 	}
 	/**
-	 * ドライバURL
-	 * @return ドライバURL
+	 * driver URL
+	 * 
+	 * @return driver URL
 	 */
 	public String getDriverURL() {
 		return driverURL;
 	}
 	/**
-	 * データベースパスワード
-	 * @return データベースパスワード
+	 * database password
+	 * 
+	 * @return password
 	 */
 	public String getPassword() {
 		return password;
 	}
 	/**
-	 * データベースユーザー名
-	 * @return データベースユーザー名
+	 * database user name
+	 * 
+	 * @return euser name
 	 */
 	public String getUsername() {
 		return username;
 	}
 	/**
-	 * データベースURL
-	 * @param string データベースURL
+	 * databaseURL
+	 * 
+	 * @param string databaseURL
 	 */
 	public void setDatabaseURL(String string) {
 		databaseURL = string;
 	}
 	/**
-	 * ドライバURL
-	 * @param string ドライバURL
+	 * Driver URL
+	 * 
+	 * @param string Driver URL
 	 */
 	public void setDriverURL(String string) {
 		driverURL = string;
 	}
 	/**
-	 * データベースパスワード
-	 * @param string データベースパスワード
+	 * database password
+	 * 
+	 * @param string password
 	 */
 	public void setPassword(String string) {
 		password = string;
 	}
 	/**
-	 * データベースユーザー名
-	 * @param string データベースユーザー名
+	 * database user name
+	 * 
+	 * @param string database user name
 	 */
 	public void setUsername(String string) {
 		username = string;

@@ -6,7 +6,7 @@ import java.util.List;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 
 /**
- * レコードメタデータ
+ * recordmeta data
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
@@ -15,10 +15,10 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	private List<Class<? extends CobolFileEventListener>> listenerClasses = new ArrayList<Class<? extends CobolFileEventListener>>();
 	/** 別名 */
 	protected List<String> aliases = new ArrayList<String>();
-	/** 全ての列 */
+	/** 全ての column */
 	protected List<CobolColumn> columns = new ArrayList<CobolColumn>();
 	/**
-	 * レコードのエンコード
+	 * recordのエンコード
 	 */
 	protected String encode = "auto";
 	/** 読み取りバッファ関連 */
@@ -27,10 +27,10 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	/** キー読み込みを値で行うかどうか */
 	private boolean keyByValue = false;
 
-	/** キー列の一覧 */
+	/** キー columnの一覧 */
 	protected List<CobolColumn> keys = new ArrayList<CobolColumn>();
 
-	/** メタデータ名 */
+	/** meta data名 */
 	protected String name = "";
 
 	/** インデクス情報 */
@@ -56,10 +56,10 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	}
 
 	/**
-	 * キー列の追加
+	 * キー columnの追加
 	 * 
 	 * @param column
-	 *            追加する列
+	 *            追加する column
 	 */
 	public void addKey(CobolColumn column) {
 		keys.add(column);
@@ -88,9 +88,9 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	}
 
 	/**
-	 * 列の作成
+	 *  columnの作成
 	 * 
-	 * @return 作成された列
+	 * @return 作成された column
 	 */
 	public CobolColumn createColumn() {
 		CobolColumn ret = new DefaultCobolColumn(this);
@@ -299,10 +299,10 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	}
 
 	/**
-	 * キー列ですかー？
+	 * キー columnですかー？
 	 * 
 	 * @param column
-	 *            キーかも知れない列
+	 *            キーかも知れない column
 	 * @return true はい</br> false いいえ
 	 */
 	protected boolean isKey(CobolColumn column) {
