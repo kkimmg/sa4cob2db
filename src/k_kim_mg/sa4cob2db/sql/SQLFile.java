@@ -11,6 +11,8 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.event.CobolFileEvent;
 /**
+ * file
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLFile extends AbstractCobolFile implements CobolFile {
@@ -24,13 +26,12 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	/**
 	 * Constructor
 	 * 
-	 * @param connection コネクション
-	 * @param meta メタデータ
+	 * @param connection Connection
+	 * @param meta meta data
 	 */
 	public SQLFile(Connection connection, SQLCobolRecordMetaData meta) {
 		this.connection = connection;
 		this.meta = meta;
-		// バッファ情報の設定
 		setInitialSequentialReadBufferSize(meta.getInitialSequencialReadBufferSize());
 		setMinimumSequentialReadBufferSize(meta.getMinimumSequencialReadBufferSize());
 		setMaximumSequentialReadBufferSize(meta.getMaximumSequencialReadBufferSize());
@@ -63,19 +64,19 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * レコードの作成
+	 * create record
 	 * 
-	 * @return レコード
+	 * @return record
 	 */
 	public SQLCobolRecord createCobolRecord() {
 		return createCobolRecord(meta, resultSet);
 	}
 	/**
-	 * レコードの作成
+	 * create record
 	 * 
-	 * @param meta メタデータ
-	 * @param resultSet 結果セット
-	 * @return レコード
+	 * @param meta meta data
+	 * @param resultSet result set
+	 * @return record
 	 */
 	protected SQLCobolRecord createCobolRecord(SQLCobolRecordMetaData meta, ResultSet resultSet) {
 		return new SQLCobolRecord(meta, connection, resultSet);
@@ -128,19 +129,19 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return row;
 	}
 	/**
-	 * Java例外からファイルステータスへ変換する
+	 * exception to file status
 	 * 
-	 * @param e java例外
-	 * @return ファイルステータス
+	 * @param e exception
+	 * @return file status
 	 */
 	protected FileStatus getException2FileStatus(Exception e) {
 		return new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
 	}
 	/**
-	 * ファイルステータスからファイルイベントを発生させる
+	 * create event object
 	 * 
-	 * @param stat ファイルステータス
-	 * @return ファイルイベント
+	 * @param stat file status
+	 * @return file event
 	 */
 	protected CobolFileEvent getFileStatus2Event(FileStatus stat) {
 		return new CobolFileEvent(this, stat);
@@ -154,9 +155,9 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return meta;
 	}
 	/**
-	 * READYイベントを発生させる
+	 * create event object
 	 * 
-	 * @return ファイルイベント(READY)
+	 * @return fileevent(READY)
 	 */
 	protected CobolFileEvent getReadyEvent() {
 		return new CobolFileEvent(this, FileStatus.READY);
@@ -171,10 +172,10 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return rowCount;
 	}
 	/**
-	 * SQL例外からファイルステータスへ変換する
+	 * create file status from exception
 	 * 
-	 * @param e SQL例外
-	 * @return ファイルステータス
+	 * @param e SQLexception
+	 * @return file status
 	 */
 	protected FileStatus getSQLException2FileStatus(SQLException e) {
 		return new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
@@ -205,47 +206,46 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().preMove(getReadyEvent(), record);
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
 		try {
-			int CurrentRow = 0;
-			byte[] CurrentRecord = new byte[meta.getRowSize()];
+			int currentRow = 0;
+			byte[] currentRecord = new byte[meta.getRowSize()];
 			// int status;
 			if (getRowCount() > 0) {
-				// カレントレコードの退避
-				CurrentRow = resultSet.getRow();
+				// store current record
+				currentRow = resultSet.getRow();
 			} else if (!(resultSet.isAfterLast() || resultSet.isBeforeFirst())) {
-				// １件目のレコードを取得
-				CurrentRow = resultSet.getRow();
+				// first record
+				currentRow = resultSet.getRow();
 				try {
 					/* status = */
-					read(CurrentRecord);
+					read(currentRecord);
 				} catch (Exception e1) {
 					SQLNetServer.logger.log(Level.SEVERE, e1.getMessage(), e1);
 				}
 			} else {
-				// １件も含まれていない
+				// no record
 				ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, FileStatus.NULL_CODE, 0, "move(byte[]) can't find record.");
 				getEventProcessor().postMove(getFileStatus2Event(ret));
 				return ret;
 			}
-			// 現在のレコードで比較してから検索開始
-			int comp = compare(CurrentRecord, record);
+			// check first record and ....
+			int comp = compare(currentRecord, record);
 			if (comp == COMPARE_REC1) {
-				// 現在の後ろ半分を検索する
+				// search second half
 				ret = move(record, 1, getRowCount());
 			} else if (comp == COMPARE_REC2) {
-				// 現在の前半分を検索する
-				ret = move(record, 1, CurrentRow - 1);
+				// search first half
+				ret = move(record, 1, currentRow - 1);
 			} else {
-				// なんと１件目でヒット
+				// hit!
 				ret = FileStatus.OK;
-				resultSet.absolute(CurrentRow);
+				resultSet.absolute(currentRow);
 			}
 			if (ret.getStatusCode() != FileStatus.STATUS_OK) {
-				// 検索が失敗したら元の位置に戻る
-				resultSet.absolute(CurrentRow);
-				rowData.setRecord(CurrentRecord);
+				// not found
+				resultSet.absolute(currentRow);
+				rowData.setRecord(currentRecord);
 			}
 		} catch (SQLException e) {
-			// 何らかのSQL例外
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 			ret = getSQLException2FileStatus(e);
 		}
@@ -253,20 +253,20 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * レコードの位置付け
+	 * move to record that located by key value
 	 * 
-	 * @param record キーレコード
-	 * @param start 開始位置
-	 * @param end 終端
-	 * @return ファイルステータス
+	 * @param record record includes key value
+	 * @param start start of range
+	 * @param end end of range
+	 * @return file status
 	 */
 	protected FileStatus move(byte[] record, int start, int end) {
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
-		int naka = (start + end) / 2; // 中間位置
+		int naka = (start + end) / 2; // half
 		if (naka <= 0) {
 			return new FileStatus(FileStatus.STATUS_INVALID_KEY, FileStatus.NULL_CODE, 0, "movd(byte[]," + start + ", " + end + ") is can't find record. location is " + naka);
 		}
-		byte[] CurrentRecord = new byte[meta.getRowSize()]; // 現在のレコード
+		byte[] CurrentRecord = new byte[meta.getRowSize()]; // current record
 		try {
 			resultSet.absolute(naka);
 			read(CurrentRecord);
@@ -274,41 +274,40 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			if (comp == COMPARE_REC1) {
 				if (naka < getRowCount()) {
 					if (naka < end) {
-						// さらに後ろ半分を検索する
+						// second half
 						ret = move(record, naka + 1, end);
 					} else {
-						// うーむ
+						// not found
 						ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, FileStatus.NULL_CODE, 0, "move(byte[]," + start + ", " + end + ") is can't find record. location is " + naka);
 					}
 				} else {
 					if (isLastMoved()) {
-						// すでに全レコードの件数を取得しておりこれ以上の検索は無駄である
+						// after eof ... not found
 						ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, FileStatus.NULL_CODE, 0, "movd(byte[]," + start + ", " + end + ") is can't find record.(isLastMoved) " + "location is " + naka);
 					} else {
 						if (next(getRowCount()).getStatusCode() == FileStatus.STATUS_OK) {
-							// レコードの最終位置を現在の倍の位置とする
+							// more records
 							ret = move(record, naka + 1, getRowCount());
 						} else if (moveLast().getStatusCode() == FileStatus.STATUS_OK) {
-							// 結果セットの最終位置を取得する
+							// more records to eof
 							ret = move(record, naka + 1, getRowCount());
 						} else {
-							// うーむ
+							// not found
 							ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, FileStatus.NULL_CODE, 0, "move(byte[]," + start + ", " + end + ") is can't find record. location is " + naka);
 						}
 					}
 				}
 			} else if (comp == COMPARE_REC2) {
 				if (naka <= 1) {
-					// １件目よりもデータが小さい
+					// not found
 					ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, FileStatus.NULL_CODE, 0, "movd(byte[]," + start + ", " + end + ") is can't find record. location is " + naka);
 				} else {
-					// さらに前半分を検索する
+					// first half
 					ret = move(record, start, naka - 1);
 				}
 			} else {
-				// ヒット
+				// found!
 				ret = FileStatus.OK;
-				// 最フェッチ
 				resultSet.absolute(naka);
 			}
 		} catch (SQLException e) {
@@ -375,9 +374,9 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 */
 	@Override
 	public FileStatus next() {
-		getEventProcessor().preNext(getReadyEvent()); // イベント処理
+		getEventProcessor().preNext(getReadyEvent()); // event
 		FileStatus ret = super.next();
-		getEventProcessor().postNext(getFileStatus2Event(ret)); // イベント処理
+		getEventProcessor().postNext(getFileStatus2Event(ret)); // event
 		return ret;
 	}
 	/*
@@ -406,9 +405,9 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return (ok ? FileStatus.OK : STATUS_UNKNOWN_ERROR);
 	}
 	/**
-	 * Internalファイルの行位置を移動する
+	 * next record
 	 * 
-	 * @return ステータス
+	 * @return status
 	 */
 	protected FileStatus nextOnFile() {
 		boolean ok = false;
@@ -452,15 +451,12 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		FileStatus ret = FileStatus.OK;
 		try {
 			if (resultSet != null) {
-				// 既に使用されていないかどうかの確認
 				SQLNetServer.logger.log(Level.INFO, "already opened.");
 				ret = new FileStatus(FileStatus.STATUS_ALREADY_OPENED, FileStatus.NULL_CODE, 0, "resultset isn't null.");
 			} else if (rowData != null) {
-				// 既に使用されていないかどうかの確認
 				SQLNetServer.logger.log(Level.INFO, "already opened.");
 				ret = new FileStatus(FileStatus.STATUS_ALREADY_OPENED, FileStatus.NULL_CODE, 0, "rowData isn't null.");
 			} else {
-				// データベース関連処理
 				Statement statement = null;
 				statement = connection.createStatement(resultSetType, resultSetConcurrency);
 				resultSet = statement.executeQuery(meta.getSelectStatement());
@@ -472,18 +468,15 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			ret = getSQLException2FileStatus(e);
 		}
 		if ((getMaximumSequentialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENTIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
-			// バッファリングの開始
 			startBuffer();
 		}
-		// ファイル位置の初期設定
 		if (mode == CobolFile.MODE_EXTEND) {
-			// 最後のレコードへ
 			moveLast();
 		} else if (mode == CobolFile.MODE_OUTPUT) {
-			// もし、"全て削除"命令があれば実行する
+			// delete all records for over write
 			truncate();
 		} else {
-			// 最初のレコードへ
+			// first record
 			next();
 		}
 		getEventProcessor().postOpen(getFileStatus2Event(ret));
@@ -539,22 +532,22 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 */
 	@Override
 	public FileStatus read(byte[] record) {
-		getEventProcessor().preRead(getReadyEvent()); // イベント処理
+		getEventProcessor().preRead(getReadyEvent()); // event
 		FileStatus ret = super.read(record);
-		getEventProcessor().postRead(getFileStatus2Event(ret), record); // イベント処理
+		getEventProcessor().postRead(getFileStatus2Event(ret), record); // event
 		return ret;
 	}
 	/**
-	 * Internalファイルから取得する
+	 * read from file
 	 * 
-	 * @param record 連想するレコード
-	 * @return ステータス
+	 * @param record record
+	 * @return status
 	 */
 	protected FileStatus readFromFile(byte[] record) {
 		int length = 0;
 		try {
 			if (resultSet.isAfterLast()) {
-				// エンドオブファイル
+				// eof
 				return AbstractCobolFile.STATUS_EOF;
 			} else {
 				rowData.result2record();
@@ -598,7 +591,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * 現在の行番号を設定する
+	 * set row count
 	 */
 	private void setRowCount() {
 		try {
@@ -683,59 +676,59 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * キーの重複がある場合の検索は順処理で行う
+	 * start with duplicted key (greater equal)
 	 * 
-	 * @param record キーレコード
-	 * @return ファイルステータス
+	 * @param record record includes key value
+	 * @return file status
 	 */
 	public FileStatus startDuplicatesEqual(byte[] record) {
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
 		try {
-			byte[] CurrentRecord = new byte[meta.getRowSize()];
+			byte[] currentRecord = new byte[meta.getRowSize()];
 			boolean first = resultSet.first();
 			if (first) {
-				read(CurrentRecord);
-				int comp = compare(CurrentRecord, record);
+				read(currentRecord);
+				int comp = compare(currentRecord, record);
 				if (comp == COMPARE_EQUAL) {
-					// 最初のレコードがキーレコードと等しいので位置づけ完了
+					// currentRecord = record(hit)
 					ret = FileStatus.OK;
 				} else if (comp == COMPARE_REC1) {
-					// 最初のレコードがキーレコードより大きいのでエラー
+					// currentRecord > record(hit)
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
 					while (resultSet.next() && !found) {
-						read(CurrentRecord);
-						comp = compare(CurrentRecord, record);
+						read(currentRecord);
+						comp = compare(currentRecord, record);
 						if (comp == COMPARE_REC1) {
-							// レコードがキーレコードより大きいので位置づけ完了
+							// currentRecord > record
 							found = true;
 							ret = FileStatus.OK;
-						} else if (comp == COMPARE_REC1) {
-							// レコードがキーレコードより大きいのでエラー
-							break;
+							// } else if (comp == COMPARE_REC2) {
+							// currentRecord < record
+							// break;
 						}
 					}
 					if (!found) {
-						// 位置づけができないままEOFに達した
+						// not found
 						ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "can't find.");
 					}
 				}
 			} else {
-				// 行が存在しない
+				// not found
 				ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "zero records.");
 			}
 		} catch (SQLException e) {
-			// 何らかのSQL例外
+			// SQLexception
 			return getSQLException2FileStatus(e);
 		}
 		return ret;
 	}
 	/**
-	 * 位置付け（=）
+	 * start(=)
 	 * 
-	 * @param record キーを含むレコード
-	 * @return ステータス
+	 * @param record record includes key value
+	 * @return status
 	 */
 	FileStatus startEqual(byte[] record) {
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
@@ -746,7 +739,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 				read(CurrentRecord);
 				int comp = compare(CurrentRecord, record);
 				if (comp == COMPARE_EQUAL) {
-					// 最初のレコードがキーレコードより大きいので位置づけ完了
+					// currentRecord = record(hit)
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
@@ -754,7 +747,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						read(CurrentRecord);
 						comp = compare(CurrentRecord, record);
 						if (comp == COMPARE_EQUAL) {
-							// レコードがキーレコードより大きいので位置づけ完了
+							// currentRecord = record(hit)
 							found = true;
 							ret = FileStatus.OK;
 						} else if (comp == COMPARE_REC1) {
@@ -762,25 +755,25 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						}
 					}
 					if (!found) {
-						// 位置づけができないままEOFに達した
+						// not found(after last)
 						ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "can't find.");
 					}
 				}
 			} else {
-				// 行が存在しない
+				// not found
 				ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "zero records.");
 			}
 		} catch (SQLException e) {
-			// 何らかのSQL例外
+			// SQLexception
 			return getSQLException2FileStatus(e);
 		}
 		return ret;
 	}
 	/**
-	 * 位置付け（Greater）
+	 * start(Greater)
 	 * 
-	 * @param record キーを含むレコード
-	 * @return ステータス
+	 * @param record record includes key value
+	 * @return status
 	 */
 	FileStatus startGreater(byte[] record) {
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
@@ -791,7 +784,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 				read(CurrentRecord);
 				int comp = compare(CurrentRecord, record);
 				if (comp == COMPARE_REC1) {
-					// 最初のレコードがキーレコードより大きいので位置づけ完了
+					// currentRecord > record(hit)
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
@@ -799,31 +792,31 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						read(CurrentRecord);
 						comp = compare(CurrentRecord, record);
 						if (comp == COMPARE_REC1) {
-							// レコードがキーレコードより大きいので位置づけ完了
+							// currentRecord > record(hit)
 							found = true;
 							ret = FileStatus.OK;
 						}
 					}
 					if (!found) {
-						// 位置づけができないままEOFに達した
+						// not found(after last)
 						ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "can't find.");
 					}
 				}
 			} else {
-				// 行が存在しない
+				// not found
 				ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "zero records.");
 			}
 		} catch (SQLException e) {
-			// 何らかのSQL例外
+			// SQLexception
 			return getSQLException2FileStatus(e);
 		}
 		return ret;
 	}
 	/**
-	 * 位置付け（Greater Equal）
+	 * start(Greater Equal)
 	 * 
-	 * @param record キーを含むレコード
-	 * @return ステータス
+	 * @param record record includes key value
+	 * @return status
 	 */
 	FileStatus startGreaterEqual(byte[] record) {
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
@@ -834,7 +827,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 				read(CurrentRecord);
 				int comp = compare(CurrentRecord, record);
 				if (comp != COMPARE_REC2) {
-					// 最初のレコードがキーレコードより大きいので位置づけ完了
+					// currentRecord = record(hit)
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
@@ -842,28 +835,28 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						read(CurrentRecord);
 						comp = compare(CurrentRecord, record);
 						if (comp != COMPARE_REC2) {
-							// レコードがキーレコードより大きいので位置づけ完了
+							// currentRecord >= record(hit)
 							found = true;
 							ret = FileStatus.OK;
 						}
 					}
 					if (!found) {
-						// 位置づけができないままEOFに達した
+						// not found(after last)
 						ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "can't find.");
 					}
 				}
 			} else {
-				// 行が存在しない
+				// not found
 				ret = new FileStatus(FileStatus.STATUS_INVALID_KEY, "", 0, "zero records.");
 			}
 		} catch (SQLException e) {
-			// 何らかのSQL例外
+			// SQLexception
 			return getSQLException2FileStatus(e);
 		}
 		return ret;
 	}
 	/*
-	 * すべて削除する
+	 * delete all
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#truncate()
 	 */
@@ -872,7 +865,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		if (truncate != null) {
 			if (truncate.trim().length() > 0) {
 				try {
-					// データベース関連処理
+					//
 					Statement statement = null;
 					try {
 						statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);

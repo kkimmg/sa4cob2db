@@ -572,7 +572,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	/**
 	 * インデックスを閉じる
 	 * 
-	 * @return ステータス
+	 * @return status
 	 */
 	protected FileStatus closeIndexes() {
 		FileStatus ret = FileStatus.OK;
@@ -587,10 +587,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * レコードバイト配列の比較 キー列を比較する
+	 * recordバイト配 columnの比較 キー columnを比較する
 	 * 
-	 * @param record1 レコードバイト配列
-	 * @param record2 レコードバイト配列
+	 * @param record1 recordバイト配 column
+	 * @param record2 recordバイト配 column
 	 * @return STATUS_EQUAL キーが等しい <br/>
 	 *         STATUS_REC1 record1のキーが小さい <br/>
 	 *         STATUS_REC2 record2のキーが小さい
@@ -601,11 +601,11 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return compare(record1, record2, meta.isKeyByValue());
 	}
 	/**
-	 * レコードバイト配列の比較 キー列を比較する
+	 * recordバイト配 columnの比較 キー columnを比較する
 	 * 
-	 * @param record1 レコードバイト配列
-	 * @param record2 レコードバイト配列
-	 * @param byValue キー比較を列の値として評価するかどうか
+	 * @param record1 recordバイト配 column
+	 * @param record2 recordバイト配 column
+	 * @param byValue キー比較を columnの値として評価するかどうか
 	 * @return STATUS_EQUAL キーが等しい <br/>
 	 *         STATUS_REC1 record1のキーが小さい <br/>
 	 *         STATUS_REC2 record2のキーが小さい
@@ -617,10 +617,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return compare_byBytes(record1, record2);
 	}
 	/**
-	 * レコードバイト配列の比較 キー列を比較する
+	 * recordバイト配 columnの比較 キー columnを比較する
 	 * 
-	 * @param record1 レコードバイト配列
-	 * @param record2 レコードバイト配列
+	 * @param record1 recordバイト配 column
+	 * @param record2 recordバイト配 column
 	 * @return STATUS_EQUAL キーが等しい <br/>
 	 *         STATUS_REC1 record1のキーが小さい <br/>
 	 *         STATUS_REC2 record2のキーが小さい
@@ -629,10 +629,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected int compare_byBytes(byte[] record1, byte[] record2) throws CobolRecordException {
 		int ret = COMPARE_EQUAL;
 		CobolRecordMetaData meta = getMetaData();
-		// レコード１
+		// record１
 		DefaultCobolRecord crecord1 = new DefaultCobolRecord(meta);
 		crecord1.setRecord(record1);
-		// レコード２
+		// record２
 		DefaultCobolRecord crecord2 = new DefaultCobolRecord(meta);
 		crecord2.setRecord(record2);
 		int count = meta.getKeyCount();
@@ -653,10 +653,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * レコードバイト配列の比較 キー列を比較する
+	 * recordバイト配 columnの比較 キー columnを比較する
 	 * 
-	 * @param record1 レコードバイト配列
-	 * @param record2 レコードバイト配列
+	 * @param record1 recordバイト配 column
+	 * @param record2 recordバイト配 column
 	 * @return STATUS_EQUAL キーが等しい <br/>
 	 *         STATUS_REC1 record1のキーが小さい <br/>
 	 *         STATUS_REC2 record2のキーが小さい
@@ -665,10 +665,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected int compare_byValue(byte[] record1, byte[] record2) throws CobolRecordException {
 		int ret = COMPARE_EQUAL;
 		CobolRecordMetaData meta = getMetaData();
-		// レコード１
+		// record１
 		DefaultCobolRecord crecord1 = new DefaultCobolRecord(meta);
 		crecord1.setRecord(record1);
-		// レコード２
+		// record２
 		DefaultCobolRecord crecord2 = new DefaultCobolRecord(meta);
 		crecord2.setRecord(record2);
 		int count = meta.getKeyCount();
@@ -751,9 +751,9 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return currentIndex;
 	}
 	/**
-	 * イベントを実行するためのオブジェクト
+	 * eventを実行するためのオブジェクト
 	 * 
-	 * @return イベントを実行するためのオブジェクト
+	 * @return eventを実行するためのオブジェクト
 	 */
 	protected CobolFileEventListener getEventProcessor() {
 		return eventer;
@@ -774,10 +774,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return indexName2Index.get(name);
 	}
 	/**
-	 * コボルインデックスからインデックスファイルの取得
+	 * cobol インデックスからインデックスfileの取得
 	 * 
 	 * @param index インデックス
-	 * @return インデックスファイル、ただし無かったらnull
+	 * @return インデックスfile、ただし無かったらnull
 	 */
 	protected CobolFile getIndexFile(CobolIndex index) {
 		if (index == null) {
@@ -841,28 +841,28 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return session;
 	}
 	/**
-	 * ファイルが終端まで読み込まれたか？
+	 * fileが終端まで読み込まれたか？
 	 * 
-	 * @return ファイルが終端まで読み込まれたかどうか
+	 * @return fileが終端まで読み込まれたかどうか
 	 */
 	public abstract boolean isLastMoved();
 	/**
 	 * 位置づけ処理
 	 * 
 	 * @param row 何行目？
-	 * @return ステータス
+	 * @return status
 	 */
 	public abstract FileStatus move(int row);
 	/**
 	 * 行セットの一番最初に移動する
 	 * 
-	 * @return ステータス
+	 * @return status
 	 */
 	public abstract FileStatus moveFirst();
 	/**
 	 * 行セットの一番最後に移動する
 	 * 
-	 * @return ステータス
+	 * @return status
 	 */
 	public abstract FileStatus moveLast();
 	/*
@@ -880,16 +880,16 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return nextOnFile();
 	}
 	/**
-	 * row行分次のレコードへ移動する
+	 * row行分次のrecordへ移動する
 	 * 
 	 * @param row 行数
-	 * @return ステータス
+	 * @return status
 	 */
 	public abstract FileStatus next(int row);
 	/**
 	 * buffer上の位置を移動する
 	 * 
-	 * @return ファイルステータス
+	 * @return filestatus
 	 */
 	public FileStatus nextOnBuffer() {
 		FileStatus ret = null;
@@ -901,26 +901,26 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * Internalファイルの行位置を移動する
+	 * Internalfileの行位置を移動する
 	 * 
-	 * @return ステータス
+	 * @return status
 	 */
 	protected abstract FileStatus nextOnFile();
 	/**
-	 * インデックスに応じた順番のレコード次位置に移動する
+	 * インデックスに応じた順番のrecord次位置に移動する
 	 * 
-	 * @return ステータス
+	 * @return status
 	 */
 	protected FileStatus nextOnIndex() {
 		if (currentIndex == null) {
 			return new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "not started");
 		}
-		// インデックスレコード
+		// インデックスrecord
 		CobolFile currentIndexFile = getIndexFile(currentIndex);
 		CobolRecordMetaData indexmeta = currentIndexFile.getMetaData();
 		DefaultCobolRecord indexrecord = new DefaultCobolRecord(indexmeta);
 		byte[] indexbytes = new byte[indexmeta.getRowSize()];
-		// 主ファイルレコード
+		// 主filerecord
 		CobolRecordMetaData meta = getMetaData();
 		DefaultCobolRecord mainrecord = new DefaultCobolRecord(meta);
 		FileStatus ret;
@@ -931,7 +931,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			if (ret.getStatusCode() == FileStatus.STATUS_OK) {
 				try {
 					indexrecord.setRecord(indexbytes);
-					// インデックス→主ファイル
+					// インデックス→主file
 					Map<CobolColumn, CobolColumn> map1 = currentIndex.getFileKey2IndexColumn();
 					Set<Map.Entry<CobolColumn, CobolColumn>> set = map1.entrySet();
 					Iterator<Map.Entry<CobolColumn, CobolColumn>> ite = set.iterator();
@@ -941,7 +941,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 						CobolColumn fileColumn = ent.getKey();
 						mainrecord.updateBytes(fileColumn, indexrecord.getBytes(indexColumn));
 					}
-					// 主ファイルを検索
+					// 主fileを検索
 					byte[] record = new byte[meta.getRowSize()];
 					/* len = */mainrecord.getRecord(record);
 					ret = move(record);
@@ -956,7 +956,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	/**
 	 * インデックスを開く
 	 * 
-	 * @return ステータス
+	 * @return status
 	 */
 	protected FileStatus openIndexes() {
 		FileStatus ret = FileStatus.OK;
@@ -971,10 +971,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * row行分前のレコードへ移動する
+	 * row行分前のrecordへ移動する
 	 * 
 	 * @param row 行数
-	 * @return ステータス
+	 * @return status
 	 */
 	public abstract FileStatus previous(int row);
 	/**
@@ -998,10 +998,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return readFromFile(record);
 	}
 	/**
-	 * Internalbufferからレコードを読み取る
+	 * Internalbufferからrecordを読み取る
 	 * 
-	 * @param record レコード
-	 * @return ファイルステータス
+	 * @param record record
+	 * @return filestatus
 	 */
 	public FileStatus readFromBuffer(byte[] record) {
 		FileStatus ret = null;
@@ -1013,10 +1013,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 		return ret;
 	}
 	/**
-	 * Internalファイルから取得する
+	 * Internalfileから取得する
 	 * 
-	 * @param record 連想するレコード
-	 * @return ステータス
+	 * @param record 連想するrecord
+	 * @return status
 	 */
 	protected abstract FileStatus readFromFile(byte[] record);
 	/*

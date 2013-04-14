@@ -18,25 +18,25 @@ import k_kim_mg.sa4cob2db.event.ACMOptionSetEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
-/** セッション */
+/** session */
 public class ACMSQLSession implements ACMSession {
 	private static final long serialVersionUID = 1L;
-	/** SQLコネクション */
+	/** SQLConnection */
 	protected Connection connection;
-	/** 開いたファイル */
+	/** files */
 	protected Hashtable<String, CobolFile> files;
-	/** イベントリスナ */
+	/** event listener */
 	protected ArrayList<ACMSessionEventListener> listeners = new ArrayList<ACMSessionEventListener>();
 	private int maxLength = ACMNetSession.INITIAL_RECORD_LEN;;
 	private Properties options;
-	/** ファイルServer */
+	/** fileServer */
 	private final SQLFileServer server;
-	/** セッションID */
+	/** sessionID */
 	protected String sessionId;
 	/**
-	 * セッションの作成
+	 * session
 	 * 
-	 * @throws Exception 例外
+	 * @throws Exception exception
 	 */
 	public ACMSQLSession(SQLFileServer server) throws Exception {
 		super();
@@ -57,31 +57,29 @@ public class ACMSQLSession implements ACMSession {
 		listeners.add(listener);
 	}
 	/**
-	 * コミットが発生したときにイベントを発生させる
+	 * fire event when commit
 	 */
 	protected void callCommitEvent() {
-		// セッションのイベント発生
 		ACMSessionEvent e = new ACMSessionEvent(this, null);
 		for (ACMSessionEventListener listener : listeners) {
 			listener.transactionCommited(e);
 		}
 	}
 	/**
-	 * ロールバックが発生したときにイベントを発生させる
+	 * fire event when rollback
 	 */
 	protected void callRollbackEvent() {
-		// セッションのイベント発生
 		ACMSessionEvent e = new ACMSessionEvent(this, null);
 		for (ACMSessionEventListener listener : listeners) {
 			listener.transactionRollbacked(e);
 		}
 	}
 	/**
-	 * カスタム型のファイルを作成する
+	 * create custom meta data
 	 * 
-	 * @param meta メタデータ
-	 * @return ファイル
-	 * @throws Exception 例外
+	 * @param meta meta data
+	 * @return file file
+	 * @throws Exception exception
 	 */
 	private CobolFile createCustomFile(CobolRecordMetaData meta) throws Exception {
 		CobolFile ret = null;
@@ -111,7 +109,6 @@ public class ACMSQLSession implements ACMSession {
 					SQLCobolRecordMetaData sqlmeta = (SQLCobolRecordMetaData) meta;
 					ret = createSQLFile(sqlmeta);
 				} else if (meta.getCustomFileClassName() != null && meta.getCustomFileClassName().trim().length() > 0) {
-					// カスタムクラスを利用する
 					ret = createCustomFile(meta);
 				}
 			} catch (Exception e) {
@@ -120,7 +117,7 @@ public class ACMSQLSession implements ACMSession {
 			if (ret != null) {
 				ret.bindSession(this);
 				files.put(name, ret);
-				// イベントリスナを登録する
+				// evnet listener
 				List<Class<? extends CobolFileEventListener>> listenerClasses = meta.getListenerClasses();
 				for (Class<? extends CobolFileEventListener> listenerClass : listenerClasses) {
 					CobolFileEventListener listener;
@@ -131,7 +128,7 @@ public class ACMSQLSession implements ACMSession {
 						SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 					}
 				}
-				// インデックスを作成する
+				// index
 				List<CobolIndex> indexes = meta.getCobolIndexes();
 				if (indexes != null) {
 					for (CobolIndex index : indexes) {
@@ -145,7 +142,7 @@ public class ACMSQLSession implements ACMSession {
 					}
 				}
 			}
-			// セッションのイベント発生
+			// fire events
 			ACMSessionEvent e = new ACMSessionEvent(this, ret);
 			for (ACMSessionEventListener listener : listeners) {
 				listener.fileCreated(e);
@@ -154,36 +151,31 @@ public class ACMSQLSession implements ACMSession {
 		return ret;
 	}
 	/**
-	 * SQLFileオブジェクトの作成
+	 * create file object
 	 * 
-	 * @param meta メタデータ
-	 * @return SQLFileオブジェクト
+	 * @param meta meta data
+	 * @return file
 	 */
 	private SQLFile createSQLFile(SQLCobolRecordMetaData meta) throws Exception {
 		SQLFile ret = null;
 		if (meta.getCustomFileClassName() == null || meta.getCustomFileClassName() == "") {
-			// 通常のSQLファイル
 			ret = new SQLFile(getConnection(), meta);
 		} else {
-			// カスタムファイル
+			// customfile
 			Class<?> claxx = Class.forName(meta.getCustomFileClassName());
 			Class<? extends SQLFile> clazz = claxx.asSubclass(SQLFile.class);
 			try {
-				// 接続, メタデータ
 				Constructor<? extends SQLFile> constructor = clazz.getConstructor(new Class<?>[] { Connection.class, CobolRecordMetaData.class });
 				ret = constructor.newInstance(new Object[] { getConnection(), meta });
 			} catch (NoSuchMethodException e) {
 				try {
-					// 接続のみ
 					Constructor<? extends SQLFile> constructor = clazz.getConstructor(new Class<?>[] { Connection.class, });
 					ret = constructor.newInstance(new Object[] { getConnection() });
 				} catch (NoSuchMethodException e1) {
 					try {
-						// メタデータのみ
 						Constructor<? extends SQLFile> constructor = clazz.getConstructor(new Class<?>[] { CobolRecordMetaData.class });
 						ret = constructor.newInstance(new Object[] { meta });
 					} catch (NoSuchMethodException e2) {
-						// パラメータなし
 						ret = clazz.newInstance();
 					}
 				}
@@ -214,9 +206,9 @@ public class ACMSQLSession implements ACMSession {
 		return options.getProperty(key, "");
 	}
 	/**
-	 * コネクション
+	 * Connection
 	 * 
-	 * @return コネクション
+	 * @return Connection
 	 */
 	public Connection getConnection() {
 		return connection;
@@ -230,17 +222,17 @@ public class ACMSQLSession implements ACMSession {
 		return files.get(name);
 	}
 	/**
-	 * ファイルの一覧
+	 * list files
 	 * 
-	 * @return ファイルの一覧
+	 * @return list
 	 */
 	protected Collection<CobolFile> getFileCollection() {
 		return files.values();
 	}
 	/**
-	 * ファイル名の一覧
+	 * list file names
 	 * 
-	 * @return ファイル名の一覧
+	 * @return list
 	 */
 	protected Set<String> getFileNames() {
 		return files.keySet();
@@ -253,29 +245,29 @@ public class ACMSQLSession implements ACMSession {
 		return maxLength;
 	}
 	/**
-	 * セッションID
+	 * sessionID
 	 * 
-	 * @return セッションID
+	 * @return sessionID
 	 */
 	public String getSessionId() {
 		return sessionId;
 	}
 	/**
-	 * セッションIDの初期化
+	 * initialize sessionID
 	 */
 	private void initializeSessionID() {
-		// 現在時刻 123456789012345
+		// now 123456789012345
 		DecimalFormat df1 = new DecimalFormat("000000000000000");
 		long time = System.currentTimeMillis();
-		// シーケンス 12345
+		// sequence 12345
 		DecimalFormat df2 = new DecimalFormat("00000");
 		this.server.sequence++;
-		// ランダム 1234567890
+		// random 1234567890
 		DecimalFormat df3 = new DecimalFormat("0.00000000");
 		double rand = Math.random() * 10;
-		// 文字列
+		// text
 		String str = df1.format(time) + df2.format(this.server.sequence) + df3.format(rand);
-		// バイト配列
+		// bytes
 		sessionId = str; // .getBytes();
 	}
 	/*

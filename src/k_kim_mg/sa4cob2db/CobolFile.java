@@ -5,7 +5,7 @@ import java.io.Serializable;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 
 /**
- * コボルファイル
+ * cobol file
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
@@ -53,33 +53,33 @@ public interface CobolFile extends Serializable {
 	 * インデックスの追加
 	 * 
 	 * @param index
-	 *            インデックス用の列マッパ
+	 *            インデックス用の columnマッパ
 	 * @param file
-	 *            インデックスファイル
+	 *            インデックスfile
 	 */
 	public void addIndex(CobolIndex index, CobolFile file);
 
 	/**
-	 * セッションの関連付け
+	 * sessionの関連付け
 	 * 
 	 * @param session
-	 *            関連付けるセッション
+	 *            関連付けるsession
 	 */
 	public void bindSession(ACMSession session);
 
 	/**
-	 * ファイルを閉じる
+	 * fileを閉じる
 	 * 
-	 * @return ステータス
+	 * @return status
 	 */
 	public FileStatus close();
 
 	/**
-	 * レコードの削除
+	 * recordの削除
 	 * 
 	 * @param record
 	 *            削除キー
-	 * @return ファイルステータス
+	 * @return filestatus
 	 */
 	public FileStatus delete(byte[] record);
 
@@ -98,9 +98,9 @@ public interface CobolFile extends Serializable {
 	public int getCurrentRow();
 
 	/**
-	 * このファイルのメタデータ
+	 * このfileのmeta data
 	 * 
-	 * @return メタデータオブジェクト
+	 * @return meta dataオブジェクト
 	 */
 	public CobolRecordMetaData getMetaData();
 
@@ -112,21 +112,21 @@ public interface CobolFile extends Serializable {
 	public int getOpenMode();
 
 	/**
-	 * ファイルに含まれるレコードの行数または現在までに読み込まれた行数
+	 * fileに含まれるrecordの行数または現在までに読み込まれた行数
 	 * 
 	 * @return 行数
 	 */
 	public int getRowCount();
 
 	/**
-	 * 関連付けられたセッション
+	 * 関連付けられたsession
 	 * 
-	 * @return セッション
+	 * @return session
 	 */
 	public ACMSession getSession();
 
 	/**
-	 * このファイルは現在開かれているか？
+	 * このfileは現在開かれているか？
 	 * 
 	 * @return true 開かれている<br>
 	 *         false 閉じている
@@ -137,42 +137,42 @@ public interface CobolFile extends Serializable {
 	 * 位置づけ処理
 	 * 
 	 * @param record
-	 *            キーを含むバイト配列
-	 * @return ステータス
+	 *            キーを含むバイト配 column
+	 * @return status
 	 */
 	public FileStatus move(byte[] record);
 
 	/**
-	 * 次のレコードへ移動する
+	 * 次のrecordへ移動する
 	 * 
-	 * @return ステータス
+	 * @return status
 	 */
 	public FileStatus next();
 
 	/**
-	 * ファイルオープン
+	 * fileオープン
 	 * 
 	 * @param mode
 	 *            モード オープンモード input/output/expant/input-output
 	 * @param accessmode
-	 *            アクセスモードまたはファイル構成 sequencial/random/dynamic
-	 * @return ステータス
+	 *            アクセスモードまたはfile構成 sequencial/random/dynamic
+	 * @return status
 	 */
 	public FileStatus open(int mode, int accessmode);
 
 	/**
-	 * 前のレコードへ移動する
+	 * 前のrecordへ移動する
 	 * 
-	 * @return ステータス
+	 * @return status
 	 */
 	public FileStatus previous();
 
 	/**
-	 * 現在位置づいているレコードからバイトコードを作成する
+	 * 現在位置づいているrecordからバイトコードを作成する
 	 * 
 	 * @param record
-	 *            読み込みレコード
-	 * @return ステータス
+	 *            読み込みrecord
+	 * @return status
 	 */
 	public FileStatus read(byte[] record);
 
@@ -185,11 +185,11 @@ public interface CobolFile extends Serializable {
 	public void removeCobolFileEventListener(CobolFileEventListener listener);
 
 	/**
-	 * 現在位置づいているレコードをバイトコードで上書きする
+	 * 現在位置づいているrecordをバイトコードで上書きする
 	 * 
 	 * @param record
-	 *            書き込みレコード
-	 * @return ステータス
+	 *            書き込みrecord
+	 * @return status
 	 */
 	public FileStatus rewrite(byte[] record);
 
@@ -199,8 +199,8 @@ public interface CobolFile extends Serializable {
 	 * @param mode
 	 *            モード(EQ GT など)
 	 * @param record
-	 *            キーを含むレコード
-	 * @return ステータス
+	 *            キーを含むrecord
+	 * @return status
 	 */
 	public FileStatus start(int mode, byte[] record);
 
@@ -210,10 +210,10 @@ public interface CobolFile extends Serializable {
 	 * @param mode
 	 *            モード(EQ GT など)
 	 * @param record
-	 *            キーを含むレコード
+	 *            キーを含むrecord
 	 * @param duplicates
 	 *            キーが重複しているかどうか
-	 * @return ステータス
+	 * @return status
 	 */
 	public FileStatus start(int mode, byte[] record, boolean duplicates);
 
@@ -225,8 +225,8 @@ public interface CobolFile extends Serializable {
 	 * @param mode
 	 *            スタートモード
 	 * @param record
-	 *            検索レコード
-	 * @return ステータス
+	 *            検索record
+	 * @return status
 	 * @throws CobolRecordException
 	 *             エラー発生時
 	 */
@@ -238,11 +238,11 @@ public interface CobolFile extends Serializable {
 	public void truncate();
 
 	/**
-	 * ファイルにレコードを追加する
+	 * fileにrecordを追加する
 	 * 
 	 * @param record
-	 *            書き込みレコード
-	 * @return ステータス
+	 *            書き込みrecord
+	 * @return status
 	 */
 	public FileStatus write(byte[] record);
 }

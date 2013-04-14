@@ -3,10 +3,10 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.DefaultCobolRecordMetaData;
 public class DefaultSQLCobolRecordMetaData extends DefaultCobolRecordMetaData implements SQLCobolRecordMetaData {
 	/**
-	 * SELECTステートメント文字列
+	 * SELECT statement
 	 */
 	protected String selectStatement;
-	/** Truncateステートメント文字列 */
+	/** delete all data */
 	protected String truncateStatement;
 	/*
 	 * (non-Javadoc)

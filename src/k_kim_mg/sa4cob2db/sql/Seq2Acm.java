@@ -158,14 +158,12 @@ public class Seq2Acm {
 		while (row != null) {
 			stat = file.write(row.getBytes());
 			if (stat != FileStatus.OK) {
-				// エラーになった
+				// error
 			} else {
 				count++;
 			}
 			row = br.readLine();
 		}
-		// 終端部分
-		// 出力結果
 		System.err.println("Row Count = " + count);
 	}
 
@@ -188,13 +186,11 @@ public class Seq2Acm {
 			SQLNetServer.logger.severe(new String(record));
 			stat = file.write(record);
 			if (stat != FileStatus.OK) {
-				// エラーになった
+				// error
 			} else {
 				count++;
 			}
 		}
-		// 終端部分
-		// 出力結果
 		System.err.println("Row Count = " + count);
 	}
 

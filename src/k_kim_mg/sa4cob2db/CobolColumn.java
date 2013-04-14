@@ -4,7 +4,7 @@
  */
 package k_kim_mg.sa4cob2db;
 /**
- * コボルプログラムの列を表すオブジェクト
+ * cobol プログラムの columnを表すオブジェクト
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CobolColumn {
@@ -117,17 +117,17 @@ public interface CobolColumn {
 	 */
 	public boolean isSigned();
 	/**
-	 * バイト配列→オブジェクトの変換に失敗した場合、値を設定する
+	 * バイト配 column→オブジェクトの変換に失敗した場合、値を設定する
 	 * @return the するかしないか
 	 */
 	public boolean isUseOnParseError();
 	/**
-	 * レコード情報の設定
-	 * @param cobolRecordMetaData レコードレイアウト
+	 * record情報の設定
+	 * @param cobolRecordMetaData recordレイアウト
 	 */
 	public void setCobolRecordMetaData(CobolRecordMetaData cobolRecordMetaData);
 	/**
-	 * 列の書式を表す文字列
+	 *  columnの書式を表す文字 column
 	 * @param format 書式
 	 */
 	public void setFormat(String format);
@@ -142,43 +142,43 @@ public interface CobolColumn {
 	 */
 	public void setIfNull(String ifNull);
 	/**
-	 * 列の長さ
+	 *  columnの長さ
 	 * @param length 幅
 	 */
 	public void setLength(int length);
 	/**
-	 * 列を識別するための名称
-	 * @param name 列名
+	 *  columnを識別するための名称
+	 * @param name  column名
 	 */
 	public void setName(String name);
 	/**
-	 * 数値型の列の小数点以下の桁数
-	 * @param decimal 数値型の列の小数点以下の桁数
+	 * 数値型の columnの小数点以下の桁数
+	 * @param decimal 数値型の columnの小数点以下の桁数
 	 */
 	public void setNumberOfDecimal(int decimal);
 	/**
-	 * この列のベースになる列
-	 * @param original オリジナル列
+	 * この columnのベースになる column
+	 * @param original オリジナル column
 	 */
 	public void setOriginalCobolColumn(CobolColumn original);
 	/**
-	 * 列のバイト長を返す
+	 *  columnのバイト長を返す
 	 * @param length 物理長
 	 */
 	public void setPhysicalLength(int length);
 	/**
-	 * 数値型の列が＋ーの符号を持つかどうか
+	 * 数値型の columnが＋ーの符号を持つかどうか
 	 * @param signed 符号あり
 	 */
 	public void setSigned(boolean signed);
 	/**
-	 * 列の開始位置<br/>
+	 *  columnの開始位置<br/>
 	 * 0で始まります
 	 * @param start 開始位置
 	 */
 	public void setStart(int start);
 	/**
-	 * 列のデータ型
+	 *  columnのデータ型
 	 * @param type データ型
 	 */
 	public void setType(int type);
@@ -188,12 +188,12 @@ public interface CobolColumn {
 	 */
 	public void setUsage(int usage);
 	/**
-	 * バイト配列→オブジェクトの変換に失敗した場合、値を設定する
+	 * バイト配 column→オブジェクトの変換に失敗した場合、値を設定する
 	 * @param useOnParseError するかしないか
 	 */
 	public void setUseOnParseError(boolean useOnParseError);
 	/**
-	 * バイト配列→オブジェクトの変換に失敗した場合
+	 * バイト配 column→オブジェクトの変換に失敗した場合
 	 * @param valueOfParseError 代替の値
 	 */
 	public void setValueOfParseError(Object valueOfParseError);

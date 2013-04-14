@@ -3,22 +3,22 @@ package k_kim_mg.sa4cob2db;
 import java.util.Map;
 
 /**
- * インデックス処理用の列マッパ
+ * インデックス処理用の columnマッパ
  */
 public interface CobolIndex {
 	/**
-	 * インデックスキー列→ファイル列
+	 * インデックスキー column→file column
 	 * @return	マップ
 	 */
 	public Map<CobolColumn, CobolColumn> getIndexKey2FileColumn ();
 	/**
-	 * ファイルキー列→インデックスファイルの列
+	 * fileキー column→インデックスfileの column
 	 * @return	マップ
 	 */
 	public Map<CobolColumn, CobolColumn> getFileKey2IndexColumn ();
 	/**
-	 * インデックスファイルの取得
-	 * @return	インデックスファイル
+	 * インデックスfileの取得
+	 * @return	インデックスfile
 	 */
 	public String getFileName ();
 	/**

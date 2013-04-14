@@ -4,31 +4,31 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
 /**
- * メタデータの一覧
+ * meta dataの一覧
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract class CobolRecordMetaDataSet {
 	/**
-	 * メタデータの一覧
+	 * meta dataの一覧
 	 */
 	private List<CobolRecordMetaData> list = new ArrayList<CobolRecordMetaData>();
 	/**
-	 * メタデータ（名前の一覧）
+	 * meta data（名前の一覧）
 	 */
 	protected Hashtable<String, CobolRecordMetaData> names = new Hashtable<String, CobolRecordMetaData>();
 	/**
-	 * コボルファイルの作成
+	 * cobol fileの作成
 	 * 
-	 * @param meta メタデータ
-	 * @return コボルファイル
+	 * @param meta meta data
+	 * @return cobol file
 	 */
 	protected abstract CobolFile createCobolFile(CobolRecordMetaData meta);
 	/**
-	 * コボルファイルの取得
+	 * cobol fileの取得
 	 * 
-	 * @param name メタデータ名
-	 * @return コボルファイル
+	 * @param name meta data名
+	 * @return cobol file
 	 */
 	public CobolFile getCobolFile(String name) {
 		CobolFile ret = null;
@@ -39,10 +39,10 @@ public abstract class CobolRecordMetaDataSet {
 		return ret;
 	}
 	/**
-	 * メタデータの取得
+	 * meta dataの取得
 	 * 
-	 * @param name メタデータ名
-	 * @return メタデータ
+	 * @param name meta data名
+	 * @return meta data
 	 */
 	public CobolRecordMetaData getMetaData(String name) {
 		CobolRecordMetaData meta = (CobolRecordMetaData) names.get(name);
@@ -64,9 +64,9 @@ public abstract class CobolRecordMetaDataSet {
 		return list.size();
 	}
 	/**
-	 * メタデータを登録する
+	 * meta dataを登録する
 	 * 
-	 * @param meta メタデータ
+	 * @param meta meta data
 	 */
 	public boolean installMetaData(CobolRecordMetaData meta) {
 		// 登録
@@ -80,9 +80,9 @@ public abstract class CobolRecordMetaDataSet {
 		return ret;
 	}
 	/**
-	 * メタデータを削除する
+	 * meta dataを削除する
 	 * 
-	 * @param meta メタデータ
+	 * @param meta meta data
 	 */
 	public boolean removeMetaData(CobolRecordMetaData meta) {
 		// 削除

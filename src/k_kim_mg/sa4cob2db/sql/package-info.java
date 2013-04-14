@@ -1,4 +1,4 @@
 /**
- * JDBCデータソースに接続するための機能を提供する
+ * functions for using jdbc database
  */
 package k_kim_mg.sa4cob2db.sql;
