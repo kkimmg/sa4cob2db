@@ -693,7 +693,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 					// currentRecord = record(hit)
 					ret = FileStatus.OK;
 				} else if (comp == COMPARE_REC1) {
-					// currentRecord > record(hit)
+					// currentRecord < record(hit)
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
@@ -701,7 +701,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						read(currentRecord);
 						comp = compare(currentRecord, record);
 						if (comp == COMPARE_REC1) {
-							// currentRecord > record
+							// currentRecord < record
 							found = true;
 							ret = FileStatus.OK;
 							// } else if (comp == COMPARE_REC2) {
@@ -784,7 +784,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 				read(CurrentRecord);
 				int comp = compare(CurrentRecord, record);
 				if (comp == COMPARE_REC1) {
-					// currentRecord > record(hit)
+					// currentRecord < record(hit)
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
@@ -792,7 +792,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						read(CurrentRecord);
 						comp = compare(CurrentRecord, record);
 						if (comp == COMPARE_REC1) {
-							// currentRecord > record(hit)
+							// currentRecord < record(hit)
 							found = true;
 							ret = FileStatus.OK;
 						}
@@ -835,7 +835,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						read(CurrentRecord);
 						comp = compare(CurrentRecord, record);
 						if (comp != COMPARE_REC2) {
-							// currentRecord >= record(hit)
+							// currentRecord <= record(hit)
 							found = true;
 							ret = FileStatus.OK;
 						}

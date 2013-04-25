@@ -14,7 +14,7 @@ public abstract class CobolRecordMetaDataSet {
 	 */
 	private List<CobolRecordMetaData> list = new ArrayList<CobolRecordMetaData>();
 	/**
-	 * meta data（名前の一覧）
+	 * meta data（ name 前の一覧）
 	 */
 	protected Hashtable<String, CobolRecordMetaData> names = new Hashtable<String, CobolRecordMetaData>();
 	/**
@@ -27,7 +27,7 @@ public abstract class CobolRecordMetaDataSet {
 	/**
 	 * cobol fileの取得
 	 * 
-	 * @param name meta data名
+	 * @param name meta data name 
 	 * @return cobol file
 	 */
 	public CobolFile getCobolFile(String name) {
@@ -41,7 +41,7 @@ public abstract class CobolRecordMetaDataSet {
 	/**
 	 * meta dataの取得
 	 * 
-	 * @param name meta data名
+	 * @param name meta data name 
 	 * @return meta data
 	 */
 	public CobolRecordMetaData getMetaData(String name) {
@@ -71,9 +71,9 @@ public abstract class CobolRecordMetaDataSet {
 	public boolean installMetaData(CobolRecordMetaData meta) {
 		// 登録
 		boolean ret = list.add(meta);
-		// 名前で登録
+		//  name 前で登録
 		names.put(meta.getName(), meta);
-		// 別名で登録
+		// 別 name で登録
 		for (int i = 0; i < meta.getAliasCount(); i++) {
 			names.put(meta.getAlias(i), meta);
 		}
@@ -87,9 +87,9 @@ public abstract class CobolRecordMetaDataSet {
 	public boolean removeMetaData(CobolRecordMetaData meta) {
 		// 削除
 		boolean ret = list.remove(meta);
-		// 名前で削除
+		//  name 前で削除
 		names.remove(meta.getName());
-		// 別名で削除
+		// 別 name で削除
 		for (int i = 0; i < meta.getAliasCount(); i++) {
 			names.remove(meta.getAlias(i));
 		}

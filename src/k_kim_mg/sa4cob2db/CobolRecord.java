@@ -2,187 +2,216 @@ package k_kim_mg.sa4cob2db;
 import java.math.BigDecimal;
 import java.util.Date;
 /**
- * file中のrecord
- * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
- * cobol file中の1件のrecordに対する値の取得/更新に関する基本的な機能を提供する
+ * record
+ * 
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a> wraps bytes object
  */
 public interface CobolRecord {
 	/**
-	 *  columnの順番を取得する
-	 * @param columnName  column名
-	 * @return  columnの順番を表すインデックス
+	 * find column by name
+	 * 
+	 * @param columnName column name
+	 * @return index
 	 */
 	public int findColumn(String columnName) throws CobolRecordException;
 	/**
-	 * InputStreamから値を取得する
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @return  columnの値
+	 * get decimal value from record
+	 * 
+	 * @param column column object
+	 * @return value
 	 */
 	public BigDecimal getBigDecimal(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStreamからTrueFalseを取得する
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @return  columnの値
+	 * get boolean value from record
+	 * 
+	 * @param column column object
+	 * @return value
 	 */
 	public boolean getBoolean(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStreamから値を取得する
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @return  columnの値
+	 * get byte value from record
+	 * 
+	 * @param column column object
+	 * @return value
 	 */
 	public byte getByte(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStreamから値を取得する
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @return  columnの値
+	 * get bytes from record
+	 * 
+	 * @param column column object
+	 * @return value
 	 */
 	public byte[] getBytes(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStreamから値を取得する
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @return  columnの値
+	 * get Date value from record
+	 * 
+	 * @param column column object
+	 * @return value
 	 */
 	public Date getDate(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStreamから値を取得する
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @return  columnの値
+	 * get double value from record
+	 * 
+	 * @param column column object
+	 * @return value
 	 */
 	public double getDouble(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStreamから値を取得する
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @return  columnの値
+	 * get float value from record
+	 * 
+	 * @param column column object
+	 * @return value
 	 */
 	public float getFloat(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStreamから値を取得する
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @return  columnの値
+	 * get int value from record
+	 * 
+	 * @param column column object
+	 * @return value
 	 */
 	public int getInt(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStreamから値を取得する
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @return  columnの値
+	 * get long value from record
+	 * 
+	 * @param column column object
+	 * @return value
 	 */
 	public long getLong(CobolColumn column) throws CobolRecordException;
 	/**
-	 * このrecordのmeta data
+	 * get meta data
+	 * 
 	 * @return meta data
 	 */
 	public CobolRecordMetaData getMetaData() throws CobolRecordException;
 	/**
-	 * recordのバイトイメージを取得する
-	 * @param record recordを表すバイト配 column
-	 * @return 転送したバイト数
+	 * move record to bytes
+	 * 
+	 * @param record bytes
+	 * @return record physical length
 	 * @throws CobolRecordException
 	 */
 	public int getRecord(byte[] record) throws CobolRecordException;
 	/**
-	 * InputStreamから値を取得する
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @return  columnの値
+	 * get short value from record
+	 * 
+	 * @param column column object
+	 * @return value
 	 */
 	public short getShort(CobolColumn column) throws CobolRecordException;
 	/**
-	 * InputStreamから値を取得する
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @return  columnの値
+	 * get String value from record
+	 * 
+	 * @param column column object
+	 * @return value
 	 */
 	public String getString(CobolColumn column) throws CobolRecordException;
 	/**
-	 * JDBC結果セットからrecordに変換する
+	 * initialize
 	 */
 	public void initializeRecord();
 	/**
-	 * recordのバイトイメージをセットする
-	 * @param record record recordを表すバイト配 column
-	 * @return 転送したバイト数
+	 * move bytes to record
+	 * 
+	 * @param record bytes
+	 * @return bytes length
 	 * @throws CobolRecordException
 	 */
 	public int setRecord(byte[] record) throws CobolRecordException;
 	/**
-	 * OutputStreamに値をセットする
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @param x セットする値
+	 * set value
+	 * 
+	 * @param column column object
+	 * @param x  value 
 	 */
 	public void updateBigDecimal(CobolColumn column, BigDecimal x) throws CobolRecordException;
 	/**
-	 * OutputStreamに値をセットする
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @param x セットする値
+	 * set value
+	 * 
+	 * @param column column object
+	 * @param x  value 
 	 */
 	public void updateBoolean(CobolColumn column, boolean x) throws CobolRecordException;
 	/**
-	 * OutputStreamに値をセットする
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @param x セットする値
+	 * set value
+	 * 
+	 * @param column column object
+	 * @param x  value 
 	 */
 	public void updateByte(CobolColumn column, byte x) throws CobolRecordException;
 	/**
-	 * OutputStreamに値をセットする
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @param x セットする値
+	 * set value
+	 * 
+	 * @param column column object
+	 * @param x  value 
 	 */
 	public void updateBytes(CobolColumn column, byte[] x) throws CobolRecordException;
 	/**
-	 * OutputStreamに値をセットする
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @param x セットする値
+	 * set value
+	 * 
+	 * @param column column object
+	 * @param x  value 
 	 */
 	public void updateDate(CobolColumn column, Date x) throws CobolRecordException;
 	/**
-	 * OutputStreamに値をセットする
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @param x セットする値
+	 * set value
+	 * 
+	 * @param column column object
+	 * @param x  value 
 	 */
 	public void updateDouble(CobolColumn column, double x) throws CobolRecordException;
 	/**
-	 * OutputStreamに値をセットする
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @param x セットする値
+	 * set value
+	 * 
+	 * @param column column object
+	 * @param x  value 
 	 */
 	public void updateFloat(CobolColumn column, float x) throws CobolRecordException;
 	/**
-	 * OutputStreamに値をセットする
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @param x セットする値
+	 * set value
+	 * 
+	 * @param column column object
+	 * @param x  value 
 	 */
 	public void updateInt(CobolColumn column, int x) throws CobolRecordException;
 	/**
-	 * OutputStreamに値をセットする
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @param x セットする値
+	 * set value
+	 * 
+	 * @param column column object
+	 * @param x  value 
 	 */
 	public void updateLong(CobolColumn column, long x) throws CobolRecordException;
 	/**
-	 * OutputStreamにNullをセットする
-	 * @param column  columnの位置を示す columnオブジェクト
+	 * set null
+	 * 
+	 * @param column column object
 	 */
 	public void updateNull(CobolColumn column) throws CobolRecordException;
 	/**
-	 * OutputStreamに値をセットする
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @param x セットする値
+	 * set value
+	 * 
+	 * @param column column object
+	 * @param x  value 
 	 */
 	public void updateObject(CobolColumn column, Object x) throws CobolRecordException;
 	/**
-	 * OutputStreamに値をセットする
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @param x セットする値
+	 * set value
+	 * 
+	 * @param column column object
+	 * @param x  value 
 	 */
 	public void updateObject(CobolColumn column, Object x, int scale) throws CobolRecordException;
 	/**
-	 * OutputStreamに値をセットする
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @param x セットする値
+	 * set value
+	 * 
+	 * @param column column object
+	 * @param x  value 
 	 */
 	public void updateShort(CobolColumn column, short x) throws CobolRecordException;
 	/**
-	 * OutputStreamに値をセットする
-	 * @param column  columnの位置を示す columnオブジェクト
-	 * @param x セットする値
+	 * set value
+	 * 
+	 * @param column column object
+	 * @param x  value 
 	 */
 	public void updateString(CobolColumn column, String x) throws CobolRecordException;
 }

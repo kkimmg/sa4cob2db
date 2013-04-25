@@ -4,7 +4,7 @@
  */
 package k_kim_mg.sa4cob2db;
 /**
- * cobol プログラムの columnを表すオブジェクト
+ * COBOL column
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CobolColumn {
@@ -117,69 +117,69 @@ public interface CobolColumn {
 	 */
 	public boolean isSigned();
 	/**
-	 * バイト配 column→オブジェクトの変換に失敗した場合、値を設定する
-	 * @return the するかしないか
+	 * use value when value parse error
+	 * @return ture:use/false:not
 	 */
 	public boolean isUseOnParseError();
 	/**
-	 * record情報の設定
-	 * @param cobolRecordMetaData recordレイアウト
+	 * record meta data
+	 * @param cobolRecordMetaData record meta data
 	 */
 	public void setCobolRecordMetaData(CobolRecordMetaData cobolRecordMetaData);
 	/**
-	 *  columnの書式を表す文字 column
-	 * @param format 書式
+	 * set format/pattern
+	 * @param format format/pattern
 	 */
 	public void setFormat(String format);
 	/**
-	 * この値ならDBにNULLをセットする
-	 * @param forNull 代替の値
+	 * replace value for null
+	 * @param forNull value
 	 */
 	public void setForNull(String forNull);
 	/**
-	 * もしDB上の値がNULLなら
-	 * @param ifNull 代替の値
+	 * replace value for null
+	 * @param ifNull value
 	 */
 	public void setIfNull(String ifNull);
 	/**
-	 *  columnの長さ
-	 * @param length 幅
+	 * set logical length
+	 * @param length logical length
 	 */
 	public void setLength(int length);
 	/**
-	 *  columnを識別するための名称
-	 * @param name  column名
+	 * column name
+	 * @param name  column name
 	 */
 	public void setName(String name);
 	/**
-	 * 数値型の columnの小数点以下の桁数
-	 * @param decimal 数値型の columnの小数点以下の桁数
+	 * set decimal point
+	 * @param decimal decimal point
 	 */
 	public void setNumberOfDecimal(int decimal);
 	/**
-	 * この columnのベースになる column
-	 * @param original オリジナル column
+	 * set base column
+	 * @param original base column
 	 */
 	public void setOriginalCobolColumn(CobolColumn original);
 	/**
-	 *  columnのバイト長を返す
-	 * @param length 物理長
+	 * set physical length
+	 * @param length 
 	 */
 	public void setPhysicalLength(int length);
 	/**
-	 * 数値型の columnが＋ーの符号を持つかどうか
-	 * @param signed 符号あり
+	 * set signed flag
+	 * @param signed signed
 	 */
 	public void setSigned(boolean signed);
 	/**
-	 *  columnの開始位置<br/>
-	 * 0で始まります
-	 * @param start 開始位置
+	 * start location<br/>
+	 * from 0
+	 * @param start location
 	 */
 	public void setStart(int start);
 	/**
-	 *  columnのデータ型
-	 * @param type データ型
+	 * data type
+	 * @param type type defined in CobolColumn TYPE_...
 	 */
 	public void setType(int type);
 	/**
@@ -188,13 +188,13 @@ public interface CobolColumn {
 	 */
 	public void setUsage(int usage);
 	/**
-	 * バイト配 column→オブジェクトの変換に失敗した場合、値を設定する
-	 * @param useOnParseError するかしないか
+	 * set defined value when parse error?
+	 * @param useOnParseError true set, false not
 	 */
 	public void setUseOnParseError(boolean useOnParseError);
 	/**
-	 * バイト配 column→オブジェクトの変換に失敗した場合
-	 * @param valueOfParseError 代替の値
+	 * value when parse error
+	 * @param valueOfParseError value
 	 */
 	public void setValueOfParseError(Object valueOfParseError);
 }

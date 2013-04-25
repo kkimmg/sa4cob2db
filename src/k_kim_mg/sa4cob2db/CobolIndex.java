@@ -1,34 +1,37 @@
 package k_kim_mg.sa4cob2db;
-
 import java.util.Map;
-
 /**
- * インデックス処理用の columnマッパ
+ * index
  */
 public interface CobolIndex {
 	/**
-	 * インデックスキー column→file column
-	 * @return	マップ
+	 * index key column -> main file column
+	 * 
+	 * @return map
 	 */
-	public Map<CobolColumn, CobolColumn> getIndexKey2FileColumn ();
+	public Map<CobolColumn, CobolColumn> getIndexKey2FileColumn();
 	/**
-	 * fileキー column→インデックスfileの column
-	 * @return	マップ
+	 * main file key column -> index file column
+	 * 
+	 * @return map
 	 */
-	public Map<CobolColumn, CobolColumn> getFileKey2IndexColumn ();
+	public Map<CobolColumn, CobolColumn> getFileKey2IndexColumn();
 	/**
-	 * インデックスfileの取得
-	 * @return	インデックスfile
+	 * get index file
+	 * 
+	 * @return index file
 	 */
-	public String getFileName ();
+	public String getFileName();
 	/**
-	 * Start命令時に使用するインデックスを特定するためのキー名
-	 * @return	キー名(relative key)
+	 * get index key name
+	 * 
+	 * @return key name (relative key)
 	 */
-	public String getIndexKeyName ();
+	public String getIndexKeyName();
 	/**
-	 * このインデックスは重複するか
-	 * @return	重複するかどうか
+	 * with duplicates?
+	 * 
+	 * @return true/false
 	 */
-	public boolean isDuplicates ();
+	public boolean isDuplicates();
 }
