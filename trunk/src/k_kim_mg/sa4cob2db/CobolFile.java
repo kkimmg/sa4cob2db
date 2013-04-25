@@ -1,20 +1,17 @@
 package k_kim_mg.sa4cob2db;
-
 import java.io.Serializable;
-
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
-
 /**
  * cobol file
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CobolFile extends Serializable {
-	/** アクセスモード */
+	/** access mode */
 	public static final int ACCESS_DYNAMIC = 1;
-	/** アクセスモード */
+	/** access mode */
 	public static final int ACCESS_RANDOM = 2;
-	/** アクセスモード */
+	/** access mode */
 	public static final int ACCESS_SEQUENTIAL = 0;
 	/**
 	 * IS EQUAL TO IS =
@@ -32,216 +29,174 @@ public interface CobolFile extends Serializable {
 	 * IS NOT LESS THAN IS NOT < IS >=
 	 */
 	public static final int IS_NOT_LESS_THAN = 3;
-	/** オープンモード */
+	/** open mode */
 	public static final int MODE_EXTEND = 3;
-	/** オープンモード */
+	/** open mode */
 	public static final int MODE_INPUT = 0;
-	/** オープンモード */
+	/** open mode */
 	public static final int MODE_INPUT_OUTPUT = 2;
-	/** オープンモード */
+	/** open mode */
 	public static final int MODE_OUTPUT = 1;
-
 	/**
-	 * CobolFileEventListenerを追加する
+	 * add CobolFileEventListener
 	 * 
-	 * @param listener
-	 *            追加するCobolFileEventListener
+	 * @param listener CobolFileEventListener
 	 */
 	public void addCobolFileEventListener(CobolFileEventListener listener);
-
 	/**
-	 * インデックスの追加
+	 * add index
 	 * 
-	 * @param index
-	 *            インデックス用の columnマッパ
-	 * @param file
-	 *            インデックスfile
+	 * @param index index
+	 * @param file index file
 	 */
 	public void addIndex(CobolIndex index, CobolFile file);
-
 	/**
-	 * sessionの関連付け
+	 * bind this file to session
 	 * 
-	 * @param session
-	 *            関連付けるsession
+	 * @param session session
 	 */
 	public void bindSession(ACMSession session);
-
 	/**
-	 * fileを閉じる
+	 * close file
 	 * 
 	 * @return status
 	 */
 	public FileStatus close();
-
 	/**
-	 * recordの削除
+	 * delete record
 	 * 
-	 * @param record
-	 *            削除キー
-	 * @return filestatus
+	 * @param record key
+	 * @return file status
 	 */
 	public FileStatus delete(byte[] record);
-
 	/**
-	 * アクセスモード
+	 * access mode
 	 * 
-	 * @return アクセスモード
+	 * @return access mode
 	 */
 	public int getAccessMode();
-
 	/**
-	 * 現在の行
+	 * current row number
 	 * 
-	 * @return 現在の行
+	 * @return number
 	 */
 	public int getCurrentRow();
-
 	/**
-	 * このfileのmeta data
+	 * get meta data
 	 * 
-	 * @return meta dataオブジェクト
+	 * @return meta data object
 	 */
 	public CobolRecordMetaData getMetaData();
-
 	/**
-	 * オープンモード
+	 * open mode
 	 * 
-	 * @return オープンモード
+	 * @return open mode
 	 */
 	public int getOpenMode();
-
 	/**
-	 * fileに含まれるrecordの行数または現在までに読み込まれた行数
+	 * get row count
 	 * 
-	 * @return 行数
+	 * @return row count
 	 */
 	public int getRowCount();
-
 	/**
-	 * 関連付けられたsession
+	 * get session
 	 * 
 	 * @return session
 	 */
 	public ACMSession getSession();
-
 	/**
-	 * このfileは現在開かれているか？
+	 * is this opened?
 	 * 
-	 * @return true 開かれている<br>
-	 *         false 閉じている
+	 * @return true yes<br>
+	 *         false no
 	 */
 	public boolean isOpened();
-
 	/**
-	 * 位置づけ処理
+	 * locate to record
 	 * 
-	 * @param record
-	 *            キーを含むバイト配 column
+	 * @param record bytes includes key
 	 * @return status
 	 */
 	public FileStatus move(byte[] record);
-
 	/**
-	 * 次のrecordへ移動する
+	 * move to next record
 	 * 
 	 * @return status
 	 */
 	public FileStatus next();
-
 	/**
-	 * fileオープン
+	 * file open
 	 * 
-	 * @param mode
-	 *            モード オープンモード input/output/expant/input-output
-	 * @param accessmode
-	 *            アクセスモードまたはfile構成 sequencial/random/dynamic
+	 * @param mode mode open mode input/output/expand/input-output
+	 * @param accessmode access mode sequential/random/dynamic
 	 * @return status
 	 */
 	public FileStatus open(int mode, int accessmode);
-
 	/**
-	 * 前のrecordへ移動する
+	 * move to previous record
 	 * 
 	 * @return status
 	 */
 	public FileStatus previous();
-
 	/**
-	 * 現在位置づいているrecordからバイトコードを作成する
+	 * move record to bytes
 	 * 
-	 * @param record
-	 *            読み込みrecord
+	 * @param record bytes
 	 * @return status
 	 */
 	public FileStatus read(byte[] record);
-
 	/**
-	 * CobolFileEventListenerを削除する
+	 * remove CobolFileEventListener
 	 * 
-	 * @param listener
-	 *            削除するCobolFileEventListener
+	 * @param listener CobolFileEventListener to remove
 	 */
 	public void removeCobolFileEventListener(CobolFileEventListener listener);
-
 	/**
-	 * 現在位置づいているrecordをバイトコードで上書きする
+	 * rewrite record
 	 * 
-	 * @param record
-	 *            書き込みrecord
+	 * @param record bytes
 	 * @return status
 	 */
 	public FileStatus rewrite(byte[] record);
-
 	/**
-	 * 位置付けする
+	 * start<br>
+	 * move to key location
 	 * 
-	 * @param mode
-	 *            モード(EQ GT など)
-	 * @param record
-	 *            キーを含むrecord
+	 * @param mode mode (EQ GT ...)
+	 * @param record bytes includes key
 	 * @return status
 	 */
 	public FileStatus start(int mode, byte[] record);
-
 	/**
-	 * 位置付けする
+	 * start<br>
+	 * move to key location
 	 * 
-	 * @param mode
-	 *            モード(EQ GT など)
-	 * @param record
-	 *            キーを含むrecord
-	 * @param duplicates
-	 *            キーが重複しているかどうか
+	 * @param mode mode (EQ GT ...)
+	 * @param duplicates with duplicates?
 	 * @return status
 	 */
 	public FileStatus start(int mode, byte[] record, boolean duplicates);
-
 	/**
-	 * インデックスによる検索
+	 * start by index <br>
+	 * move to secondly key location
 	 * 
-	 * @param IndexName
-	 *            インデックス名
-	 * @param mode
-	 *            スタートモード
-	 * @param record
-	 *            検索record
+	 * @param IndexName index name
+	 * @param mode mode
+	 * @param record bytes includes key
 	 * @return status
-	 * @throws CobolRecordException
-	 *             エラー発生時
+	 * @throws CobolRecordException something happen
 	 */
 	public FileStatus start(String IndexName, int mode, byte[] record);
-
 	/**
-	 * すべてさ駆除する
+	 * delete all records
 	 */
 	public void truncate();
-
 	/**
-	 * fileにrecordを追加する
+	 * add record<br>
+	 * insert record
 	 * 
-	 * @param record
-	 *            書き込みrecord
+	 * @param record bytes
 	 * @return status
 	 */
 	public FileStatus write(byte[] record);

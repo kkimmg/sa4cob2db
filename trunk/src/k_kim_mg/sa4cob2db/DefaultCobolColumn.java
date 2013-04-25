@@ -191,7 +191,7 @@ public class DefaultCobolColumn implements CobolColumn {
 		return type;
 	}
 	/**
-	 * バイト配 column→オブジェクトの変換に失敗した場合
+	 * バイト配 column→ object の変換に失敗した場合
 	 * 
 	 * @return 代替の値
 	 */
@@ -207,7 +207,7 @@ public class DefaultCobolColumn implements CobolColumn {
 		return signed;
 	}
 	/**
-	 * バイト配 column→オブジェクトの変換に失敗した場合、値を設定する
+	 * バイト配 column→ object の変換に失敗した場合、値を設定する
 	 * 
 	 * @return the するかしないか
 	 */
@@ -312,7 +312,7 @@ public class DefaultCobolColumn implements CobolColumn {
 		type = i;
 	}
 	/**
-	 * バイト配 column→オブジェクトの変換に失敗した場合、値を設定する
+	 * バイト配 column→ object の変換に失敗した場合、値を設定する
 	 * 
 	 * @param useOnParseError するかしないか
 	 */
@@ -320,7 +320,7 @@ public class DefaultCobolColumn implements CobolColumn {
 		this.useOnParseError = useOnParseError;
 	}
 	/**
-	 * バイト配 column→オブジェクトの変換に失敗した場合
+	 * バイト配 column→ object の変換に失敗した場合
 	 * 
 	 * @param valueOfParseError 代替の値
 	 */

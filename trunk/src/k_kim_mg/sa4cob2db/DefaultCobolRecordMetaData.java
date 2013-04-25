@@ -13,7 +13,7 @@ import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	/** リスナクラス */
 	private List<Class<? extends CobolFileEventListener>> listenerClasses = new ArrayList<Class<? extends CobolFileEventListener>>();
-	/** 別名 */
+	/** 別 name  */
 	protected List<String> aliases = new ArrayList<String>();
 	/** 全ての column */
 	protected List<CobolColumn> columns = new ArrayList<CobolColumn>();
@@ -24,13 +24,13 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	/** 読み取りバッファ関連 */
 	private int initialSequencialReadBufferSize,
 			maximumSequencialReadBufferSize, minimumSequencialReadBufferSize;
-	/** キー読み込みを値で行うかどうか */
+	/**  key 読み込みを値で行うかどうか */
 	private boolean keyByValue = false;
 
-	/** キー columnの一覧 */
+	/**  key  columnの一覧 */
 	protected List<CobolColumn> keys = new ArrayList<CobolColumn>();
 
-	/** meta data名 */
+	/** meta data name  */
 	protected String name = "";
 
 	/** インデクス情報 */
@@ -56,7 +56,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	}
 
 	/**
-	 * キー columnの追加
+	 *  key  columnの追加
 	 * 
 	 * @param column
 	 *            追加する column
@@ -70,7 +70,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	 * 
 	 * @param copy
 	 *            コピー対象
-	 * @return コピー対象(引数と同じオブジェクト)
+	 * @return コピー対象(引数と同じ object )
 	 */
 	protected CobolRecordMetaData copyTo(CobolRecordMetaData copy) {
 		copy.setName(getName());
@@ -164,7 +164,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	}
 
 	/**
-	 * インデックス情報の一覧
+	 *  index 情報の一覧
 	 * 
 	 * @return リスト
 	 */
@@ -299,10 +299,10 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	}
 
 	/**
-	 * キー columnですかー？
+	 *  key  columnですかー？
 	 * 
 	 * @param column
-	 *            キーかも知れない column
+	 *             key かも知れない column
 	 * @return true はい</br> false いいえ
 	 */
 	protected boolean isKey(CobolColumn column) {
@@ -386,10 +386,10 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	}
 
 	/**
-	 * キー読み込みを値で行うかどうか
+	 *  key 読み込みを値で行うかどうか
 	 * 
 	 * @param keyByValue
-	 *            キー読み込みを値で行うかどうか
+	 *             key 読み込みを値で行うかどうか
 	 */
 	public void setKeyByValue(boolean keyByValue) {
 		this.keyByValue = keyByValue;

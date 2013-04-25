@@ -23,9 +23,9 @@ public class FileStatus {
 	public static final String STATUS_CANT_REWRITE = "49";
 	/** WRITEできない（モード誤り） */
 	public static final String STATUS_CANT_WRITE = "48";
-	/** 重複キー */
+	/** 重複 key  */
 	public static final String STATUS_DUPLICATE_KEY = "22";
-	/** サブキーが重複している */
+	/** サブ key が重複している */
 	public static final String STATUS_DUPLICATE_SUBKEY = "02";
 	/** EOF-fileの終端 */
 	public static final String STATUS_EOF = "10";

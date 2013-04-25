@@ -4,20 +4,20 @@ import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 /** session */
 public interface ACMSession extends Serializable {
 	/**
-	 * event listenerを追加する
+	 * add event listener
 	 * 
 	 * @param listener event listener
 	 */
 	public void addACMSessionEventListener(ACMSessionEventListener listener);
 	/**
-	 * file(への参照)を作成する
+	 * create file
 	 * 
 	 * @param name filename
-	 * @return fileオブジェクト
+	 * @return file object 
 	 */
 	public CobolFile createFile(String name);
 	/**
-	 * file(への参照)を開放する
+	 * release file
 	 * 
 	 * @param name filename
 	 */
@@ -30,10 +30,10 @@ public interface ACMSession extends Serializable {
 	 */
 	public String getACMOption(String key);
 	/**
-	 * 作成済みのfile(への参照)を取得する
+	 * get file from name
 	 * 
 	 * @param name filename
-	 * @return fileオブジェクト
+	 * @return file object 
 	 */
 	public CobolFile getFile(String name);
 	/**
@@ -49,7 +49,7 @@ public interface ACMSession extends Serializable {
 	 */
 	public String getSessionId();
 	/**
-	 * event listenerを削除する
+	 * delete event listener
 	 * 
 	 * @param listener event listener
 	 */

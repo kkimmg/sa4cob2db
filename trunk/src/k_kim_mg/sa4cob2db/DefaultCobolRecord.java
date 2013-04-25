@@ -151,8 +151,8 @@ public class DefaultCobolRecord implements CobolRecord {
 	/**
 	 * recordに含まれる column
 	 * 
-	 * @param columnIndex  columnインデックス
-	 * @return インデックスで指定した column
+	 * @param columnIndex  column index 
+	 * @return  index で指定した column
 	 */
 	public CobolColumn getColumn(int columnIndex) {
 		return metaData.getColumn(columnIndex);

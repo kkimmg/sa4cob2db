@@ -471,58 +471,58 @@ public class SQLNetServer {
 		}
 	}
 	/**
-	 * file提供機能
+	 * inner file server
 	 * 
-	 * @return file提供機能
+	 * @return file server
 	 */
 	public SQLFileServer getFileServer() {
 		return fileServer;
 	}
 	/**
-	 * sessionの最大数
+	 * get max session count
 	 * 
-	 * @return sessionの最大数
+	 * @return max session count
 	 */
 	public int getMaxSessions() {
 		return maxSessions;
 	}
 	/**
-	 * meta dataのセット
+	 * get meta data set
 	 * 
-	 * @return meta dataのセット
+	 * @return meta data set 
 	 */
 	public CobolRecordMetaDataSet getMetaDataSet() {
 		return metaDataSet;
 	}
 	/**
-	 * このServerのその他の値
+	 * get property
 	 * 
-	 * @param key キー
-	 * @return 値
+	 * @param key key
+	 * @return value
 	 */
 	public String getPropertie(String key) {
 		return properties.getProperty(key);
 	}
 	/**
-	 * このServerのその他の値
+	 * get property
 	 * 
-	 * @param key キー
-	 * @param defaultValue default 値
-	 * @return 値
+	 * @param key key
+	 * @param defaultValue default value
+	 * @return value
 	 */
 	public String getPropertie(String key, String defaultValue) {
 		return properties.getProperty(key, defaultValue);
 	}
 	/**
-	 * 現在connectionされているsessionの数を取得する
+	 * get session count
 	 * 
-	 * @return session数
+	 * @return session count
 	 */
 	int getSessionCount() {
 		return sessions.size();
 	}
 	/**
-	 * Server終了eventを発行する
+	 * fire server ending event
 	 */
 	void serverEnding() {
 		ACMServerEvent ev = new ACMServerEvent(this);
@@ -531,26 +531,26 @@ public class SQLNetServer {
 		}
 	}
 	/**
-	 * sessionの最大数
+	 * set max session count
 	 * 
-	 * @param maxSessions sessionの最大数
+	 * @param maxSessions session count
 	 */
 	public void setMaxSessions(int maxSessions) {
 		this.maxSessions = maxSessions;
 	}
 	/**
-	 * このServerのその他の値
+	 * set property
 	 * 
-	 * @param key キー
-	 * @param value 値
+	 * @param key key 
+	 * @param value value
 	 */
 	public void setPropertie(String key, String value) {
 		properties.setProperty(key, value);
 	}
 	/**
-	 * シャットダウンする
+	 * shutdown
 	 * 
-	 * @param mode モード
+	 * @param mode SHUTDOWN_ABORT/SHUTDOWN_NORMAL
 	 */
 	public void shutdown(int mode) {
 		if (mode == SHUTDOWN_ABORT) {
@@ -568,7 +568,7 @@ public class SQLNetServer {
 		}
 	}
 	/**
-	 * 強制終了を引っ掛ける
+	 * hook shutdown
 	 */
 	void shutdownHook() {
 		SQLNetServer.logger.log(Level.INFO, "Now Server Is Ending...");
@@ -576,14 +576,13 @@ public class SQLNetServer {
 		serverEnding();
 	}
 	/**
-	 * 開始処理
+	 * start
 	 * 
 	 * @throws IOException IO Exception
 	 */
 	public void startServer() throws IOException {
 		for (int i = 0; i < addresses.size(); i++) {
 			InetAddress address = addresses.get(i);
-			// ServerSocketの作成
 			ServerSocket servsock = new ServerSocket(port, backlog, address);
 			SocketAccepter accepter = new SocketAccepter(this, servsock);
 			Thread th = new Thread(accepter);
