@@ -4,31 +4,25 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
 /**
- * meta dataの一覧
+ * list of meta data
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract class CobolRecordMetaDataSet {
-	/**
-	 * meta dataの一覧
-	 */
 	private List<CobolRecordMetaData> list = new ArrayList<CobolRecordMetaData>();
+	private Hashtable<String, CobolRecordMetaData> names = new Hashtable<String, CobolRecordMetaData>();
 	/**
-	 * meta data（ name 前の一覧）
-	 */
-	protected Hashtable<String, CobolRecordMetaData> names = new Hashtable<String, CobolRecordMetaData>();
-	/**
-	 * cobol fileの作成
+	 * create COBOL file
 	 * 
 	 * @param meta meta data
-	 * @return cobol file
+	 * @return COBOL file
 	 */
 	protected abstract CobolFile createCobolFile(CobolRecordMetaData meta);
 	/**
-	 * cobol fileの取得
+	 * get COBOL file from name
 	 * 
 	 * @param name meta data name 
-	 * @return cobol file
+	 * @return COBOL file
 	 */
 	public CobolFile getCobolFile(String name) {
 		CobolFile ret = null;
@@ -39,7 +33,7 @@ public abstract class CobolRecordMetaDataSet {
 		return ret;
 	}
 	/**
-	 * meta dataの取得
+	 * get meta data
 	 * 
 	 * @param name meta data name 
 	 * @return meta data
@@ -49,7 +43,7 @@ public abstract class CobolRecordMetaDataSet {
 		return meta;
 	}
 	/**
-	 * get MetaData
+	 * get meta data
 	 * @param i get to i'th MetaData
 	 * @return MetaData
 	 */
@@ -64,32 +58,26 @@ public abstract class CobolRecordMetaDataSet {
 		return list.size();
 	}
 	/**
-	 * meta dataを登録する
+	 * add meta data
 	 * 
 	 * @param meta meta data
 	 */
 	public boolean installMetaData(CobolRecordMetaData meta) {
-		// 登録
 		boolean ret = list.add(meta);
-		//  name 前で登録
 		names.put(meta.getName(), meta);
-		// 別 name で登録
 		for (int i = 0; i < meta.getAliasCount(); i++) {
 			names.put(meta.getAlias(i), meta);
 		}
 		return ret;
 	}
 	/**
-	 * meta dataを削除する
+	 * remove meta data
 	 * 
 	 * @param meta meta data
 	 */
 	public boolean removeMetaData(CobolRecordMetaData meta) {
-		// 削除
 		boolean ret = list.remove(meta);
-		//  name 前で削除
 		names.remove(meta.getName());
-		// 別 name で削除
 		for (int i = 0; i < meta.getAliasCount(); i++) {
 			names.remove(meta.getAlias(i));
 		}

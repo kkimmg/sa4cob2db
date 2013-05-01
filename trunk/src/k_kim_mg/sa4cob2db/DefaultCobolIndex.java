@@ -2,7 +2,7 @@ package k_kim_mg.sa4cob2db;
 import java.util.Hashtable;
 import java.util.Map;
 /**
- * デフォルトの index 
+ * default index 
  * @author kenji
  */
 public class DefaultCobolIndex implements CobolIndex {
@@ -29,7 +29,7 @@ public class DefaultCobolIndex implements CobolIndex {
 	}
 	/**
 	 * filename<br>
-	 *  index に相当するCobolFileのfilename
+	 * index file name
 	 * @param fileName  index のfilename
 	 */
 	public void setFileName(String fileName) {

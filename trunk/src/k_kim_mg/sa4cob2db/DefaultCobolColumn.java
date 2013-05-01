@@ -70,10 +70,10 @@ public class DefaultCobolColumn implements CobolColumn {
 		this.cobolRecordMetaData = meta;
 	}
 	/**
-	 * 属性をコピーする
+	 * copy attributes to CobolColumn object
 	 * 
-	 * @param copy コピー対象
-	 * @return コピー対象
+	 * @param copy target
+	 * @return target
 	 */
 	protected CobolColumn copyTo(CobolColumn copy) {
 		copy.setName(getName());
@@ -112,17 +112,17 @@ public class DefaultCobolColumn implements CobolColumn {
 		return format;
 	}
 	/**
-	 * この値ならDBにNULLをセットする
+	 * get value to use when record value is null
 	 * 
-	 * @return 代替の値
+	 * @return value
 	 */
 	public String getForNull() {
 		return forNull;
 	}
 	/**
-	 * もしDB上の値がNULLなら
+	 * get value to use when table value is null
 	 * 
-	 * @return 代替の値
+	 * @return value
 	 */
 	public String getIfNull() {
 		return ifNull;
@@ -191,9 +191,9 @@ public class DefaultCobolColumn implements CobolColumn {
 		return type;
 	}
 	/**
-	 * バイト配 column→ object の変換に失敗した場合
+	 * get value to use when parse error of record value
 	 * 
-	 * @return 代替の値
+	 * @return value
 	 */
 	public Object getValueOfParseError() {
 		return valueOfParseError;
@@ -207,9 +207,9 @@ public class DefaultCobolColumn implements CobolColumn {
 		return signed;
 	}
 	/**
-	 * バイト配 column→ object の変換に失敗した場合、値を設定する
+	 * use value when parse error ?
 	 * 
-	 * @return the するかしないか
+	 * @return true use<br>false don't
 	 */
 	public boolean isUseOnParseError() {
 		return useOnParseError;
@@ -232,17 +232,17 @@ public class DefaultCobolColumn implements CobolColumn {
 		format = string;
 	}
 	/**
-	 * この値ならDBにNULLをセットする
+	 * set value to use when record value is null
 	 * 
-	 * @param forNull 代替の値
+	 * @param forNull value
 	 */
 	public void setForNull(String forNull) {
 		this.forNull = forNull;
 	}
 	/**
-	 * もしDB上の値がNULLなら
+	 * set value to use when table value is null
 	 * 
-	 * @param ifNull 代替の値
+	 * @param ifNull value
 	 */
 	public void setIfNull(String ifNull) {
 		this.ifNull = ifNull;
@@ -312,17 +312,17 @@ public class DefaultCobolColumn implements CobolColumn {
 		type = i;
 	}
 	/**
-	 * バイト配 column→ object の変換に失敗した場合、値を設定する
+	 * use value when parse error ?
 	 * 
-	 * @param useOnParseError するかしないか
+	 * @param useOnParseError true use<br>false don't
 	 */
 	public void setUseOnParseError(boolean useOnParseError) {
 		this.useOnParseError = useOnParseError;
 	}
 	/**
-	 * バイト配 column→ object の変換に失敗した場合
+	 * set value to use when parse error of record value
 	 * 
-	 * @param valueOfParseError 代替の値
+	 * @param valueOfParseError value
 	 */
 	public void setValueOfParseError(Object valueOfParseError) {
 		this.valueOfParseError = valueOfParseError;

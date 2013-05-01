@@ -43,7 +43,7 @@ public interface CobolRecordMetaData {
 	 * get column index by name
 	 * 
 	 * @param name column name
-	 * @return column location 
+	 * @return column location
 	 * @throws CobolRecordException throw when column not found
 	 */
 	public int findColumn(String name) throws CobolRecordException;
@@ -61,7 +61,7 @@ public interface CobolRecordMetaData {
 	 */
 	public int getAliasCount();
 	/**
-	 * get index list 
+	 * get index list
 	 * 
 	 * @return index list
 	 */
@@ -122,15 +122,19 @@ public interface CobolRecordMetaData {
 	 */
 	public List<Class<? extends CobolFileEventListener>> getListenerClasses();
 	/**
-	 * 順fileの読み取りバッファの初期サイズ
+	 * get maximum size of buffer
 	 * 
-	 * @return 順fileの読み取りバッファの初期サイズ
+	 * stop buffering when buffered row count reached this value
+	 * 
+	 * @return size(row count)
 	 */
 	public int getMaximumSequencialReadBufferSize();
 	/**
-	 * 順fileの読み取りバッファの最小サイズ
+	 * get minimum size of buffer
 	 * 
-	 * @return 順fileの読み取りバッファの最小サイズ
+	 * stop read from buffer until buffered row count reach this value
+	 * 
+	 * @return size (row count)
 	 */
 	public int getMinimumSequencialReadBufferSize();
 	/**
@@ -140,82 +144,87 @@ public interface CobolRecordMetaData {
 	 */
 	public String getName();
 	/**
-	 * このrecordの1recordあたりのバイト数を返します
+	 * row size/record length
 	 * 
-	 * @return このrecordの1recordあたりのバイト数
+	 * @return byte length
 	 */
 	public int getRowSize();
 	/**
-	 * key 比較を値で行うかどうか
+	 * compare key method
 	 * 
-	 * @return true 行う<br/>
-	 *         false 行わない
+	 * @return true by value<br>
+	 *         false by each byte
 	 */
 	public boolean isKeyByValue();
 	/**
-	 * 別 name の削除
+	 * remove alias
 	 * 
-	 * @param alias 削除する別 name
+	 * @param alias alias
 	 */
 	public void removeAlias(String alias);
 	/**
-	 * columnの削除
+	 * remove column
 	 * 
-	 * @param column 削除する column
+	 * @param column column object
 	 */
 	public void removeColumn(CobolColumn column);
 	/**
-	 * columnの削除
+	 * remove column
 	 * 
-	 * @param index 削除する column index
+	 * @param index column index
 	 */
 	public void removeColumn(int index);
 	/**
-	 * key columnの削除
+	 * remove key column
 	 * 
-	 * @param column 削除する key column
+	 * @param column column object
 	 */
 	public void removeKey(CobolColumn column);
 	/**
-	 * key columnの削除
+	 * remove key column
 	 * 
-	 * @param index 削除する key column index
+	 * @param index column index
 	 */
 	public void removeKey(int index);
 	/**
-	 * エンコーディング name の設定
+	 * set encoding
 	 * 
-	 * @param string エンコーディング name
+	 * @param string encoding name
 	 */
 	public void setEncode(String string);
 	/**
-	 * 順fileの読み取りバッファの初期サイズ
+	 * set initial buffer size
 	 * 
-	 * @param value 順fileの読み取りバッファの初期サイズ
+	 * @param value buffer row count
 	 */
 	public void setInitialSequencialReadBufferSize(int value);
 	/**
-	 * key 読み込みを値で行うかどうか
+	 * compare method
 	 * 
-	 * @param keyByValue key 読み込みを値で行うかどうか
+	 * @param keyByValue true by value<br>
+	 *            false by each bytes
 	 */
 	public void setKeyByValue(boolean keyByValue);
 	/**
-	 * 順fileの読み取りバッファの最大サイズ
+	 * get maximum size of buffer
 	 * 
-	 * @param value 順fileの読み取りバッファの最大サイズ
+	 * stop buffering when buffered row count reached this value
+	 * 
+	 * @param value size(row count)
 	 */
 	public void setMaximumSequencialReadBufferSize(int value);
 	/**
-	 * 順fileの読み取りバッファの最小サイズ
+	 * get minimum size of buffer
 	 * 
-	 * @param value 順fileの読み取りバッファの最小サイズ
+	 * stop read from buffer until buffered row count reach this value
+	 * 
+	 * @param value size(row count)
 	 */
 	public void setMinimumSequencialReadBufferSize(int value);
 	/**
-	 * RecordName
+	 * record name
 	 * 
-	 * @param name RecordName
+	 * @param name record name
 	 */
 	public void setName(String name);
 }

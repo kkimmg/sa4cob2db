@@ -49,9 +49,9 @@ public class FileStatus {
 	public static final String STATUS_READY = "90";
 	/** サポートされないオペレーション */
 	public static final String STATUS_UNSUPPORTED_METHOD = "98";
-	/** OKstatus */
+	/** OK status */
 	public static final FileStatus OK = new FileStatus(STATUS_OK, NULL_CODE, 0, "it's ok.");
-	/** READYstatus */
+	/** READY status */
 	public static final FileStatus READY = new FileStatus(STATUS_READY, "READY", 0, "it's ready.");
 	/** fileがアサインされていない */
 	public static final FileStatus NOT_ASSIGNED = new FileStatus(FileStatus.STATUS_NOT_ASSIGND, FileStatus.NULL_CODE, 0, "file is not assigned");
