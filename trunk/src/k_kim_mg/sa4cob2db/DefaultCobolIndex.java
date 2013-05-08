@@ -2,7 +2,8 @@ package k_kim_mg.sa4cob2db;
 import java.util.Hashtable;
 import java.util.Map;
 /**
- * default index 
+ * default index
+ * 
  * @author kenji
  */
 public class DefaultCobolIndex implements CobolIndex {
@@ -28,17 +29,18 @@ public class DefaultCobolIndex implements CobolIndex {
 		return indexKeyName;
 	}
 	/**
-	 * filename<br>
+	 * file name<br>
 	 * index file name
-	 * @param fileName  index のfilename
+	 * 
+	 * @param fileName file name
 	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 	/**
-	 *  index  key  name <br>
-	 * start命令でどの index を使用するか識別するための index  name 
-	 * @param indexKeyName  index  key  name 
+	 * set index key name <br>
+	 * 
+	 * @param indexKeyName index key name
 	 */
 	public void setIndexKeyName(String indexKeyName) {
 		this.indexKeyName = indexKeyName;
@@ -48,8 +50,10 @@ public class DefaultCobolIndex implements CobolIndex {
 		return duplicates;
 	}
 	/**
-	 * この index は重複するか
-	 * @param duplicates  index が重複するかどうか
+	 * set duplicated index
+	 * 
+	 * @param duplicates index true yes<br>
+	 *            false no
 	 */
 	public void setDuplicates(boolean duplicates) {
 		this.duplicates = duplicates;

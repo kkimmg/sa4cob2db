@@ -1,41 +1,35 @@
 package k_kim_mg.sa4cob2db;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
-
 /**
  * recordmeta data
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
+/**
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
+ */
 public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
-	/** リスナクラス */
 	private List<Class<? extends CobolFileEventListener>> listenerClasses = new ArrayList<Class<? extends CobolFileEventListener>>();
-	/** 別 name  */
+	/** alias names */
 	protected List<String> aliases = new ArrayList<String>();
-	/** 全ての column */
+	/** all column */
 	protected List<CobolColumn> columns = new ArrayList<CobolColumn>();
 	/**
-	 * recordのエンコード
+	 * record encode text
 	 */
 	protected String encode = "auto";
-	/** 読み取りバッファ関連 */
-	private int initialSequencialReadBufferSize,
-			maximumSequencialReadBufferSize, minimumSequencialReadBufferSize;
-	/**  key 読み込みを値で行うかどうか */
+	/** size of buffers */
+	private int initialSequencialReadBufferSize, maximumSequencialReadBufferSize, minimumSequencialReadBufferSize;
+	/** key value compare */
 	private boolean keyByValue = false;
-
-	/**  key  columnの一覧 */
+	/** key columns */
 	protected List<CobolColumn> keys = new ArrayList<CobolColumn>();
-
-	/** meta data name  */
+	/** meta data name */
 	protected String name = "";
-
-	/** インデクス情報 */
+	/** indexes */
 	protected List<CobolIndex> cobolIndexes = new ArrayList<CobolIndex>();
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -44,7 +38,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void addAlias(String alias) {
 		aliases.add(alias);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -54,23 +47,21 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void addColumn(CobolColumn column) {
 		columns.add(column);
 	}
-
-	/**
-	 *  key  columnの追加
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param column
-	 *            追加する column
+	 * @see
+	 * k_kim_mg.sa4cob2db.CobolRecordMetaData#addKey(k_kim_mg.sa4cob2db.CobolColumn
+	 * )
 	 */
 	public void addKey(CobolColumn column) {
 		keys.add(column);
 	}
-
 	/**
-	 * 属性をコピーする
+	 * copy attributes and columns to
 	 * 
-	 * @param copy
-	 *            コピー対象
-	 * @return コピー対象(引数と同じ object )
+	 * @param copy target
+	 * @return target
 	 */
 	protected CobolRecordMetaData copyTo(CobolRecordMetaData copy) {
 		copy.setName(getName());
@@ -86,24 +77,25 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		}
 		return copy;
 	}
-
 	/**
-	 *  columnの作成
+	 * create column
 	 * 
-	 * @return 作成された column
+	 * @return column
 	 */
 	public CobolColumn createColumn() {
 		CobolColumn ret = new DefaultCobolColumn(this);
 		return ret;
 	}
-
-	// @Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#createCopy()
+	 */
 	public CobolRecordMetaData createCopy() {
 		CobolRecordMetaData copy = new DefaultCobolRecordMetaData();
 		copyTo(copy);
 		return copy;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -124,7 +116,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		}
 		return ret;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -144,7 +135,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		}
 		return ret;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -153,7 +143,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public String getAlias(int i) {
 		return aliases.get(i);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -162,16 +151,14 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public int getAliasCount() {
 		return aliases.size();
 	}
-
-	/**
-	 *  index 情報の一覧
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return リスト
+	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#getCobolIndexes()
 	 */
 	public List<CobolIndex> getCobolIndexes() {
 		return cobolIndexes;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -180,11 +167,14 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public CobolColumn getColumn(int i) {
 		return (CobolColumn) columns.get(i);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#getColumn(java.lang.String)
+	 */
 	public CobolColumn getColumn(String name) throws CobolRecordException {
 		return getColumn(findColumn(name));
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -193,7 +183,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public int getColumnCount() {
 		return columns.size();
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -202,16 +191,14 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public String getCustomFileClassName() {
 		return "";
 	}
-
-	/**
-	 * エンコーディング
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return エンコーディング
+	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#getEncode()
 	 */
 	public String getEncode() {
 		return encode;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -221,7 +208,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public int getInitialSequencialReadBufferSize() {
 		return initialSequencialReadBufferSize;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -230,7 +216,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public CobolColumn getKey(int i) {
 		return keys.get(i);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -239,7 +224,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public int getKeyCount() {
 		return keys.size();
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -248,7 +232,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public List<Class<? extends CobolFileEventListener>> getListenerClasses() {
 		return listenerClasses;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -258,7 +241,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public int getMaximumSequencialReadBufferSize() {
 		return maximumSequencialReadBufferSize;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -268,7 +250,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public int getMinimumSequencialReadBufferSize() {
 		return minimumSequencialReadBufferSize;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -277,7 +258,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public String getName() {
 		return name;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -287,34 +267,31 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		// return getPhysicalLength();
 		int ret = 0;
 		for (int i = 0; i < getColumnCount(); i++) {
-			int last = getColumn(i).getStart()
-					+ getColumn(i).getPhysicalLength();
+			int last = getColumn(i).getStart() + getColumn(i).getPhysicalLength();
 			if (ret < last) {
 				ret = last;
 			}
-			// SQLNetServer.DebugPrint(i + ":" +
-			// getColumn(i).getPhysicalLength());
 		}
 		return ret;
 	}
-
 	/**
-	 *  key  columnですかー？
+	 * is this column key column?
 	 * 
-	 * @param column
-	 *             key かも知れない column
-	 * @return true はい</br> false いいえ
+	 * @param column column
+	 * @return true yes</br> false no
 	 */
 	protected boolean isKey(CobolColumn column) {
 		return keys.contains(column);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#isKeyByValue()
+	 */
 	@Override
 	public boolean isKeyByValue() {
-
 		return keyByValue;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -324,7 +301,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void removeAlias(String alias) {
 		aliases.remove(alias);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -335,7 +311,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		columns.remove(column);
 		removeKey(column);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -346,7 +321,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		if (remove != null)
 			columns.remove(index);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -356,7 +330,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void removeKey(CobolColumn column) {
 		keys.remove(column);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -365,7 +338,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void removeKey(int index) {
 		keys.remove(index);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -374,7 +346,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void setEncode(String string) {
 		encode = string;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -384,17 +355,12 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void setInitialSequencialReadBufferSize(int value) {
 		initialSequencialReadBufferSize = value;
 	}
-
-	/**
-	 *  key 読み込みを値で行うかどうか
-	 * 
-	 * @param keyByValue
-	 *             key 読み込みを値で行うかどうか
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#setKeyByValue(boolean)
 	 */
 	public void setKeyByValue(boolean keyByValue) {
 		this.keyByValue = keyByValue;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -404,7 +370,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void setMaximumSequencialReadBufferSize(int value) {
 		maximumSequencialReadBufferSize = value;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -414,7 +379,6 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void setMinimumSequencialReadBufferSize(int value) {
 		minimumSequencialReadBufferSize = value;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 

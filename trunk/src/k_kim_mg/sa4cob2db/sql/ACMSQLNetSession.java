@@ -83,7 +83,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			callCommitEvent();
 			writeLine(FileStatus.OK);
 		} catch (SQLException e) {
-			writeLine(new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
+			writeLine(new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
 		}
 	}
 	/**
@@ -161,7 +161,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 					break;
 				}
 				SQLNetServer.logger.log(Level.WARNING, message);
-				writeLine(new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, message));
+				writeLine(new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, message));
 				terminate();
 			}
 		} catch (IOException e) {
@@ -230,7 +230,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			if (mode == CobolFile.MODE_INPUT || mode == CobolFile.MODE_OUTPUT || mode == CobolFile.MODE_EXTEND || mode == CobolFile.MODE_INPUT_OUTPUT) {
 				writeLine(FileStatus.READY);
 			} else {
-				writeLine(new FileStatus(FileStatus.STATUS_CANT_OPEN, FileStatus.NULL_CODE, 0, "can't open file"));
+				writeLine(new FileStatus(FileStatus.STATUS_PERMISSION_DENIED, FileStatus.NULL_CODE, 0, "can't open file"));
 				return;
 			}
 			// //////////////////////////////////////////////////////
@@ -247,7 +247,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 				FileStatus status = file.open(mode, accessmode);
 				writeLine(status);
 			} else {
-				writeLine(new FileStatus(FileStatus.STATUS_CANT_OPEN, FileStatus.NULL_CODE, 0, "can't open file"));
+				writeLine(new FileStatus(FileStatus.STATUS_PERMISSION_DENIED, FileStatus.NULL_CODE, 0, "can't open file"));
 				return;
 			}
 		} else {
@@ -336,7 +336,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		} else if (method.equals("ROLLBACK")) {
 			rollbackTransaction();
 		} else {
-			writeLine(new FileStatus(FileStatus.STATUS_UNSUPPORTED_METHOD, FileStatus.NULL_CODE, 0, method + " is not supported."));
+			writeLine(new FileStatus(FileStatus.STATUS_98_UNSUPPORTED_METHOD, FileStatus.NULL_CODE, 0, method + " is not supported."));
 		}
 	}
 	/**
@@ -465,7 +465,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			callRollbackEvent();
 			writeLine(FileStatus.OK);
 		} catch (SQLException e) {
-			writeLine(new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
+			writeLine(new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
 		}
 	}
 	/*
@@ -496,7 +496,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 								processMethod(method);
 							}
 						} else {
-							writeLine(new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "not initialized."));
+							writeLine(new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "not initialized."));
 							terminate();
 						}
 					}
@@ -539,7 +539,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			getConnection().setAutoCommit(autoCommit);
 			writeLine(FileStatus.OK);
 		} catch (SQLException e) {
-			writeLine(new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
+			writeLine(new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
 		}
 	}
 	/**
@@ -611,7 +611,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			getConnection().setTransactionIsolation(level);
 			writeLine(FileStatus.OK);
 		} catch (SQLException e) {
-			writeLine(new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
+			writeLine(new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
 		}
 	}
 	/**

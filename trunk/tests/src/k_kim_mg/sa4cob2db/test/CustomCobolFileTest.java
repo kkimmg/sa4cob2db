@@ -2,25 +2,18 @@ package k_kim_mg.sa4cob2db.test;
 import k_kim_mg.sa4cob2db.AbstractCobolFile;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.FileStatus;
-
 /**
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CustomCobolFileTest extends AbstractCobolFile {
 	private static final long serialVersionUID = 1L;
-	/** 実装されていないオペレーション */
-	private static FileStatus UNSUPPORTED_METHOD = new FileStatus(FileStatus.STATUS_UNSUPPORTED_METHOD, FileStatus.NULL_CODE, 0, "unsupported operation");
-	/** meta data */
+	private static FileStatus UNSUPPORTED_METHOD = new FileStatus(FileStatus.STATUS_98_UNSUPPORTED_METHOD, FileStatus.NULL_CODE, 0, "unsupported operation");
 	private CobolRecordMetaData meta = null;
-	/** fileが開かれたかどうか */
 	private boolean opened = false;
-	/** 何かの値 */
 	private int value = 0;
-
 	public CustomCobolFileTest(CobolRecordMetaData meta) {
 		this.meta = meta;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -29,7 +22,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus close() {
 		return FileStatus.OK;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -38,7 +30,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus delete() {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -47,7 +38,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public int getCurrentRow() {
 		return 0;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -56,7 +46,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public CobolRecordMetaData getMetaData() {
 		return meta;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -65,7 +54,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public int getRowCount() {
 		return 0;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -75,7 +63,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public boolean isLastMoved() {
 		return false;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -84,7 +71,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public boolean isOpened() {
 		return opened;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -93,7 +79,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus move(byte[] record) {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -103,7 +88,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus move(int row) {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -113,7 +97,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus moveFirst() {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -123,7 +106,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus moveLast() {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -134,7 +116,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 		value++;
 		return FileStatus.OK;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -144,7 +125,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus next(int row) {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -154,7 +134,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	protected FileStatus nextOnFile() {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -164,7 +143,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 		opened = true;
 		return FileStatus.OK;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -173,7 +151,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus previous() {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -183,7 +160,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus previous(int row) {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -196,7 +172,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 		System.arraycopy(bytes, 0, record, 0, (record.length > bytes.length ? bytes.length : record.length));
 		return FileStatus.OK;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -206,7 +181,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	protected FileStatus readFromFile(byte[] record) {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -215,7 +189,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus rewrite(byte[] record) {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -224,7 +197,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus start(int mode, byte[] record) {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -233,7 +205,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus start(int mode, byte[] record, boolean duplicates) {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -243,7 +214,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus start(String IndexName, int mode, byte[] record, boolean duplicates) {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -252,7 +222,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus write(byte[] record) {
 		return UNSUPPORTED_METHOD;
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -262,11 +231,9 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public FileStatus startDuplicates(int mode, byte[] record) {
 		return UNSUPPORTED_METHOD;
 	}
-
 	public FileStatus delete(byte[] record) {
 		return UNSUPPORTED_METHOD;
 	}
-
 	@Override
 	public void truncate() {
 		// do nothing

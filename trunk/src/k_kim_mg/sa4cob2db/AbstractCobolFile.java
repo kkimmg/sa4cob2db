@@ -164,7 +164,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			// 
 			FileStatus ret = nextStatus[rb][ri];
 			if (ret != null) {
-				if (!ret.getStatusCode().equals(FileStatus.STATUS_OK)) {
+				if (!ret.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
 					if (lastRead) {
 						nextStatus[rb][ri] = STATUS_EOF;
 					} else {
@@ -212,7 +212,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 					// 
 					ns = nextOnFile();
 					nextStatus[wb][wi] = ns;
-					if (ns.getStatusCode().equals(FileStatus.STATUS_OK)) {
+					if (ns.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
 						rs = readFromFile(records[wb][wi]);
 						readStatus[wb][wi] = rs;
 						buffStatus[wb][wi] = true;
@@ -226,7 +226,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 						if (!initCleared && cs >= initSize) {
 							initCleared = true;
 						}
-					} else if (ns.getStatusCode().equals(FileStatus.STATUS_EOF)) {
+					} else if (ns.getStatusCode().equals(FileStatus.STATUS_END_OF_FILE)) {
 						lastRead = true;
 						cont = false;
 						readStatus[wb][wi] = ns;
@@ -510,9 +510,9 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected static final int COMPARE_REC2 = 2;
 	private static final long serialVersionUID = 1L;
 	/** EOF */
-	protected static final FileStatus STATUS_EOF = new FileStatus(FileStatus.STATUS_EOF, FileStatus.NULL_CODE, 0, "end of file.");
+	protected static final FileStatus STATUS_EOF = new FileStatus(FileStatus.STATUS_END_OF_FILE, FileStatus.NULL_CODE, 0, "end of file.");
 	/** Something failure */
-	protected static final FileStatus STATUS_UNKNOWN_ERROR = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "Unknown Error.");
+	protected static final FileStatus STATUS_UNKNOWN_ERROR = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "Unknown Error.");
 	/** Accessmode */
 	protected int accessMode;
 	/** index current in use */
@@ -575,7 +575,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		if (index2File != null) {
 			for (CobolFile idfile : index2File.values()) {
 				FileStatus stat = idfile.close();
-				if (!stat.getStatusCode().equals(FileStatus.STATUS_OK)) {
+				if (!stat.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
 					ret = stat;
 				}
 			}
@@ -890,7 +890,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public FileStatus nextOnBuffer() {
 		FileStatus ret = null;
 		if (sequentialReadBuffer == null) {
-			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "buffer is null.");
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "buffer is null.");
 		} else {
 			ret = sequentialReadBuffer.nextBuffer();
 		}
@@ -909,7 +909,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 */
 	protected FileStatus nextOnIndex() {
 		if (currentIndex == null) {
-			return new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "not started");
+			return new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "not started");
 		}
 		//  index record
 		CobolFile currentIndexFile = getIndexFile(currentIndex);
@@ -921,10 +921,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 		DefaultCobolRecord mainrecord = new DefaultCobolRecord(meta);
 		FileStatus ret;
 		ret = currentIndexFile.next();
-		if (ret.getStatusCode() == FileStatus.STATUS_OK) {
+		if (ret.getStatusCode() == FileStatus.STATUS_SUCCESS) {
 			//  read index
 			ret = currentIndexFile.read(indexbytes);
-			if (ret.getStatusCode() == FileStatus.STATUS_OK) {
+			if (ret.getStatusCode() == FileStatus.STATUS_SUCCESS) {
 				try {
 					indexrecord.setRecord(indexbytes);
 					//  index -> file
@@ -943,7 +943,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 					ret = move(record);
 				} catch (CobolRecordException e) {
 					SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
-					ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
+					ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
 				}
 			}
 		}
@@ -959,7 +959,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		if (index2File != null) {
 			for (CobolFile idfile : index2File.values()) {
 				FileStatus stat = idfile.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_DYNAMIC);
-				if (!stat.getStatusCode().equals(FileStatus.STATUS_OK)) {
+				if (!stat.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
 					ret = stat;
 				}
 			}
@@ -993,7 +993,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public FileStatus readFromBuffer(byte[] record) {
 		FileStatus ret = null;
 		if (sequentialReadBuffer == null) {
-			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "buffer is null.");
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "buffer is null.");
 		} else {
 			ret = sequentialReadBuffer.readBuffer(record);
 		}
@@ -1099,7 +1099,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 				}
 				indexrecord.getRecord(indexbytes);
 				ret = indexFile.start(mode, indexbytes, index.isDuplicates());
-				if (ret.getStatusCode() == FileStatus.STATUS_OK) {
+				if (ret.getStatusCode() == FileStatus.STATUS_SUCCESS) {
 					ret = indexFile.read(indexbytes);
 					indexrecord.setRecord(indexbytes);
 					Map<CobolColumn, CobolColumn> map1 = index.getFileKey2IndexColumn();
@@ -1113,16 +1113,16 @@ public abstract class AbstractCobolFile implements CobolFile {
 					}
 					mainrecord.getRecord(record);
 					ret = move(record);
-					if (ret.getStatusCode() == FileStatus.STATUS_OK) {
+					if (ret.getStatusCode() == FileStatus.STATUS_SUCCESS) {
 						currentIndex = index;
 					}
 				}
 			} catch (CobolRecordException e) {
 				SQLNetServer.logger.log(Level.SEVERE, "Exception", e);
-				ret = new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
+				ret = new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 			} catch (Exception ex) {
 				SQLNetServer.logger.log(Level.SEVERE, "Exception", ex);
-				ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, ex.getMessage());
+				ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, ex.getMessage());
 			}
 		} else {
 			resetCurrentIndex();

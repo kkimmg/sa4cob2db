@@ -2,7 +2,7 @@ package k_kim_mg.sa4cob2db.test;
 import k_kim_mg.sa4cob2db.DefaultCobolRecordMetaData;
 import k_kim_mg.sa4cob2db.sql.ACMNetSession;
 /**
- * テスト用
+ * test
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */

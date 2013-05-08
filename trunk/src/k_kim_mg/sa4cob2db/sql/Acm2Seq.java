@@ -117,7 +117,7 @@ public class Acm2Seq {
 		int recsize = file.getMetaData().getRowSize();
 		byte[] record = new byte[recsize];
 		FileStatus stat = file.read(record);
-		while (stat.getStatusCode() == FileStatus.STATUS_OK) {
+		while (stat.getStatusCode() == FileStatus.STATUS_SUCCESS) {
 			stream.write(record);
 			if (line) {
 				// line sequencial
@@ -126,9 +126,9 @@ public class Acm2Seq {
 			count++;
 			// next
 			stat = file.next();
-			if (stat.getStatusCode() == FileStatus.STATUS_OK) {
+			if (stat.getStatusCode() == FileStatus.STATUS_SUCCESS) {
 				stat = file.read(record);
-			} else if (stat.getStatusCode() != FileStatus.STATUS_OK && stat.getStatusCode() != FileStatus.STATUS_EOF) {
+			} else if (stat.getStatusCode() != FileStatus.STATUS_SUCCESS && stat.getStatusCode() != FileStatus.STATUS_END_OF_FILE) {
 				// do nothing
 			}
 		}

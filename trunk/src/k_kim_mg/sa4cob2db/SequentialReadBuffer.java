@@ -1,7 +1,7 @@
 package k_kim_mg.sa4cob2db;
 
 /**
- * シーケンシャルfileの読み込みバッファ
+ * buffer for sequential read file
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface SequentialReadBuffer {
