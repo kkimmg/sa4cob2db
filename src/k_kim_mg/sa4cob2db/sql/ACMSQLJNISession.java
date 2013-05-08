@@ -67,7 +67,7 @@ public class ACMSQLJNISession implements ACMSession {
 		if (file != null) {
 			ret = FileStatus.OK;
 		} else {
-			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, fileName + "is unknown file.");
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, fileName + "is unknown file.");
 		}
 		setFileStatus2Bytes(ret, status);
 	}
@@ -98,7 +98,7 @@ public class ACMSQLJNISession implements ACMSession {
 			superobj.callCommitEvent();
 			ret = FileStatus.OK;
 		} catch (SQLException e) {
-			ret = new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 		}
 		setFileStatus2Bytes(ret, status);
 	}
@@ -274,19 +274,19 @@ public class ACMSQLJNISession implements ACMSession {
 			superobj = new ACMSQLSession(sqlfileserver);
 		} catch (ParserConfigurationException e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
-			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
 		} catch (FactoryConfigurationError e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
-			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
 		} catch (SAXException e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
-			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
 		} catch (IOException e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
-			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
 		} catch (Exception e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
-			ret = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
 		}
 		setFileStatus2Bytes(ret, status);
 	}
@@ -359,7 +359,7 @@ public class ACMSQLJNISession implements ACMSession {
 				// valid mode
 			} else {
 				// invalid mode
-				ret = new FileStatus(FileStatus.STATUS_CANT_OPEN, FileStatus.NULL_CODE, 0, "can't open file");
+				ret = new FileStatus(FileStatus.STATUS_PERMISSION_DENIED, FileStatus.NULL_CODE, 0, "can't open file");
 				setFileStatus2Bytes(ret, status);
 			}
 			// //////////////////////////////////////////////////////
@@ -368,7 +368,7 @@ public class ACMSQLJNISession implements ACMSession {
 				ret = file.open(mode, accessmode);
 			} else {
 				// invalid mode
-				ret = new FileStatus(FileStatus.STATUS_CANT_OPEN, FileStatus.NULL_CODE, 0, "can't open file");
+				ret = new FileStatus(FileStatus.STATUS_PERMISSION_DENIED, FileStatus.NULL_CODE, 0, "can't open file");
 				setFileStatus2Bytes(ret, status);
 			}
 		} else {
@@ -418,7 +418,7 @@ public class ACMSQLJNISession implements ACMSession {
 			;
 			// read current record
 			ret = file.read(readingRecord);
-			if (ret.getStatusCode().equals(FileStatus.STATUS_OK)) {
+			if (ret.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
 				file.next();
 			}
 		} else {
@@ -462,7 +462,7 @@ public class ACMSQLJNISession implements ACMSession {
 			superobj.callRollbackEvent();
 			ret = FileStatus.OK;
 		} catch (SQLException e) {
-			ret = new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 		}
 		setFileStatus2Bytes(ret, status);
 	}
@@ -481,7 +481,7 @@ public class ACMSQLJNISession implements ACMSession {
 			superobj.getConnection().setAutoCommit(autoCommit);
 			ret = FileStatus.OK;
 		} catch (SQLException e) {
-			ret = new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 		}
 		setFileStatus2Bytes(ret, status);
 	}
@@ -555,7 +555,7 @@ public class ACMSQLJNISession implements ACMSession {
 			superobj.getConnection().setTransactionIsolation(level);
 			ret = FileStatus.OK;
 		} catch (SQLException e) {
-			ret = new FileStatus(FileStatus.STATUS_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 		}
 		setFileStatus2Bytes(ret, status);
 	}

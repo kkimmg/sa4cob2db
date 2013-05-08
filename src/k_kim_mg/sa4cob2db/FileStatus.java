@@ -1,93 +1,95 @@
 package k_kim_mg.sa4cob2db;
 import java.text.DecimalFormat;
 /**
- * filestatus
+ * file status
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class FileStatus {
-	/** 何も指定しないコード */
+	/** NULL CODE */
 	public static final String NULL_CODE = "     ";
-	/** 既にクローズされている */
-	public static final String STATUS_ALREADY_CLOSED = "42";
-	/** 既にオープンされている */
-	public static final String STATUS_ALREADY_OPENED = "41";
-	/** BOF-fileの始端 */
-	public static final String STATUS_BOF = "91";
-	/** DELETEできない（モード誤り） */
-	public static final String STATUS_CANT_DELETE = "49";
-	/** オープンできない（サポートされていないオープンモード） */
-	public static final String STATUS_CANT_OPEN = "37";
-	/** リードできない（モード誤り） */
-	public static final String STATUS_CANT_READ = "47";
-	/** REWRITEできない（モード誤り） */
-	public static final String STATUS_CANT_REWRITE = "49";
-	/** WRITEできない（モード誤り） */
-	public static final String STATUS_CANT_WRITE = "48";
-	/** 重複 key  */
-	public static final String STATUS_DUPLICATE_KEY = "22";
-	/** サブ key が重複している */
-	public static final String STATUS_DUPLICATE_SUBKEY = "02";
-	/** EOF-fileの終端 */
-	public static final String STATUS_EOF = "10";
-	/** なんか知らんけど失敗した */
-	public static final String STATUS_FAILURE = "99";
-	/** fileオーバー */
+	/** status code */
+	public static final String STATUS_SUCCESS = "00";
+	/** status code */
+	public static final String STATUS_SUCCESS_DUPLICATE = "02";
+	/** status code */
+	public static final String STATUS_SUCCESS_OPTIONAL = "05";
+	/** status code */
+	public static final String STATUS_END_OF_FILE = "10";
+	/** status code */
+	public static final String STATUS_KEY_EXISTS = "22";
+	/** status code */
+	public static final String STATUS_KEY_NOT_EXISTS = "23";
+	/** status code */
 	public static final String STATUS_FILEOVER = "24";
-	/** INVALID KEY */
-	public static final String STATUS_INVALID_KEY = "23";
-	/** アサインされていない */
-	public static final String STATUS_NOT_ASSIGND = "93";
-	/** リードされていない（recordが有効な位置にない） */
-	public static final String STATUS_NOT_MOVED = "43";
-	/** オープンしてない */
-	public static final String STATUS_NOT_OPENED = "92";
-	/** fileが存在しない */
-	public static final String STATUS_NOTEXIST = "05";
-	/** OK */
-	public static final String STATUS_OK = "00";
-	/** 準備よし */
+	/** status code */
+	public static final String STATUS_PERMISSION_DENIED = "37";
+	/** status code */
+	public static final String STATUS_ALREADY_OPEN = "41";
+	/** status code */
+	public static final String STATUS_NOT_OPEN = "42";
+	/** status code */
+	public static final String STATUS_READ_NOT_DONE = "43";
+	/** status code */
+	public static final String STATUS_INPUT_DENIED = "47";
+	/** status code */
+	public static final String STATUS_OUTPUT_DENIED = "48";
+	/** status code */
+	public static final String STATUS_I_O_DENIED = "49";
+	/** status code */
 	public static final String STATUS_READY = "90";
-	/** サポートされないオペレーション */
-	public static final String STATUS_UNSUPPORTED_METHOD = "98";
+	/** status code */
+	public static final String STATUS_NOT_AVAILABLE = "91";
+	/** status code */
+	public static final String STATUS_92_NOT_OPENED = "92";
+	/** status code */
+	public static final String STATUS_93_NOT_ASSIGND = "93";
+	/** status code */
+	public static final String STATUS_98_UNSUPPORTED_METHOD = "98";
+	/** status code */
+	public static final String STATUS_99_FAILURE = "99";
+	/** error code */
+	private long errCode = 0;
+	/** SQLstatus */
+	private String sqlStatus = NULL_CODE;
+	/** status code */
+	private String statusCode = FileStatus.STATUS_SUCCESS;
+	/** status message */
+	private String statusMessage = "";
 	/** OK status */
-	public static final FileStatus OK = new FileStatus(STATUS_OK, NULL_CODE, 0, "it's ok.");
+	public static final FileStatus OK = new FileStatus(STATUS_SUCCESS, NULL_CODE, 0, "it's ok.");
 	/** READY status */
 	public static final FileStatus READY = new FileStatus(STATUS_READY, "READY", 0, "it's ready.");
-	/** fileがアサインされていない */
-	public static final FileStatus NOT_ASSIGNED = new FileStatus(FileStatus.STATUS_NOT_ASSIGND, FileStatus.NULL_CODE, 0, "file is not assigned");
-	/** 何らかの異常 */
-	public static final FileStatus FAILURE = new FileStatus(FileStatus.STATUS_FAILURE, FileStatus.NULL_CODE, 0, "something failure");
-	/** statusコード */
-	private String statusCode = FileStatus.STATUS_OK;
-	/** statusメッセージ */
-	private String statusMessage = "";
-	/** SQLstatus (5桁) */
-	private String sqlStatus = NULL_CODE;
-	/** エラーコード */
-	private int errCode = 0;
+	/** something failure */
+	public static final FileStatus FAILURE = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "something failure");
+	/** file is not assigned */
+	public static final FileStatus NOT_ASSIGNED = new FileStatus(FileStatus.STATUS_93_NOT_ASSIGND, FileStatus.NULL_CODE, 0, "file is not assigned");
 	/**
 	 * Constructor
-	 * @param statusCode コード
+	 * 
+	 * @param statusCode status code
 	 * @param sqlStatus SQLstatus
-	 * @param errCode エラーコード
-	 * @param statusMessage メッセージ
+	 * @param errCode error code
+	 * @param statusMessage message
 	 */
-	public FileStatus(String statusCode, String sqlStatus, int errCode, String statusMessage) {
+	public FileStatus(String statusCode, String sqlStatus, long errCode, String statusMessage) {
 		this.statusCode = statusCode;
 		this.sqlStatus = sqlStatus;
 		this.errCode = errCode;
 		this.statusMessage = statusMessage;
 	}
 	/**
-	 * エラーコードを取得する
-	 * @return エラーコード(11桁)
+	 * get error code
+	 * 
+	 * @return error code(11 digit number)
 	 */
-	public int getErrStatus() {
+	public long getErrStatus() {
 		return errCode;
 	}
 	/**
-	 * エラーコードを取得する
-	 * @return エラーコード(11桁)
+	 * get error code
+	 * 
+	 * @return error code(11 digit number)
 	 */
 	public String getErrString() {
 		// 12345678901 12345678901
@@ -95,34 +97,37 @@ public class FileStatus {
 		return format.format(getErrStatus());
 	}
 	/**
-	 * SQLstatusを取得する
-	 * @return SQLstatus(5桁)
+	 * get SQL status
+	 * 
+	 * @return SQL status(5-digit number)
 	 */
 	public String getSqlStatus() {
 		if (sqlStatus == null)
-			sqlStatus = STATUS_FAILURE;
+			sqlStatus = STATUS_99_FAILURE;
 		if (sqlStatus.length() < 5)
-			sqlStatus = STATUS_FAILURE;
+			sqlStatus = STATUS_99_FAILURE;
 		if (sqlStatus.length() > 5)
 			sqlStatus = sqlStatus.substring(0, 5);
 		return sqlStatus;
 	}
 	/**
-	 * コードを取得する
-	 * @return filestatus(2桁)
+	 * get file status
+	 * 
+	 * @return file status(2-digit number)
 	 */
 	public String getStatusCode() {
 		if (statusCode == null)
-			statusCode = STATUS_FAILURE;
+			statusCode = STATUS_99_FAILURE;
 		if (statusCode.length() < 2)
-			statusCode = STATUS_FAILURE;
+			statusCode = STATUS_99_FAILURE;
 		if (statusCode.length() > 2)
 			statusCode = statusCode.substring(0, 2);
 		return statusCode;
 	}
 	/**
-	 * メッセージを取得する
-	 * @return メッセージ
+	 * get error message
+	 * 
+	 * @return message
 	 */
 	public String getStatusMessage() {
 		if (statusMessage == null)
@@ -132,29 +137,35 @@ public class FileStatus {
 		return statusMessage;
 	}
 	/**
-	 * エラーコードをセットする
-	 * @param errStatus エラーコード
+	 * set error status
+	 * 
+	 * @param errStatus status(11-digit number)
 	 */
-	protected void setErrStatus(int errStatus) {
+	protected void setErrStatus(long errStatus) {
+		assert errStatus >= 0;
+		assert errStatus <= 99999999999L;
 		this.errCode = errStatus;
 	}
 	/**
-	 * SQLstatusをセットする
+	 * set SQL status
+	 * 
 	 * @param sqlStatus SQLstatus
 	 */
 	protected void setSqlStatus(String sqlStatus) {
 		this.sqlStatus = sqlStatus;
 	}
 	/**
-	 * コードをセットする
-	 * @param statusCode コード
+	 * set file status
+	 * 
+	 * @param statusCode file status
 	 */
 	protected void setStatusCode(String statusCode) {
 		this.statusCode = statusCode;
 	}
 	/**
-	 * メッセージをセットする
-	 * @param statusMessage メッセージ
+	 * set message
+	 * 
+	 * @param statusMessage message
 	 */
 	protected void setStatusMessage(String statusMessage) {
 		this.statusMessage = statusMessage;

@@ -30,6 +30,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#findColumn(java.lang.String)
 	 */
 	public int findColumn(String columnName) throws CobolRecordException {
@@ -103,6 +104,12 @@ public class DefaultCobolRecord implements CobolRecord {
 	public byte[] getBytes(CobolColumn column) throws CobolRecordException {
 		return getBytesDisplay(column);
 	}
+	/**
+	 * get bytes
+	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getBytes(.mvh
+	 *      k_kim_mg.sa4cob2db.CobolColumn)
+	 */
 	protected byte[] getBytesAuto(CobolColumn column) throws CobolRecordException {
 		byte[] ret = null;
 		switch (column.getUsage()) {
@@ -115,6 +122,13 @@ public class DefaultCobolRecord implements CobolRecord {
 		}
 		return ret;
 	}
+	/**
+	 * get comp-3 value
+	 * 
+	 * @param column column
+	 * @return bytes array
+	 * @throws CobolRecordException exception
+	 */
 	protected byte[] getBytesComp3(CobolColumn column) throws CobolRecordException {
 		byte[] ret = new byte[column.getLength()];
 		byte[] wrk = new byte[column.getPhysicalLength()];
@@ -143,16 +157,22 @@ public class DefaultCobolRecord implements CobolRecord {
 		}
 		return ret;
 	}
+	/**
+	 * get display value
+	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getBytes(.mvh
+	 *      k_kim_mg.sa4cob2db.CobolColumn)
+	 */
 	protected byte[] getBytesDisplay(CobolColumn column) throws CobolRecordException {
 		byte[] ret = new byte[column.getPhysicalLength()];
 		System.arraycopy(record, column.getStart(), ret, 0, ret.length);
 		return ret;
 	}
 	/**
-	 * recordに含まれる column
+	 * get column
 	 * 
-	 * @param columnIndex  column index 
-	 * @return  index で指定した column
+	 * @param columnIndex column index
+	 * @return index'th column
 	 */
 	public CobolColumn getColumn(int columnIndex) {
 		return metaData.getColumn(columnIndex);
@@ -167,7 +187,6 @@ public class DefaultCobolRecord implements CobolRecord {
 		Date ret = null;
 		String datestr = getString(column);
 		if (datestr == null) {
-			// 日付を露すべき文字 columnがすでにnull
 			ret = null;
 		} else {
 			String fmt = column.getFormat();
@@ -175,12 +194,10 @@ public class DefaultCobolRecord implements CobolRecord {
 				fmt = "yyyyMMdd";
 			DateFormat dateformat = new SimpleDateFormat(fmt);
 			try {
-				// 文字 columnから変換する
 				ret = dateformat.parse(datestr);
 				String nvl = column.getForNull();
 				if (nvl != null) {
 					if (datestr.equals(nvl)) {
-						// nullに変換するするように設定されている
 						ret = null;
 					}
 				}
@@ -188,10 +205,8 @@ public class DefaultCobolRecord implements CobolRecord {
 				if (column.isUseOnParseError()) {
 					Object val = column.getValueOfParseError();
 					if (val instanceof Date) {
-						// 代替値を設定する
 						ret = (Date) val;
 					} else if (val != null) {
-						// 代替値を文字 columnから設定する
 						String work = val.toString();
 						try {
 							ret = dateformat.parse(work);
@@ -200,7 +215,6 @@ public class DefaultCobolRecord implements CobolRecord {
 							throw new CobolRecordException();
 						}
 					} else {
-						// 代替値はnull
 						ret = null;
 					}
 				} else {
@@ -255,7 +269,6 @@ public class DefaultCobolRecord implements CobolRecord {
 				break;
 			}
 			for (int i = 0; i < bytes.length - 1; i++) {
-				// 各バイトの積み上げ
 				byt = bytes[i];
 				ret += (byt & 0x0F);
 				ret *= 10.0;
@@ -263,13 +276,12 @@ public class DefaultCobolRecord implements CobolRecord {
 			byt = bytes[bytes.length - 1];
 			ret += (byt & 0x0F);
 			if (column.isSigned()) {
-				// 符号付きかどうか
+				// singed value?
 				if ((byt & 0x40) != 0) {
 					ret *= (-1);
 				}
 			}
 			for (int i = 0; i < column.getNumberOfDecimal(); i++) {
-				// 小数部の対応
 				ret /= 10.0;
 			}
 		}
@@ -319,7 +331,6 @@ public class DefaultCobolRecord implements CobolRecord {
 				break;
 			}
 			for (int i = 0; i < bytes.length - 1; i++) {
-				// 各バイトの積み上げ
 				byt = bytes[i];
 				ret += (byt & 0x0F);
 				ret *= 10.0F;
@@ -327,13 +338,11 @@ public class DefaultCobolRecord implements CobolRecord {
 			byt = bytes[bytes.length - 1];
 			ret += (byt & 0x0F);
 			if (column.isSigned()) {
-				// 符号付きかどうか
 				if ((byt & 0x40) != 0) {
 					ret *= (-1);
 				}
 			}
 			for (int i = 0; i < column.getNumberOfDecimal(); i++) {
-				// 小数部の対応
 				ret /= 10.0F;
 			}
 		}
@@ -341,6 +350,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/**
 	 * get NumberFormat object
+	 * 
 	 * @param column column to format
 	 * @return NumberFormat object if not exists create object
 	 */
@@ -391,7 +401,6 @@ public class DefaultCobolRecord implements CobolRecord {
 				break;
 			}
 			for (int i = 0; i < bytes.length - 1; i++) {
-				// 各バイトの積み上げ
 				byt = bytes[i];
 				ret += (byt & 0x0F);
 				ret *= 10;
@@ -399,13 +408,11 @@ public class DefaultCobolRecord implements CobolRecord {
 			byt = bytes[bytes.length - 1];
 			ret += (byt & 0x0F);
 			if (column.isSigned()) {
-				// 符号付きかどうか
 				if ((byt & 0x40) != 0) {
 					ret *= (-1);
 				}
 			}
 			for (int i = 0; i < column.getNumberOfDecimal(); i++) {
-				// 小数部の対応
 				ret /= 10;
 			}
 		}
@@ -455,7 +462,6 @@ public class DefaultCobolRecord implements CobolRecord {
 				break;
 			}
 			for (int i = 0; i < bytes.length - 1; i++) {
-				// 各バイトの積み上げ
 				byt = bytes[i];
 				ret += (byt & 0x0F);
 				ret *= 10;
@@ -463,13 +469,11 @@ public class DefaultCobolRecord implements CobolRecord {
 			byt = bytes[bytes.length - 1];
 			ret += (byt & 0x0F);
 			if (column.isSigned()) {
-				// 符号付きかどうか
 				if ((byt & 0x40) != 0) {
 					ret *= (-1);
 				}
 			}
 			for (int i = 0; i < column.getNumberOfDecimal(); i++) {
-				// 小数部の対応
 				ret /= 10;
 			}
 		}
@@ -518,41 +522,36 @@ public class DefaultCobolRecord implements CobolRecord {
 		try {
 			String encode = metaData.getEncode();
 			if (encode != null && encode.length() > 0) {
-				// エンコード指定あり
 				retValue = new String(record, start, length, encode);
 			} else {
-				// エンコード指定なし
 				retValue = new String(record, start, length);
 			}
 		} catch (UnsupportedEncodingException uee) {
-			// エンコーディングが正しくない
 			retValue = new String(record, start, length);
 			SQLNetServer.logger.log(Level.SEVERE, uee.getMessage(), uee);
 		} catch (IndexOutOfBoundsException ioe) {
-			// 入れる範囲外が発生したので空文字 columnを返す
 			retValue = "";
 			SQLNetServer.logger.log(Level.SEVERE, ioe.getMessage(), ioe);
 		}
 		if (column.getForNull() != null) {
 			if (retValue.equals(column.getForNull())) {
-				// nullに変換する用にルール設定されている
 				retValue = null;
 			}
 		}
 		return retValue;
 	}
 	/**
-	 * JDBC結果セットからrecordに変換する
+	 * initialize record
 	 */
 	public void initializeRecord() {
 		System.arraycopy(initialrecord, 0, record, 0, record.length);
 	}
 	/**
-	 * この columnは書式が設定されているか？
+	 * does this column have format text?
 	 * 
-	 * @param column  column
-	 * @return true:書式有り<br>
-	 *         false:書式無し
+	 * @param column column
+	 * @return true yes<br>
+	 *         false no
 	 */
 	protected boolean isColumnFormatted(CobolColumn column) {
 		boolean ret = false;
@@ -564,7 +563,7 @@ public class DefaultCobolRecord implements CobolRecord {
 		return ret;
 	}
 	/**
-	 * このrecordのmeta dataをセットする
+	 * set meta data
 	 * 
 	 * @param data meta data
 	 */
@@ -581,7 +580,6 @@ public class DefaultCobolRecord implements CobolRecord {
 			}
 		}
 		System.arraycopy(record, 0, initialrecord, 0, initialrecord.length);
-		// SQLNetServer.DebugPrint("record長：" + record.length);
 	}
 	/*
 	 * (non-Javadoc)
@@ -637,6 +635,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/**
 	 * update bytes
+	 * 
 	 * @param column column
 	 * @param x value
 	 * @throws CobolRecordException exception
@@ -653,6 +652,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/**
 	 * update bytes (usage comp-3)
+	 * 
 	 * @param column column
 	 * @param x value
 	 * @throws CobolRecordException exception
@@ -690,6 +690,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	}
 	/**
 	 * update byte (usage display)
+	 * 
 	 * @param column
 	 * @param x
 	 * @throws CobolRecordException
@@ -747,12 +748,11 @@ public class DefaultCobolRecord implements CobolRecord {
 			updateStringR(column, df.format(x));
 		} else {
 			boolean b = (x < 0);
-			// さぁ、ここからが問題ですな
 			byte[] bytes = new byte[column.getLength()];
 			BigDecimal bi = BigDecimal.valueOf(x).abs();
 			BigDecimal bd = BigDecimal.valueOf(x).abs();
-			int lob = bytes.length - column.getNumberOfDecimal();// 整数部の長さ
-			// 整数部＝bytes[0]〜[lob - 1]※ただし、最右端＝bytes[length - 1]
+			int lob = bytes.length - column.getNumberOfDecimal();
+			// bytes[0]~[lob - 1]:bytes[length - 1]
 			int i = lob - 1;
 			while (i >= 0) {
 				BigDecimal r = bi.remainder(BigDecimal.TEN);
@@ -765,7 +765,7 @@ public class DefaultCobolRecord implements CobolRecord {
 				bi = bi.movePointLeft(1);
 				i--;
 			}
-			// 小数部＝bytes[lob]〜[length - 1]※ただし、最右端＝bytes[length - 1]
+			//bytes[lob]~[length - 1]:bytes[length - 1]
 			bd = bd.movePointRight(1);
 			for (i = lob; i < bytes.length; i++) {
 				BigDecimal r = bd.remainder(BigDecimal.TEN);
@@ -817,23 +817,20 @@ public class DefaultCobolRecord implements CobolRecord {
 			updateDouble(column, x);
 		} else {
 			if (isColumnFormatted(column)) {
-				// 書式化されている
 				NumberFormat df = getFormatter(column);
 				String s = df.format(x);
 				updateStringR(column, s);
 			} else {
-				// 書式がない
 				boolean b = (x < 0);
 				long v = (b ? -x : x);
 				int len = column.getLength();
 				byte[] bytes = new byte[len];
 				int i = len - 1;
-				bytes[i] = (byte) ((b ? 0x70 : 0x30) | (v % 10));// [length -
-				// 1]が最右端
+				bytes[i] = (byte) ((b ? 0x70 : 0x30) | (v % 10)); // [length - 1]
 				v /= 10;
 				i--;
 				while (i >= 0) {
-					// bytes[0]〜bytes[length - 2]->ただし右から設定
+					// bytes[0]~bytes[length - 2]
 					bytes[i] = (byte) (0x30 | (v % 10));
 					v /= 10;
 					i--;
@@ -873,7 +870,7 @@ public class DefaultCobolRecord implements CobolRecord {
 				x[i] = ' ';
 			}
 		} else {
-			// 未知のデータ型
+			// unknown type
 		}
 		updateBytesAuto(column, x);
 	}

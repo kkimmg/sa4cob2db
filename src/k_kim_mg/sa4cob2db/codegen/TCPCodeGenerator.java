@@ -299,7 +299,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                  ACM-STATUS-ALL" + period);
 		// ///////////
 		if (invalid.size() > 0) {
-			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_INVALID_KEY + "\"");
+			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_KEY_NOT_EXISTS + "\"");
 			for (String str : invalid) {
 				if (str.trim().length() > 0) {
 					add("         " + str.trim());
@@ -435,12 +435,12 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add("                                ACM-INDEX-NAME");
 		}
 		add("                                ACM-STATUS-ALL" + period);
-		add("     IF  ACM-STATUS-CODE = \"" + FileStatus.STATUS_OK + "\"");
+		add("     IF  ACM-STATUS-CODE = \"" + FileStatus.STATUS_SUCCESS + "\"");
 		add("         MOVE ACM-RECORD TO " + info.getRecordName());
 		add("     END-IF" + period);
 		if (invalid.size() > 0) {
 			// Invalid
-			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_INVALID_KEY + "\"");
+			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_KEY_NOT_EXISTS + "\"");
 			for (String str : invalid) {
 				if (str.trim().length() > 0) {
 					add("         " + str.trim());
@@ -479,12 +479,12 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                ACM-FILE-IDENT");
 		add("                                ACM-RECORD");
 		add("                                ACM-STATUS-ALL" + period);
-		add("     IF  ACM-STATUS-CODE = \"" + FileStatus.STATUS_OK + "\"");
+		add("     IF  ACM-STATUS-CODE = \"" + FileStatus.STATUS_SUCCESS + "\"");
 		add("         MOVE ACM-RECORD TO " + info.getRecordName());
 		add("     END-IF" + period);
 		if (atend.size() > 0) {
 			// At End
-			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_EOF + "\"");
+			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_END_OF_FILE + "\"");
 			for (int i = 0; i < atend.size(); i++) {
 				add("         " + atend.get(i));
 			}
@@ -521,7 +521,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                   ACM-STATUS-ALL" + period);
 		// ///////////
 		if (invalid.size() > 0) {
-			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_INVALID_KEY + "\"");
+			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_KEY_NOT_EXISTS + "\"");
 			for (String str : invalid) {
 				if (str.trim().length() > 0) {
 					add("         " + str.trim());
@@ -580,7 +580,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                ACM-START-MODE");
 		add("                                ACM-STATUS-ALL" + period);
 		if (invalid.size() > 0) {
-			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_INVALID_KEY + "\"");
+			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_KEY_NOT_EXISTS + "\"");
 			for (int i = 0; i < invalid.size(); i++) {
 				add("         " + invalid.get(i));
 			}
@@ -626,7 +626,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		add("                                 ACM-RECORD");
 		add("                                 ACM-STATUS-ALL" + period);
 		if (invalid.size() > 0) {
-			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_DUPLICATE_KEY + "\"");
+			add("     IF ACM-STATUS-CODE = \"" + FileStatus.STATUS_KEY_EXISTS + "\"");
 			for (String str : invalid) {
 				if (str.trim().length() > 0) {
 					add("         " + str.trim());

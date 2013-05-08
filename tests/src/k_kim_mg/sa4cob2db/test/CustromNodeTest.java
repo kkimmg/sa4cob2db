@@ -10,7 +10,7 @@ import k_kim_mg.sa4cob2db.sql.xml.MetaDataSetNodeProcessor;
 import org.w3c.dom.Node;
 
 /**
- * 鐃緒申鐃緒申鐃緒申鐃緒申痢鐃緒申匹僚鐃緒申鐃塾テワ申鐃緒申
+ * custom node test
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class CustromNodeTest implements MetaDataNodeProcessor, MetaDataSetNodeProcessor {
