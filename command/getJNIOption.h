@@ -2,9 +2,7 @@ JNIEnv *env;
 JavaVM *jvm;
 jclass clazz;
 jmethodID midMain;
-/***************************************/
-/** 環境変数からJNI関連のオプションを取得する */
-/** クラスパス */
+/** get classpath */
 char* getClasspath ();
-/** 設定ファイルの名称 */
+/** get meta data file name */
 char *getConfigFile ();

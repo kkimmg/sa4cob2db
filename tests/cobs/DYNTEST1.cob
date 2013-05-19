@@ -1,13 +1,13 @@
 000100*AAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCC
-000200*サンプルプログラム
-000300*入力ファイル(SEQ)→出力ファイル(SEQ)の転記処理
+000200*                      
+000300*                    (SEQ)                        (SEQ)                  
 000400 IDENTIFICATION DIVISION.
 000500 PROGRAM-ID.                 DYNTEST1.
 000600*AUTHOR.                     KENJI KIMURA.
 000700 ENVIRONMENT DIVISION.
 000800 INPUT-OUTPUT SECTION.
 000900 FILE-CONTROL.
-001000*    入力ファイル
+001000*                        
 001100*ACMFILE
 001200*ACMRECNAME=I-RECORD
 001300 SELECT INP-FILE ASSIGN TO "dbtests2"
@@ -16,7 +16,7 @@
 001600        RECORD KEY   IS I-ID.
 001700 DATA DIVISION.
 001800 FILE SECTION.
-001900*入力ファイル
+001900*                    
 002000 FD  INP-FILE.
 002100 COPY "I_RECORD2.cbl".
 002200 WORKING-STORAGE SECTION.
@@ -28,42 +28,42 @@
            05  WRK-FUDOU           PIC S9(07).
 002800*
 002900 COPY "SCR_RECORD.cbl".
-003000*画面
+003000*        
 003100*SCREEN SECTION.
 003200*
 003300*COPY "DSP_RECORD.cbl".
 003400*
 003500 PROCEDURE DIVISION.
-003600*主処理節
+003600*              
 003700 MAIN SECTION.
 003800     PERFORM   INIT.
 003900     PERFORM   FL-OPEN.
-004000*    入力ファイルが終了するまで繰り返し
+004000*                                                      
 004100     PERFORM   UNTIL  END-FLG  NOT  =  ZERO
 004200        DISPLAY   "PROC?"
 004300        ACCEPT    DSP-PROC   
 004400        EVALUATE  DSP-PROC
 004500        WHEN  0
-004600*           終了
+004600*                 
 004700            MOVE  1  TO  END-FLG
 004800        WHEN  1
-004900*           追加
+004900*                 
 005000            DISPLAY  SCR-RECORD
 005100            ACCEPT   SCR-RECORD
 005200            PERFORM  OUT-WRITE
 005300        WHEN  2
-005400*           読み込み
+005400*                       
 005500            DISPLAY  SCR-RECORD
 005600            ACCEPT    SCR-RECORD
 005700            PERFORM  INP-READ             
 005800            DISPLAY  SCR-RECORD
 005900        WHEN  3
-006000*           更新
+006000*                   
 006100            DISPLAY  SCR-RECORD
 006200            ACCEPT   SCR-RECORD
 006300            PERFORM  OUT-REWRITE
 006400        WHEN  9
-006500*           削除
+006500*                 
 006600            DISPLAY  SCR-RECORD
 006700            ACCEPT   SCR-RECORD
 006800            PERFORM  OUT-DELETE
@@ -72,15 +72,15 @@
 007100     PERFORM   FL-CLOSE.
 007200     PERFORM   TERM.
 007300     STOP RUN.
-007400*開始処理
+007400*              
 007500 INIT SECTION.
 007600     DISPLAY   "PROGRAM STARTING.".
 007700     EXIT.
-007800*ファイルを開く節
+007800*                      
 007900 FL-OPEN SECTION.
 008000     OPEN   I-O  INP-FILE.
 008100     EXIT.
-008200*入力処理節
+008200*                  
 008300 INP-READ SECTION.
 008400     MOVE SCR-ID  TO  I-ID.
 008500     READ INP-FILE 
@@ -89,12 +89,12 @@
 008800         MOVE  1  TO  END-FLG
 008900     END-READ.
 009000     IF  END-FLG  =  ZERO
-009100*        終端に達していなければカウンターを増分
+009100*                                                                
 009200         ADD  1              TO  I-COUNTER
 009300         PERFORM REC2SCR
 009400     END-IF.
 009500     EXIT.
-009600*出力処理節
+009600*                  
 009700 OUT-WRITE SECTION.
 009800     PERFORM SCR2REC.
 009900     WRITE I-RECORD
@@ -105,7 +105,7 @@
 010400     END-WRITE.
 010500     ADD  1                  TO  O-COUNTER.
 010600     EXIT.
-010700*出力処理節
+010700*                  
 010800 OUT-REWRITE SECTION.
 010900     PERFORM SCR2REC.
 011000     REWRITE I-RECORD
@@ -116,7 +116,7 @@
 011500     END-REWRITE.
 011600     ADD  1                  TO  O-COUNTER.
 011700     EXIT.
-011800*出力処理節
+011800*                  
 011900 OUT-DELETE SECTION.
 012000     PERFORM SCR2REC.
 012100     DELETE INP-FILE
@@ -127,7 +127,7 @@
 012600     END-DELETE.
 012700     ADD  1                  TO  O-COUNTER.
 012800     EXIT.
-012900*レコード転送節
+012900*                      
 013000 REC2SCR SECTION.
 013100     INITIALIZE              SCR-RECORD.
 013200     MOVE I-ID            TO SCR-ID.
@@ -158,7 +158,7 @@
            MOVE  WRK-FUDOU(1:4) TO SCR-FUDOU1.
            MOVE  WRK-FUDOU(5:3) TO SCR-FUDOU2.
 015000     EXIT.
-015100*レコード転送節
+015100*                      
 015200 SCR2REC SECTION.
 015300     MOVE SCR-ID          TO I-ID.
 015400     MOVE SCR-CD          TO I-CD.
@@ -184,11 +184,11 @@
                 COMPUTE  I-FUDOU = WRK-FUDOU   /    1000
            END-IF.
 016900     EXIT.
-017000*ファイルを閉じる節
+017000*                              
 017100 FL-CLOSE SECTION.
 017200     CLOSE  INP-FILE.
 017300     EXIT.
-017400*終了処理
+017400*              
 017500 TERM SECTION.
 017600     DISPLAY   "PROGRAM NORMALLY TERMINATED.".
 017700     DISPLAY   "INPUT-COUNT:" I-COUNTER.

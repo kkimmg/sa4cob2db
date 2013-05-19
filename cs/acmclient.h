@@ -70,193 +70,64 @@
 #define ACM_USERNAME_ENV  "ACM_USERNAME"
 #define ACM_PASSWORD_ENV  "ACM_PASSWORD"
 /*********************************/
-/**
- * ソケットの初期化
- * サーバー側へのコネクション確立まで
- */
+
 extern int initialize (char *hostname, char *hostport);
 
-/**
- * 改行コードの送信
- * @return int < 0 送信に失敗した
- */
 extern int sendReturn (void);
-
 
 extern int sendMessage (char *message);
 
 extern int recieveMessage ();
 
-/**
- * ファイルステータスの受信
- * @return 受信メッセージ長またはエラー
- *         エラー時にも0を返す
- */
 extern int recieveStatus ();
 
-/**
- * メッセージの受信
- * @return 受信メッセージ長またはエラー
- *         エラー時にも0を返す
- */
 extern int recieveRecord ();
 
-/**初期化処理*/
 extern void initializeSession (char *hostname, char *hostport, char *username,
 		   char *password, char *status);
 
-/**初期化処理*/
 extern void initializeSessionEnv (char *status);
 
-/**初期化処理*/
 extern void libACMClient ();
 
-/**終了処理*/
 extern void terminateSession (char *status);
 
-/**ファイルのアサイン
-* @param	name	ファイルの識別子
-* @param	status	ステータス
-*/
 extern void assignACMFile (char *name, char *status);
 
-/**
-* ファイルのオープン
-* @param name	ファイル名
-* @param openmode	オープンモード<br/>
-*			INPUT|OUTPUT|EXTEND|IO
-* @param accessmode	アクセスモード
-*			シーケンシャル|ダイナミック|ランダム
-* @param status	ステータス
-*/
 extern void openACMFile (char *name, char *openmode, char *accessmode, char *status);
 
-/**
- * ファイルを閉じる
- * @param name	ファイル識別子
- * @param status	ステータス
- */
 extern void closeACMFile (char *name, char *status);
 
-/**
- * 次のレコードへ
- * @param name	ファイル識別子
- * @param status	ステータス
- */
 extern void nextACMRecord (char *name, char *status);
 
-/**
- * リード処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param status	ステータス
- */
 extern void readACMRecord (char *name, char *record, char *status);
 
-/**
-* Read Next 処理
-* @param name	ファイル識別子
-* @param record	レコード
-* @param status	ステータス
-*/
 extern void readNextACMRecord (char *name, char *record, char *status);
 
-/**
- * 読み込み処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param status	ステータス
- */
 extern void moveReadACMRecord (char *name, char *record, char *status);
 
-/**
-* インデックスを指定した位置決定処理
-* @param name	ファイル識別子
-* @param record	レコード
-* @param status	ステータス
-*/
 extern void moveReadACMRecordWith (char *name, char *record, char *indexname, char *status);
 
-/**
-* 書き込み処理
-* @param name	ファイル識別子
-* @param record	レコード
-* @param status	ステータス
-*/
 extern void writeACMRecord (char *name, char *record, char *status);
 
-/**
-* 書き込み処理
-* @param name	ファイル識別子
-* @param record	レコード
-* @param status	ステータス
-*/
 extern void rewriteACMRecord (char *name, char *record, char *status);
 
-/**
-* 書き込み処理
-* @param name	ファイル識別子
-* @param record	レコード
-* @param status	ステータス
-*/
 extern void deleteACMRecord (char *name, char *record, char *status);
 
-/**
- * 位置決定処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param status	ステータス
- */
 extern void moveACMRecord (char *name, char *record, char *status);
 
-/**
-* インデックスを指定した位置決定処理
-* @param name	ファイル識別子
-* @param record	レコード
-* @param status	ステータス
-*/
 extern void moveACMRecordWith (char *name, char *record, char *indexname, char *status);
 
-/**
-* 書き込み処理
-* @param name	ファイル識別子
-* @param record	レコード
-* @param status	ステータス
-*/
 extern void startACMRecord (char *name, char *record, char *startmode, char *status);
 
-/**
-* 書き込み処理
-* @param name	ファイル識別子
-* @param record	レコード
-* @param status	ステータス
-*/
 extern void startACMRecordWith (char *name, char *record, char *indexname, char *startmode, char *status);
 
-/**
-* コミット
-* @param status ステータス
-*/
 extern void commitACMSession (char *status);
 
-/**
-* ロールバック
-* @param status ステータス
-*/
 extern void rollbackACMSession (char *status);
 
-/**
-* コミットモードを設定する
-* @param commitmode コミットモード
-* @param status ステータス
-*/
 extern void setACMCommitMode (char *commitmode, char *status);
 
-/**
-* トランザクションレベルを設定する
-* @param transmode トランザクションレベル
-* @param status ステータス
-*/
 extern void setACMTransMode (char *transmode, char *status);
 
 extern void setACMOption (char *name, char *value, char *status);

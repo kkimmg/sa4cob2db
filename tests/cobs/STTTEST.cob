@@ -1,6 +1,6 @@
 000100*AAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCC
-000200*サンプルプログラム
-000300*入力ファイル(SEQ)→出力ファイル(SEQ)の転記処理
+000200*                      
+000300*                    (SEQ)                        (SEQ)                  
 000400 IDENTIFICATION              DIVISION.
 000500 PROGRAM-ID.                 STTTEST.
 000600*AUTHOR.                     KENJI KIMURA.
@@ -8,7 +8,7 @@
 000800 CONFIGURATION               SECTION.
 000900 INPUT-OUTPUT                SECTION.
 001000 FILE-CONTROL.
-001100*    入力ファイル
+001100*                        
 001200*ACMFILE
 001300*ACMRECNAME=I-RECORD
 001400     SELECT INP-FILE ASSIGN TO "dbtests"
@@ -17,7 +17,7 @@
 001700       RECORD KEY   IS I-ID.
 001800 DATA                        DIVISION.
 001900 FILE                        SECTION.
-002000*入力ファイル
+002000*                    
 002100 FD  INP-FILE.
 002200 COPY "I_RECORD.cbl".
 002300 WORKING-STORAGE             SECTION.
@@ -26,12 +26,12 @@
 002600     05  O-COUNTER           PIC 9(05).
 002700     05  END-FLG             PIC 9(01)  VALUE  ZERO.
 002800 PROCEDURE                   DIVISION.
-002900*主処理節
+002900*              
 003000 MAIN                        SECTION.
 003100     PERFORM   INIT.
 003200     PERFORM   FL-OPEN.
 003300     PERFORM  INP-READ.
-003400*    入力ファイルが終了するまで繰り返し
+003400*                                                      
 003500     PERFORM   UNTIL  END-FLG  NOT  =  ZERO
 003600*                 OR  I-COUNTER     > 10000
 003700        PERFORM  OUT-WRITE
@@ -40,11 +40,11 @@
 004000     PERFORM   FL-CLOSE.
 004100     PERFORM   TERM.
 004200     STOP RUN.
-004300*開始処理
+004300*              
 004400 INIT                        SECTION.
 004500     DISPLAY   "PROGRAM STARTING.".
 004600     EXIT.
-004700*ファイルを開く節
+004700*                      
 004800 FL-OPEN                     SECTION.
 004900     OPEN   INPUT  INP-FILE.
 005000     MOVE  5000    TO  I-ID.
@@ -53,26 +53,26 @@
 005300     INVALID KEY MOVE 10001   TO  I-COUNTER
 005400     END-START.
 005500     EXIT.
-005600*入力処理節
+005600*                  
 005700 INP-READ                    SECTION.
 005800     READ INP-FILE NEXT
 005900       AT END  MOVE 1 TO END-FLG
 006000     END-READ.
 006100     IF  END-FLG  =  ZERO
-006200*        終端に達していなければカウンターを増分
+006200*                                                                
 006300         ADD  1              TO  I-COUNTER
 006400     END-IF.
 006500     EXIT.
-006600*出力処理節
+006600*                  
 006700 OUT-WRITE                   SECTION.
 006800     DISPLAY  I-RECORD.
 006900     ADD  1                  TO  O-COUNTER.
 007000     EXIT.
-007100*ファイルを閉じる節
+007100*                              
 007200 FL-CLOSE                    SECTION.
 007300     CLOSE  INP-FILE.
 007400     EXIT.
-007500*終了処理
+007500*              
 007600 TERM                        SECTION.
 007700     DISPLAY   "PROGRAM NORMALLY TERMINATED.".
 007800     DISPLAY   "INPUT-COUNT:" I-COUNTER.

@@ -1,6 +1,6 @@
 000100*AAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCC
-000200*サンプルプログラム
-000300*入力ファイル(SEQ)→出力ファイル(SEQ)の転記処理
+000200*                      
+000300*                    (SEQ)                        (SEQ)                  
 000400 IDENTIFICATION              DIVISION.
 000500 PROGRAM-ID.                 TYPETEST.
 000600*AUTHOR.                     KENJI KIMURA.
@@ -8,14 +8,14 @@
 000800 CONFIGURATION               SECTION.
 000900 INPUT-OUTPUT                SECTION.
 001000 FILE-CONTROL.
-001100*    入力ファイル
+001100*                        
 001200*ACMFILE
 001300*ACMRECNAME=DATA-TYPES
 001400     SELECT OUT-FILE ASSIGN TO "TYPETEST"
 001500       ORGANIZATION LINE SEQUENTIAL.
 001600 DATA                        DIVISION.
 001700 FILE                        SECTION.
-001800*入力ファイル
+001800*                    
 001900 FD  OUT-FILE.
 002000     COPY "DATATYPES.cbl".
 002100 WORKING-STORAGE             SECTION.
@@ -33,7 +33,7 @@
 003300       07  FILLER            PIC X(01)  VALUE  ".".
 003400       07  W-F               PIC 9(03).
 003500 PROCEDURE                   DIVISION.
-003600*主処理節
+003600*              
 003700 MAIN                        SECTION.
 003800     PERFORM   INIT.
 003900     PERFORM   FL-OPEN.
@@ -49,33 +49,33 @@
 123456*    *****************************************
 004700     PERFORM   TERM.
 004800     STOP RUN.
-004900*開始処理
+004900*              
 005000 INIT                        SECTION.
 005100     DISPLAY   "PROGRAM STARTING.".
 005200     EXIT.
-005300*ファイルを開く節
+005300*                      
 005400 FL-OPEN                     SECTION.
 005500     OPEN   OUTPUT  OUT-FILE.
 005600     EXIT.
-005300*ファイルを開く節
+005300*                      
 005400 FL-OPEN2                    SECTION.
 005500     OPEN   INPUT   OUT-FILE.
 005600     EXIT.
-005700*入力処理節
+005700*                  
 005800 OUT-EDIT                    SECTION.
 005900     ADD  1              TO  I-COUNTER.
-006000*    編集の本体
+006000*                      
 123456     MOVE  "ABCD"            TO  TYPE-A.
 123456     MOVE  "ABCDEFGHI"       TO  TYPE-X.
 123456     MOVE  12345678901235678 TO  TYPE-9.
-123456*    MOVE  "あいう"          TO  TYPE-N.
+123456*    MOVE  "            "          TO  TYPE-N.
 123456     MOVE  5678              TO  TYPE-SP.
 123456     MOVE  -5678             TO  TYPE-SM.
 123456     MOVE  9.99              TO  TYPE-V.
 123456     MOVE  99                TO  TYPE-P.
 123456     MOVE  "AB"              TO  TYPE-0.
 123456     MOVE  "ABC"             TO  TYPE-XB.
-123456*    MOVE  "あいう"          TO  TYPE-NB.
+123456*    MOVE  "            "          TO  TYPE-NB.
 123456     MOVE  5678              TO  TYPE-CONMA.
 123456     MOVE  5678              TO  TYPE-SLASH.
 123456     MOVE  9.99              TO  TYPE-PERIOD.
@@ -107,9 +107,9 @@
 123456*    MOVE  5678              TO  TYPE-BIN10.
 123456*    MOVE  5678              TO  TYPE-BIN18.
 009300     EXIT.
-005700*表示節
+005700*          
 005800 OUT-DISPLAY                    SECTION.
-654321*    項目ごとにdisplay
+654321*                    display
 123456     DISPLAY  "TYPE-A              "  TYPE-A.
 123456     DISPLAY  "TYPE-X              "  TYPE-X.
 123456     DISPLAY  "TYPE-9              "  TYPE-9.
@@ -151,19 +151,19 @@
 123456*    DISPLAY  "TYPE-BIN9           "  TYPE-BIN9.
 123456*    DISPLAY  "TYPE-BIN10          "  TYPE-BIN10.
 123456*    DISPLAY  "TYPE-BIN18          "  TYPE-BIN18.
-654321*    まとめてdisplay
+654321*              display
 123456     DISPLAY  "ALL                 "  DATA-TYPES.
 009300     EXIT.
-009400*出力処理節
+009400*                  
 009500 OUT-WRITE                   SECTION.
 009600     WRITE  DATA-TYPES.
 009700     ADD  1                  TO  O-COUNTER.
 009800     EXIT.
-009900*ファイルを閉じる節
+009900*                              
 010000 FL-CLOSE                    SECTION.
 010100     CLOSE  OUT-FILE.
 010200     EXIT.
-010300*終了処理
+010300*              
 010400 TERM                        SECTION.
 010500     DISPLAY   "PROGRAM NORMALLY TERMINATED.".
 010600     DISPLAY   "OUTUT-COUNT:" I-COUNTER.

@@ -22,7 +22,7 @@ jmethodID midMainToo;
 int initializeJNI();
 void display_usage();
 /***************************************/
-/** オプション */
+/** options */
 static struct option longopts[] = {
     {"informat", required_argument, NULL, 'i'},
 	{"outformat", required_argument, NULL, 'o'},
@@ -39,7 +39,7 @@ static struct option longopts[] = {
     {"help", no_argument, NULL, 'h'},
     {0, 0, 0, 0}
 };
-/** 主処理 */
+/** main */
 int main (int argc, char *argv[]) {
 	int opt;
 	char* informat = "";
@@ -100,9 +100,9 @@ int main (int argc, char *argv[]) {
 				break;						
 		}
 	}
-    // JVMの生成
+    // JVM
     initializeJNI();
-    // 入力ファイルと出力ファイルの取得
+    // files
     char* infile = "";
     if (argc > optind) {
         infile = argv[optind];
@@ -124,7 +124,7 @@ int main (int argc, char *argv[]) {
 	jstring s_charset = (*env)->NewStringUTF(env, charset);
 	jstring s_subprogram = (*env)->NewStringUTF(env, subprogram);
 
-    // 実効                                              
+    // execute
     (*env)->CallStaticVoidMethod(env, clazz, midMainToo, 
     //infile,   outfile,   informat,   outformat,   initrow,     increase, consts  , expand,  listeners,   custom  , charset
       s_infile, s_outfile, s_informat, s_outformat, s_initrow, s_increase, s_consts, s_expand, s_listeners, s_custom, s_charset, s_subprogram);
@@ -133,11 +133,11 @@ int main (int argc, char *argv[]) {
 }
 
 /**
- * JNI環境の初期化
+ * JNI
  */
 int
 initializeJNI () {
-	// JVMを作成する
+	// JVM
 	JavaVMOption options[1];
 	options[0].optionString = getClasspath();
 	JavaVMInitArgs vm_args;
@@ -146,13 +146,13 @@ initializeJNI () {
 	vm_args.nOptions = 1;
 	JNI_GetDefaultJavaVMInitArgs(&vm_args);
 	JNI_CreateJavaVM(&jvm, (void**)&env, &vm_args);
-	// クラスの取得
+	// get class
 	clazz = (*env)->FindClass(env, "k_kim_mg/sa4cob2db/codegen/COBPP1");
 	if (clazz == 0) {
 		perror("COBPP1 Class Not Found.");
 		return (-1);
 	}
-	// コンストラクタの取得                                             
+	// get method
 	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	
 	//infile           ;  outfile        ; informat        ;   outformat     ;  initrow         ;  increase      ;consts_file      ; expand_copy     ;listener         ; custom          ;  charset        ;subprogram
 	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
@@ -164,7 +164,7 @@ initializeJNI () {
 }
 
 /**
- * 使い方の説明
+ * usage
  */
 void
 display_usage () {

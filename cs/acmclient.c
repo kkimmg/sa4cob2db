@@ -29,8 +29,7 @@ struct timeval timeout;
 int error;
 char stat[3];
 /**
- * ソケットの初期化
- * サーバー側へのコネクション確立まで
+ * initalize socket and connet to server
  */
 extern int
 initialize (char *hostname, char *hostport) {
@@ -43,9 +42,8 @@ initialize (char *hostname, char *hostport) {
 	}
 	memset(recbuf, ' ', record_max);
 	recbuf[record_max] = '\0';
-	/* ホスト名がIPアドレスと仮定してホスト情報取得 */
+	/* get host */
 	if ((addr.s_addr = inet_addr (hostname)) == -1) {
-		/* ホスト名が名称としてホスト情報取得 */
 		host = gethostbyname (hostname);
 		if (host == NULL) {
 			perror ("gethostbyname");
@@ -54,28 +52,25 @@ initialize (char *hostname, char *hostport) {
 		aptr = (struct in_addr *) *host->h_addr_list;
 		memcpy (&addr, aptr, sizeof (struct in_addr));
 	}
-	/* ソケットの生成 */
+	/* socket */
 	if ((soc = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
 		perror ("socket");
 		return (-1);
 	}
-	/* ポート番号の決定 */
+	/* port */
 	memset ((char *) &server, 0, sizeof (server));
 	server.sin_family = AF_INET;
 	if ((se = getservbyname (hostport, "tcp")) == NULL) {
-		/* サービスに見つからない:ポート番号数値 */
 		if ((portno = atoi (hostport)) == 0) {
 			fprintf (stderr, "bad port no\n");
 			return (-1);
 		}
 		server.sin_port = htons (portno);
 	} else {
-		/* サービスに見つかった:該当ポート番号 */
 		server.sin_port = se->s_port;
 	}
-	/* ホストアドレスの指定 */
 	server.sin_addr = addr;
-	/* コネクト */
+	/* connect */
 	if (connect (soc, (struct sockaddr *) &server, sizeof (server)) == -1) {
 		perror ("connect");
 		return (-1);
@@ -84,8 +79,7 @@ initialize (char *hostname, char *hostport) {
 }
 
 /**
- * 改行コードの送信
- * @return int < 0 送信に失敗した
+ * send "\n"
  */
 extern int
 sendReturn (void) {
@@ -97,8 +91,7 @@ sendReturn (void) {
 }
 
 /**
- * メッセージの送信
- * @param message	メッセージ
+ * send message
  */
 extern int
 sendMessage (char *message) {
@@ -112,8 +105,7 @@ fprintf(stderr, ":%d\n", ret);
 }
 
 /**
- * レコードの送信
- * @param record	レコード
+ * send record
  */
 extern int
 sendRecord (char *record) {
@@ -121,6 +113,9 @@ sendRecord (char *record) {
 	return ret;
 }
 
+/**
+ * recieve message
+ */
 extern int
 recieveMessage () {
 	memset(buf, ' ', 255);
@@ -138,9 +133,7 @@ fprintf(stderr, ":%d\n", strlen(buf));
 
 
 /**
- * ファイルステータスの受信
- * @return 受信メッセージ長またはエラー
- *         エラー時にも0を返す
+ * recieve status
  */
 extern int
 recieveStatus () {
@@ -153,9 +146,7 @@ recieveStatus () {
 }
 
 /**
- * メッセージの受信
- * @return 受信メッセージ長またはエラー
- *         エラー時にも0を返す
+ * recieve message
  */
 extern int
 recieveRecord () {
@@ -165,67 +156,71 @@ recieveRecord () {
 	return len;
 }
 
-/**初期化処理*/
+/**
+ * initialize
+ */
 extern void
 initializeSession (char *hostname, char *hostport, char *username, char *password, char *status) {
-	/* 初期化の初期化！ */
+	/* socket */
 	if (initialize (hostname, hostport) < 0) {
 		strcpy (status, STATUS_FAILURE);
 		return;
 	}
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_INITIALIZE) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信（ステータス） */
+	/* recieve(status) */
 	if (recieveMessage () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
 	buf[len] = '\0';
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (buf, MSG_USERNAME) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ユーザー名） */
+	/* send(user name) */
 	if (sendMessage (username) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 （ステータス）*/
+	/* recieve(status)*/
 	if (recieveMessage () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
 	buf[len] = '\0';
-	/* ユーザー名の次はパスワード要求がくるはずだ */
+	/* password */
 	if (strcmp (buf, MSG_PASSWORD) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（パスワード） */
+	/* send(password) */
 	if (sendMessage (password) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信（ステータス） */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
-/**初期化処理*/
+/**
+ * dummy for opencobol
+ */
 extern void
 libACMClient () {
 }
 
-/**初期化処理*/
+/**initialize using environment value*/
 extern void
 initializeSessionEnv (char *status) {
 	char *hostname, *hostport, *username, *password;
@@ -248,20 +243,20 @@ initializeSessionEnv (char *status) {
 	initializeSession (hostname, hostport, username, password, status);
 }
 
-/**終了処理*/
+/**terminate*/
 void
 terminateSession (char *status) {
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_TERMINATE) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信（ステータス） */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	buf[len] = '\0';
 	strcpy (status, buf);
 	//
@@ -269,290 +264,270 @@ terminateSession (char *status) {
 	return;
 }
 
-/**ファイルのアサイン
- * @param	name	ファイルの識別子
- * @param	status	ステータス
+/**
+ * asign file
  */
 extern void
 assignACMFile (char *name, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_ASSIGN) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信（ステータス） */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータス確認 */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信（ステータス） */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
- * ファイルのオープン
- * @param name	ファイル名
- * @param openmode	オープンモード<br/>
- *			INPUT|OUTPUT|EXTEND|IO
- * @param accessmode	アクセスモード
- *			シーケンシャル|ダイナミック|ランダム
- * @param status	ステータス
+ * open file
  */
 extern void
 openACMFile (char *name, char *openmode, char *accessmode, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_OPEN) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* オープンモード */
+	/* open mode */
 	openmode[7] = '\0';
 	if (sendMessage (openmode) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* オープンモード */
+	/* access mode */
 	accessmode[7] = '\0';
 	if (sendMessage (accessmode) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
- * ファイルを閉じる
- * @param name	ファイル識別子
- * @param status	ステータス
+ * close file
  */
 extern void
 closeACMFile (char *name, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_CLOSE) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
- * 次のレコードへ
- * @param name	ファイル識別子
- * @param status	ステータス
+ * move to next record
  */
 extern void
 nextACMRecord (char *name, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_NEXT) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
- * リード処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param status	ステータス
+ * read from file
  */
 extern void
 readACMRecord (char *name, char *record, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_READ) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (データ) */
+	/* recieve(data) */
 	if (recieveRecord () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* 受信したデータをレコード領域に転送 */
+	/* move data that was recieved from server to record area. */
 	memmove (record, recbuf, (len > record_max ? record_max : len));
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
- * ReadNext処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param status	ステータス
+ * read next
  */
 extern void
 readNextACMRecord (char *name, char *record, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_READNEXT) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (データ) */
+	/* recieve(data) */
 	if (recieveRecord () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* 受信したデータをレコード領域に転送 */
+	/* move data that was recieved from server to record area. */
 	memmove (record, recbuf, (len > record_max ? record_max : len));
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
- * 位置決定及び読み込み処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param status	ステータス
+ * move and read
  */
 extern void
 moveReadACMRecord (char *name, char *record, char *status) {
@@ -565,11 +540,7 @@ moveReadACMRecord (char *name, char *record, char *status) {
 }
 
 /**
- * 位置決定及び読み込み処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param indexname インデックス名
- * @param status	ステータス
+ * move and read
  */
 extern void
 moveReadACMRecordWith (char *name, char *record, char *indexname, char *status) {
@@ -582,284 +553,266 @@ moveReadACMRecordWith (char *name, char *record, char *indexname, char *status) 
 }
 
 /**
- * 書き込み処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param status	ステータス
+ * write/insert
  */
 extern void
 writeACMRecord (char *name, char *record, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
 	record[record_max] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_WRITE) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信（ステータス） */
+	/* recieve(status) */
 	if (recieveStatus () == 0)  {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（レコード本体） */
+	/* send(record) */
 	if (sendRecord (record) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
- * 書き込み処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param status	ステータス
+ * rewrite/update
  */
 extern void
 rewriteACMRecord (char *name, char *record, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
 	record[record_max] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_REWRITE) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (READY) */
+	/* send(READY) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（レコード本体） */
+	/* send(record) */
 	if (sendRecord (record) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
- * 書き込み処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param status	ステータス
+ * delete/delete
  */
 extern void
 deleteACMRecord (char *name, char *record, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_DELETE) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（レコード本体） */
+	/* send(record) */
 	if (sendRecord (record) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
- * 書き込み処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param status	ステータス
+ * move 
  */
 extern void
 moveACMRecord (char *name, char *record, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
 	record[record_max] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_MOVE) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（キーレコード） */
+	/* send(key) */
 	if (sendRecord (record) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
- * 書き込み処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param status	ステータス
+ * start
  */
 extern void
 startACMRecord (char *name, char *record, char *startmode, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
 	record[record_max] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_START) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（キーレコード） */
+	/* send(key) */
 	if (sendRecord (record) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
- * 書き込み処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param status	ステータス
+ * start by index
  */
 extern void
 startACMRecordWith (char *name, char *record, char *indexname, char *startmode, char *status) {
@@ -867,314 +820,306 @@ startACMRecordWith (char *name, char *record, char *indexname, char *startmode, 
 	indexname[FILE_INDEXNAME_MAX] = '\0';
 	startmode[FILE_STARTMODE_MAX] = '\0';
 	record[record_max] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_STTTWITH) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（スタートモード） */
+	/* send(mode) */
 	if (sendMessage (startmode) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（インデックス名） */
+	/* send(index name) */
 	if (sendMessage (indexname) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（キーレコード） */
+	/* send(key) */
 	if (sendRecord (record) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
- * 書き込み処理
- * @param name	ファイル識別子
- * @param record	レコード
- * @param status	ステータス
+ * move by index
  */
 extern void
 moveACMRecordWith (char *name, char *record, char *indexname, char *status) {
 	name[FILE_IDENT_MAX] = '\0';
 	indexname[FILE_OPTION_MAX] = '\0';
 	record[record_max] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_MOVE) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（インデックス名） */
+	/* send(index name) */
 	if (sendMessage (indexname) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（キーレコード） */
+	/* send(key) */
 	if (sendRecord (record) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 
 /**
-* コミット
-* @param status ステータス
+* commit
 */
 extern void
 commitACMSession (char *status) {
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_COMMIT) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
-* ロールバック
-* @param status ステータス
-*/
+ * rollback
+ */
 extern void
 rollbackACMSession (char *status) {
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_ROLLBACK) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
-* コミットモードを設定する
-* @param commitmode コミットモード
-* @param status ステータス
-*/
+ * set auto commit
+ */
 extern void
 setACMCommitMode (char *commitmode, char *status) {
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_AUTOCOMMIT) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(file name) */
 	if (sendMessage (commitmode) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
 /**
-* トランザクションレベルを設定する
-* @param transmode トランザクションレベル
-* @param status ステータス
-*/
+ * set transaction level
+ */
 extern void
 setACMTransMode (char *transmode, char *status) {
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_TRNSMODE) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（ファイル名） */
+	/* send(mode) */
 	if (sendMessage (transmode) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
+/** set option */
 extern void
 setACMOption (char *name, char *value, char *status) {
 	name[OPTIONNAME_MAX] = '\0';
 	value[OPTIONVALUE_MAX] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_SETOPTION) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（オプション名） */
+	/* send(option name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（値） */
+	/* send(value) */
 	if (sendMessage (value) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
@@ -1182,43 +1127,44 @@ setACMOption (char *name, char *value, char *status) {
 extern void
 getACMOption (char *name, char *value, char *status) {
 	name[OPTIONNAME_MAX] = '\0';
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_GETOPTION) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（オプション名） */
+	/* send(option name) */
 	if (sendMessage (name) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (データ) */
+	/* recieve(data) */
 	if (recieveMessage () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* 受信したデータをレコード領域に転送 */
+	/* move data that was recieved from server to record area. */
 	memmove (value, buf, (len > OPTIONVALUE_MAX ? OPTIONVALUE_MAX : len));
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
 
+/** set record length */
 extern void
 setACMMaxLength (char *length, char *status) {
 	length[OPTIONVALUE_MAX] = '\0';
@@ -1227,27 +1173,27 @@ setACMMaxLength (char *length, char *status) {
 		fprintf (stderr, "bad length\n");
 		return;
 	}
-	/* 送信（コマンド） */
+	/* send(command) */
 	if (sendMessage (MSG_SETLENGTH) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
 	}
-	/* ステータスチェック */
+	/* check status */
 	if (strcmp (stat, STATUS_READY) != 0) {
 		strcpy (status, buf);
 		return;
 	}
-	/* 送信（値） */
+	/* send(value) */
 	if (sendMessage (length) < 0) {
 		strcpy (status, STATUS_SEND_ERROR);
 		return;
 	}
-	/* 受信 (ステータス) */
+	/* recieve(status) */
 	if (recieveStatus () == 0) {
 		strcpy (status, STATUS_RECV_ERROR);
 		return;
@@ -1263,7 +1209,7 @@ setACMMaxLength (char *length, char *status) {
 	}
 	memset(recbuf, ' ', record_max);
 	recbuf[record_max] = '\0';
-	/* ステータスチェック */
+	/* check status */
 	strcpy (status, buf);
 	return;
 }
