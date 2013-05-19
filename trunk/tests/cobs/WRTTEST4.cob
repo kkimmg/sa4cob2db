@@ -1,6 +1,6 @@
 000100*AAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCC
-000200*サンプルプログラム
-000300*入力ファイル(SEQ)→出力ファイル(SEQ)の転記処理
+000200*                      
+000300*                    (SEQ)                        (SEQ)                  
 000400 IDENTIFICATION              DIVISION.
 000500 PROGRAM-ID.                 WRTTEST.
 000600*AUTHOR.                     KENJI KIMURA.
@@ -8,14 +8,14 @@
 000800 CONFIGURATION               SECTION.
 000900 INPUT-OUTPUT                SECTION.
 001000 FILE-CONTROL.
-001100*    入力ファイル
+001100*                        
 001200*ACMFILE
 001300*ACMRECNAME=O-RECORD
 001400     SELECT OUT-FILE ASSIGN TO "dbtests2"
 001500       ORGANIZATION LINE SEQUENTIAL.
 001600 DATA                        DIVISION.
 001700 FILE                        SECTION.
-001800*入力ファイル
+001800*                    
 001900 FD  OUT-FILE.
 002000     COPY "O_RECORD2.cbl".
 002100 WORKING-STORAGE             SECTION.
@@ -34,12 +34,12 @@
 003400       07  FILLER            PIC X(01)  VALUE  ".".
 003500       07  W-F               PIC 9(03).
 003600 PROCEDURE                   DIVISION.
-003700*主処理節
+003700*              
 003800 MAIN                        SECTION.
 003900     PERFORM   INIT.
 004000     PERFORM   FL-OPEN.
 004100     PERFORM   OUT-EDIT.
-004200*    入力ファイルが終了するまで繰り返し
+004200*                                                      
 004300     PERFORM   UNTIL  END-FLG  NOT  =  ZERO
 004400        PERFORM  OUT-WRITE
 004500        PERFORM  OUT-EDIT
@@ -47,7 +47,7 @@
 004700     PERFORM   FL-CLOSE.
 004800     PERFORM   TERM.
 004900     STOP RUN.
-005000*開始処理
+005000*              
 005100 INIT                        SECTION.
 005200     DISPLAY   "PROGRAM STARTING.".
 005300     MOVE  -5000  TO  W-COUNTER.
@@ -55,15 +55,15 @@
 005500*ACMTRANSACTION=TRANSACTION_READ_COMMITTED
 005600*ACMAUTOCOMMIT=false
 005700     EXIT.
-005800*ファイルを開く節
+005800*                      
 005900 FL-OPEN                     SECTION.
 006000     OPEN   OUTPUT  OUT-FILE.
 006100     EXIT.
-006200*入力処理節
+006200*                  
 006300 OUT-EDIT                    SECTION.
 006400     ADD  1              TO  I-COUNTER.
 006500     ADD  1              TO  W-COUNTER.
-006600*    編集の本体
+006600*                      
 006700     MOVE I-COUNTER      TO  O-ID.
 006800     MOVE I-COUNTER      TO  O-CD.
 006900     MOVE I-COUNTER      TO  O-NIHONGO.
@@ -89,11 +89,11 @@
 008900     ADD     1           TO  O-JIKOKU-SS.
 009000     COMPUTE  O-FUDOU  =  W-COUNTER  /  1000.
 009100     IF  I-COUNTER  >  10000
-009200*        終端に達していなければカウンターを増分
+009200*                                                                
 009300         MOVE  1         TO  END-FLG
 009400     END-IF.
 009500     EXIT.
-009600*出力処理節
+009600*                  
 009700 OUT-WRITE                   SECTION.
 009800     WRITE  O-RECORD.
 009900     ADD  1                  TO  O-COUNTER.
@@ -134,12 +134,12 @@
 013800         DISPLAY  "COMMIT." O-COUNTER
 013900     END-IF.
 014000     EXIT.
-014100*ファイルを閉じる節
+014100*                              
 014200 FL-CLOSE                    SECTION.
 014300*ACMCOMMIT.
 014400     CLOSE  OUT-FILE.
 014500     EXIT.
-014600*終了処理
+014600*              
 014700 TERM                        SECTION.
 014800     DISPLAY   "PROGRAM NORMALLY TERMINATED.".
 014900     DISPLAY   "OUTUT-COUNT:" I-COUNTER.

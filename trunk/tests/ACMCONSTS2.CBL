@@ -1,4 +1,4 @@
-000010* JSPサンプル変数
+000010* JSP                  
 000020 01  ACM-WEB-IF-PARAMS.
 000030   05  ACM-AUTHTYPE                      PIC X(20).
 000040   05  ACM-CHARACTERENCODING             PIC X(20).

@@ -22,7 +22,7 @@ jmethodID midMainToo;
 int initializeJNI();
 void display_usage();
 /***************************************/
-/** オプション */
+/** options */
 static struct option longopts[] = {
     {"metafile", required_argument, NULL, 'm'},
     {"linein", required_argument, NULL, 'l'},
@@ -30,7 +30,7 @@ static struct option longopts[] = {
     {"help", no_argument, NULL, 'h'},
     {0, 0, 0, 0}
 };
-/** 主処理 */
+/** main */
 int main (int argc, char *argv[]) {
 	int opt;
 	char* metafile = getConfigFile();
@@ -57,10 +57,9 @@ int main (int argc, char *argv[]) {
 				break;	
 		}
 	}
-    // JVMの生成
+    // JVM
     initializeJNI();
-    // 入力ファイルと出力ファイルの取得
-	if (argc > optind + 1) {
+    if (argc > optind + 1) {
 		char* acmfile = argv[optind];
 		char* infile = argv[optind + 1];
 		jstring s_acmfile = (*env)->NewStringUTF(env, acmfile);
@@ -69,7 +68,7 @@ int main (int argc, char *argv[]) {
 		jstring s_linein = (*env)->NewStringUTF(env, linein);
 		jstring s_extend = (*env)->NewStringUTF(env, extend);
 		jstring s_display_usage = (*env)->NewStringUTF(env, "false");
-    	// 実効
+    	// execute
     	(*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_acmfile, s_infile, s_metafile, s_linein, s_extend, s_display_usage);
 	} else {
 		display_usage();
@@ -79,11 +78,11 @@ int main (int argc, char *argv[]) {
 }
 
 /**
- * JNI環境の初期化
+ * JNI
  */
 int
 initializeJNI () {
-	// JVMを作成する
+	// JVM
 	JavaVMOption options[1];
 	options[0].optionString = getClasspath();
 	JavaVMInitArgs vm_args;
@@ -92,13 +91,13 @@ initializeJNI () {
 	vm_args.nOptions = 1;
 	JNI_GetDefaultJavaVMInitArgs(&vm_args);
 	JNI_CreateJavaVM(&jvm, (void**)&env, &vm_args);
-	// クラスの取得
+	// get class
 	clazz = (*env)->FindClass(env, "k_kim_mg/sa4cob2db/sql/Seq2Acm");
 	if (clazz == 0) {
 		perror("Seq2Acm Class Not Found.");
 		return (-1);
 	}
-	// コンストラクタの取得
+	// get method
 	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	if (midMainToo == 0) {
 		perror("method not found.");
@@ -108,7 +107,7 @@ initializeJNI () {
 }
 
 /**
- * 使い方の説明
+ * usage
  */
 void
 display_usage () {
