@@ -107,7 +107,7 @@ public class Acm2Seq {
 	/**
 	 * export
 	 * 
-	 * @param file cobol file
+	 * @param file COBOL file
 	 * @param stream stream
 	 * @param line line out
 	 * @throws IOException exception
@@ -234,10 +234,10 @@ public class Acm2Seq {
 		}
 	}
 	/**
-	 * get cobol file from name
+	 * get COBOL file from name
 	 * 
 	 * @param name filename
-	 * @return cobol file
+	 * @return COBOL file
 	 */
 	protected CobolFile getCobolFile(String name) {
 		SQLCobolRecordMetaData meta = (SQLCobolRecordMetaData) fileServer.metaDataSet.getMetaData(name);

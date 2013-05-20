@@ -127,11 +127,13 @@ public class DBConnector {
 	 * @param userName JDBC user name
 	 * @param passWord JDBC password
 	 * @throws ClassNotFoundException can't find class
-	 * @throws SQLException sql exception
+	 * @throws SQLException SQL exception
 	 */
 	public Connection createConnection(String driverURL, String databaseURL, String userName, String passWord) throws ClassNotFoundException, SQLException {
 		Connection retValue = null;
-		Class.forName(driverURL);
+		if (driverURL != null && driverURL.trim().length() > 0) {
+			Class.forName(driverURL);
+		}
 		retValue = DriverManager.getConnection(databaseURL, userName, passWord);
 		openedConnects.add(retValue);
 		return retValue;
