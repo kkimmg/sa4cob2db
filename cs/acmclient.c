@@ -214,7 +214,7 @@ initializeSession (char *hostname, char *hostport, char *username, char *passwor
 }
 
 /**
- * dummy for opencobol
+ * dummy for OpenCobol
  */
 extern void
 libACMClient () {
