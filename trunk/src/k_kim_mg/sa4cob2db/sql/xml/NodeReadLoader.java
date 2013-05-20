@@ -212,7 +212,7 @@ public class NodeReadLoader {
 		return ret;
 	}
 	/**
-	 * create cobol column custom class
+	 * create COBOL column custom class
 	 * 
 	 * @param node Node
 	 * @param meta parent

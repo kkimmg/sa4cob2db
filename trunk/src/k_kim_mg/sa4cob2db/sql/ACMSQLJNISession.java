@@ -21,7 +21,7 @@ import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 import org.xml.sax.SAXException;
 /**
- * connect cobol and java by JNI
+ * connect COBOL and java by JNI
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSQLJNISession implements ACMSession {

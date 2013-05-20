@@ -131,12 +131,12 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		readIgnore = b;
 	}
 	/**
-	 * move cobol record to SQL result set 
+	 * move COBOL record to SQL result set 
 	 * 
-	 * @param src cobol record
+	 * @param src COBOL record
 	 * @param dst SQL result set
 	 * @throws SQLException SQLexception
-	 * @throws CobolRecordException cobol exception
+	 * @throws CobolRecordException COBOL exception
 	 */
 	public void setRecord2ResultSet(CobolRecord src, ResultSet dst) throws SQLException, CobolRecordException {
 		String originalName = getOriginalColumnName();
