@@ -1,7 +1,3 @@
-/*
- * Created on 2004/05/23 To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 package k_kim_mg.sa4cob2db.utils;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -12,7 +8,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import k_kim_mg.sa4cob2db.codegen.COBPP1;
 /**
- * generate meta data file from cobol source.
+ * generate meta data file from COBOL source.
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
@@ -33,7 +29,7 @@ public class Cbl2MetaData {
 	 * 
 	 * @param infile input filename
 	 * @param outfile output filename
-	 * @param informat cobol is freeformat?
+	 * @param informat COBOL source is free format?
 	 * @param acm_charset
 	 */
 	public static void main_too(String infile, String outfile, String informat, String acm_charset) {
