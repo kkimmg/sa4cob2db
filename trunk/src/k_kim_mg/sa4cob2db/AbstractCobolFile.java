@@ -254,7 +254,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 	}
 	/**
-	 * listen cobol file event
+	 * listen COBOL file event
 	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */

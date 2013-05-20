@@ -2,7 +2,7 @@ package k_kim_mg.sa4cob2db;
 import java.io.Serializable;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 /**
- * cobol file
+ * COBOL file
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */

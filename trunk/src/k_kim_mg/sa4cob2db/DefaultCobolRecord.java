@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
- * Default Cobol Record
+ * Default COBOL Record
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
