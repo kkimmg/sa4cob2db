@@ -26,21 +26,31 @@ void display_usage();
 static struct option longopts[] = {
     {"metafile", required_argument, NULL, 'm'},
     {"lineout", required_argument, NULL, 'l'},
+    {"sql", required_argument, NULL, 'q'},
+    {"sqlin", no_argument, NULL, 'a'},
     {"help", no_argument, NULL, 'h'},
-    {0, 0, 0, 0}
+    {0, 0, 0, 0, 0, 0}
 };
 /** main */
 int main (int argc, char *argv[]) {
 	int opt;
 	char* metafile = getConfigFile();
 	char* lineout = "true";
-	while ((opt = getopt_long(argc, argv, "m:l:h", longopts, NULL)) != -1) {
+	char* sql = "";
+	char* sqlin = "false";
+	while ((opt = getopt_long(argc, argv, "m:l:q:ah", longopts, NULL)) != -1) {
 		switch (opt) {
 			case 'm':
                 metafile = optarg;
 				break;
 			case 'l':
                 lineout = optarg;
+				break;
+			case 'q':
+                sql = optarg;
+				break;
+			case 'a':
+                sqlin = "true";
 				break;
 			case 'h':
                 display_usage();
@@ -67,9 +77,11 @@ int main (int argc, char *argv[]) {
 	jstring s_outfile = (*env)->NewStringUTF(env, outfile);
 	jstring s_metafile = (*env)->NewStringUTF(env, metafile);
 	jstring s_lineout = (*env)->NewStringUTF(env, lineout);
+	jstring s_sql = (*env)->NewStringUTF(env, sql);
+	jstring s_sqlin = (*env)->NewStringUTF(env, sqlin);
 	jstring s_display_usage = (*env)->NewStringUTF(env, "false");
     // call main
-    (*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_acmfile, s_outfile, s_metafile, s_lineout, s_display_usage);
+    (*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_acmfile, s_outfile, s_metafile, s_lineout, s_sql, s_sqlin, s_display_usage);
 	(*jvm)->DestroyJavaVM(jvm);
     exit(0);
 }
@@ -95,7 +107,7 @@ initializeJNI () {
 		return (-1);
 	}
 	// get main method
-	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	if (midMainToo == 0) {
 		perror("method not found.");
 		return -1;

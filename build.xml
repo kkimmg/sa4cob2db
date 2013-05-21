@@ -1,6 +1,6 @@
 <project name="sa4cob2db" default="dist" basedir=".">
 	<description>
-		基本のbuildファイル
+		basic build file
 	</description>
 	<!-- set global properties for this build -->
 	<property name="src" location="src" />
