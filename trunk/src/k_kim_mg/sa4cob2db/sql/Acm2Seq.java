@@ -1,10 +1,12 @@
 package k_kim_mg.sa4cob2db.sql;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.util.Properties;
@@ -31,7 +33,7 @@ public class Acm2Seq {
 	private static void displayUsage(Properties properties) {
 		String flag = properties.getProperty("display_usage", "true");
 		if (Boolean.parseBoolean(flag)) {
-			System.err.println("java -classpath path_to_jdbc:path_to_acm \"k_kim_mg.sa4cob2db.sql.Acm2Seq\" acmfile outputfile metfile lineout(true/false) display_usage");
+			System.err.println("java -classpath path_to_jdbc:path_to_acm \"k_kim_mg.sa4cob2db.sql.Acm2Seq\" acmfile outputfile metfile lineout(true/false) sql sqlin(true/false) display_usage");
 			java.util.Enumeration<Object> keys = properties.keys();
 			while (keys.hasMoreElements()) {
 				String key = keys.nextElement().toString();
@@ -65,6 +67,8 @@ public class Acm2Seq {
 		// -------------------------
 		properties.setProperty("lineout", getEnvValue("lineout", "false"));
 		properties.setProperty("metafile", getEnvValue("metafile", SQLNetServer.DEFAULT_CONFIG));
+		properties.setProperty("sql", getEnvValue("sql", ""));
+		properties.setProperty("sqlin", getEnvValue("sqlin", "false"));
 		properties.setProperty("display_usage", getEnvValue("display_usage", "false"));
 		if (args.length >= 1) {
 			properties.setProperty("acmfile", args[0]);
@@ -75,7 +79,13 @@ public class Acm2Seq {
 					if (args.length >= 4) {
 						properties.setProperty("lineout", args[3]);
 						if (args.length >= 5) {
-							properties.setProperty("display_usage", args[4]);
+							properties.setProperty("sql", args[4]);
+							if (args.length >= 6) {
+								properties.setProperty("sqlin", args[5]);
+								if (args.length >= 7) {
+									properties.setProperty("display_usage", args[6]);
+								}
+							}
 						}
 					}
 				}
@@ -98,8 +108,8 @@ public class Acm2Seq {
 	 * @param lineout it's line seq?/true or false
 	 * @param display_usage display usage?/true or false
 	 */
-	public static void main_too(String acmfile, String outfile, String metafile, String lineout, String display_usage) {
-		Acm2Seq.main(new String[] { acmfile, outfile, metafile, lineout, display_usage });
+	public static void main_too(String acmfile, String outfile, String metafile, String lineout, String sql, String sqlin, String display_usage) {
+		Acm2Seq.main(new String[] { acmfile, outfile, metafile, lineout, sql, sqlin, display_usage });
 	}
 	/** JDBC connection */
 	private Connection connection;
@@ -146,6 +156,8 @@ public class Acm2Seq {
 		String metaString = properties.getProperty("metafile", SQLNetServer.DEFAULT_CONFIG);
 		String acmName = properties.getProperty("acmfile", "");
 		String outName = properties.getProperty("outfile", "");
+		String sql = properties.getProperty("sql", "");
+		String sqlin = properties.getProperty("sqlin", "false");
 		String lineOut = properties.getProperty("lineout", "false");
 		File metaFile = new File(metaString);
 		NodeReadLoader nodeLoader = new NodeReadLoader();
@@ -176,8 +188,25 @@ public class Acm2Seq {
 					SQLNetServer.logger.log(Level.WARNING, "File Not Found " + logSetting, fnfe);
 				}
 			}
+			// sqlin
+			if (Boolean.getBoolean(sqlin)) {
+				InputStreamReader isr = new InputStreamReader(System.in);
+				BufferedReader br = new BufferedReader(isr);
+				String row = br.readLine();
+				StringBuffer buf = new StringBuffer();
+				while (row != null) {
+					buf.append(row);
+					row = br.readLine();
+				}
+				sql = buf.toString();
+			}
+			// file
+			if (sql != null && sql.trim().length() > 0) {
+				acmFile = getCobolFile(acmName, sql);
+			} else {
+				acmFile = getCobolFile(acmName);
+			}
 			//
-			acmFile = getCobolFile(acmName);
 			if (acmFile != null) {
 				try {
 					acmFile.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_SEQUENTIAL);
@@ -241,6 +270,23 @@ public class Acm2Seq {
 	 */
 	protected CobolFile getCobolFile(String name) {
 		SQLCobolRecordMetaData meta = (SQLCobolRecordMetaData) fileServer.metaDataSet.getMetaData(name);
+		SQLFile file = null;
+		if (meta != null) {
+			connection = fileServer.createConnection();
+			file = new SQLFile(connection, meta);
+		}
+		return file;
+	}
+	/**
+	 * get COBOL file from name
+	 * 
+	 * @param name filename
+	 * @param sql select statement
+	 * @return COBOL file
+	 */
+	protected CobolFile getCobolFile(String name, String sql) {
+		SQLCobolRecordMetaData meta = (SQLCobolRecordMetaData) fileServer.metaDataSet.getMetaData(name);
+		meta.setSelectStatement(sql);
 		SQLFile file = null;
 		if (meta != null) {
 			connection = fileServer.createConnection();
