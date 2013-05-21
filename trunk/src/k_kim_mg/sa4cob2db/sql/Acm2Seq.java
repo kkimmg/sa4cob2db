@@ -189,7 +189,7 @@ public class Acm2Seq {
 				}
 			}
 			// sqlin
-			if (Boolean.getBoolean(sqlin)) {
+			if (Boolean.parseBoolean(sqlin)) {
 				InputStreamReader isr = new InputStreamReader(System.in);
 				BufferedReader br = new BufferedReader(isr);
 				String row = br.readLine();

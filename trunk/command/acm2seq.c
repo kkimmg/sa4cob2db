@@ -124,6 +124,8 @@ display_usage () {
 	printf("options\n");
 	printf("\t-m/--metafile\tconfiguration file of record layout. default is /opt/sa4cob2db/conf/metafile.xml\n");
 	printf("\t-l/--lineout\ttrue/false outfile is line file. default is true\n");
+	printf("\t-q/--sql\tuse custom sql \n");
+	printf("\t-a/--sqlin\tuse custom sql from standard in.\n");
 	printf("\t-h/--help\tshow this message.\n");
 }
 
