@@ -111,7 +111,7 @@ public class Seq2Acm {
 	 * @param display_usage display usage?
 	 */
 	public static void main_too(String acmfile, String infile, String metafile, String linein, String extend, String commit, String display_usage) {
-		Seq2Acm.main(new String[] { acmfile, infile, metafile, linein, extend, display_usage });
+		Seq2Acm.main(new String[] { acmfile, infile, metafile, linein, extend, commit, display_usage });
 	}
 	private Connection connection;
 	private SQLFileServer fileServer;
@@ -159,7 +159,7 @@ public class Seq2Acm {
 			} else {
 				count++;
 				if (commit > 0) {
-					if (insrow > commit) {
+					if (insrow >= commit) {
 						try {
 							connection.commit();
 							insrow = -1;
@@ -202,7 +202,7 @@ public class Seq2Acm {
 			} else {
 				count++;
 				if (commit > 0) {
-					if (insrow > commit) {
+					if (insrow >= commit) {
 						try {
 							connection.commit();
 							insrow = -1;
