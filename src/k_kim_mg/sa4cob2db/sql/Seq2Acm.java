@@ -2,7 +2,6 @@
  * 
  */
 package k_kim_mg.sa4cob2db.sql;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -21,18 +21,17 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 import org.xml.sax.SAXException;
-
 /**
  * import from sequential file
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class Seq2Acm {
+	private int commit;
 	/**
 	 * display usage
 	 * 
-	 * @param properties
-	 *            properties
+	 * @param properties properties
 	 */
 	private static void displayUsage(Properties properties) {
 		String flag = properties.getProperty("display_usage", "true");
@@ -46,14 +45,11 @@ public class Seq2Acm {
 			}
 		}
 	}
-
 	/**
 	 * get from environment values
 	 * 
-	 * @param key
-	 *            key
-	 * @param defaultValue
-	 *            default value
+	 * @param key key
+	 * @param defaultValue default value
 	 * @return environment value
 	 */
 	private static String getEnvValue(String key, String defaultValue) {
@@ -64,7 +60,6 @@ public class Seq2Acm {
 			ret = defaultValue;
 		return ret;
 	}
-
 	/** main */
 	public static void main(String[] args) {
 		Properties properties = new Properties();
@@ -84,7 +79,10 @@ public class Seq2Acm {
 						if (args.length >= 5) {
 							properties.setProperty("extend", args[4]);
 							if (args.length >= 6) {
-								properties.setProperty("display_usage", args[5]);
+								properties.setProperty("commit", args[5]);
+								if (args.length >= 7) {
+									properties.setProperty("display_usage", args[6]);
+								}
 							}
 						}
 					}
@@ -98,35 +96,29 @@ public class Seq2Acm {
 		obj.importTo(properties);
 		displayUsage(properties);
 	}
-
 	/**
 	 * main
 	 * 
-	 * @param acmfile
-	 *            file
-	 * @param metafile
-	 *            mete data
-	 * @param linein
-	 *            is it line sequential file?
-	 * @param extend
-	 *            mode<br/>
+	 * @param acmfile file
+	 * @param metafile mete data
+	 * @param linein is it line sequential file?
+	 * @param extend mode<br/>
 	 *            true extend<br/>
 	 *            false overwrite
-	 * @param display_usage
-	 *            display usage?
+	 * @param commit commit count<br>
+	 *            commit > 0 commit per this value<br>
+	 *            commit <= 0 auto commit
+	 * @param display_usage display usage?
 	 */
-	public static void main_too(String acmfile, String infile, String metafile, String linein, String extend, String display_usage) {
+	public static void main_too(String acmfile, String infile, String metafile, String linein, String extend, String commit, String display_usage) {
 		Seq2Acm.main(new String[] { acmfile, infile, metafile, linein, extend, display_usage });
 	}
-
 	private Connection connection;
 	private SQLFileServer fileServer;
-
 	/**
 	 * get file from name
 	 * 
-	 * @param name
-	 *            filename
+	 * @param name filename
 	 * @return file name
 	 */
 	protected CobolFile getCobolFile(String name) {
@@ -134,22 +126,27 @@ public class Seq2Acm {
 		SQLFile file = null;
 		if (meta != null) {
 			connection = fileServer.createConnection();
+			if (commit > 0) {
+				try {
+					connection.setAutoCommit(false);
+				} catch (SQLException e) {
+					e.printStackTrace();
+					commit = 0;
+				}
+			}
 			file = new SQLFile(connection, meta);
 		}
 		return file;
 	}
-
 	/**
 	 * import form line sequential file
 	 * 
-	 * @param file
-	 *            file
-	 * @param stream
-	 *            stream
-	 * @throws IOException
-	 *             exception
+	 * @param file file
+	 * @param stream stream
+	 * @throws IOException exception
 	 */
 	protected void importLineTo(CobolFile file, InputStream stream) throws IOException {
+		int insrow = 0;
 		int count = 0;
 		InputStreamReader isr = new InputStreamReader(stream);
 		BufferedReader br = new BufferedReader(isr);
@@ -161,23 +158,38 @@ public class Seq2Acm {
 				// error
 			} else {
 				count++;
+				if (commit > 0) {
+					if (insrow > commit) {
+						try {
+							connection.commit();
+							insrow = -1;
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+					insrow++;
+				}
 			}
 			row = br.readLine();
 		}
+		if (commit > 0) {
+			try {
+				connection.commit();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		System.err.println("Row Count = " + count);
 	}
-
 	/**
 	 * import form sequential file
 	 * 
-	 * @param file
-	 *            file
-	 * @param stream
-	 *            stream
-	 * @throws IOException
-	 *             exception
+	 * @param file file
+	 * @param stream stream
+	 * @throws IOException exception
 	 */
 	protected void importTo(CobolFile file, InputStream stream) throws IOException {
+		int insrow = 0;
 		int count = 0;
 		int recsize = file.getMetaData().getRowSize();
 		byte[] record = new byte[recsize];
@@ -189,22 +201,35 @@ public class Seq2Acm {
 				// error
 			} else {
 				count++;
+				if (commit > 0) {
+					if (insrow > commit) {
+						try {
+							connection.commit();
+							insrow = -1;
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+					insrow++;
+				}
+			}
+		}
+		if (commit > 0) {
+			try {
+				connection.commit();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
 		System.err.println("Row Count = " + count);
 	}
-
 	/**
 	 * import form (line) sequential file
 	 * 
-	 * @param file
-	 *            file
-	 * @param stream
-	 *            stream
-	 * @param line
-	 *            is it line sequential file?
-	 * @throws IOException
-	 *             exception
+	 * @param file file
+	 * @param stream stream
+	 * @param line is it line sequential file?
+	 * @throws IOException exception
 	 */
 	protected void importTo(CobolFile file, InputStream stream, boolean line) throws IOException {
 		if (line) {
@@ -213,12 +238,10 @@ public class Seq2Acm {
 			importTo(file, stream);
 		}
 	}
-
 	/**
 	 * import from file
 	 * 
-	 * @param properties
-	 *            key-value set
+	 * @param properties key-value set
 	 */
 	protected void importTo(Properties properties) {
 		//
@@ -231,6 +254,12 @@ public class Seq2Acm {
 		String lineIn = properties.getProperty("linein", "false");
 		String extend_s = properties.getProperty("extend", "false");
 		boolean extend = Boolean.parseBoolean(extend_s);
+		String commit_s = properties.getProperty("commit", "0");
+		try {
+			commit = Integer.parseInt(commit_s);
+		} catch (Exception ex) {
+			commit = 0;
+		}
 		//
 		File metaFile = new File(metaString);
 		//
