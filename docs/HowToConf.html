@@ -1,52 +1,47 @@
 <html>
 <head>
-<title>設定について</title>
+<title>How To Conf.</title>
 </head>
 <body>
 <ol>
 <li>
-環境変数について
+Environment Values.
 <table border="1">
-<tr><th>環境変数</th><th>説明</th><th>サンプル</th></tr>
-<tr><td>ACM_CONFFILE</td><td>メタデータの設定ファイルのファイル名</td><td>/opt/sa4cob2db/conf/metafile.xml</td></tr>
-<tr><td>ACMLIBS_DIR</td><td>acmlibs.jarの存在するディレクトリ</td><td>/opt/sa4cob2db</td></tr>
-<tr><td>ACM_HOSTNAME</td><td>SQLNetServerが動作しているホスト</td><td>localhost</td></tr>
-<tr><td>ACM_USERNAME</td><td>SQLNetServerに接続するためのユーザー名</td><td>username</td></tr>
-<tr><td>ACM_PASSWORD</td><td>SQLNetServerに接続するためのパスワード</td><td>password</td></tr>
-<tr><td>ACM_PP_CHARSET</td><td>コード変換時のキャラクターセット</td><td>EUCJP</td></tr>
-<tr><td>ACM_SESSIONLISTENERS</td><td>セッションのイベント処理を行うクラス<br>複数設定する場合はコロン(:)区切り</td><td>ACMSessionEventAdapterTest</td></tr>
-<tr><td>ACM_SERVERLISTENERS</td><td>SQLNetServerのイベント処理を行うクラス<br>複数設定する場合はコロン(:)区切り</td><td>ACMServerEventAdapterTest:k_kim_mg.sa4cob2db.admin.MinAdminAdapter</td></tr>
-<tr><td>ACMOFF_FILE</td><td>SQLNetServerをリモート停止するための設定ファイル</td><td>sa4cob2db/conf/shutdown.conf</td></tr>
+<tr><th>Environment Value</th><th>Description</th><th>Sample</th></tr>
+<tr><td>ACM_CONFFILE</td><td>File Name of meta data set.</td><td>/opt/sa4cob2db/conf/metafile.xml</td></tr>
+<tr><td>ACMLIBS_DIR</td><td>Directory where acmlibs.jar exsists.</td><td>/opt/sa4cob2db</td></tr>
+<tr><td>ACM_HOSTNAME</td><td>hostname or address that SQLNetServer accepts.<br>This value is used by TCP client.</td><td>localhost</td></tr>
+<tr><td>ACM_USERNAME</td><td>username for connect to SQLNetServer.<br>This value is used by TCP client.</td><td>username</td></tr>
+<tr><td>ACM_PASSWORD</td><td>password for connect to SQLNetServer.<br>This value is used by TCP client.</td><td>password</td></tr>
+<tr><td>ACM_PP_CHARSET</td><td>Charcter set of source code</td><td>EUCJP</td></tr>
+<tr><td>ACM_SESSIONLISTENERS</td><td>Classes process session events.<br>Class names separated by ":"</td><td>ACMSessionEventAdapterTest</td></tr>
+<tr><td>ACM_SERVERLISTENERS</td><td>Classes process server events.<br>Class names separated by ":"</td><td>ACMServerEventAdapterTest:k_kim_mg.sa4cob2db.admin.MinAdminAdapter</td></tr>
+<tr><td>ACMOFF_FILE</td><td>Configuration File for to  SQLNetServer.</td><td>sa4cob2db/conf/shutdown.conf</td></tr>
 </table>
 </li>
 <li>
-設定ファイルの書き方について<br/>
-場合によっては<a href="conf/metafile.dtd">DTD</a>をみた方が早いかも。
+Configuration File(<a href="./metafile.dtd">DTD</a>)<br/>
 <ol>
-<li>meatadataset:全体部分</li>
+<li>meatadataset</li>
 <ol>
-	<li>property</li>データベース関連意外の設定項目。<br/>
-	name属性で設定項目のキーを示します。<br/>
-	使用済のname属性の値
+	<li>property</li>entire settings<br/>
 	<ol>
-		<li>jdbcdriverurl</li>JDBCドライバのURL。<br/>
-				設定ファイルではクラスパスを設定・更新しません。<br/>
-				JDBCドライバへのクラスパスは起動スクリプトなどに記述しておいてください。
-		<li>jdbcdatabaseurl</li>JDBCデータベースのURL。
-		<li>jdbcusername</li>データベースユーザー名。
-		<li>jdbcpassword</li>データベースパスワード。
-		<li>address</li>受付アドレス。","(カンマ)で区切って複数指定できます。<br/>既定値はローカルアドレスのみです。
-		<li>port</li>受付ポート。<br/>既定値は12345です。
-		<li>maxsessions</li>セッション数の上限。ただし、0は無制限
-		<li>log</li>ログ構成ファイル。
-		<li>authfile</li>パスワードファイル。
-		<li>adminfile</li>管理用パスワードファイル。
-		<li>backlog</li>SQLNetServerが使用するサーバーソケットのバックログ。
-		<li>sessionlisteners</li>セッションイベントを処理するクラスのクラス名(:(コロン)区切り)。
-		<li>serverlisteners</li>サーバーイベントを処理するクラスのクラス名(:(コロン)区切り)。
+		<li>jdbcdriverurl</li>JDBC Driver URL.
+		<li>jdbcdatabaseurl</li>JDBC Database URL
+		<li>jdbcusername</li>JDBC Database Username.
+		<li>jdbcpassword</li>JDBC Database Password.
+		<li>address</li>hostname or address that SQLNetServer accepts address. Comma(,) Seperated Name or Addresses.<br/>default value is localhost.
+		<li>port</li>Accepting port number.<br/>default value is 12345.
+		<li>maxsessions</li>Maximum Session Count.0 is unlimmited.
+		<li>log</li>Log Cinfiguration File name.
+		<li>authfile</li>Password File name.
+		<li>adminfile</li>Administrators Password File name..
+		<li>backlog</li>Backlog of Server Socket that SQLNetServer uses.
+		<li>sessionlisteners</li>Classes process session events.<br>Class names separated by ":"
+		<li>serverlisteners</li>Classes process server events.<br>Class names separated by ":"
 	</ol>
-	<li>otherofset</li>metadataset直下に存在するその他のノードを処理するためのクラス。ここで指定されるクラスは<a href="doc/jp/ne/biglobe/mvh/k_kim_mg/acm/sql/xml/MetaDataSetNodeProcessor.html">MetaDataSetNodeProcessor<a/>インターフェースを実装する必要があります。
-	<li>otherofmeta</li>metadata直下に存在するその他のノードを処理するためのクラス。ここで指定されるクラスは<a href="doc/jp/ne/biglobe/mvh/k_kim_mg/acm/sql/xml/MetaDataNodeProcessor.html">MetaDataNodeProcessor<a/>インターフェースを実装する必要があります。
+	<li>otherofset</li>Class to handle other nodes nor in the entire settings in metadata. The class what has to implement <a href="../doc/k_kim_mg/sa4cob2db/sql/xml/MetaDataSetNodeProcessor.html">MetaDataSetNodeProcessor<a/> interface.
+	<li>otherofmeta</li>metadata直下に存在するその他のノードを処理するためのクラス。ここで指定されるクラスは<a href="../doc/k_kim_mg/sa4cob2db/sql/xml/MetaDataNodeProcessor.html">MetaDataNodeProcessor<a/>インターフェースを実装する必要があります。
 	<li>metadata:各コボルファイル相当部分</li>
 	属性
 	<ol>
@@ -55,7 +50,7 @@
 		<li>bufmin</li>最小バッファサイズ。<br/>シーケンシャルリード時にバッファリングするレコードの最小件数。<br/>最小サイズに達するまでREAD NEXT処理は待機されます。
 		<li>bufmax</li>最大バッファサイズ。<br/>シーケンシャルリード時にバッファリングするレコードの最大件数。
 		<li>encode</li>レコードの文字エンコーディング
-		<li>customClassName</li>組み込みでない独自の動作をさせるためのクラス。<br/>ここで指定されるクラスは<a href="doc/jp/ne/biglobe/mvh/k_kim_mg/acm/CobolRecordMetaData.html">CobolRecordMetaData<a/>インターフェースを実装する必要があります。
+		<li>customClassName</li>組み込みでない独自の動作をさせるためのクラス。<br/>ここで指定されるクラスは<a href="../doc/k_kim_mg/sa4cob2db/CobolRecordMetaData.html">CobolRecordMetaData<a/>インターフェースを実装する必要があります。
 	</ol>
 	ノード
 	<ol>

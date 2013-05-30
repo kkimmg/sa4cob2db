@@ -182,7 +182,7 @@ public class Seq2Acm {
 		System.err.println("Row Count = " + count);
 	}
 	/**
-	 * import form sequential file
+	 * import from sequential file
 	 * 
 	 * @param file file
 	 * @param stream stream
