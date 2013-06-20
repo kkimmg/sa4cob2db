@@ -35,7 +35,7 @@ Configuration File(<a href="./metafile.dtd">DTD</a>)<br/>
 		<li>maxsessions</li>Maximum session count. It means unlimited count if 0 set to this value.
 		<li>log</li>Logging configuration File name.
 		<li>authfile</li>Password File name.
-		<li>adminfile</li>Administrators Password File name..
+		<li>adminfile</li>Administrators Password File name.
 		<li>backlog</li>Backlog of Server Socket that SQLNetServer uses.
 		<li>sessionlisteners</li>Classes process session events.<br>Class names separated by ":"
 		<li>serverlisteners</li>Classes process server events.<br>Class names separated by ":"
@@ -52,7 +52,7 @@ Configuration File(<a href="./metafile.dtd">DTD</a>)<br/>
 		<li>bufmin</li>Minimum buffering record count for sequential read.<br/>'READ NEXT' waits until count of buffered records reached this value.
 		<li>bufmax</li>Maximum buffering record count. <br/>Maximum number of records to be buffered in the sequential read operation.
 		<li>encode</li>Character encoding of record.
-		<li>customClassName</li>Class of order to the operation of its own non-built-in. <br/>This class has to <a href="../doc/k_kim_mg/sa4cob2db/CobolRecordMetaData.html">CobolRecordMetaData<a/> interface.
+		<li>customClassName</li>Class of order to the operation of its own non-built-in. <br/>This class has to implement <a href="../doc/k_kim_mg/sa4cob2db/CobolRecordMetaData.html">CobolRecordMetaData<a/> interface.
 	</ol>
 	Element
 	<ol>
@@ -60,62 +60,61 @@ Configuration File(<a href="./metafile.dtd">DTD</a>)<br/>
 		<li>sqlcolumn</li>Column. build-in object.<br/>
 		Attributes
 		<ol>
-			<li>name</li>Column name.<br/>
+			<li>name</li>Column name of COBOL record.<br/>
+			This string must be unique among the metadata.
 			<li>type</li>Data type.
 				<table border="1">
 				<tr><th>Value</th><th>Cobol Type</th><th>Description</th></tr>
-				<tr><td>1</td><td>9</td><td>integer</td></tr>
+				<tr><td>1</td><td>9 or S9</td><td>Integer. If this column is signed integer(S9), set true to  'signed' attribute.</td></tr>
 				</table>
-			<li>start</li>開始位置。0で始まります。
-			<li>length</li>列長。バイト数です。
-			<li>signed</li>列長。バイト数です。
-			<li>decimal</li>列長。バイト数です。
-			<li>usage</li>列長。バイト数です。
-			<li>format</li>書式文字列。数値型などのデータの整形などに利用します。<br/>
-					組み込みの型では以下に対応するフォーマット文字列を利用します。<br/>
+			<li>start</li>Column location. Start from 0.
+			<li>length</li>Column length. This is logical length.
+			<li>signed</li>Set true to this value if the column is signed integer.
+			<li>decimal</li>Number of decimal places.
+			<li>usage</li>Usage.
+			<li>format</li>Pattern string to be set to Format ojbect.<br/>
+					Class shown below is used to convert the numeric or date.<br/>
+					This string is a pattern that is set to an object of this class.<br/>
 					<table border="1">
-					<tr><th>データ型</th><th>クラス</th>
-					<tr><td>数値型</td><td>java.text.DecimalFormat</td>
-					<tr><td>日付型</td><td>java.text.SimpleDateFormat</td>
+					<tr><th>Data type</th><th>Class</th>
+					<tr><td>Number</td><td>java.text.SimpleDecimalFormat</td>
+					<tr><td>Date/Time</td><td>java.text.SimpleDateFormat</td>
 					</table>
-			<li>originalColumnName</li>SQL結果セットのフィールド名。
-			<li>defaultString</li>
-			<li>readIgnore</li>読み込み(read/select)時に無視するかどうか<br/>設定しない場合は"false"。</br>
+			<li>originalColumnName</li>Field name of SQL result set.
+			<li>readIgnore</li>The area of COBOL record is not set bytes from SQL records value, if this value is set to true.</br>
 				<table border="1">
-					<tr><th>セットした値</th><th>動作</th>
-					<tr><td><b>false</b></td><td>結果セットの値でコボル側データを更新する。</td>
-					<tr><td>true</td><td>結果セットの値でコボル側データを更新しない。</td>
+					<tr><th>Value</th><th>Behavior</th>
+					<tr><td><b>false</b></td><td>The column of COBOL record is updated with SQL records value.</td>
+					<tr><td>true</td><td>The column is ignored.</td>
 				</table>
-			<li>rewriteIgnore</li>更新(rewrite/update)時に無視するかどうか<br/>設定しない場合は"false"。</br>
+			<li>rewriteIgnore</li>The field is not set value from COBOL record when record is updated by "REWRITE" statement, if this value set to true.</br>
 				<table border="1">
-					<tr><th>セットした値</th><th>動作</th>
-					<tr><td><b>false</b></td><td>コボル側データで結果セットの値を更新する。</td>
-					<tr><td>true</td><td>コボル側データで結果セットの値を更新しない。</td>
+					<tr><th>Value</th><th>Behavior</th>
+					<tr><td><b>false</b></td><td>The field of SQL record is updated with COBOL columns value.</td>
+					<tr><td>true</td><td>The field is ignored.</td>
 				</table>
-			<li>writeIgnore</li>挿入(write/insert)時に無視するかどうか<br/>設定しない場合は"false"。</br>
+			<li>writeIgnore</li>The field is not set value from COBOL record when record is inserted by "WRITE" statement, if this value set to true.</br>
 				<table border="1">
-					<tr><th>セットした値</th><th>動作</th>
-					<tr><td><b>false</b></td><td>コボル側データで結果セットの値を更新する。</td>
-					<tr><td>true</td><td>コボル側データで結果セットの値を更新しない。</td>
+					<tr><th>Value</th><th>Behavior</th>
+					<tr><td><b>false</b></td><td>The field of SQL record is updated with COBOL columns value.</td>
+					<tr><td>true</td><td>The field is ignored.</td>
 				</table>
 		</ol>
-		<li>customcolumn</li>組み込みの列では実現できない独自の動作をする列を定義します。<br/>
-		属性
+		<li>customcolumn</li>Column with the behavior that can not be realized in the built-in column.<br/>
+		Attributes
 		<ol>
-			<li>name</li>列名。<br/>sqlcolumn/customcolumnに関わらずmetadata内で一意に識別可能な名前を仕様してください。<br/>(1ファイル内で重複しないようにしてください。)
-			<li>classname</li>列の動作を規定するクラス名。ここに指定されるクラスは<a href="doc/jp/ne/biglobe/mvh/k_kim_mg/acm/CobolColumn.html">CobolColumn</a>を実装する必要があります。<br/>
-				設定ファイルではクラスパスを設定・更新しません。<br/>
-				クラスパスは起動スクリプトなどに記述しておいてください
-			<li>constructor</li>この列のクラスのオブジェクトを作成するためのコンストラクタを選択します。
+			<li>name</li>Column name of COBOL record. It is same to attribute that has same name of sqlcolumn .
+			<li>classname</li>Class name. This class has to implement <a href="../doc/jp/ne/biglobe/mvh/k_kim_mg/acm/CobolColumn.html">CobolColumn</a> interface.
+			<li>constructor</li>Select the constructor type to create an object of the class of this column.
 				<table border="1">
-				<tr><th>値</th><th colspan="2">引数</th></tr>
-				<tr><td>1</td><td colspan="2">引数なし</td><tr>
-				<tr><td>2</td><td>メタデータ</td><td>この列を含むメタデータ/ファイルレイアウトに相当するmetadataオブジェクト</td><tr>
-				<tr rowspan="2"><td rowspan="2">3</td><td>メタデータ</td><td>この列を含むメタデータ/ファイルレイアウトに相当するmetadataオブジェクト</td></tr>
-				<tr><td>ノード</td><td>この列を定義しているnodeオブジェクト</td></tr>
+				<tr><th>Value</th><th colspan="2">Arguments</th></tr>
+				<tr><td>1</td><td colspan="2">No arguments</td><tr>
+				<tr><td>2</td><td>metadata</td><td>CobolRecordMetaData object that includes this column.</td><tr>
+				<tr rowspan="2"><td rowspan="2">3</td><td>metadata</td><td>CobolRecordMetaData object that includes this column.</td></tr>
+				<tr><td>node</td><td>Node object that defines this column.</td></tr>
 				</table>
 		</ol>
-		<li>keycolumn</li>キー項目の列名(sqlcolumn/customcolumnのname属性の値)
+		<li>keycolumn</li>The names of column that is primary key. 
 		<li>indexfile</li>START命令などで使用するための索引を定義します。<br>
 		属性
 		<ol> 
@@ -139,8 +138,7 @@ Configuration File(<a href="./metafile.dtd">DTD</a>)<br/>
 			</ol>
 		</ol>
 		<li>truncate</li>全データを削除するSQL文を記述します。<br/>
-				ファイルをOUTPUTモードでオープンしたときに実行されます。
-
+				ファイルをOUTPUTモードでオープンしたときに実行されます。ここでSQL文を指定しないとstatement属性で検索されたレコードが1件ずつ削除されます。
 		<li>listener</li>このメタデータのイベント処理を行うクラスを指定します。<br/>ここで指定するクラスはCobolFileEventListenerを実装しなければなりません。
 	</ol>
 </ol>
