@@ -35,9 +35,9 @@ public interface CobolColumn {
 	/** USAGE DISPLAY (Packed Decimal or Comp-3) */
 	public static int USAGE_COMP_3 = 2;
 	/** USAGE DISPLAY (National Characters) */
-	public static int USAGE_NATIONAL = 4;
+	public static int USAGE_NATIONAL = 3;
 	/** USAGE DISPLAY (Index) */
-	public static int USAGE_INDEX = 8;
+	public static int USAGE_INDEX = 4;
 
 	/**
 	 * create copy
