@@ -192,7 +192,7 @@ public class NodeReadLoader {
 		Map<CobolColumn, CobolColumn> indexKey2FileColumn = ret.getIndexKey2FileColumn();
 		for (int i = 0; i < size; i++) {
 			Node child = children.item(i);
-			if (child.getNodeName() == "file2index" || child.getNodeName() == "index2file") {
+			if (child.getNodeName() == "file2index" || child.getNodeName() == "index2file" || child.getNodeName() == "bothfile") {
 				NamedNodeMap cld = child.getAttributes();
 				Node filecolumnnode = cld.getNamedItem("filecolumn");
 				Node indexcolumnnode = cld.getNamedItem("indexcolumn");
@@ -204,8 +204,21 @@ public class NodeReadLoader {
 							fileKey2IndexColumn.put(filecolumn, indexcolumn);
 						} else if (child.getNodeName() == "index2file") {
 							indexKey2FileColumn.put(indexcolumn, filecolumn);
+						} else if (child.getNodeName() == "bothfile") {
+							fileKey2IndexColumn.put(filecolumn, indexcolumn);
+							indexKey2FileColumn.put(indexcolumn, filecolumn);
 						}
 					}
+				} else if (filecolumnnode != null) {
+					CobolColumn filecolumn = meta.getColumn(filecolumnnode.getNodeValue());
+					if (filecolumn != null) {
+						fileKey2IndexColumn.put(filecolumn, filecolumn);
+						indexKey2FileColumn.put(filecolumn, filecolumn);
+					}
+				} else if (indexcolumnnode != null) {
+					CobolColumn indexcolumn = idmeta.getColumn(indexcolumnnode.getNodeValue());
+					fileKey2IndexColumn.put(indexcolumn, indexcolumn);
+					indexKey2FileColumn.put(indexcolumn, indexcolumn);
 				}
 			}
 		}
@@ -371,7 +384,6 @@ public class NodeReadLoader {
 		if (meta == null) {
 			Node custom = map.getNamedItem("customClassName");
 			if (custom == null || custom.getNodeValue().trim().length() == 0) {
-
 				Node base = map.getNamedItem("base");
 				if (base != null) {
 					// exsists base object
@@ -646,7 +658,7 @@ public class NodeReadLoader {
 						String fname = work.getNodeValue();
 						File wfile = new File(fname);
 						if (wfile.exists() && wfile.canRead()) {
-							NodeReadLoader child = new NodeReadLoader();
+							NodeReadLoader child = createNodeReadLoader();
 							try {
 								SQLNetServer.logger.info("including metadata " + fname);
 								child.createMetaDataSet(wfile, meta, properties);
@@ -668,6 +680,13 @@ public class NodeReadLoader {
 			}
 		}
 		return meta;
+	}
+	/**
+	 * create this class instance for "include".
+	 * @return NodeReadLoader object
+	 */
+	NodeReadLoader createNodeReadLoader () {
+		return new NodeReadLoader();
 	}
 	/**
 	 * create SQL column
@@ -749,10 +768,9 @@ public class NodeReadLoader {
 		}
 		return retvalue.toString().trim();
 	}
-
 	/**
-	 * process other node
-	 * load proseccor class & process current node 
+	 * process other node load proseccor class & process current node
+	 * 
 	 * @param node xml node
 	 * @param meta meta data
 	 */
@@ -778,8 +796,8 @@ public class NodeReadLoader {
 		}
 	}
 	/**
-	 * process other node
-	 * load proseccor class & process current node 
+	 * process other node load proseccor class & process current node
+	 * 
 	 * @param node xml node
 	 * @param meta meta data
 	 */

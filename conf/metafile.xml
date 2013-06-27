@@ -33,9 +33,9 @@
 		<sqlcolumn name="cd" type="2" start="5" length="20" format=""
 			originalColumnName="cd" defaultString="" readIgnore="false"
 			rewriteIgnore="false" writeIgnore="false" />
-		<customcolumn name="nihongo" type="2" start="25" length="20"
+		<sqlcolumn name="nihongo" type="2" start="25" length="20"
 			format="" originalColumnName="nihongo" defaultString="" readIgnore="false"
-			rewriteIgnore="false" writeIgnore="false" Dclassname="HankakuZenkaku"
+			rewriteIgnore="false" writeIgnore="false" 
 			constructor="1" />
 		<sqlcolumn name="seisu" type="1" start="45" length="7"
 			format="0000000" originalColumnName="seisu" defaultString=""

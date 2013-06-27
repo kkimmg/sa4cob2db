@@ -2,8 +2,8 @@
 <!-- Generated from test_ubuntu.xml by XMLBuddy -->
 <!ELEMENT metadataset (property*,otheronset*,otheronmeta*,metadata*)>
 <!ELEMENT property (#PCDATA)>
-<!ELEMENT otheronset (#PCDATA)>
-<!ELEMENT otheronmeta (#PCDATA)>
+<!ELEMENT otherofset (#PCDATA)>
+<!ELEMENT otherofmeta (#PCDATA)>
 <!ATTLIST property name NMTOKEN #REQUIRED>
 <!ATTLIST otherofset name NMTOKEN #REQUIRED>
 <!ATTLIST otherofmeta name NMTOKEN #REQUIRED>
@@ -28,6 +28,7 @@
 	decimal NMTOKEN #IMPLIED
 	signed (true|false) "false"
 	format CDATA #IMPLIED
+	usage CDATA #IMPLIED
 	readIgnore (true|false) "false"
 	rewriteIgnore (true|false) "false"
 	writeIgnore (true|false) "false"
@@ -37,21 +38,10 @@
 	name NMTOKEN #REQUIRED
 	classname NMTOKEN #REQUIRED
 	constructor NMTOKEN #REQUIRED  
-	originalColumnName NMTOKEN #IMPLIED
-	type NMTOKEN #IMPLIED
-	start NMTOKEN #IMPLIED
-	length NMTOKEN #IMPLIED
-	defaultString CDATA #IMPLIED
-	decimal NMTOKEN #IMPLIED
-	signed (true|false) "false"
-	format CDATA #IMPLIED
-	readIgnore (true|false) "false"
-	rewriteIgnore (true|false) "false"
-	writeIgnore (true|false) "false"
 >
 <!ELEMENT keycolumn (#PCDATA)>
 <!ELEMENT listener (#PCDATA)>
-<!ELEMENT indexfile (index2file+,file2index+)>
+<!ELEMENT indexfile (index2file+,file2index+,bothfile+)>
 <!ATTLIST indexfile
 	filename NMTOKEN #REQUIRED
 	indexname NMTOKEN #REQUIRED
@@ -66,5 +56,10 @@
 	filecolumn NMTOKEN #REQUIRED
 	indexcolumn NMTOKEN #REQUIRED
 >
+<!ATTLIST bothfile
+	filecolumn NMTOKEN #REQUIRED
+	indexcolumn NMTOKEN #IMPLIED
+>
 <!ELEMENT truncate (#PCDATA)>
+<!ELEMENT listener (#PCDATA)>
 
