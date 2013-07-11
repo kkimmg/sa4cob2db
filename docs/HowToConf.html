@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>How To Conf.</title>
+<link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 This document tells you about environment values and configuration file.
@@ -32,11 +33,19 @@ and you need to set other environment values.
 </li>
 <li>
 Configuration File(<a href="./metafile.dtd">DTD</a>)<br/>
-meatadataset
+meatadataset<br>
+Root node.
+<div id="meta_source"><pre><code>&lt;meatadataset>
+...
+&lt;/metadataset>
+</code></pre></div>
 <ol>
 	Elements
 	<li>property</li>Entire settings and additional string for "otherofset" node.<br>
-	Preserved properties.
+	<div id="meta_source"><pre><code>&lt;metadataset>
+	&lt;property name="name">value&lt;/property>
+&lt;/metadataset></code></pre></div>
+	Preserved properties.<br/>
 		<table border="1">
 		<tr><th>name</th><th>Description</th><th>Sample</th><tr>
 		<tr><td>jdbcdriverurl</td><td>JDBC Driver URL.</td><td></td></tr>
@@ -52,45 +61,61 @@ meatadataset
 		<tr><td>backlog</td><td>Backlog of Server Socket that SQLNetServer uses.</td><td></td></tr>
 		<tr><td>sessionlisteners</td><td>Classes process session events.<br>Class names separated by ":"</td><td></td></tr>
 		<tr><td>serverlisteners</td><td>Classes process server events.<br>Class names separated by ":"</td><td></td></tr>
-		<table>
+		</table>
 	<li>otherofset</li>Class for processing node that has not reserved name in the metadataset node. <br/>
 	This class has to implement <a href="../doc/k_kim_mg/sa4cob2db/sql/xml/MetaDataSetNodeProcessor.html">MetaDataSetNodeProcessor<a/> interface.<br>
 	For example.
-	<pre><code>&lt;metadataset>
-	&lt;otherofset name="unreserved">aaa.bbb.MDSNPImple&lt;/otherofset>
+	<div id="meta_source"><pre><code>&lt;metadataset>
+	&lt;otherofset name="unreserved">your.package.MDSNPImple&lt;/otherofset>
+	...
 	&lt;unreserved>&lt;/unreserved>
 &lt;/metadataset>
-</code></pre>
+</code></pre></div>
 	The "unreserved" node is processed by 
-	<pre><code>aaa.bbb.MDSNPImple#processOtherNode(Node node, CobolRecordMetaDataSet meta, Properties properties);</code></pre>.
+	<div id="meta_source"><pre><code>your.package.MDSNPImple#processOtherNode(Node node, CobolRecordMetaDataSet meta, Properties properties);</code></pre></div>.
 	<li>otherofmeta</li>Class for processing node that has not reserved name in the metadata node.<br>
 	This class has to implement <a href="../doc/k_kim_mg/sa4cob2db/sql/xml/MetaDataNodeProcessor.html">MetaDataNodeProcessor<a/> interface.<br>
 	For example.
-	<pre><code>&lt;metadataset>
-	&lt;otherofset name="unreserved">aaa.bbb.MDNPImple&lt;/otherofset>
+	<div id="meta_source"><pre><code>&lt;metadataset>
+	&lt;otherofset name="unreserved">your.package.MDNPImple&lt;/otherofset>
 	&lt;metadata name....>
+		...
 		&lt;unreserved>&lt;/unreserved>
 	&lt/metadata>
 &lt;/metadataset>
-</code></pre>
+</code></pre></div>
 	The "unreserved" node is processed by 
-	<pre><code>aaa.bbb.MDNPImple#processOtherNode(Node node, CobolRecordMetaData meta);</code></pre>.
+	<div id="meta_source"><pre><code>your.package.MDNPImple#processOtherNode(Node node, CobolRecordMetaData meta);</code></pre></div>.
 </li>
 	<li>metadata</li>
-	Each metadata/file settings<br/>
+	Each metadata/file settings
+<div id="meta_source"><pre><code>&lt;metadataset>
+	&lt;metadata name="FileName" ...>
+		&lt;statement>SELECT * FROM TableName ORDER BY id&lt;/statment>
+		&lt;sqlcolumn name="id" ..../>
+		...
+		&lt;customcoumn name="other" .../>
+		...
+		&lt;keycolumn>id&lt;keycolumn>
+		&lt;truncate>TRUNCATE TableName&lt;truncate>
+		&lt;listener>a.b.CobolRecordEventListenerImpl1&ltlistener>
+	&lt;/metadata>
+&lt;metadataset></code></pre></div>
 	Attributes
 	<ol>
-		<li>name</li>External file name or Metadata name.<br/>YYYY of <pre><code>SELECT XXXX ASSIGN TO 'YYYY'.</code></pre>
+		<li>name</li>External file name or Metadata name.<br/>'FileName' of <div id="meta_source"><pre><code>SELECT XXXX ASSIGN TO 'FileName'.</code></pre></div>
 		<li>bufinit</li>Initial buffering record count for sequential read.<br/>'READ NEXT' waits until count of buffered records reached this value.
 		<li>bufmin</li>Minimum buffering record count for sequential read.<br/>'READ NEXT' waits until count of buffered records reached this value.
 		<li>bufmax</li>Maximum buffering record count. <br/>Maximum number of records to be buffered in the sequential read operation.
 		<li>encode</li>Character encoding of record.
 		<li>customClassName</li>Class of order to the operation of its own non-built-in. <br/>This class has to implement <a href="../doc/k_kim_mg/sa4cob2db/CobolRecordMetaData.html">CobolRecordMetaData<a/> interface.
 	</ol>
-	Element
+	Elements
 	<ol>
 		<li>statement</li>SELECT statement<br/>You need to sort the result set by "ORDER BY" if the file is read Random/Dynamic.
-		<li>sqlcolumn</li>Column. build-in object.<br/>
+		<div id="meta_source"><pre><code>&lt;statement>SELECT * FROM TableName ORDER BY id&lt;/statment></code></pre></div>
+		<li>sqlcolumn</li><div id="meta_source"><pre><code>&lt;sqlcolumn name="id" type="1" start="0" length="10" ... /></code></pre></div>
+		Column. build-in object.<br/>
 		Attributes
 		<ol>
 			<li>name</li>Column name of COBOL record.<br/>
@@ -148,7 +173,8 @@ meatadataset
 					<tr><td>true</td><td>The field is ignored.</td>
 				</table>
 		</ol>
-		<li>customcolumn</li>Column with the behavior that can not be realized in the built-in column.<br/>
+		<li>customcolumn</li><div id="meta_source"><pre><code>&lt;custormcolumn name="custom" classname="your.package.CCImpl" constructor="1" /></code></pre></div>
+		Column with the behavior that can not be realized in the built-in column.<br/>
 		Attributes
 		<ol>
 			<li>name</li>Column name of COBOL record. It is same to attribute that has same name of sqlcolumn .
@@ -162,8 +188,12 @@ meatadataset
 				<tr><td>node</td><td>Node object that defines this column.</td></tr>
 				</table>
 		</ol>
-		<li>keycolumn</li>The names of column that is primary key. 
+		<li>keycolumn</li><div id="meta_source"><pre><code>&lt;keycolumn>id&lt;/keycolumn></code></pre></div>The names of column that is primary key. 
 		<li>indexfile</li>Index<br/>
+		<div id="meta_source"><pre><code>&lt;indexfile filename="IndexFileName" indexname="SubKeyName">
+	&lt;index2file filecolumn="subid_of_file" indexcolumn="subid_of_index" />
+	&lt;file2index filecolumn="id" indexcolumn="id" />
+&lt;/indexfile></code></pre></div>
 		Attributes
 		<ol> 
 			<li>filename</li>Metadata name.
@@ -178,25 +208,32 @@ meatadataset
 				<li>filecolumn</li>Column name of file. This column is key of the file.
 				<li>indexcolumn</li>Column name of index.
 			</ol>
+			<div id="meta_source"><pre><code>&lt;index2file filecolumn="aaaa"/></code></pre></div> is equal to 
+			<div id="meta_source"><pre><code>&lt;index2file filecolumn="aaaa" indexcolumn="aaaa"/></code></pre></div>
 			<li>file2index</li>Assign column of the file to key column of index. <br/>
-			属性
+			Attributes
 			<ol>
 				<li>filecolumn</li>Column name of file.
 				<li>indexcolumn</li>Column name of index. This column is key of index.
 			</ol>
-			<li>bothfile</li>
-			<pre><code>&lt;bothfile filecolumn="aaaa" indexcolumn="bbbb"></code></pre> is equals to 
-			<pre><code>&lt;file2index filecolumn="aaaa" indexcolumn="bbbb">
-&lt;index2file filecolumn="aaaa" indexcolumn="bbbb"></code></pre>
-			and 
-			<pre><code>&lt;bothfile filecolumn="aaaa"></code></pre> is equal to 
-			<pre><code>&lt;bothfile filecolumn="aaaa" indexcolumn="aaaa"></code></pre>
+			<div id="meta_source"><pre><code>&lt;file2index filecolumn="aaaa"/></code></pre></div> is equal to 
+			<div id="meta_source"><pre><code>&lt;file2index filecolumn="aaaa" indexcolumn="aaaa"/></code></pre></div>
 		</ol>
 		<li>truncate</li>SQL statement to delete all data.<br/>
+		<div id="meta_source"><pre><code>&lt;truncate>DELETE FROM TableName&lt;/truncate></code></pre></div>
 				It is executed when file is opened for OUTPUT mode. <br/>
 				If this Element is not defined, Records that found by SQL statement on "statement" attribute will be deleted one by one.
 		<li>listener</li>Classes process file events.<br>Class names separated by ":". This class has to implement <a href="../doc/k_kim_mg/sa4cob2db/event/CobolFileEventListener.html">CobolFileEventListener<a/> interface.
-	<li>include</li>
+		<div id="meta_source"><pre><code>&lt;listener>your.package.CFELImpl;/listener></code></pre></div>
+		<li>alias</li>Alias<br/>Another name of this file or record.
+		<div id="meta_source"><pre><code>&lt;alias>/dir/where/alias&lt;/alias></code></pre></div>
+	</ol>
+	<li>include</li>Include metadata file.<br/>
+	<div id="meta_source"><pre><code>&lt;include file="/dir/where/another.xml" /></code></pre></div>
+	Attributes
+	<ol>
+		<li>file</li>Name of file that is imported.
+	</ol>
 	</ol>
 </ol>
 </body>
