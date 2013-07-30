@@ -16,42 +16,11 @@ CP = cp -f
 all: cobc_std cobc_acm cobc_jni
 
 cobpp_acm:
-	$(COBPP) 			SEQTEST2.cob      ACMSEQTEST2.cob
-	$(COBPP) 			WRTTEST2.cob      ACMWRTTEST2.cob
-	$(COBPP) 			STTTEST.cob       ACMSTTTEST.cob
-	$(COBPP) 			DYNTEST.cob       ACMDYNTEST.cob
-	$(COBPP) 			DYNTEST1.cob      ACMDYNTEST1.cob
-	$(COBPP) 			SEQTEST.cob       ACMSEQTEST.cob
-	$(COBPP) 			WRTTEST.cob       ACMWRTTEST.cob
-	$(COBPP) 			IDXTEST.cob       ACMIDXTEST.cob
-	$(COBPP) 			WRTTEST4.cob      ACMWRTTEST4.cob
-	$(COBPP) 			SEQTEST4.cob      ACMSEQTEST4.cob
-	$(COBPP) 			OPTTEST.cob       ACMOPTTEST.cob
-	$(COBPP) 			MAINTEST.cob      ACMMAINTEST.cob
-	$(COBPP) 			TYPESTEST.cob     ACMTYPESTEST.cob
-	$(COBP3) 			SUBTEST.cob       ACMSUBTEST.cob
-	$(COBPP) 			LENTEST.cob       ACMLENTEST.cob
+	cd tcp; make cobpp
 
 cobpp_jni:
-	$(COBP2) 			SEQTEST2.cob      JNISEQTEST2.cob
-	$(COBP2) 			WRTTEST2.cob      JNIWRTTEST2.cob
-	$(COBP2) 			STTTEST.cob       JNISTTTEST.cob
-	$(COBP2) 			DYNTEST.cob       JNIDYNTEST.cob
-	$(COBP2) 			DYNTEST1.cob      JNIDYNTEST1.cob
-	$(COBP2) 			SEQTEST.cob       JNISEQTEST.cob
-	$(COBP2) 			WRTTEST.cob       JNIWRTTEST.cob
-	$(COBP2) 			IDXTEST.cob       JNIIDXTEST.cob
-	$(COBP2) 			WRTTEST4.cob      JNIWRTTEST4.cob
-	$(COBP2) 			SEQTEST4.cob      JNISEQTEST4.cob
-	$(COBP2) 			OPTTEST.cob       JNIOPTTEST.cob
-	$(COBP2) 			MAINTEST.cob      JNIMAINTEST.cob
-	$(COBP2) 			TYPESTEST.cob     JNITYPESTEST.cob
-	$(COBP4) 			SUBTEST.cob       JNISUBTEST.cob
-	$(COBP2) 			LENTEST.cob       JNILENTEST.cob
+	cd jni; make cobpp
 	
-link_consts:
-	$(CP) ../../cobs/ACMCONSTS.CBL ./
-
 cobc_std:
 	$(COBC) $(CFLAGS) 		SEQTEST.cob    -o SEQTEST
 	$(COBC) $(CFLAGS) 		WRTTEST.cob    -o WRTTEST
@@ -68,76 +37,13 @@ cobc_std:
 	$(COBC) $(MFLAGS) 		SUBTEST.cob    -o SUBTEST.so
 	$(COBC) $(CFLAGS) 		LENTEST.cob    -o LENTEST
 
-cobc_acm: link_consts cobpp_acm
-	$(COBC) $(CFLAGS) 		ACMSEQTEST.cob   -o ACMSEQTEST	
-	$(COBC) $(CFLAGS) 		ACMWRTTEST.cob   -o ACMWRTTEST
-	$(COBC) $(CFLAGS) 		ACMSEQTEST2.cob  -o ACMSEQTEST2
-	$(COBC) $(CFLAGS) 		ACMWRTTEST2.cob  -o ACMWRTTEST2
-	$(COBC) $(CFLAGS) 		ACMSEQTEST2.cob  -o ACMSEQTEST2
-	$(COBC) $(CFLAGS) 		ACMSTTTEST.cob   -o ACMSTTTEST
-	$(COBC) $(CFLAGS) 		ACMDYNTEST.cob   -o ACMDYNTEST
-	$(COBC) $(CFLAGS) 		ACMDYNTEST1.cob  -o ACMDYNTEST1
-	$(COBC) $(CFLAGS) 		ACMIDXTEST.cob   -o ACMIDXTEST
-	$(COBC) $(CFLAGS) 		ACMWRTTEST4.cob  -o ACMWRTTEST4
-	$(COBC) $(CFLAGS) 		ACMSEQTEST4.cob  -o ACMSEQTEST4
-	$(COBC) $(CFLAGS) 		ACMOPTTEST.cob   -o ACMOPTTEST
-	$(COBC) $(CFLAGS) 		ACMMAINTEST.cob  -o ACMMAINTEST
-	$(COBC) $(CFLAGS) 		ACMTYPESTEST.cob -o ACMTYPESTEST
-	$(COBC) $(MFLAGS) 		ACMSUBTEST.cob   -o ACMSUBTEST.so
-	$(COBC) $(CFLAGS) 		ACMLENTEST.cob   -o ACMLENTEST	
+cobc_acm: cobpp_acm
+	cd tcp; make
 
-cobc_jni: link_consts cobpp_jni
-	$(COBC) $(CFLAGS) 		JNISEQTEST.cob   -o JNISEQTEST	
-	$(COBC) $(CFLAGS) 		JNIWRTTEST.cob   -o JNIWRTTEST
-	$(COBC) $(CFLAGS) 		JNISEQTEST2.cob  -o JNISEQTEST2
-	$(COBC) $(CFLAGS) 		JNIWRTTEST2.cob  -o JNIWRTTEST2
-	$(COBC) $(CFLAGS) 		JNISEQTEST2.cob  -o JNISEQTEST2
-	$(COBC) $(CFLAGS) 		JNISTTTEST.cob   -o JNISTTTEST
-	$(COBC) $(CFLAGS) 		JNIDYNTEST.cob   -o JNIDYNTEST
-	$(COBC) $(CFLAGS) 		JNIDYNTEST1.cob  -o JNIDYNTEST1
-	$(COBC) $(CFLAGS) 		JNIIDXTEST.cob   -o JNIIDXTEST
-	$(COBC) $(CFLAGS) 		JNIWRTTEST4.cob  -o JNIWRTTEST4
-	$(COBC) $(CFLAGS) 		JNISEQTEST4.cob  -o JNISEQTEST4
-	$(COBC) $(CFLAGS) 		JNIOPTTEST.cob   -o JNIOPTTEST
-	$(COBC) $(CFLAGS) 		JNIMAINTEST.cob  -o JNIMAINTEST
-	$(COBC) $(CFLAGS) 		JNITYPESTEST.cob -o JNITYPESTEST
-	$(COBC) $(MFLAGS) 		JNISUBTEST.cob   -o JNISUBTEST.so
-	$(COBC) $(CFLAGS) 		JNILENTEST.cob   -o JNILENTEST	
+cobc_jni: cobpp_jni
+	cd jni; make
 
-clean_cobs:
-	rm ACMSEQTEST.cob
-	rm ACMWRTTEST.cob
-	rm ACMSEQTEST2.cob
-	rm ACMWRTTEST2.cob
-	rm ACMSTTTEST.cob
-	rm ACMDYNTEST.cob
-	rm ACMDYNTEST1.cob
-	rm ACMIDXTEST.cob
-	rm ACMWRTTEST4.cob
-	rm ACMSEQTEST4.cob
-	rm ACMOPTTEST.cob
-	rm ACMMAINTEST.cob
-	rm ACMTYPESTEST.cob
-	rm ACMSUBTEST.cob
-	rm JNISEQTEST.cob
-	rm JNIWRTTEST.cob
-	rm JNISEQTEST2.cob
-	rm JNIWRTTEST2.cob
-	rm JNISTTTEST.cob
-	rm JNIDYNTEST.cob
-	rm JNIDYNTEST1.cob
-	rm JNIIDXTEST.cob
-	rm JNIWRTTEST4.cob
-	rm JNISEQTEST4.cob
-	rm JNIOPTTEST.cob
-	rm ACMCONSTS.CBL
-	rm JNIMAINTEST.cob
-	rm JNITYPESTEST.cob
-	rm JNISUBTEST.cob
-	rm ACMLENTEST.cob
-	rm JNILENTEST.cob
-
-clean_stdobj:
+clean:
 	rm SEQTEST
 	rm WRTTEST
 	rm SEQTEST2
@@ -150,44 +56,8 @@ clean_stdobj:
 	rm OPTTEST
 	rm MAINTEST
 	rm TYPESTEST
-	rm SUBTEST
+	rm SUBTEST.so
 	rm LENTEST
-
-clean_acmobj:
-	rm ACMSEQTEST
-	rm ACMWRTTEST
-	rm ACMSEQTEST2
-	rm ACMWRTTEST2
-	rm ACMSTTTEST
-	rm ACMDYNTEST
-	rm ACMDYNTEST1
-	rm ACMIDXTEST
-	rm ACMWRTTEST4
-	rm ACMSEQTEST4
-	rm ACMOPTTEST
-	rm ACMMAINTEST
-	rm ACMTYPESTEST
-	rm ACMSUBTEST
-	rm ACMLENTEST
-
-clean_jniobj:
-	rm JNISEQTEST
-	rm JNIWRTTEST
-	rm JNISEQTEST2
-	rm JNIWRTTEST2
-	rm JNISTTTEST
-	rm JNIDYNTEST
-	rm JNIDYNTEST1
-	rm JNIIDXTEST
-	rm JNIWRTTEST4
-	rm JNISEQTEST4
-	rm JNIOPTTEST
-	rm JNIMAINTEST
-	rm JNITYPESTEST
-	rm JNISUBTEST
-	rm JNILENTEST
-
-clean_obj: clean_stdobj clean_acmobj clean_jniobj
-
-clean: clean_cobs clean_obj
+	cd tcp; make clean
+	cd jni; make clean
 

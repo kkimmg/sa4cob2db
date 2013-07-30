@@ -1,7 +1,95 @@
 <html>
 <head><title>Directions in Comments</title></head>
-This document tells you about directions in comment.<br>
-cobpp command generates the source code for database access in accordance with these directions.
 <body>
+This document tells you about of directions in comment.<br>
+cobpp command generates the source code for database access in accordance with these directions.<br>
+
+<pre><code>
+000100*AAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCC
+000400 IDENTIFICATION              DIVISION.
+000500 PROGRAM-ID.                 SEQTEST.
+.....................................................................
+001000 FILE-CONTROL.
+001100*                        
+001200*ACMFILE
+001300*ACMRECNAME=I-RECORD
+001400     SELECT INP-FILE ASSIGN TO "dbtests"
+001500       ORGANIZATION LINE SEQUENTIAL.
+001600 DATA                        DIVISION.
+001700 FILE                        SECTION.
+001800*                    
+001900 FD  INP-FILE.
+002000 COPY "I_RECORD.cbl".
+002100 WORKING-STORAGE             SECTION.
+002200 01  SOME-AREA.
+.....................................................................
+002800 PROCEDURE                   DIVISION.
+002900*              
+003000 MAIN                        SECTION.
+003100     PERFORM   INIT.
+003200     PERFORM   FL-OPEN.
+003300     PERFORM  INP-READ.
+003400*                                                      
+003500     PERFORM   UNTIL  END-FLG  NOT  =  ZERO
+003700        PERFORM  OUT-WRITE
+003800        PERFORM  INP-READ
+003900     END-PERFORM.
+004000     PERFORM   FL-CLOSE.
+004100     PERFORM   TERM.
+005200     STOP RUN.
+005300*              
+.....................................................................
+005700*                      
+005800 FL-OPEN                     SECTION.
+005900     OPEN   INPUT  INP-FILE.
+006000     EXIT.
+006100*                  
+006200 INP-READ                    SECTION.
+006300     READ INP-FILE NEXT
+006400       AT END  MOVE 1 TO END-FLG
+006500     END-READ.
+006600     IF  END-FLG  =  ZERO
+006700*                                                                
+006800         ADD  1              TO  I-COUNTER
+006900     END-IF.
+007000     EXIT.
+.....................................................................
+</code></pre>
+
+Directions
+<table border="1">
+<tr><th>Direction</th><th>Description</th></tr>
+<tr><td><a href="#ACMFILE">ACMFILE</a></td><td>Declaration of Start of ACMFILE </td></tr>
+<tr><td><a href="#ACMASSIGNNAME">ACMASSIGNNAME</a></td><td>Redefinition of ACM Assign File Name </td></tr>
+<tr><td><a href="#ACMRECNAME">ACMRECNAME</a></td><td>Declaration of ACM Record Name </td></tr>
+<tr><td><a href="#ACMCONSTS_FILE">ACMCONSTS_FILE</a></td><td>Name of file that includes Literals </td></tr>
+<tr><td><a href="#ACMSETLENGTH">ACMSETLENGTH</a></td><td>Set Max Record length ... </td></tr>
+<tr><td><a href="#ACMAUTO">ACMAUTO</a></td><td>Declaration of Auto Commit </td></tr>
+<tr><td><a href="#ACMTRANS">ACMTRANS</a></td><td>Declare ACM Transaction</td></tr>
+<tr><td><a href="#ACMCOMMIT">ACMCOMMIT</a></td><td>Commit</td></tr>
+<tr><td><a href="#ACMROLLBACK">ACMROLLBACK</a></td><td>Rollback </td></tr>
+<tr><td><a href="#ACMCOMMENTSTART">ACMCOMMENTSTART</a></td><td>Declaration of start of Comment</td></tr>
+<tr><td><a href="#ACMCOMMENTEND">ACMCOMMENTEND</a></td><td>Declaration of end of Comment</td></tr>
+<tr><td><a href="#ACMINSERTSTART">ACMINSERTSTART</a></td><td>Start of Comment in </td></tr>
+<tr><td><a href="#ACMINSERTEND">ACMINSERTEND</a></td><td>End of Comment in </td></tr>
+<tr><td><a href="#ACMGETOPTION">ACMGETOPTION</a></td><td>Get optional value from ... </td></tr>
+<tr><td><a href="#ACMSETOPTION">ACMSETOPTION</a></td><td>Set optional value to ... </td></tr>
+</table>
+<a name="ACMFILE">*ACMFILE</a><br>
+<br>
+<a name=ACMASSIGNNAME>ACMASSIGNNAME</a><br>
+<a name=ACMRECNAME>ACMRECNAME</a><br>
+<a name=ACMCONSTS_FILE>ACMCONSTS_FILE</a><br>
+<a name=ACMSETLENGTH>ACMSETLENGTH</a><br>
+<a name=ACMAUTO>ACMAUTO</a><br>
+<a name=ACMTRANS>ACMTRANS</a><br>
+<a name=ACMCOMMIT>ACMCOMMIT</a><br>
+<a name=ACMROLLBACK>ACMROLLBACK</a><br>
+<a name=ACMCOMMENTSTART>ACMCOMMENTSTART</a><br>
+<a name=ACMCOMMENTEND>ACMCOMMENTEND</a><br>
+<a name=ACMINSERTSTART>ACMINSERTSTART</a><br>
+<a name=ACMINSERTEND>ACMINSERTEND</a><br>
+<a name=ACMGETOPTION>ACMGETOPTION</a><br>
+<a name=ACMSETOPTION>ACMSETOPTION</a><br>
 </body>
 </html>

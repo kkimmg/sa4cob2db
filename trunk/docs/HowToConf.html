@@ -224,11 +224,11 @@ Root node.
 				It is executed when file is opened for OUTPUT mode. <br/>
 				If this Element is not defined, Records that found by SQL statement on "statement" attribute will be deleted one by one.
 		<li>listener</li>Classes process file events.<br>Class names separated by ":". This class has to implement <a href="../doc/k_kim_mg/sa4cob2db/event/CobolFileEventListener.html">CobolFileEventListener<a/> interface.
-		<div id="meta_source"><pre><code>&lt;listener>your.package.CFELImpl;/listener></code></pre></div>
+		<div id="meta_source"><pre><code>&lt;listener>your.package.CFELImpl&lt;/listener></code></pre></div>
 		<li>alias</li>Alias<br/>Another name of this file or record.
 		<div id="meta_source"><pre><code>&lt;alias>/dir/where/alias&lt;/alias></code></pre></div>
 	</ol>
-	<li>include</li>Include metadata file.<br/>
+	<li>include</li>Include another metadataset file.<br/>
 	<div id="meta_source"><pre><code>&lt;include file="/dir/where/another.xml" /></code></pre></div>
 	Attributes
 	<ol>
