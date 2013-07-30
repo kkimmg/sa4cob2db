@@ -33,7 +33,7 @@
 		<sqlcolumn name="cd" type="2" start="5" length="20" format=""
 			originalColumnName="cd" defaultString="" readIgnore="false"
 			rewriteIgnore="false" writeIgnore="false" />
-		<sqlcolumn name="nihongo" type="2" start="25" length="20"
+		<_sqlcolumn name="nihongo" type="2" start="25" length="20"
 			format="" originalColumnName="nihongo" defaultString="" readIgnore="false"
 			rewriteIgnore="false" writeIgnore="false" 
 			constructor="1" />
@@ -70,7 +70,7 @@
 		<sqlcolumn name="cd" type="2" start="5" length="20" format=""
 			originalColumnName="cd" defaultString="" readIgnore="false"
 			rewriteIgnore="false" writeIgnore="false" />
-		<sqlcolumn name="nihongo" type="2" start="25" length="20"
+		<_sqlcolumn name="nihongo" type="2" start="25" length="20"
 			format="" originalColumnName="nihongo" defaultString="" readIgnore="false"
 			rewriteIgnore="false" writeIgnore="false" />
 		<sqlcolumn name="seisu" type="1" start="45" length="7"
