@@ -34,6 +34,7 @@ cobpp:
 	
 link_consts:
 	$(CP) ../../../cobs/ACMCONSTS.CBL ./
+	$(CP) ../*.cbl ./
 
 cobc: link_consts cobpp
 	$(COBC) $(CFLAGS) 		TCPSEQTEST.cob   -o TCPSEQTEST	
@@ -56,4 +57,5 @@ cobc: link_consts cobpp
 clean:
 	rm TCP*
 	rm ACMCONSTS.CBL
+	rm *.cbl
 

@@ -34,6 +34,7 @@ cobpp:
 	
 link_consts:
 	$(CP) ../../../cobs/ACMCONSTS.CBL ./
+	$(CP) ../*.cbl ./
 
 cobc: link_consts cobpp
 	$(COBC) $(CFLAGS) 		JNISEQTEST.cob   -o JNISEQTEST	
@@ -56,4 +57,4 @@ cobc: link_consts cobpp
 clean:
 	rm JNI*
 	rm ACMCONSTS.CBL
-
+	rm *.cbl

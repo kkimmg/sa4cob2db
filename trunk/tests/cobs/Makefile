@@ -37,10 +37,10 @@ cobc_std:
 	$(COBC) $(MFLAGS) 		SUBTEST.cob    -o SUBTEST.so
 	$(COBC) $(CFLAGS) 		LENTEST.cob    -o LENTEST
 
-cobc_acm: cobpp_acm
+cobc_acm:
 	cd tcp; make
 
-cobc_jni: cobpp_jni
+cobc_jni:
 	cd jni; make
 
 clean:
@@ -60,4 +60,6 @@ clean:
 	rm LENTEST
 	cd tcp; make clean
 	cd jni; make clean
+	rm *.c
+	rm *.h
 
