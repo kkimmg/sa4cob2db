@@ -735,6 +735,30 @@ extern void getOptionValue(char *value) {
 	return;
 }
 
+/** set option */
+extern void
+setJNIOptionFromEnv (char *name, char *envkey, char *status) {
+	char *wvalue;
+	char value[OPTIONVALUE_LEN];
+	envkey[OPTIONVALUE_MAX] = '\0';
+	for (int i = OPTIONVALUE_MAX - 1; i > 0; i--) {
+		if (envkey[i] == ' ') {
+			envkey[i] = '\0';
+		} else {
+			break;
+		}
+	}
+	wvalue = getenv(envkey);
+	if (wvalue == NULL) {
+		wvalue = '';
+	} else if (strlen(wvaleu) >= OPTIONVALUE_LEN) {
+		wvalue[OPTIONVALUE_MAX] = '\0';
+	}
+	memset(value, '\0', OPTIONVALUE_MAX);
+	strcpy(value, wvalue);
+	setJNIOption(name, value, status);
+}
+
 /* set option value */
 extern void setJNIOption(char *name, char *value) {
 	int i;

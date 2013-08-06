@@ -75,21 +75,184 @@ Directions
 <tr><td><a href="#ACMGETOPTION">ACMGETOPTION</a></td><td>Get optional value from ... </td></tr>
 <tr><td><a href="#ACMSETOPTION">ACMSETOPTION</a></td><td>Set optional value to ... </td></tr>
 </table>
+<table border="1">
+<tr><th>Before</th><th>tcp</th><th>jni</th></tr>
+<tr><td><pre><code>
+
+</code></pre></td>
+<td><pre><code>
+
+</code></pre></td>
+<td><pre><code>
+
+</code></pre></td></tr>
+</table>
+
 <a name="ACMFILE">*ACMFILE</a><br>
-<br>
-<a name=ACMASSIGNNAME>ACMASSIGNNAME</a><br>
-<a name=ACMRECNAME>ACMRECNAME</a><br>
-<a name=ACMCONSTS_FILE>ACMCONSTS_FILE</a><br>
-<a name=ACMSETLENGTH>ACMSETLENGTH</a><br>
-<a name=ACMAUTO>ACMAUTO</a><br>
-<a name=ACMTRANS>ACMTRANS</a><br>
-<a name=ACMCOMMIT>ACMCOMMIT</a><br>
-<a name=ACMROLLBACK>ACMROLLBACK</a><br>
-<a name=ACMCOMMENTSTART>ACMCOMMENTSTART</a><br>
-<a name=ACMCOMMENTEND>ACMCOMMENTEND</a><br>
-<a name=ACMINSERTSTART>ACMINSERTSTART</a><br>
-<a name=ACMINSERTEND>ACMINSERTEND</a><br>
-<a name=ACMGETOPTION>ACMGETOPTION</a><br>
-<a name=ACMSETOPTION>ACMSETOPTION</a><br>
+<table border="1">
+<tr><th>Before</th><th>tcp</th><th>jni</th></tr>
+<tr><td><pre><code>
+000900 INPUT-OUTPUT                SECTION.
+001000 FILE-CONTROL.
+001100*                        
+001200*ACMFILE
+001400     SELECT INP-FILE ASSIGN TO "dbtests"
+001500       ORGANIZATION LINE SEQUENTIAL.
+</code></pre></td>
+<td><pre><code>
+000090* INPUT-OUTPUT                SECTION.
+000100* FILE-CONTROL.
+000110*                        
+000120**ACMFILE
+000130*     SELECT INP-FILE ASSIGN TO "dbtests"
+000140*       ORGANIZATION LINE SEQUENTIAL.
+</code></pre></td>
+<td><pre><code>
+000090* INPUT-OUTPUT                SECTION.
+000100* FILE-CONTROL.
+000110*                        
+000120**ACMFILE
+000130*     SELECT INP-FILE ASSIGN TO "dbtests"
+000140*       ORGANIZATION LINE SEQUENTIAL.
+</code></pre></td></tr>
+<tr><td><pre><code>
+001900 FD  INP-FILE.
+002000 COPY "I_RECORD.cbl".
+</code></pre></td>
+<td><pre><code>
+000180* FD  INP-FILE.
+000190* COPY "I_RECORD.cbl".
+</code></pre></td>
+<td><pre><code>
+000180* FD  INP-FILE.
+000190* COPY "I_RECORD.cbl".
+</code></pre></td></tr>
+<tr><td><pre><code>
+002100 WORKING-STORAGE             SECTION.
+</code></pre></td>
+<td><pre><code>
+000200 WORKING-STORAGE             SECTION.
+000210*ACM Generated Contraints
+000220 COPY "ACMCONSTS.CBL".
+000230*ACM Genrated File Record
+000240 COPY "I_RECORD.cbl".
+</code></pre></td>
+<td><pre><code>
+000200 WORKING-STORAGE             SECTION.
+000210*ACM Generated Contraints
+000220 COPY "ACMCONSTS.CBL".
+000230*ACM Genrated File Record
+000240 COPY "I_RECORD.cbl".
+</code></pre></td></tr>
+<tr><td><pre><code>
+002800 PROCEDURE                   DIVISION.
+002900*              
+003000 MAIN                        SECTION.
+</code></pre></td>
+<td><pre><code>
+000310 PROCEDURE                   DIVISION.
+000320*              
+000330 MAIN                        SECTION.
+000340     CALL "libACMClient".
+000350     CALL "initializeACMSessionEnv" USING ACM-STATUS-ALL.
+000360     MOVE "dbtests" TO ACM-FILE-IDENT.
+000370     CALL "assignACMFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.
+</code></pre></td>
+<td><pre><code>
+000310 PROCEDURE                   DIVISION.
+000320*              
+000330 MAIN                        SECTION.
+000340     CALL "libJNIClient".
+000350     CALL "initializeJNISessionEnv" USING ACM-STATUS-ALL.
+000360     MOVE "dbtests" TO ACM-FILE-IDENT.
+000370     CALL "assignJNIFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.
+</code></pre></td></tr>
+<tr><td><pre><code>
+005900     OPEN   INPUT  INP-FILE.
+</code></pre></td>
+<td><pre><code>
+000810*     OPEN   INPUT  INP-FILE.
+000820     MOVE "dbtests" TO ACM-FILE-IDENT.
+000830     CALL "openACMFile"   USING ACM-FILE-IDENT
+000840                                ACM-OPENMODE-INPUT
+000850                                ACM-ACCESSMODE-SEQ
+000860                                ACM-STATUS-ALL.
+</code></pre></td>
+<td><pre><code>
+000810*     OPEN   INPUT  INP-FILE.
+000820     MOVE "dbtests" TO ACM-FILE-IDENT.
+000830     CALL "openJNIFile"   USING ACM-FILE-IDENT
+000840                                ACM-OPENMODE-INPUT
+000850                                ACM-ACCESSMODE-SEQ
+000860                                ACM-STATUS-ALL.
+</code></pre></td></tr>
+<tr><td><pre><code>
+006300     READ INP-FILE NEXT
+006400       AT END  MOVE 1 TO END-FLG
+006500     END-READ.
+</code></pre></td>
+<td><pre><code>
+000930     MOVE "dbtests" TO ACM-FILE-IDENT.
+000940     CALL "readNextACMRecord" USING 
+000950                                ACM-FILE-IDENT
+000960                                ACM-RECORD
+000970                                ACM-STATUS-ALL.
+000980     IF  ACM-STATUS-CODE = "00"
+000990         MOVE ACM-RECORD TO I-RECORD
+001000     END-IF.
+001010     IF ACM-STATUS-CODE = "10"
+001020         MOVE 1 TO END-FLG
+001030     END-IF.
+</code></pre></td>
+<td><pre><code>
+000930     MOVE "dbtests" TO ACM-FILE-IDENT.
+000940     CALL "readNextJNIRecord" USING 
+000950                                ACM-FILE-IDENT
+000960                                ACM-RECORD
+000970                                ACM-STATUS-ALL.
+000980     IF  ACM-STATUS-CODE = "00"
+000990         MOVE ACM-RECORD TO I-RECORD
+001000     END-IF.
+001010     IF ACM-STATUS-CODE = "10"
+001020         MOVE 1 TO END-FLG
+001030     END-IF.
+</code></pre></td></tr>
+<tr><td><pre><code>
+007800     CLOSE  INP-FILE.
+</code></pre></td>
+<td><pre><code>
+001170     MOVE "dbtests" TO ACM-FILE-IDENT.
+001180     CALL "closeACMFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.
+</code></pre></td>
+<td><pre><code>
+001170     MOVE "dbtests" TO ACM-FILE-IDENT.
+001180     CALL "closeJNIFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.
+</code></pre></td></tr>
+<tr><td><pre><code>
+005200     STOP RUN.
+</code></pre></td>
+<td><pre><code>
+000730     CALL  "terminateACMSession" USING ACM-STATUS-ALL.
+000740     STOP RUN.
+</code></pre></td>
+<td><pre><code>
+000730     CALL  "terminateJNISession" USING ACM-STATUS-ALL.
+000740     STOP RUN.
+</code></pre></td></tr>
+</table>
+<a name=ACMASSIGNNAME>*ACMASSIGNNAME</a><br>
+<a name=ACMRECNAME>*ACMRECNAME</a><br>
+<a name=ACMCONSTS_FILE>*ACMCONSTS_FILE</a><br>
+<a name=ACMSETLENGTH>*ACMSETLENGTH</a><br>
+<a name=ACMAUTO>*ACMAUTO</a><br>
+<a name=ACMTRANS>*ACMTRANS</a><br>
+<a name=ACMCOMMIT>*ACMCOMMIT</a><br>
+<a name=ACMROLLBACK>*ACMROLLBACK</a><br>
+<a name=ACMCOMMENTSTART>*ACMCOMMENTSTART</a><br>
+<a name=ACMCOMMENTEND>*ACMCOMMENTEND</a><br>
+<a name=ACMINSERTSTART>*ACMINSERTSTART</a><br>
+<a name=ACMINSERTEND>*ACMINSERTEND</a><br>
+<a name=ACMGETOPTION>*ACMGETOPTION</a><br>
+<a name=ACMSETOPTION>*ACMSETOPTION</a><br>
 </body>
 </html>

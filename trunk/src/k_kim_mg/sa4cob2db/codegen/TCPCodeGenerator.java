@@ -3,16 +3,13 @@
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package k_kim_mg.sa4cob2db.codegen;
-
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Stack;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import k_kim_mg.sa4cob2db.FileStatus;
-
 /**
  * Convert file access code to call statement
  * 
@@ -45,7 +42,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		 * area that store file status(File Status [is] XXXXXX)
 		 */
 		String status;
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -54,7 +50,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		public int getAcessMode() {
 			return acessMode;
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -63,7 +58,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		public String getFileName() {
 			return fileName;
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -72,7 +66,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		public String getRecordName() {
 			return recordName;
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -81,7 +74,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		public String getSelectName() {
 			return selectName;
 		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -90,12 +82,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		public String getStatus() {
 			return status;
 		}
-
 		/**
 		 * set access mode
 		 * 
-		 * @param acessmode
-		 *            access mode
+		 * @param acessmode access mode
 		 * @see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_INPUT
 		 * @see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_OUTPUT
 		 * @see k_kim_mg.sa4cob2db.codegen.CobolConsts#MODE_IO
@@ -104,48 +94,39 @@ public class TCPCodeGenerator implements CodeGenerator {
 		public void setAcessMode(int acessmode) {
 			this.acessMode = acessmode;
 		}
-
 		/**
 		 * set filename
 		 * 
-		 * @param filename
-		 *            external filename to set
+		 * @param filename external filename to set
 		 */
 		public void setFileName(String filename) {
 			this.fileName = filename;
 		}
-
 		/**
 		 * set recordname
 		 * 
-		 * @param recordname
-		 *            RecordName to set
+		 * @param recordname RecordName to set
 		 */
 		public void setRecordName(String recordname) {
 			this.recordName = recordname;
 		}
-
 		/**
 		 * set filename
 		 * 
-		 * @param selectname
-		 *            internal filename to set
+		 * @param selectname internal filename to set
 		 */
 		public void setSelectName(String selectname) {
 			this.selectName = selectname;
 		}
-
 		/**
 		 * set file status area name
 		 * 
-		 * @param status
-		 *            area name to set
+		 * @param status area name to set
 		 */
 		public void setStatus(String status) {
 			this.status = status;
 		}
 	}
-
 	private String acmRecName = null;
 	private String acmAssignName = null;
 	private ArrayList<String> copys = new ArrayList<String>();
@@ -172,33 +153,27 @@ public class TCPCodeGenerator implements CodeGenerator {
 	private Hashtable<String, DefaultFileInfo> selectnametofile = new Hashtable<String, DefaultFileInfo>();
 	private Stack<String> stack = new Stack<String>();
 	private boolean inCommentOut = false, inInsert = false;
-
 	/**
 	 * Constructor
 	 * 
-	 * @param owner
-	 *            owner
+	 * @param owner owner
 	 */
 	public TCPCodeGenerator(GeneratorOwner owner) {
 		this.owner = owner;
 	}
-
 	/**
 	 * add text
 	 * 
-	 * @param text
-	 *            text to add
+	 * @param text text to add
 	 */
 	void add(String text) {
 		list.add(text);
 		// SQLNetServer.DebugPrint(text);
 	}
-
 	/**
 	 * add fd statement
 	 * 
-	 * @param text
-	 *            text of fd statement
+	 * @param text text of fd statement
 	 */
 	void add_fd(String text) {
 		fdlist.add(text);
@@ -220,38 +195,32 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 	}
-
 	/**
 	 * add commit mode<br/>
 	 * Note that setting the period to end unconditional
 	 * 
-	 * @param text
-	 *            string includes "=" true/false
+	 * @param text string includes "=" true/false
 	 */
 	void addACMAutoCommit(String option, String period) {
 		add("     MOVE \"" + option + "\" TO ACM-OPTION" + period);
 		add("     CALL \"setTCPCommitMode\" USING ACM-OPTION");
 		add("                                     ACM-STATUS-ALL" + period);
 	}
-
 	/**
 	 * set transaction level<br/>
 	 * Note that setting the period to end unconditional
 	 * 
-	 * @param text
-	 *            string includes transaction level
+	 * @param text string includes transaction level
 	 */
 	void addACMTransactionIsolation(String option, String period) {
 		add("     MOVE \"" + option + "\" TO ACM-OPTION" + period);
 		add("     CALL \"setTCPTransMode\" USING ACM-OPTION");
 		add("                                    ACM-STATUS-ALL" + period);
 	}
-
 	/**
 	 * add File Assigns
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void addAssignFiles(String period) {
 		for (FileInfo info : getSelectnametofile().values()) {
@@ -259,37 +228,29 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add("     CALL \"assignACMFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 		}
 	}
-
 	/**
 	 * CLOSE
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void addCallClose(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
 		add("     CALL \"closeACMFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 	}
-
 	/**
 	 * COMMIT
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void addCallCommit(String period) {
 		add("    CALL \"commitACMSession\" USING ACM-STATUS-ALL" + period);
 	}
-
 	/**
 	 * DELETE
 	 * 
-	 * @param valid
-	 *            Lines that runs when file access is valid.
-	 * @param invalid
-	 *            Lines that runs when file access is invalid.
-	 * @param period
-	 *            "." or ""
+	 * @param valid Lines that runs when file access is valid.
+	 * @param invalid Lines that runs when file access is invalid.
+	 * @param period "." or ""
 	 */
 	void addCallDelete(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -317,25 +278,20 @@ public class TCPCodeGenerator implements CodeGenerator {
 		} else {
 		}
 	}
-
 	/**
 	 * add InitializeSession
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void addCallInitializeSession(String period) {
 		add("     CALL \"libACMClient\"" + period);
 		add("     CALL \"initializeSessionEnv\" USING ACM-STATUS-ALL" + period);
 	}
-
 	/**
 	 * OPEN INPUT
 	 * 
-	 * @param info
-	 *            file information
-	 * @param period
-	 *            "." or ""
+	 * @param info file information
+	 * @param period "." or ""
 	 */
 	void addCallOpenInput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -354,14 +310,11 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		add("                                ACM-STATUS-ALL" + period);
 	}
-
 	/**
 	 * OPEN I-O
 	 * 
-	 * @param info
-	 *            file information
-	 * @param period
-	 *            "." or ""
+	 * @param info file information
+	 * @param period "." or ""
 	 */
 	void addCallOpenInputOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -380,14 +333,11 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		add("                                ACM-STATUS-ALL" + period);
 	}
-
 	/**
 	 * OPEN OUTPUT
 	 * 
-	 * @param info
-	 *            file information
-	 * @param period
-	 *            "." or ""
+	 * @param info file information
+	 * @param period "." or ""
 	 */
 	void addCallOpenOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -406,20 +356,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		add("                                ACM-STATUS-ALL" + period);
 	}
-
 	/**
 	 * READ
 	 * 
-	 * @param info
-	 *            file information
-	 * @param invalid
-	 *            Lines that runs when file access is valid.
-	 * @param notinvalid
-	 *            Lines that runs when file access is invalid.
-	 * @param indexkey
-	 *            index name
-	 * @param period
-	 *            "." or ""
+	 * @param info file information
+	 * @param invalid Lines that runs when file access is valid.
+	 * @param notinvalid Lines that runs when file access is invalid.
+	 * @param indexkey index name
+	 * @param period "." or ""
 	 */
 	void addCallRead(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String indexkey, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -458,20 +402,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add("     END-IF" + period);
 		}
 	}
-
 	/**
 	 * READ
 	 * 
-	 * @param info
-	 *            file information
-	 * @param atend
-	 *            Lines that runs when file at end.
-	 * @param notatend
-	 *            Lines that runs when file not at end.
-	 * @param indexkey
-	 *            index name
-	 * @param period
-	 *            "." or ""
+	 * @param info file information
+	 * @param atend Lines that runs when file at end.
+	 * @param notatend Lines that runs when file not at end.
+	 * @param indexkey index name
+	 * @param period "." or ""
 	 */
 	void addCallReadNext(FileInfo info, ArrayList<String> atend, ArrayList<String> notatend, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -498,20 +436,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add("     END-IF" + period);
 		}
 	}
-
 	/**
 	 * Rewrite
 	 * 
-	 * @param info
-	 *            file information
-	 * @param invalid
-	 *            Lines that runs when file access is valid.
-	 * @param notinvalid
-	 *            Lines that runs when file access is invalid.
-	 * @param indexkey
-	 *            index name
-	 * @param period
-	 *            "." or ""
+	 * @param info file information
+	 * @param invalid Lines that runs when file access is valid.
+	 * @param notinvalid Lines that runs when file access is invalid.
+	 * @param indexkey index name
+	 * @param period "." or ""
 	 */
 	void addCallRewrite(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -539,30 +471,22 @@ public class TCPCodeGenerator implements CodeGenerator {
 		} else {
 		}
 	}
-
 	/**
 	 * add ROLLBACK
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void addCallRollback(String period) {
 		add("    CALL \"rollbackACMSession\" USING ACM-STATUS-ALL" + period);
 	}
-
 	/**
 	 * START
 	 * 
-	 * @param info
-	 *            file information
-	 * @param invalid
-	 *            Lines that runs when file access is valid.
-	 * @param notinvalid
-	 *            Lines that runs when file access is invalid.
-	 * @param indexkey
-	 *            index name
-	 * @param period
-	 *            "." or ""
+	 * @param info file information
+	 * @param invalid Lines that runs when file access is valid.
+	 * @param notinvalid Lines that runs when file access is invalid.
+	 * @param indexkey index name
+	 * @param period "." or ""
 	 */
 	void addCallStart(FileInfo info, String startModeText, ArrayList<String> invalid, ArrayList<String> notinvalid, String indexkey, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -594,30 +518,22 @@ public class TCPCodeGenerator implements CodeGenerator {
 		} else {
 		}
 	}
-
 	/**
 	 * add TermincateSession
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void addCallTerminateSession(String period) {
 		add("     CALL  \"terminateSession\" USING ACM-STATUS-ALL" + period);
 	}
-
 	/**
 	 * WRITE
 	 * 
-	 * @param info
-	 *            file information
-	 * @param invalid
-	 *            Lines that runs when file access is valid.
-	 * @param notinvalid
-	 *            Lines that runs when file access is invalid.
-	 * @param indexkey
-	 *            index name
-	 * @param period
-	 *            "." or ""
+	 * @param info file information
+	 * @param invalid Lines that runs when file access is valid.
+	 * @param notinvalid Lines that runs when file access is invalid.
+	 * @param indexkey index name
+	 * @param period "." or ""
 	 */
 	void addCallWrite(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -644,7 +560,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		} else {
 		}
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -654,16 +569,12 @@ public class TCPCodeGenerator implements CodeGenerator {
 	public void addCodeGeneratorListener(CodeGeneratorListener listener) {
 		listeners.add(listener);
 	}
-
 	/**
 	 * add "setACMOption" function
 	 * 
-	 * @param name
-	 *            option name
-	 * @param value
-	 *            option value
-	 * @param period
-	 *            "." or ""
+	 * @param name option name
+	 * @param value option value
+	 * @param period "." or ""
 	 */
 	void addGetACMOption(String name, String period) {
 		if (name != null) {
@@ -673,16 +584,12 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add("                                 ACM-STATUS-ALL" + period);
 		}
 	}
-
 	/**
 	 * add "setACMOption" function
 	 * 
-	 * @param name
-	 *            option name
-	 * @param value
-	 *            option value
-	 * @param period
-	 *            "." or ""
+	 * @param name option name
+	 * @param value option value
+	 * @param period "." or ""
 	 */
 	void addGetACMOption(String name, String value, String period) {
 		if (name != null) {
@@ -693,12 +600,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add("     MOVE ACM-OPTION-VALUE TO " + value + period);
 		}
 	}
-
 	/**
 	 * add initialize session
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void addInitializeSession(String period) {
 		if (!getOwner().isSubprogram()) {
@@ -718,16 +623,12 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		addAssignFiles(period);
 	}
-
 	/**
 	 * add "setACMOption" function
 	 * 
-	 * @param name
-	 *            option name
-	 * @param value
-	 *            option value
-	 * @param period
-	 *            "." or ""
+	 * @param name option name
+	 * @param value option value
+	 * @param period "." or ""
 	 */
 	void addSetACMOption(String name, String value, String period) {
 		if (name != null) {
@@ -738,14 +639,27 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add("                                 ACM-STATUS-ALL" + period);
 		}
 	}
-
+	/**
+	 * add "setACMOptionFromEnv" function
+	 * 
+	 * @param name option name
+	 * @param value environment value name
+	 * @param period "." or ""
+	 */
+	void addSetACMOptionFromEnv(String name, String value, String period) {
+		if (name != null) {
+			add("     MOVE " + name + " TO ACM-OPTION-NAME" + period);
+			add("     MOVE " + value + " TO ACM-OPTION-VALUE" + period);
+			add("     CALL \"setACMOptionFromEnv\" USING ACM-OPTION-NAME");
+			add("                                 ACM-OPTION-VALUE");
+			add("                                 ACM-STATUS-ALL" + period);
+		}
+	}
 	/**
 	 * add "setACMLength" function
 	 * 
-	 * @param value
-	 *            new length
-	 * @param period
-	 *            "." or ""
+	 * @param value new length
+	 * @param period "." or ""
 	 */
 	void addSetMaxLength(int value, String period) {
 		if (value > 0) {
@@ -754,12 +668,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add("                                    ACM-STATUS-ALL" + period);
 		}
 	}
-
 	/**
 	 * add terminate session
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void addTerminateSession(String period) {
 		FileInfo nullfile = new DefaultFileInfo();
@@ -776,12 +688,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		// ///////////
 	}
-
 	/**
 	 * is this FD statement be processed?
 	 * 
-	 * @param text
-	 *            FD statement
+	 * @param text FD statement
 	 * @return true yes<br/>
 	 *         false no
 	 */
@@ -804,18 +714,15 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		return false;
 	}
-
 	/**
 	 * Comment Out Row
 	 * 
-	 * @param text
-	 *            logical row
+	 * @param text logical row
 	 */
 	void commentOut(String text) {
 		String right = (text.length() > 1 ? text.substring(1) : "");
 		add("*" + right);
 	}
-
 	/**
 	 * create StringTokenizer from buffer
 	 * 
@@ -831,7 +738,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		String str = sb.toString();
 		return new StringTokenizer(str);
 	}
-
 	/**
 	 * write back and clear buffer
 	 */
@@ -843,12 +749,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			list.remove(0);
 		}
 	}
-
 	/**
 	 * Current DIVISION
 	 * 
-	 * @param text
-	 *            Current Row
+	 * @param text Current Row
 	 * @return DIVISION Name
 	 */
 	String getDivision(String text) {
@@ -858,7 +762,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		return null;
 	}
-
 	/**
 	 * file list
 	 * 
@@ -867,7 +770,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	public Hashtable<String, DefaultFileInfo> getFilenametofile() {
 		return filenametofile;
 	}
-
 	/**
 	 * Get GeneratorOwner
 	 * 
@@ -876,7 +778,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	public GeneratorOwner getOwner() {
 		return owner;
 	}
-
 	/**
 	 * file list
 	 * 
@@ -885,12 +786,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 	public Hashtable<String, DefaultFileInfo> getRecordnametofile() {
 		return recordnametofile;
 	}
-
 	/**
 	 * Current SECTION
 	 * 
-	 * @param text
-	 *            Current Row
+	 * @param text Current Row
 	 * @return SECTION Name
 	 */
 	String getSection(String text) {
@@ -900,7 +799,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		return null;
 	}
-
 	/**
 	 * file name
 	 * 
@@ -909,18 +807,15 @@ public class TCPCodeGenerator implements CodeGenerator {
 	public Hashtable<String, DefaultFileInfo> getSelectnametofile() {
 		return selectnametofile;
 	}
-
 	/**
 	 * Insert Row
 	 * 
-	 * @param text
-	 *            logical row
+	 * @param text logical row
 	 */
 	void insertComment(String text) {
 		String right = (text.length() > 1 ? text.substring(1) : "");
 		add(" " + right);
 	}
-
 	/**
 	 * Expand Copy Statement?
 	 * 
@@ -930,7 +825,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	public boolean isExpandCopy() {
 		return owner.isExpandCopy();
 	}
-
 	/**
 	 * Comment outing...
 	 * 
@@ -939,7 +833,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	public boolean isInCommentOut() {
 		return inCommentOut;
 	}
-
 	/**
 	 * Inserting...
 	 * 
@@ -948,12 +841,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 	public boolean isInInsert() {
 		return inInsert;
 	}
-
 	/**
 	 * Parse Text
 	 * 
-	 * @param text
-	 *            logical row
+	 * @param text logical row
 	 */
 	public void parse(String text) {
 		if (isInCommentOut()) {
@@ -1057,7 +948,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		//
 	}
-
 	/**
 	 * pop from stack
 	 */
@@ -1065,12 +955,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		current = stack.pop();
 		currentlist = currentlists.pop();
 	}
-
 	/**
 	 * CLOSE
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void process_close(String period) {
 		StringTokenizer tokenizer = current2tokenizer();
@@ -1109,7 +997,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add("     CLOSE " + files2.get(i) + period);
 		}
 	}
-
 	/**
 	 * process copy statement
 	 */
@@ -1117,12 +1004,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		inCopy = false;
 		owner.callBackCopyStatement(copys);
 	}
-
 	/**
 	 * DELETE
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void process_delete(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -1207,19 +1092,16 @@ public class TCPCodeGenerator implements CodeGenerator {
 			// ///////////
 		}
 	}
-
 	/**
 	 * 
 	 */
 	void process_fd() {
 		//
 	}
-
 	/**
 	 * OPEN
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void process_open(String period) {
 		StringTokenizer tokenizer = current2tokenizer();
@@ -1322,12 +1204,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		currentlist.clear();
 	}
-
 	/**
 	 * READ
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void process_read(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -1460,12 +1340,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			// ///////////
 		}
 	}
-
 	/**
 	 * REWRITE
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void process_rewrite(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -1554,7 +1432,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 			// ///////////
 		}
 	}
-
 	/**
 	 * SELECT STATEMENT
 	 */
@@ -1615,12 +1492,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		currentlist.clear();
 		// SQLNetServer.DebugPrint("File-Converted:" + info);
 	}
-
 	/**
 	 * START
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void process_start(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -1740,12 +1615,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		// ///////////
 	}
-
 	/**
 	 * WRITE
 	 * 
-	 * @param period
-	 *            "." or ""
+	 * @param period "." or ""
 	 */
 	void process_write(String period) {
 		ArrayList<String> backup = new ArrayList<String>(currentlist);
@@ -1833,7 +1706,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		// ///////////
 	}
-
 	/**
 	 * push to stack
 	 */
@@ -1842,54 +1714,44 @@ public class TCPCodeGenerator implements CodeGenerator {
 			stack.push(current);
 		currentlists.push(currentlist);
 	}
-
 	/**
 	 * Comment outing...
 	 * 
-	 * @param inCommentOut
-	 *            in/out
+	 * @param inCommentOut in/out
 	 */
 	public void setInCommentOut(boolean inCommentOut) {
 		this.inCommentOut = inCommentOut;
 	}
-
 	/**
 	 * Inserting
 	 * 
-	 * @param inInsert
-	 *            in/out
+	 * @param inInsert in/out
 	 */
 	public void setInInsert(boolean inInsert) {
 		this.inInsert = inInsert;
 	}
-
 	/**
 	 * Set GeneratorOwner
 	 * 
-	 * @param owner
-	 *            GeneratorOwner
+	 * @param owner GeneratorOwner
 	 */
 	public void setOwner(GeneratorOwner owner) {
 		this.owner = owner;
 	}
-
 	/**
 	 * set AssignName
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenACMAssignName(String text) {
 		int indexOfEqual = text.indexOf("=") + 1;
 		acmAssignName = text.substring(indexOfEqual);
 	}
-
 	/**
 	 * set auto commit mode<br/>
 	 * add "." to end of line
 	 * 
-	 * @param text
-	 *            comment row
+	 * @param text comment row
 	 */
 	void whenACMAutoCommit(String text) {
 		String period = (Pattern.matches(CobolConsts.PERIOD, text.trim()) ? "." : "");
@@ -1898,12 +1760,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		String option = text.substring(indexOfEqual);
 		addACMAutoCommit(option, period);
 	}
-
 	/**
 	 * commit transaction
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 * 
 	 */
 	void whenACMCommit(String text) {
@@ -1924,13 +1784,11 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 	}
-
 	/**
 	 * set option value<br/>
 	 * add "." to end of line
 	 * 
-	 * @param text
-	 *            comment row
+	 * @param text comment row
 	 */
 	void whenACMGetOption(String text) {
 		String name = null;
@@ -1967,23 +1825,19 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 	}
-
 	/**
 	 * set RecordName
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenACMRecName(String text) {
 		int indexOfEqual = text.indexOf("=") + 1;
 		acmRecName = text.substring(indexOfEqual);
 	}
-
 	/**
 	 * rollback transaction
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 * 
 	 */
 	void whenACMRollBack(String text) {
@@ -2004,15 +1858,14 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 	}
-
 	/**
 	 * set option value<br/>
 	 * add "." to end of line
 	 * 
-	 * @param text
-	 *            comment row
+	 * @param text comment row
 	 */
 	void whenACMSetOption(String text) {
+		boolean isEnv = false;
 		String name = null;
 		String value = "";
 		String period = (Pattern.matches(CobolConsts.PERIOD, text.trim()) ? "." : "");
@@ -2027,8 +1880,25 @@ public class TCPCodeGenerator implements CodeGenerator {
 				value = token.substring(indexOfEqual);
 			} else if (Pattern.matches(CobolConsts.VALUE_EQUAL, token)) {
 				value = token.substring(indexOfEqual);
+			} else if (Pattern.matches(CobolConsts.ENV_EQUAL, token)) {
+				value = token.substring(indexOfEqual);
+				isEnv = true;
 			}
 		}
+		if (isEnv) {
+			callAddSetACMOptionFromEnv(name, value, period);
+		} else {
+			callAddSetACMOption(name, value, period);
+		}
+	}
+	/**
+	 * Call 'addSetACMOption'
+	 * 
+	 * @param name option name
+	 * @param value option value
+	 * @param period "."
+	 */
+	private void callAddSetACMOption(String name, String value, String period) {
 		// event
 		{
 			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
@@ -2045,13 +1915,35 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 	}
-
+	/**
+	 * Call 'addSetACMOption'
+	 * 
+	 * @param name option name
+	 * @param value option value
+	 * @param period "."
+	 */
+	private void callAddSetACMOptionFromEnv(String name, String value, String period) {
+		// event
+		{
+			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
+			for (CodeGeneratorListener listener : listeners) {
+				listener.preSetOption(event);
+			}
+		}
+		addSetACMOptionFromEnv(name, value, period);
+		// event
+		{
+			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
+			for (CodeGeneratorListener listener : listeners) {
+				listener.postSetOption(event);
+			}
+		}
+	}
 	/**
 	 * set option value<br/>
 	 * add "." to end of line
 	 * 
-	 * @param text
-	 *            comment row
+	 * @param text comment row
 	 */
 	void whenACMSetLength(String text) {
 		int value = 0;
@@ -2084,12 +1976,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 	}
-
 	/**
 	 * start of file define
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenACMSTART(String text) {
 		add("*" + text);
@@ -2097,12 +1987,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		acmRecName = null;
 		acmAssignName = null;
 	}
-
 	/**
 	 * set transaction level
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenACMTransactionIsolation(String text) {
 		String period = (Pattern.matches(CobolConsts.PERIOD, text.trim()) ? "." : "");
@@ -2111,12 +1999,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		String option = text.substring(indexOfEqual);
 		addACMTransactionIsolation(option, period);
 	}
-
 	/**
 	 * CLOSE
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenClose(String text) {
 		push();
@@ -2128,32 +2014,26 @@ public class TCPCodeGenerator implements CodeGenerator {
 			pop();
 		}
 	}
-
 	/**
 	 * End of Comment
 	 * 
-	 * @param text
-	 *            logical row
+	 * @param text logical row
 	 */
 	void whenCommentEnd(String text) {
 		setInCommentOut(false);
 	}
-
 	/**
 	 * Start of Comment
 	 * 
-	 * @param text
-	 *            logical row
+	 * @param text logical row
 	 */
 	void whenCommentStart(String text) {
 		setInCommentOut(true);
 	}
-
 	/**
 	 * copy statement
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenCopy(String text) {
 		if (isExpandCopy()) {
@@ -2173,12 +2053,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 	}
-
 	/**
 	 * DELETE
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenDelete(String text) {
 		push();
@@ -2190,12 +2068,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			pop();
 		}
 	}
-
 	/**
 	 * DIVISION
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenDivision(String text) {
 		add(text);
@@ -2213,12 +2089,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			proceduresection = true;
 		}
 	}
-
 	/**
 	 * END DELETE
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenEndDelete(String text) {
 		currentlist.add(text);
@@ -2229,12 +2103,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		pop();
 	}
-
 	/**
 	 * END READ
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenEndRead(String text) {
 		currentlist.add(text);
@@ -2245,12 +2117,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		pop();
 	}
-
 	/**
 	 * END WRITE
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenEndRewrite(String text) {
 		currentlist.add(text);
@@ -2261,12 +2131,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		pop();
 	}
-
 	/**
 	 * END START
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenEndStart(String text) {
 		currentlist.add(text);
@@ -2277,12 +2145,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		pop();
 	}
-
 	/**
 	 * END WRITE
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenEndWrite(String text) {
 		currentlist.add(text);
@@ -2293,12 +2159,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		pop();
 	}
-
 	/**
 	 * FD Statement
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenFd(String text) {
 		process_fd();
@@ -2313,43 +2177,35 @@ public class TCPCodeGenerator implements CodeGenerator {
 			inFD = false;
 		}
 	}
-
 	/**
 	 * FILE CONTROLL
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenFileControl(String text) {
 		add("*" + text);
 		current = CobolConsts.FILECONTROL;
 	}
-
 	/**
 	 * End of Insert
 	 * 
-	 * @param text
-	 *            logical row
+	 * @param text logical row
 	 */
 	void whenInsertEnd(String text) {
 		setInInsert(false);
 	}
-
 	/**
 	 * Start of Insert
 	 * 
-	 * @param text
-	 *            logical row
+	 * @param text logical row
 	 */
 	void whenInsertStart(String text) {
 		setInInsert(true);
 	}
-
 	/**
 	 * LABEL
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenLabel(String text) {
 		add(text);
@@ -2361,12 +2217,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 	}
-
 	/**
 	 * OTHER
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenNoMatchAny(String text) {
 		if (inCopy && isExpandCopy()) {
@@ -2401,12 +2255,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 	}
-
 	/**
 	 * only period line
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenOnlyPeriod(String text) {
 		if (inCopy && isExpandCopy()) {
@@ -2460,12 +2312,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 	}
-
 	/**
 	 * OPEN
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenOpen(String text) {
 		push();
@@ -2477,12 +2327,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			pop();
 		}
 	}
-
 	/**
 	 * READ
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenRead(String text) {
 		push();
@@ -2494,12 +2342,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			pop();
 		}
 	}
-
 	/**
 	 * REWRITE
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenRewrite(String text) {
 		//
@@ -2512,12 +2358,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			pop();
 		}
 	}
-
 	/**
 	 * SECTION
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenSection(String text) {
 		if (current == CobolConsts.FD) {
@@ -2550,12 +2394,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add(text);
 		}
 	}
-
 	/**
 	 * SELECT
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenSelect(String text) {
 		current = CobolConsts.SELECT;
@@ -2571,12 +2413,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add(text);
 		}
 	}
-
 	/**
 	 * START
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenStart(String text) {
 		//
@@ -2589,12 +2429,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			pop();
 		}
 	}
-
 	/**
 	 * STOP RUN
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenStopRun(String text) {
 		if (Pattern.matches(CobolConsts.PERIOD, text)) {
@@ -2604,12 +2442,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 		}
 		add(text);
 	}
-
 	/**
 	 * STORAGE
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenStorage(String text) {
 		if (inFD) {
@@ -2619,12 +2455,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add(text);
 		}
 	}
-
 	/**
 	 * WRITE
 	 * 
-	 * @param text
-	 *            line
+	 * @param text line
 	 */
 	void whenWrite(String text) {
 		//
