@@ -47,6 +47,8 @@ public abstract class CobolConsts {
 	public static final String ACMSETLENGTH = "^\\*ACMSETLENGTH.*";
 	/** NAME= */
 	public static final String NAME_EQUAL = "\\s*NAME=.*";
+	/** ENV= */
+	public static final String ENV_EQUAL = "\\s*ENV=.*";
 	/** TO= */
 	public static final String TO_EQUAL = "\\s*TO=.*";
 	/** FROM= */

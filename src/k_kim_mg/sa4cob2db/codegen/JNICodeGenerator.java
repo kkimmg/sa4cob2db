@@ -9,6 +9,9 @@ import k_kim_mg.sa4cob2db.FileStatus;
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
+/**
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
+ */
 public class JNICodeGenerator extends TCPCodeGenerator {
 	/**
 	 * Constructor
@@ -18,32 +21,36 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	public JNICodeGenerator(GeneratorOwner owner) {
 		super(owner);
 	}
-	/**
-	 * add commit mode<br/>
-	 * Note that setting the period to end unconditional
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param text string includes "=" true/false
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addACMAutoCommit(java.lang
+	 * .String, java.lang.String)
 	 */
 	void addACMAutoCommit(String option, String period) {
 		add("     MOVE \"" + option + "\" TO ACM-OPTION" + period);
 		add("     CALL \"setJNICommitMode\" USING ACM-OPTION");
 		add("                                     ACM-STATUS-ALL" + period);
 	}
-	/**
-	 * set transaction level<br/>
-	 * Note that setting the period to end unconditional
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param text string includes transaction level
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addACMTransactionIsolation
+	 * (java.lang.String, java.lang.String)
 	 */
 	void addACMTransactionIsolation(String option, String period) {
 		add("     MOVE \"" + option + "\" TO ACM-OPTION" + period);
 		add("     CALL \"setJNITransMode\" USING ACM-OPTION");
 		add("                                    ACM-STATUS-ALL" + period);
 	}
-	/**
-	 * add File Assigns
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param period "." or ""
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addAssignFiles(java.lang.
+	 * String)
 	 */
 	void addAssignFiles(String period) {
 		for (FileInfo info : getSelectnametofile().values()) {
@@ -51,29 +58,34 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("     CALL \"assignJNIFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 		}
 	}
-	/**
-	 * CLOSE
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallClose(k_kim_mg.sa4cob2db
+	 * .codegen.FileInfo, java.lang.String)
 	 */
 	void addCallClose(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
 		add("     CALL \"closeJNIFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 	}
-	/**
-	 * ADD CALL COMMIT
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallCommit(java.lang.String
+	 * )
 	 */
 	void addCallCommit(String period) {
 		add("    CALL \"commitJNISession\" USING ACM-STATUS-ALL" + period);
 	}
-	/**
-	 * DELETE
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param valid Lines that runs when file access is valid.
-	 * @param invalid Lines that runs when file access is invalid.
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallDelete(k_kim_mg.sa4cob2db
+	 * .codegen.FileInfo, java.util.ArrayList, java.util.ArrayList,
+	 * java.lang.String)
 	 */
 	void addCallDelete(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -101,20 +113,23 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		} else {
 		}
 	}
-	/**
-	 * add InitializeSession
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallInitializeSession(
+	 * java.lang.String)
 	 */
 	void addCallInitializeSession(String period) {
 		add("     CALL \"libJNIClient\"" + period);
 		add("     CALL \"initializeJNISessionEnv\" USING ACM-STATUS-ALL" + period);
 	}
-	/**
-	 * OPEN INPUT
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param info FileInfo Object
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallOpenInput(k_kim_mg
+	 * .sa4cob2db.codegen.FileInfo, java.lang.String)
 	 */
 	void addCallOpenInput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -133,11 +148,12 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		}
 		add("                                ACM-STATUS-ALL" + period);
 	}
-	/**
-	 * OPEN I-O
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param info FileInfo Object
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallOpenInputOutput(k_kim_mg
+	 * .sa4cob2db.codegen.FileInfo, java.lang.String)
 	 */
 	void addCallOpenInputOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -156,11 +172,12 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		}
 		add("                                ACM-STATUS-ALL" + period);
 	}
-	/**
-	 * OPEN OUTPUT
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param info FileInfo Object
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallOpenOutput(k_kim_mg
+	 * .sa4cob2db.codegen.FileInfo, java.lang.String)
 	 */
 	void addCallOpenOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -179,14 +196,13 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		}
 		add("                                ACM-STATUS-ALL" + period);
 	}
-	/**
-	 * READ
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param info FileInfo Object
-	 * @param invalid valid Lines that runs when file access is invalid.
-	 * @param notinvalid valid Lines that runs when file access is valid.
-	 * @param indexkey index name
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallRead(k_kim_mg.sa4cob2db
+	 * .codegen.FileInfo, java.util.ArrayList, java.util.ArrayList,
+	 * java.lang.String, java.lang.String)
 	 */
 	void addCallRead(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String indexkey, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -223,14 +239,13 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("     END-IF" + period);
 		}
 	}
-	/**
-	 * READ Next
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param info FileInfo Object
-	 * @param atend row lines at EOF.
-	 * @param notatend row lines not at EOF.
-	 * @param indexkey index name
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallReadNext(k_kim_mg.
+	 * sa4cob2db.codegen.FileInfo, java.util.ArrayList, java.util.ArrayList,
+	 * java.lang.String)
 	 */
 	void addCallReadNext(FileInfo info, ArrayList<String> atend, ArrayList<String> notatend, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -257,14 +272,13 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("     END-IF" + period);
 		}
 	}
-	/**
-	 * Rewrite
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param info FileInfo Object
-	 * @param invalid valid Lines that runs when file access is invalid.
-	 * @param notinvalid valid Lines that runs when file access is valid.
-	 * @param indexkey index name
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallRewrite(k_kim_mg.sa4cob2db
+	 * .codegen.FileInfo, java.util.ArrayList, java.util.ArrayList,
+	 * java.lang.String)
 	 */
 	void addCallRewrite(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -292,22 +306,23 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		} else {
 		}
 	}
-	/**
-	 * add ROLLBACK
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallRollback(java.lang
+	 * .String)
 	 */
 	void addCallRollback(String period) {
 		add("    CALL \"rollbackJNISession\" USING ACM-STATUS-ALL" + period);
 	}
-	/**
-	 * START
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param info FileInfo Object
-	 * @param invalid valid Lines that runs when file access is invalid.
-	 * @param notinvalid valid Lines that runs when file access is valid.
-	 * @param indexkey index name
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallStart(k_kim_mg.sa4cob2db
+	 * .codegen.FileInfo, java.lang.String, java.util.ArrayList,
+	 * java.util.ArrayList, java.lang.String, java.lang.String)
 	 */
 	void addCallStart(FileInfo info, String startModeText, ArrayList<String> invalid, ArrayList<String> notinvalid, String indexkey, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -339,22 +354,23 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		} else {
 		}
 	}
-	/**
-	 * add TermincateSession
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallTerminateSession(java
+	 * .lang.String)
 	 */
 	void addCallTerminateSession(String period) {
 		add("     CALL  \"terminateJNISession\" USING ACM-STATUS-ALL" + period);
 	}
-	/**
-	 * WRITE
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param info FileInfo Object
-	 * @param invalid valid Lines that runs when file access is invalid.
-	 * @param notinvalid valid Lines that runs when file access is valid.
-	 * @param indexkey index name
-	 * @param period Period Character
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallWrite(k_kim_mg.sa4cob2db
+	 * .codegen.FileInfo, java.util.ArrayList, java.util.ArrayList,
+	 * java.lang.String)
 	 */
 	void addCallWrite(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -381,12 +397,12 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		} else {
 		}
 	}
-	/**
-	 * add "setACMOption" function
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param name option name
-	 * @param value option value
-	 * @param period "." or ""
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addGetACMOption(java.lang
+	 * .String, java.lang.String)
 	 */
 	void addGetACMOption(String name, String period) {
 		if (name != null) {
@@ -395,12 +411,12 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("                                 ACM-STATUS-ALL" + period);
 		}
 	}
-	/**
-	 * add "setACMOption" function
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param name option name
-	 * @param value option value
-	 * @param period "." or ""
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addGetACMOption(java.lang
+	 * .String, java.lang.String, java.lang.String)
 	 */
 	void addGetACMOption(String name, String value, String period) {
 		if (name != null) {
@@ -410,12 +426,12 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("     MOVE ACM-OPTION-VALUE TO " + value + period);
 		}
 	}
-	/**
-	 * add "setACMOption" function
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param name option name
-	 * @param value option value
-	 * @param period "." or ""
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addSetACMOption(java.lang
+	 * .String, java.lang.String, java.lang.String)
 	 */
 	void addSetACMOption(String name, String value, String period) {
 		if (name != null) {
@@ -426,10 +442,27 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("                                 ACM-STATUS-ALL" + period);
 		}
 	}
-	/**
-	 * add "setACMLength" function
-	 * @param value new length
-	 * @param period "." or ""
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addSetACMOptionFromEnv(java
+	 * .lang.String, java.lang.String, java.lang.String)
+	 */
+	void addSetACMOptionFromEnv(String name, String value, String period) {
+		if (name != null) {
+			add("     MOVE " + name + " TO ACM-OPTION-NAME" + period);
+			add("     MOVE " + value + " TO ACM-OPTION-VALUE" + period);
+			add("     CALL \"setJNIOptionFromEnv\" USING ACM-OPTION-NAME");
+			add("                                 ACM-OPTION-VALUE");
+			add("                                 ACM-STATUS-ALL" + period);
+		}
+	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addSetMaxLength(int,
+	 * java.lang.String)
 	 */
 	void addSetMaxLength(int value, String period) {
 		if (value > 0) {

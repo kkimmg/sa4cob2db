@@ -132,6 +132,8 @@ extern void setACMTransMode (char *transmode, char *status);
 
 extern void setACMOption (char *name, char *value, char *status);
 
+extern void setACMOptionFromEnv (char *name, char *value, char *status);
+
 extern void getACMOption (char *name, char *value, char *status);
 
 extern void setACMMaxLength (char *length, char *status);

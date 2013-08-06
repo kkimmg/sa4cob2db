@@ -1,9 +1,9 @@
 CC = gcc
 COBC = cobc
-COBPP = cobpp -t -s EUCJP
-COBP2 = cobpp    -s EUCJP
-COBP3 = cobpp -t -s EUCJP -b
-COBP4 = cobpp    -s EUCJP -b
+COBPP = cobpp    -s EUCJP
+COBP2 = cobpp -t -s EUCJP
+COBP3 = cobpp    -s EUCJP -b
+COBP4 = cobpp -t -s EUCJP -b
 CFLAGS = -v -Wall -g -x
 MFLAGS = -v -Wall -g -m
 COBFLAGS = -c `cob-config --cflags`

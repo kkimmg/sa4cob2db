@@ -1076,6 +1076,30 @@ setACMTransMode (char *transmode, char *status) {
 
 /** set option */
 extern void
+setACMOptionFromEnv (char *name, char *envkey, char *status) {
+	char *wvalue;
+	char value[OPTIONVALUE_LEN];
+	envkey[OPTIONVALUE_MAX] = '\0';
+	for (int i = OPTIONVALUE_MAX - 1; i > 0; i--) {
+		if (envkey[i] == ' ') {
+			envkey[i] = '\0';
+		} else {
+			break;
+		}
+	}
+	wvalue = getenv(envkey);
+	if (wvalue == NULL) {
+		wvalue = '';
+	} else if (strlen(wvaleu) >= OPTIONVALUE_LEN) {
+		wvalue[OPTIONVALUE_MAX] = '\0';
+	}
+	memset(value, '\0', OPTIONVALUE_MAX);
+	strcpy(value, wvalue);
+	setACMOption(name, value, status);
+}
+
+/** set option */
+extern void
 setACMOption (char *name, char *value, char *status) {
 	name[OPTIONNAME_MAX] = '\0';
 	value[OPTIONVALUE_MAX] = '\0';
