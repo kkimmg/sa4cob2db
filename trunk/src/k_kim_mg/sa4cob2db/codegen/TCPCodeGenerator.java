@@ -1982,7 +1982,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text line
 	 */
 	void whenACMSTART(String text) {
-		//commentOut(text);
+		commentOut(text);
 		inACM = true;
 		acmRecName = null;
 		acmAssignName = null;
@@ -2007,7 +2007,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void whenClose(String text) {
 		push();
 		current = CobolConsts.CLOSE;
-		//commentOut(text);
+		commentOut(text);
 		currentlist.add(text);
 		if (Pattern.matches(CobolConsts.PERIOD, text)) {
 			process_close(".");
@@ -2037,7 +2037,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void whenCopy(String text) {
 		if (isExpandCopy()) {
-			//commentOut(text);
+			commentOut(text);
 			inCopy = true;
 			copys.clear();
 			copys.add(text);
@@ -2046,7 +2046,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		} else {
 			if (inFD) {
-				//commentOut(text);
+				commentOut(text);
 				add_fd(text);
 			} else {
 				add(text);
@@ -2061,7 +2061,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void whenDelete(String text) {
 		push();
 		current = CobolConsts.DELETE;
-		//commentOut(text);
+		commentOut(text);
 		currentlist.add(text);
 		if (Pattern.matches(CobolConsts.PERIOD, text)) {
 			process_delete(".");
@@ -2171,7 +2171,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		if (checkFD(text)) {
 			add_fd("*ACM Genrated File Record");
 			inFD = true;
-			//commentOut(text);
+			commentOut(text);
 		} else {
 			add(text);
 			inFD = false;
@@ -2183,7 +2183,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text line
 	 */
 	void whenFileControl(String text) {
-		//commentOut(text);
+		commentOut(text);
 		current = CobolConsts.FILECONTROL;
 	}
 	/**
@@ -2229,26 +2229,26 @@ public class TCPCodeGenerator implements CodeGenerator {
 			//
 			if (current == CobolConsts.SELECT) {
 				if (inACM) {
-					//commentOut(text);
+					commentOut(text);
 					currentlist.add(text);
 				} else {
 					add(text);
 				}
 			} else if (current == CobolConsts.FD) {
 				if (inFD) {
-					//commentOut(text);
+					commentOut(text);
 					add_fd(text);
 				} else {
 					add(text);
 				}
 			} else if (current == CobolConsts.OPEN) {
-				//commentOut(text);
+				commentOut(text);
 				currentlist.add(text);
 			} else if (current == CobolConsts.CLOSE) {
-				//commentOut(text);
+				commentOut(text);
 				currentlist.add(text);
 			} else if (current == CobolConsts.READ || current == CobolConsts.WRITE || current == CobolConsts.REWRITE || current == CobolConsts.DELETE || current == CobolConsts.START) {
-				// //commentOut(text);
+				// commentOut(text);
 				currentlist.add(text);
 			} else {
 				add(text);
@@ -2267,7 +2267,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		} else {
 			if (current == CobolConsts.SELECT) {
 				if (inACM) {
-					//commentOut(text);
+					commentOut(text);
 					currentlist.add(text);
 					process_select();
 					inACM = false;
@@ -2276,33 +2276,33 @@ public class TCPCodeGenerator implements CodeGenerator {
 				}
 			} else if (current == CobolConsts.FD) {
 				if (inFD) {
-					//commentOut(text);
+					commentOut(text);
 					add_fd(text);
 				} else {
 					add(text);
 				}
 			} else if (current == CobolConsts.OPEN) {
-				//commentOut(text);
+				commentOut(text);
 				currentlist.add(text);
 				process_open(".");
 				pop();
 			} else if (current == CobolConsts.CLOSE) {
-				//commentOut(text);
+				commentOut(text);
 				currentlist.add(text);
 				process_close(".");
 				pop();
 			} else if (current == CobolConsts.READ) {
-				// //commentOut(text);
+				// commentOut(text);
 				currentlist.add(text);
 				process_read(".");
 				pop();
 			} else if (current == CobolConsts.WRITE) {
-				// //commentOut(text);
+				// commentOut(text);
 				currentlist.add(text);
 				process_write(".");
 				pop();
 			} else if (current == CobolConsts.START) {
-				// //commentOut(text);
+				// commentOut(text);
 				currentlist.add(text);
 				process_start(".");
 				pop();
@@ -2320,7 +2320,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void whenOpen(String text) {
 		push();
 		current = CobolConsts.OPEN;
-		//commentOut(text);
+		commentOut(text);
 		currentlist.add(text);
 		if (Pattern.matches(CobolConsts.PERIOD, text)) {
 			process_open(".");
@@ -2383,9 +2383,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 			fdlist.clear();
 		} else if (section.equalsIgnoreCase("input-output")) {
-			//commentOut(text);
+			commentOut(text);
 		} else if (section.equalsIgnoreCase("file")) {
-			//commentOut(text);
+			commentOut(text);
 		} else if (division.equalsIgnoreCase("procedure") & !initialized) {
 			add(text);
 			addInitializeSession(".");
@@ -2402,7 +2402,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void whenSelect(String text) {
 		current = CobolConsts.SELECT;
 		if (inACM) {
-			//commentOut(text);
+			commentOut(text);
 			currentlist.add(text);
 		} else {
 			if (!hasNonACM) {
@@ -2449,7 +2449,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void whenStorage(String text) {
 		if (inFD) {
-			//commentOut(text);
+			commentOut(text);
 			add_fd(text);
 		} else {
 			add(text);
