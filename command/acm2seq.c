@@ -19,8 +19,8 @@ jclass clazz;
 jobject jniserv;
 jmethodID midMainToo;
 /***************************************/
-int initializeJNI();
-void display_usage();
+extern int initializeJNI();
+extern void display_usage();
 /***************************************/
 /** options */
 static struct option longopts[] = {
@@ -29,7 +29,7 @@ static struct option longopts[] = {
     {"sql", required_argument, NULL, 'q'},
     {"sqlin", no_argument, NULL, 'a'},
     {"help", no_argument, NULL, 'h'},
-    {0, 0, 0, 0, 0, 0}
+    {0, 0, 0, 0}
 };
 /** main */
 int main (int argc, char *argv[]) {
@@ -89,7 +89,7 @@ int main (int argc, char *argv[]) {
 /**
  * JNI
  */
-int
+extern int
 initializeJNI () {
 	// JVM
 	JavaVMOption options[1];
@@ -118,6 +118,7 @@ initializeJNI () {
 /**
  * usage
  */
+extern
 void
 display_usage () {
 	printf("acm2seq acmfile outfile\n");
