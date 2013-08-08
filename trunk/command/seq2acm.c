@@ -117,11 +117,10 @@ int initializeJNI() {
 void display_usage() {
 	printf("acm2seq acmfile infile\n");
 	printf("options\n");
-	printf(
-			"\t-m/--metafile\tconfiguration file of record layout. default is /opt/sa4cob2db/conf/metafile.xml\n");
+	printf("\t-m/--metafile\tconfiguration file of record layout. default is /opt/sa4cob2db/conf/metafile.xml\n");
 	printf("\t-l/--linein\ttrue/false infile is line file. default is true\n");
-	printf(
-			"\t-e/--extend\ttrue/false open acmfile mode is extend. default is false.\n");
+	printf("\t-e/--extend\ttrue/false open acmfile mode is extend. default is false.\n");
+	printf("\t-c/--commit\tcommit count. Default is auto commit.\n");
 	printf("\t-h/--help\tshow this message.\n");
 }
 
