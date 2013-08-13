@@ -76,8 +76,11 @@ Directions
 <tr><td><a href="#ACMSETOPTION">ACMSETOPTION</a></td><td>Set optional value to ... </td></tr>
 </table>
 <table border="1">
-<tr><th>Before</th><th>tcp</th><th>jni</th></tr>
-<tr><td><pre><code>
+<tr><th>Description</th><th>Before</th><th>tcp</th><th>jni</th></tr>
+<tr>
+<td>
+</td>
+<td><pre><code>
 
 </code></pre></td>
 <td><pre><code>
@@ -90,8 +93,11 @@ Directions
 
 <a name="ACMFILE">*ACMFILE</a><br>
 <table border="1">
-<tr><th>Before</th><th>tcp</th><th>jni</th></tr>
-<tr><td><pre><code>
+<tr><th>Description</th><th>Before</th><th>tcp</th><th>jni</th></tr>
+<tr>
+<td>When insert this comment, "select" statements are commented out.<br>
+If all assigned files are commented out, section and file-control line are commented out too.</td>
+<td><pre><code>
 000900 INPUT-OUTPUT                SECTION.
 001000 FILE-CONTROL.
 001100*                        
@@ -115,7 +121,9 @@ Directions
 000130*     SELECT INP-FILE ASSIGN TO "dbtests"
 000140*       ORGANIZATION LINE SEQUENTIAL.
 </code></pre></td></tr>
-<tr><td><pre><code>
+<tr>
+<td>"FD" is commented out.</td>
+<td><pre><code>
 001900 FD  INP-FILE.
 002000 COPY "I_RECORD.cbl".
 </code></pre></td>
@@ -127,7 +135,13 @@ Directions
 000180* FD  INP-FILE.
 000190* COPY "I_RECORD.cbl".
 </code></pre></td></tr>
-<tr><td><pre><code>
+<tr>
+<td>
+'COPY "ACMCONSTS.CBL"' is added to the top of Working-Storage Section.<br>
+"ACMCONSTS.CBL" is a file that declares the literal value to be used for DB access.<br>
+And , The record layouts are added under "ACMCONSTS.CBL".
+</td>
+<td><pre><code>
 002100 WORKING-STORAGE             SECTION.
 </code></pre></td>
 <td><pre><code>
@@ -144,7 +158,10 @@ Directions
 000230*ACM Genrated File Record
 000240 COPY "I_RECORD.cbl".
 </code></pre></td></tr>
-<tr><td><pre><code>
+<tr>
+<td>
+On under of "Procedure Division", Initialize Process and File assignment are added.</td>
+<td><pre><code>
 002800 PROCEDURE                   DIVISION.
 002900*              
 003000 MAIN                        SECTION.
@@ -167,7 +184,9 @@ Directions
 000360     MOVE "dbtests" TO ACM-FILE-IDENT.
 000370     CALL "assignJNIFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.
 </code></pre></td></tr>
-<tr><td><pre><code>
+<tr>
+<td></td>
+<td><pre><code>
 005900     OPEN   INPUT  INP-FILE.
 </code></pre></td>
 <td><pre><code>
@@ -186,7 +205,9 @@ Directions
 000850                                ACM-ACCESSMODE-SEQ
 000860                                ACM-STATUS-ALL.
 </code></pre></td></tr>
-<tr><td><pre><code>
+<tr>
+<td></td>
+<td><pre><code>
 006300     READ INP-FILE NEXT
 006400       AT END  MOVE 1 TO END-FLG
 006500     END-READ.
@@ -217,7 +238,9 @@ Directions
 001020         MOVE 1 TO END-FLG
 001030     END-IF.
 </code></pre></td></tr>
-<tr><td><pre><code>
+<tr>
+<td></td>
+<td><pre><code>
 007800     CLOSE  INP-FILE.
 </code></pre></td>
 <td><pre><code>
@@ -228,7 +251,9 @@ Directions
 001170     MOVE "dbtests" TO ACM-FILE-IDENT.
 001180     CALL "closeJNIFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.
 </code></pre></td></tr>
-<tr><td><pre><code>
+<tr>
+<td></td>
+<td><pre><code>
 005200     STOP RUN.
 </code></pre></td>
 <td><pre><code>

@@ -19,8 +19,9 @@ jclass clazz;
 jobject jniserv;
 jmethodID midMainToo;
 /***************************************/
-int initializeJNI();
-void display_usage();
+extern void main_too(int argc, char *argv[]);
+extern int initializeJNI();
+extern void display_usage();
 /***************************************/
 /** options */
 static struct option longopts[] = {
@@ -40,7 +41,7 @@ static struct option longopts[] = {
     {0, 0, 0, 0}
 };
 /** main */
-int main (int argc, char *argv[]) {
+extern int main_too (int argc, char *argv[]) {
 	int opt;
 	char* informat = "";
 	char* outformat = "";
@@ -92,11 +93,11 @@ int main (int argc, char *argv[]) {
 				break;
 			case 'h':
                 display_usage();
-				exit(0);
+				return 0;
 				break;	
 			case '?':
                 display_usage();
-				exit(0);
+				return 0;
 				break;						
 		}
 	}
@@ -129,14 +130,13 @@ int main (int argc, char *argv[]) {
     //infile,   outfile,   informat,   outformat,   initrow,     increase, consts  , expand,  listeners,   custom  , charset
       s_infile, s_outfile, s_informat, s_outformat, s_initrow, s_increase, s_consts, s_expand, s_listeners, s_custom, s_charset, s_subprogram);
 	(*jvm)->DestroyJavaVM(jvm);
-    exit(0);
+    return 0;
 }
 
 /**
  * JNI
  */
-int
-initializeJNI () {
+extern int initializeJNI () {
 	// JVM
 	JavaVMOption options[1];
 	options[0].optionString = getClasspath();
@@ -166,8 +166,7 @@ initializeJNI () {
 /**
  * usage
  */
-void
-display_usage () {
+extern void display_usage () {
 	printf("cobpp infile outfile\n");
 	printf("options\n");
 	printf("\t-i/--informat\tfix or other input source code format. default is fix\n");
