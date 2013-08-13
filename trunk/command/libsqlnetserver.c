@@ -19,8 +19,9 @@ jclass clazz;
 jobject jniserv;
 jmethodID midMainToo;
 /***************************************/
-int initializeJNI();
-void display_usage();
+extern void main_too(int argc, char *argv[]);
+extern int initializeJNI();
+extern void display_usage();
 /***************************************/
 /** options */
 static struct option longopts[] = {
@@ -30,7 +31,7 @@ static struct option longopts[] = {
     {0, 0, 0, 0}
 };
 /** main */
-int main (int argc, char *argv[]) {
+extern int main (int argc, char *argv[]) {
 	int opt;
 	char* metafile = getConfigFile();
 	while ((opt = getopt_long(argc, argv, "m:dh", longopts, NULL)) != -1) {
@@ -41,15 +42,16 @@ int main (int argc, char *argv[]) {
 			case 'd':
 				if (daemon(0, 0) != 0) {
 					perror("can't daemon()");
+					return -1;
 				}
 				break;
 			case 'h':
                 display_usage();
-				exit(0);
+				return 0;
 				break;			
 			case '?':
                 display_usage();
-				exit(0);
+				return 0;
 				break;	
 		}
 	}
@@ -60,14 +62,13 @@ int main (int argc, char *argv[]) {
     // execute
     (*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_metafile);
 	(*jvm)->DestroyJavaVM(jvm);
-    exit(0);
+    return 0;
 }
 
 /**
  * JNI
  */
-int
-initializeJNI () {
+extern int initializeJNI () {
 	// JVM
 	JavaVMOption options[1];
 	options[0].optionString = getClasspath();
@@ -95,8 +96,7 @@ initializeJNI () {
 /**
  * usage
  */
-void
-display_usage () {
+extern void display_usage () {
 	printf("cobpp infile outfile\n");
 	printf("options\n");
 	printf("\t-m/--metafile\tfile of metadata\n");

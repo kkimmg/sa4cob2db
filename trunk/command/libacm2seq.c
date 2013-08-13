@@ -19,7 +19,8 @@ jclass clazz;
 jobject jniserv;
 jmethodID midMainToo;
 /***************************************/
-extern int initializeJNI();
+extern void main_too(int argc, char *argv[]);
+extern int  initializeJNI();
 extern void display_usage();
 /***************************************/
 /** options */
@@ -32,7 +33,7 @@ static struct option longopts[] = {
     {0, 0, 0, 0}
 };
 /** main */
-int main (int argc, char *argv[]) {
+extern int main_too (int argc, char *argv[]) {
 	int opt;
 	char* metafile = getConfigFile();
 	char* lineout = "true";
@@ -54,11 +55,11 @@ int main (int argc, char *argv[]) {
 				break;
 			case 'h':
                 display_usage();
-				exit(0);
+				return 0;
 				break;			
 			case '?':
                 display_usage();
-				exit(0);
+				return 0;
 				break;	
 		}
 	}
@@ -83,14 +84,13 @@ int main (int argc, char *argv[]) {
     // call main
     (*env)->CallStaticVoidMethod(env, clazz, midMainToo, s_acmfile, s_outfile, s_metafile, s_lineout, s_sql, s_sqlin, s_display_usage);
 	(*jvm)->DestroyJavaVM(jvm);
-    exit(0);
+    return 0;
 }
 
 /**
  * JNI
  */
-extern int
-initializeJNI () {
+extern int initializeJNI () {
 	// JVM
 	JavaVMOption options[1];
 	options[0].optionString = getClasspath();
@@ -118,9 +118,7 @@ initializeJNI () {
 /**
  * usage
  */
-extern
-void
-display_usage () {
+extern void display_usage () {
 	printf("acm2seq acmfile outfile\n");
 	printf("options\n");
 	printf("\t-m/--metafile\tconfiguration file of record layout. default is /opt/sa4cob2db/conf/metafile.xml\n");
