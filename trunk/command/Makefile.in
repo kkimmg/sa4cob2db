@@ -16,12 +16,12 @@ all:
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -ljvm -Wall -v libsqlnetserver.c   getJNIOption.c -o libsqlnetserver.so
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -ljvm -Wall -v libcob2meta.c   getJNIOption.c -o libcob2meta.so
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -ljvm -Wall -v libmeta2sql.c   getJNIOption.c -o libmeta2sql.so
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)               -Wall -v acm2seq.c getJNIOption.c -o acm2seq
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)               -Wall -v seq2acm.c getJNIOption.c -o seq2acm
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)               -Wall -v cobpp.c   getJNIOption.c -o cobpp
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)               -Wall -v sqlnetserver.c   getJNIOption.c -o sqlnetserver
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)               -Wall -v cob2meta.c   getJNIOption.c -o cob2meta
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)               -Wall -v meta2sql.c   getJNIOption.c -o meta2sql
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)         -ldl  -Wall -v acm2seq.c getJNIOption.c -o acm2seq
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)         -ldl  -Wall -v seq2acm.c getJNIOption.c -o seq2acm
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)         -ldl  -Wall -v cobpp.c   getJNIOption.c -o cobpp
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)         -ldl  -Wall -v sqlnetserver.c   getJNIOption.c -o sqlnetserver
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)         -ldl  -Wall -v cob2meta.c   getJNIOption.c -o cob2meta
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)         -ldl  -Wall -v meta2sql.c   getJNIOption.c -o meta2sql
 
 install:
 	mkdir $(BINDIR)
