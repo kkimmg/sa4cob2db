@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     int (*main_too)(int, char**);
     char *error;
 
-    handle = dlopen ("libacm2seq.so", RTLD_LAZY);
+    handle = dlopen ("libseq2acm.so", RTLD_LAZY);
     if (!handle) {
         fprintf (stderr, "%s\n", dlerror());
         exit(1);

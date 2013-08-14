@@ -19,7 +19,7 @@ jclass clazz;
 jobject jniserv;
 jmethodID midMainToo;
 /***************************************/
-extern void main_too(int argc, char *argv[]);
+extern int  main_too(int argc, char *argv[]);
 extern int  initializeJNI();
 extern void display_usage();
 /***************************************/

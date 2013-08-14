@@ -19,8 +19,8 @@ jclass clazz;
 jobject jniserv;
 jmethodID midMainToo;
 /***************************************/
-extern void main_too(int argc, char *argv[]);
-extern int initializeJNI();
+extern int  main_too(int argc, char *argv[]);
+extern int  initializeJNI();
 extern void display_usage();
 /***************************************/
 /** options */
@@ -31,7 +31,7 @@ static struct option longopts[] = {
 /** main */
 extern int main_too (int argc, char *argv[]) {
 	int opt;
-	char* informat = "";
+	/*char* informat = "";*/
 	char* charset = "";
 	while ((opt = getopt_long(argc, argv, "s:h", longopts, NULL)) != -1) {
 		switch (opt) {
