@@ -1090,7 +1090,7 @@ setACMOptionFromEnv (char *name, char *envkey, char *status) {
 	}
 	wvalue = getenv(envkey);
 	if (wvalue == NULL) {
-		wvalue = '\0';
+		wvalue = "";
 	} else if (strlen(wvalue) >= OPTIONVALUE_LEN) {
 		wvalue[OPTIONVALUE_MAX] = '\0';
 	}
