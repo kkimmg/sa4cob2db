@@ -10,8 +10,8 @@ JDKOSLIB = -I$(JAVA_HOME)/include/linux/
 JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/server
 
 all:
-	$(CC)                                        -Wall -shared -v acmclient.c                -o libACMClient.so
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -ljvm -Wall -shared -v jniclient.c getJNIOption.c -o libJNIClient.so
+	$(CC)                                  -Wall -shared -v acmclient.c                -o libACMClient.so
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -Wall -shared -v jniclient.c getJNIOption.c -o libJNIClient.so -ljvm
 
 install:
 	mkdir $(LIBDIR)

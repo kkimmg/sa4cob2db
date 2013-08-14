@@ -31,5 +31,7 @@ deinstall:
 
 clean:
 	ant clean
+	cd cs; make clean
+	cs command; make clean
 	
 
