@@ -7,7 +7,7 @@ LIBDIR = $(ACM_HOME)/lib
 JAVA_HOME = @JAVA_HOME@
 JDKLIB = -I$(JAVA_HOME)/include/
 JDKOSLIB = -I$(JAVA_HOME)/include/linux/
-JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/client
+JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/server
 
 all:
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -ljvm -Wall -v libacm2seq.c getJNIOption.c -o libacm2seq.so
@@ -16,12 +16,12 @@ all:
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -ljvm -Wall -v libsqlnetserver.c   getJNIOption.c -o libsqlnetserver.so
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -ljvm -Wall -v libcob2meta.c   getJNIOption.c -o libcob2meta.so
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -ljvm -Wall -v libmeta2sql.c   getJNIOption.c -o libmeta2sql.so
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)         -ldl  -Wall -v acm2seq.c getJNIOption.c -o acm2seq
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)         -ldl  -Wall -v seq2acm.c getJNIOption.c -o seq2acm
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)         -ldl  -Wall -v cobpp.c   getJNIOption.c -o cobpp
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)         -ldl  -Wall -v sqlnetserver.c   getJNIOption.c -o sqlnetserver
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)         -ldl  -Wall -v cob2meta.c   getJNIOption.c -o cob2meta
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK)         -ldl  -Wall -v meta2sql.c   getJNIOption.c -o meta2sql
+	$(CC)                                          -Wall -v acm2seq.c -o acm2seq -ldl
+	$(CC)                                          -Wall -v seq2acm.c -o seq2acm -ldl
+	$(CC)                                          -Wall -v cobpp.c   -o cobpp -ldl
+	$(CC)                                          -Wall -v sqlnetserver.c -o sqlnetserver -ldl
+	$(CC)                                          -Wall -v cob2meta.c   -o cob2meta -ldl
+	$(CC)                                          -Wall -v meta2sql.c   -o meta2sql -ldl
 
 install:
 	mkdir $(BINDIR)
@@ -54,12 +54,12 @@ deinstall:
 	rm $(LIBDIR)/libmeta2sql.so
 
 clean:
-	rm acm2seq.so
-	rm seq2acm.so
-	rm cobpp.so
-	rm sqlnetserver.so
-	rm cob2meta.so
-	rm meta2sql.so
+	rm libacm2seq.so
+	rm libseq2acm.so
+	rm libcobpp.so
+	rm libsqlnetserver.so
+	rm libcob2meta.so
+	rm libmeta2sql.so
 	rm acm2seq
 	rm seq2acm
 	rm cobpp
