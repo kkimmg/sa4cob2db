@@ -10,12 +10,12 @@ JDKOSLIB = -I$(JAVA_HOME)/include/linux/
 JVMLINK = -L$(JAVA_HOME)/jre/lib/i386/server
 
 all:
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -ljvm -Wall -v libacm2seq.c getJNIOption.c -o libacm2seq.so
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -ljvm -Wall -v libseq2acm.c getJNIOption.c -o libseq2acm.so
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -ljvm -Wall -v libcobpp.c   getJNIOption.c -o libcobpp.so
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -ljvm -Wall -v libsqlnetserver.c   getJNIOption.c -o libsqlnetserver.so
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -ljvm -Wall -v libcob2meta.c   getJNIOption.c -o libcob2meta.so
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -ljvm -Wall -v libmeta2sql.c   getJNIOption.c -o libmeta2sql.so
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -Wall -v libacm2seq.c getJNIOption.c -o libacm2seq.so -ljvm 
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -Wall -v libseq2acm.c getJNIOption.c -o libseq2acm.so -ljvm
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -Wall -v libcobpp.c   getJNIOption.c -o libcobpp.so -ljvm
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -Wall -v libsqlnetserver.c   getJNIOption.c -o libsqlnetserver.so -ljvm
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -Wall -v libcob2meta.c   getJNIOption.c -o libcob2meta.so -ljvm
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -Wall -v libmeta2sql.c   getJNIOption.c -o libmeta2sql.so -ljvm
 	$(CC)                                          -Wall -v acm2seq.c -o acm2seq -ldl
 	$(CC)                                          -Wall -v seq2acm.c -o seq2acm -ldl
 	$(CC)                                          -Wall -v cobpp.c   -o cobpp -ldl
