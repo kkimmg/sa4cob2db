@@ -31,7 +31,7 @@ static struct option longopts[] = {
     {0, 0, 0, 0}
 };
 /** main */
-extern int main (int argc, char *argv[]) {
+extern int main_too (int argc, char *argv[]) {
 	int opt;
 	char* metafile = getConfigFile();
 	while ((opt = getopt_long(argc, argv, "m:dh", longopts, NULL)) != -1) {
