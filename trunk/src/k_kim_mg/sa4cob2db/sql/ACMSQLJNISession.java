@@ -24,6 +24,9 @@ import org.xml.sax.SAXException;
  * connect COBOL and java by JNI
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
+/**
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
+ */
 public class ACMSQLJNISession implements ACMSession {
 	static final String NOT_ASSIGNED = FileStatus.NOT_ASSIGNED.toString();
 	private static final long serialVersionUID = 1L;
@@ -222,16 +225,30 @@ public class ACMSQLJNISession implements ACMSession {
 		return status;
 	}
 	/**
+	 * Create SQLFileServer
+	 * @return SQLFileServer to create CobolRecordMetaDataSet
+	 */
+	protected SQLFileServer createSQLFileServer () {
+		return new SQLFileServer();
+	}
+	/**
+	 * Create NodeReadLoader
+	 * @return NodeReadLoader to read Metadata info 
+	 */
+	protected NodeReadLoader createNodeReadLoader () {
+		return new NodeReadLoader();
+	}
+	/**
 	 * initialize
 	 * @param acmUsername user name
 	 * @param acmPassword password
 	 */
 	public void initialize(byte[] acmUsername, byte[] acmPassword) {
 		FileStatus ret = FileStatus.OK;
-		SQLFileServer sqlfileserver = new SQLFileServer();
+		SQLFileServer sqlfileserver = createSQLFileServer();
 		try {
 			String filename = SQLNetServer.getEnvValue("ACM_CONFFILE", SQLNetServer.DEFAULT_CONFIG);
-			NodeReadLoader nodeLoader = new NodeReadLoader();
+			NodeReadLoader nodeLoader = createNodeReadLoader();
 			CobolRecordMetaDataSet metaset = sqlfileserver.getMetaDataSet();
 			File metaFile = new File(filename);
 			Properties properties = new Properties();
