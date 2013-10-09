@@ -1,0 +1,32 @@
+<project name="WebSamples" default="dist" basedir=".">
+	<description>
+	サンプルを作成する
+	</description>
+	<!-- set global properties for this build -->
+	<property name="src" location="./src"/>
+	<property name="websample" location="./"/>
+	<property name="build" location="./classes"/>
+	<property name="user.name" value="kkimmg@gmail.com"/>
+	<property name="antlib" location="/opt/apache-ant-1.7.0/lib"/>
+	<property name="encoding" value="UTF-8" />
+	<path id="cp.acm">
+		<pathelement location="../sa4cob2db.jar"/>
+		<pathelement location="C:\Program Files\Apache Software Foundation\Tomcat 6.0\lib\servlet-api.jar"/>
+		<pathelement location="/usr/share/tomcat7/lib/servlet-api.jar"/>
+	</path>
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${build}"/>
+		<copy file="./lib/sa4cob2db.jar" todir="./lib" overwrite="true"/>
+	</target>
+	<target name="compile" depends="init" description="compile the source ">
+		<javac srcdir="${src}" destdir="${build}" debug="on">
+			<classpath refid="cp.acm"/>
+		</javac>
+	</target>
+	<target name="dist" depends="compile" description="generate the distribution">
+		<jar jarfile="../WebSamples.war" basedir="./">
+		</jar>
+	</target>
+
+</project>
