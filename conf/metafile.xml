@@ -11,7 +11,7 @@
 	<property name="maxsessions">10</property>
 	<otherofset name = "otherofset1">k_kim_mg.sa4cob2db.test.CustromNodeTest</otherofset>
 	<otherofmeta name = "otherofmeta1">k_kim_mg.sa4cob2db.test.CustromNodeTest</otherofmeta>
-	<metadata name="idxtest" encode="UTF-8" keyval="true">
+	<metadata name="idxtest" encode="UTF_8" keyval="true">
 		<statement>
 			select seisu, id from test order by seisu</statement>
 		<sqlcolumn name="seisu" type="1" start="0" length="7"
@@ -51,7 +51,7 @@
 			format="0000.000" originalColumnName="fudou" defaultString=""
 			readIgnore="false" rewriteIgnore="false" writeIgnore="false" />
 		<keycolumn>id</keycolumn>
-		<indexfile filename="idxtest" indexname="I-SEISU">
+		<indexfile filename="idxtest" indexname="I_SEISU">
 			<index2file filecolumn="seisu" indexcolumn="seisu" />
 			<file2index filecolumn="id" indexcolumn="id" />
 		</indexfile>
@@ -87,7 +87,7 @@
 			signed="true" decimal="3" originalColumnName="fudou" defaultString=""
 			readIgnore="false" rewriteIgnore="false" writeIgnore="false" />
 		<keycolumn>id</keycolumn>
-		<indexfile filename="idxtest" indexname="I-SEISU">
+		<indexfile filename="idxtest" indexname="I_SEISU">
 			<index2file filecolumn="seisu" indexcolumn="seisu" />
 			<file2index filecolumn="id" indexcolumn="id" />
 		</indexfile>
@@ -97,22 +97,22 @@
 		<otherofmeta1></otherofmeta1>
 	</metadata>
 	<otherofset1></otherofset1>
-    <metadata name="DATA_TYPES" >
+    <metadata name="DATA_TYPES" encode="UTF-8" >
         <statement>select * from DATA_TYPES order by TYPE_A,TYPE_X,TYPE_9</statement>
-        <sqlcolumn            name="TYPE-A"            length="4"            originalColumnName="TYPE_A"            start="0"            type="2" />
-        <sqlcolumn            name="TYPE-X"            length="10"            originalColumnName="TYPE_X"            start="4"            type="2" />
-        <sqlcolumn            name="TYPE-9"            length="18"            originalColumnName="TYPE_9"            start="14"            type="1" />
-        <sqlcolumn            name="TYPE-SP"            length="5"            originalColumnName="TYPE_SP"            signed="true"            start="32"            type="1" />
-        <sqlcolumn            name="TYPE-SM"            length="5"            originalColumnName="TYPE_SM"            signed="true"            start="37"            type="1" />
-        <sqlcolumn            name="TYPE-V"            decimal="1"            format="000"            length="3"            originalColumnName="TYPE_V"            start="42"            type="5" />
-        <sqlcolumn            name="TYPE-P"            format="00"            length="2"            originalColumnName="TYPE_P"            start="45"            type="1" />
-        <sqlcolumn            name="TYPE-0"            length="4"            originalColumnName="TYPE_0"            start="47"            type="2" />
-        <sqlcolumn            name="TYPE-XB"            length="3"            originalColumnName="TYPE_XB"            start="51"            type="2" />
-        <sqlcolumn            name="TYPE-CONMA"            format="0,000"            length="5"            originalColumnName="TYPE_CONMA"            start="54"            type="1" />
-        <sqlcolumn            name="TYPE-SLASH"            format="00/00"            length="5"            originalColumnName="TYPE_SLASH"            start="59"            type="1" />
-        <sqlcolumn            name="TYPE-PERIOD"            decimal="1"            format="0.00"            length="4"            originalColumnName="TYPE_PERIOD"            start="64"            type="5" />
-        <sqlcolumn            name="TYPE-PLUS"            format="+000"            length="4"            originalColumnName="TYPE_PLUS"            start="68"            type="1" />
-        <sqlcolumn            name="TYPE-MINUS"            format="-000"            length="4"            originalColumnName="TYPE_MINUS"            start="72"            type="1" />        <sqlcolumn            name="TYPE-CR1"            format="0CR"            length="3"            originalColumnName="TYPE_CR1"            start="76"            type="1" />
+        <sqlcolumn            name="TYPE_A"            length="4"            originalColumnName="TYPE_A"            start="0"            type="2" />
+        <sqlcolumn            name="TYPE_X"            length="10"            originalColumnName="TYPE_X"            start="4"            type="2" />
+        <sqlcolumn            name="TYPE_9"            length="18"            originalColumnName="TYPE_9"            start="14"            type="1" />
+        <sqlcolumn            name="TYPE_SP"            length="5"            originalColumnName="TYPE_SP"            signed="true"            start="32"            type="1" />
+        <sqlcolumn            name="TYPE_SM"            length="5"            originalColumnName="TYPE_SM"            signed="true"            start="37"            type="1" />
+        <sqlcolumn            name="TYPE_V"            decimal="1"            format="000"            length="3"            originalColumnName="TYPE_V"            start="42"            type="5" />
+        <sqlcolumn            name="TYPE_P"            format="00"            length="2"            originalColumnName="TYPE_P"            start="45"            type="1" />
+        <sqlcolumn            name="TYPE_0"            length="4"            originalColumnName="TYPE_0"            start="47"            type="2" />
+        <sqlcolumn            name="TYPE_XB"            length="3"            originalColumnName="TYPE_XB"            start="51"            type="2" />
+        <sqlcolumn            name="TYPE_CONMA"            format="0,000"            length="5"            originalColumnName="TYPE_CONMA"            start="54"            type="1" />
+        <sqlcolumn            name="TYPE_SLASH"            format="00/00"            length="5"            originalColumnName="TYPE_SLASH"            start="59"            type="1" />
+        <sqlcolumn            name="TYPE_PERIOD"            decimal="1"            format="0.00"            length="4"            originalColumnName="TYPE_PERIOD"            start="64"            type="5" />
+        <sqlcolumn            name="TYPE_PLUS"            format="+000"            length="4"            originalColumnName="TYPE_PLUS"            start="68"            type="1" />
+        <sqlcolumn            name="TYPE_MINUS"            format="_000"            length="4"            originalColumnName="TYPE_MINUS"            start="72"            type="1" />        <sqlcolumn            name="TYPE_CR1"            format="0CR"            length="3"            originalColumnName="TYPE_CR1"            start="76"            type="1" />
         <sqlcolumn            name="TYPE-DB1"            format="0DB"            length="3"            originalColumnName="TYPE_DB1"            start="79"            type="1" />
         <sqlcolumn            name="TYPE-CR2"            format="0CR"            length="3"            originalColumnName="TYPE_CR2"            start="82"            type="1" />
         <sqlcolumn            name="TYPE-DB2"            format="0DB"            length="3"            originalColumnName="TYPE_DB2"            start="85"            type="1" />
@@ -121,14 +121,32 @@
         <sqlcolumn            name="TYPE-FOM1"            format="0,000"            length="5"            originalColumnName="TYPE_FOM1"            start="96"            type="1" />
         <sqlcolumn            name="TYPE-FOM2"            format="0,"            length="5"            originalColumnName="TYPE_FOM2"            start="101"            type="1" />
         <sqlcolumn            name="TYPE-FOM3"            format="+000"            length="4"            originalColumnName="TYPE_FOM3"            start="106"            type="1" />
-        <sqlcolumn            name="TYPE-FOM4"            format="-000"            length="4"            originalColumnName="TYPE_FOM4"            start="110"            type="1" />
+        <sqlcolumn            name="TYPE-FOM4"            format="_000"            length="4"            originalColumnName="TYPE_FOM4"            start="110"            type="1" />
         <sqlcolumn            name="TYPE-FOM8"            format="##0"            length="3"            originalColumnName="TYPE_FOM8"            start="114"            type="1" />
         <sqlcolumn            name="TYPE-FOM9"            format="#,##0"            length="5"            originalColumnName="TYPE_FOM9"            start="117"            type="1" />
         <sqlcolumn            name="TYPE-DISP"            length="3"            originalColumnName="TYPE_DISP"            signed="true"            start="122"            type="1" />
         <sqlcolumn            name="TYPE-PACKED-DECIMAL"            length="3"            originalColumnName="TYPE_PACKED_DECIMAL"            signed="true"            start="125"            type="1"            usage="2" />
         <sqlcolumn            name="TYPE-COMP-3"            length="4"            originalColumnName="TYPE_COMP_3"            signed="true"            start="128"            type="1"            usage="2" />
-        <keycolumn>TYPE-A</keycolumn>
-        <keycolumn>TYPE-X</keycolumn>
-        <keycolumn>TYPE-9</keycolumn>
+        <keycolumn>TYPE_A</keycolumn>
+        <keycolumn>TYPE_X</keycolumn>
+        <keycolumn>TYPE_9</keycolumn>
+    </metadata>
+    <metadata name="SCR_RECORD" encode="UTF-8" >
+        <sqlcolumn length="1" name="SCR_PROC" originalColumnName="SCR_PROC" start="0" type="1"/>
+        <sqlcolumn length="5" name="SCR_ID" originalColumnName="SCR_ID" start="2" type="1"/>
+        <sqlcolumn length="20" name="SCR_CD" originalColumnName="SCR_CD" start="8" type="2"/>
+        <sqlcolumn length="20" name="SCR_NIHONGO" originalColumnName="SCR_NIHONGO" start="29" type="2"/>
+        <sqlcolumn length="7" name="SCR_SEISU" originalColumnName="SCR_SEISU" start="50" type="1"/>
+        <sqlcolumn length="1" name="SCR_SEISU_FLG" originalColumnName="SCR_SEISU_FLG" start="58" type="1"/>
+        <sqlcolumn length="4" name="SCR_HIZUKE_YYYY" originalColumnName="SCR_HIZUKE_YYYY" start="60" type="1"/>
+        <sqlcolumn length="2" name="SCR_HIZUKE_MM" originalColumnName="SCR_HIZUKE_MM" start="65" type="1"/>
+        <sqlcolumn length="2" name="SCR_HIZUKE_DD" originalColumnName="SCR_HIZUKE_DD" start="68" type="1"/>
+        <sqlcolumn length="2" name="SCR_JIKOKU_HH" originalColumnName="SCR_JIKOKU_HH" start="71" type="1"/>
+        <sqlcolumn length="2" name="SCR_JIKOKU_MM" originalColumnName="SCR_JIKOKU_MM" start="74" type="1"/>
+        <sqlcolumn length="2" name="SCR_JIKOKU_SS" originalColumnName="SCR_JIKOKU_SS" start="77" type="1"/>
+        <sqlcolumn length="4" name="SCR_FUDOU1" originalColumnName="SCR_FUDOU1" start="80" type="1"/>
+        <sqlcolumn length="3" name="SCR_FUDOU2" originalColumnName="SCR_FUDOU2" start="85" type="1"/>
+        <sqlcolumn length="1" name="SCR_FUDOU_FLG" originalColumnName="SCR_FUDOU_FLG" start="89" type="1"/>
     </metadata>
 </metadataset>
+

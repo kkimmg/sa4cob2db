@@ -1076,7 +1076,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			//
 			add("* ACM Generated Delete");
 			for (int i = 0; i < backup.size(); i++) {
-				add("*" + backup.get(i));
+				commentOut(backup.get(i));
 			}
 			// event
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
@@ -1236,7 +1236,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 					if (info != null) {
 						//
 						for (int j = 0; j < backup.size(); j++) {
-							add("*" + backup.get(j));
+							commentOut(backup.get(j));
 						}
 						// break;
 					} else {
@@ -1416,7 +1416,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			//
 			add("* ACM Generated Write");
 			for (int i = 0; i < backup.size(); i++) {
-				add("*" + backup.get(i));
+				commentOut(backup.get(i));
 			}
 			// event
 			CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
@@ -1520,7 +1520,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 					if (info != null) {
 						//
 						for (int j = 0; j < backup.size(); j++) {
-							add("*" + backup.get(j));
+							commentOut(backup.get(j));
 						}
 					} else {
 						for (int j = 0; j < backup.size(); j++) {
@@ -1691,7 +1691,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		//
 		add("* ACM Generated Write");
 		for (int i = 0; i < backup.size(); i++) {
-			add("*" + backup.get(i));
+			commentOut(backup.get(i));
 		}
 		// event
 		CodeGeneratorEvent event = new CodeGeneratorEvent(info, owner, this, period);
@@ -2061,7 +2061,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void whenDelete(String text) {
 		push();
 		current = CobolConsts.DELETE;
-		commentOut(text);
 		currentlist.add(text);
 		if (Pattern.matches(CobolConsts.PERIOD, text)) {
 			process_delete(".");

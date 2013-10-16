@@ -7,25 +7,28 @@
 <title>Insert title here</title>
 </head>
 <body>
-<from action="./index.jsp" method="POST">
+<form action="./result.jsp" method="POST">
+<input type="hidden" name="PROCESS_NAME" value="/home/kenji/workspace/sa4cob2db/tests/cobs/jni/JNIDYNTEST" />
+<input type="hidden" name="INPUT_LAYOUT" value="SCR_RECORD" />
+<input type="hidden" name="OUTPUT_LAYOUT" value="SCR_RECORD" />
 <table>
-<tr><td>Proc</td><input type="text" name="SCR_PROC"/></tr>
-<tr><td>ID</td><input type="text" name="SCR_ID"/></tr>
-<tr><td>CD</td><input type="text" name="SCR_CD"/></tr>
-<tr><td>NIHONGO</td><input type="text" name="SCR_NIHONGO"/></tr>
-<tr><td>SEISU</td><input type="text" name="SCR_SEISU"/></tr>
-<tr><td>SEISU-FLG</td><input type="text" name="SCR_SEISU-FLG"/></tr>
-<tr><td>HIZUKE-YYYY</td><input type="text" name="SCR_HIZUKE-YYYY"/></tr>
-<tr><td>HIZUKE-MM</td><input type="text" name="SCR_HIZUKE-MM"/></tr>
-<tr><td>HIZUKE-DD</td><input type="text" name="SCR_HIZUKE-DD"/></tr>
-<tr><td>JIKOKU-HH</td><input type="text" name="SCR_JIKOKU-HH"/></tr>]
-<tr><td>JIKOKU-MM</td><input type="text" name="SCR_JIKOKU-MM"/></tr>
-<tr><td>JIKOKU-DD</td><input type="text" name="SCR_JIKOKU-DD"/></tr>
-<tr><td>FUDOU-1</td><input type="text" name="SCR_FUDOU1"/></tr>
-<tr><td>FUDOU-2</td><input type="text" name="SCR_FUDOU2"/></tr>
-<tr><td>FUDOU-FLG</td><input type="text" name="SCR_FUDOU-FLG"/></tr>
-<tr><td><input type="submit"/></td><input type="reset"/></tr>
+<tr><td>PROC</td><td><input type="text" name="SCR_PROC"/></td></tr>
+<tr><td>ID</td><td><input type="text" name="SCR_ID"/></td></tr>
+<tr><td>CD</td><td><input type="text" name="SCR_CD"/></td></tr>
+<tr><td>NIHONGO</td><td><input type="text" name="SCR_NIHONGO"/></td></tr>
+<tr><td>SEISU</td><td><input type="text" name="SCR_SEISU"/></td></tr>
+<tr><td>SEISU_FLG</td><td><input type="text" name="SCR_SEISU_FLG"/></td></tr>
+<tr><td>HIZUKE_YYYY</td><td><input type="text" name="SCR_HIZUKE_YYYY"/></td></tr>
+<tr><td>HIZUKE_MM</td><td><input type="text" name="SCR_HIZUKE_MM"/></td></tr>
+<tr><td>HIZUKE_DD</td><td><input type="text" name="SCR_HIZUKE_DD"/></td></tr>
+<tr><td>JIKOKU_HH</td><td><input type="text" name="SCR_JIKOKU_HH"/></td></tr>
+<tr><td>JIKOKU_MM</td><td><input type="text" name="SCR_JIKOKU_MM"/></td></tr>
+<tr><td>JIKOKU_SS</td><td><input type="text" name="SCR_JIKOKU_SS"/></td></tr>
+<tr><td>FUDOU_1</td><td><input type="text" name="SCR_FUDOU1"/></td></tr>
+<tr><td>FUDOU_2</td><td><input type="text" name="SCR_FUDOU2"/></td></tr>
+<tr><td>FUDOU_FLG</td><td><input type="text" name="SCR_FUDOU_FLG"/></td></tr>
+<tr><td><input type="submit"/></td><td><input type="reset"/></td></tr>
 </table>
-</from>
+</form>
 </body>
 </html>
