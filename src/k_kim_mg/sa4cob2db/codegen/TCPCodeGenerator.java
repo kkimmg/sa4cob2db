@@ -863,7 +863,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 			if (Pattern.matches(CobolConsts.ACMINSERTEND, text)) {
 				whenInsertEnd(text);
 			} else {
-				whenNoMatchAny(text);
+				String right = (text.length() > 1 ? text.substring(1) : "");
+				whenNoMatchAny(" " + right);
 			}
 		} else {
 			if (Pattern.matches(CobolConsts.ACMSTART, text)) {
