@@ -1,5 +1,4 @@
 package k_kim_mg.sa4cob2db.WebSample;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -7,10 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -19,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.xml.parsers.FactoryConfigurationError;
-
 import k_kim_mg.sa4cob2db.CobolColumn;
 import k_kim_mg.sa4cob2db.CobolRecord;
 import k_kim_mg.sa4cob2db.CobolRecordException;
@@ -28,33 +26,31 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.DefaultCobolRecord;
 import k_kim_mg.sa4cob2db.sql.SQLFileServer;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
-
 public class SimpleProcessFilter implements Filter {
-	/** Parameter name of Input layout */
-	public static final String INPUT_LAYOUT = "INPUT_LAYOUT";
 	/** Init Parameter name of Metadata File */
 	public static final String ACM_CONFFILE = "ACM_CONFFILE";
+	/** Parameter name of Input layout */
+	public static final String INPUT_LAYOUT = "INPUT_LAYOUT";
 	/** Parameter name of Output layout */
 	public static final String OUTPUT_LAYOUT = "OUTPUT_LAYOUT";
 	/** Parameter name of Process */
 	public static final String PROCESS_NAME = "PROCESS_NAME";
-
-	private CobolRecordMetaDataSet metaset;
-	private Map<String, Process> processes = new HashMap<String, Process>();
+	/** Environment values */
+	public static final String PRPFNAME = "environment.properties";
 	private FilterConfig config = null;
 	private ServletContext context = null;
-
+	private CobolRecordMetaDataSet metaset;
+	private Map<String, Process> processes = new HashMap<String, Process>();
+	private Properties prop;
 	/**
 	 * Create Cobol Record
 	 * 
-	 * @param meta
-	 *            metadata
+	 * @param meta metadata
 	 * @return record
 	 */
 	protected CobolRecord createCobolRecord(CobolRecordMetaData meta) {
 		return new DefaultCobolRecord(meta);
 	}
-
 	/**
 	 * Create NodeReadLoader
 	 * 
@@ -63,18 +59,15 @@ public class SimpleProcessFilter implements Filter {
 	protected NodeReadLoader createNodeReadLoader() {
 		return new NodeReadLoader();
 	}
-
 	/**
 	 * Create ProcessBuilder
 	 * 
-	 * @param name
-	 *            command
+	 * @param name command
 	 * @return ProcessBuilder
 	 */
 	protected ProcessBuilder createProcessBuilder(String name) {
 		return new ProcessBuilder(name);
 	}
-
 	/**
 	 * Create SQLFileServer
 	 * 
@@ -83,7 +76,6 @@ public class SimpleProcessFilter implements Filter {
 	protected SQLFileServer createSQLFileServer() {
 		return new SQLFileServer();
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -95,154 +87,6 @@ public class SimpleProcessFilter implements Filter {
 			process.destroy();
 		}
 	}
-
-	public static void main(String[] argv) {
-		(new SimpleProcessFilter()).main();
-	}
-
-	public void main() {
-		SQLFileServer sqlfileserver = createSQLFileServer();
-		metaset = sqlfileserver.getMetaDataSet();
-		NodeReadLoader nodeLoader = createNodeReadLoader();
-		String filename = "/home/kenji/workspace/sa4cob2db/conf/metafile.xml";
-		File metaFile = new File(filename);
-		Properties properties = new Properties();
-		try {
-			nodeLoader.createMetaDataSet(metaFile, metaset, properties);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} catch (FactoryConfigurationError e) {
-			e.printStackTrace();
-		}
-		try {
-			String processName = "/home/kenji/workspace/sa4cob2db/tests/cobs/jni/JNIDYNTEST";
-			if (processName != null) {
-				String inputLayoutName = "SCR_RECORD";
-				if (inputLayoutName != null) {
-					String outputLayoutName = "SCR_RECORD";
-					if (outputLayoutName == null) {
-						outputLayoutName = inputLayoutName;
-					}
-					CobolRecordMetaData inputLayout = metaset.getMetaData(inputLayoutName);
-					CobolRecordMetaData outputLayout = metaset.getMetaData(outputLayoutName);
-					//
-					Process process = processes.get(processName);
-					if (process == null) {
-						ProcessBuilder builder = createProcessBuilder(processName);
-						// //////////////////////////////////////////////////////////////////
-						String name, valu;
-						// ///////////////////////////////////////////////////////////////
-						name = "LD_LIBRARY_PATH";
-						valu = "/usr/lib/jvm/java-1.7.0-openjdk-i386/jre/lib/i386/server:/home/kenji/workspace/sa4cob2db/cs:/home/kenji/workspace/sa4cob2db/command:/usr/local/lib";
-						builder.environment().put(name, valu);
-						// ///////////////////////////////////////////////////////////////
-						name = "COB_LIBRARY_PATH";
-						valu = "/home/kenji/workspace/sa4cob2db/cs:/home/kenji/workspace/sa4cob2db/tests/cobs:/usr/lib/jvm/java-1.7.0-openjdk-i386/jre/lib/i386/server:/home/kenji/workspace/sa4cob2db/cs:/home/kenji/workspace/sa4cob2db/command:/usr/local/lib";
-						builder.environment().put(name, valu);
-						// ///////////////////////////////////////////////////////////////
-						name = "CLASSPATH";
-						valu = "/home/kenji/workspace/sa4cob2db/sa4cob2db.jar:/home/kenji/workspace/sa4cob2db/cobpp.jar:/usr/share/java/postgresql-jdbc3.jar";
-						builder.environment().put(name, valu);
-						// ///////////////////////////////////////////////////////////////
-						name = "ACM_USERNAME";
-						valu = "testuser";
-						builder.environment().put(name, valu);
-						// ///////////////////////////////////////////////////////////////
-						name = "ACM_PASSWORD";
-						valu = "password";
-						builder.environment().put(name, valu);
-						// ///////////////////////////////////////////////////////////////
-						name = "ACM_SESSIONLISTENERS";
-						valu = "ACMSessionEventAdapterTest";
-						builder.environment().put(name, valu);
-						// ///////////////////////////////////////////////////////////////
-						process = builder.start();
-						processes.put(processName, process);
-					}
-					if (process != null) {
-						//
-						OutputStream out = process.getOutputStream();
-						InputStream in = process.getInputStream();
-						setRequest2Stream(inputLayout, out);
-						setStream2Request(outputLayout, in);
-						//
-						process.destroy();
-					}
-				}
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	protected void setRequest2Stream(CobolRecordMetaData meta, OutputStream out) {
-		CobolRecord rec = createCobolRecord(meta);
-		byte[] byt = new byte[meta.getRowSize()];
-		for (int i = 0; i < byt.length; i++) {
-			byt[i] = ' ';
-		}
-		try {
-			rec.setRecord(byt);
-			rec.updateObject(meta.getColumn("SCR_PROC"), "2");
-			System.out.println("rs:" + meta.getColumn("SCR_PROC").getName() + ":" + rec.getString(meta.getColumn("SCR_PROC")));
-			rec.updateObject(meta.getColumn("SCR_ID"), 2);
-			System.out.println("rs:" + meta.getColumn("SCR_ID").getName() + ":" + rec.getString(meta.getColumn("SCR_ID")));
-		} catch (CobolRecordException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			PrintWriter pw = new PrintWriter(out);
-			System.out.println("rs:" + meta.getColumn("SCR_ID").getName() + ":" + rec.getString(meta.getColumn("SCR_ID")));
-			rec.getRecord(byt);
-			System.out.println("rs rec:" + byt.length + ":" + new String(byt));
-			out.write(byt);
-			out.write('\n');
-			out.flush();
-			pw.println(new String(byt));
-		} catch (CobolRecordException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	protected void setStream2Request(CobolRecordMetaData meta, InputStream in) {
-		CobolRecord rec = createCobolRecord(meta);
-		byte[] byt = new byte[meta.getRowSize()];
-		try {
-			in.read(byt);
-			System.out.println("sr rec:" + byt.length + ":" + new String(byt));
-			rec.setRecord(byt);
-			for (int i = 0; i < meta.getColumnCount(); i++) {
-				String str = "";
-				CobolColumn column = meta.getColumn(i);
-
-				try {
-					switch (column.getType()) {
-					case CobolColumn.TYPE_DOUBLE:
-					case CobolColumn.TYPE_FLOAT:
-						double d = rec.getDouble(column);
-						str = String.valueOf(d);
-					case CobolColumn.TYPE_LONG:
-					case CobolColumn.TYPE_INTEGER:
-						long l = rec.getLong(column);
-						str = String.valueOf(l);
-					default:
-						str = rec.getString(column);
-					}
-					System.out.println("sr:" + column.getName() + "=" + str);
-				} catch (CobolRecordException e) {
-					context.log("ERROR", e);
-				}
-			}
-		} catch (CobolRecordException e) {
-			context.log("ERROR", e);
-		} catch (IOException e) {
-			context.log("ERROR", e);
-		}
-	}
-
 	// private Map
 	/*
 	 * (non-Javadoc)
@@ -265,10 +109,24 @@ public class SimpleProcessFilter implements Filter {
 					CobolRecordMetaData outputLayout = metaset.getMetaData(outputLayoutName);
 					//
 					Process process = processes.get(processName);
+					if (process != null) {
+						try {
+							process.exitValue();
+							process = null;
+							processes.remove(process);
+						} catch (Exception e) {
+						}
+					}
 					if (process == null) {
 						ProcessBuilder builder = createProcessBuilder(processName);
 						// //////////////////////////////////////////////////////////////////
 						String name, valu;
+						Enumeration<Object> keys = prop.keys();
+						while (keys.hasMoreElements()) {
+							name = keys.nextElement().toString();
+							valu = prop.getProperty(name);
+							builder.environment().put(name, valu);
+						}
 						// ///////////////////////////////////////////////////////////////
 						name = "LD_LIBRARY_PATH";
 						valu = config.getInitParameter(name);
@@ -324,7 +182,6 @@ public class SimpleProcessFilter implements Filter {
 		//
 		chain.doFilter(req, res);
 	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -347,17 +204,20 @@ public class SimpleProcessFilter implements Filter {
 		} catch (FactoryConfigurationError e) {
 			context.log("ERROR", e);
 		}
+		prop = new Properties();
+		InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(PRPFNAME);
+		try {
+			prop.load(in);
+		} catch (IOException iex) {
+			iex.printStackTrace();
+		}
 	}
-
 	/**
 	 * set parameter values to OutputStream
 	 * 
-	 * @param meta
-	 *            metadata
-	 * @param req
-	 *            request
-	 * @param out
-	 *            stream
+	 * @param meta metadata
+	 * @param req request
+	 * @param out stream
 	 */
 	protected void setRequest2Stream(CobolRecordMetaData meta, ServletRequest req, OutputStream out) {
 		CobolRecord rec = createCobolRecord(meta);
@@ -394,16 +254,12 @@ public class SimpleProcessFilter implements Filter {
 			context.log("ERROR", e);
 		}
 	}
-
 	/**
 	 * set stream value to response
 	 * 
-	 * @param meta
-	 *            metadata
-	 * @param in
-	 *            stream
-	 * @param res
-	 *            response
+	 * @param meta metadata
+	 * @param in stream
+	 * @param res response
 	 */
 	protected void setStream2Request(CobolRecordMetaData meta, InputStream in, ServletRequest req) {
 		// InputStreamReader r = new InputStreamReader(in);
@@ -425,7 +281,6 @@ public class SimpleProcessFilter implements Filter {
 			for (int i = 0; i < meta.getColumnCount(); i++) {
 				String str = "";
 				CobolColumn column = meta.getColumn(i);
-
 				try {
 					switch (column.getType()) {
 					case CobolColumn.TYPE_DOUBLE:
