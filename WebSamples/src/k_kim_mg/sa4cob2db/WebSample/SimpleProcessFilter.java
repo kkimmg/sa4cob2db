@@ -127,31 +127,6 @@ public class SimpleProcessFilter implements Filter {
 							valu = prop.getProperty(name);
 							builder.environment().put(name, valu);
 						}
-						// ///////////////////////////////////////////////////////////////
-						name = "LD_LIBRARY_PATH";
-						valu = config.getInitParameter(name);
-						builder.environment().put(name, valu);
-						// ///////////////////////////////////////////////////////////////
-						name = "COB_LIBRARY_PATH";
-						valu = config.getInitParameter(name);
-						builder.environment().put(name, valu);
-						// ///////////////////////////////////////////////////////////////
-						name = "CLASSPATH";
-						valu = config.getInitParameter(name);
-						builder.environment().put(name, valu);
-						// ///////////////////////////////////////////////////////////////
-						name = "ACM_USERNAME";
-						valu = config.getInitParameter(name);
-						builder.environment().put(name, valu);
-						// ///////////////////////////////////////////////////////////////
-						name = "ACM_PASSWORD";
-						valu = config.getInitParameter(name);
-						builder.environment().put(name, valu);
-						// ///////////////////////////////////////////////////////////////
-						name = "ACM_SESSIONLISTENERS";
-						valu = config.getInitParameter(name);
-						builder.environment().put(name, valu);
-						// ///////////////////////////////////////////////////////////////
 						process = builder.start();
 						processes.put(processName, process);
 					}
@@ -160,17 +135,6 @@ public class SimpleProcessFilter implements Filter {
 						OutputStream out = process.getOutputStream();
 						InputStream in = process.getInputStream();
 						BufferedReader err = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-						try {
-							context.log(err.readLine());
-							context.log(err.readLine());
-							context.log(err.readLine());
-							context.log(err.readLine());
-							context.log(err.readLine());
-							context.log(err.readLine());
-							context.log(err.readLine());
-						} catch (Exception ex) {
-							context.log("err", ex);
-						}
 						setRequest2Stream(inputLayout, req, out);
 						setStream2Request(outputLayout, in, req);
 					}
