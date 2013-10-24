@@ -7,33 +7,10 @@
 	<filter>
 		<filter-name>COBOL</filter-name>
 		<filter-class>k_kim_mg.sa4cob2db.WebSample.SimpleProcessFilter</filter-class>
+
 		<init-param>
 			<param-name>ACM_CONFFILE</param-name>
 			<param-value>/home/kenji/workspace/sa4cob2db/conf/metafile.xml</param-value>
-		</init-param>
-		<init-param>
-			<param-name>LD_LIBRARY_PATH</param-name>
-			<param-value>/usr/lib/jvm/java-1.7.0-openjdk-i386/jre/lib/i386/server:/home/kenji/workspace/sa4cob2db/cs:/home/kenji/workspace/sa4cob2db/command:/usr/local/lib</param-value>
-		</init-param>
-		<init-param>
-			<param-name>COB_LIBRARY_PATH</param-name>
-			<param-value>/home/kenji/workspace/sa4cob2db/cs:/home/kenji/workspace/sa4cob2db/tests/cobs:/usr/lib/jvm/java-1.7.0-openjdk-i386/jre/lib/i386/server:/home/kenji/workspace/sa4cob2db/cs:/home/kenji/workspace/sa4cob2db/command:/usr/local/lib</param-value>
-		</init-param>
-		<init-param>
-			<param-name>CLASSPATH</param-name>
-			<param-value>/home/kenji/workspace/sa4cob2db/sa4cob2db.jar:/home/kenji/workspace/sa4cob2db/cobpp.jar:/usr/share/java/postgresql-jdbc3.jar</param-value>
-		</init-param>
-		<init-param>
-			<param-name>ACM_USERNAME</param-name>
-			<param-value>testuser</param-value>
-		</init-param>
-		<init-param>
-			<param-name>ACM_PASSWORD</param-name>
-			<param-value>password</param-value>
-		</init-param>
-		<init-param>
-			<param-name>ACM_SESSIONLISTENERS</param-name>
-			<param-value>ACMSessionEventAdapterTest</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>

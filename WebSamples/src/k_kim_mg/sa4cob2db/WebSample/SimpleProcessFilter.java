@@ -113,7 +113,7 @@ public class SimpleProcessFilter implements Filter {
 						try {
 							process.exitValue();
 							process = null;
-							processes.remove(process);
+							processes.remove(processName);
 						} catch (Exception e) {
 						}
 					}
@@ -134,7 +134,6 @@ public class SimpleProcessFilter implements Filter {
 						//
 						OutputStream out = process.getOutputStream();
 						InputStream in = process.getInputStream();
-						BufferedReader err = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 						setRequest2Stream(inputLayout, req, out);
 						setStream2Request(outputLayout, in, req);
 					}
