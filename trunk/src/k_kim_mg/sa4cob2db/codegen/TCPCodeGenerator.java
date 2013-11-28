@@ -243,7 +243,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param period "." or ""
 	 */
 	void addCallCommit(String period) {
-		add("    CALL \"commitACMSession\" USING ACM-STATUS-ALL" + period);
+		add("     CALL \"commitACMSession\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
 	 * DELETE
@@ -477,7 +477,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param period "." or ""
 	 */
 	void addCallRollback(String period) {
-		add("    CALL \"rollbackACMSession\" USING ACM-STATUS-ALL" + period);
+		add("     CALL \"rollbackACMSession\" USING ACM-STATUS-ALL" + period);
 	}
 	/**
 	 * START

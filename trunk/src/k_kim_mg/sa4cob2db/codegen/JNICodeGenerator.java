@@ -77,7 +77,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	 * )
 	 */
 	void addCallCommit(String period) {
-		add("    CALL \"commitJNISession\" USING ACM-STATUS-ALL" + period);
+		add("     CALL \"commitJNISession\" USING ACM-STATUS-ALL" + period);
 	}
 	/*
 	 * (non-Javadoc)
@@ -314,7 +314,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	 * .String)
 	 */
 	void addCallRollback(String period) {
-		add("    CALL \"rollbackJNISession\" USING ACM-STATUS-ALL" + period);
+		add("     CALL \"rollbackJNISession\" USING ACM-STATUS-ALL" + period);
 	}
 	/*
 	 * (non-Javadoc)
