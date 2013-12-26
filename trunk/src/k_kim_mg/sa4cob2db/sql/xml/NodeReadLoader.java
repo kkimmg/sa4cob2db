@@ -1,11 +1,13 @@
 package k_kim_mg.sa4cob2db.sql.xml;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
@@ -653,11 +655,27 @@ public class NodeReadLoader {
 				} else if (item.getNodeName().equals("include")) {
 					// include
 					NamedNodeMap map = item.getAttributes();
-					Node work = map.getNamedItem("file");
-					if (work != null) {
-						String fname = work.getNodeValue();
+					Node fwork = map.getNamedItem("file");
+					if (fwork != null) {
+						String fname = fwork.getNodeValue();
 						File wfile = new File(fname);
-						if (wfile.exists() && wfile.canRead()) {
+						if (wfile.isFile() && wfile.exists() && wfile.canRead()) {
+							NodeReadLoader child = createNodeReadLoader();
+							try {
+								SQLNetServer.logger.info("including metadata " + fname);
+								child.createMetaDataSet(wfile, meta, properties);
+							} catch (ParserConfigurationException e) {
+								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+							} catch (FactoryConfigurationError e) {
+								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+							} catch (SAXException e) {
+								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+							} catch (IOException e) {
+								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+							}
+						} else if (wfile.isDirectory() && wfile.exists() && wfile.canRead()) {
+							Node fiwork = map.getNamedItem("filter");
+							//FileFilter filter = new InnerFileFilter();
 							NodeReadLoader child = createNodeReadLoader();
 							try {
 								SQLNetServer.logger.info("including metadata " + fname);
@@ -683,9 +701,10 @@ public class NodeReadLoader {
 	}
 	/**
 	 * create this class instance for "include".
+	 * 
 	 * @return NodeReadLoader object
 	 */
-	NodeReadLoader createNodeReadLoader () {
+	NodeReadLoader createNodeReadLoader() {
 		return new NodeReadLoader();
 	}
 	/**
@@ -820,6 +839,37 @@ public class NodeReadLoader {
 			SQLNetServer.logger.warning(e.getMessage());
 		} catch (IllegalAccessException e) {
 			SQLNetServer.logger.warning(e.getMessage());
+		}
+	}
+	/**
+	 * Inner FileFileFilter
+	 * 
+	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
+	 */
+	class InnerFileFilter implements FileFilter {
+		private String filterText;
+		/**
+		 * constructor
+		 * 
+		 * @param filerText filterText
+		 */
+		public InnerFileFilter(String filterText) {
+			this.filterText = filterText;
+		}
+		/**
+		 * constructor equals Innter
+		 */
+		public InnerFileFilter() {
+			this(".*");
+		}
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.io.FileFilter#accept(java.io.File)
+		 */
+		@Override
+		public boolean accept(File file) {
+			return Pattern.matches(filterText, file.getName());
 		}
 	}
 }

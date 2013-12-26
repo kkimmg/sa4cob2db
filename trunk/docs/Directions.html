@@ -594,9 +594,9 @@ program.</a><br>
     </tr>
   </tbody>
 </table>
-<a name="ACMAUTO">*ACMAUTOCOMMIT</a>
+<a name="ACMAUTO">*ACMAUTOCOMMIT</a> 
 
-<p style="margin-left:2em;">This direction sets Auto Commit mode.(by calling
+<p style="margin-left:2em;">This direction sets Auto Commit mode.(see
 java.sql.Connection.setAutoCommit(boolean))</p>
 
 <table border="1">
@@ -611,15 +611,21 @@ java.sql.Connection.setAutoCommit(boolean))</p>
       <td></td>
       <td><pre><code>005600*ACMAUTOCOMMIT=false</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000660     MOVE "false" TO ACM-OPTION
+000670     CALL "setTCPCommitMode" USING ACM-OPTION
+000680                                     ACM-STATUS-ALL</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000660     MOVE "false" TO ACM-OPTION
+000670     CALL "setJNICommitMode" USING ACM-OPTION
+000680                                     ACM-STATUS-ALL</code></pre>
       </td>
     </tr>
   </tbody>
 </table>
-<a name="ACMTRANS">*ACMTRANS</a><br>
+<a name="ACMTRANS">*ACMTRANS</a> 
 
+<p style="margin-left:2em;">This direction sets Transaction isoration
+level.(see java.sql.Connection.setTransactionIsolation(int))</p>
 
 <table border="1">
   <tbody>
@@ -633,15 +639,22 @@ java.sql.Connection.setAutoCommit(boolean))</p>
       <td></td>
       <td><pre><code>005500*ACMTRANSACTION=TRANSACTION_READ_COMMITTED</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000630     MOVE "TRANSACTION_READ_COMMITTED" TO ACM-OPTION
+000640     CALL "setTCPTransMode" USING ACM-OPTION
+000650                                    ACM-STATUS-ALL</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000630     MOVE "TRANSACTION_READ_COMMITTED" TO ACM-OPTION
+000640     CALL "setJNITransMode" USING ACM-OPTION
+000650                                    ACM-STATUS-ALL</code></pre>
       </td>
     </tr>
   </tbody>
 </table>
-<a name="ACMCOMMIT">*ACMCOMMIT</a><br>
+<a name="ACMCOMMIT">*ACMCOMMIT</a> 
 
+<p style="margin-left:2em;"><a name="ACMCOMMIT1" id="ACMCOMMIT1"></a>This
+direction calls commit.(see java.sql.Connection.commit())<br>
+</p>
 
 <table border="1">
   <tbody>
@@ -653,17 +666,20 @@ java.sql.Connection.setAutoCommit(boolean))</p>
     </tr>
     <tr>
       <td></td>
-      <td><pre><code></code></pre>
+      <td><pre><code>010100*ACMCOMMIT</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>001240     CALL "commitACMSession" USING ACM-STATUS-ALL</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>001240     CALL "commitJNISession" USING ACM-STATUS-ALL</code></pre>
       </td>
     </tr>
   </tbody>
 </table>
-<a name="ACMROLLBACK">*ACMROLLBACK</a><br>
+<a name="ACMROLLBACK">*ACMROLLBACK</a>
 
+<p style="margin-left:2em;"><a name="ACMROLLBACK1" id="ACMROLLBACK1">This
+direction calls commit.(see java.sql.Connection.rollback())</a><br>
+</p>
 
 <table border="1">
   <tbody>
