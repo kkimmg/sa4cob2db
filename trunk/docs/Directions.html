@@ -691,11 +691,11 @@ direction calls rollback.(see java.sql.Connection.rollback())</a><br>
     </tr>
     <tr>
       <td></td>
-      <td><pre><code></code></pre>
+      <td><pre><code>010500*ACMROLLBACK</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>001280     CALL "rollbackACMSession" USING ACM-STATUS-ALL</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>001280     CALL "rollbackJNISession" USING ACM-STATUS-ALL</code></pre>
       </td>
     </tr>
   </tbody>
@@ -714,60 +714,42 @@ source lines between ACMCOMMENTSTART and </a>ACMCOMMENTEND are commeted out.<br>
     <tr>
       <th>Description</th>
       <th>Before</th>
-      <th>tcp</th>
-      <th>jni</th>
+      <th>tcp/jni</th>
     </tr>
     <tr>
       <td></td>
-      <td><pre><code></code></pre>
+      <td><pre><code>004100*ACMCOMMENTSTART
+004200        DISPLAY   DSP-RECORD2
+004300        ACCEPT    DSP-RECORD1
+004400*ACMCOMMENTEND</code></pre>
       </td>
-      <td><pre><code></code></pre>
-      </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000460*       DISPLAY   DSP-RECORD2
+000470*       ACCEPT    DSP-RECORD1</code></pre>
       </td>
     </tr>
   </tbody>
 </table>
 <a name="ACMINSERTSTART">*ACMINSERTSTART</a><br>
+<a name="ACMINSERTEND">*ACMINSERTEND</a> 
 
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Before</th>
-      <th>tcp</th>
-      <th>jni</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td><pre><code></code></pre>
-      </td>
-      <td><pre><code></code></pre>
-      </td>
-      <td><pre><code></code></pre>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<a name="ACMINSERTEND">*ACMINSERTEND</a><br>
-
+<p style="margin-left:2em;"><a name="ACMINSERTEND1" id="ACMINSERTEND1">The
+comment lines between ACMINSERTSTART and ACMINSERTEND are uncommeted.</a><br>
+</p>
 
 <table border="1">
   <tbody>
     <tr>
       <th>Description</th>
       <th>Before</th>
-      <th>tcp</th>
-      <th>jni</th>
+      <th>tcp/jni</th>
     </tr>
     <tr>
       <td></td>
-      <td><pre><code></code></pre>
+      <td><pre><code>004500*ACMINSERTSTART
+004600*       ACCEPT    SCR-RECORD
+004700*ACMINSERTEND</code></pre>
       </td>
-      <td><pre><code></code></pre>
-      </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000480        ACCEPT    SCR-RECORD</code></pre>
       </td>
     </tr>
   </tbody>
