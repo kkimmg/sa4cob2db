@@ -131,26 +131,6 @@ these directions.<br>
     </tr>
   </tbody>
 </table>
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Before</th>
-      <th>tcp</th>
-      <th>jni</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td><pre><code></code></pre>
-      </td>
-      <td><pre><code></code></pre>
-      </td>
-      <td><pre><code></code></pre>
-      </td>
-    </tr>
-  </tbody>
-</table>
 <hr>
 
 <p><a name="ACMFILE">*ACMFILE</a> </p>
@@ -754,8 +734,11 @@ comment lines between ACMINSERTSTART and ACMINSERTEND are uncommeted.</a><br>
     </tr>
   </tbody>
 </table>
-<a name="ACMGETOPTION">*ACMGETOPTION</a><br>
+<a name="ACMGETOPTION">*ACMGETOPTION</a>
 
+<p style="margin-left:2em;"><a name="ACMGETOPTION1" id="ACMGETOPTION1">Option
+values is transferred to the area.</a><br>
+</p>
 
 <table border="1">
   <tbody>
@@ -766,19 +749,28 @@ comment lines between ACMINSERTSTART and ACMINSERTEND are uncommeted.</a><br>
       <th>jni</th>
     </tr>
     <tr>
-      <td></td>
+      <td>Option values is transferred to the area.</td>
       <td><pre><code>004600*ACMGETOPTION NAME="TEST" TO=OPTIONVALUE.</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000480     MOVE "TEST" TO ACM-OPTION-NAME.
+000490     CALL "getACMOption" USING ACM-OPTION-NAME
+000500                                 ACM-OPTION-VALUE
+000510                                 ACM-STATUS-ALL.
+000520     MOVE ACM-OPTION-VALUE TO OPTIONVALUE.</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000480     MOVE "TEST" TO ACM-OPTION-NAME.
+000490     CALL "getJNIOption" USING ACM-OPTION-NAME
+000500                                 ACM-STATUS-ALL.
+000510     MOVE ACM-OPTION-VALUE TO OPTIONVALUE.</code></pre>
       </td>
     </tr>
-
   </tbody>
 </table>
-<a name="ACMSETOPTION">*ACMSETOPTION</a><br>
+<a name="ACMSETOPTION">*ACMSETOPTION</a>
 
+<p style="margin-left:2em;"><a name="ACMSETOPTION1" id="ACMSETOPTION1">Option
+values is transferred from the area/literal/enviroment value.</a><br>
+</p>
 
 <table border="1">
   <tbody>
@@ -789,30 +781,54 @@ comment lines between ACMINSERTSTART and ACMINSERTEND are uncommeted.</a><br>
       <th>jni</th>
     </tr>
     <tr>
-      <td></td>
+      <td>Option values is transferred from the area.</td>
       <td><pre><code>004400*ACMSETOPTION NAME="TEST" FROM=OPTIONVALUE.</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000420     MOVE "TEST" TO ACM-OPTION-NAME.
+000430     MOVE OPTIONVALUE TO ACM-OPTION-VALUE.
+000440     CALL "setACMOption" USING ACM-OPTION-NAME
+000450                                 ACM-OPTION-VALUE
+000460                                 ACM-STATUS-ALL.</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000420     MOVE "TEST" TO ACM-OPTION-NAME.
+000430     MOVE OPTIONVALUE TO ACM-OPTION-VALUE.
+000440     CALL "setJNIOption" USING ACM-OPTION-NAME
+000450                                 ACM-OPTION-VALUE
+000460                                 ACM-STATUS-ALL.</code></pre>
       </td>
     </tr>
     <tr>
-      <td></td>
+      <td>Option values is transferred from the literal.</td>
       <td><pre><code>004800*ACMSETOPTION NAME="TEST" VALUE="TSET".</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000540     MOVE "TEST" TO ACM-OPTION-NAME.
+000550     MOVE "TSET" TO ACM-OPTION-VALUE.
+000560     CALL "setACMOption" USING ACM-OPTION-NAME
+000570                                 ACM-OPTION-VALUE
+000580                                 ACM-STATUS-ALL.</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000530     MOVE "TEST" TO ACM-OPTION-NAME.
+000540     MOVE "TSET" TO ACM-OPTION-VALUE.
+000550     CALL "setJNIOption" USING ACM-OPTION-NAME
+000560                                 ACM-OPTION-VALUE
+000570                                 ACM-STATUS-ALL.</code></pre>
       </td>
     </tr>
     <tr>
-      <td></td>
+      <td>Option values is transferred from the enviroment value.</td>
       <td><pre><code>004800*ACMSETOPTION NAME="TEST" ENV="ENVKEY".</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000660     MOVE "TEST" TO ACM-OPTION-NAME.
+000670     MOVE "ENVKEY" TO ACM-OPTION-VALUE.
+000680     CALL "setACMOptionFromEnv" USING ACM-OPTION-NAME
+000690                                 ACM-OPTION-VALUE
+000700                                 ACM-STATUS-ALL.</code></pre>
       </td>
-      <td><pre><code></code></pre>
+      <td><pre><code>000640     MOVE "TEST" TO ACM-OPTION-NAME.
+000650     MOVE "ENVKEY" TO ACM-OPTION-VALUE.
+000660     CALL "setJNIOptionFromEnv" USING ACM-OPTION-NAME
+000670                                 ACM-OPTION-VALUE
+000680                                 ACM-STATUS-ALL.</code></pre>
       </td>
     </tr>
   </tbody>
