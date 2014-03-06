@@ -1,20 +1,51 @@
-﻿<html>
+<html>
 <head>
-	<title>How To Use.</title>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>How To Use.</title>
 </head>
+
+<body>
+Index<html>
 <body>
 <ol>
-	<li>This program provides functions to </li>
-	<ol>
-		<li>convert File IO Statements(for example READ,WRITE...) which in COBOL source code to CALL Statements.</li>
-		<li>convert RDB's record to bytes array.</li>
-	</ol>
-	<li></li>
-	<ol>
-		<li>
-		<img src="Image01.jpg" alt=="image"/>
-		</li>
-	</ol>
+  <li>What is it? 
+    <ul>
+      <li>This program provides the functions shown below. 
+        <ol>
+          <li>cobcc command converts the call statements for DB Access from the
+            IO statements in COBOL source.</li>
+          <li>"libXXXClient.so" shared object provides functions for DB access. 
+            <p>Each of functions corresponds to the IO statement of COBOL
+            source. </p>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>Install 
+    <ul>
+      <li>get source</li>
+      <li>configure</li>
+      <li>make</li>
+      <li>make install</li>
+    </ul>
+  </li>
+  <li><a href="HowToConf.html">Configuration</a></li>
+  <li><a href="Directions.html">Add Comments</a></li>
+  <li>Generate 
+    <ul>
+      <li>cobpp</li>
+    </ul>
+  </li>
+  <li>Others 
+    <ul>
+      <li>cob2meta</li>
+      <li>acm2seq</li>
+      <li>seq2acm</li>
+    </ul>
+  </li>
 </ol>
 </body>
-</html> 
+</html>
+</body>
+</html>

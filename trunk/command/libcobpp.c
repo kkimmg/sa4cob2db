@@ -149,7 +149,7 @@ extern int initializeJNI () {
 	// get class
 	clazz = (*env)->FindClass(env, "k_kim_mg/sa4cob2db/codegen/COBPP1");
 	if (clazz == 0) {
-		perror("COBPP1 Class Not Found.");
+		perror("Class Not Found.");
 		return (-1);
 	}
 	// get method

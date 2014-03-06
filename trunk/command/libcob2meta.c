@@ -93,7 +93,7 @@ extern int initializeJNI () {
 	JNI_CreateJavaVM(&jvm, (void**)&env, &vm_args);
 	clazz = (*env)->FindClass(env, "k_kim_mg/sa4cob2db/utils/Cbl2MetaData");
 	if (clazz == 0) {
-		perror("COBPP1 Class Not Found.");
+		perror("Class Not Found.");
 		return (-1);
 	}
 	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",

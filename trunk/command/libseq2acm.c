@@ -98,7 +98,7 @@ extern int initializeJNI() {
 	// get class
 	clazz = (*env)->FindClass(env, "k_kim_mg/sa4cob2db/sql/Seq2Acm");
 	if (clazz == 0) {
-		perror("Seq2Acm Class Not Found.");
+		perror("Class Not Found.");
 		return (-1);
 	}
 	// get method

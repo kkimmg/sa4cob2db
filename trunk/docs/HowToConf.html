@@ -1,241 +1,734 @@
 <html>
 <head>
-<title>How To Conf.</title>
-<link rel="stylesheet" href="./styles.css">
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+  <title>How To Conf.</title>
+  <link rel="stylesheet" href="./styles.css">
 </head>
-<body>
-This document tells you about environment values and configuration file.
-<ol>
-<li>
-Environment Values.
-<table border="1">
-<tr><th>Environment Value</th><th>Description</th><th>Sample</th></tr>
-<tr><td>ACM_CONFFILE</td><td>File Name of meta data set.</td><td><code>/opt/sa4cob2db/conf/metafile.xml</code></td></tr>
-<tr><td>ACMLIBS_DIR</td><td>Directory where acmlibs.jar exists.</td><td><code>/opt/sa4cob2db</code></td></tr>
-<tr><td>ACM_HOSTNAME</td><td>hostname or address that SQLNetServer accepts.<br>This value is used by TCP client.</td><td>localhost</td></tr>
-<tr><td>ACM_HOSTPORT</td><td>hostname or address that SQLNetServer accepts.<br>This value is used by TCP client.</td><td>12345</td></tr>
-<tr><td>ACM_USERNAME</td><td>username for connect to SQLNetServer.<br>This value is used by TCP client.</td><td>username</td></tr>
-<tr><td>ACM_PASSWORD</td><td>password for connect to SQLNetServer.<br>This value is used by TCP client.</td><td>password</td></tr>
-<tr><td>ACM_PP_CHARSET</td><td>Character set of source code</td><td>EUCJP</td></tr>
-<tr><td>ACM_SESSIONLISTENERS</td><td>Classes process session events.<br>Class names separated by ":".<br> This class has to implement <a href="../doc/k_kim_mg/sa4cob2db/event/ACMSessionEventListener.html">ACMSessionEventListener<a/> interface.</td><td>ACMSessionEventAdapterTest</td></tr>
-<tr><td>ACM_SERVERLISTENERS</td><td>Classes process server events.<br>Class names separated by ":".<br> This class has to implement <a href="../doc/k_kim_mg/sa4cob2db/event/ACMServerEventListener.html">ACMServerEventListener<a/> interface.</td><td>ACMServerEventAdapterTest:k_kim_mg.sa4cob2db.admin.MinAdminAdapter</td></tr>
-<tr><td>ACMOFF_FILE</td><td>Configuration File for to  SQLNetServer.</td><td><code>/opt/sa4cob2db/conf/shutdown.conf</code></td></tr>
-</table>
-and you need to set other environment values.
-<table border="1">
-<tr><th>Environment Value</th><th>Description</th><th>Sample</th></tr>
-<tr><td>JAVA_HOME</td><td>Path to java home.</td><td><code>/usr/lib/jvm/java</code></td></tr>
-<tr><td>CLASSPATH</td><td>Add path to sa4cob2db.jar and Custom event listener or other classes.</td><td><code>$CLASSPATH:/opt/sa4cob2db/sa4cob2db.jar</code></td></tr>
-<tr><td>PATH</td><td>Add path to commands.</td><td><code>$PATH:/opt/sa4cob2db/bin</code></td></tr>
-<tr><td>LD_LIBRARY_PATH</td><td>Add path to jre library.</td><td><code>$LD_LIBRARY_PATH:$JAVA_HOME/jre/lib/i386/client</code></td></tr>
-<tr><td>COB_LIBRARY_PATH</td><td>Add path to this packages library.</td><td><code>$COB_LIBRARY_PATH:/opt/sa4cob2db/lib</code></td></tr>
-</table>
-</li>
-<li>
-Configuration File(<a href="./metafile.dtd">DTD</a>)<br/>
-meatadataset<br>
-Root node.
-<div id="meta_source"><pre><code>&lt;meatadataset>
-...
-&lt;/metadataset>
-</code></pre></div>
-<ol>
-	Elements
-	<li>property</li>Entire settings and additional string for "otherofset" node.<br>
-	<div id="meta_source"><pre><code>&lt;metadataset>
-	&lt;property name="name">value&lt;/property>
-&lt;/metadataset></code></pre></div>
-	Preserved properties.<br/>
-		<table border="1">
-		<tr><th>name</th><th>Description</th><th>Sample</th><tr>
-		<tr><td>jdbcdriverurl</td><td>JDBC Driver URL.</td><td></td></tr>
-		<tr><td>jdbcdatabaseurl</td><td>JDBC Database URL</td><td></td></tr>
-		<tr><td>jdbcusername</td><td>JDBC Database Username.</td><td></td></tr>
-		<tr><td>jdbcpassword</td><td>JDBC Database Password.</td><td></td></tr>
-		<tr><td>address</td><td>Hostname or Address which SQLNetServer accepts. Comma(,) Seperated names or addresses.<br/>default value is localhost.</td><td></td></tr>
-		<tr><td>port</td><td>Port number which SQLNetServer accepts.<br/>default value is 12345.</td><td></td></tr>
-		<tr><td>maxsessions</td><td>Maximum session count. It means unlimited count if 0 set to this value.</td><td></td></tr>
-		<tr><td>log</td><td>Logging configuration File name.</td><td></td></tr>
-		<tr><td>authfile</td><td>Password File name.</td><td></td></tr>
-		<tr><td>adminfile</td><td>Administrators Password File name.</td><td></td></tr>
-		<tr><td>backlog</td><td>Backlog of Server Socket that SQLNetServer uses.</td><td></td></tr>
-		<tr><td>sessionlisteners</td><td>Classes process session events.<br>Class names separated by ":"</td><td></td></tr>
-		<tr><td>serverlisteners</td><td>Classes process server events.<br>Class names separated by ":"</td><td></td></tr>
-		</table>
-	<li>otherofset</li>Class for processing node that has not reserved name in the metadataset node. <br/>
-	This class has to implement <a href="../doc/k_kim_mg/sa4cob2db/sql/xml/MetaDataSetNodeProcessor.html">MetaDataSetNodeProcessor<a/> interface.<br>
-	For example.
-	<div id="meta_source"><pre><code>&lt;metadataset>
-	&lt;otherofset name="unreserved">your.package.MDSNPImple&lt;/otherofset>
-	...
-	&lt;unreserved>&lt;/unreserved>
-&lt;/metadataset>
-</code></pre></div>
-	The "unreserved" node is processed by 
-	<div id="meta_source"><pre><code>your.package.MDSNPImple#processOtherNode(Node node, CobolRecordMetaDataSet meta, Properties properties);</code></pre></div>.
-	<li>otherofmeta</li>Class for processing node that has not reserved name in the metadata node.<br>
-	This class has to implement <a href="../doc/k_kim_mg/sa4cob2db/sql/xml/MetaDataNodeProcessor.html">MetaDataNodeProcessor<a/> interface.<br>
-	For example.
-	<div id="meta_source"><pre><code>&lt;metadataset>
-	&lt;otherofset name="unreserved">your.package.MDNPImple&lt;/otherofset>
-	&lt;metadata name....>
-		...
-		&lt;unreserved>&lt;/unreserved>
-	&lt/metadata>
-&lt;/metadataset>
-</code></pre></div>
-	The "unreserved" node is processed by 
-	<div id="meta_source"><pre><code>your.package.MDNPImple#processOtherNode(Node node, CobolRecordMetaData meta);</code></pre></div>.
-</li>
-	<li>metadata</li>
-	Each metadata/file settings
-<div id="meta_source"><pre><code>&lt;metadataset>
-	&lt;metadata name="FileName" ...>
-		&lt;statement>SELECT * FROM TableName ORDER BY id&lt;/statment>
-		&lt;sqlcolumn name="id" ..../>
-		...
-		&lt;customcoumn name="other" .../>
-		...
-		&lt;keycolumn>id&lt;keycolumn>
-		&lt;truncate>TRUNCATE TableName&lt;truncate>
-		&lt;listener>a.b.CobolRecordEventListenerImpl1&ltlistener>
-	&lt;/metadata>
-&lt;metadataset></code></pre></div>
-	Attributes
-	<ol>
-		<li>name</li>External file name or Metadata name.<br/>'FileName' of <div id="meta_source"><pre><code>SELECT XXXX ASSIGN TO 'FileName'.</code></pre></div>
-		<li>bufinit</li>Initial buffering record count for sequential read.<br/>'READ NEXT' waits until count of buffered records reached this value.
-		<li>bufmin</li>Minimum buffering record count for sequential read.<br/>'READ NEXT' waits until count of buffered records reached this value.
-		<li>bufmax</li>Maximum buffering record count. <br/>Maximum number of records to be buffered in the sequential read operation.
-		<li>encode</li>Character encoding of record.
-		<li>customClassName</li>Class of order to the operation of its own non-built-in. <br/>This class has to implement <a href="../doc/k_kim_mg/sa4cob2db/CobolRecordMetaData.html">CobolRecordMetaData<a/> interface.
-	</ol>
-	Elements
-	<ol>
-		<li>statement</li>SELECT statement<br/>You need to sort the result set by "ORDER BY" if the file is read Random/Dynamic.
-		<div id="meta_source"><pre><code>&lt;statement>SELECT * FROM TableName ORDER BY id&lt;/statment></code></pre></div>
-		<li>sqlcolumn</li><div id="meta_source"><pre><code>&lt;sqlcolumn name="id" type="1" start="0" length="10" ... /></code></pre></div>
-		Column. build-in object.<br/>
-		Attributes
-		<ol>
-			<li>name</li>Column name of COBOL record.<br/>
-			This string must be unique among the metadata.
-			<li>type</li>Data type.
-				<table border="1">
-				<tr><th>Value</th><th>Cobol Type</th><th>Description</th></tr>
-				<tr><td>1</td><td>9 or S9</td><td>integer. If this column is signed integer(S9), set true to  'signed' attribute.</td></tr>
-				<tr><td>2</td><td>X or A</td><td>String.</td></tr>
-				<tr><td>4</td><td>9 or S9</td><td>long. If this column is signed value(S9), set true to  'signed' attribute.</td></tr>
-				<tr><td>5</td><td>9 or S9</td><td>float. If this column is signed value(S9), set true to  'signed' attribute.</td></tr>
-				<tr><td>6</td><td>9 or S9</td><td>double. If this column is signed value(S9), set true to  'signed' attribute.</td></tr>
-				<tr><td>7</td><td>9 or X</td><td>Date. Requires 'format' attribute. If not defined, value can't be formated correctly.</td></tr>
-				<tr><td>8</td><td>9 or X</td><td>Time. Requires 'format' attribute. If not defined, value can't be formated correctly.</td></tr>
-				<tr><td>10</td><td>9 or X</td><td>TimeStamp. Requires 'format' attribute. If not defined, value can't be formated correctly.</td></tr>
-				</table>
-			<li>start</li>Column location. Start from 0.
-			<li>length</li>Column length. This is logical length.
-			<li>signed</li>Set true to this value if the column is signed integer.
-			<li>decimal</li>Number of decimal places.
-			<li>usage</li>Usage.
-				<table border="1">
-				<tr><th>Value</th><th>Cobol Type</th><th>Description</th></tr>
-				<tr><td>0</td><td>DISPLAY</td><td>Default.</td></tr>
-				<tr><td>1</td><td>BINARY</td><td>Reserved only. Not in use.</td></tr>
-				<tr><td>2</td><td>COMP-3</td><td>COMPUTATINAL-3 or PACKED-DECIMAL.</td></tr>
-				<tr><td>3</td><td>NATIONAL</td><td>Reserved only. Not in use.</td></tr>
-				<tr><td>4</td><td>INDEX</td><td>Reserved only. Not in use.</td></tr>
-				</table>
-			<li>format</li>Pattern string to be set to Format ojbect.<br/>
-					Class shown below is used to convert the numeric or date.<br/>
-					This string is a pattern that is set to an object of this class.<br/>
-					<table border="1">
-					<tr><th>Data type</th><th>Class</th>
-					<tr><td>Number</td><td> <a href="../doc/k_kim_mg/sa4cob2db/CobolFormat.html">CobolFormat<a/> extends java.text.SimpleDecimalFormat</td>
-					<tr><td>Date/Time</td><td>java.text.SimpleDateFormat</td>
-					</table>
-			<li>originalColumnName</li>Field name of SQL result set.
-			<li>readIgnore</li>The area of COBOL record is not set bytes from SQL records value, if this value is set to true.<br/>
-				<table border="1">
-					<tr><th>Value</th><th>Behavior</th>
-					<tr><td><b>false</b></td><td>The column of COBOL record is updated with SQL records value.</td>
-					<tr><td>true</td><td>The column is ignored.</td>
-				</table>
-			<li>rewriteIgnore</li>The field is not set value from COBOL record when record is updated by "REWRITE" statement, if this value set to true.<br/>
-				<table border="1">
-					<tr><th>Value</th><th>Behavior</th>
-					<tr><td><b>false</b></td><td>The field of SQL record is updated with COBOL columns value.</td>
-					<tr><td>true</td><td>The field is ignored.</td>
-				</table>
-			<li>writeIgnore</li>The field is not set value from COBOL record when record is inserted by "WRITE" statement, if this value set to true.<br/>
-				<table border="1">
-					<tr><th>Value</th><th>Behavior</th>
-					<tr><td><b>false</b></td><td>The field of SQL record is updated with COBOL columns value.</td>
-					<tr><td>true</td><td>The field is ignored.</td>
-				</table>
-		</ol>
-		<li>customcolumn</li><div id="meta_source"><pre><code>&lt;custormcolumn name="custom" classname="your.package.CCImpl" constructor="1" /></code></pre></div>
-		Column with the behavior that can not be realized in the built-in column.<br/>
-		Attributes
-		<ol>
-			<li>name</li>Column name of COBOL record. It is same to attribute that has same name of sqlcolumn .
-			<li>classname</li>Class name. This class has to implement <a href="../doc/jp/ne/biglobe/mvh/k_kim_mg/acm/CobolColumn.html">CobolColumn</a> interface.
-			<li>constructor</li>Select the constructor type to create an object of the class of this column.
-				<table border="1">
-				<tr><th>Value</th><th colspan="2">Arguments</th></tr>
-				<tr><td>1</td><td colspan="2">No arguments</td><tr>
-				<tr><td>2</td><td>metadata</td><td>CobolRecordMetaData object that includes this column.</td><tr>
-				<tr rowspan="2"><td rowspan="2">3</td><td>metadata</td><td>CobolRecordMetaData object that includes this column.</td></tr>
-				<tr><td>node</td><td>Node object that defines this column.</td></tr>
-				</table>
-		</ol>
-		<li>keycolumn</li><div id="meta_source"><pre><code>&lt;keycolumn>id&lt;/keycolumn></code></pre></div>The names of column that is primary key. 
-		<li>indexfile</li>Index<br/>
-		<div id="meta_source"><pre><code>&lt;indexfile filename="IndexFileName" indexname="SubKeyName">
-	&lt;index2file filecolumn="subid_of_file" indexcolumn="subid_of_index" />
-	&lt;file2index filecolumn="id" indexcolumn="id" />
-&lt;/indexfile></code></pre></div>
-		Attributes
-		<ol> 
-			<li>filename</li>Metadata name.
-			<li>indexname</li>Alternate key name.
-		</ol>
-		Elements<br/>
-		Relationship of columns between file and index.
-		<ol>
-			<li>index2file</li>Assign column of the index to key column of the file.<br/>
-			Attributes
-			<ol>
-				<li>filecolumn</li>Column name of file. This column is key of the file.
-				<li>indexcolumn</li>Column name of index.
-			</ol>
-			<div id="meta_source"><pre><code>&lt;index2file filecolumn="aaaa"/></code></pre></div> is equal to 
-			<div id="meta_source"><pre><code>&lt;index2file filecolumn="aaaa" indexcolumn="aaaa"/></code></pre></div>
-			<li>file2index</li>Assign column of the file to key column of index. <br/>
-			Attributes
-			<ol>
-				<li>filecolumn</li>Column name of file.
-				<li>indexcolumn</li>Column name of index. This column is key of index.
-			</ol>
-			<div id="meta_source"><pre><code>&lt;file2index filecolumn="aaaa"/></code></pre></div> is equal to 
-			<div id="meta_source"><pre><code>&lt;file2index filecolumn="aaaa" indexcolumn="aaaa"/></code></pre></div>
-		</ol>
-		<li>truncate</li>SQL statement to delete all data.<br/>
-		<div id="meta_source"><pre><code>&lt;truncate>DELETE FROM TableName&lt;/truncate></code></pre></div>
-				It is executed when file is opened for OUTPUT mode. <br/>
-				If this Element is not defined, Records that found by SQL statement on "statement" attribute will be deleted one by one.
-		<li>listener</li>Classes process file events.<br>Class names separated by ":". This class has to implement <a href="../doc/k_kim_mg/sa4cob2db/event/CobolFileEventListener.html">CobolFileEventListener<a/> interface.
-		<div id="meta_source"><pre><code>&lt;listener>your.package.CFELImpl&lt;/listener></code></pre></div>
-		<li>alias</li>Alias<br/>Another name of this file or record.
-		<div id="meta_source"><pre><code>&lt;alias>/dir/where/alias&lt;/alias></code></pre></div>
-	</ol>
-	<li>include</li>Include another metadataset file.<br/>
-	<div id="meta_source"><pre><code>&lt;include file="/dir/where/another.xml" /></code></pre></div>
-	Attributes
-	<ol>
-		<li>file</li>Name of file that is imported.
-	</ol>
-	</ol>
-</ol>
-</body>
-</html>
 
+<body>
+This document tells you about environment values and configuration file. 
+<ol>
+  <li>Environment Values. 
+
+    <table border="1">
+      <tbody>
+        <tr>
+          <th>Environment Value</th>
+          <th>Description</th>
+          <th>Sample</th>
+        </tr>
+        <tr>
+          <td>ACM_CONFFILE</td>
+          <td>File Name of meta data set.</td>
+          <td><code>/opt/sa4cob2db/conf/metafile.xml</code></td>
+        </tr>
+        <tr>
+          <td>ACMLIBS_DIR</td>
+          <td>Directory where acmlibs.jar exists.</td>
+          <td><code>/opt/sa4cob2db</code></td>
+        </tr>
+        <tr>
+          <td>ACM_HOSTNAME</td>
+          <td>hostname or address that SQLNetServer accepts.<br>
+            This value is used by TCP client.</td>
+          <td>localhost</td>
+        </tr>
+        <tr>
+          <td>ACM_HOSTPORT</td>
+          <td>hostname or address that SQLNetServer accepts.<br>
+            This value is used by TCP client.</td>
+          <td>12345</td>
+        </tr>
+        <tr>
+          <td>ACM_USERNAME</td>
+          <td>username for connect to SQLNetServer.<br>
+            This value is used by TCP client.</td>
+          <td>username</td>
+        </tr>
+        <tr>
+          <td>ACM_PASSWORD</td>
+          <td>password for connect to SQLNetServer.<br>
+            This value is used by TCP client.</td>
+          <td>password</td>
+        </tr>
+        <tr>
+          <td>ACM_PP_CHARSET</td>
+          <td>Character set of source code</td>
+          <td>EUCJP</td>
+        </tr>
+        <tr>
+          <td>ACM_SESSIONLISTENERS</td>
+          <td>Classes process session events.<br>
+            Class names separated by ":".<br>
+            This class has to implement <a
+            href="../doc/k_kim_mg/sa4cob2db/event/ACMSessionEventListener.html">ACMSessionEventListener</a><a>interface.</a></td>
+          <td>ACMSessionEventAdapterTest</td>
+        </tr>
+        <tr>
+          <td>ACM_SERVERLISTENERS</td>
+          <td>Classes process server events.<br>
+            Class names separated by ":".<br>
+            This class has to implement <a
+            href="../doc/k_kim_mg/sa4cob2db/event/ACMServerEventListener.html">ACMServerEventListener</a><a>interface.</a></td>
+          <td>ACMServerEventAdapterTest:k_kim_mg.sa4cob2db.admin.MinAdminAdapter</td>
+        </tr>
+        <tr>
+          <td>ACMOFF_FILE</td>
+          <td>Configuration File for to SQLNetServer.</td>
+          <td><code>/opt/sa4cob2db/conf/shutdown.conf</code></td>
+        </tr>
+      </tbody>
+    </table>
+    and you need to set other environment values. 
+
+    <table border="1">
+      <tbody>
+        <tr>
+          <th>Environment Value</th>
+          <th>Description</th>
+          <th>Sample</th>
+        </tr>
+        <tr>
+          <td>JAVA_HOME</td>
+          <td>Path to java home.</td>
+          <td><code>/usr/lib/jvm/java</code></td>
+        </tr>
+        <tr>
+          <td>CLASSPATH</td>
+          <td>Add path to sa4cob2db.jar and Custom event listener or other
+            classes.</td>
+          <td><code>$CLASSPATH:/opt/sa4cob2db/sa4cob2db.jar</code></td>
+        </tr>
+        <tr>
+          <td>PATH</td>
+          <td>Add path to commands.</td>
+          <td><code>$PATH:/opt/sa4cob2db/bin</code></td>
+        </tr>
+        <tr>
+          <td>LD_LIBRARY_PATH</td>
+          <td>Add path to jre library.</td>
+          <td><code>$LD_LIBRARY_PATH:$JAVA_HOME/jre/lib/i386/client</code></td>
+        </tr>
+        <tr>
+          <td>COB_LIBRARY_PATH</td>
+          <td>Add path to this packages library.</td>
+          <td><code>$COB_LIBRARY_PATH:/opt/sa4cob2db/lib</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>Configuration File(<a href="./metafile.dtd">DTD</a>)<br>
+    meatadataset<br>
+    Root node. 
+
+    <div id="meta_source">
+    <pre><code>&lt;meatadataset&gt;
+ ...
+&lt;/metadataset&gt;</code></pre>
+    </div>
+    <ol>
+      Elements </ol>
+    <ul>
+      <li>property</li>
+    </ul>
+    Entire settings and additional string for "otherofset" node.<br>
+
+
+    <div id="meta_source">
+    <pre><code>&lt;metadataset&gt;
+        &lt;property name="name"&gt;value&lt;/property&gt;
+&lt;/metadataset&gt;</code></pre>
+    </div>
+    Preserved properties.<br>
+
+
+    <table border="1">
+      <tbody>
+        <tr>
+          <th>name</th>
+          <th>Description</th>
+          <th></th>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>jdbcdriverurl</td>
+          <td>JDBC Driver URL.</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>jdbcdatabaseurl</td>
+          <td>JDBC Database URL</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>jdbcusername</td>
+          <td>JDBC Database Username.</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>jdbcpassword</td>
+          <td>JDBC Database Password.</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>address</td>
+          <td>Hostname or Address which SQLNetServer accepts. Comma(,)
+            Seperated names or addresses.<br>
+            default value is localhost.</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>port</td>
+          <td>Port number which SQLNetServer accepts.<br>
+            default value is 12345.</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>maxsessions</td>
+          <td>Maximum session count. It means unlimited count if 0 set to this
+            value.</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>log</td>
+          <td>Logging configuration File name.</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>authfile</td>
+          <td>Password File name.</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>adminfile</td>
+          <td>Administrators Password File name.</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>backlog</td>
+          <td>Backlog of Server Socket that SQLNetServer uses.</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>sessionlisteners</td>
+          <td>Classes process session events.<br>
+            Class names separated by ":"</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>serverlisteners</td>
+          <td>Classes process server events.<br>
+            Class names separated by ":"</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>otherofset</li>
+  Class for processing node that has not reserved name in the metadataset node.
+  <br>
+  This class has to implement <a
+  href="../doc/k_kim_mg/sa4cob2db/sql/xml/MetaDataSetNodeProcessor.html">MetaDataSetNodeProcessor</a><a>interface.<br>
+  For example. </a> 
+
+  <div id="meta_source">
+  <pre><code>&lt;metadataset&gt;
+        &lt;otherofset name="unreserved"&gt;your.package.MDSNPImple&lt;/otherofset&gt;
+        ...
+        &lt;unreserved&gt;&lt;/unreserved&gt;
+&lt;/metadataset&gt;</code></pre>
+  </div>
+  The "unreserved" node is processed by 
+
+  <div id="meta_source">
+  <pre><code>your.package.MDSNPImple#processOtherNode(Node node, CobolRecordMetaDataSet meta, Properties properties);</code></pre>
+  </div>
+  . </ol>
+<ul>
+  <li>otherofmeta</li>
+</ul>
+Class for processing node that has not reserved name in the metadata node.<br>
+This class has to implement <a
+href="../doc/k_kim_mg/sa4cob2db/sql/xml/MetaDataNodeProcessor.html">MetaDataNodeProcessor</a><a>interface.<br>
+For example. </a> 
+
+<div id="meta_source">
+<pre><code>&lt;metadataset&gt;
+        &lt;otherofset name="unreserved"&gt;your.package.MDNPImple&lt;/otherofset&gt;
+        &lt;metadata name....&gt;
+                ...
+                &lt;unreserved&gt;&lt;/unreserved&gt;
+        &lt;/metadata&gt;
+&lt;/metadataset&gt;</code></pre>
+</div>
+The "unreserved" node is processed by 
+
+<div id="meta_source">
+<pre><code>your.package.MDNPImple#processOtherNode(Node node, CobolRecordMetaData meta);</code></pre>
+</div>
+ . &lt;/ol&gt;&lt;/li&gt;
+<ul>
+  <li>metadata</li>
+</ul>
+Each metadata/file settings 
+
+<div id="meta_source">
+<pre><code>&lt;metadataset&gt;
+        &lt;metadata name="FileName" ...&gt;
+                &lt;statement&gt;SELECT * FROM TableName ORDER BY id&lt;/statment&gt;
+                &lt;sqlcolumn name="id" ..../&gt;
+                ...
+                &lt;customcoumn name="other" .../&gt;
+                ...
+                &lt;keycolumn&gt;id&lt;keycolumn&gt;
+                &lt;truncate&gt;TRUNCATE TableName&lt;truncate&gt;
+                &lt;listener&gt;a.b.CobolRecordEventListenerImpl1&amp;ltlistener&gt;
+        &lt;/metadata&gt;
+&lt;metadataset&gt;</code></pre>
+</div>
+Attributes 
+<ol>
+  <li>name</li>
+  External file name or Metadata name.<br>
+  'FileName' of 
+
+  <div id="meta_source">
+  <pre><code>SELECT XXXX ASSIGN TO 'FileName'.</code></pre>
+  </div>
+  <li>bufinit</li>
+  Initial buffering record count for sequential read.<br>
+  'READ NEXT' waits until count of buffered records reached this value. </ol>
+<ul>
+  <li>bufmin</li>
+</ul>
+Minimum buffering record count for sequential read.<br>
+'READ NEXT' waits until count of buffered records reached this value. 
+<ul>
+  <li>bufmax</li>
+</ul>
+Maximum buffering record count. <br>
+Maximum number of records to be buffered in the sequential read operation. 
+<ul>
+  <li>encode</li>
+</ul>
+Character encoding of record. 
+<ul>
+  <li>customClassName</li>
+</ul>
+Class of order to the operation of its own non-built-in. <br>
+This class has to implement <a
+href="../doc/k_kim_mg/sa4cob2db/CobolRecordMetaData.html">CobolRecordMetaData</a><a>interface.
+</a>&lt;/ol&gt;Elements 
+<ol>
+  <li>statement</li>
+  SELECT statement<br>
+  You need to sort the result set by "ORDER BY" if the file is read Random/Dynamic. 
+
+  <div id="meta_source">
+  <pre><code>&lt;statement&gt;SELECT * FROM TableName ORDER BY id&lt;/statment&gt;</code></pre>
+  </div>
+  <li>sqlcolumn</li>
+
+  <div id="meta_source">
+  <pre><code>&lt;sqlcolumn name="id" type="1" start="0" length="10" ... /&gt;</code></pre>
+  </div>
+  Column. build-in object.<br>
+  Attributes 
+  <ol>
+    <li>name</li>
+    Column name of COBOL record.<br>
+    This string must be unique among the metadata. </ol>
+  <ul>
+    <li>type</li>
+  </ul>
+  Data type. 
+
+  <table border="1">
+    <tbody>
+      <tr>
+        <th>Value</th>
+        <th>Cobol Type</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>9 or S9</td>
+        <td>integer. If this column is signed integer(S9), set true to 'signed'
+          attribute.</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>X or A</td>
+        <td>String.</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>9 or S9</td>
+        <td>long. If this column is signed value(S9), set true to 'signed'
+          attribute.</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>9 or S9</td>
+        <td>float. If this column is signed value(S9), set true to 'signed'
+          attribute.</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>9 or S9</td>
+        <td>double. If this column is signed value(S9), set true to 'signed'
+          attribute.</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>9 or X</td>
+        <td>Date. Requires 'format' attribute. If not defined, value can't be
+          formated correctly.</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>9 or X</td>
+        <td>Time. Requires 'format' attribute. If not defined, value can't be
+          formated correctly.</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>9 or X</td>
+        <td>TimeStamp. Requires 'format' attribute. If not defined, value can't
+          be formated correctly.</td>
+      </tr>
+    </tbody>
+  </table>
+  <li>start</li>
+  Column location. Start from 0. </ol>
+<ul>
+  <li>length</li>
+</ul>
+Column length. This is logical length. 
+<ul>
+  <li>signed</li>
+</ul>
+Set true to this value if the column is signed integer. 
+<ul>
+  <li>decimal</li>
+</ul>
+Number of decimal places. 
+<ul>
+  <li>usage</li>
+</ul>
+Usage. 
+
+<table border="1">
+  <tbody>
+    <tr>
+      <th>Value</th>
+      <th>Cobol Type</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>DISPLAY</td>
+      <td>Default.</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>BINARY</td>
+      <td>Reserved only. Not in use.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>COMP-3</td>
+      <td>COMPUTATINAL-3 or PACKED-DECIMAL.</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>NATIONAL</td>
+      <td>Reserved only. Not in use.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>INDEX</td>
+      <td>Reserved only. Not in use.</td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+  <li>format</li>
+</ul>
+Pattern string to be set to Format ojbect.<br>
+Class shown below is used to convert the numeric or date.<br>
+This string is a pattern that is set to an object of this class.<br>
+
+
+<table border="1">
+  <tbody>
+    <tr>
+      <th>Data type</th>
+      <th>Class</th>
+    </tr>
+    <tr>
+      <td>Number</td>
+      <td><a
+        href="../doc/k_kim_mg/sa4cob2db/CobolFormat.html">CobolFormat</a><a>extends
+        java.text.SimpleDecimalFormat</a></td>
+    </tr>
+    <tr>
+      <td>Date/Time</td>
+      <td>java.text.SimpleDateFormat</td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+  <li>originalColumnName</li>
+</ul>
+Field name of SQL result set. 
+<ul>
+  <li>readIgnore</li>
+</ul>
+The area of COBOL record is not set bytes from SQL records value, if this value
+is set to true.<br>
+
+
+<table border="1">
+  <tbody>
+    <tr>
+      <th>Value</th>
+      <th>Behavior</th>
+    </tr>
+    <tr>
+      <td>false</td>
+      <td>The column of COBOL record is updated with SQL records value.</td>
+    </tr>
+    <tr>
+      <td>true</td>
+      <td>The column is ignored.</td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+  <li>rewriteIgnore</li>
+</ul>
+The field is not set value from COBOL record when record is updated by
+"REWRITE" statement, if this value set to true.<br>
+
+
+<table border="1">
+  <tbody>
+    <tr>
+      <th>Value</th>
+      <th>Behavior</th>
+    </tr>
+    <tr>
+      <td>false</td>
+      <td>The field of SQL record is updated with COBOL columns value.</td>
+    </tr>
+    <tr>
+      <td>true</td>
+      <td>The field is ignored.</td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+  <li>writeIgnore</li>
+</ul>
+The field is not set value from COBOL record when record is inserted by "WRITE"
+statement, if this value set to true.<br>
+
+
+<table border="1">
+  <tbody>
+    <tr>
+      <th>Value</th>
+      <th>Behavior</th>
+    </tr>
+    <tr>
+      <td>false</td>
+      <td>The field of SQL record is updated with COBOL columns value.</td>
+    </tr>
+    <tr>
+      <td>true</td>
+      <td>The field is ignored.</td>
+    </tr>
+  </tbody>
+</table>
+&lt;/ol&gt;<ul>
+  <li>customcolumn</li>
+</ul>
+
+<div id="meta_source">
+<pre><code>&lt;custormcolumn name="custom" classname="your.package.CCImpl" constructor="1" /&gt;</code></pre>
+</div>
+Column with the behavior that can not be realized in the built-in column.<br>
+Attributes 
+<ol>
+  <li>name</li>
+  Column name of COBOL record. It is same to attribute that has same name of
+  sqlcolumn . </ol>
+<ul>
+  <li>classname</li>
+</ul>
+Class name. This class has to implement <a
+href="../doc/jp/ne/biglobe/mvh/k_kim_mg/acm/CobolColumn.html">CobolColumn</a>
+interface. 
+<ul>
+  <li>constructor</li>
+</ul>
+Select the constructor type to create an object of the class of this column. 
+
+<table border="1">
+  <tbody>
+    <tr>
+      <th>Value</th>
+      <th colspan="2">Arguments</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td colspan="2">No arguments</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>metadata</td>
+      <td>CobolRecordMetaData object that includes this column.</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr rowspan="2">
+      <td rowspan="2">3</td>
+      <td>metadata</td>
+      <td>CobolRecordMetaData object that includes this column.</td>
+    </tr>
+    <tr>
+      <td>node</td>
+      <td>Node object that defines this column.</td>
+    </tr>
+  </tbody>
+</table>
+&lt;/ol&gt;<ul>
+  <li>keycolumn</li>
+</ul>
+
+<div id="meta_source">
+<pre><code>&lt;keycolumn&gt;id&lt;/keycolumn&gt;</code></pre>
+</div>
+The names of column that is primary key. 
+<ul>
+  <li>indexfile</li>
+</ul>
+Index<br>
+
+
+<div id="meta_source">
+<pre><code>&lt;indexfile filename="IndexFileName" indexname="SubKeyName"&gt;
+        &lt;index2file filecolumn="subid_of_file" indexcolumn="subid_of_index" /&gt;
+        &lt;file2index filecolumn="id" indexcolumn="id" /&gt;
+&lt;/indexfile&gt;</code></pre>
+</div>
+Attributes 
+<ol>
+  <li>filename</li>
+  Metadata name. </ol>
+<ul>
+  <li>indexname</li>
+</ul>
+Alternate key name. &lt;/ol&gt;Elements<br>
+Relationship of columns between file and index. 
+<ol>
+  <li>index2file</li>
+  Assign column of the index to key column of the file.<br>
+  Attributes 
+  <ol>
+    <li>filecolumn</li>
+    Column name of file. This column is key of the file. </ol>
+  <ul>
+    <li>indexcolumn</li>
+  </ul>
+  Column name of index. </ol>
+
+<div id="meta_source">
+<pre><code>&lt;index2file filecolumn="aaaa"/&gt;</code></pre>
+</div>
+is equal to 
+
+<div id="meta_source">
+<pre><code>&lt;index2file filecolumn="aaaa" indexcolumn="aaaa"/&gt;</code></pre>
+</div>
+<ul>
+  <li>file2index</li>
+</ul>
+Assign column of the file to key column of index. <br>
+Attributes 
+<ol>
+  <li>filecolumn</li>
+  Column name of file. </ol>
+<ul>
+  <li>indexcolumn</li>
+</ul>
+Column name of index. This column is key of index. &lt;/ol&gt;
+
+<div id="meta_source">
+<pre><code>&lt;file2index filecolumn="aaaa"/&gt;</code></pre>
+</div>
+is equal to 
+
+<div id="meta_source">
+<pre><code>&lt;file2index filecolumn="aaaa" indexcolumn="aaaa"/&gt;</code></pre>
+</div>
+&lt;/ol&gt;<ul>
+  <li>truncate</li>
+</ul>
+SQL statement to delete all data.<br>
+
+
+<div id="meta_source">
+<pre><code>&lt;truncate&gt;DELETE FROM TableName&lt;/truncate&gt;</code></pre>
+</div>
+It is executed when file is opened for OUTPUT mode. <br>
+If this Element is not defined, Records that found by SQL statement on
+"statement" attribute will be deleted one by one. 
+<ul>
+  <li>listener</li>
+</ul>
+Classes process file events.<br>
+Class names separated by ":". This class has to implement <a
+href="../doc/k_kim_mg/sa4cob2db/event/CobolFileEventListener.html">CobolFileEventListener</a><a>interface.
+</a> 
+
+<div id="meta_source">
+<pre><code>&lt;listener&gt;your.package.CFELImpl&lt;/listener&gt;</code></pre>
+</div>
+<ul>
+  <li>alias</li>
+</ul>
+Alias<br>
+Another name of this file or record. 
+
+<div id="meta_source">
+<pre><code>&lt;alias&gt;/dir/where/alias&lt;/alias&gt;</code></pre>
+</div>
+&lt;/ol&gt;<ul>
+  <li>include</li>
+</ul>
+Include another metadataset file.<br>
+
+
+<div id="meta_source">
+<pre><code>&lt;include file="/dir/where/another.xml" /&gt;</code></pre>
+</div>
+Attributes 
+<ol>
+  <li>file</li>
+  Name of file that is imported. </ol>
+&lt;/ol&gt;</body>
+</html>
