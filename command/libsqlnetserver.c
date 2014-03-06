@@ -81,7 +81,7 @@ extern int initializeJNI () {
 	// get class
 	clazz = (*env)->FindClass(env, "k_kim_mg/sa4cob2db/sql/SQLNetServer");
 	if (clazz == 0) {
-		perror("COBPP1 Class Not Found.");
+		perror("Class Not Found.");
 		return (-1);
 	}
 	// get method
