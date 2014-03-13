@@ -26,7 +26,6 @@ extern void display_usage();
 /** options */
 static struct option longopts[] = {
     {"informat", required_argument, NULL, 'i'},
-	{"outformat", required_argument, NULL, 'o'},
 	{"charset", required_argument, NULL, 's'},
     {"help", no_argument, NULL, 'h'},
     {0, 0, 0, 0}
@@ -36,7 +35,7 @@ extern int main_too (int argc, char *argv[]) {
 	int opt;
 	char* informat = "";
 	char* charset = "";
-	while ((opt = getopt_long(argc, argv, "i:o:s:h", longopts, NULL)) != -1) {
+	while ((opt = getopt_long(argc, argv, "i:s:h", longopts, NULL)) != -1) {
 		switch (opt) {
 			case 'i':
                 informat = optarg;
@@ -110,11 +109,9 @@ extern int initializeJNI () {
  * usage
  */
 extern void display_usage () {
-	printf("cobpp infile outfile\n");
+	printf("cob2meta infile outfile\n");
 	printf("options\n");
 	printf("\t-i/--informat\tfix or other input source code format. default is fix\n");
-	printf("\t-o/--outformat\tfix or other output source code format default is fix\n");
 	printf("\t-s/--charset\tcharset of source code\n");
-	printf("\t-h/--help\tshow this message.\n");
 }
 

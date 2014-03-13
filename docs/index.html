@@ -34,14 +34,87 @@ Index<html>
   <li><a href="Directions.html">Add Comments</a></li>
   <li>Generate 
     <ul>
-      <li>cobpp</li>
+      <li>cobpp 
+        <p>creates COBOL source code which includes CALL statements to access
+        db from original code.</p>
+        <ul>
+          <li>format 
+            <p>cobpp infile outfile</p>
+            <ul>
+              <li>infile</li>
+              <li>outfile</li>
+            </ul>
+          </li>
+          <li>options 
+            <ul>
+              <li>-i/--informatfix or other input source code format. default
+                is fix</li>
+              <li>-o/--outformatfix or other output source code format default
+                is fix</li>
+              <li>-r/--initrowinitial row number default is 000010</li>
+              <li>-c/--increaseincrease row number default is 10</li>
+              <li>-a/--acmconsts_filelocation of ACMCONSTS.CBL</li>
+              <li>-e/--expand_copyexpand file on source directed by copy
+                statement</li>
+              <li>-l/--codegenaratorlisteners eventlistener class names
+                separated by :</li>
+              <li>-x/--customcode generatorclasscustom class for generating
+                souce code</li>
+              <li>-s/--charset charset of source code</li>
+              <li>-t/--tcp generate for client of sqlnetserver</li>
+              <li>-j/--jni generate for client with JNI</li>
+              <li>-b/--subprogram generate for subprogram/don't insert
+                initialize functions</li>
+              <li>-h/--help show help message.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
     </ul>
   </li>
   <li>Others 
     <ul>
-      <li>cob2meta</li>
-      <li>acm2seq</li>
-      <li>seq2acm</li>
+      <li>cob2meta 
+        <p>creates metadata file from COBOL source.</p>
+        <ul>
+          <li>cob2meta </li>
+        </ul>
+      </li>
+      <li>acm2seq 
+        <p>exports DB records to sequential file.</p>
+        <p>acm2seq acmfile outfile</p>
+        <ul>
+          <li>options
+            <ul>
+              <li>-m/--metafileconfiguration file of record layout. default is
+                /opt/sa4cob2db/conf/metafile.xml</li>
+              <li>-l/--lineouttrue/false outfile is line file. default is
+              true</li>
+              <li>-q/--sqluse custom sql</li>
+              <li>-a/--sqlinuse custom sql from standard in.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>seq2acm 
+        <p>imports to DB records from sequntial file.</p>
+        <p>acm2seq acmfile infile</p>
+        <ul>
+          <li>options
+            <ul>
+              <li>-m/--metafileconfiguration file of record layout. default is
+                /opt/sa4cob2db/conf/metafile.xml</li>
+              <li>-l/--lineintrue/false infile is line file. default is
+              true</li>
+              <li>-e/--extendtrue/false open acmfile mode is extend. default is
+                false.</li>
+              <li>-c/--commitcommit count. Default is auto commit.
+                <p></p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
     </ul>
   </li>
 </ol>
