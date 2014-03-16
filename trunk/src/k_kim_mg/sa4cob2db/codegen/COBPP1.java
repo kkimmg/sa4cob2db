@@ -109,7 +109,7 @@ public class COBPP1 implements GeneratorOwner {
 		String csn = "";
 		// input file
 		String infile = (argv.length > 0 ? argv[0].trim() : "");
-		if (infile == "") {
+		if (infile.trim().length() <= 0) {
 			input = System.in;
 		} else {
 			try {
