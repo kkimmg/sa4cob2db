@@ -92,6 +92,7 @@ public class Acm2Seq {
 			}
 		} else {
 			System.err.println("needs acmfile.");
+			return;
 		}
 		// -------------------------
 		Acm2Seq obj = new Acm2Seq();

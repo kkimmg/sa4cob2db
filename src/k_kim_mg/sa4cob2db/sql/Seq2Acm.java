@@ -90,6 +90,7 @@ public class Seq2Acm {
 			}
 		} else {
 			System.err.println("infile required");
+			return;
 		}
 		// -------------------------
 		Seq2Acm obj = new Seq2Acm();
