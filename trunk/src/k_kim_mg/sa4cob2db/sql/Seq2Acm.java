@@ -88,6 +88,11 @@ public class Seq2Acm {
 					}
 				}
 			}
+			if (args[0] == null || args[0].trim().length() <= 0) {
+				System.err.println("infile required");
+				displayUsage(properties);
+				return;
+			}
 		} else {
 			System.err.println("infile required");
 			displayUsage(properties);
@@ -96,7 +101,6 @@ public class Seq2Acm {
 		// -------------------------
 		Seq2Acm obj = new Seq2Acm();
 		obj.importTo(properties);
-		displayUsage(properties);
 	}
 	/**
 	 * main

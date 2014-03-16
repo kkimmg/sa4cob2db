@@ -90,6 +90,11 @@ public class Acm2Seq {
 					}
 				}
 			}
+			if (args[0] == null || args[0].trim().length() <= 0) {
+				System.err.println("needs acmfile.");
+				displayUsage(properties);
+				return;
+			}
 		} else {
 			System.err.println("needs acmfile.");
 			displayUsage(properties);
