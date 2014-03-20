@@ -24,7 +24,10 @@ Index<html>
   </li>
   <li>Install 
     <ul>
-      <li>get source</li>
+      <li>get source
+        <p>please sew <a
+        href="http://code.google.com/p/sa4cob2db/source/checkout">http://code.google.com/p/sa4cob2db/source/checkout</a></p>
+      </li>
       <li>configure</li>
       <li>make</li>
       <li>make install</li>
@@ -76,15 +79,22 @@ Index<html>
     <ul>
       <li>cob2meta 
         <p>creates metadata file from COBOL source.</p>
+        <p>cob2meta infile outfile</p>
         <ul>
-          <li>cob2meta </li>
+          <li>options
+            <ul>
+              <li>-i/--informat fix or other input source code format. default
+                is fix</li>
+              <li>-s/--charset charset of source code</li>
+            </ul>
+          </li>
         </ul>
       </li>
       <li>acm2seq 
         <p>exports DB records to sequential file.</p>
         <p>acm2seq acmfile outfile</p>
         <ul>
-          <li>options
+          <li>options 
             <ul>
               <li>-m/--metafileconfiguration file of record layout. default is
                 /opt/sa4cob2db/conf/metafile.xml</li>
@@ -100,7 +110,7 @@ Index<html>
         <p>imports to DB records from sequntial file.</p>
         <p>acm2seq acmfile infile</p>
         <ul>
-          <li>options
+          <li>options 
             <ul>
               <li>-m/--metafileconfiguration file of record layout. default is
                 /opt/sa4cob2db/conf/metafile.xml</li>
@@ -108,7 +118,7 @@ Index<html>
               true</li>
               <li>-e/--extendtrue/false open acmfile mode is extend. default is
                 false.</li>
-              <li>-c/--commitcommit count. Default is auto commit.
+              <li>-c/--commitcommit count. Default is auto commit. 
                 <p></p>
               </li>
             </ul>
