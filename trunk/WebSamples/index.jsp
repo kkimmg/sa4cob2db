@@ -12,7 +12,13 @@
 <input type="hidden" name="INPUT_LAYOUT" value="SCR_RECORD" />
 <input type="hidden" name="OUTPUT_LAYOUT" value="SCR_RECORD" />
 <table>
-<tr><td>PROC</td><td><input type="text" name="SCR_PROC"/></td></tr>
+<tr><td>PROC</td><td><select name="SCR_PROC">
+<option value="0">END</option>
+<option value="1">WRITE</option>
+<option value="2">READ</option>
+<option value="3">REWRITE</option>
+<option value="9">DELETE</option>
+</select></td></tr>
 <tr><td>ID</td><td><input type="text" name="SCR_ID"/></td></tr>
 <tr><td>CD</td><td><input type="text" name="SCR_CD"/></td></tr>
 <tr><td>NIHONGO</td><td><input type="text" name="SCR_NIHONGO"/></td></tr>
