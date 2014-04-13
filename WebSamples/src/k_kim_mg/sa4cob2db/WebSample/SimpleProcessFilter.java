@@ -1,15 +1,14 @@
 package k_kim_mg.sa4cob2db.WebSample;
-import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -18,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.xml.parsers.FactoryConfigurationError;
+
 import k_kim_mg.sa4cob2db.CobolColumn;
 import k_kim_mg.sa4cob2db.CobolRecord;
 import k_kim_mg.sa4cob2db.CobolRecordException;
@@ -26,6 +26,7 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.DefaultCobolRecord;
 import k_kim_mg.sa4cob2db.sql.SQLFileServer;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
+
 public class SimpleProcessFilter implements Filter {
 	/** Init Parameter name of Metadata File */
 	public static final String ACM_CONFFILE = "ACM_CONFFILE";
@@ -42,15 +43,18 @@ public class SimpleProcessFilter implements Filter {
 	private CobolRecordMetaDataSet metaset;
 	private Map<String, Process> processes = new HashMap<String, Process>();
 	private Properties prop;
+
 	/**
 	 * Create Cobol Record
 	 * 
-	 * @param meta metadata
+	 * @param meta
+	 *            metadata
 	 * @return record
 	 */
 	protected CobolRecord createCobolRecord(CobolRecordMetaData meta) {
 		return new DefaultCobolRecord(meta);
 	}
+
 	/**
 	 * Create NodeReadLoader
 	 * 
@@ -59,15 +63,18 @@ public class SimpleProcessFilter implements Filter {
 	protected NodeReadLoader createNodeReadLoader() {
 		return new NodeReadLoader();
 	}
+
 	/**
 	 * Create ProcessBuilder
 	 * 
-	 * @param name command
+	 * @param name
+	 *            command
 	 * @return ProcessBuilder
 	 */
 	protected ProcessBuilder createProcessBuilder(String name) {
 		return new ProcessBuilder(name);
 	}
+
 	/**
 	 * Create SQLFileServer
 	 * 
@@ -76,6 +83,7 @@ public class SimpleProcessFilter implements Filter {
 	protected SQLFileServer createSQLFileServer() {
 		return new SQLFileServer();
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -87,6 +95,7 @@ public class SimpleProcessFilter implements Filter {
 			process.destroy();
 		}
 	}
+
 	// private Map
 	/*
 	 * (non-Javadoc)
@@ -97,6 +106,8 @@ public class SimpleProcessFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 		try {
+			req.setAttribute("ACM_ERROR", "Nothing");
+			req.setAttribute("ACM_ERRORS", "Nothing");
 			String processName = req.getParameter(PROCESS_NAME);
 			if (processName != null) {
 				String inputLayoutName = req.getParameter(INPUT_LAYOUT);
@@ -115,6 +126,7 @@ public class SimpleProcessFilter implements Filter {
 							process = null;
 							processes.remove(processName);
 						} catch (Exception e) {
+							req.setAttribute("ACM_ERRORS", e.getMessage());
 						}
 					}
 					if (process == null) {
@@ -141,10 +153,12 @@ public class SimpleProcessFilter implements Filter {
 			}
 		} catch (Exception ex) {
 			context.log("doFilter", ex);
+			req.setAttribute("ACM_ERROR", ex.getMessage());
 		}
 		//
 		chain.doFilter(req, res);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -175,12 +189,16 @@ public class SimpleProcessFilter implements Filter {
 			iex.printStackTrace();
 		}
 	}
+
 	/**
 	 * set parameter values to OutputStream
 	 * 
-	 * @param meta metadata
-	 * @param req request
-	 * @param out stream
+	 * @param meta
+	 *            metadata
+	 * @param req
+	 *            request
+	 * @param out
+	 *            stream
 	 */
 	protected void setRequest2Stream(CobolRecordMetaData meta, ServletRequest req, OutputStream out) {
 		CobolRecord rec = createCobolRecord(meta);
@@ -202,12 +220,15 @@ public class SimpleProcessFilter implements Filter {
 					context.log("rs:" + column.getName() + "=" + val + "/" + rec.getString(column));
 				} catch (CobolRecordException e) {
 					context.log("ERROR", e);
+				} catch (NumberFormatException e) {
+					context.log("WARNING", e);
 				}
 			}
 		}
 		try {
 			rec.getRecord(byt);
 			context.log("rs rec:" + byt.length + ":" + new String(byt));
+			req.setAttribute("RS_REC", "rs rec:" + byt.length + ":" + new String(byt) + ":");
 			out.write(byt);
 			out.write('\n');
 			out.flush();
@@ -217,29 +238,53 @@ public class SimpleProcessFilter implements Filter {
 			context.log("ERROR", e);
 		}
 	}
+
+	private class StreamWrapper implements Runnable {
+		private StringBuffer buf = new StringBuffer();
+		private InputStream in;
+		private byte[] byt;
+
+		public StreamWrapper(InputStream in, byte[] byt) {
+			this.in = in;
+			this.byt = byt;
+		}
+
+		@Override
+		public void run() {
+			try {
+				in.read(byt);
+			} catch (IOException e) {
+				context.log("ERROR", e);
+				buf.append("IOException:");
+				buf.append(e.getMessage());
+				buf.append("\n");
+			}
+		}
+
+	}
+
+	public static final int WAIT_MILLS = 1000;
+
 	/**
 	 * set stream value to response
 	 * 
-	 * @param meta metadata
-	 * @param in stream
-	 * @param res response
+	 * @param meta
+	 *            metadata
+	 * @param in
+	 *            stream
+	 * @param res
+	 *            response
 	 */
 	protected void setStream2Request(CobolRecordMetaData meta, InputStream in, ServletRequest req) {
-		// InputStreamReader r = new InputStreamReader(in);
-		// BufferedReader br = new BufferedReader(r);
-		// try {
-		// while (true) {
-		// context.log("BR:" + br.readLine());
-		// }
-		// } catch (IOException e1) {
-		// // TODO Auto-generated catch block
-		// e1.printStackTrace();
-		// }
+		StringBuffer buf = new StringBuffer();
 		CobolRecord rec = createCobolRecord(meta);
-		byte[] byt = new byte[meta.getRowSize()];
+		byte[] byt = new byte[meta.getRowSize() + 1];
 		try {
-			in.read(byt);
+			Thread th = new Thread(new StreamWrapper(in, byt));
+			th.start();
+			th.join(WAIT_MILLS);
 			context.log("sr rec:" + byt.length + ":" + new String(byt));
+			req.setAttribute("SR_REC", "sr rec:" + byt.length + ":" + new String(byt) + ":");
 			rec.setRecord(byt);
 			for (int i = 0; i < meta.getColumnCount(); i++) {
 				String str = "";
@@ -265,8 +310,16 @@ public class SimpleProcessFilter implements Filter {
 			}
 		} catch (CobolRecordException e) {
 			context.log("ERROR", e);
-		} catch (IOException e) {
+			buf.append("CobolRecordException:");
+			buf.append(e.getMessage());
+			buf.append("\n");
+		} catch (InterruptedException e) {
 			context.log("ERROR", e);
+			buf.append("InterruptedException:");
+			buf.append(e.getMessage());
+			buf.append("\n");
 		}
+		String errors = req.getAttribute("ACM_ERRORS").toString();
+		req.setAttribute("ACM_ERRORS",  ( errors == null ? buf.toString() : errors + "\n" + buf.toString()));
 	}
 }
