@@ -24,6 +24,11 @@
 002400     05  I-COUNTER           PIC 9(05).
 002500     05  O-COUNTER           PIC 9(05).
 002600     05  END-FLG             PIC 9(01)  VALUE  ZERO.
+       01  FUDOU-AREA.
+           05  W-FUDOU             PIC S9(4)V9(3).
+           05  INTDATA             PIC 9(07).
+           05  INT1000             PIC 9(07).
+           05  INTDEC              PIC 9(07).
 002700*
 002800 COPY "SCR_RECORD.cbl".
 002900*ACMCOMMENTSTART
@@ -151,6 +156,16 @@
 015200     MOVE I-JIKOKU-MM     TO SCR-JIKOKU-MM.
 015300     MOVE I-JIKOKU-SS     TO SCR-JIKOKU-SS.
 015400*    MOVE I-FUDOU         TO SCR-FUDOU.
+           IF  I-FUDOU  >  ZERO
+               MOVE  I-FUDOU    TO W-FUDOU
+               MOVE  ZERO       TO  SCR-FUOUD-FLG
+           ELSE
+               COMPUTE  W-FUDOU  =  I-FUDOU * (-1)
+               MOVE  1          TO  SCR-FUOUD-FLG
+           END-IF.
+           COMPUTE  INT1000      =  W-FUDOU  *  1000.
+           MOVE  W-FUDOU        TO  INTDATA.
+           COMPUTE  INTDEC       =  INT1000  -  INTDATA.
 015500     EXIT.
 015600*                      
 015700 SCR2REC SECTION.
@@ -170,6 +185,13 @@
 017100     MOVE SCR-JIKOKU-MM   TO I-JIKOKU-MM.
 017200     MOVE SCR-JIKOKU-SS   TO I-JIKOKU-SS.
 017300*    MOVE SCR-FUDOU       TO I-FUDOU.
+           COMPUTE  W-FUDOU     =  SCR-FUDOU1  *  1000
+                                +  SCR-FUDOU2.
+           IF  SCR-FUDOU-FLG  = ZERO
+               MOVE  W-FUDOU    TO  I-FUDOU
+           ELSE
+               COMPUTE  I-FUDOU  =  W-FUDOU * (-1)
+           END-IF.
 017400     EXIT.
 017500*                              
 017600 FL-CLOSE SECTION.
