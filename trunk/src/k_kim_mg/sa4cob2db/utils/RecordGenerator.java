@@ -101,7 +101,7 @@ public class RecordGenerator {
 		try {
 			TransformerFactory tf = TransformerFactory.newInstance();
 			Transformer transformer = tf.newTransformer();
-			if (outname != null && outname.length() > 0) {
+			if (outname != null && outname.trim().length() > 0) {
 				File outfile = new File(outname);
 				transformer.transform(new DOMSource(document), new StreamResult(outfile));
 			} else {
