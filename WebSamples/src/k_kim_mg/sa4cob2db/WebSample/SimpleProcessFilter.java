@@ -240,13 +240,14 @@ public class SimpleProcessFilter implements Filter {
 	}
 
 	private class StreamWrapper implements Runnable {
-		private StringBuffer buf = new StringBuffer();
+		private StringBuffer buf;
 		private InputStream in;
 		private byte[] byt;
 
-		public StreamWrapper(InputStream in, byte[] byt) {
+		public StreamWrapper(InputStream in, byte[] byt, StringBuffer buf) {
 			this.in = in;
 			this.byt = byt;
+			this.buf = buf;
 		}
 
 		@Override
@@ -279,8 +280,8 @@ public class SimpleProcessFilter implements Filter {
 		StringBuffer buf = new StringBuffer();
 		CobolRecord rec = createCobolRecord(meta);
 		byte[] byt = new byte[meta.getRowSize() + 1];
+		Thread th = new Thread(new StreamWrapper(in, byt, buf));
 		try {
-			Thread th = new Thread(new StreamWrapper(in, byt));
 			th.start();
 			th.join(WAIT_MILLS);
 			context.log("sr rec:" + byt.length + ":" + new String(byt));
@@ -306,6 +307,8 @@ public class SimpleProcessFilter implements Filter {
 					context.log("sr:" + column.getName() + "=" + str);
 				} catch (CobolRecordException e) {
 					context.log("ERROR", e);
+					buf.append('\n');
+					buf.append(e.getMessage());
 				}
 			}
 		} catch (CobolRecordException e) {
@@ -318,8 +321,16 @@ public class SimpleProcessFilter implements Filter {
 			buf.append("InterruptedException:");
 			buf.append(e.getMessage());
 			buf.append("\n");
+			try {
+				th.interrupt();
+			} catch (Exception ex) {
+				context.log("ERROR", e);
+				buf.append("Exception:");
+				buf.append(ex.getMessage());
+				buf.append("\n");
+			}
 		}
 		String errors = req.getAttribute("ACM_ERRORS").toString();
-		req.setAttribute("ACM_ERRORS",  ( errors == null ? buf.toString() : errors + "\n" + buf.toString()));
+		req.setAttribute("ACM_ERRORS", (errors == null ? buf.toString() : errors + "\n" + buf.toString()));
 	}
 }
