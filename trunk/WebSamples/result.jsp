@@ -24,9 +24,9 @@
 <tr><td>FUDOU_2</td><td>${SCR_FUDOU2}</td></tr>
 <tr><td>FUDOU_FLG</td><td>${SCR_FUDOU_FLG}</td></tr>
 </table>
-</body>
-ERROR:${ACM_ERROR}<br/>
-ERRORS:${ACM_ERRORS}<br/>
 RS:${RS_REC}<br/>
 SR:${SR_REC}<br/>
+ERROR:${ACM_ERROR}<br/>
+ERRORS:${ACM_ERRORS}<br/>
+</body>
 </html>
