@@ -1,8 +1,10 @@
 package k_kim_mg.sa4cob2db.WebSample;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -107,11 +109,13 @@ public class SimpleProcessFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 		try {
 			req.setAttribute("ACM_ERROR", "Nothing");
-			req.setAttribute("ACM_ERRORS", "Nothing");
+			req.setAttribute("ACM_ERRORS", "Nothing?");
 			String processName = req.getParameter(PROCESS_NAME);
 			if (processName != null) {
+
 				String inputLayoutName = req.getParameter(INPUT_LAYOUT);
 				if (inputLayoutName != null) {
+
 					String outputLayoutName = req.getParameter(OUTPUT_LAYOUT);
 					if (outputLayoutName == null) {
 						outputLayoutName = inputLayoutName;
@@ -141,22 +145,71 @@ public class SimpleProcessFilter implements Filter {
 						}
 						process = builder.start();
 						processes.put(processName, process);
+
 					}
 					if (process != null) {
 						//
 						OutputStream out = process.getOutputStream();
-						InputStream in = process.getInputStream();
 						setRequest2Stream(inputLayout, req, out);
+						InputStream err = process.getErrorStream();
+						readError(req, err);
+						InputStream in = process.getInputStream();
 						setStream2Request(outputLayout, in, req);
+						readError(req, err);
 					}
+
 				}
 			}
 		} catch (Exception ex) {
 			context.log("doFilter", ex);
 			req.setAttribute("ACM_ERROR", ex.getMessage());
+			req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + ex.getMessage());
 		}
 		//
 		chain.doFilter(req, res);
+	}
+
+	private void readError(ServletRequest req, InputStream err) {
+		Thread th = new Thread(new ErrorReader(req, err));
+		try {
+			th.start();
+			th.join(WAIT_MILLS);
+		} catch (Exception ex) {
+			context.log("doFilter", ex);
+			req.setAttribute("ACM_ERROR", ex.getMessage());
+			req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + ex.getMessage());
+			try {
+				th.interrupt();
+			} catch (Exception e2) {
+
+			}
+		}
+	}
+
+	private class ErrorReader implements Runnable {
+		private ServletRequest req;
+		private InputStream err;
+
+		public ErrorReader(ServletRequest req, InputStream err) {
+			this.err = err;
+			this.req = req;
+		}
+
+		@Override
+		public void run() {
+
+			try {
+				boolean cont = true;
+				BufferedReader reader = new BufferedReader(new InputStreamReader(err));
+				while (cont) {
+					req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + "<br>\n" + reader.readLine());
+				}
+			} catch (Exception e) {
+				context.log("ERROR", e);
+				req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + "\n<br>" + e.getMessage());
+			}
+
+		}
 	}
 
 	/*
@@ -220,8 +273,12 @@ public class SimpleProcessFilter implements Filter {
 					context.log("rs:" + column.getName() + "=" + val + "/" + rec.getString(column));
 				} catch (CobolRecordException e) {
 					context.log("ERROR", e);
+					req.setAttribute("ACM_ERROR", e.getMessage());
+					req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + e.getMessage());
 				} catch (NumberFormatException e) {
 					context.log("WARNING", e);
+					req.setAttribute("ACM_ERROR", e.getMessage());
+					req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + e.getMessage());
 				}
 			}
 		}
@@ -234,8 +291,12 @@ public class SimpleProcessFilter implements Filter {
 			out.flush();
 		} catch (CobolRecordException e) {
 			context.log("ERROR", e);
+			req.setAttribute("ACM_ERROR", e.getMessage());
+			req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + e.getMessage());
 		} catch (IOException e) {
 			context.log("ERROR", e);
+			req.setAttribute("ACM_ERROR", e.getMessage());
+			req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + e.getMessage());
 		}
 	}
 
@@ -258,7 +319,7 @@ public class SimpleProcessFilter implements Filter {
 				context.log("ERROR", e);
 				buf.append("IOException:");
 				buf.append(e.getMessage());
-				buf.append("\n");
+				buf.append("\n<br>");
 			}
 		}
 
@@ -279,15 +340,23 @@ public class SimpleProcessFilter implements Filter {
 	protected void setStream2Request(CobolRecordMetaData meta, InputStream in, ServletRequest req) {
 		StringBuffer buf = new StringBuffer();
 		CobolRecord rec = createCobolRecord(meta);
+
 		byte[] byt = new byte[meta.getRowSize() + 1];
+
 		Thread th = new Thread(new StreamWrapper(in, byt, buf));
+
 		try {
+
 			th.start();
+
 			th.join(WAIT_MILLS);
+
 			context.log("sr rec:" + byt.length + ":" + new String(byt));
 			req.setAttribute("SR_REC", "sr rec:" + byt.length + ":" + new String(byt) + ":");
+
 			rec.setRecord(byt);
 			for (int i = 0; i < meta.getColumnCount(); i++) {
+
 				String str = "";
 				CobolColumn column = meta.getColumn(i);
 				try {
@@ -315,22 +384,22 @@ public class SimpleProcessFilter implements Filter {
 			context.log("ERROR", e);
 			buf.append("CobolRecordException:");
 			buf.append(e.getMessage());
-			buf.append("\n");
+			buf.append("<br>\n");
 		} catch (InterruptedException e) {
 			context.log("ERROR", e);
 			buf.append("InterruptedException:");
 			buf.append(e.getMessage());
-			buf.append("\n");
+			buf.append("<br>\n");
 			try {
 				th.interrupt();
 			} catch (Exception ex) {
 				context.log("ERROR", e);
 				buf.append("Exception:");
 				buf.append(ex.getMessage());
-				buf.append("\n");
+				buf.append("<br>\n");
 			}
 		}
 		String errors = req.getAttribute("ACM_ERRORS").toString();
-		req.setAttribute("ACM_ERRORS", (errors == null ? buf.toString() : errors + "\n" + buf.toString()));
+		req.setAttribute("ACM_ERRORS", (errors == null ? buf.toString() : errors + "<br>\n" + buf.toString()));
 	}
 }
