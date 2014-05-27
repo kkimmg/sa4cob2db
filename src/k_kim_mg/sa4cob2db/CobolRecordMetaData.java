@@ -227,4 +227,14 @@ public interface CobolRecordMetaData {
 	 * @param name record name
 	 */
 	public void setName(String name);
+	/**
+	 * if this value is true, do close and open then No data found.
+	 * @return true/false
+	 */
+	public boolean isReOpenWhenNoDataFound();
+	/**
+	 * set ReOpenWhenNoDataFound
+	 * @param reOpenWhenNoDataFound if this value is true, do close and open then No data found.
+	 */
+	public void setReOpenWhenNoDataFound(boolean reOpenWhenNoDataFound);
 }

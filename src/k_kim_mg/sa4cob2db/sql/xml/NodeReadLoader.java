@@ -475,6 +475,14 @@ public class NodeReadLoader {
 		} else {
 			meta.setKeyByValue(false);
 		}
+		// set reopen
+		Node rop = map.getNamedItem("reopen");
+		if (rop != null) {
+			String keyval = rop.getNodeValue().trim();
+			meta.setReOpenWhenNoDataFound(Boolean.valueOf(keyval));
+		} else {
+			meta.setReOpenWhenNoDataFound(false);
+		}
 		// children
 		StringBuffer sql = new StringBuffer();
 		String truncate = null;

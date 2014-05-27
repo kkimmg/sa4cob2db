@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.sql;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +11,7 @@ import k_kim_mg.sa4cob2db.CobolRecordException;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.event.CobolFileEvent;
+
 /**
  * file
  * 
@@ -23,6 +25,8 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	private ResultSet resultSet;
 	private int rowCount = 0;
 	private SQLCobolRecord rowData;
+	private volatile boolean isInReopen = false;
+
 	/**
 	 * Constructor
 	 * 
@@ -36,6 +40,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		setMinimumSequentialReadBufferSize(meta.getMinimumSequencialReadBufferSize());
 		setMaximumSequentialReadBufferSize(meta.getMaximumSequencialReadBufferSize());
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -63,6 +68,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postClose(getFileStatus2Event(ret));
 		return ret;
 	}
+
 	/**
 	 * create record
 	 * 
@@ -71,6 +77,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	public SQLCobolRecord createCobolRecord() {
 		return createCobolRecord(meta, resultSet);
 	}
+
 	/**
 	 * create record
 	 * 
@@ -81,6 +88,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	protected SQLCobolRecord createCobolRecord(SQLCobolRecordMetaData meta, ResultSet resultSet) {
 		return new SQLCobolRecord(meta, connection, resultSet);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -113,6 +121,21 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postDelete(getFileStatus2Event(ret));
 		return ret;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.AbstractCobolFile#reopen()
+	 */
+	@Override
+	public FileStatus reopen() {
+		FileStatus ret = close();
+		if (ret.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
+			open(openmode, accessMode);
+		}
+		return ret;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -128,6 +151,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return row;
 	}
+
 	/**
 	 * exception to file status
 	 * 
@@ -137,6 +161,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	protected FileStatus getException2FileStatus(Exception e) {
 		return new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
 	}
+
 	/**
 	 * create event object
 	 * 
@@ -146,6 +171,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	protected CobolFileEvent getFileStatus2Event(FileStatus stat) {
 		return new CobolFileEvent(this, stat);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -154,6 +180,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	public CobolRecordMetaData getMetaData() {
 		return meta;
 	}
+
 	/**
 	 * create event object
 	 * 
@@ -162,6 +189,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	protected CobolFileEvent getReadyEvent() {
 		return new CobolFileEvent(this, FileStatus.READY);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -171,6 +199,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		setRowCount();
 		return rowCount;
 	}
+
 	/**
 	 * create file status from exception
 	 * 
@@ -180,6 +209,14 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	protected FileStatus getSQLException2FileStatus(SQLException e) {
 		return new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 	}
+
+	/**
+	 * @return the isInReopen
+	 */
+	protected boolean isInReopen() {
+		return isInReopen;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -188,6 +225,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	public boolean isLastMoved() {
 		return lastShowed;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -196,6 +234,12 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	public boolean isOpened() {
 		return !(resultSet == null && rowData == null);
 	}
+
+	@Override
+	public boolean isReOpenWhenNoDataFound() {
+		return meta.isReOpenWhenNoDataFound();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -225,6 +269,16 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 				// no record
 				ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, FileStatus.NULL_CODE, 0, "move(byte[]) can't find record.");
 				getEventProcessor().postMove(getFileStatus2Event(ret));
+				if (isReOpenWhenNoDataFound() && !isInReopen()) {
+					setInReopen(true);
+					FileStatus work = reopen();
+					if (work.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
+						ret = move(record);
+					} else {
+						ret = new FileStatus(FileStatus.STATUS_99_FAILURE, ret.getSqlStatus(), ret.getErrStatus(), ret.getStatusMessage());
+					}
+					setInReopen(false);
+				}
 				return ret;
 			}
 			// check first record and ....
@@ -240,7 +294,16 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 				ret = FileStatus.OK;
 				resultSet.absolute(currentRow);
 			}
-			if (ret.getStatusCode() != FileStatus.STATUS_SUCCESS) {
+			if (ret.getStatusCode().equals(FileStatus.STATUS_KEY_NOT_EXISTS) && isReOpenWhenNoDataFound() && !isInReopen()) {
+				setInReopen(true);
+				FileStatus work = reopen();
+				if (work.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
+					ret = move(record);
+				} else {
+					ret = new FileStatus(FileStatus.STATUS_99_FAILURE, ret.getSqlStatus(), ret.getErrStatus(), ret.getStatusMessage());
+				}
+				setInReopen(false);
+			} else if (ret.getStatusCode() != FileStatus.STATUS_SUCCESS) {
 				// not found
 				resultSet.absolute(currentRow);
 				rowData.setRecord(currentRecord);
@@ -252,6 +315,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postMove(getFileStatus2Event(ret));
 		return ret;
 	}
+
 	/**
 	 * move to record that located by key value
 	 * 
@@ -316,6 +380,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -335,6 +400,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (ok ? FileStatus.OK : STATUS_UNKNOWN_ERROR);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -350,6 +416,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (ok ? FileStatus.OK : STATUS_UNKNOWN_ERROR);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -367,6 +434,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (ok ? FileStatus.OK : STATUS_UNKNOWN_ERROR);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -379,6 +447,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postNext(getFileStatus2Event(ret)); // event
 		return ret;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -404,6 +473,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (ok ? FileStatus.OK : STATUS_UNKNOWN_ERROR);
 	}
+
 	/**
 	 * next record
 	 * 
@@ -437,6 +507,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (ok ? FileStatus.OK : AbstractCobolFile.STATUS_EOF);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -445,7 +516,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	public FileStatus open(int mode, int accessmode) {
 		this.openmode = mode;
 		this.accessMode = accessmode;
-		int resultSetType = (accessmode == CobolFile.ACCESS_SEQUENTIAL ? ResultSet.TYPE_FORWARD_ONLY : ResultSet.TYPE_SCROLL_INSENSITIVE);
+		int resultSetType = (accessmode == CobolFile.ACCESS_SEQUENTIAL ? ResultSet.TYPE_FORWARD_ONLY : ResultSet.TYPE_SCROLL_SENSITIVE);
 		int resultSetConcurrency = (mode == CobolFile.MODE_INPUT ? ResultSet.CONCUR_READ_ONLY : ResultSet.CONCUR_UPDATABLE);
 		getEventProcessor().preOpen(getReadyEvent());
 		FileStatus ret = FileStatus.OK;
@@ -467,6 +538,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			SQLNetServer.logger.log(Level.SEVERE, "can't open.", e);
 			ret = getSQLException2FileStatus(e);
 		}
+		rowCount = 0;
 		if ((getMaximumSequentialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENTIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
 			startBuffer();
 		}
@@ -482,6 +554,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postOpen(getFileStatus2Event(ret));
 		return ret;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -505,6 +578,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postPrevious(getFileStatus2Event(ret));
 		return ret;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -525,6 +599,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (ok ? FileStatus.OK : STATUS_UNKNOWN_ERROR);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -537,6 +612,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postRead(getFileStatus2Event(ret), record); // event
 		return ret;
 	}
+
 	/**
 	 * read from file
 	 * 
@@ -562,6 +638,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return (length == meta.getRowSize() ? FileStatus.OK : new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "RecordSize MissMatch."));
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -590,6 +667,14 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postRewrite(getFileStatus2Event(ret));
 		return ret;
 	}
+
+	/**
+	 * @param isInReopen the isInReopen to set
+	 */
+	protected void setInReopen(boolean isInReopen) {
+		this.isInReopen = isInReopen;
+	}
+
 	/**
 	 * set row count
 	 */
@@ -603,6 +688,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -629,22 +715,33 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		} else {
 			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "invalid mode.");
 		}
+		if (ret.getStatusCode().equals(FileStatus.STATUS_KEY_NOT_EXISTS) && isReOpenWhenNoDataFound() && !isInReopen()) {
+			setInReopen(true);
+			FileStatus work = reopen();
+			if (work.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
+				ret = start(mode, record);
+			} else {
+				ret = new FileStatus(FileStatus.STATUS_99_FAILURE, ret.getSqlStatus(), ret.getErrStatus(), ret.getStatusMessage());
+			}
+			setInReopen(false);
+		}
 		getEventProcessor().postStart(getReadyEvent());
 		return ret;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.AbstractCobolFile#start(java.lang.String, int,
-	 * byte[])
+	 * @see k_kim_mg.sa4cob2db.AbstractCobolFile#start(java.lang.String, int, byte[])
 	 */
 	@Override
-	public FileStatus start(String IndexName, int mode, byte[] record) {
-		getEventProcessor().preStart(getReadyEvent(), IndexName, record);
-		FileStatus ret = super.start(IndexName, mode, record);
-		getEventProcessor().postStart(getReadyEvent(), IndexName);
+	public FileStatus start(String indexName, int mode, byte[] record) {
+		getEventProcessor().preStart(getReadyEvent(), indexName, record);
+		FileStatus ret = super.start(indexName, mode, record);
+		getEventProcessor().postStart(getReadyEvent(), indexName);
 		return ret;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -675,6 +772,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		getEventProcessor().postStart(getReadyEvent());
 		return ret;
 	}
+
 	/**
 	 * start with duplicted key (greater equal)
 	 * 
@@ -724,6 +822,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
+
 	/**
 	 * start(=)
 	 * 
@@ -769,6 +868,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
+
 	/**
 	 * start(Greater)
 	 * 
@@ -812,6 +912,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
+
 	/**
 	 * start(Greater Equal)
 	 * 
@@ -855,6 +956,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
+
 	/*
 	 * delete all
 	 * 
@@ -879,6 +981,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			}
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -5,7 +5,16 @@
    version="2.5">
 
 	<filter>
-		<filter-name>COBOL</filter-name>
+		<filter-name>COBOL1</filter-name>
+		<filter-class>k_kim_mg.sa4cob2db.WebSample.SimpleProcessFilter</filter-class>
+
+		<init-param>
+			<param-name>ACM_CONFFILE</param-name>
+			<param-value>/home/kenji/workspace/sa4cob2db/conf/metafile.xml</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>COBOL2</filter-name>
 		<filter-class>k_kim_mg.sa4cob2db.WebSample.SimpleProcessFilter</filter-class>
 
 		<init-param>
@@ -14,8 +23,12 @@
 		</init-param>
 	</filter>
 	<filter-mapping>
-		<filter-name>COBOL</filter-name>
-		<url-pattern>/*</url-pattern>
+		<filter-name>COBOL1</filter-name>
+		<url-pattern>/result.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>COBOL2</filter-name>
+		<url-pattern>/index.jsp</url-pattern>
 	</filter-mapping>
 </web-app>
 

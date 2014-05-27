@@ -24,7 +24,7 @@
 		<listener>k_kim_mg.sa4cob2db.test.CobolFileEventAdapterTest
 		</listener>
 	</metadata>
-	<metadata name="dbtests" encode="UTF-8" bufinit="500" bufmin="250"
+	<metadata name="dbtests" encode="UTF-8" bufinit="500" bufmin="250" reopen="true"
 		bufmax="10000">
 		<statement>select * from test order by id</statement>
 		<sqlcolumn name="id" type="1" start="0" length="5" format="00000"
@@ -61,7 +61,7 @@
 	</metadata>
 	<metadata name="customtest" customClassName="CustomCobolMetaDataTest">
 	</metadata>
-	<metadata name="dbtests2" encode="UTF-8" bufinit="500" bufmin="250"
+	<metadata name="dbtests2" encode="UTF-8" bufinit="500" bufmin="250" reopen="true"
 		bufmax="10000">
 		<statement>select * from test order by id</statement>
 		<sqlcolumn name="id" type="1" start="0" length="5" format="00000"

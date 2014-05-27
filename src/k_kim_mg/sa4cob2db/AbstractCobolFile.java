@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
@@ -10,6 +11,7 @@ import k_kim_mg.sa4cob2db.event.CobolFileEvent;
 import k_kim_mg.sa4cob2db.event.CobolFileEventAdapter;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
+
 /**
  * This class does not generate an event.<br/>
  * Please raise an event on the implementation class
@@ -40,6 +42,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		private Thread thread;
 		private volatile int wb;
 		private volatile int wi;
+
 		/**
 		 * Constructor<br>
 		 * minimum size:2500<br>
@@ -49,6 +52,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		public DefaultSequentialReadBuffer() {
 			this(5000, 2500, 10000);
 		}
+
 		/**
 		 * Constructor
 		 * 
@@ -70,8 +74,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 				/*
 				 * (non-Javadoc)
 				 * 
-				 * @see k_kim_mg.sa4cob2db.event.CobolFileEventAdapter
-				 * #postClose (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+				 * @see k_kim_mg.sa4cob2db.event.CobolFileEventAdapter #postClose (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 				 */
 				@Override
 				public void postClose(CobolFileEvent e) {
@@ -79,9 +82,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 					cont = false;
 				}
 			});
-			// 
+			//
 			initBuffers();
 		}
+
 		/**
 		 * initialize buffer
 		 */
@@ -90,9 +94,9 @@ public abstract class AbstractCobolFile implements CobolFile {
 			nextStatus = new FileStatus[2][dimentionSize];
 			readStatus = new FileStatus[2][dimentionSize];
 			buffStatus = new boolean[2][dimentionSize];
-			// 
+			//
 			int recSize = getMetaData().getRowSize();
-			// 
+			//
 			for (int i = 0; i < 2; i++) {
 				for (int j = 0; j < dimentionSize; j++) {
 					buffStatus[i][j] = false;
@@ -105,9 +109,10 @@ public abstract class AbstractCobolFile implements CobolFile {
 			wi = 0;
 			rb = 0;
 			ri = -1;
-			// 
+			//
 			lastRead = false;
 		}
+
 		/**
 		 * wait?
 		 * 
@@ -129,6 +134,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			}
 			return ret;
 		}
+
 		/**
 		 * wait?
 		 * 
@@ -141,19 +147,20 @@ public abstract class AbstractCobolFile implements CobolFile {
 			ret = (ret || buffStatus[wb][wi]);
 			return ret;
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
 		 * @see k_kim_mg.sa4cob2db.SequentialReadBuffer#nextBuffer()
 		 */
 		public synchronized FileStatus nextBuffer() {
-			// 
+			//
 			ri++;
 			if (ri >= dimentionSize) {
 				rb = (rb == 0 ? 1 : 0);
 				ri = 0;
 			}
-			// 
+			//
 			while (isWaitToRead()) {
 				try {
 					this.wait(1000);
@@ -161,7 +168,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 					SQLNetServer.logger.log(Level.SEVERE, "Interrupted To Read Wait", e);
 				}
 			}
-			// 
+			//
 			FileStatus ret = nextStatus[rb][ri];
 			if (ret != null) {
 				if (!ret.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
@@ -174,6 +181,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			}
 			return ret;
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -192,6 +200,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			buffStatus[rb][ri] = false;
 			return ret;
 		}
+
 		/**
 		 * make buffer
 		 */
@@ -199,7 +208,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			cont = true;
 			FileStatus ns, rs; // NextStatus, ReadStatus
 			while (cont) {
-				// 
+				//
 				while (isWaitToWrite() && cont) {
 					try {
 						SQLNetServer.logger.log(Level.FINEST, "Buffering is Waiting");
@@ -209,14 +218,14 @@ public abstract class AbstractCobolFile implements CobolFile {
 					}
 				}
 				if (cont) {
-					// 
+					//
 					ns = nextOnFile();
 					nextStatus[wb][wi] = ns;
 					if (ns.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
 						rs = readFromFile(records[wb][wi]);
 						readStatus[wb][wi] = rs;
 						buffStatus[wb][wi] = true;
-						// 
+						//
 						cs++;
 						wi++;
 						if (wi >= dimentionSize) {
@@ -232,7 +241,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 						readStatus[wb][wi] = ns;
 						buffStatus[wb][wi] = true;
 					} else {
-						// 
+						//
 						SQLNetServer.logger.log(Level.SEVERE, ns.getStatusMessage());
 						cont = false;
 						readStatus[wb][wi] = ns;
@@ -241,6 +250,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 				}
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -253,6 +263,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			thread.start();
 		}
 	}
+
 	/**
 	 * listen COBOL file event
 	 * 
@@ -262,239 +273,238 @@ public abstract class AbstractCobolFile implements CobolFile {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postClose
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postClose (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void postClose(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.postClose(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postDelete
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postDelete (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void postDelete(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.postDelete(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postMove
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postMove (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void postMove(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.postMove(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postNext
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postNext (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void postNext(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.postNext(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postOpen
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postOpen (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void postOpen(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.postOpen(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postPrevous
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postPrevous (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void postPrevious(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.postPrevious(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postRead
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent, byte[])
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postRead (k_kim_mg.sa4cob2db.event.CobolFileEvent, byte[])
 		 */
 		public void postRead(CobolFileEvent e, byte[] record) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.postRead(e, record);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postRewrite
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postRewrite (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void postRewrite(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.postRewrite(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postStart
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postStart (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void postStart(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.postStart(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postStart
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent, java.lang.String)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postStart (k_kim_mg.sa4cob2db.event.CobolFileEvent, java.lang.String)
 		 */
 		public void postStart(CobolFileEvent e, String indexname) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.postStart(e, indexname);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postWrite
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#postWrite (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void postWrite(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.postWrite(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preClose
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preClose (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void preClose(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.preClose(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preDelete
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preDelete (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void preDelete(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.preDelete(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preMove
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent, byte[])
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preMove (k_kim_mg.sa4cob2db.event.CobolFileEvent, byte[])
 		 */
 		public void preMove(CobolFileEvent e, byte[] record) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.preMove(e, record);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preNext
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preNext (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void preNext(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.preNext(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preOpen
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preOpen (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void preOpen(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.preOpen(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#prePrevious
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#prePrevious (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void prePrevious(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.prePrevious(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preRead
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent)
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preRead (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 		 */
 		public void preRead(CobolFileEvent e) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.preRead(e);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preRewrite
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent, byte[])
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preRewrite (k_kim_mg.sa4cob2db.event.CobolFileEvent, byte[])
 		 */
 		public void preRewrite(CobolFileEvent e, byte[] record) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.preRewrite(e, record);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preStart
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent, byte[])
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preStart (k_kim_mg.sa4cob2db.event.CobolFileEvent, byte[])
 		 */
 		public void preStart(CobolFileEvent e, byte[] record) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.preStart(e, record);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preStart
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent, java.lang.String, byte[])
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preStart (k_kim_mg.sa4cob2db.event.CobolFileEvent, java.lang.String, byte[])
 		 */
 		public void preStart(CobolFileEvent e, String indexname, byte[] record) {
 			for (CobolFileEventListener listener : listeners) {
 				listener.preStart(e, indexname, record);
 			}
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preWrite
-		 * (k_kim_mg.sa4cob2db.event.CobolFileEvent, byte[])
+		 * @see k_kim_mg.sa4cob2db.event.CobolFileEventListener#preWrite (k_kim_mg.sa4cob2db.event.CobolFileEvent, byte[])
 		 */
 		public void preWrite(CobolFileEvent e, byte[] record) {
 			for (CobolFileEventListener listener : listeners) {
@@ -502,6 +512,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			}
 		}
 	}
+
 	/** Two record keys are equal */
 	protected static final int COMPARE_EQUAL = 0;
 	/** Record 1 is small */
@@ -530,20 +541,20 @@ public abstract class AbstractCobolFile implements CobolFile {
 	/** Internal buffer */
 	protected SequentialReadBuffer sequentialReadBuffer = null;
 	private ACMSession session;
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolFile#addCobolFileEventListener(jp
-	 * .ne.biglobe.mvh.k_kim_mg.acm.event.CobolFileEventListener)
+	 * @see k_kim_mg.sa4cob2db.CobolFile#addCobolFileEventListener(jp .ne.biglobe.mvh.k_kim_mg.acm.event.CobolFileEventListener)
 	 */
 	public void addCobolFileEventListener(CobolFileEventListener listener) {
 		listeners.add(listener);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolFile#addIndex(k_kim_mg.CobolIndex,
-	 * k_kim_mg.sa4cob2db.CobolFile)
+	 * @see k_kim_mg.sa4cob2db.CobolFile#addIndex(k_kim_mg.CobolIndex, k_kim_mg.sa4cob2db.CobolFile)
 	 */
 	@Override
 	public void addIndex(CobolIndex index, CobolFile file) {
@@ -556,15 +567,16 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		indexName2Index.put(index.getIndexKeyName(), index);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.CobolFile#bindSession(k_kim_mg.sa4cob2db.ACMSession)
+	 * @see k_kim_mg.sa4cob2db.CobolFile#bindSession(k_kim_mg.sa4cob2db.ACMSession)
 	 */
 	public void bindSession(ACMSession session) {
 		this.session = session;
 	}
+
 	/**
 	 * close index
 	 * 
@@ -582,6 +594,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
+
 	/**
 	 * compare records
 	 * 
@@ -596,6 +609,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		CobolRecordMetaData meta = getMetaData();
 		return compare(record1, record2, meta.isKeyByValue());
 	}
+
 	/**
 	 * compare records
 	 * 
@@ -612,6 +626,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			return compare_byValue(record1, record2);
 		return compare_byBytes(record1, record2);
 	}
+
 	/**
 	 * compare records by bytes
 	 * 
@@ -648,6 +663,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
+
 	/**
 	 * compare records by value
 	 * 
@@ -722,6 +738,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
+
 	/**
 	 * create internal buffer
 	 * 
@@ -730,6 +747,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected SequentialReadBuffer createSequentialReadBuffer() {
 		return new DefaultSequentialReadBuffer(getInitialSequentialReadBufferSize(), getMinimumSequentialReadBufferSize(), getMaximumSequentialReadBufferSize());
 	}
+
 	/**
 	 * get ACCESS MODE
 	 * 
@@ -738,6 +756,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public int getAccessMode() {
 		return accessMode;
 	}
+
 	/**
 	 * get using index
 	 * 
@@ -746,6 +765,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public CobolIndex getCurrentIndex() {
 		return currentIndex;
 	}
+
 	/**
 	 * get event listener
 	 * 
@@ -754,11 +774,12 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected CobolFileEventListener getEventProcessor() {
 		return eventer;
 	}
+
 	/**
 	 * get index by name
 	 * 
-	 * @param name  index name
-	 * @return  index if not found return null
+	 * @param name index name
+	 * @return index if not found return null
 	 */
 	protected CobolIndex getIndex(String name) {
 		if (indexName2Index == null) {
@@ -769,11 +790,12 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return indexName2Index.get(name);
 	}
+
 	/**
 	 * get index file from index object
 	 * 
-	 * @param index  index 
-	 * @return  index file if not found null
+	 * @param index index
+	 * @return index file if not found null
 	 */
 	protected CobolFile getIndexFile(CobolIndex index) {
 		if (index == null) {
@@ -787,6 +809,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return index2File.get(index);
 	}
+
 	/**
 	 * get initial buffer size
 	 * 
@@ -795,6 +818,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected int getInitialSequentialReadBufferSize() {
 		return initialSequentialReadBufferSize;
 	}
+
 	/**
 	 * maximumbuffersize
 	 * 
@@ -803,6 +827,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected int getMaximumSequentialReadBufferSize() {
 		return maximumSequentialReadBufferSize;
 	}
+
 	/**
 	 * minimumbuffersize
 	 * 
@@ -811,6 +836,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected int getMinimumSequentialReadBufferSize() {
 		return minimumSequentialReadBufferSize;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -819,6 +845,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public int getOpenMode() {
 		return openmode;
 	}
+
 	/**
 	 * get sequential read buffer
 	 * 
@@ -827,21 +854,23 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected SequentialReadBuffer getSequentialReadBuffer() {
 		return sequentialReadBuffer;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.CobolFile#getSession(k_kim_mg.sa4cob2db.ACMSession)
+	 * @see k_kim_mg.sa4cob2db.CobolFile#getSession(k_kim_mg.sa4cob2db.ACMSession)
 	 */
 	public ACMSession getSession() {
 		return session;
 	}
+
 	/**
 	 * last record has read ?
 	 * 
 	 * @return true/false
 	 */
 	public abstract boolean isLastMoved();
+
 	/**
 	 * move to row'th record
 	 * 
@@ -849,18 +878,21 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * @return status
 	 */
 	public abstract FileStatus move(int row);
+
 	/**
 	 * move to first record
 	 * 
 	 * @return status
 	 */
 	public abstract FileStatus moveFirst();
+
 	/**
 	 * move to last record
 	 * 
 	 * @return status
 	 */
 	public abstract FileStatus moveLast();
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -875,6 +907,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return nextOnFile();
 	}
+
 	/**
 	 * move to record
 	 * 
@@ -882,6 +915,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * @return status
 	 */
 	public abstract FileStatus next(int row);
+
 	/**
 	 * next record on buffer
 	 * 
@@ -896,14 +930,16 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
+
 	/**
 	 * next record on file
 	 * 
 	 * @return status
 	 */
 	protected abstract FileStatus nextOnFile();
+
 	/**
-	 *  next record on index
+	 * next record on index
 	 * 
 	 * @return status
 	 */
@@ -911,7 +947,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		if (currentIndex == null) {
 			return new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "not started");
 		}
-		//  index record
+		// index record
 		CobolFile currentIndexFile = getIndexFile(currentIndex);
 		CobolRecordMetaData indexmeta = currentIndexFile.getMetaData();
 		DefaultCobolRecord indexrecord = new DefaultCobolRecord(indexmeta);
@@ -922,12 +958,12 @@ public abstract class AbstractCobolFile implements CobolFile {
 		FileStatus ret;
 		ret = currentIndexFile.next();
 		if (ret.getStatusCode() == FileStatus.STATUS_SUCCESS) {
-			//  read index
+			// read index
 			ret = currentIndexFile.read(indexbytes);
 			if (ret.getStatusCode() == FileStatus.STATUS_SUCCESS) {
 				try {
 					indexrecord.setRecord(indexbytes);
-					//  index -> file
+					// index -> file
 					Map<CobolColumn, CobolColumn> map1 = currentIndex.getFileKey2IndexColumn();
 					Set<Map.Entry<CobolColumn, CobolColumn>> set = map1.entrySet();
 					Iterator<Map.Entry<CobolColumn, CobolColumn>> ite = set.iterator();
@@ -949,6 +985,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
+
 	/**
 	 * open indexes
 	 * 
@@ -966,6 +1003,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
+
 	/**
 	 * move to previous record
 	 * 
@@ -973,6 +1011,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * @return status
 	 */
 	public abstract FileStatus previous(int row);
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -984,6 +1023,26 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return readFromFile(record);
 	}
+
+	/*
+	 * (non-Javadoc) Actually do nothing.
+	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolFile#reopen()
+	 */
+	@Override
+	public FileStatus reopen() {
+		FileStatus ret = FileStatus.FAILURE;
+		if (isOpened()) {
+			ret = new FileStatus(FileStatus.STATUS_NOT_OPEN, "File is not opened.", 0, "File is not opened."); 
+		} else {
+			ret = close();
+			if (ret.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
+				open(openmode, accessMode);
+			}
+		}
+		return ret;
+	}
+
 	/**
 	 * read record from buffer
 	 * 
@@ -999,6 +1058,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
+
 	/**
 	 * read from file
 	 * 
@@ -1006,15 +1066,16 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * @return status
 	 */
 	protected abstract FileStatus readFromFile(byte[] record);
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolFile#removeCobolFileEventListener
-	 * (k_kim_mg.sa4cob2db.event.CobolFileEventListener)
+	 * @see k_kim_mg.sa4cob2db.CobolFile#removeCobolFileEventListener (k_kim_mg.sa4cob2db.event.CobolFileEventListener)
 	 */
 	public void removeCobolFileEventListener(CobolFileEventListener listener) {
 		listeners.remove(listener);
 	}
+
 	/**
 	 * clear using index<br>
 	 * same as setCurrentIndex(null)<br>
@@ -1022,14 +1083,16 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public void resetCurrentIndex() {
 		setCurrentIndex(null);
 	}
+
 	/**
 	 * set using index
 	 * 
-	 * @param currentIndex  index
+	 * @param currentIndex index
 	 */
 	public void setCurrentIndex(CobolIndex currentIndex) {
 		this.currentIndex = currentIndex;
 	}
+
 	/**
 	 * set initial buffer size
 	 * 
@@ -1038,6 +1101,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected void setInitialSequentialReadBufferSize(int initialSequentialReadBufferSize) {
 		this.initialSequentialReadBufferSize = initialSequentialReadBufferSize;
 	}
+
 	/**
 	 * set maximum buffer size
 	 * 
@@ -1046,6 +1110,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected void setMaximumSequentialReadBufferSize(int maximumSequentialReadBufferSize) {
 		this.maximumSequentialReadBufferSize = maximumSequentialReadBufferSize;
 	}
+
 	/**
 	 * set minimum buffer size
 	 * 
@@ -1054,6 +1119,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected void setMinimumSequentialReadBufferSize(int minimumSequentialReadBufferSize) {
 		this.minimumSequentialReadBufferSize = minimumSequentialReadBufferSize;
 	}
+
 	/**
 	 * set buffer
 	 * 
@@ -1062,6 +1128,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected void setSequentialReadBuffer(SequentialReadBuffer SequentialReadBuffer) {
 		this.sequentialReadBuffer = SequentialReadBuffer;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1070,11 +1137,11 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public FileStatus start(int mode, byte[] record, boolean duplicates) {
 		return (duplicates ? startDuplicates(mode, record) : start(mode, record));
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolFile#start(java.lang.String, int, byte[],
-	 * boolean)
+	 * @see k_kim_mg.sa4cob2db.CobolFile#start(java.lang.String, int, byte[], boolean)
 	 */
 	public FileStatus start(String IndexName, int mode, byte[] record) {
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
@@ -1130,6 +1197,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 		return ret;
 	}
+
 	/**
 	 * starts buffering
 	 */
@@ -1141,6 +1209,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			getSequentialReadBuffer().startBuffering();
 		}
 	}
+
 	/**
 	 * locate or START
 	 * 

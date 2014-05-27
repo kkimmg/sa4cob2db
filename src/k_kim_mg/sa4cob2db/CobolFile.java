@@ -113,6 +113,11 @@ public interface CobolFile extends Serializable {
 	 */
 	public boolean isOpened();
 	/**
+	 * if this value is true, do close and open then No data found.
+	 * @return true/false
+	 */
+	public boolean isReOpenWhenNoDataFound();
+	/**
 	 * locate to record
 	 * 
 	 * @param record bytes includes key
@@ -152,6 +157,11 @@ public interface CobolFile extends Serializable {
 	 * @param listener CobolFileEventListener to remove
 	 */
 	public void removeCobolFileEventListener(CobolFileEventListener listener);
+	/**
+	 * Reopen file
+	 * @return status
+	 */
+	public FileStatus reopen();
 	/**
 	 * rewrite record
 	 * 
