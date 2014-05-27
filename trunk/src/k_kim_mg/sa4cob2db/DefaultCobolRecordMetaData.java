@@ -11,6 +11,7 @@ import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
+	
 	private List<Class<? extends CobolFileEventListener>> listenerClasses = new ArrayList<Class<? extends CobolFileEventListener>>();
 	/** alias names */
 	protected List<String> aliases = new ArrayList<String>();
@@ -30,6 +31,22 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	protected String name = "";
 	/** indexes */
 	protected List<CobolIndex> cobolIndexes = new ArrayList<CobolIndex>();
+	/**if this value is true, do close and open then No data found.*/
+	private boolean reOpenWhenNoDataFound = false;
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#isReOpenWhenNoDataFound()
+	 */
+	@Override
+	public boolean isReOpenWhenNoDataFound() {
+		return reOpenWhenNoDataFound;
+	}
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#setReOpenWhenNoDataFound(boolean)
+	 */
+	@Override
+	public void setReOpenWhenNoDataFound(boolean reOpenWhenNoDataFound) {
+		this.reOpenWhenNoDataFound = reOpenWhenNoDataFound;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

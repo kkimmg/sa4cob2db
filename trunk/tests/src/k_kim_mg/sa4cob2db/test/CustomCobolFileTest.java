@@ -38,6 +38,13 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	public int getCurrentRow() {
 		return 0;
 	}
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolFile#isReOpenWhenNoDataFound()
+	 */
+	@Override
+	public boolean isReOpenWhenNoDataFound() {
+		return meta.isReOpenWhenNoDataFound();
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

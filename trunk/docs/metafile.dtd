@@ -15,6 +15,7 @@
 	bufmax NMTOKEN #IMPLIED
 	encode NMTOKEN #IMPLIED
 	customClassName NMTOKEN #IMPLIED
+	reopen (true|false) "false"
 >
 <!ELEMENT statement (#PCDATA)>
 <!ELEMENT sqlcolumn (#PCDATA)>

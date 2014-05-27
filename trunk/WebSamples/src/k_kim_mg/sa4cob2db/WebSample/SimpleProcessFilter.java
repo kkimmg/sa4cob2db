@@ -49,8 +49,7 @@ public class SimpleProcessFilter implements Filter {
 	/**
 	 * Create Cobol Record
 	 * 
-	 * @param meta
-	 *            metadata
+	 * @param meta metadata
 	 * @return record
 	 */
 	protected CobolRecord createCobolRecord(CobolRecordMetaData meta) {
@@ -69,8 +68,7 @@ public class SimpleProcessFilter implements Filter {
 	/**
 	 * Create ProcessBuilder
 	 * 
-	 * @param name
-	 *            command
+	 * @param name command
 	 * @return ProcessBuilder
 	 */
 	protected ProcessBuilder createProcessBuilder(String name) {
@@ -102,14 +100,11 @@ public class SimpleProcessFilter implements Filter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
-	 * javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
 	 */
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 		try {
-			req.setAttribute("ACM_ERROR", "Nothing");
-			req.setAttribute("ACM_ERRORS", "Nothing?");
 			String processName = req.getParameter(PROCESS_NAME);
 			if (processName != null) {
 
@@ -130,7 +125,7 @@ public class SimpleProcessFilter implements Filter {
 							process = null;
 							processes.remove(processName);
 						} catch (Exception e) {
-							req.setAttribute("ACM_ERRORS", e.getMessage());
+							req.setAttribute(ACM_ERRORS, e.getMessage());
 						}
 					}
 					if (process == null) {
@@ -153,6 +148,7 @@ public class SimpleProcessFilter implements Filter {
 						setRequest2Stream(inputLayout, req, out);
 						InputStream err = process.getErrorStream();
 						readError(req, err);
+
 						InputStream in = process.getInputStream();
 						setStream2Request(outputLayout, in, req);
 						readError(req, err);
@@ -162,11 +158,19 @@ public class SimpleProcessFilter implements Filter {
 			}
 		} catch (Exception ex) {
 			context.log("doFilter", ex);
-			req.setAttribute("ACM_ERROR", ex.getMessage());
-			req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + ex.getMessage());
+			addExceptionMessage(req, ex);
 		}
+		req.setAttribute(ACM_ERRORS, req.getAttribute(ACM_ERRORS));
 		//
 		chain.doFilter(req, res);
+	}
+
+	private static String ACM_ERROR = "ACM_ERROR";
+	private static String ACM_ERRORS = "ACM_ERRORS";
+
+	private void addExceptionMessage(ServletRequest req, Exception ex) {
+		req.setAttribute(ACM_ERROR, ex.getMessage());
+		req.setAttribute(ACM_ERRORS, req.getAttribute(ACM_ERRORS) + ex.getMessage());
 	}
 
 	private void readError(ServletRequest req, InputStream err) {
@@ -176,8 +180,7 @@ public class SimpleProcessFilter implements Filter {
 			th.join(WAIT_MILLS);
 		} catch (Exception ex) {
 			context.log("doFilter", ex);
-			req.setAttribute("ACM_ERROR", ex.getMessage());
-			req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + ex.getMessage());
+			addExceptionMessage(req, ex);
 			try {
 				th.interrupt();
 			} catch (Exception e2) {
@@ -202,11 +205,17 @@ public class SimpleProcessFilter implements Filter {
 				boolean cont = true;
 				BufferedReader reader = new BufferedReader(new InputStreamReader(err));
 				while (cont) {
-					req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + "<br>\n" + reader.readLine());
+					req.setAttribute(ACM_ERRORS, req.getAttribute(ACM_ERRORS) + "<br>\n" + reader.readLine());
 				}
 			} catch (Exception e) {
-				context.log("ERROR", e);
-				req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + "\n<br>" + e.getMessage());
+				try {
+					context.log("ERROR", e);
+					if (req != null) {
+						req.setAttribute(ACM_ERRORS, req.getAttribute(ACM_ERRORS) + "\n<br>" + e.getMessage());
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 
 		}
@@ -246,12 +255,9 @@ public class SimpleProcessFilter implements Filter {
 	/**
 	 * set parameter values to OutputStream
 	 * 
-	 * @param meta
-	 *            metadata
-	 * @param req
-	 *            request
-	 * @param out
-	 *            stream
+	 * @param meta metadata
+	 * @param req request
+	 * @param out stream
 	 */
 	protected void setRequest2Stream(CobolRecordMetaData meta, ServletRequest req, OutputStream out) {
 		CobolRecord rec = createCobolRecord(meta);
@@ -273,12 +279,10 @@ public class SimpleProcessFilter implements Filter {
 					context.log("rs:" + column.getName() + "=" + val + "/" + rec.getString(column));
 				} catch (CobolRecordException e) {
 					context.log("ERROR", e);
-					req.setAttribute("ACM_ERROR", e.getMessage());
-					req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + e.getMessage());
+					addExceptionMessage(req, e);
 				} catch (NumberFormatException e) {
 					context.log("WARNING", e);
-					req.setAttribute("ACM_ERROR", e.getMessage());
-					req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + e.getMessage());
+					addExceptionMessage(req, e);
 				}
 			}
 		}
@@ -291,12 +295,10 @@ public class SimpleProcessFilter implements Filter {
 			out.flush();
 		} catch (CobolRecordException e) {
 			context.log("ERROR", e);
-			req.setAttribute("ACM_ERROR", e.getMessage());
-			req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + e.getMessage());
+			addExceptionMessage(req, e);
 		} catch (IOException e) {
 			context.log("ERROR", e);
-			req.setAttribute("ACM_ERROR", e.getMessage());
-			req.setAttribute("ACM_ERRORS", req.getAttribute("ACM_ERRORS") + e.getMessage());
+			addExceptionMessage(req, e);
 		}
 	}
 
@@ -330,12 +332,9 @@ public class SimpleProcessFilter implements Filter {
 	/**
 	 * set stream value to response
 	 * 
-	 * @param meta
-	 *            metadata
-	 * @param in
-	 *            stream
-	 * @param res
-	 *            response
+	 * @param meta metadata
+	 * @param in stream
+	 * @param res response
 	 */
 	protected void setStream2Request(CobolRecordMetaData meta, InputStream in, ServletRequest req) {
 		StringBuffer buf = new StringBuffer();
@@ -399,7 +398,7 @@ public class SimpleProcessFilter implements Filter {
 				buf.append("<br>\n");
 			}
 		}
-		String errors = req.getAttribute("ACM_ERRORS").toString();
-		req.setAttribute("ACM_ERRORS", (errors == null ? buf.toString() : errors + "<br>\n" + buf.toString()));
+		String errors = req.getAttribute(ACM_ERRORS).toString();
+		req.setAttribute(ACM_ERRORS, (errors == null ? buf.toString() : errors + "<br>\n" + buf.toString()));
 	}
 }
