@@ -125,20 +125,6 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.AbstractCobolFile#reopen()
-	 */
-	@Override
-	public FileStatus reopen() {
-		FileStatus ret = close();
-		if (ret.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
-			open(openmode, accessMode);
-		}
-		return ret;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#getCurrentRow()
 	 */
 	public int getCurrentRow() {
@@ -637,6 +623,18 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			return getSQLException2FileStatus(se);
 		}
 		return (length == meta.getRowSize() ? FileStatus.OK : new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "RecordSize MissMatch."));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.AbstractCobolFile#reopen()
+	 */
+	@Override
+	public FileStatus reopen() {
+		this.rowCount = 0;
+		this.lastShowed = false;
+		return super.reopen();
 	}
 
 	/*

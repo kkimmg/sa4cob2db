@@ -30,8 +30,67 @@ import k_kim_mg.sa4cob2db.sql.SQLFileServer;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 
 public class SimpleProcessFilter implements Filter {
+	private class ErrorReader implements Runnable {
+		private InputStream err;
+		private ServletRequest req;
+
+		public ErrorReader(ServletRequest req, InputStream err) {
+			this.err = err;
+			this.req = req;
+		}
+
+		@Override
+		public void run() {
+
+			try {
+				boolean cont = true;
+				BufferedReader reader = new BufferedReader(new InputStreamReader(err));
+				while (cont) {
+					req.setAttribute(ACM_ERRORS, req.getAttribute(ACM_ERRORS) + "<br>\n" + reader.readLine());
+				}
+			} catch (Exception e) {
+				try {
+					context.log("ERROR", e);
+					if (req != null) {
+						req.setAttribute(ACM_ERRORS, req.getAttribute(ACM_ERRORS) + "\n<br>" + e.getMessage());
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+
+		}
+	}
+
+	private class StreamWrapper implements Runnable {
+		private StringBuffer buf;
+		private byte[] byt;
+		private InputStream in;
+
+		public StreamWrapper(InputStream in, byte[] byt, StringBuffer buf) {
+			this.in = in;
+			this.byt = byt;
+			this.buf = buf;
+		}
+
+		@Override
+		public void run() {
+			try {
+				in.read(byt);
+			} catch (IOException e) {
+				context.log("ERROR", e);
+				buf.append("IOException:");
+				buf.append(e.getMessage());
+				buf.append("\n<br>");
+			}
+		}
+
+	}
+
 	/** Init Parameter name of Metadata File */
 	public static final String ACM_CONFFILE = "ACM_CONFFILE";
+	private static String ACM_ERROR = "ACM_ERROR";
+	private static String ACM_ERRORS = "ACM_ERRORS";
 	/** Parameter name of Input layout */
 	public static final String INPUT_LAYOUT = "INPUT_LAYOUT";
 	/** Parameter name of Output layout */
@@ -40,11 +99,23 @@ public class SimpleProcessFilter implements Filter {
 	public static final String PROCESS_NAME = "PROCESS_NAME";
 	/** Environment values */
 	public static final String PRPFNAME = "environment.properties";
+	public static final int WAIT_MILLS = 1000;
+	public static final String INIT_PROCESS = "INITPROCESS";
+
 	private FilterConfig config = null;
+
 	private ServletContext context = null;
+
 	private CobolRecordMetaDataSet metaset;
+
 	private Map<String, Process> processes = new HashMap<String, Process>();
+
 	private Properties prop;
+
+	private void addExceptionMessage(ServletRequest req, Exception ex) {
+		req.setAttribute(ACM_ERROR, ex.getMessage());
+		req.setAttribute(ACM_ERRORS, req.getAttribute(ACM_ERRORS) + ex.getMessage());
+	}
 
 	/**
 	 * Create Cobol Record
@@ -63,6 +134,28 @@ public class SimpleProcessFilter implements Filter {
 	 */
 	protected NodeReadLoader createNodeReadLoader() {
 		return new NodeReadLoader();
+	}
+
+	/**
+	 * Creates Process
+	 * 
+	 * @param processName name
+	 * @return process
+	 * @throws IOException IOException
+	 */
+	private Process createProcess(String processName) throws IOException {
+		ProcessBuilder builder = createProcessBuilder(processName);
+		// //////////////////////////////////////////////////////////////////
+		String name, valu;
+		Enumeration<Object> keys = prop.keys();
+		while (keys.hasMoreElements()) {
+			name = keys.nextElement().toString();
+			valu = prop.getProperty(name);
+			builder.environment().put(name, valu);
+		}
+		Process process = builder.start();
+		processes.put(processName, process);
+		return process;
 	}
 
 	/**
@@ -129,18 +222,7 @@ public class SimpleProcessFilter implements Filter {
 						}
 					}
 					if (process == null) {
-						ProcessBuilder builder = createProcessBuilder(processName);
-						// //////////////////////////////////////////////////////////////////
-						String name, valu;
-						Enumeration<Object> keys = prop.keys();
-						while (keys.hasMoreElements()) {
-							name = keys.nextElement().toString();
-							valu = prop.getProperty(name);
-							builder.environment().put(name, valu);
-						}
-						process = builder.start();
-						processes.put(processName, process);
-
+						process = createProcess(processName);
 					}
 					if (process != null) {
 						//
@@ -163,62 +245,6 @@ public class SimpleProcessFilter implements Filter {
 		req.setAttribute(ACM_ERRORS, req.getAttribute(ACM_ERRORS));
 		//
 		chain.doFilter(req, res);
-	}
-
-	private static String ACM_ERROR = "ACM_ERROR";
-	private static String ACM_ERRORS = "ACM_ERRORS";
-
-	private void addExceptionMessage(ServletRequest req, Exception ex) {
-		req.setAttribute(ACM_ERROR, ex.getMessage());
-		req.setAttribute(ACM_ERRORS, req.getAttribute(ACM_ERRORS) + ex.getMessage());
-	}
-
-	private void readError(ServletRequest req, InputStream err) {
-		Thread th = new Thread(new ErrorReader(req, err));
-		try {
-			th.start();
-			th.join(WAIT_MILLS);
-		} catch (Exception ex) {
-			context.log("doFilter", ex);
-			addExceptionMessage(req, ex);
-			try {
-				th.interrupt();
-			} catch (Exception e2) {
-
-			}
-		}
-	}
-
-	private class ErrorReader implements Runnable {
-		private ServletRequest req;
-		private InputStream err;
-
-		public ErrorReader(ServletRequest req, InputStream err) {
-			this.err = err;
-			this.req = req;
-		}
-
-		@Override
-		public void run() {
-
-			try {
-				boolean cont = true;
-				BufferedReader reader = new BufferedReader(new InputStreamReader(err));
-				while (cont) {
-					req.setAttribute(ACM_ERRORS, req.getAttribute(ACM_ERRORS) + "<br>\n" + reader.readLine());
-				}
-			} catch (Exception e) {
-				try {
-					context.log("ERROR", e);
-					if (req != null) {
-						req.setAttribute(ACM_ERRORS, req.getAttribute(ACM_ERRORS) + "\n<br>" + e.getMessage());
-					}
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-
-		}
 	}
 
 	/*
@@ -249,6 +275,33 @@ public class SimpleProcessFilter implements Filter {
 			prop.load(in);
 		} catch (IOException iex) {
 			iex.printStackTrace();
+		}
+		String processNames = config.getInitParameter(INIT_PROCESS);
+		if (processNames != null && processNames.trim().length() > 0) {
+			String[] processNameArray = processNames.split(":");
+			for (String processName : processNameArray) {
+				try {
+					createProcess(processName);
+				} catch (IOException e) {
+					context.log("INIT", e);
+				}
+			}
+		}
+	}
+
+	private void readError(ServletRequest req, InputStream err) {
+		Thread th = new Thread(new ErrorReader(req, err));
+		try {
+			th.start();
+			th.join(WAIT_MILLS);
+		} catch (Exception ex) {
+			context.log("doFilter", ex);
+			addExceptionMessage(req, ex);
+			try {
+				th.interrupt();
+			} catch (Exception e2) {
+
+			}
 		}
 	}
 
@@ -301,33 +354,6 @@ public class SimpleProcessFilter implements Filter {
 			addExceptionMessage(req, e);
 		}
 	}
-
-	private class StreamWrapper implements Runnable {
-		private StringBuffer buf;
-		private InputStream in;
-		private byte[] byt;
-
-		public StreamWrapper(InputStream in, byte[] byt, StringBuffer buf) {
-			this.in = in;
-			this.byt = byt;
-			this.buf = buf;
-		}
-
-		@Override
-		public void run() {
-			try {
-				in.read(byt);
-			} catch (IOException e) {
-				context.log("ERROR", e);
-				buf.append("IOException:");
-				buf.append(e.getMessage());
-				buf.append("\n<br>");
-			}
-		}
-
-	}
-
-	public static final int WAIT_MILLS = 1000;
 
 	/**
 	 * set stream value to response
