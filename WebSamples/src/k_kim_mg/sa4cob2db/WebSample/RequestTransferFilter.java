@@ -28,6 +28,7 @@ public class RequestTransferFilter implements Filter {
 			String val = req.getParameter(key);
 			req.setAttribute(key, val);
 		}
+		chain.doFilter(req, res);
 	}
 
 	@Override
