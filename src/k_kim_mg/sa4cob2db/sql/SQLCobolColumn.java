@@ -243,6 +243,9 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		case CobolColumn.TYPE_FLOAT:
 			dst.updateFloat(this, src.getFloat(originalName));
 			break;
+		case CobolColumn.TYPE_DECIMAL:
+			dst.updateBigDecimal(this, src.getBigDecimal(originalName));
+			break;
 		default:
 			SQLNetServer.logger.warning("Unknown Column Type :" + getType());
 		}
