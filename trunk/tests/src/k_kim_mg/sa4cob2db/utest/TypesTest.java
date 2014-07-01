@@ -1,6 +1,9 @@
 package k_kim_mg.sa4cob2db.utest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import k_kim_mg.sa4cob2db.CobolColumn;
 import k_kim_mg.sa4cob2db.CobolRecord;
 import k_kim_mg.sa4cob2db.CobolRecordException;
@@ -277,6 +280,23 @@ public class TypesTest {
 		column.setLength(6);
 		column.setStart(137);
 		column.setType(CobolColumn.TYPE_INTEGER);
+		meta.addColumn(column);
+		// TYPE-DECIMAL
+		column = new DefaultCobolColumn(meta);
+		column.setName("TYPE-DECIMAL");
+		column.setNumberOfDecimal(2);
+		column.setLength(6);
+		column.setStart(143);
+		column.setType(CobolColumn.TYPE_DECIMAL);
+		meta.addColumn(column);
+		// TYPE-DECIMAL
+		column = new DefaultCobolColumn(meta);
+		column.setName("TYPE-DECIMAL2");
+		column.setNumberOfDecimal(2);
+		column.setFormat("000.00");
+		column.setLength(6);
+		column.setStart(149);
+		column.setType(CobolColumn.TYPE_DECIMAL);
 		meta.addColumn(column);
 		// Record
 		record = new DefaultCobolRecord(meta);
@@ -838,6 +858,39 @@ public class TypesTest {
 			column = meta.getColumn("TYPE-COMP-3");
 			record.updateInt(column, i);
 			assertEquals(column.getName() + " failed ", i, record.getInt(column));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+	/**
+	 * DECIMAL
+	 */
+	@Test
+	public void testTYPE_DECIMAL() {
+		CobolColumn column;
+		BigDecimal f = new BigDecimal(345.67d);
+		try {
+			column = meta.getColumn("TYPE-DECIMAL");
+			record.updateBigDecimal(column, f);
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", 0.0d, f.doubleValue(), record.getBigDecimal(column).doubleValue());
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+	/**
+	 * DECIMAL
+	 */
+	@Test
+	public void testTYPE_DECIMAL2() {
+		CobolColumn column;
+		BigDecimal f = new BigDecimal(345.67d);
+		try {
+			column = meta.getColumn("TYPE-DECIMAL2");
+			record.updateBigDecimal(column, f);
+			NumberFormat nf = new DecimalFormat(column.getFormat());
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", nf.format(f), nf.format(record.getBigDecimal(column)));
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());

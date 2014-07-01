@@ -1,16 +1,13 @@
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
-  <title>Directions in Comments</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>Directions in Comments</title>
 </head>
-
 <body>
-This document tells you about of directions in comment.<br>
-cobpp command generates the source code for database access in accordance with
-these directions.<br>
-
-<pre><code>
-000100*AAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCC
+	This document tells you about of directions in comment.
+	<br> cobpp command generates the source code for database access in accordance with these directions.
+	<br>
+	<pre><code>000100*AAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCC
 000400 IDENTIFICATION              DIVISION.
 000500 PROGRAM-ID.                 SEQTEST.
  .....................................................................
@@ -58,207 +55,199 @@ these directions.<br>
 006800         ADD  1              TO  I-COUNTER
 006900     END-IF.
 007000     EXIT.
- .....................................................................</code></pre>
-<hr>
-
-<p>Directions </p>
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Direction</th>
-      <th>Description</th>
-    </tr>
-    <tr>
-      <td><a href="#ACMFILE">ACMFILE</a></td>
-      <td>Declaration of Start of ACMFILE </td>
-    </tr>
-    <tr>
-      <td><a href="#ACMASSIGNNAME">ACMASSIGNNAME</a></td>
-      <td>Redefinition of ACM Assign File Name </td>
-    </tr>
-    <tr>
-      <td><a href="#ACMRECNAME">ACMRECNAME</a></td>
-      <td>Declaration of ACM Record Name </td>
-    </tr>
-    <tr>
-      <td><a href="#ACMCONSTS_FILE">ACMCONSTS_FILE</a></td>
-      <td>Name of file that includes Literals </td>
-    </tr>
-    <tr>
-      <td><a href="#ACMSETLENGTH">ACMSETLENGTH</a></td>
-      <td>Set Max Record length ... </td>
-    </tr>
-    <tr>
-      <td><a href="#ACMAUTO">ACMAUTOCOMMIT</a></td>
-      <td>Declaration of Auto Commit </td>
-    </tr>
-    <tr>
-      <td><a href="#ACMTRANS">ACMTRANSACTION</a></td>
-      <td>Declare ACM Transaction</td>
-    </tr>
-    <tr>
-      <td><a href="#ACMCOMMIT">ACMCOMMIT</a></td>
-      <td>Commit</td>
-    </tr>
-    <tr>
-      <td><a href="#ACMROLLBACK">ACMROLLBACK</a></td>
-      <td>Rollback </td>
-    </tr>
-    <tr>
-      <td><a href="#ACMCOMMENTSTART">ACMCOMMENTSTART</a></td>
-      <td>Declaration of start of Comment</td>
-    </tr>
-    <tr>
-      <td><a href="#ACMCOMMENTEND">ACMCOMMENTEND</a></td>
-      <td>Declaration of end of Comment</td>
-    </tr>
-    <tr>
-      <td><a href="#ACMINSERTSTART">ACMINSERTSTART</a></td>
-      <td>Start of Comment in </td>
-    </tr>
-    <tr>
-      <td><a href="#ACMINSERTEND">ACMINSERTEND</a></td>
-      <td>End of Comment in </td>
-    </tr>
-    <tr>
-      <td><a href="#ACMGETOPTION">ACMGETOPTION</a></td>
-      <td>Get optional value from ... </td>
-    </tr>
-    <tr>
-      <td><a href="#ACMSETOPTION">ACMSETOPTION</a></td>
-      <td>Set optional value to ... </td>
-    </tr>
-  </tbody>
-</table>
-<hr>
-
-<p><a name="ACMFILE">*ACMFILE</a> </p>
-
-<p style="margin-left:2em;">Declaration of Target File that is treated as DB
-table.<br>
-</p>
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Before</th>
-      <th>tcp</th>
-      <th>jni</th>
-    </tr>
-    <tr>
-      <td>When insert this comment, "select" statements are commented out.<br>
-        If all assigned files are commented out, section and file-control line
-        are commented out too.</td>
-      <td><pre><code>000900 INPUT-OUTPUT                SECTION.
+ .....................................................................</code>
+	</pre>
+	<hr>
+	<p>Directions</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<th>Direction</th>
+				<th>Description</th>
+			</tr>
+			<tr>
+				<td><a href="#ACMFILE">ACMFILE</a></td>
+				<td>Declaration of Start of ACMFILE</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMASSIGNNAME">ACMASSIGNNAME</a></td>
+				<td>Redefinition of ACM Assign File Name</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMRECNAME">ACMRECNAME</a></td>
+				<td>Declaration of ACM Record Name</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMCONSTS_FILE">ACMCONSTS_FILE</a></td>
+				<td>Name of file that includes Literals</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMSETLENGTH">ACMSETLENGTH</a></td>
+				<td>Set Max Record length ...</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMAUTO">ACMAUTOCOMMIT</a></td>
+				<td>Declaration of Auto Commit</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMTRANS">ACMTRANSACTION</a></td>
+				<td>Declare ACM Transaction</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMCOMMIT">ACMCOMMIT</a></td>
+				<td>Commit</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMROLLBACK">ACMROLLBACK</a></td>
+				<td>Rollback</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMCOMMENTSTART">ACMCOMMENTSTART</a></td>
+				<td>Declaration of start of Comment</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMCOMMENTEND">ACMCOMMENTEND</a></td>
+				<td>Declaration of end of Comment</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMINSERTSTART">ACMINSERTSTART</a></td>
+				<td>Start of Comment in</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMINSERTEND">ACMINSERTEND</a></td>
+				<td>End of Comment in</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMGETOPTION">ACMGETOPTION</a></td>
+				<td>Get optional value from ...</td>
+			</tr>
+			<tr>
+				<td><a href="#ACMSETOPTION">ACMSETOPTION</a></td>
+				<td>Set optional value to ...</td>
+			</tr>
+		</tbody>
+	</table>
+	<hr>
+	<p>
+		<a name="ACMFILE">*ACMFILE</a>
+	</p>
+	<p style="margin-left: 2em;">
+		Declaration of Target File that is treated as DB table.<br>
+	</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<th>Description</th>
+				<th>Before</th>
+				<th>tcp</th>
+				<th>jni</th>
+			</tr>
+			<tr>
+				<td>When insert this comment, "select" statements are commented out.<br> If all assigned files are commented out, section and file-control line are commented out too.
+				</td>
+				<td><pre><code>000900 INPUT-OUTPUT                SECTION.
 001000 FILE-CONTROL.
 001100*                        
 001200*ACMFILE
 001400     SELECT INP-FILE ASSIGN TO "dbtests"
-001500       ORGANIZATION LINE SEQUENTIAL.</code></pre>
-      </td>
-      <td><pre><code>000090*INPUT-OUTPUT                SECTION.
+001500       ORGANIZATION LINE SEQUENTIAL.</code>
+					</pre></td>
+				<td><pre><code>000090*INPUT-OUTPUT                SECTION.
 000100*FILE-CONTROL.
 000110*                        
 000120*ACMFILE
 000130*    SELECT INP-FILE ASSIGN TO "dbtests"
-000140*      ORGANIZATION LINE SEQUENTIAL.</code></pre>
-      </td>
-      <td><pre><code>000090*INPUT-OUTPUT                SECTION.
+000140*      ORGANIZATION LINE SEQUENTIAL.</code>
+					</pre></td>
+				<td><pre><code>000090*INPUT-OUTPUT                SECTION.
 000100*FILE-CONTROL.
 000110*                        
 000120*ACMFILE
 000130*    SELECT INP-FILE ASSIGN TO "dbtests"
-000140*      ORGANIZATION LINE SEQUENTIAL.</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <td>"FD" is commented out.</td>
-      <td><pre><code>001900 FD  INP-FILE.
-002000 COPY "I_RECORD.cbl".</code></pre>
-      </td>
-      <td><pre><code>000180* FD  INP-FILE.
-000190* COPY "I_RECORD.cbl".</code></pre>
-      </td>
-      <td><pre><code>000180* FD  INP-FILE.
-000190* COPY "I_RECORD.cbl".</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <td>'COPY "ACMCONSTS.CBL"' is added to the top of Working-Storage
-        Section.<br>
-        "ACMCONSTS.CBL" is a file that declares the literal value to be used
-        for DB access.<br>
-        And , The record layouts are added under "ACMCONSTS.CBL". </td>
-      <td><pre><code>002100 WORKING-STORAGE             SECTION.</code></pre>
-      </td>
-      <td><pre><code>000200 WORKING-STORAGE             SECTION.
+000140*      ORGANIZATION LINE SEQUENTIAL.</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<td>"FD" is commented out.</td>
+				<td><pre><code>001900 FD  INP-FILE.
+002000 COPY "I_RECORD.cbl".</code>
+					</pre></td>
+				<td><pre><code>000180* FD  INP-FILE.
+000190* COPY "I_RECORD.cbl".</code>
+					</pre></td>
+				<td><pre><code>000180* FD  INP-FILE.
+000190* COPY "I_RECORD.cbl".</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<td>'COPY "ACMCONSTS.CBL"' is added to the top of Working-Storage Section.<br> "ACMCONSTS.CBL" is a file that declares the literal value to be used for DB access.<br> And , The record layouts are added under "ACMCONSTS.CBL".
+				</td>
+				<td><pre><code>002100 WORKING-STORAGE             SECTION.</code>
+					</pre></td>
+				<td><pre><code>000200 WORKING-STORAGE             SECTION.
 000210*ACM Generated Contraints
 000220 COPY "ACMCONSTS.CBL".
 000230*ACM Genrated File Record
-000240 COPY "I_RECORD.cbl".</code></pre>
-      </td>
-      <td><pre><code>000200 WORKING-STORAGE             SECTION.
+000240 COPY "I_RECORD.cbl".</code>
+					</pre></td>
+				<td><pre><code>000200 WORKING-STORAGE             SECTION.
 000210*ACM Generated Contraints
 000220 COPY "ACMCONSTS.CBL".
 000230*ACM Genrated File Record
-000240 COPY "I_RECORD.cbl".</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <td>After "Procedure Division", Initialize Process and File assignment
-        are added.</td>
-      <td><pre><code>002800 PROCEDURE                   DIVISION.
+000240 COPY "I_RECORD.cbl".</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<td>After "Procedure Division", Initialize Process and File assignment are added.</td>
+				<td><pre><code>002800 PROCEDURE                   DIVISION.
 002900*              
-003000 MAIN                        SECTION.</code></pre>
-      </td>
-      <td><pre><code>000310 PROCEDURE                   DIVISION.
+003000 MAIN                        SECTION.</code>
+					</pre></td>
+				<td><pre><code>000310 PROCEDURE                   DIVISION.
 000320*              
 000330 MAIN                        SECTION.
 000340     CALL "libACMClient".
 000350     CALL "initializeACMSessionEnv" USING ACM-STATUS-ALL.
 000360     MOVE "dbtests" TO ACM-FILE-IDENT.
-000370     CALL "assignACMFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.</code></pre>
-      </td>
-      <td><pre><code>000310 PROCEDURE                   DIVISION.
+000370     CALL "assignACMFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.</code>
+					</pre></td>
+				<td><pre><code>000310 PROCEDURE                   DIVISION.
 000320*              
 000330 MAIN                        SECTION.
 000340     CALL "libJNIClient".
 000350     CALL "initializeJNISessionEnv" USING ACM-STATUS-ALL.
 000360     MOVE "dbtests" TO ACM-FILE-IDENT.
-000370     CALL "assignJNIFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <td rowspan="7">Commands to access file that is specified in the ACMFILE
-        comments are converted to each "callXXX" statements.<br>
-        (OPEN, START, READ, WRITE, REWRITE, DELETE, CLOSE)</td>
-      <td><pre><code>005900     OPEN   INPUT  INP-FILE.</code></pre>
-      </td>
-      <td><pre><code>000810*    OPEN   INPUT  INP-FILE.
+000370     CALL "assignJNIFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<td rowspan="7">Commands to access file that is specified in the ACMFILE comments are converted to each "callXXX" statements.<br> (OPEN, START, READ, WRITE, REWRITE, DELETE, CLOSE)
+				</td>
+				<td><pre><code>005900     OPEN   INPUT  INP-FILE.</code>
+					</pre></td>
+				<td><pre><code>000810*    OPEN   INPUT  INP-FILE.
 000820     MOVE "dbtests" TO ACM-FILE-IDENT.
 000830     CALL "openACMFile"   USING ACM-FILE-IDENT
 000840                                ACM-OPENMODE-INPUT
 000850                                ACM-ACCESSMODE-SEQ
-000860                                ACM-STATUS-ALL.</code></pre>
-      </td>
-      <td><pre><code>000810*    OPEN   INPUT  INP-FILE.
+000860                                ACM-STATUS-ALL.</code>
+					</pre></td>
+				<td><pre><code>000810*    OPEN   INPUT  INP-FILE.
 000820     MOVE "dbtests" TO ACM-FILE-IDENT.
 000830     CALL "openJNIFile"   USING ACM-FILE-IDENT
 000840                                ACM-OPENMODE-INPUT
 000850                                ACM-ACCESSMODE-SEQ
-000860                                ACM-STATUS-ALL.</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <!-- <td></td> -->
-      <td><pre><code>005100     START INP-FILE
+000860                                ACM-STATUS-ALL.</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<!-- <td></td> -->
+				<td><pre><code>005100     START INP-FILE
 005200       KEY IS = I-ID
 005300     INVALID KEY MOVE 10001   TO  I-COUNTER
-005400     END-START.</code></pre>
-      </td>
-      <td><pre><code>000680     MOVE "dbtests" TO ACM-FILE-IDENT.
+005400     END-START.</code>
+					</pre></td>
+				<td><pre><code>000680     MOVE "dbtests" TO ACM-FILE-IDENT.
 000690     MOVE   IS-EQUAL-TO   TO ACM-START-MODE.
 000700     MOVE I-RECORD TO ACM-RECORD.
 000710     MOVE  "I-ID"  TO  ACM-INDEX-NAME.
@@ -269,9 +258,9 @@ table.<br>
 000760                                ACM-STATUS-ALL.
 000770     IF ACM-STATUS-CODE = "23"
 000780         MOVE 10001   TO  I-COUNTER
-000790     END-IF.</code></pre>
-      </td>
-      <td><pre><code>000680     MOVE "dbtests" TO ACM-FILE-IDENT.
+000790     END-IF.</code>
+					</pre></td>
+				<td><pre><code>000680     MOVE "dbtests" TO ACM-FILE-IDENT.
 000690     MOVE   IS-EQUAL-TO   TO ACM-START-MODE.
 000700     MOVE I-RECORD TO ACM-RECORD.
 000710     MOVE  "I-ID"  TO  ACM-INDEX-NAME.
@@ -282,16 +271,16 @@ table.<br>
 000760                                ACM-STATUS-ALL.
 000770     IF ACM-STATUS-CODE = "23"
 000780         MOVE 10001   TO  I-COUNTER
-000790     END-IF.</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <!-- <td></td> -->
-      <td><pre><code>006300     READ INP-FILE NEXT
+000790     END-IF.</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<!-- <td></td> -->
+				<td><pre><code>006300     READ INP-FILE NEXT
 006400       AT END  MOVE 1 TO END-FLG
-006500     END-READ.</code></pre>
-      </td>
-      <td><pre><code>000930     MOVE "dbtests" TO ACM-FILE-IDENT.
+006500     END-READ.</code>
+					</pre></td>
+				<td><pre><code>000930     MOVE "dbtests" TO ACM-FILE-IDENT.
 000940     CALL "readNextACMRecord" USING 
 000950                                ACM-FILE-IDENT
 000960                                ACM-RECORD
@@ -301,9 +290,9 @@ table.<br>
 001000     END-IF.
 001010     IF ACM-STATUS-CODE = "10"
 001020         MOVE 1 TO END-FLG
-001030     END-IF.</code></pre>
-      </td>
-      <td><pre><code>000930     MOVE "dbtests" TO ACM-FILE-IDENT.
+001030     END-IF.</code>
+					</pre></td>
+				<td><pre><code>000930     MOVE "dbtests" TO ACM-FILE-IDENT.
 000940     CALL "readNextJNIRecord" USING 
 000950                                ACM-FILE-IDENT
 000960                                ACM-RECORD
@@ -313,19 +302,19 @@ table.<br>
 001000     END-IF.
 001010     IF ACM-STATUS-CODE = "10"
 001020         MOVE 1 TO END-FLG
-001030     END-IF.</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <!-- <td></td> -->
-      <td><pre><code>010500     WRITE I-RECORD
+001030     END-IF.</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<!-- <td></td> -->
+				<td><pre><code>010500     WRITE I-RECORD
 010600     INVALID KEY
 010700         MOVE  1  TO  END-FLG
 010800     NOT INVALID KEY
 010900         INITIALIZE   SCR-RECORD
-011000     END-WRITE.</code></pre>
-      </td>
-      <td><pre><code>001220     MOVE "dbtests2" TO ACM-FILE-IDENT.
+011000     END-WRITE.</code>
+					</pre></td>
+				<td><pre><code>001220     MOVE "dbtests2" TO ACM-FILE-IDENT.
 001230     MOVE I-RECORD TO ACM-RECORD
 001240     CALL "writeACMRecord" USING ACM-FILE-IDENT
 001250                                 ACM-RECORD
@@ -334,9 +323,9 @@ table.<br>
 001280         MOVE  1  TO  END-FLG
 001290     ELSE
 001300         INITIALIZE   SCR-RECORD
-001310     END-IF.</code></pre>
-      </td>
-      <td><pre><code>001220     MOVE "dbtests2" TO ACM-FILE-IDENT.
+001310     END-IF.</code>
+					</pre></td>
+				<td><pre><code>001220     MOVE "dbtests2" TO ACM-FILE-IDENT.
 001230     MOVE I-RECORD TO ACM-RECORD
 001240     CALL "writeJNIRecord" USING ACM-FILE-IDENT
 001250                                 ACM-RECORD
@@ -345,19 +334,19 @@ table.<br>
 001280         MOVE  1  TO  END-FLG
 001290     ELSE
 001300         INITIALIZE   SCR-RECORD
-001310     END-IF.</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <!-- <td></td> -->
-      <td><pre><code>011600     REWRITE I-RECORD
+001310     END-IF.</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<!-- <td></td> -->
+				<td><pre><code>011600     REWRITE I-RECORD
 011700     INVALID  KEY
 011800         MOVE  1  TO  END-FLG
 011900     NOT INVALID KEY
 012000         INITIALIZE   SCR-RECORD
-012100     END-REWRITE.</code></pre>
-      </td>
-      <td><pre><code>001440     MOVE "dbtests2" TO ACM-FILE-IDENT.
+012100     END-REWRITE.</code>
+					</pre></td>
+				<td><pre><code>001440     MOVE "dbtests2" TO ACM-FILE-IDENT.
 001450     MOVE I-RECORD TO ACM-RECORD
 001460     CALL "rewriteACMRecord" USING ACM-FILE-IDENT
 001470                                   ACM-RECORD
@@ -366,9 +355,9 @@ table.<br>
 001500         MOVE  1  TO  END-FLG
 001510     ELSE
 001520         INITIALIZE   SCR-RECORD
-001530     END-IF.</code></pre>
-      </td>
-      <td><pre><code>001440     MOVE "dbtests2" TO ACM-FILE-IDENT.
+001530     END-IF.</code>
+					</pre></td>
+				<td><pre><code>001440     MOVE "dbtests2" TO ACM-FILE-IDENT.
 001450     MOVE I-RECORD TO ACM-RECORD
 001460     CALL "rewriteJNIRecord" USING ACM-FILE-IDENT
 001470                                   ACM-RECORD
@@ -377,19 +366,19 @@ table.<br>
 001500         MOVE  1  TO  END-FLG
 001510     ELSE
 001520         INITIALIZE   SCR-RECORD
-001530     END-IF.</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <!-- <td></td> -->
-      <td><pre><code>012700     DELETE INP-FILE
+001530     END-IF.</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<!-- <td></td> -->
+				<td><pre><code>012700     DELETE INP-FILE
 012800     INVALID  KEY
 012900         MOVE  1  TO  END-FLG
 013000     NOT INVALID KEY
 013100         INITIALIZE   SCR-RECORD
-013200     END-DELETE.</code></pre>
-      </td>
-      <td><pre><code>001660     MOVE "dbtests2" TO ACM-FILE-IDENT.
+013200     END-DELETE.</code>
+					</pre></td>
+				<td><pre><code>001660     MOVE "dbtests2" TO ACM-FILE-IDENT.
 001670     MOVE I-RECORD TO ACM-RECORD
 001680     CALL "deleteACMRecord" USING ACM-FILE-IDENT
 001690                                  ACM-RECORD
@@ -398,9 +387,9 @@ table.<br>
 001720         MOVE  1  TO  END-FLG
 001730     ELSE
 001740         INITIALIZE   SCR-RECORD
-001750     END-IF.</code></pre>
-      </td>
-      <td><pre><code>001660     MOVE "dbtests2" TO ACM-FILE-IDENT.
+001750     END-IF.</code>
+					</pre></td>
+				<td><pre><code>001660     MOVE "dbtests2" TO ACM-FILE-IDENT.
 001670     MOVE I-RECORD TO ACM-RECORD
 001680     CALL "deleteJNIRecord" USING ACM-FILE-IDENT
 001690                                  ACM-RECORD
@@ -409,107 +398,102 @@ table.<br>
 001720         MOVE  1  TO  END-FLG
 001730     ELSE
 001740         INITIALIZE   SCR-RECORD
-001750     END-IF.</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <!-- <td></td> -->
-      <td><pre><code>007800     CLOSE  INP-FILE.</code></pre>
-      </td>
-      <td><pre><code>001170     MOVE "dbtests" TO ACM-FILE-IDENT.
-001180     CALL "closeACMFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.</code></pre>
-      </td>
-      <td><pre><code>001170     MOVE "dbtests" TO ACM-FILE-IDENT.
-001180     CALL "closeJNIFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <td>Before 'STOP RUN.' terminate is inserted.</td>
-      <td><pre><code>005200     STOP RUN.</code></pre>
-      </td>
-      <td><pre><code>000730     CALL  "terminateACMSession" USING ACM-STATUS-ALL.
-000740     STOP RUN.</code></pre>
-      </td>
-      <td><pre><code>000730     CALL  "terminateJNISession" USING ACM-STATUS-ALL.
-000740     STOP RUN.</code></pre>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<p></p>
-
-<p><a name="ACMASSIGNNAME">*ACMASSIGNNAME</a> </p>
-
-<p style="margin-left:2em;"><a name="ACMASSIGNNAME1" id="ACMASSIGNNAME1"></a><a
-name="ACMRECNAME" id="ACMRECNAME">File name that is used to replace the name
-that is specified in the select statement.</a></p>
-
-<p><a name="ACMRECNAME2" id="ACMRECNAME2">*ACMRECNAME</a></p>
-
-<p style="margin-left:2em;"><a name="ACMRECNAME1" id="ACMRECNAME1"></a>Record
-(or 01 level field) name.<br>
-</p>
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Before</th>
-      <th>tcp</th>
-      <th>jni</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td><pre><code>001100*                        
+001750     END-IF.</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<!-- <td></td> -->
+				<td><pre><code>007800     CLOSE  INP-FILE.</code>
+					</pre></td>
+				<td><pre><code>001170     MOVE "dbtests" TO ACM-FILE-IDENT.
+001180     CALL "closeACMFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.</code>
+					</pre></td>
+				<td><pre><code>001170     MOVE "dbtests" TO ACM-FILE-IDENT.
+001180     CALL "closeJNIFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<td>Before 'STOP RUN.' terminate is inserted.</td>
+				<td><pre><code>005200     STOP RUN.</code>
+					</pre></td>
+				<td><pre><code>000730     CALL  "terminateACMSession" USING ACM-STATUS-ALL.
+000740     STOP RUN.</code>
+					</pre></td>
+				<td><pre><code>000730     CALL  "terminateJNISession" USING ACM-STATUS-ALL.
+000740     STOP RUN.</code>
+					</pre></td>
+			</tr>
+		</tbody>
+	</table>
+	<p></p>
+	<p>
+		<a name="ACMASSIGNNAME">*ACMASSIGNNAME</a>
+	</p>
+	<p style="margin-left: 2em;">
+		<a name="ACMASSIGNNAME1" id="ACMASSIGNNAME1"></a><a name="ACMRECNAME" id="ACMRECNAME">File name that is used to replace the name that is specified in the select statement.</a>
+	</p>
+	<p>
+		<a name="ACMRECNAME2" id="ACMRECNAME2">*ACMRECNAME</a>
+	</p>
+	<p style="margin-left: 2em;">
+		<a name="ACMRECNAME1" id="ACMRECNAME1"></a>Record (or 01 level field) name.<br>
+	</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<th>Description</th>
+				<th>Before</th>
+				<th>tcp</th>
+				<th>jni</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td><pre><code>001100*                        
 001200*ACMFILE
 001250*ACMASSIGNNAME=dbtests
 001300*ACMRECNAME=I-RECORD
 001400     SELECT INP-FILE ASSIGN TO "noname"
-001500       ORGANIZATION LINE SEQUENTIAL.</code></pre>
-      </td>
-      <td><pre><code>000120*ACMFILE
+001500       ORGANIZATION LINE SEQUENTIAL.</code>
+					</pre></td>
+				<td><pre><code>000120*ACMFILE
 000130*    SELECT INP-FILE ASSIGN TO "noname"
-000140*      ORGANIZATION LINE SEQUENTIAL.</code></pre>
-      </td>
-      <td><pre><code>000120*ACMFILE
+000140*      ORGANIZATION LINE SEQUENTIAL.</code>
+					</pre></td>
+				<td><pre><code>000120*ACMFILE
 000130*    SELECT INP-FILE ASSIGN TO "noname"
-000140*      ORGANIZATION LINE SEQUENTIAL.</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <td>File name is "noname" in select statement, but "dbtests" that is
-        specified by ACMASSIGNNAME comment is used by assign. </td>
-      <td><pre><code>002800 PROCEDURE DIVISION.
+000140*      ORGANIZATION LINE SEQUENTIAL.</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<td>File name is "noname" in select statement, but "dbtests" that is specified by ACMASSIGNNAME comment is used by assign.</td>
+				<td><pre><code>002800 PROCEDURE DIVISION.
 002900*              
-003000 MAIN      SECTION.</code></pre>
-      </td>
-      <td><pre><code>000310 PROCEDURE                   DIVISION.
+003000 MAIN      SECTION.</code>
+					</pre></td>
+				<td><pre><code>000310 PROCEDURE                   DIVISION.
 000320*              
 000330 MAIN                        SECTION.
 000340     CALL "libACMClient".
 000350     CALL "initializeSessionEnv" USING ACM-STATUS-ALL.
 000360     MOVE "dbtests" TO ACM-FILE-IDENT.
-000370     CALL "assignACMFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.</code></pre>
-      </td>
-      <td><pre><code>000310 PROCEDURE                   DIVISION.
+000370     CALL "assignACMFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.</code>
+					</pre></td>
+				<td><pre><code>000310 PROCEDURE                   DIVISION.
 000320*              
 000330 MAIN                        SECTION.
 000340     CALL "libJNIClient".
 000350     CALL "initializeJNISessionEnv" USING ACM-STATUS-ALL.
 000360     MOVE "dbtests" TO ACM-FILE-IDENT.
-000370     CALL "assignJNIFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <td><p>Record is moved to the area specified in the ACMRECNAME
-        comments.</p>
-      </td>
-      <td><pre><code>006300     READ INP-FILE NEXT
+000370     CALL "assignJNIFile" USING ACM-FILE-IDENT ACM-STATUS-ALL.</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<td><p>Record is moved to the area specified in the ACMRECNAME comments.</p></td>
+				<td><pre><code>006300     READ INP-FILE NEXT
 006400       AT END  MOVE 1 TO END-FLG
-006500     END-READ.</code></pre>
-      </td>
-      <td><pre><code>000930 INP-READ                    SECTION.
+006500     END-READ.</code>
+					</pre></td>
+				<td><pre><code>000930 INP-READ                    SECTION.
 000940*    READ INP-FILE NEXT
 000950*      AT END  MOVE 1 TO END-FLG
 000960*    END-READ.
@@ -523,9 +507,9 @@ that is specified in the select statement.</a></p>
 001040     END-IF.
 001050     IF ACM-STATUS-CODE = "10"
 001060         MOVE 1 TO END-FLG
-001070     END-IF.</code></pre>
-      </td>
-      <td><pre><code>000900 INP-READ                    SECTION.
+001070     END-IF.</code>
+					</pre></td>
+				<td><pre><code>000900 INP-READ                    SECTION.
 000910*    READ INP-FILE NEXT
 000920*      AT END  MOVE 1 TO END-FLG
 000930*    END-READ.
@@ -539,299 +523,281 @@ that is specified in the select statement.</a></p>
 001010     END-IF.
 001020     IF ACM-STATUS-CODE = "10"
 001030         MOVE 1 TO END-FLG
-001040     END-IF.</code></pre>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<a name="ACMSETLENGTH">*ACMSETLENGTH</a> 
-
-<p style="margin-left:2em;"><a name="ACMSETLENGTH1" id="ACMSETLENGTH1">This
-direction specifies the maximum length of records to be used in the
-program.</a><br>
-</p>
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Before</th>
-      <th>tcp</th>
-      <th>jni</th>
-    </tr>
-    <tr>
-      <td>The maximum length of the record is limited to 30bytes.</td>
-      <td><pre><code>003050*ACMSETLENGTH 30.</code></pre>
-      </td>
-      <td><pre><code>000380     MOVE "30" TO ACM-OPTION-VALUE.
+001040     END-IF.</code>
+					</pre></td>
+			</tr>
+		</tbody>
+	</table>
+	<a name="ACMSETLENGTH">*ACMSETLENGTH</a>
+	<p style="margin-left: 2em;">
+		<a name="ACMSETLENGTH1" id="ACMSETLENGTH1">This direction specifies the maximum length of records to be used in the program.</a><br>
+	</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<th>Description</th>
+				<th>Before</th>
+				<th>tcp</th>
+				<th>jni</th>
+			</tr>
+			<tr>
+				<td>The maximum length of the record is limited to 30bytes.</td>
+				<td><pre><code>003050*ACMSETLENGTH 30.</code>
+					</pre></td>
+				<td><pre><code>000380     MOVE "30" TO ACM-OPTION-VALUE.
 000390     CALL "setACMMaxLength" USING ACM-OPTION-VALUE
-000400                                    ACM-STATUS-ALL.</code></pre>
-      </td>
-      <td><pre><code>000380     MOVE "30" TO ACM-OPTION-VALUE.
+000400                                    ACM-STATUS-ALL.</code>
+					</pre></td>
+				<td><pre><code>000380     MOVE "30" TO ACM-OPTION-VALUE.
 000390     CALL "setJNIMaxLength" USING ACM-OPTION-VALUE
-000400                                    ACM-STATUS-ALL.</code></pre>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<a name="ACMAUTO">*ACMAUTOCOMMIT</a> 
-
-<p style="margin-left:2em;">This direction sets Auto Commit mode.(see
-java.sql.Connection.setAutoCommit(boolean))</p>
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Before</th>
-      <th>tcp</th>
-      <th>jni</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td><pre><code>005600*ACMAUTOCOMMIT=false</code></pre>
-      </td>
-      <td><pre><code>000660     MOVE "false" TO ACM-OPTION
+000400                                    ACM-STATUS-ALL.</code>
+					</pre></td>
+			</tr>
+		</tbody>
+	</table>
+	<a name="ACMAUTO">*ACMAUTOCOMMIT</a>
+	<p style="margin-left: 2em;">This direction sets Auto Commit mode.(see java.sql.Connection.setAutoCommit(boolean))</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<th>Description</th>
+				<th>Before</th>
+				<th>tcp</th>
+				<th>jni</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td><pre><code>005600*ACMAUTOCOMMIT=false</code>
+					</pre></td>
+				<td><pre><code>000660     MOVE "false" TO ACM-OPTION
 000670     CALL "setTCPCommitMode" USING ACM-OPTION
-000680                                     ACM-STATUS-ALL</code></pre>
-      </td>
-      <td><pre><code>000660     MOVE "false" TO ACM-OPTION
+000680                                     ACM-STATUS-ALL</code>
+					</pre></td>
+				<td><pre><code>000660     MOVE "false" TO ACM-OPTION
 000670     CALL "setJNICommitMode" USING ACM-OPTION
-000680                                     ACM-STATUS-ALL</code></pre>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<a name="ACMTRANS">*ACMTRANS</a> 
-
-<p style="margin-left:2em;">This direction sets Transaction isoration
-level.(see java.sql.Connection.setTransactionIsolation(int))</p>
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Before</th>
-      <th>tcp</th>
-      <th>jni</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td><pre><code>005500*ACMTRANSACTION=TRANSACTION_READ_COMMITTED</code></pre>
-      </td>
-      <td><pre><code>000630     MOVE "TRANSACTION_READ_COMMITTED" TO ACM-OPTION
+000680                                     ACM-STATUS-ALL</code>
+					</pre></td>
+			</tr>
+		</tbody>
+	</table>
+	<a name="ACMTRANS">*ACMTRANS</a>
+	<p style="margin-left: 2em;">This direction sets Transaction isoration level.(see java.sql.Connection.setTransactionIsolation(int))</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<th>Description</th>
+				<th>Before</th>
+				<th>tcp</th>
+				<th>jni</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td><pre><code>005500*ACMTRANSACTION=TRANSACTION_READ_COMMITTED</code>
+					</pre></td>
+				<td><pre><code>000630     MOVE "TRANSACTION_READ_COMMITTED" TO ACM-OPTION
 000640     CALL "setTCPTransMode" USING ACM-OPTION
-000650                                    ACM-STATUS-ALL</code></pre>
-      </td>
-      <td><pre><code>000630     MOVE "TRANSACTION_READ_COMMITTED" TO ACM-OPTION
+000650                                    ACM-STATUS-ALL</code>
+					</pre></td>
+				<td><pre><code>000630     MOVE "TRANSACTION_READ_COMMITTED" TO ACM-OPTION
 000640     CALL "setJNITransMode" USING ACM-OPTION
-000650                                    ACM-STATUS-ALL</code></pre>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<a name="ACMCOMMIT">*ACMCOMMIT</a> 
-
-<p style="margin-left:2em;"><a name="ACMCOMMIT1" id="ACMCOMMIT1"></a>This
-direction calls commit.(see java.sql.Connection.commit())<br>
-</p>
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Before</th>
-      <th>tcp</th>
-      <th>jni</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td><pre><code>010100*ACMCOMMIT</code></pre>
-      </td>
-      <td><pre><code>001240     CALL "commitACMSession" USING ACM-STATUS-ALL</code></pre>
-      </td>
-      <td><pre><code>001240     CALL "commitJNISession" USING ACM-STATUS-ALL</code></pre>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<a name="ACMROLLBACK">*ACMROLLBACK</a> 
-
-<p style="margin-left:2em;"><a name="ACMROLLBACK1" id="ACMROLLBACK1">This
-direction calls rollback.(see java.sql.Connection.rollback())</a><br>
-</p>
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Before</th>
-      <th>tcp</th>
-      <th>jni</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td><pre><code>010500*ACMROLLBACK</code></pre>
-      </td>
-      <td><pre><code>001280     CALL "rollbackACMSession" USING ACM-STATUS-ALL</code></pre>
-      </td>
-      <td><pre><code>001280     CALL "rollbackJNISession" USING ACM-STATUS-ALL</code></pre>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<p><a name="ACMCOMMENTSTART" id="ACMCOMMENTSTART">*ACMCOMMENTSTART</a> </p>
-
-<p><a name="ACMCOMMENTEND" id="ACMCOMMENTEND">*ACMCOMMENTEND</a></p>
-
-<p style="margin-left:2em;"><a name="ACMCOMMENTEND1" id="ACMCOMMENTEND1">The
-source lines between ACMCOMMENTSTART and </a>ACMCOMMENTEND are commeted out.<br>
-</p>
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Before</th>
-      <th>tcp/jni</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td><pre><code>004100*ACMCOMMENTSTART
+000650                                    ACM-STATUS-ALL</code>
+					</pre></td>
+			</tr>
+		</tbody>
+	</table>
+	<a name="ACMCOMMIT">*ACMCOMMIT</a>
+	<p style="margin-left: 2em;">
+		<a name="ACMCOMMIT1" id="ACMCOMMIT1"></a>This direction calls commit.(see java.sql.Connection.commit())<br>
+	</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<th>Description</th>
+				<th>Before</th>
+				<th>tcp</th>
+				<th>jni</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td><pre><code>010100*ACMCOMMIT</code>
+					</pre></td>
+				<td><pre><code>001240     CALL "commitACMSession" USING ACM-STATUS-ALL</code>
+					</pre></td>
+				<td><pre><code>001240     CALL "commitJNISession" USING ACM-STATUS-ALL</code>
+					</pre></td>
+			</tr>
+		</tbody>
+	</table>
+	<a name="ACMROLLBACK">*ACMROLLBACK</a>
+	<p style="margin-left: 2em;">
+		<a name="ACMROLLBACK1" id="ACMROLLBACK1">This direction calls rollback.(see java.sql.Connection.rollback())</a><br>
+	</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<th>Description</th>
+				<th>Before</th>
+				<th>tcp</th>
+				<th>jni</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td><pre><code>010500*ACMROLLBACK</code>
+					</pre></td>
+				<td><pre><code>001280     CALL "rollbackACMSession" USING ACM-STATUS-ALL</code>
+					</pre></td>
+				<td><pre><code>001280     CALL "rollbackJNISession" USING ACM-STATUS-ALL</code>
+					</pre></td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		<a name="ACMCOMMENTSTART" id="ACMCOMMENTSTART">*ACMCOMMENTSTART</a>
+	</p>
+	<p>
+		<a name="ACMCOMMENTEND" id="ACMCOMMENTEND">*ACMCOMMENTEND</a>
+	</p>
+	<p style="margin-left: 2em;">
+		<a name="ACMCOMMENTEND1" id="ACMCOMMENTEND1">The source lines between ACMCOMMENTSTART and </a>ACMCOMMENTEND are commeted out.<br>
+	</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<th>Description</th>
+				<th>Before</th>
+				<th>tcp/jni</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td><pre><code>004100*ACMCOMMENTSTART
 004200        DISPLAY   DSP-RECORD2
 004300        ACCEPT    DSP-RECORD1
-004400*ACMCOMMENTEND</code></pre>
-      </td>
-      <td><pre><code>000460*       DISPLAY   DSP-RECORD2
-000470*       ACCEPT    DSP-RECORD1</code></pre>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<a name="ACMINSERTSTART">*ACMINSERTSTART</a><br>
-<a name="ACMINSERTEND">*ACMINSERTEND</a> 
-
-<p style="margin-left:2em;"><a name="ACMINSERTEND1" id="ACMINSERTEND1">The
-comment lines between ACMINSERTSTART and ACMINSERTEND are uncommeted.</a><br>
-</p>
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Before</th>
-      <th>tcp/jni</th>
-    </tr>
-    <tr>
-      <td></td>
-      <td><pre><code>004500*ACMINSERTSTART
+004400*ACMCOMMENTEND</code>
+					</pre></td>
+				<td><pre><code>000460*       DISPLAY   DSP-RECORD2
+000470*       ACCEPT    DSP-RECORD1</code>
+					</pre></td>
+			</tr>
+		</tbody>
+	</table>
+	<a name="ACMINSERTSTART">*ACMINSERTSTART</a>
+	<br>
+	<a name="ACMINSERTEND">*ACMINSERTEND</a>
+	<p style="margin-left: 2em;">
+		<a name="ACMINSERTEND1" id="ACMINSERTEND1">The comment lines between ACMINSERTSTART and ACMINSERTEND are uncommeted.</a><br>
+	</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<th>Description</th>
+				<th>Before</th>
+				<th>tcp/jni</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td><pre><code>004500*ACMINSERTSTART
 004600*       ACCEPT    SCR-RECORD
-004700*ACMINSERTEND</code></pre>
-      </td>
-      <td><pre><code>000480        ACCEPT    SCR-RECORD</code></pre>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<a name="ACMGETOPTION">*ACMGETOPTION</a>
-
-<p style="margin-left:2em;"><a name="ACMGETOPTION1" id="ACMGETOPTION1">Option
-values is transferred to the area.</a><br>
-</p>
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Before</th>
-      <th>tcp</th>
-      <th>jni</th>
-    </tr>
-    <tr>
-      <td>Option values is transferred to the area.</td>
-      <td><pre><code>004600*ACMGETOPTION NAME="TEST" TO=OPTIONVALUE.</code></pre>
-      </td>
-      <td><pre><code>000480     MOVE "TEST" TO ACM-OPTION-NAME.
+004700*ACMINSERTEND</code>
+					</pre></td>
+				<td><pre><code>000480        ACCEPT    SCR-RECORD</code>
+					</pre></td>
+			</tr>
+		</tbody>
+	</table>
+	<a name="ACMGETOPTION">*ACMGETOPTION</a>
+	<p style="margin-left: 2em;">
+		<a name="ACMGETOPTION1" id="ACMGETOPTION1">Option values is transferred to the area.</a><br>
+	</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<th>Description</th>
+				<th>Before</th>
+				<th>tcp</th>
+				<th>jni</th>
+			</tr>
+			<tr>
+				<td>Option values is transferred to the area.</td>
+				<td><pre><code>004600*ACMGETOPTION NAME="TEST" TO=OPTIONVALUE.</code>
+					</pre></td>
+				<td><pre><code>000480     MOVE "TEST" TO ACM-OPTION-NAME.
 000490     CALL "getACMOption" USING ACM-OPTION-NAME
 000500                                 ACM-OPTION-VALUE
 000510                                 ACM-STATUS-ALL.
-000520     MOVE ACM-OPTION-VALUE TO OPTIONVALUE.</code></pre>
-      </td>
-      <td><pre><code>000480     MOVE "TEST" TO ACM-OPTION-NAME.
+000520     MOVE ACM-OPTION-VALUE TO OPTIONVALUE.</code>
+					</pre></td>
+				<td><pre><code>000480     MOVE "TEST" TO ACM-OPTION-NAME.
 000490     CALL "getJNIOption" USING ACM-OPTION-NAME
 000500                                 ACM-STATUS-ALL.
-000510     MOVE ACM-OPTION-VALUE TO OPTIONVALUE.</code></pre>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<a name="ACMSETOPTION">*ACMSETOPTION</a>
-
-<p style="margin-left:2em;"><a name="ACMSETOPTION1" id="ACMSETOPTION1">Option
-values is transferred from the area/literal/enviroment value.</a><br>
-</p>
-
-<table border="1">
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Before</th>
-      <th>tcp</th>
-      <th>jni</th>
-    </tr>
-    <tr>
-      <td>Option values is transferred from the area.</td>
-      <td><pre><code>004400*ACMSETOPTION NAME="TEST" FROM=OPTIONVALUE.</code></pre>
-      </td>
-      <td><pre><code>000420     MOVE "TEST" TO ACM-OPTION-NAME.
+000510     MOVE ACM-OPTION-VALUE TO OPTIONVALUE.</code>
+					</pre></td>
+			</tr>
+		</tbody>
+	</table>
+	<a name="ACMSETOPTION">*ACMSETOPTION</a>
+	<p style="margin-left: 2em;">
+		<a name="ACMSETOPTION1" id="ACMSETOPTION1">Option values is transferred from the area/literal/enviroment value.</a><br>
+	</p>
+	<table border="1">
+		<tbody>
+			<tr>
+				<th>Description</th>
+				<th>Before</th>
+				<th>tcp</th>
+				<th>jni</th>
+			</tr>
+			<tr>
+				<td>Option values is transferred from the area.</td>
+				<td><pre><code>004400*ACMSETOPTION NAME="TEST" FROM=OPTIONVALUE.</code>
+					</pre></td>
+				<td><pre><code>000420     MOVE "TEST" TO ACM-OPTION-NAME.
 000430     MOVE OPTIONVALUE TO ACM-OPTION-VALUE.
 000440     CALL "setACMOption" USING ACM-OPTION-NAME
 000450                                 ACM-OPTION-VALUE
-000460                                 ACM-STATUS-ALL.</code></pre>
-      </td>
-      <td><pre><code>000420     MOVE "TEST" TO ACM-OPTION-NAME.
+000460                                 ACM-STATUS-ALL.</code>
+					</pre></td>
+				<td><pre><code>000420     MOVE "TEST" TO ACM-OPTION-NAME.
 000430     MOVE OPTIONVALUE TO ACM-OPTION-VALUE.
 000440     CALL "setJNIOption" USING ACM-OPTION-NAME
 000450                                 ACM-OPTION-VALUE
-000460                                 ACM-STATUS-ALL.</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <td>Option values is transferred from the literal.</td>
-      <td><pre><code>004800*ACMSETOPTION NAME="TEST" VALUE="TSET".</code></pre>
-      </td>
-      <td><pre><code>000540     MOVE "TEST" TO ACM-OPTION-NAME.
+000460                                 ACM-STATUS-ALL.</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<td>Option values is transferred from the literal.</td>
+				<td><pre><code>004800*ACMSETOPTION NAME="TEST" VALUE="TSET".</code>
+					</pre></td>
+				<td><pre><code>000540     MOVE "TEST" TO ACM-OPTION-NAME.
 000550     MOVE "TSET" TO ACM-OPTION-VALUE.
 000560     CALL "setACMOption" USING ACM-OPTION-NAME
 000570                                 ACM-OPTION-VALUE
-000580                                 ACM-STATUS-ALL.</code></pre>
-      </td>
-      <td><pre><code>000530     MOVE "TEST" TO ACM-OPTION-NAME.
+000580                                 ACM-STATUS-ALL.</code>
+					</pre></td>
+				<td><pre><code>000530     MOVE "TEST" TO ACM-OPTION-NAME.
 000540     MOVE "TSET" TO ACM-OPTION-VALUE.
 000550     CALL "setJNIOption" USING ACM-OPTION-NAME
 000560                                 ACM-OPTION-VALUE
-000570                                 ACM-STATUS-ALL.</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <td>Option values is transferred from the enviroment value.</td>
-      <td><pre><code>004800*ACMSETOPTION NAME="TEST" ENV="ENVKEY".</code></pre>
-      </td>
-      <td><pre><code>000660     MOVE "TEST" TO ACM-OPTION-NAME.
+000570                                 ACM-STATUS-ALL.</code>
+					</pre></td>
+			</tr>
+			<tr>
+				<td>Option values is transferred from the enviroment value.</td>
+				<td><pre><code>004800*ACMSETOPTION NAME="TEST" ENV="ENVKEY".</code>
+					</pre></td>
+				<td><pre><code>000660     MOVE "TEST" TO ACM-OPTION-NAME.
 000670     MOVE "ENVKEY" TO ACM-OPTION-VALUE.
 000680     CALL "setACMOptionFromEnv" USING ACM-OPTION-NAME
 000690                                 ACM-OPTION-VALUE
-000700                                 ACM-STATUS-ALL.</code></pre>
-      </td>
-      <td><pre><code>000640     MOVE "TEST" TO ACM-OPTION-NAME.
+000700                                 ACM-STATUS-ALL.</code>
+					</pre></td>
+				<td><pre><code>000640     MOVE "TEST" TO ACM-OPTION-NAME.
 000650     MOVE "ENVKEY" TO ACM-OPTION-VALUE.
 000660     CALL "setJNIOptionFromEnv" USING ACM-OPTION-NAME
 000670                                 ACM-OPTION-VALUE
-000680                                 ACM-STATUS-ALL.</code></pre>
-      </td>
-    </tr>
-  </tbody>
-</table>
+000680                                 ACM-STATUS-ALL.</code>
+					</pre></td>
+			</tr>
+		</tbody>
+	</table>
 </body>
 </html>

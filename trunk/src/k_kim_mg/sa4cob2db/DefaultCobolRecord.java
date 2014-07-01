@@ -634,7 +634,49 @@ public class DefaultCobolRecord implements CobolRecord {
 	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, java.math.BigDecimal)
 	 */
 	public void updateBigDecimal(CobolColumn column, BigDecimal x) throws CobolRecordException {
-		updateDouble(column, x.doubleValue());
+		if (isColumnFormatted(column)) {
+			NumberFormat df = getFormatter(column);
+			updateStringR(column, df.format(x));
+		} else {
+			boolean b = (x.compareTo(BigDecimal.ZERO) < 0);
+			byte[] bytes = new byte[column.getLength()];
+			BigDecimal bi = x.abs();
+			BigDecimal bd = x.abs();
+			int lob = bytes.length - column.getNumberOfDecimal();
+			// bytes[0]~[lob - 1]:bytes[length - 1]
+			int i = lob - 1;
+			while (i >= 0) {
+				BigDecimal r = bi.remainder(BigDecimal.TEN);
+				int v = r.intValue();
+				if ((i == (bytes.length - 1)) && column.isSigned()) {
+					bytes[i] = (byte) ((b ? 0x70 : 0x30) | v);
+				} else {
+					bytes[i] = (byte) (0x30 | v);
+				}
+				bi = bi.movePointLeft(1);
+				i--;
+			}
+			// bytes[lob]~[length - 1]:bytes[length - 1]
+			bd = bd.movePointRight(1);
+			for (i = lob; i < bytes.length; i++) {
+				BigDecimal r = bd.remainder(BigDecimal.TEN);
+				int v = r.intValue();
+				if ((i == (bytes.length - 1)) && column.isSigned()) {
+					bytes[i] = (byte) ((b ? 0x70 : 0x30) | v);
+				} else {
+					bytes[i] = (byte) (0x30 | v);
+				}
+				bd = bd.movePointRight(1);
+			}
+			switch (column.getUsage()) {
+			case CobolColumn.USAGE_COMP_3:
+				updateBytesComp3(column, bytes);
+				break;
+			default:
+				updateBytes(column, bytes);
+				break;
+			}
+		}
 	}
 
 	/*
@@ -795,49 +837,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, double)
 	 */
 	public void updateDouble(CobolColumn column, double x) throws CobolRecordException {
-		if (isColumnFormatted(column)) {
-			NumberFormat df = getFormatter(column);
-			updateStringR(column, df.format(x));
-		} else {
-			boolean b = (x < 0);
-			byte[] bytes = new byte[column.getLength()];
-			BigDecimal bi = BigDecimal.valueOf(x).abs();
-			BigDecimal bd = BigDecimal.valueOf(x).abs();
-			int lob = bytes.length - column.getNumberOfDecimal();
-			// bytes[0]~[lob - 1]:bytes[length - 1]
-			int i = lob - 1;
-			while (i >= 0) {
-				BigDecimal r = bi.remainder(BigDecimal.TEN);
-				int v = r.intValue();
-				if ((i == (bytes.length - 1)) && column.isSigned()) {
-					bytes[i] = (byte) ((b ? 0x70 : 0x30) | v);
-				} else {
-					bytes[i] = (byte) (0x30 | v);
-				}
-				bi = bi.movePointLeft(1);
-				i--;
-			}
-			// bytes[lob]~[length - 1]:bytes[length - 1]
-			bd = bd.movePointRight(1);
-			for (i = lob; i < bytes.length; i++) {
-				BigDecimal r = bd.remainder(BigDecimal.TEN);
-				int v = r.intValue();
-				if ((i == (bytes.length - 1)) && column.isSigned()) {
-					bytes[i] = (byte) ((b ? 0x70 : 0x30) | v);
-				} else {
-					bytes[i] = (byte) (0x30 | v);
-				}
-				bd = bd.movePointRight(1);
-			}
-			switch (column.getUsage()) {
-			case CobolColumn.USAGE_COMP_3:
-				updateBytesComp3(column, bytes);
-				break;
-			default:
-				updateBytes(column, bytes);
-				break;
-			}
-		}
+		updateBigDecimal(column, new BigDecimal(x));
 	}
 
 	/*

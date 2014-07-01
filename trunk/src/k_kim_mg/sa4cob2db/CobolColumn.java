@@ -10,6 +10,8 @@ package k_kim_mg.sa4cob2db;
 public interface CobolColumn {
 	/** Date */
 	public static int TYPE_DATE = 7;
+	/** Decimal */
+	public static int TYPE_DECIMAL = 12;
 	/** Double */
 	public static int TYPE_DOUBLE = 6;
 	/** Float */
