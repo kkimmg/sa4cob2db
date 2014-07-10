@@ -682,7 +682,7 @@ public class NodeReadLoader {
 								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
 							}
 						} else if (wfile.isDirectory() && wfile.exists() && wfile.canRead()) {
-							Node fiwork = map.getNamedItem("filter");
+							//Node fiwork = map.getNamedItem("filter");
 							//FileFilter filter = new InnerFileFilter();
 							NodeReadLoader child = createNodeReadLoader();
 							try {

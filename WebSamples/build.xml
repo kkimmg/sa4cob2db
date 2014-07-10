@@ -24,6 +24,7 @@
 	<target name="compile" depends="init" description="compile the source ">
 		<javac srcdir="${src}" destdir="${build}" debug="on" target="1.6">
 			<classpath refid="cp.acm"/>
+			<classpath path="../tests/classes" />
 		</javac>
 	</target>
 	<target name="dist" depends="compile" description="generate the distribution">

@@ -1,6 +1,6 @@
 <project name="sa4cob2db" default="dist" basedir=".">
 	<description>
-	サンプルを作成する
+	Create Tests
 	</description>
 	<!-- set global properties for this build -->
 	<property name="src" location="./src"/>
@@ -10,7 +10,7 @@
 	<property name="antlib" location="/opt/apache-ant-1.7.0/lib"/>
 	<property name="encoding" value="UTF-8" />
 	<path id="cp.acm">
-		<pathelement location="../acmlibs.jar"/>
+		<pathelement location="../sa4cob2db.jar"/>
 	</path>
 	<target name="init">
 		<tstamp/>
@@ -19,20 +19,19 @@
 	<target name="compile" depends="init" description="compile the source ">
 		<javac srcdir="${src}" destdir="${build}" debug="on">
 			<classpath refid="cp.acm"/>
+			
+			<exclude name="**/utest/TypesTest.java"/>
 		</javac>
 	</target>
 	<target name="dist" depends="compile" description="generate the distribution" >
 		<jar jarfile="acmsamples.jar" basedir="${build}" includes="*.class">
 		</jar>
-	</target>
-	<target name="samples" depends="compile" description="compile the source ">
-		<javac classpath="${build}" srcdir="${websample}" destdir="${build}">
-		</javac>
-		<javah classpath="${build}" outputfile="${websample}/JSampleJniCall1.h">
-			<class name="JSampleJniCall1"/>
+		<javah classpath="${build}" destdir="./cs"  force="yes" >
+		    <classpath refid="cp.acm"/>
+		    <class name="k_kim_mg.sa4cob2db.cobsub.JSampleJniCall1" /> 
 		</javah>
 	</target>
-	<target name="run_sample" depends="samples" description="run samples ">
+	<target name="run_sample" depends="compile" description="run samples ">
 		<java classname="TestCobolCall" classpath="${build}">
 		</java>
 	</target>

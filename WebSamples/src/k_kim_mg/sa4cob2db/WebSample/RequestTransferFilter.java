@@ -10,9 +10,14 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-
+/**
+ * RequestTransferFilter
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
+ */
 public class RequestTransferFilter implements Filter {
+	@SuppressWarnings("unused")
 	private FilterConfig config = null;
+	@SuppressWarnings("unused")
 	private ServletContext context = null;
 	@Override
 	public void destroy() {
@@ -22,6 +27,7 @@ public class RequestTransferFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+		@SuppressWarnings("unchecked")
 		Enumeration<String> keys = req.getParameterNames();
 		while (keys.hasMoreElements()) {
 			String key = keys.nextElement();

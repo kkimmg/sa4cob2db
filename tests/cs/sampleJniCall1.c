@@ -1,5 +1,5 @@
 #include <libcob.h>
-#include "JSampleJniCall1.h"
+#include "k_kim_mg_sa4cob2db_cobsub_JSampleJniCall1.h"
 typedef char byte;
 static int (*cobol_sub_program)(byte *head, byte *bodyIn, byte *bodyOut);
 /**static void jcharTochar(jchar *src, char *dist, int length);*/
@@ -8,7 +8,7 @@ static void byteTojbyte(byte *src, jbyte *dist, int length);
 /**
  * run program
  */
-JNIEXPORT jint JNICALL Java_JSampleJniCall1_sampleJniCall2
+JNIEXPORT jint JNICALL Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall2
   (JNIEnv *env, jobject obj, jstring library, jstring prog, jbyteArray head, jbyteArray bodyIn, jbyteArray bodyOut) {
 	jint ret;
 	/*library name*/
@@ -75,7 +75,7 @@ JNIEXPORT jint JNICALL Java_JSampleJniCall1_sampleJniCall2
 /**
  * run program
  */
-JNIEXPORT jint JNICALL Java_JSampleJniCall1_sampleJniCall1
+JNIEXPORT jint Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall1
   (JNIEnv *env, jobject obj, jstring prog, jbyteArray head, jbyteArray bodyIn, jbyteArray bodyOut) {
 	jint ret;
 	/*program name*/
