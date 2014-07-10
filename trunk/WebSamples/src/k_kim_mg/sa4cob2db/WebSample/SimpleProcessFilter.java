@@ -102,6 +102,7 @@ public class SimpleProcessFilter implements Filter {
 	public static final int WAIT_MILLS = 1000;
 	public static final String INIT_PROCESS = "INITPROCESS";
 
+	@SuppressWarnings("unused")
 	private FilterConfig config = null;
 
 	private ServletContext context = null;
