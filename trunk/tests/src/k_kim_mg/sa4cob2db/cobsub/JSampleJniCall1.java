@@ -1,13 +1,14 @@
-package k_kim_mg.sa4cob2db.cobsub;
+ï»¿package k_kim_mg.sa4cob2db.cobsub;
 import k_kim_mg.sa4cob2db.CobolRecord;
 import k_kim_mg.sa4cob2db.CobolRecordException;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 public class JSampleJniCall1 {
-	/** ƒ‰ƒCƒuƒ‰ƒŠ–¼ */
+	/** C library name */
 	public static final String ACM_SAMPLE_LIBRARY_NAME = "sampleJniCall";
+	/** COBOL library name */
 	public static final String OPEN_COB_LIBRARY_NAME = "cob";
 	static {
-		/* ƒ‰ƒCƒuƒ‰ƒŠ‚Ì–‘Oƒ[ƒh */
+		/* loading libraries */
 		try {
 			System.loadLibrary(OPEN_COB_LIBRARY_NAME);
 		} catch (Exception ex) {
@@ -19,47 +20,55 @@ public class JSampleJniCall1 {
 			ex.printStackTrace();
 		}
 	}
-	/** ƒlƒCƒeƒBƒuƒƒ\ƒbƒh‚ª¬Œ÷‚µ‚½ */
+	/** Return value of java method (Success) */
 	public static final int JNI_RETURN_OK = 0;
-	/** ƒlƒCƒeƒBƒuƒƒ\ƒbƒh‚ª¸”s‚µ‚½ */
+	/** Return value of java method (Failure) */
 	public static final int JNI_RETURN_NG = -1;
 	/**
-	 * ƒlƒCƒeƒBƒuƒƒ\ƒbƒh ƒRƒ{ƒ‹ƒTƒuƒvƒƒOƒ‰ƒ€‚ğƒR[ƒ‹‚·‚éCƒ‹[ƒ`ƒ“
-	 * @param progname	ƒvƒƒOƒ‰ƒ€–¼
-	 * @param head		ƒwƒbƒ_(SPA?)
-	 * @param body		ƒ{ƒfƒB(ƒIƒ“ƒ‰ƒCƒ“ƒƒbƒZ[ƒW?)
-	 * @return ƒlƒCƒeƒBƒuƒƒ\ƒbƒh‚Ì¬Œ÷/•s¬Œ÷
+	 * Calling COBOL SubProgram
+	 * 
+	 * @param progname Program Name
+	 * @param head header
+	 * @param bodyIn InputBody
+	 * @param bodyOut OutputBody
+	 * @return JIN_RETURN_OK/NG
 	 */
 	public native int sampleJniCall1(String progname, byte[] head, byte[] bodyIn, byte[] bodyOut);
 	/**
-	 * ƒlƒCƒeƒBƒuƒƒ\ƒbƒh ƒRƒ{ƒ‹ƒTƒuƒvƒƒOƒ‰ƒ€‚ğƒR[ƒ‹‚·‚éCƒ‹[ƒ`ƒ“
-	 * @param libname	ƒ‰ƒCƒuƒ‰ƒŠ–¼
-	 * @param progname	ƒvƒƒOƒ‰ƒ€–¼
-	 * @param head		ƒwƒbƒ_(SPA?)
-	 * @param body		ƒ{ƒfƒB(ƒIƒ“ƒ‰ƒCƒ“ƒƒbƒZ[ƒW?)
-	 * @return ƒlƒCƒeƒBƒuƒƒ\ƒbƒh‚Ì¬Œ÷/•s¬Œ÷
+	 * Calling COBOL SubProgram
+	 * 
+	 * @param libname Library Name
+	 * @param progname Program Name
+	 * @param head header
+	 * @param bodyIn InputBody
+	 * @param bodyOut OutputBody
+	 * @return JIN_RETURN_OK/NG
 	 */
 	public native int sampleJniCall2(String libname, String progname, byte[] head, byte[] bodyIn, byte[] bodyOut);
 	/**
-	 * ƒlƒCƒeƒBƒuƒƒ\ƒbƒh‚Ì’¼Ú‚Ìƒ‰ƒbƒp[
-	 * @param libname	ƒ‰ƒCƒuƒ‰ƒŠ–¼
-	 * @param progname	ƒvƒƒOƒ‰ƒ€–¼
-	 * @param head		ƒwƒbƒ_(SPA?)
-	 * @param body		ƒ{ƒfƒB(ƒIƒ“ƒ‰ƒCƒ“ƒƒbƒZ[ƒW?)
-	 * @return ƒlƒCƒeƒBƒuƒƒ\ƒbƒh‚Ì¬Œ÷/•s¬Œ÷
+	 * Wrapper of native method
+	 * 
+	 * @param libname Library Name
+	 * @param progname Program Name
+	 * @param head header
+	 * @param bodyIn InputBody
+	 * @param bodyOut OutputBody
+	 * @return JIN_RETURN_OK/NG
 	 */
 	public int jniCallCobol1(String libname, String progname, byte[] head, byte[] bodyIn, byte[] bodyOut) {
 		return sampleJniCall2(libname, progname, head, bodyIn, bodyOut);
 	}
 	/**
-	 * ƒlƒCƒeƒBƒuƒƒ\ƒbƒh‚Ì’¼Ú‚Ìƒ‰ƒbƒp[
-	 * @param libname	ƒ‰ƒCƒuƒ‰ƒŠ–¼
-	 * @param progname	ƒvƒƒOƒ‰ƒ€–¼
-	 * @param head		ƒwƒbƒ_(SPA?)
-	 * @param body		ƒ{ƒfƒB(ƒIƒ“ƒ‰ƒCƒ“ƒƒbƒZ[ƒW?)
-	 * @return ƒlƒCƒeƒBƒuƒƒ\ƒbƒh‚Ì¬Œ÷/•s¬Œ÷
+	 * Wrapper of native method
+	 * 
+	 * @param libname Library Name
+	 * @param progname Program Name
+	 * @param head header
+	 * @param bodyIn InputBody
+	 * @param bodyOut OutputBody
+	 * @return JIN_RETURN_OK/NG
 	 */
-	public int jniCallCobol1(String libname,String progname, CobolRecord head, CobolRecord bodyIn, CobolRecord bodyOut) throws CobolRecordException {
+	public int jniCallCobol1(String libname, String progname, CobolRecord head, CobolRecord bodyIn, CobolRecord bodyOut) throws CobolRecordException {
 		byte[] hbytes = getRecordToBytes(head);
 		byte[] ibytes = getRecordToBytes(bodyIn);
 		byte[] obytes = getRecordToBytes(bodyOut);
@@ -70,21 +79,25 @@ public class JSampleJniCall1 {
 		return ret;
 	}
 	/**
-	 * ƒlƒCƒeƒBƒuƒƒ\ƒbƒh‚Ì’¼Ú‚Ìƒ‰ƒbƒp[
-	 * @param progname	ƒvƒƒOƒ‰ƒ€–¼
-	 * @param head		ƒwƒbƒ_(SPA?)
-	 * @param body		ƒ{ƒfƒB(ƒIƒ“ƒ‰ƒCƒ“ƒƒbƒZ[ƒW?)
-	 * @return ƒlƒCƒeƒBƒuƒƒ\ƒbƒh‚Ì¬Œ÷/•s¬Œ÷
+	 * Wrapper of native method
+	 * 
+	 * @param progname Program Name
+	 * @param head header
+	 * @param bodyIn InputBody
+	 * @param bodyOut OutputBody
+	 * @return JIN_RETURN_OK/NG
 	 */
 	public int jniCallCobol1(String progname, byte[] head, byte[] bodyIn, byte[] bodyOut) {
 		return sampleJniCall1(progname, head, bodyIn, bodyOut);
 	}
 	/**
-	 * ƒlƒCƒeƒBƒuƒƒ\ƒbƒh‚Ì’¼Ú‚Ìƒ‰ƒbƒp[
-	 * @param progname	ƒvƒƒOƒ‰ƒ€–¼
-	 * @param head		ƒwƒbƒ_(SPA?)
-	 * @param body		ƒ{ƒfƒB(ƒIƒ“ƒ‰ƒCƒ“ƒƒbƒZ[ƒW?)
-	 * @return ƒlƒCƒeƒBƒuƒƒ\ƒbƒh‚Ì¬Œ÷/•s¬Œ÷
+	 * Wrapper of native method
+	 * 
+	 * @param progname Program Name
+	 * @param head header
+	 * @param bodyIn InputBody
+	 * @param bodyOut OutputBody
+	 * @return JIN_RETURN_OK/NG
 	 */
 	public int jniCallCobol1(String progname, CobolRecord head, CobolRecord bodyIn, CobolRecord bodyOut) throws CobolRecordException {
 		byte[] hbytes = getRecordToBytes(head);
@@ -97,11 +110,11 @@ public class JSampleJniCall1 {
 		return ret;
 	}
 	/**
-	 * ƒŒƒR[ƒh‚©‚çƒoƒCƒg”z—ñ‚ğæ‚èo‚·
+	 * Recoed to Bytes
 	 * 
-	 * @param record	ƒŒƒR[ƒh
-	 * @return ƒoƒCƒg”z—ñ
-	 * @throws CobolRecordException	—áŠO
+	 * @param record Record
+	 * @return Bytes
+	 * @throws CobolRecordException Exception
 	 */
 	private byte[] getRecordToBytes(CobolRecord record) throws CobolRecordException {
 		byte[] ret = null;
