@@ -1,4 +1,7 @@
 #include <libcob.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <sys/types.h>
 #include "k_kim_mg_sa4cob2db_cobsub_JSampleJniCall1.h"
 typedef char byte;
 static int (*cobol_sub_program)(byte *head, byte *bodyIn, byte *bodyOut);
@@ -10,6 +13,8 @@ static void byteTojbyte(byte *src, jbyte *dist, int length);
  */
 JNIEXPORT jint JNICALL Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall2
   (JNIEnv *env, jobject obj, jstring library, jstring prog, jbyteArray head, jbyteArray bodyIn, jbyteArray bodyOut) {
+	int st;
+	pid_t pid;
 	jint ret;
 	/*library name*/
 	const char* slibr;
@@ -49,9 +54,22 @@ JNIEXPORT jint JNICALL Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJn
 		fprintf(stderr, "%s\n", cob_resolve_error ());
 		return -1;
 	}
-
-	/* execute */
-	ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
+	pid = fork();
+	if  (pid == -1) {
+		/* couldn't create process */
+		/* execute */
+		ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
+	} if  (pid == 0) {
+		/* child process */
+		/* execute */
+		ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
+	} else {
+		/* parent */
+		pid = wait(&st);
+		if  (pid  == -1) {
+			ret = -1;
+		}
+	}
 
 	byteTojbyte(shead, phead, hLength);
 	byteTojbyte(sbodyIn, pbodyIn, bInLength);
@@ -77,6 +95,8 @@ JNIEXPORT jint JNICALL Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJn
  */
 JNIEXPORT jint Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall1
   (JNIEnv *env, jobject obj, jstring prog, jbyteArray head, jbyteArray bodyIn, jbyteArray bodyOut) {
+	int st;
+	pid_t pid;
 	jint ret;
 	/*program name*/
 	const char* sprog;
@@ -109,8 +129,22 @@ JNIEXPORT jint Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall1
 		return -1;
 	}
 
-	/* execute*/
-	ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
+	pid = fork();
+	if  (pid == -1) {
+		/* couldn't create process */
+		/* execute */
+		ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
+	} if  (pid == 0) {
+		/* child process */
+		/* execute */
+		ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
+	} else {
+		/* parent */
+		pid = wait(&st);
+		if  (pid  == -1) {
+			ret = -1;
+		}
+	}
 
 	byteTojbyte(shead, phead, hLength);
 	byteTojbyte(sbodyIn, pbodyIn, bInLength);

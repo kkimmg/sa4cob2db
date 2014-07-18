@@ -3,6 +3,12 @@ import k_kim_mg.sa4cob2db.CobolRecord;
 import k_kim_mg.sa4cob2db.CobolRecordException;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 public class JSampleJniCall1 {
+	/** Singleton instance */
+	private static JSampleJniCall1 singleton = new JSampleJniCall1();
+	/** Get singleton instance */
+	public static JSampleJniCall1 getSingletonInstance () {
+		return singleton;
+	}
 	/** C library name */
 	public static final String ACM_SAMPLE_LIBRARY_NAME = "sampleJniCall";
 	/** COBOL library name */
