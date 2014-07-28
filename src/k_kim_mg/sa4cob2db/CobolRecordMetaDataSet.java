@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 /**
  * list of meta data
  * 
@@ -10,7 +11,8 @@ import java.util.ListIterator;
  */
 public abstract class CobolRecordMetaDataSet {
 	private List<CobolRecordMetaData> list = new ArrayList<CobolRecordMetaData>();
-	private Hashtable<String, CobolRecordMetaData> names = new Hashtable<String, CobolRecordMetaData>();
+	private Map<String, CobolRecordMetaData> names = new Hashtable<String, CobolRecordMetaData>();
+	private Map<String, Object> others = new Hashtable<String, Object>();
 	/**
 	 * create COBOL file
 	 * 
@@ -96,5 +98,21 @@ public abstract class CobolRecordMetaDataSet {
 	 */
 	public CobolRecordMetaData[] toArray() {
 		return list.toArray(new CobolRecordMetaData[size()]);
+	}
+	/**
+	 * returns other object
+	 * @param key key
+	 * @return object
+	 */
+	public Object getOtherObject(String key) {
+		return others.get(key);
+	}
+	/**
+	 * put key, value
+	 * @param key key
+	 * @param value value
+	 */
+	public void putOtherObject(String key, Object value) {
+		others.put(key, value);
 	}
 }

@@ -89,8 +89,8 @@ public class SimpleProcessFilter implements Filter {
 
 	/** Init Parameter name of Metadata File */
 	public static final String ACM_CONFFILE = "ACM_CONFFILE";
-	private static String ACM_ERROR = "ACM_ERROR";
-	private static String ACM_ERRORS = "ACM_ERRORS";
+	public static String ACM_ERROR = "ACM_ERROR";
+	public static String ACM_ERRORS = "ACM_ERRORS";
 	/** Parameter name of Input layout */
 	public static final String INPUT_LAYOUT = "INPUT_LAYOUT";
 	/** Parameter name of Output layout */
