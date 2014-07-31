@@ -21,6 +21,7 @@ cobpp:
 	$(COBP2) 			../STTTEST.cob       JNISTTTEST.cob
 	$(COBP2) 			../DYNTEST.cob       JNIDYNTEST.cob
 	$(COBP2) 			../DYNTEST1.cob      JNIDYNTEST1.cob
+	$(COBP2) 			../DYNTEST2.cob      JNIDYNTEST2.cob
 	$(COBP2) 			../SEQTEST.cob       JNISEQTEST.cob
 	$(COBP2) 			../WRTTEST.cob       JNIWRTTEST.cob
 	$(COBP2) 			../IDXTEST.cob       JNIIDXTEST.cob
@@ -34,6 +35,7 @@ cobpp:
 	
 link_consts:
 	$(CP) ../../../cobs/ACMCONSTS.CBL ./
+	$(CP) ../ACMCONSTS2.CBL ./
 	$(CP) ../*.cbl ./
 
 cobc: link_consts cobpp
@@ -45,6 +47,7 @@ cobc: link_consts cobpp
 	$(COBC) $(CFLAGS) 		JNISTTTEST.cob   -o JNISTTTEST
 	$(COBC) $(CFLAGS) 		JNIDYNTEST.cob   -o JNIDYNTEST
 	$(COBC) $(CFLAGS) 		JNIDYNTEST1.cob  -o JNIDYNTEST1
+	$(COBC) $(MFLAGS) 		JNIDYNTEST2.cob  -o JNIDYNTEST2
 	$(COBC) $(CFLAGS) 		JNIIDXTEST.cob   -o JNIIDXTEST
 	$(COBC) $(CFLAGS) 		JNIWRTTEST4.cob  -o JNIWRTTEST4
 	$(COBC) $(CFLAGS) 		JNISEQTEST4.cob  -o JNISEQTEST4
@@ -57,4 +60,5 @@ cobc: link_consts cobpp
 clean:
 	rm JNI*
 	rm ACMCONSTS.CBL
+	rm ACMCONSTS2.CBL
 	rm *.cbl

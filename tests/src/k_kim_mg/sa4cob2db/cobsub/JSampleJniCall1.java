@@ -1,7 +1,9 @@
-﻿package k_kim_mg.sa4cob2db.cobsub;
+package k_kim_mg.sa4cob2db.cobsub;
+
 import k_kim_mg.sa4cob2db.CobolRecord;
 import k_kim_mg.sa4cob2db.CobolRecordException;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
+
 public class JSampleJniCall1 {
 	/** Singleton instance */
 	private static JSampleJniCall1 singleton = new JSampleJniCall1();
@@ -30,6 +32,7 @@ public class JSampleJniCall1 {
 	public static final int JNI_RETURN_OK = 0;
 	/** Return value of java method (Failure) */
 	public static final int JNI_RETURN_NG = -1;
+
 	/**
 	 * Calling COBOL SubProgram
 	 * 
@@ -40,6 +43,7 @@ public class JSampleJniCall1 {
 	 * @return JIN_RETURN_OK/NG
 	 */
 	public native int sampleJniCall1(String progname, byte[] head, byte[] bodyIn, byte[] bodyOut);
+
 	/**
 	 * Calling COBOL SubProgram
 	 * 
@@ -51,6 +55,7 @@ public class JSampleJniCall1 {
 	 * @return JIN_RETURN_OK/NG
 	 */
 	public native int sampleJniCall2(String libname, String progname, byte[] head, byte[] bodyIn, byte[] bodyOut);
+
 	/**
 	 * Wrapper of native method
 	 * 
@@ -64,6 +69,7 @@ public class JSampleJniCall1 {
 	public int jniCallCobol1(String libname, String progname, byte[] head, byte[] bodyIn, byte[] bodyOut) {
 		return sampleJniCall2(libname, progname, head, bodyIn, bodyOut);
 	}
+
 	/**
 	 * Wrapper of native method
 	 * 
@@ -84,6 +90,7 @@ public class JSampleJniCall1 {
 		bodyOut.setRecord(obytes);
 		return ret;
 	}
+
 	/**
 	 * Wrapper of native method
 	 * 
@@ -96,6 +103,7 @@ public class JSampleJniCall1 {
 	public int jniCallCobol1(String progname, byte[] head, byte[] bodyIn, byte[] bodyOut) {
 		return sampleJniCall1(progname, head, bodyIn, bodyOut);
 	}
+
 	/**
 	 * Wrapper of native method
 	 * 
@@ -115,8 +123,9 @@ public class JSampleJniCall1 {
 		bodyOut.setRecord(obytes);
 		return ret;
 	}
+
 	/**
-	 * Recoed to Bytes
+	 * Record to Bytes
 	 * 
 	 * @param record Record
 	 * @return Bytes
