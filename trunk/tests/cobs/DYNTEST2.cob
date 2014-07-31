@@ -34,10 +34,10 @@
 003400 COPY "SCR_RECORD.cbl".
        LINKAGE SECTION.
        COPY "ACMCONSTS2.CBL".
-       COPY "DSP_RECORD.cbl".
-004000 PROCEDURE DIVISION ACM-WEB-IF-PARAMS
-                          DSP-RECORD1
-                          DSP-RECORD2.
+       COPY "SCR_RECORD_RED.cbl".
+004000 PROCEDURE DIVISION USING ACM-WEB-IF-PARAMS
+                                SCR1-RECORD
+                                SCR2-RECORD.
 004100*              
 004200 MAIN SECTION.
 004300     PERFORM   INIT.

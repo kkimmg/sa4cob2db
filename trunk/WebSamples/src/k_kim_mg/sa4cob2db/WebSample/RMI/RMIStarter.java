@@ -40,15 +40,16 @@ public class RMIStarter extends ACMServerEventAdapter implements ACMServerEventL
 	@Override
 	public void serverEnding(ACMServerEvent e) {
 		try {
+			//System.setSecurityManager(new RMISecurityManager());
 			LocateRegistry.getRegistry(serverPort).unbind(serverName);
 		} catch (AccessException e1) {
-			e1.printStackTrace();
+			//e1.printStackTrace();
 			SQLNetServer.logger.log(Level.SEVERE, e1.getMessage(), e1);
 		} catch (RemoteException e1) {
-			e1.printStackTrace();
+			//e1.printStackTrace();
 			SQLNetServer.logger.log(Level.SEVERE, e1.getMessage(), e1);
 		} catch (NotBoundException e1) {
-			e1.printStackTrace();
+			//e1.printStackTrace();
 			SQLNetServer.logger.log(Level.SEVERE, e1.getMessage(), e1);
 		}
 		if (rmiregistry != null) {
@@ -79,11 +80,13 @@ public class RMIStarter extends ACMServerEventAdapter implements ACMServerEventL
 				SQLNetServer.logger.log(Level.WARNING, e1.getMessage(), e1);
 			}
 		}
+		serverPort = wPort;
 		// Name
 		String nextTxt = e.getServer().getPropertie("RMI_SERVER_NAME");
 		if (nextTxt != null) {
 			wName = nextTxt;
 		}
+		serverName = wName;
 		// start registry
 		String rmicommand = e.getServer().getPropertie("RMIREGISTRY_COMMAND");
 		if (rmicommand != null) {
@@ -127,8 +130,8 @@ public class RMIStarter extends ACMServerEventAdapter implements ACMServerEventL
 	 */
 	protected void startRMIRegistryServer(int pport, String name) {
 		final int port = pport;
-		Runnable run = new Runnable() {
-			public void run() {
+		//Runnable run = new Runnable() {
+			//public void run() {
 				SQLNetServer.logger.info("RMI Server Starting.");
 				Registry reg;
 				System.setSecurityManager(new RMISecurityManager());
@@ -139,22 +142,22 @@ public class RMIStarter extends ACMServerEventAdapter implements ACMServerEventL
 					// create server
 					reg = LocateRegistry.createRegistry(port);
 					// bind
-					reg.bind(DEFAULT_NAME, stub);
+					reg.bind(name, stub);
 					// log
 					SQLNetServer.logger.info("RMI Server Started.");
 				} catch (AccessException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 					SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 				} catch (RemoteException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 					SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 				} catch (AlreadyBoundException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 					SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 				}
-			}
-		};
-		th = new Thread(run);
-		th.start();
+			//}
+		//};
+		//th = new Thread(run);
+		//th.start();
 	}
 }

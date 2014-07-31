@@ -21,6 +21,7 @@ cobpp:
 	$(COBP2) 			../STTTEST.cob       TCPSTTTEST.cob
 	$(COBP2) 			../DYNTEST.cob       TCPDYNTEST.cob
 	$(COBP2) 			../DYNTEST1.cob      TCPDYNTEST1.cob
+	$(COBP2) 			../DYNTEST2.cob       TCPDYNTEST2.cob
 	$(COBP2) 			../SEQTEST.cob       TCPSEQTEST.cob
 	$(COBP2) 			../WRTTEST.cob       TCPWRTTEST.cob
 	$(COBP2) 			../IDXTEST.cob       TCPIDXTEST.cob
@@ -34,6 +35,7 @@ cobpp:
 	
 link_consts:
 	$(CP) ../../../cobs/ACMCONSTS.CBL ./
+	$(CP) ../ACMCONSTS2.CBL ./
 	$(CP) ../*.cbl ./
 
 cobc: link_consts cobpp
@@ -45,6 +47,7 @@ cobc: link_consts cobpp
 	$(COBC) $(CFLAGS) 		TCPSTTTEST.cob   -o TCPSTTTEST
 	$(COBC) $(CFLAGS) 		TCPDYNTEST.cob   -o TCPDYNTEST
 	$(COBC) $(CFLAGS) 		TCPDYNTEST1.cob  -o TCPDYNTEST1
+	$(COBC) $(MFLAGS) 		TCPDYNTEST2.cob  -o TCPDYNTEST2
 	$(COBC) $(CFLAGS) 		TCPIDXTEST.cob   -o TCPIDXTEST
 	$(COBC) $(CFLAGS) 		TCPWRTTEST4.cob  -o TCPWRTTEST4
 	$(COBC) $(CFLAGS) 		TCPSEQTEST4.cob  -o TCPSEQTEST4
@@ -57,5 +60,6 @@ cobc: link_consts cobpp
 clean:
 	rm TCP*
 	rm ACMCONSTS.CBL
+	rm ACMCONSTS2.CBL
 	rm *.cbl
 

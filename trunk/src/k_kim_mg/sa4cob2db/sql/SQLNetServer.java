@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.sql;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,9 +25,10 @@ import k_kim_mg.sa4cob2db.event.ACMServerEventListener;
 import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 import org.xml.sax.SAXException;
+
 /**
- * provides files by tcp
- * (service / daemon)
+ * provides files by tcp (service / daemon)
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLNetServer {
@@ -40,6 +42,7 @@ public class SQLNetServer {
 		private SQLNetServer server;
 		/** ServerSocket */
 		private ServerSocket servsock;
+
 		/**
 		 * Constructor
 		 * 
@@ -50,6 +53,7 @@ public class SQLNetServer {
 			this.server = server;
 			this.servsock = servsock;
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -83,6 +87,7 @@ public class SQLNetServer {
 			SQLNetServer.logger.log(Level.INFO, "Now Server Is Ending......");
 		}
 	}
+
 	/** default filename fo metafile.xml */
 	public static final String DEFAULT_CONFIG = "/opt/sa4cob2db/conf/metafile.xml";
 	/** Logger */
@@ -103,6 +108,7 @@ public class SQLNetServer {
 		logger = Logger.getLogger(LOGNAME);
 		logger.setLevel(Level.SEVERE);
 	}
+
 	/**
 	 * get environment value
 	 * 
@@ -118,6 +124,7 @@ public class SQLNetServer {
 			ret = defaultValue;
 		return ret;
 	}
+
 	/** Main */
 	public static void main(String[] args) {
 		Properties properties = new Properties();
@@ -136,6 +143,7 @@ public class SQLNetServer {
 			SQLNetServer.logger.log(Level.SEVERE, "Exception", e);
 		}
 	}
+
 	/**
 	 * Main
 	 * 
@@ -145,8 +153,9 @@ public class SQLNetServer {
 		System.setProperty("ACM_CONFFILE", metaFile);
 		SQLNetServer.main(new String[] {});
 	}
+
 	/**
-	 * move String[] to Properties 
+	 * move String[] to Properties
 	 * 
 	 * @param args String[]
 	 * @param properties Properties
@@ -168,6 +177,7 @@ public class SQLNetServer {
 			}
 		}
 	}
+
 	/**
 	 * update inner properties with environment value
 	 * 
@@ -181,6 +191,7 @@ public class SQLNetServer {
 			properties.setProperty(key, env);
 		}
 	}
+
 	private List<InetAddress> addresses = new ArrayList<InetAddress>();
 	private Properties adminusers = new Properties();
 	private int backlog = 0;
@@ -194,6 +205,7 @@ public class SQLNetServer {
 	private List<Class<? extends ACMSessionEventListener>> sessionListeners = new ArrayList<Class<? extends ACMSessionEventListener>>();
 	private List<ACMSession> sessions = Collections.synchronizedList(new ArrayList<ACMSession>());
 	private Properties users;
+
 	/**
 	 * Constructor
 	 * 
@@ -287,7 +299,7 @@ public class SQLNetServer {
 				addresses.add(address);
 			}
 		}
-		// 
+		//
 		String maxssessionsString = properties.getProperty("maxsessions", "0");
 		int maxsessions = Integer.parseInt(maxssessionsString);
 		setMaxSessions(maxsessions);
@@ -353,6 +365,13 @@ public class SQLNetServer {
 			}
 		}
 		// ////////////////////////////////////////////////////////
+		// Server event
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run() {
+				shutdownHook();
+			}
+		});
+		// ////////////////////////////////////////////////////////
 		// Serverevent
 		ACMServerEvent ev = new ACMServerEvent(this);
 		for (ACMServerEventListener listener : serverListeners) {
@@ -362,14 +381,9 @@ public class SQLNetServer {
 				SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
 			}
 		}
-		// ////////////////////////////////////////////////////////
-		// Server event
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			public void run() {
-				shutdownHook();
-			}
-		});
+
 	}
+
 	/**
 	 * add session
 	 * 
@@ -396,8 +410,9 @@ public class SQLNetServer {
 		}
 		return ret;
 	}
+
 	/**
-	 * authenthification and add session 
+	 * authenthification and add session
 	 * 
 	 * @param session session
 	 * @param user user name
@@ -414,6 +429,7 @@ public class SQLNetServer {
 		}
 		return ret;
 	}
+
 	/**
 	 * auth admin
 	 * 
@@ -430,6 +446,7 @@ public class SQLNetServer {
 		}
 		return ret;
 	}
+
 	/**
 	 * auth
 	 * 
@@ -446,6 +463,7 @@ public class SQLNetServer {
 		}
 		return ret;
 	}
+
 	/**
 	 * delete all sessions
 	 */
@@ -458,6 +476,7 @@ public class SQLNetServer {
 			deleteSession(session);
 		}
 	}
+
 	/**
 	 * delete session
 	 * 
@@ -470,6 +489,7 @@ public class SQLNetServer {
 			listener.sessionRemoved(ev, session);
 		}
 	}
+
 	/**
 	 * inner file server
 	 * 
@@ -478,6 +498,7 @@ public class SQLNetServer {
 	public SQLFileServer getFileServer() {
 		return fileServer;
 	}
+
 	/**
 	 * get max session count
 	 * 
@@ -486,14 +507,16 @@ public class SQLNetServer {
 	public int getMaxSessions() {
 		return maxSessions;
 	}
+
 	/**
 	 * get meta data set
 	 * 
-	 * @return meta data set 
+	 * @return meta data set
 	 */
 	public CobolRecordMetaDataSet getMetaDataSet() {
 		return metaDataSet;
 	}
+
 	/**
 	 * get property
 	 * 
@@ -503,6 +526,7 @@ public class SQLNetServer {
 	public String getPropertie(String key) {
 		return properties.getProperty(key);
 	}
+
 	/**
 	 * get property
 	 * 
@@ -513,6 +537,7 @@ public class SQLNetServer {
 	public String getPropertie(String key, String defaultValue) {
 		return properties.getProperty(key, defaultValue);
 	}
+
 	/**
 	 * get session count
 	 * 
@@ -521,6 +546,7 @@ public class SQLNetServer {
 	int getSessionCount() {
 		return sessions.size();
 	}
+
 	/**
 	 * fire server ending event
 	 */
@@ -530,6 +556,7 @@ public class SQLNetServer {
 			listener.serverEnding(ev);
 		}
 	}
+
 	/**
 	 * set max session count
 	 * 
@@ -538,15 +565,17 @@ public class SQLNetServer {
 	public void setMaxSessions(int maxSessions) {
 		this.maxSessions = maxSessions;
 	}
+
 	/**
 	 * set property
 	 * 
-	 * @param key key 
+	 * @param key key
 	 * @param value value
 	 */
 	public void setPropertie(String key, String value) {
 		properties.setProperty(key, value);
 	}
+
 	/**
 	 * shutdown
 	 * 
@@ -567,6 +596,7 @@ public class SQLNetServer {
 			System.exit(0);
 		}
 	}
+
 	/**
 	 * hook shutdown
 	 */
@@ -575,6 +605,7 @@ public class SQLNetServer {
 		deleteAllSessions();
 		serverEnding();
 	}
+
 	/**
 	 * start
 	 * 
