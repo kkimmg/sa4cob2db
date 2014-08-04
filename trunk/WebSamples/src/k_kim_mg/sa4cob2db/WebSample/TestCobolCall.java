@@ -21,7 +21,7 @@ public class TestCobolCall {
 	 */
 	public static void main(String[] args) {
 		ServletSampleTool1 servletSampleTool1 = new ServletSampleTool1(
-				"/home/kenji/workspace/ACM/test.xml");
+				"/home/kenji/workspace/sa4cob2db/conf/metafile.xml");
 		JSampleJniCall1 jniCaller = new JSampleJniCall1();
 		String progname = "TESTSUB";
 		CobolRecord head, bodyIn, bodyOut;

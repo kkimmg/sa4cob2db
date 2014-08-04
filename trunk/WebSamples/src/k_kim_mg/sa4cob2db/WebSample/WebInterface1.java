@@ -4,15 +4,11 @@
 package k_kim_mg.sa4cob2db.WebSample;
 
 public class WebInterface1 {
-	/**インターフェース名*/
+
 	String name;
-	/**コンテンツ*/
 	String content;
-	/**コールするサブルーチン*/
 	String subroutine;
-	/**入力書式*/
 	String inFormat;
-	/**出力書式*/
 	String outFormat;
 	public String getInFormat() {
 		return inFormat;

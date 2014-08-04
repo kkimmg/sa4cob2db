@@ -106,9 +106,9 @@ public class RMIStarter {
 		try {
 			CobSubServer1 serv = new CobSubServer1Impl();
 			//
-			CobSubServer1 stub = (CobSubServer1) UnicastRemoteObject.exportObject(serv, port);
+			CobSubServer1 stub = (CobSubServer1) UnicastRemoteObject.exportObject(serv);
 			// create server
-			reg = LocateRegistry.createRegistry(port);
+			reg = LocateRegistry.getRegistry();
 			// bind
 			reg.rebind(name, stub);
 			// log
