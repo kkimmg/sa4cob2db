@@ -39,10 +39,10 @@ public class SimpleRMIFilter implements Filter {
 	private CobolRecordMetaDataSet metaset;
 	private Properties prop;
 	private CobSubServer1 stub;
-	/** ƒwƒbƒ_[–¼ */
+	/** Header */
 	public String MSGHEADNAME;
-	/** ƒZƒbƒVƒ‡ƒ“‚ÌŠÇ—‚ğs‚¤ */
-	protected Hashtable<String, CobolRecord> sessions;
+	/** Session Map */
+	protected Map<String, CobolRecord> sessions;
 	/**
 	 * Create Cobol Record
 	 * 
@@ -177,13 +177,13 @@ public class SimpleRMIFilter implements Filter {
 		sessions = new Hashtable<String, CobolRecord>();
 	}
 	/**
-	 * ƒŒƒR[ƒh‚©‚çƒŠƒNƒGƒXƒg‚Ö‚Ì•ÏŠ·
+	 * ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½çƒŠï¿½Nï¿½Gï¿½Xï¿½gï¿½Ö‚Ì•ÏŠï¿½
 	 * 
-	 * @param record ƒŒƒR[ƒh
-	 * @param request ƒŠƒNƒGƒXƒgiƒŠƒNƒGƒXƒg‚Ì‘®«‚É’l‚ğƒZƒbƒg‚·‚éj
-	 * @throws ServletException —áŠO‚P
-	 * @throws IOException —áŠO‚Q
-	 * @throws CobolRecordException —áŠO‚R
+	 * @param record ï¿½ï¿½ï¿½Rï¿½[ï¿½h
+	 * @param request ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½iï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½Ì‘ï¿½ï¿½ï¿½ï¿½É’lï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½j
+	 * @throws ServletException ï¿½ï¿½Oï¿½P
+	 * @throws IOException ï¿½ï¿½Oï¿½Q
+	 * @throws CobolRecordException ï¿½ï¿½Oï¿½R
 	 */
 	protected void setRecordToRequest(CobolRecord record, HttpServletRequest request) throws ServletException, IOException, CobolRecordException {
 		CobolRecordMetaData meta = record.getMetaData();
@@ -194,12 +194,12 @@ public class SimpleRMIFilter implements Filter {
 		}
 	}
 	/**
-	 * ƒŠƒNƒGƒXƒg‚©‚çƒŒƒR[ƒhŒ`®‚Ö‚Ì•ÏŠ·
+	 * ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½ï¿½ï¿½çƒŒï¿½Rï¿½[ï¿½hï¿½`ï¿½ï¿½ï¿½Ö‚Ì•ÏŠï¿½
 	 * 
-	 * @param request ƒŠƒNƒGƒXƒg
-	 * @param record ƒŒƒR[ƒh
-	 * @throws ServletException —áŠO‚P
-	 * @throws IOException —áŠO‚Q
+	 * @param request ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½g
+	 * @param record ï¿½ï¿½ï¿½Rï¿½[ï¿½h
+	 * @throws ServletException ï¿½ï¿½Oï¿½P
+	 * @throws IOException ï¿½ï¿½Oï¿½Q
 	 */
 	protected void setRequestToRecord(HttpServletRequest request, CobolRecord record) throws ServletException, IOException {
 		CobolRecordMetaData meta = null;
@@ -208,7 +208,6 @@ public class SimpleRMIFilter implements Filter {
 		} catch (CobolRecordException ex) {
 			return;
 		}
-		@SuppressWarnings("unchecked")
 		Enumeration<String> keys = request.getParameterNames();
 		while (keys.hasMoreElements()) {
 			String key = keys.nextElement();
@@ -223,10 +222,10 @@ public class SimpleRMIFilter implements Filter {
 		}
 	}
 	/**
-	 * ƒwƒbƒ_[ƒŒƒR[ƒh‚Ìæ“¾
+	 * ï¿½wï¿½bï¿½_ï¿½[ï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½Ìæ“¾
 	 * 
-	 * @param request ƒŠƒNƒGƒXƒg
-	 * @return ƒwƒbƒ_[ƒŒƒR[ƒh
+	 * @param request ï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½g
+	 * @return ï¿½wï¿½bï¿½_ï¿½[ï¿½ï¿½ï¿½Rï¿½[ï¿½h
 	 */
 	public CobolRecord getHeaderRecord(HttpServletRequest request) {
 		Object wrk = null;
@@ -243,10 +242,10 @@ public class SimpleRMIFilter implements Filter {
 		return ret;
 	}
 	/**
-	 * ”z—ñ‚Ìƒ‰ƒbƒp‚ğ•Ô‚·
+	 * Create Record
 	 * 
-	 * @param metaname ƒƒ^ƒf[ƒ^–¼
-	 * @return ƒRƒ{ƒ‹‚ÌƒŒƒR[ƒhŒ`®
+	 * @param metaname metadata name
+	 * @return record
 	 */
 	public CobolRecord createRecord(String metaname) {
 		CobolRecordMetaData meta = metaset.getMetaData(metaname);

@@ -31,5 +31,12 @@
 		<jar jarfile="../WebSamples.war" basedir="./">
 		</jar>
 	</target>
-
+	<target name="call_rmic" depends="compile">
+		<rmic  classname="k_kim_mg.sa4cob2db.WebSample.RMI.CobSubServer1Impl" base="WEB-INF/classes" />
+	</target>
+	<target name="run_rmiserver" depends="call_rmic" description="run rmi server ">
+		<java classname="k_kim_mg.sa4cob2db.WebSample.RMI.RMIStarter" classpath="${build}">
+			<classpath refid="cp.acm"/>
+		</java>
+	</target>
 </project>

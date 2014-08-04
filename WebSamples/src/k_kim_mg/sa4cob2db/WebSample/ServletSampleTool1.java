@@ -20,36 +20,36 @@ import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 
 import org.xml.sax.SAXException;
 public class ServletSampleTool1 {
-	/** コンテンツ */
+	/** Map */
 	protected Hashtable<String, WebInterface1> contents;
-	/** メタデータセット */
+	/** Metadata Set */
 	protected CobolRecordMetaDataSet metaSet;
-	/** セッションの管理を行う */
+	/** Map */
 	protected Hashtable<String, CobolRecord> sessions;
-	/** サブルーチン */
+	/** Map */
 	protected Hashtable<String, WebInterface1> subroutines;
-	/** Webインターフェース */
+	/** Map */
 	protected Hashtable<String, WebInterface1> webinterfaces;
-	/** ヘッダー名 */
+	/** Header layout name */
 	public String MSGHEADNAME;
 	/**
-	 * コンストラクタ
+	 * Constructor
 	 */
 	public ServletSampleTool1(String metaString) {
 		super();
 		MSGHEADNAME = "msghead";
-		// 初期化
+		// maps
 		webinterfaces = new Hashtable<String, WebInterface1>();
 		subroutines = new Hashtable<String, WebInterface1>();
 		contents = new Hashtable<String, WebInterface1>();
-		// メタデータファイル名
+		// properties
 		Properties properties = new Properties();
 		// properties.setProperty("metafile", "test.xml");
 		// String metaString = properties.getProperty("metafile",
 		// DEFAUT_CONFIG);
 		File metaFile = new File(metaString);
 		System.err.println(metaFile.getAbsolutePath());
-		// メタデータ情報の取得
+		// meta
 		NodeReadLoader nodeLoader = new NodeReaderPlus1(this);
 		metaSet = new SampleMetaDataSet1();
 		try {
@@ -63,35 +63,27 @@ public class ServletSampleTool1 {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// セッション管理テーブルの作成
+		// sessions
 		sessions = new Hashtable<String, CobolRecord>();
 	}
-	/** Webインターフェースの追加 */
+	/** Map */
 	protected void addWebInterface(WebInterface1 face1) {
 		webinterfaces.put(face1.getName(), face1);
 		subroutines.put(face1.getSubroutine(), face1);
 		contents.put(face1.getContent(), face1);
 	}
-	/** コンテンツから取得 */
+	/** from Map */
 	public WebInterface1 getWebInterfaceByContent(String content) {
 		return contents.get(content);
 	}
-	/** 名前から取得 */
+	/** from Map */
 	public WebInterface1 getWebInterfaceByName(String name) {
 		return webinterfaces.get(name);
 	}
-	/** サブルーチンから取得 */
+	/** from Map */
 	public WebInterface1 getWebInterfaceBySubroutine(String subroutine) {
 		return subroutines.get(subroutine);
 	}
-	/**
-	 * レコードからリクエストへの変換
-	 * @param record レコード
-	 * @param request リクエスト（リクエストの属性に値をセットする）
-	 * @throws ServletException 例外１
-	 * @throws IOException 例外２
-	 * @throws CobolRecordException 例外３
-	 */
 	protected void setRecordToRequest(CobolRecord record, HttpServletRequest request) throws ServletException, IOException, CobolRecordException {
 		CobolRecordMetaData meta = record.getMetaData();
 		for (int i = 0; i < meta.getColumnCount(); i++) {
@@ -100,13 +92,6 @@ public class ServletSampleTool1 {
 			request.setAttribute(column.getName(), columnValue);
 		}
 	}
-	/**
-	 * リクエストからレコード形式への変換
-	 * @param request リクエスト
-	 * @param record レコード
-	 * @throws ServletException 例外１
-	 * @throws IOException 例外２
-	 */
 	protected void setRequestToRecord(HttpServletRequest request, CobolRecord record) throws ServletException, IOException {
 		CobolRecordMetaData meta = null;
 		try {
@@ -124,16 +109,9 @@ public class ServletSampleTool1 {
 				CobolColumn column = meta.getColumn(id);
 				record.updateObject(column, value);
 			} catch (CobolRecordException e) {
-				// 列が見付からなかった場合など
-				// e.printStackTrace();
 			}
 		}
 	}
-	/**
-	 * ヘッダーレコードの取得
-	 * @param request リクエスト
-	 * @return ヘッダーレコード
-	 */
 	public CobolRecord getHeaderRecord(HttpServletRequest request) {
 		Object wrk = null;
 		CobolRecord ret = null;
@@ -148,11 +126,6 @@ public class ServletSampleTool1 {
 		}
 		return ret;
 	}
-	/**
-	 * 配列のラッパを返す
-	 * @param metaname メタデータ名
-	 * @return コボルのレコード形式
-	 */
 	public CobolRecord createRecord(String metaname) {
 		CobolRecordMetaData meta = metaSet.getMetaData(metaname);
 		CobolRecord ret = new DefaultCobolRecord(meta);

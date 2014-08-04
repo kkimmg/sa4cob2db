@@ -7,20 +7,21 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.DefaultCobolRecord;
 
 /**
- * レコードのメタデータを取得するためだけにサブクラスを定義してみる
- * @author おれおれ
+ * Sample 
+ * @author kkimmg@gmail.com
  */
 class SampleMetaDataSet1 extends CobolRecordMetaDataSet {
 	/**
-	 * なにも返さない
+	 * returns null
 	 */
 	protected CobolFile createCobolFile(CobolRecordMetaData meta) {
 		return null;
 	}
+
 	/**
-	 * 配列のラッパを返す
-	 * @param metaname	メタデータ名
-	 * @return コボルのレコード形式
+	 * returns record
+	 * @param metaname metadata name
+	 * @return record
 	 */
 	public CobolRecord createRecord (String metaname) {
 		CobolRecordMetaData meta = getMetaData(metaname);
