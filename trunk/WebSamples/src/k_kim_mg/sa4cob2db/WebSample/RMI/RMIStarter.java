@@ -5,7 +5,6 @@ import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 /**
@@ -105,12 +104,10 @@ public class RMIStarter {
 		System.setSecurityManager(new RMISecurityManager());
 		try {
 			CobSubServer1 serv = new CobSubServer1Impl();
-			//
-			CobSubServer1 stub = (CobSubServer1) UnicastRemoteObject.exportObject(serv);
 			// create server
 			reg = LocateRegistry.getRegistry();
 			// bind
-			reg.rebind(name, stub);
+			reg.rebind(name, serv);
 			// log
 			SQLNetServer.logger.info("RMI Server Started.");
 		} catch (AccessException e) {

@@ -2,11 +2,9 @@ package k_kim_mg.sa4cob2db.WebSample.RMI;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
@@ -28,10 +26,13 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.DefaultCobolRecord;
 import k_kim_mg.sa4cob2db.WebSample.SimpleProcessFilter;
-import k_kim_mg.sa4cob2db.WebSample.WebInterface1;
 import k_kim_mg.sa4cob2db.sql.SQLFileServer;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
+/**
+ * Sample using RMI
+ * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
+ */
 public class SimpleRMIFilter implements Filter {
 	@SuppressWarnings("unused")
 	private FilterConfig config = null;
@@ -126,7 +127,7 @@ public class SimpleRMIFilter implements Filter {
 	/** RMI Host Name */
 	public static final String RMI_HOST = "RMI_HOST";
 	/** RMI Host Name */
-	public static final String SRV_NAME = "RMI_HOST";
+	public static final String SRV_NAME = "SRV_NAME";
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -176,14 +177,14 @@ public class SimpleRMIFilter implements Filter {
 		MSGHEADNAME = "msghead";
 		sessions = new Hashtable<String, CobolRecord>();
 	}
+
 	/**
-	 * ���R�[�h���烊�N�G�X�g�ւ̕ϊ�
-	 * 
-	 * @param record ���R�[�h
-	 * @param request ���N�G�X�g�i���N�G�X�g�̑����ɒl���Z�b�g����j
-	 * @throws ServletException ��O�P
-	 * @throws IOException ��O�Q
-	 * @throws CobolRecordException ��O�R
+	 * set record value to request
+	 * @param record record
+	 * @param request request
+	 * @throws ServletException exception
+	 * @throws IOException exception
+	 * @throws CobolRecordException exception
 	 */
 	protected void setRecordToRequest(CobolRecord record, HttpServletRequest request) throws ServletException, IOException, CobolRecordException {
 		CobolRecordMetaData meta = record.getMetaData();
@@ -193,13 +194,13 @@ public class SimpleRMIFilter implements Filter {
 			request.setAttribute(column.getName(), columnValue);
 		}
 	}
+
 	/**
-	 * ���N�G�X�g���烌�R�[�h�`���ւ̕ϊ�
-	 * 
-	 * @param request ���N�G�X�g
-	 * @param record ���R�[�h
-	 * @throws ServletException ��O�P
-	 * @throws IOException ��O�Q
+	 * set request value to record
+	 * @param request request
+	 * @param record record
+	 * @throws ServletException exception
+	 * @throws IOException exception
 	 */
 	protected void setRequestToRecord(HttpServletRequest request, CobolRecord record) throws ServletException, IOException {
 		CobolRecordMetaData meta = null;
@@ -208,6 +209,7 @@ public class SimpleRMIFilter implements Filter {
 		} catch (CobolRecordException ex) {
 			return;
 		}
+		@SuppressWarnings("unchecked")
 		Enumeration<String> keys = request.getParameterNames();
 		while (keys.hasMoreElements()) {
 			String key = keys.nextElement();
@@ -221,11 +223,11 @@ public class SimpleRMIFilter implements Filter {
 			}
 		}
 	}
+	
 	/**
-	 * �w�b�_�[���R�[�h�̎擾
-	 * 
-	 * @param request ���N�G�X�g
-	 * @return �w�b�_�[���R�[�h
+	 * get header record
+	 * @param request
+	 * @return header record
 	 */
 	public CobolRecord getHeaderRecord(HttpServletRequest request) {
 		Object wrk = null;
