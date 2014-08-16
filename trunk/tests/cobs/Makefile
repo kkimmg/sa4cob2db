@@ -36,7 +36,7 @@ cobc_std:
 	$(COBC) $(CFLAGS) 		TYPESTEST.cob  -o TYPESTEST
 	$(COBC) $(MFLAGS) 		SUBTEST.cob    -o SUBTEST.so
 	$(COBC) $(CFLAGS) 		LENTEST.cob    -o LENTEST
-	$(COBC) $(MFLAGS) 		DYNTEST2.cob   -o DYNTEST2
+	$(COBC) $(MFLAGS) 		DYNTEST2.cob   -o DYNTEST2.so
 
 cobc_acm:
 	cd tcp; make
@@ -51,7 +51,7 @@ clean:
 	rm WRTTEST2
 	rm STTTEST
 	rm DYNTEST
-	rm DYNTEST2
+	rm DYNTEST2.so
 	rm IDXTEST
 	rm WRTTEST4
 	rm SEQTEST4

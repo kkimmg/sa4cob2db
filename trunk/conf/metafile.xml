@@ -148,5 +148,36 @@
         <sqlcolumn length="3" name="SCR_FUDOU2" originalColumnName="SCR_FUDOU2" start="85" type="1"/>
         <sqlcolumn length="1" name="SCR_FUDOU_FLG" originalColumnName="SCR_FUDOU_FLG" start="89" type="1"/>
     </metadata>
+    <metadata name="ACM_WEB_IF_PARAMS">
+	<sqlcolumn length="20" name="ACM-AUTHTYPE" originalColumnName="ACM_AUTHTYPE" start="0" type="2"/>
+	<sqlcolumn length="20" name="ACM-CHARACTERENCODING" originalColumnName="ACM_CHARACTERENCODING" start="20" type="2"/>
+	<sqlcolumn length="8" name="ACM-CONTENTLENGTH" originalColumnName="ACM_CONTENTLENGTH" start="40" type="1"/>
+	<sqlcolumn length="20" name="ACM-CONTENTTYPE" originalColumnName="ACM_CONTENTTYPE" start="48" type="2"/>
+	<sqlcolumn length="20" name="ACM-METHOD" originalColumnName="ACM_METHOD" start="68" type="2"/>
+	<sqlcolumn length="10" name="ACM-PROTOCOL" originalColumnName="ACM_PROTOCOL" start="88" type="2"/>
+	<sqlcolumn length="42" name="ACM-QUERYSTRING" originalColumnName="ACM_QUERYSTRING" start="98" type="2"/>
+	<sqlcolumn length="20" name="ACM-REMOTEADDR" originalColumnName="ACM_REMOTEADDR" start="140" type="2"/>
+	<sqlcolumn length="20" name="ACM-REMOTEHOST" originalColumnName="ACM_REMOTEHOST" start="160" type="2"/>
+	<sqlcolumn length="20" name="ACM-SCHEME" originalColumnName="ACM_SCHEME" start="180" type="2"/>
+	<sqlcolumn length="20" name="ACM-SERVERNAME" originalColumnName="ACM_SERVERNAME" start="200" type="2"/>
+	<sqlcolumn length="5" name="ACM-SERVERPORT" originalColumnName="ACM_SERVERPORT" start="220" type="1"/>
+	<sqlcolumn length="1" name="ACM-SECURE" originalColumnName="ACM_SECURE" start="225" type="1"/>
+	<sqlcolumn length="84" name="ACM-REQUESTEDSESSIONID" originalColumnName="ACM_REQUESTEDSESSIONID" start="226" type="2"/>
+	<sqlcolumn length="1" name="ACM-REQUESTEDSESSIONIDFROMCOOKIE" originalColumnName="ACM_REQUESTEDSESSIONIDFROMCOOKIE" start="310" type="1"/>
+	<sqlcolumn length="1" name="ACM-REQUESTEDSESSIONIDFROMURL" originalColumnName="ACM_REQUESTEDSESSIONIDFROMURL" start="311" type="1"/>
+	<sqlcolumn length="1" name="ACM-REQUESTEDSESSIONIDVALID" originalColumnName="ACM_REQUESTEDSESSIONIDVALID" start="312" type="1"/>
+	<sqlcolumn length="47" name="ACM-CONTEXTPATH" originalColumnName="ACM_CONTEXTPATH" start="313" type="2"/>
+	<sqlcolumn length="50" name="ACM-PATHINFO" originalColumnName="ACM_PATHINFO" start="360" type="2"/>
+	<sqlcolumn length="50" name="ACM-PATHTRANSLATED" originalColumnName="ACM_PATHTRANSLATED" start="410" type="2"/>
+	<sqlcolumn length="50" name="ACM-REQUESTURI" originalColumnName="ACM_REQUESTURI" start="460" type="2"/>
+	<sqlcolumn length="50" name="ACM-REQUESTURL" originalColumnName="ACM_REQUESTURL" start="510" type="2"/>
+	<sqlcolumn length="50" name="ACM-SERVLETPATH" originalColumnName="ACM_SERVLETPATH" start="560" type="2"/>
+	<sqlcolumn length="19" name="ACM-REMOTEUSER" originalColumnName="ACM_REMOTEUSER" start="610" type="2"/>
+	<sqlcolumn length="1" name="ACM-USERINROLE" originalColumnName="ACM_USERINROLE" start="629" type="1"/>
+	<sqlcolumn length="40" name="ACM-CURRENTCONTENT" originalColumnName="ACM_CURRENTCONTENT" start="630" type="2"/>
+	<sqlcolumn length="40" name="ACM-NEXTCONTENT" originalColumnName="ACM_NEXTCONTENT" start="670" type="2"/>
+	<sqlcolumn length="64835" name="ACM-SESSIONGLOBALAREA" originalColumnName="ACM_SESSIONGLOBALAREA" start="710" type="2"/>
+	<alias>MSGHEAD</alias>
+     </metadata>
 </metadataset>
 

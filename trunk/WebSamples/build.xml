@@ -22,9 +22,9 @@
 		<copy file="../sa4cob2db.jar" todir="${lib}" overwrite="true"/>
 	</target>
 	<target name="compile" depends="init" description="compile the source ">
-		<javac srcdir="${src}" destdir="${build}" debug="on" target="1.6">
+		<javac srcdir="${src}" destdir="${build}" debug="on" includeantruntime="false"  target="1.6" source="1.6">
 			<classpath refid="cp.acm"/>
-			<classpath path="../tests/classes" />
+			<classpath path="../tests/bin" />
 		</javac>
 	</target>
 	<target name="dist" depends="compile" description="generate the distribution">
