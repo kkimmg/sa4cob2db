@@ -43,9 +43,6 @@ JNIEXPORT jint JNICALL Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJn
 	/*  */
 	cob_init(0, NULL);
 
-	/* set library */
-	cob_set_library_path(slibr);
-
 	/* get program */
 	cobol_sub_program = cob_resolve(sprog);
 

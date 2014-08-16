@@ -14,7 +14,7 @@
 		<mkdir dir="${build}" />
 	</target>
 	<target name="compile" depends="init" description="compile the source ">
-		<javac srcdir="${src}" destdir="${build}" debug="on" encoding="${encoding}" includeantruntime="false">
+		<javac srcdir="${src}" destdir="${build}" debug="on" encoding="${encoding}" includeantruntime="false"  target="1.6" source="1.6">
 		</javac>
 	</target>
 	<target name="doc" depends="init" description="javadoc from the source ">

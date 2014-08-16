@@ -17,7 +17,7 @@
 		<mkdir dir="${build}"/>
 	</target>
 	<target name="compile" depends="init" description="compile the source ">
-		<javac srcdir="${src}" destdir="${build}" debug="on">
+		<javac srcdir="${src}" destdir="${build}" debug="on" includeantruntime="false"  target="1.6" source="1.6">
 			<classpath refid="cp.acm"/>
 			
 			<exclude name="**/utest/TypesTest.java"/>

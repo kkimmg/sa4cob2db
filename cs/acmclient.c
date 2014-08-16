@@ -95,12 +95,14 @@ sendReturn (void) {
  */
 extern int
 sendMessage (char *message) {
-	int ret = send (soc, message, strlen (message), 0);
-/*
-fprintf(stderr, "sendMessage:%d:", strlen(message));
+/*fprintf(stderr, "1sendMessage:%d:", strlen(message));
 fprintf(stderr, message);
-fprintf(stderr, ":%d\n", ret);
-*/
+fprintf(stderr, "\n");*/
+	int ret = send (soc, message, strlen (message), 0);
+/*fprintf(stderr, "2sendMessage:%d:", strlen(message));
+fprintf(stderr, message);
+fprintf(stderr, ":%d\n", ret);*/
+
 	return ret;
 }
 
@@ -531,11 +533,21 @@ readNextACMRecord (char *name, char *record, char *status) {
  */
 extern void
 moveReadACMRecord (char *name, char *record, char *status) {
+	char back[FILE_IDENT_LEN];
+	name[FILE_IDENT_MAX] = '\0';
+	strcpy(back, name);
+
 	moveACMRecord(name, record, status);
 	if (strcmp(stat, STATUS_OK) != 0) {
 		return;
 	}
+	strcpy(name, back);
+	
+	//strcpy(name, "dbtests2");
 	readACMRecord(name, record, status);
+	//fprintf(stderr, ":third=");
+	//fprintf(stderr, name);
+	//fprintf(stderr, "\n");
 	return;
 }
 
@@ -544,10 +556,16 @@ moveReadACMRecord (char *name, char *record, char *status) {
  */
 extern void
 moveReadACMRecordWith (char *name, char *record, char *indexname, char *status) {
+	char back[FILE_IDENT_LEN];
+	name[FILE_IDENT_MAX] = '\0';
+	strcpy(back, name);
+
 	moveACMRecordWith(name, record, indexname, status);
 	if (strcmp(status, STATUS_OK) != 0) {
 		return;
 	}
+	strcpy(name, back);
+	
 	readACMRecord(name, record, status);
 	return;
 }

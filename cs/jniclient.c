@@ -101,6 +101,7 @@ extern int initializeJNI() {
 	vm_args.nOptions = 2;
 	JNI_GetDefaultJavaVMInitArgs(&vm_args);
 	JNI_CreateJavaVM(&jvm, (void**) &env, &vm_args);
+
 	// get class
 	clazz = (*env)->FindClass(env, SQLJNISERVER);
 	if (clazz == 0) {
