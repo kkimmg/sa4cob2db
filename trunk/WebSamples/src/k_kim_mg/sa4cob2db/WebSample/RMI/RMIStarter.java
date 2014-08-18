@@ -101,7 +101,7 @@ public class RMIStarter {
 	public void startRMIRegistryServer() {
 		SQLNetServer.logger.info("RMI Server Starting.");
 		Registry reg;
-		System.setSecurityManager(new RMISecurityManager());
+		//System.setSecurityManager(new RMISecurityManager());
 		try {
 			CobSubServer1 serv = new CobSubServer1Impl();
 			// create server
