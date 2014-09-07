@@ -2,73 +2,73 @@
 000200*                      
 000300*                    (SEQ)                        (SEQ)                  
 000400 IDENTIFICATION              DIVISION.
-      *ACMCOMMENTSTART
-000500 PROGRAM-ID.                 SUBTEST.
-      *ACMCOMMENTEND
-      *ACMINSERTSTART
-      *PROGRAM-ID.                 JNISUBTEST.
-      *ACMINSERTEND
-000600*AUTHOR.                     KENJI KIMURA.
-000700 ENVIRONMENT                 DIVISION.
-000800 CONFIGURATION               SECTION.
-000900 INPUT-OUTPUT                SECTION.
-001000 FILE-CONTROL.
-001100*                        
-001200*ACMFILE
-001300*ACMRECNAME=I-RECORD
-001400     SELECT INP-FILE ASSIGN TO "dbtests"
-001500       ORGANIZATION LINE SEQUENTIAL.
-001600 DATA                        DIVISION.
-001700 FILE                        SECTION.
-001800*                    
-001900 FD  INP-FILE.
-002000 COPY "I_RECORD.cbl".
-002100 WORKING-STORAGE             SECTION.
-002200 01  SOME-AREA.
-002300     05  I-COUNTER           PIC 9(05).
-002400     05  O-COUNTER           PIC 9(05).
-002500     05  END-FLG             PIC 9(01)  VALUE  ZERO.
-002600 01  OPTION-AREA.
-002700     05  OPTIONVALUE         PIC X(10).
-000310 LINKAGE SECTION.
-000350 01  LINK-AREA.
-000360     02  X-COMMAND           PIC 9(1).
-           02  X-RET               PIC 9(5).
-002800 PROCEDURE                   DIVISION USING LINK-AREA.
-002900*              
-003000 MAIN                        SECTION.
-003100     PERFORM   INIT.
-003300     PERFORM  INP-READ.
-003400*                                                      
-003500     PERFORM   UNTIL  END-FLG  NOT  =  ZERO
-003700        PERFORM  OUT-WRITE
-003800        PERFORM  INP-READ
-003900     END-PERFORM.
-004100     PERFORM   TERM.
-           EXIT-PROGRAM.
-005300*              
-005400 INIT                        SECTION.
-005500     DISPLAY   "PROGRAM STARTING.".
-005600     EXIT.
-006100*                  
-006200 INP-READ                    SECTION.
-006300     READ INP-FILE NEXT
-006400       AT END  MOVE 1 TO END-FLG
-006500     END-READ.
-006600     IF  END-FLG  =  ZERO
-006700*                                                                
-006800         ADD  1              TO  I-COUNTER
-006900     END-IF.
-007000     EXIT.
-007100*                  
-007200 OUT-WRITE                   SECTION.
-007300     DISPLAY  I-RECORD.
-007400     ADD  1                  TO  O-COUNTER.
-007500     EXIT.
-008000*              
-008100 TERM                        SECTION.
-008200     DISPLAY   "PROGRAM NORMALLY TERMINATED.".
-008300     DISPLAY   "INPUT-COUNT:" I-COUNTER.
-008400     DISPLAY   "OUTPUT-COUNT:" O-COUNTER.
-           MOVE  O-COUNTER         TO  X-RET.
-008500     EXIT.
+000500*ACMCOMMENTSTART
+000600 PROGRAM-ID.                 SUBTEST.
+000700*ACMCOMMENTEND
+000800*ACMINSERTSTART
+000900*PROGRAM-ID.                 JNISUBTEST.
+001000*ACMINSERTEND
+001100*AUTHOR.                     KENJI KIMURA.
+001200 ENVIRONMENT                 DIVISION.
+001300 CONFIGURATION               SECTION.
+001400 INPUT-OUTPUT                SECTION.
+001500 FILE-CONTROL.
+001600*                        
+001700*ACMFILE
+001800*ACMRECNAME=I-RECORD
+001900     SELECT INP-FILE ASSIGN TO "dbtests"
+002000       ORGANIZATION LINE SEQUENTIAL.
+002100 DATA                        DIVISION.
+002200 FILE                        SECTION.
+002300*                    
+002400 FD  INP-FILE.
+002500 COPY "I_RECORD.cbl".
+002600 WORKING-STORAGE             SECTION.
+002700 01  SOME-AREA.
+002800     05  I-COUNTER           PIC 9(05).
+002900     05  O-COUNTER           PIC 9(05).
+003000     05  END-FLG             PIC 9(01)  VALUE  ZERO.
+003100 01  OPTION-AREA.
+003200     05  OPTIONVALUE         PIC X(10).
+003300 LINKAGE SECTION.
+003400 01  LINK-AREA.
+003500     02  X-COMMAND           PIC 9(1).
+003600     02  X-RET               PIC 9(5).
+003700 PROCEDURE                   DIVISION USING LINK-AREA.
+003800*              
+003900 MAIN                        SECTION.
+004000     PERFORM   INIT.
+004100     PERFORM  INP-READ.
+004200*                                                      
+004300     PERFORM   UNTIL  END-FLG  NOT  =  ZERO
+004400        PERFORM  OUT-WRITE
+004500        PERFORM  INP-READ
+004600     END-PERFORM.
+004700     PERFORM   TERM.
+004800     EXIT-PROGRAM.
+004900*              
+005000 INIT                        SECTION.
+005100     DISPLAY   "PROGRAM STARTING.".
+005200     EXIT.
+005300*                  
+005400 INP-READ                    SECTION.
+005500     READ INP-FILE NEXT
+005600       AT END  MOVE 1 TO END-FLG
+005700     END-READ.
+005800     IF  END-FLG  =  ZERO
+005900*                                                                
+006000         ADD  1              TO  I-COUNTER
+006100     END-IF.
+006200     EXIT.
+006300*                  
+006400 OUT-WRITE                   SECTION.
+006500     DISPLAY  I-RECORD.
+006600     ADD  1                  TO  O-COUNTER.
+006700     EXIT.
+006800*              
+006900 TERM                        SECTION.
+007000     DISPLAY   "PROGRAM NORMALLY TERMINATED.".
+007100     DISPLAY   "INPUT-COUNT:" I-COUNTER.
+007200     DISPLAY   "OUTPUT-COUNT:" O-COUNTER.
+007300     MOVE  O-COUNTER         TO  X-RET.
+007400     EXIT.

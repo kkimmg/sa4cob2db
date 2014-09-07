@@ -20,12 +20,14 @@ public class CobSubServerTest {
 	JSampleJniCall1 jni;
 	public static void main (String[] args) {
 		CobSubServerTest ins = new CobSubServerTest();
+		/*
 		try {
 			ins.setUp();
 			ins.testRead();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		*/
 		try {
 			ins.setUp();
 			ins.testTCPRead();
