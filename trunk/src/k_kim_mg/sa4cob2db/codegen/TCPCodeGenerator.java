@@ -939,6 +939,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 				whenLabel(text);
 			} else if (Pattern.matches(CobolConsts.STOPRUN, text)) {
 				whenStopRun(text);
+			} else if (Pattern.matches(CobolConsts.EXITPROGRAM, text)) {
+				whenExitProgram(text);
 			} else {
 				if (Pattern.matches(CobolConsts.PERIOD, text)) {
 					whenOnlyPeriod(text);
@@ -2435,6 +2437,19 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text line
 	 */
 	void whenStopRun(String text) {
+		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+			addTerminateSession(".");
+		} else {
+			this.addTerminateSession("");
+		}
+		add(text);
+	}
+	/**
+	 * STOP RUN
+	 * 
+	 * @param text line
+	 */
+	void whenExitProgram(String text) {
 		if (Pattern.matches(CobolConsts.PERIOD, text)) {
 			addTerminateSession(".");
 		} else {

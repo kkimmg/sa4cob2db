@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.WebSample.RMI;
+import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 /**
@@ -8,14 +9,75 @@ import java.rmi.RemoteException;
  */
 public interface CobSubServer1 extends Remote {
 	/**
+	 * Return Value
+	 * @author kenji
+	 *
+	 */
+	public static class CobSubRet implements Serializable {
+		private boolean success;
+		private byte[] head, request, response;
+		/**
+		 * @return the head
+		 */
+		public byte[] getHead() {
+			return head;
+		}
+		/**
+		 * @return the request
+		 */
+		public byte[] getRequest() {
+			return request;
+		}
+		/**
+		 * Out Message
+		 * @return the response
+		 */
+		public byte[] getResponse() {
+			return response;
+		}
+		/**
+		 * Success?
+		 * @return the success
+		 */
+		public boolean isSuccess() {
+			return success;
+		}
+		/**
+		 * @param head the head to set
+		 */
+		public void setHead(byte[] head) {
+			this.head = head;
+		}
+		/**
+		 * @param request the request to set
+		 */
+		public void setRequest(byte[] request) {
+			this.request = request;
+		}
+		/**
+		 * Out Message
+		 * @param response the response to set
+		 */
+		public void setResponse(byte[] response) {
+			this.response = response;
+		}
+		/**
+		 * Success?
+		 * @param success the success to set
+		 */
+		public void setSuccess(boolean success) {
+			this.success = success;
+		}
+	}
+	/**
 	 * Calling Subprogram
 	 * 
 	 * @param progname program name
 	 * @param header header
 	 * @param req request(in parameter)
 	 * @param res response(out parameter)
-	 * @return 0=OK/-1=NG
+	 * @return CobSubRet
 	 * @throws RemoteException exception
 	 */
-	public int callCobSub(String progname, byte[] header, byte[] req, byte[] res) throws RemoteException;
+	public CobSubRet callCobSub(String progname, byte[] header, byte[] req, byte[] res) throws RemoteException;
 }

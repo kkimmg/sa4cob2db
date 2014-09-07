@@ -34,6 +34,10 @@
 			<param-value>/home/kenji/workspace/sa4cob2db/tests/cobs/jni/JNIDYNTEST</param-value>
 		</init-param>
 	</filter>
+	<filter>
+		<filter-name>COBOL4</filter-name>
+		<filter-class>k_kim_mg.sa4cob2db.WebSample.RequestTransferFilter</filter-class>
+	</filter>
 	<filter-mapping>
 		<filter-name>COBOL1</filter-name>
 		<url-pattern>/result.jsp</url-pattern>
@@ -47,7 +51,7 @@
 		<url-pattern>/rmi_result.jsp</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
-		<filter-name>COBOL2</filter-name>
+		<filter-name>COBOL4</filter-name>
 		<url-pattern>/rmi_index.jsp</url-pattern>
 	</filter-mapping>
 </web-app>

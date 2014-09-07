@@ -8,7 +8,7 @@
 </head>
 <body>
 <form action="./rmi_result.jsp" method="POST">
-<input type="hidden" name="PROCESS_NAME" value="JNIDYNTEST2" />
+<input type="hidden" name="PROCESS_NAME" value="TCPDYNTEST2" />
 <input type="hidden" name="INPUT_LAYOUT" value="SCR_RECORD" />
 <input type="hidden" name="OUTPUT_LAYOUT" value="SCR_RECORD" />
 <table>

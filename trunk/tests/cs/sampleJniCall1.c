@@ -2,6 +2,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <stdio.h>
 #include "k_kim_mg_sa4cob2db_cobsub_JSampleJniCall1.h"
 typedef char byte;
 static int (*cobol_sub_program)(byte *head, byte *bodyIn, byte *bodyOut);
@@ -56,7 +59,7 @@ JNIEXPORT jint JNICALL Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJn
 		/* couldn't create process */
 		/* execute */
 		ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
-	} if  (pid == 0) {
+	} else if  (pid == 0) {
 		/* child process */
 		/* execute */
 		ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
@@ -67,7 +70,11 @@ JNIEXPORT jint JNICALL Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJn
 			ret = -1;
 		}
 	}
-
+	
+	/*fprintf("shead:%s\n", shead);*/
+	/*fprintf("sbodyIn:%s\n", sbodyIn);*/
+	printf("sbodyOut:%s\n", sbodyOut);
+	
 	byteTojbyte(shead, phead, hLength);
 	byteTojbyte(sbodyIn, pbodyIn, bInLength);
 	byteTojbyte(sbodyOut, pbodyOut, bOutLength);
@@ -126,23 +133,37 @@ JNIEXPORT jint Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall1
 		return -1;
 	}
 
+	printf("sbodyOutW:%s\n", sbodyOut);
+	ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
+	sbodyOut[1] = '|';
+	printf("sbodyOutX:%s\n", sbodyOut);
+	/*
 	pid = fork();
 	if  (pid == -1) {
-		/* couldn't create process */
-		/* execute */
+		//couldn't create process 
+		// execute 
 		ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
-	} if  (pid == 0) {
-		/* child process */
-		/* execute */
+		printf("sbodyOut-1:%s\n", sbodyOut);
+	} else if  (pid == 0) {
+		// child process 
+		// execute 
 		ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
+		printf("sbodyOut0:%s\n", sbodyOut);
+		exit(0);
 	} else {
-		/* parent */
+		sleep(1);
+		// parent 
 		pid = wait(&st);
 		if  (pid  == -1) {
 			ret = -1;
 		}
+		printf("sbodyOutE:%s:%d\n", sbodyOut, pid);
 	}
-
+	*/
+	/*fprintf("shead:%s\n", shead);*/
+	/*fprintf("sbodyIn:%s\n", sbodyIn);*/
+	printf("sbodyOut:%s\n", sbodyOut);
+	
 	byteTojbyte(shead, phead, hLength);
 	byteTojbyte(sbodyIn, pbodyIn, bInLength);
 	byteTojbyte(sbodyOut, pbodyOut, bOutLength);
