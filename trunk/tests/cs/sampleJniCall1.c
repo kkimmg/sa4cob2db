@@ -110,16 +110,19 @@ JNIEXPORT jint Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall1
 	jsize hLength = (*env)->GetArrayLength (env, head);
 	jbyte *phead  = (*env)->GetByteArrayElements(env, head, NULL );
 	byte shead[hLength];
+	int headid = shmget(IPC_PRIVATE, sizeof(shead), 0600);
 	jbyteTobyte(phead, shead, hLength);
 	/*body(input)*/
 	jsize bInLength = (*env)->GetArrayLength(env, bodyIn);
 	jbyte *pbodyIn  = (*env)->GetByteArrayElements(env, bodyIn, NULL );
 	byte sbodyIn[bInLength];
+	int bodyInid = shmget(IPC_PRIVATE, sizeof(sbodyIn), 0600);
 	jbyteTobyte(pbodyIn, sbodyIn, bInLength);
 	/*body(output)*/
 	jsize bOutLength = (*env)->GetArrayLength(env, bodyOut);
 	jbyte *pbodyOut  = (*env)->GetByteArrayElements(env, bodyOut, NULL );
 	byte sbodyOut[bOutLength];
+	int bodyOutid = shmget(IPC_PRIVATE, sizeof(sbodyOut), 0600);
 	jbyteTobyte(pbodyOut, sbodyOut, bOutLength);
 
 	cob_init(0, NULL);
@@ -132,12 +135,12 @@ JNIEXPORT jint Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall1
  		fprintf(stderr, "%s\n", cob_resolve_error ());
 		return -1;
 	}
-
+	/*
 	printf("sbodyOutW:%s\n", sbodyOut);
 	ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
 	sbodyOut[1] = '|';
 	printf("sbodyOutX:%s\n", sbodyOut);
-	/*
+	*/
 	pid = fork();
 	if  (pid == -1) {
 		//couldn't create process 
@@ -147,8 +150,12 @@ JNIEXPORT jint Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall1
 	} else if  (pid == 0) {
 		// child process 
 		// execute 
-		ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
+		byte *fhead; fhead = shmat(headid, 0, 0);
+		byte *fbodyIn; fhead = shmat(bodyInid, 0, 0);
+		byte *fbodyOut; fhead = shmat(bodyInOut, 0, 0);
+		ret = cobol_sub_program(fhead, fbodyIn, fbodyOut);
 		printf("sbodyOut0:%s\n", sbodyOut);
+		printf("sbodyOut0:%s\n", fbodyOut);
 		exit(0);
 	} else {
 		sleep(1);
@@ -159,7 +166,6 @@ JNIEXPORT jint Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall1
 		}
 		printf("sbodyOutE:%s:%d\n", sbodyOut, pid);
 	}
-	*/
 	/*fprintf("shead:%s\n", shead);*/
 	/*fprintf("sbodyIn:%s\n", sbodyIn);*/
 	printf("sbodyOut:%s\n", sbodyOut);
