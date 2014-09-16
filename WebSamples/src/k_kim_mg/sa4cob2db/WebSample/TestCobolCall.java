@@ -37,7 +37,7 @@ public class TestCobolCall {
 			e1.printStackTrace();
 		}
 		try {
-			jniCaller.jniCallCobol1(progname, head, bodyIn, bodyOut);
+			jniCaller.jniCallCobol_fork(progname, head, bodyIn, bodyOut);
 			System.err.println(head.getString(head.getMetaData().getColumn("xtype")));
 			System.err.println(bodyIn.getString(bodyIn.getMetaData().getColumn("xtype")));
 			System.err.println(bodyOut.getString(bodyOut.getMetaData().getColumn("xtype")));

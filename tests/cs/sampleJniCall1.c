@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <libcob.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -14,15 +15,9 @@ static void byteTojbyte(byte *src, jbyte *dist, int length);
 /**
  * run program
  */
-JNIEXPORT jint JNICALL Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall2
-  (JNIEnv *env, jobject obj, jstring library, jstring prog, jbyteArray head, jbyteArray bodyIn, jbyteArray bodyOut) {
-	int st;
-	pid_t pid;
+JNIEXPORT jint JNICALL Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall_1nonfork
+  (JNIEnv *env, jobject obj, jstring prog, jbyteArray head, jbyteArray bodyIn, jbyteArray bodyOut) {
 	jint ret;
-	/*library name*/
-	const char* slibr;
-	jboolean isCopy1;
-	slibr = (*env)->GetStringUTFChars(env, library, &isCopy1);
 	/*program name*/
 	const char* sprog;
 	jboolean isCopy2;
@@ -54,22 +49,9 @@ JNIEXPORT jint JNICALL Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJn
 		fprintf(stderr, "%s\n", cob_resolve_error ());
 		return -1;
 	}
-	pid = fork();
-	if  (pid == -1) {
-		/* couldn't create process */
-		/* execute */
-		ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
-	} else if  (pid == 0) {
-		/* child process */
-		/* execute */
-		ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
-	} else {
-		/* parent */
-		pid = wait(&st);
-		if  (pid  == -1) {
-			ret = -1;
-		}
-	}
+
+	/* execute */
+	ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
 	
 	/*fprintf("shead:%s\n", shead);*/
 	/*fprintf("sbodyIn:%s\n", sbodyIn);*/
@@ -83,10 +65,6 @@ JNIEXPORT jint JNICALL Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJn
 	(*env)->ReleaseByteArrayElements(env, bodyIn, pbodyIn, 0);
 	(*env)->ReleaseByteArrayElements(env, bodyOut, pbodyOut, 0);
 
-	/* release string */
-	if (isCopy1 == JNI_TRUE) {
-		(*env)->ReleaseStringUTFChars(env, library, slibr);
-	}
 	if (isCopy2 == JNI_TRUE) {
 		(*env)->ReleaseStringUTFChars(env, prog, sprog);
 	}
@@ -97,7 +75,7 @@ JNIEXPORT jint JNICALL Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJn
 /**
  * run program
  */
-JNIEXPORT jint Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall1
+JNIEXPORT jint Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall_1fork
   (JNIEnv *env, jobject obj, jstring prog, jbyteArray head, jbyteArray bodyIn, jbyteArray bodyOut) {
 	int st;
 	pid_t pid;
@@ -109,20 +87,23 @@ JNIEXPORT jint Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall1
 	/*header*/
 	jsize hLength = (*env)->GetArrayLength (env, head);
 	jbyte *phead  = (*env)->GetByteArrayElements(env, head, NULL );
-	byte shead[hLength];
-	int headid = shmget(IPC_PRIVATE, sizeof(shead), 0600);
+	byte *shead;
+	int headid = shmget(IPC_PRIVATE, sizeof(byte) * hLength, 0600);
+	shead = shmat(headid, 0, 0);
 	jbyteTobyte(phead, shead, hLength);
 	/*body(input)*/
 	jsize bInLength = (*env)->GetArrayLength(env, bodyIn);
 	jbyte *pbodyIn  = (*env)->GetByteArrayElements(env, bodyIn, NULL );
-	byte sbodyIn[bInLength];
-	int bodyInid = shmget(IPC_PRIVATE, sizeof(sbodyIn), 0600);
+	byte *sbodyIn;
+	int bodyInid = shmget(IPC_PRIVATE, sizeof(byte) * bInLength, 0600);
+	sbodyIn = shmat(bodyInid, 0, 0);
 	jbyteTobyte(pbodyIn, sbodyIn, bInLength);
 	/*body(output)*/
 	jsize bOutLength = (*env)->GetArrayLength(env, bodyOut);
 	jbyte *pbodyOut  = (*env)->GetByteArrayElements(env, bodyOut, NULL );
-	byte sbodyOut[bOutLength];
-	int bodyOutid = shmget(IPC_PRIVATE, sizeof(sbodyOut), 0600);
+	byte *sbodyOut;
+	int bodyOutid = shmget(IPC_PRIVATE, sizeof(byte) * bOutLength, 0600);
+	sbodyOut = shmat(bodyOutid, 0, 0);
 	jbyteTobyte(pbodyOut, sbodyOut, bOutLength);
 
 	cob_init(0, NULL);
@@ -135,41 +116,28 @@ JNIEXPORT jint Java_k_1kim_1mg_sa4cob2db_cobsub_JSampleJniCall1_sampleJniCall1
  		fprintf(stderr, "%s\n", cob_resolve_error ());
 		return -1;
 	}
-	/*
-	printf("sbodyOutW:%s\n", sbodyOut);
-	ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
-	sbodyOut[1] = '|';
-	printf("sbodyOutX:%s\n", sbodyOut);
-	*/
+	/* fork */
 	pid = fork();
 	if  (pid == -1) {
 		//couldn't create process 
 		// execute 
 		ret = cobol_sub_program(shead, sbodyIn, sbodyOut);
-		printf("sbodyOut-1:%s\n", sbodyOut);
 	} else if  (pid == 0) {
 		// child process 
 		// execute 
 		byte *fhead; fhead = shmat(headid, 0, 0);
-		byte *fbodyIn; fhead = shmat(bodyInid, 0, 0);
-		byte *fbodyOut; fhead = shmat(bodyInOut, 0, 0);
+		byte *fbodyIn; fbodyIn = shmat(bodyInid, 0, 0);
+		byte *fbodyOut; fbodyOut = shmat(bodyOutid, 0, 0);
 		ret = cobol_sub_program(fhead, fbodyIn, fbodyOut);
-		printf("sbodyOut0:%s\n", sbodyOut);
-		printf("sbodyOut0:%s\n", fbodyOut);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	} else {
-		sleep(1);
 		// parent 
 		pid = wait(&st);
 		if  (pid  == -1) {
 			ret = -1;
 		}
-		printf("sbodyOutE:%s:%d\n", sbodyOut, pid);
 	}
-	/*fprintf("shead:%s\n", shead);*/
-	/*fprintf("sbodyIn:%s\n", sbodyIn);*/
-	printf("sbodyOut:%s\n", sbodyOut);
-	
+	/* bytes to jbytes */
 	byteTojbyte(shead, phead, hLength);
 	byteTojbyte(sbodyIn, pbodyIn, bInLength);
 	byteTojbyte(sbodyOut, pbodyOut, bOutLength);
