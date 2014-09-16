@@ -7,10 +7,6 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 public class JSampleJniCall1 {
 	/** Singleton instance */
 	private static JSampleJniCall1 singleton = new JSampleJniCall1();
-	/** Get singleton instance */
-	public static JSampleJniCall1 getSingletonInstance () {
-		return singleton;
-	}
 	/** C library name */
 	public static final String ACM_SAMPLE_LIBRARY_NAME = "sampleJniCall";
 	/** COBOL library name */
@@ -33,95 +29,9 @@ public class JSampleJniCall1 {
 	/** Return value of java method (Failure) */
 	public static final int JNI_RETURN_NG = -1;
 
-	/**
-	 * Calling COBOL SubProgram
-	 * 
-	 * @param progname Program Name
-	 * @param head header
-	 * @param bodyIn InputBody
-	 * @param bodyOut OutputBody
-	 * @return JIN_RETURN_OK/NG
-	 */
-	public native int sampleJniCall1(String progname, byte[] head, byte[] bodyIn, byte[] bodyOut);
-
-	/**
-	 * Calling COBOL SubProgram
-	 * 
-	 * @param libname Library Name
-	 * @param progname Program Name
-	 * @param head header
-	 * @param bodyIn InputBody
-	 * @param bodyOut OutputBody
-	 * @return JIN_RETURN_OK/NG
-	 */
-	public native int sampleJniCall2(String libname, String progname, byte[] head, byte[] bodyIn, byte[] bodyOut);
-
-	/**
-	 * Wrapper of native method
-	 * 
-	 * @param libname Library Name
-	 * @param progname Program Name
-	 * @param head header
-	 * @param bodyIn InputBody
-	 * @param bodyOut OutputBody
-	 * @return JIN_RETURN_OK/NG
-	 */
-	public int jniCallCobol1(String libname, String progname, byte[] head, byte[] bodyIn, byte[] bodyOut) {
-		return sampleJniCall2(libname, progname, head, bodyIn, bodyOut);
-	}
-
-	/**
-	 * Wrapper of native method
-	 * 
-	 * @param libname Library Name
-	 * @param progname Program Name
-	 * @param head header
-	 * @param bodyIn InputBody
-	 * @param bodyOut OutputBody
-	 * @return JIN_RETURN_OK/NG
-	 */
-	public int jniCallCobol1(String libname, String progname, CobolRecord head, CobolRecord bodyIn, CobolRecord bodyOut) throws CobolRecordException {
-		byte[] hbytes = getRecordToBytes(head);
-		byte[] ibytes = getRecordToBytes(bodyIn);
-		byte[] obytes = getRecordToBytes(bodyOut);
-		int ret = sampleJniCall2(libname, progname, hbytes, ibytes, obytes);
-		head.setRecord(hbytes);
-		bodyIn.setRecord(ibytes);
-		bodyOut.setRecord(obytes);
-		return ret;
-	}
-
-	/**
-	 * Wrapper of native method
-	 * 
-	 * @param progname Program Name
-	 * @param head header
-	 * @param bodyIn InputBody
-	 * @param bodyOut OutputBody
-	 * @return JIN_RETURN_OK/NG
-	 */
-	public int jniCallCobol1(String progname, byte[] head, byte[] bodyIn, byte[] bodyOut) {
-		return sampleJniCall1(progname, head, bodyIn, bodyOut);
-	}
-
-	/**
-	 * Wrapper of native method
-	 * 
-	 * @param progname Program Name
-	 * @param head header
-	 * @param bodyIn InputBody
-	 * @param bodyOut OutputBody
-	 * @return JIN_RETURN_OK/NG
-	 */
-	public int jniCallCobol1(String progname, CobolRecord head, CobolRecord bodyIn, CobolRecord bodyOut) throws CobolRecordException {
-		byte[] hbytes = getRecordToBytes(head);
-		byte[] ibytes = getRecordToBytes(bodyIn);
-		byte[] obytes = getRecordToBytes(bodyOut);
-		int ret = sampleJniCall1(progname, hbytes, ibytes, obytes);
-		head.setRecord(hbytes);
-		bodyIn.setRecord(ibytes);
-		bodyOut.setRecord(obytes);
-		return ret;
+	/** Get singleton instance */
+	public static JSampleJniCall1 getSingletonInstance() {
+		return singleton;
 	}
 
 	/**
@@ -139,4 +49,94 @@ public class JSampleJniCall1 {
 		record.getRecord(ret);
 		return ret;
 	}
+
+	/**
+	 * Wrapper of native method
+	 * 
+	 * @param progname Program Name
+	 * @param head header
+	 * @param bodyIn InputBody
+	 * @param bodyOut OutputBody
+	 * @return JIN_RETURN_OK/NG
+	 */
+	public int jniCallCobol_fork(String progname, byte[] head, byte[] bodyIn, byte[] bodyOut) {
+		return sampleJniCall_fork(progname, head, bodyIn, bodyOut);
+	}
+
+	/**
+	 * Wrapper of native method
+	 * 
+	 * @param progname Program Name
+	 * @param head header
+	 * @param bodyIn InputBody
+	 * @param bodyOut OutputBody
+	 * @return JIN_RETURN_OK/NG
+	 */
+	public int jniCallCobol_fork(String progname, CobolRecord head, CobolRecord bodyIn, CobolRecord bodyOut) throws CobolRecordException {
+		byte[] hbytes = getRecordToBytes(head);
+		byte[] ibytes = getRecordToBytes(bodyIn);
+		byte[] obytes = getRecordToBytes(bodyOut);
+		int ret = sampleJniCall_fork(progname, hbytes, ibytes, obytes);
+		head.setRecord(hbytes);
+		bodyIn.setRecord(ibytes);
+		bodyOut.setRecord(obytes);
+		return ret;
+	}
+
+	/**
+	 * Wrapper of native method
+	 * 
+	 * @param progname Program Name
+	 * @param head header
+	 * @param bodyIn InputBody
+	 * @param bodyOut OutputBody
+	 * @return JIN_RETURN_OK/NG
+	 */
+	public int jniCallCobol_nonfork(String progname, byte[] head, byte[] bodyIn, byte[] bodyOut) {
+		return sampleJniCall_nonfork(progname, head, bodyIn, bodyOut);
+	}
+
+	/**
+	 * Wrapper of native method
+	 * 
+	 * @param libname Library Name
+	 * @param progname Program Name
+	 * @param head header
+	 * @param bodyIn InputBody
+	 * @param bodyOut OutputBody
+	 * @return JIN_RETURN_OK/NG
+	 */
+	public int jniCallCobol_nonfork(String libname, String progname, CobolRecord head, CobolRecord bodyIn, CobolRecord bodyOut) throws CobolRecordException {
+		byte[] hbytes = getRecordToBytes(head);
+		byte[] ibytes = getRecordToBytes(bodyIn);
+		byte[] obytes = getRecordToBytes(bodyOut);
+		int ret = sampleJniCall_nonfork(progname, hbytes, ibytes, obytes);
+		head.setRecord(hbytes);
+		bodyIn.setRecord(ibytes);
+		bodyOut.setRecord(obytes);
+		return ret;
+	}
+
+	/**
+	 * Calling COBOL SubProgram
+	 * 
+	 * @param progname Program Name
+	 * @param head header
+	 * @param bodyIn InputBody
+	 * @param bodyOut OutputBody
+	 * @return JIN_RETURN_OK/NG
+	 */
+	public native int sampleJniCall_fork(String progname, byte[] head, byte[] bodyIn, byte[] bodyOut);
+
+	/**
+	 * Calling COBOL SubProgram
+	 * 
+	 * @param libname Library Name
+	 * @param progname Program Name
+	 * @param head header
+	 * @param bodyIn InputBody
+	 * @param bodyOut OutputBody
+	 * @return JIN_RETURN_OK/NG
+	 */
+	public native int sampleJniCall_nonfork(String progname, byte[] head, byte[] bodyIn, byte[] bodyOut);
 }

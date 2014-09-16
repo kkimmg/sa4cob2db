@@ -118,7 +118,7 @@ public class CobSubServerTest {
 		byte[] header = new byte[metaHead.getRowSize()];
 		byte[] req = new byte[metaReqInp.getRowSize()];
 		byte[] res = new byte[metaReqOut.getRowSize()];
-		jni.jniCallCobol1("DYNTEST2", header, req, res);
+		jni.jniCallCobol_fork("DYNTEST2", header, req, res);
 	}
 	//@Test
 	public void testTCPRead() {
@@ -152,7 +152,7 @@ public class CobSubServerTest {
 			byte[] req = new byte[metaReqInp.getRowSize()];
 			reqInp.getRecord(req);
 			byte[] res = new byte[metaReqOut.getRowSize()];
-			jni.jniCallCobol1("TCPDYNTEST2", header, req, res);
+			jni.jniCallCobol_fork("TCPDYNTEST2", header, req, res);
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			//fail(e.getMessage());

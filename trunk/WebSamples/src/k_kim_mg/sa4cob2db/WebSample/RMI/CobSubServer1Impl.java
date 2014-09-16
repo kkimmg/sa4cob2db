@@ -21,11 +21,7 @@ public class CobSubServer1Impl extends UnicastRemoteObject implements CobSubServ
 	public CobSubRet callCobSub(String progname, byte[] header, byte[] req, byte[] res) throws RemoteException {
 		CobSubRet ret = new CobSubRet();
 		
-		int wrk = JSampleJniCall1.getSingletonInstance().jniCallCobol1(progname, header, req, res);
-		System.err.println("progname:" + progname);
-		System.err.println("header:" + new String(header).trim());
-		System.err.println("req:" + new String(req).trim());
-		System.err.println("res:" + new String(res).trim());
+		int wrk = JSampleJniCall1.getSingletonInstance().jniCallCobol_fork(progname, header, req, res);
 		if (wrk != 0) {
 			ret.setSuccess(true);
 			ret.setResponse(res);
