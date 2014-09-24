@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.sql;
+
 import java.lang.reflect.Constructor;
 import java.sql.Connection;
 import java.text.DecimalFormat;
@@ -18,6 +19,7 @@ import k_kim_mg.sa4cob2db.event.ACMOptionSetEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
+
 /** session */
 public class ACMSQLSession implements ACMSession {
 	private static final long serialVersionUID = 1L;
@@ -33,6 +35,7 @@ public class ACMSQLSession implements ACMSession {
 	private final SQLFileServer server;
 	/** sessionID */
 	protected String sessionId;
+
 	/**
 	 * session
 	 * 
@@ -46,16 +49,16 @@ public class ACMSQLSession implements ACMSession {
 		connection = server.createConnection();
 		options = new Properties();
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.ACMSession#addACMSessionEventListener(k_kim_mg.sa4cob2db
-	 * .event.ACMSessionEventListener)
+	 * @see k_kim_mg.sa4cob2db.ACMSession#addACMSessionEventListener(k_kim_mg.sa4cob2db .event.ACMSessionEventListener)
 	 */
 	public void addACMSessionEventListener(ACMSessionEventListener listener) {
 		listeners.add(listener);
 	}
+
 	/**
 	 * fire event when commit
 	 */
@@ -65,6 +68,7 @@ public class ACMSQLSession implements ACMSession {
 			listener.transactionCommited(e);
 		}
 	}
+
 	/**
 	 * fire event when rollback
 	 */
@@ -74,6 +78,7 @@ public class ACMSQLSession implements ACMSession {
 			listener.transactionRollbacked(e);
 		}
 	}
+
 	/**
 	 * create custom meta data
 	 * 
@@ -93,6 +98,7 @@ public class ACMSQLSession implements ACMSession {
 		}
 		return ret;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -105,11 +111,13 @@ public class ACMSQLSession implements ACMSession {
 		} else {
 			CobolRecordMetaData meta = server.metaDataSet.getMetaData(name);
 			try {
-				if (meta instanceof SQLCobolRecordMetaData) {
-					SQLCobolRecordMetaData sqlmeta = (SQLCobolRecordMetaData) meta;
-					ret = createSQLFile(sqlmeta);
-				} else if (meta.getCustomFileClassName() != null && meta.getCustomFileClassName().trim().length() > 0) {
-					ret = createCustomFile(meta);
+				if (meta != null) {
+					if (meta instanceof SQLCobolRecordMetaData) {
+						SQLCobolRecordMetaData sqlmeta = (SQLCobolRecordMetaData) meta;
+						ret = createSQLFile(sqlmeta);
+					} else if (meta.getCustomFileClassName() != null && meta.getCustomFileClassName().trim().length() > 0) {
+						ret = createCustomFile(meta);
+					}
 				}
 			} catch (Exception e) {
 				SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
@@ -141,15 +149,16 @@ public class ACMSQLSession implements ACMSession {
 						}
 					}
 				}
-			}
-			// fire events
-			ACMSessionEvent e = new ACMSessionEvent(this, ret);
-			for (ACMSessionEventListener listener : listeners) {
-				listener.fileCreated(e);
+				// fire events
+				ACMSessionEvent e = new ACMSessionEvent(this, ret);
+				for (ACMSessionEventListener listener : listeners) {
+					listener.fileCreated(e);
+				}
 			}
 		}
 		return ret;
 	}
+
 	/**
 	 * create file object
 	 * 
@@ -183,6 +192,7 @@ public class ACMSQLSession implements ACMSession {
 		}
 		return ret;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -201,10 +211,12 @@ public class ACMSQLSession implements ACMSession {
 		}
 		files.remove(name);
 	}
+
 	@Override
 	public String getACMOption(String key) {
 		return options.getProperty(key, "");
 	}
+
 	/**
 	 * Connection
 	 * 
@@ -213,6 +225,7 @@ public class ACMSQLSession implements ACMSession {
 	public Connection getConnection() {
 		return connection;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -221,6 +234,7 @@ public class ACMSQLSession implements ACMSession {
 	public CobolFile getFile(String name) {
 		return files.get(name);
 	}
+
 	/**
 	 * list files
 	 * 
@@ -229,6 +243,7 @@ public class ACMSQLSession implements ACMSession {
 	protected Collection<CobolFile> getFileCollection() {
 		return files.values();
 	}
+
 	/**
 	 * list file names
 	 * 
@@ -237,6 +252,7 @@ public class ACMSQLSession implements ACMSession {
 	protected Set<String> getFileNames() {
 		return files.keySet();
 	}
+
 	@Override
 	public int getMaxLength() {
 		if (maxLength <= 0) {
@@ -244,6 +260,7 @@ public class ACMSQLSession implements ACMSession {
 		}
 		return maxLength;
 	}
+
 	/**
 	 * sessionID
 	 * 
@@ -252,6 +269,7 @@ public class ACMSQLSession implements ACMSession {
 	public String getSessionId() {
 		return sessionId;
 	}
+
 	/**
 	 * initialize sessionID
 	 */
@@ -270,16 +288,16 @@ public class ACMSQLSession implements ACMSession {
 		// bytes
 		sessionId = str; // .getBytes();
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.ACMSession#removeACMSessionEventListener(k_kim_mg.
-	 * sa4cob2db.event.ACMSessionEventListener)
+	 * @see k_kim_mg.sa4cob2db.ACMSession#removeACMSessionEventListener(k_kim_mg. sa4cob2db.event.ACMSessionEventListener)
 	 */
 	public void removeACMSessionEventListener(ACMSessionEventListener listener) {
 		listeners.remove(listener);
 	}
+
 	@Override
 	public void setACMOption(String key, String value) {
 		options.setProperty(key, value);
@@ -288,6 +306,7 @@ public class ACMSQLSession implements ACMSession {
 			listener.optionSetted(e);
 		}
 	}
+
 	@Override
 	public void setMaxLength(int length) {
 		int oldLength = getMaxLength();
@@ -301,6 +320,7 @@ public class ACMSQLSession implements ACMSession {
 			listener.lengthChanged(e);
 		}
 	}
+
 	/**
 	 * terminate session
 	 */
