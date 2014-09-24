@@ -293,10 +293,26 @@ public class TypesTest {
 		column = new DefaultCobolColumn(meta);
 		column.setName("TYPE-DECIMAL2");
 		column.setNumberOfDecimal(2);
-		column.setFormat("000.00");
+		column.setFormat("-00.00");
 		column.setLength(6);
 		column.setStart(149);
 		column.setType(CobolColumn.TYPE_DECIMAL);
+		meta.addColumn(column);
+		// TYPE-BINARY
+		column = new DefaultCobolColumn(meta);
+		column.setName("TYPE-BINARY5");
+		column.setLength(6);
+		column.setStart(155);
+		column.setType(CobolColumn.TYPE_INTEGER);
+		column.setUsage(CobolColumn.USAGE_BINARY);
+		meta.addColumn(column);
+		// TYPE-BINARY2
+		column = new DefaultCobolColumn(meta);
+		column.setName("TYPE-BINARY18");
+		column.setLength(18);
+		column.setStart(161);
+		column.setType(CobolColumn.TYPE_LONG);
+		column.setUsage(CobolColumn.USAGE_BINARY);
 		meta.addColumn(column);
 		// Record
 		record = new DefaultCobolRecord(meta);
@@ -728,7 +744,7 @@ public class TypesTest {
 			column = meta.getColumn("TYPE-FOM5");
 			record.updateInt(column, i);
 			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
-			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", " \\567", record.getString(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "\\567", record.getString(column));
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -878,6 +894,15 @@ public class TypesTest {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
+		f = new BigDecimal(-345.67d);
+		try {
+			column = meta.getColumn("TYPE-DECIMAL");
+			record.updateBigDecimal(column, f);
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", 0.0d, f.doubleValue(), record.getBigDecimal(column).doubleValue());
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
 	/**
 	 * DECIMAL
@@ -891,6 +916,80 @@ public class TypesTest {
 			record.updateBigDecimal(column, f);
 			NumberFormat nf = new DecimalFormat(column.getFormat());
 			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", nf.format(f), nf.format(record.getBigDecimal(column)));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		f = new BigDecimal(-45.67d);
+		try {
+			column = meta.getColumn("TYPE-DECIMAL2");
+			record.updateBigDecimal(column, f);
+			NumberFormat nf = new DecimalFormat(column.getFormat());
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", nf.format(f), nf.format(record.getBigDecimal(column)));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+	/**
+	 * 9
+	 */
+	@Test
+	public void testTYPE_BINARY5() {
+		CobolColumn column;
+		int i = 5678;
+		try {
+			column = meta.getColumn("TYPE-BINARY5");
+			record.updateInt(column, i);
+			assertEquals(column.getName(), i, record.getInt(column));
+			byte[] bytes = record.getBytes(column);
+			assertEquals(column.getName(), bytes[0], 0x00);
+			assertEquals(column.getName(), bytes[1], 0x00);
+			assertEquals(column.getName(), bytes[2], 0x01);
+			assertEquals(column.getName(), bytes[3], 0x06);
+			assertEquals(column.getName(), bytes[4], 0x02);
+			assertEquals(column.getName(), bytes[5], 0x0e);
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		i = -5678;
+		try {
+			column = meta.getColumn("TYPE-BINARY5");
+			record.updateInt(column, i);
+			assertEquals(column.getName(), i, record.getInt(column));
+			byte[] bytes = record.getBytes(column);
+			assertEquals(column.getName(), ~bytes[0] & 0x0F, 0x00);
+			assertEquals(column.getName(), ~bytes[1] & 0x0F, 0x00);
+			assertEquals(column.getName(), ~bytes[2] & 0x0F, 0x01);
+			assertEquals(column.getName(), ~bytes[3] & 0x0F, 0x06);
+			assertEquals(column.getName(), ~bytes[4] & 0x0F, 0x02);
+			assertEquals(column.getName(), (~bytes[5] & 0x0F) + 1, 0x0e);
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+	/**
+	 * 9
+	 */
+	@Test
+	public void testTYPE_BINARY18() {
+		CobolColumn column;
+		long i = 123456789012345678L;
+		try {
+			column = meta.getColumn("TYPE-BINARY18");
+			record.updateLong(column, i);
+			assertEquals(column.getName(), i, record.getLong(column));
+		} catch (CobolRecordException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		i = -12345678901234567L;
+		try {
+			column = meta.getColumn("TYPE-BINARY18");
+			record.updateLong(column, i);
+			assertEquals(column.getName(), i, record.getLong(column));
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());

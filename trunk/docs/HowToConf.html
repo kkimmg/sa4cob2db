@@ -336,6 +336,11 @@
 							<td>9 or X</td>
 							<td>TimeStamp. Requires 'format' attribute. If not defined, value can't be formated correctly.</td>
 						</tr>
+						<tr>
+							<td>12</td>
+							<td>9 or S9</td>
+							<td>Decimal. If this column is signed value(S9), set true to 'signed' attribute.</td>
+						</tr>
 					</tbody>
 				</table>
 				<li>start</li> Column location. Start from 0.
@@ -358,7 +363,7 @@
 						<tr>
 							<td>1</td>
 							<td>BINARY</td>
-							<td>Reserved only. Not in use.</td>
+							<td>COMPUTATINAL or BINARY. This usage is valid when DataType is 1 or 4.</td>
 						</tr>
 						<tr>
 							<td>2</td>

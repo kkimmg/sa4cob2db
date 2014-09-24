@@ -26,8 +26,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/**
 	 * Constructor
 	 * 
-	 * @param meta
-	 *            metadata
+	 * @param meta metadata
 	 */
 	public DefaultCobolRecord(CobolRecordMetaData meta) {
 		setMetaData(meta);
@@ -56,9 +55,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.CobolRecord#getBigDecimal(k_kim_mg.sa4cob2db.CobolColumn
-	 * )
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getBigDecimal(k_kim_mg.sa4cob2db.CobolColumn )
 	 */
 	public BigDecimal getBigDecimal(CobolColumn column) throws CobolRecordException {
 		String work = getString(column);
@@ -75,8 +72,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.CobolRecord#getBoolean(k_kim_mg.sa4cob2db.CobolColumn)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getBoolean(k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	public boolean getBoolean(CobolColumn column) throws CobolRecordException {
 		boolean ret = false;
@@ -94,8 +90,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#getByte(
-	 * k_kim_mg.sa4cob2db.CobolColumn)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getByte( k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	public byte getByte(CobolColumn column) throws CobolRecordException {
 		String work = getString(column);
@@ -107,8 +102,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#getBytes(.mvh
-	 * k_kim_mg.sa4cob2db.CobolColumn)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getBytes(.mvh k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	public byte[] getBytes(CobolColumn column) throws CobolRecordException {
 		return getBytesDisplay(column);
@@ -117,8 +111,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/**
 	 * get bytes
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#getBytes(.mvh
-	 *      k_kim_mg.sa4cob2db.CobolColumn)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getBytes(.mvh k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	protected byte[] getBytesAuto(CobolColumn column) throws CobolRecordException {
 		byte[] ret = null;
@@ -136,11 +129,9 @@ public class DefaultCobolRecord implements CobolRecord {
 	/**
 	 * get comp-3 value
 	 * 
-	 * @param column
-	 *            column
+	 * @param column column
 	 * @return bytes array
-	 * @throws CobolRecordException
-	 *             exception
+	 * @throws CobolRecordException exception
 	 */
 	protected byte[] getBytesComp3(CobolColumn column) throws CobolRecordException {
 		byte[] ret = new byte[column.getLength()];
@@ -174,8 +165,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/**
 	 * get display value
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#getBytes(.mvh
-	 *      k_kim_mg.sa4cob2db.CobolColumn)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getBytes(.mvh k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	protected byte[] getBytesDisplay(CobolColumn column) throws CobolRecordException {
 		byte[] ret = new byte[column.getPhysicalLength()];
@@ -186,8 +176,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/**
 	 * get column
 	 * 
-	 * @param columnIndex
-	 *            column index
+	 * @param columnIndex column index
 	 * @return index'th column
 	 */
 	public CobolColumn getColumn(int columnIndex) {
@@ -197,8 +186,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#getDate(
-	 * k_kim_mg.sa4cob2db.CobolColumn)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getDate( k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	public Date getDate(CobolColumn column) throws CobolRecordException {
 		Date ret = null;
@@ -246,8 +234,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#getDouble(.mvh
-	 * k_kim_mg.sa4cob2db.CobolColumn)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getDouble(.mvh k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	public double getDouble(CobolColumn column) throws CobolRecordException {
 		double ret = 0;
@@ -309,8 +296,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#getFloat(.mvh
-	 * k_kim_mg.sa4cob2db.CobolColumn)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getFloat(.mvh k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	public float getFloat(CobolColumn column) throws CobolRecordException {
 		float ret = 0;
@@ -371,8 +357,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/**
 	 * get NumberFormat object
 	 * 
-	 * @param column
-	 *            column to format
+	 * @param column column to format
 	 * @return NumberFormat object if not exists create object
 	 */
 	protected NumberFormat getFormatter(CobolColumn column) {
@@ -422,20 +407,33 @@ public class DefaultCobolRecord implements CobolRecord {
 				bytes = getBytes(column);
 				break;
 			}
-			for (int i = 0; i < bytes.length - 1; i++) {
-				byt = bytes[i];
-				ret += (byt & 0x0F);
-				ret *= 10;
-			}
-			byt = bytes[bytes.length - 1];
-			ret += (byt & 0x0F);
-			if (column.isSigned()) {
-				if ((byt & 0x40) != 0) {
-					ret *= (-1);
+			if (CobolColumn.USAGE_BINARY == column.getUsage()) {
+				boolean minus = ((bytes[0] & 0x08) == 0x08);
+				for (int i = 0; i < bytes.length - 1; i++) {
+					ret |= (minus ? (~(bytes[i]) & 0x0F) : (bytes[i]));
+					ret = ret << 4L;
 				}
-			}
-			for (int i = 0; i < column.getNumberOfDecimal(); i++) {
-				ret /= 10;
+				ret |= (minus ? (~(bytes[bytes.length - 1]) & 0x0F) : bytes[bytes.length - 1]);
+				if (minus) {
+					ret += 1;
+					ret *= -1;
+				}
+			} else {
+				for (int i = 0; i < bytes.length - 1; i++) {
+					byt = bytes[i];
+					ret += (byt & 0x0F);
+					ret *= 10;
+				}
+				byt = bytes[bytes.length - 1];
+				ret += (byt & 0x0F);
+				if (column.isSigned()) {
+					if ((byt & 0x40) != 0) {
+						ret *= (-1);
+					}
+				}
+				for (int i = 0; i < column.getNumberOfDecimal(); i++) {
+					ret /= 10;
+				}
 			}
 		}
 		return ret;
@@ -444,8 +442,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#getLong(
-	 * k_kim_mg.sa4cob2db.CobolColumn)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getLong( k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	public long getLong(CobolColumn column) throws CobolRecordException {
 		long ret = 0;
@@ -484,20 +481,34 @@ public class DefaultCobolRecord implements CobolRecord {
 				bytes = getBytes(column);
 				break;
 			}
-			for (int i = 0; i < bytes.length - 1; i++) {
-				byt = bytes[i];
-				ret += (byt & 0x0F);
-				ret *= 10;
-			}
-			byt = bytes[bytes.length - 1];
-			ret += (byt & 0x0F);
-			if (column.isSigned()) {
-				if ((byt & 0x40) != 0) {
-					ret *= (-1);
+			if (CobolColumn.USAGE_BINARY == column.getUsage()) {
+				boolean minus = ((bytes[0] & 0x08) == 0x08);
+				Long lng = new Long(0L);
+				for (int i = 0; i < bytes.length - 1; i++) {
+					ret |= (minus ? (~(bytes[i]) & 0x0F) : (bytes[i]));
+					ret = ret << 4L;
 				}
-			}
-			for (int i = 0; i < column.getNumberOfDecimal(); i++) {
-				ret /= 10;
+				ret |= (minus ? (~(bytes[bytes.length - 1]) & 0x0F) : bytes[bytes.length - 1]);
+				if (minus) {
+					ret += 1;
+					ret *= -1;
+				}
+			} else {
+				for (int i = 0; i < bytes.length - 1; i++) {
+					byt = bytes[i];
+					ret += (byt & 0x0F);
+					ret *= 10;
+				}
+				byt = bytes[bytes.length - 1];
+				ret += (byt & 0x0F);
+				if (column.isSigned()) {
+					if ((byt & 0x40) != 0) {
+						ret *= (-1);
+					}
+				}
+				for (int i = 0; i < column.getNumberOfDecimal(); i++) {
+					ret /= 10;
+				}
 			}
 		}
 		return ret;
@@ -526,8 +537,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#getShort(.mvh
-	 * k_kim_mg.sa4cob2db.CobolColumn)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getShort(.mvh k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	public short getShort(CobolColumn column) throws CobolRecordException {
 		String work = getString(column);
@@ -539,8 +549,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#getString(.mvh
-	 * k_kim_mg.sa4cob2db.CobolColumn)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#getString(.mvh k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	public String getString(CobolColumn column) throws CobolRecordException {
 		int start = column.getStart();
@@ -578,8 +587,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/**
 	 * does this column have format text?
 	 * 
-	 * @param column
-	 *            column
+	 * @param column column
 	 * @return true yes<br>
 	 *         false no
 	 */
@@ -596,8 +604,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/**
 	 * set meta data
 	 * 
-	 * @param data
-	 *            meta data
+	 * @param data meta data
 	 */
 	public void setMetaData(CobolRecordMetaData data) {
 		metaData = data;
@@ -617,9 +624,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see jp.int v =
-	 * bi.intValue();ne.biglobe.mvhk_kim_mg.sa4cob2db.CobolRecord
-	 * #setRecord(byte[])
+	 * @see jp.int v = bi.intValue();ne.biglobe.mvhk_kim_mg.sa4cob2db.CobolRecord #setRecord(byte[])
 	 */
 	public int setRecord(byte[] bs) {
 		int length = (record.length > bs.length ? bs.length : record.length);
@@ -630,8 +635,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateBigDecimal(
-	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, java.math.BigDecimal)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateBigDecimal( .mvhk_kim_mg.sa4cob2db.CobolColumn, java.math.BigDecimal)
 	 */
 	public void updateBigDecimal(CobolColumn column, BigDecimal x) throws CobolRecordException {
 		if (isColumnFormatted(column)) {
@@ -682,8 +686,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateBoolean(
-	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, boolean)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateBoolean( .mvhk_kim_mg.sa4cob2db.CobolColumn, boolean)
 	 */
 	public void updateBoolean(CobolColumn column, boolean x) throws CobolRecordException {
 		if (x) {
@@ -696,8 +699,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateByte(.mvh
-	 * k_kim_mg.sa4cob2db.CobolColumn, byte)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateByte(.mvh k_kim_mg.sa4cob2db.CobolColumn, byte)
 	 */
 	public void updateByte(CobolColumn column, byte x) throws CobolRecordException {
 		updateLong(column, x);
@@ -706,8 +708,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateBytes(.
-	 * mvhk_kim_mg.sa4cob2db.CobolColumn, byte[])
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateBytes(. mvhk_kim_mg.sa4cob2db.CobolColumn, byte[])
 	 */
 	public void updateBytes(CobolColumn column, byte[] x) throws CobolRecordException {
 		updateBytesDisplay(column, x);
@@ -716,12 +717,9 @@ public class DefaultCobolRecord implements CobolRecord {
 	/**
 	 * update bytes
 	 * 
-	 * @param column
-	 *            column
-	 * @param x
-	 *            value
-	 * @throws CobolRecordException
-	 *             exception
+	 * @param column column
+	 * @param x value
+	 * @throws CobolRecordException exception
 	 */
 	protected void updateBytesAuto(CobolColumn column, byte[] x) throws CobolRecordException {
 		switch (column.getUsage()) {
@@ -737,12 +735,9 @@ public class DefaultCobolRecord implements CobolRecord {
 	/**
 	 * update bytes (usage comp-3)
 	 * 
-	 * @param column
-	 *            column
-	 * @param x
-	 *            value
-	 * @throws CobolRecordException
-	 *             exception
+	 * @param column column
+	 * @param x value
+	 * @throws CobolRecordException exception
 	 */
 	protected void updateBytesComp3(CobolColumn column, byte[] x) throws CobolRecordException {
 		int cstart = column.getStart();
@@ -796,12 +791,9 @@ public class DefaultCobolRecord implements CobolRecord {
 	/**
 	 * right justification
 	 * 
-	 * @param column
-	 *            column
-	 * @param x
-	 *            value
-	 * @throws CobolRecordException
-	 *             exception
+	 * @param column column
+	 * @param x value
+	 * @throws CobolRecordException exception
 	 */
 	public void updateBytesR(CobolColumn column, byte[] x) throws CobolRecordException {
 		int i = 0;
@@ -817,8 +809,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateDate(.mvh
-	 * k_kim_mg.sa4cob2db.CobolColumn, java.util.Date)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateDate(.mvh k_kim_mg.sa4cob2db.CobolColumn, java.util.Date)
 	 */
 	public void updateDate(CobolColumn column, Date x) throws CobolRecordException {
 		if (x == null && column.getIfNull() != null) {
@@ -833,8 +824,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateDouble(
-	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, double)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateDouble( .mvhk_kim_mg.sa4cob2db.CobolColumn, double)
 	 */
 	public void updateDouble(CobolColumn column, double x) throws CobolRecordException {
 		if (isColumnFormatted(column)) {
@@ -885,8 +875,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateFloat(.
-	 * mvhk_kim_mg.sa4cob2db.CobolColumn, float)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateFloat(. mvhk_kim_mg.sa4cob2db.CobolColumn, float)
 	 */
 	public void updateFloat(CobolColumn column, float x) throws CobolRecordException {
 		updateDouble(column, x);
@@ -895,8 +884,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateInt(.mvh
-	 * k_kim_mg.sa4cob2db.CobolColumn, int)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateInt(.mvh k_kim_mg.sa4cob2db.CobolColumn, int)
 	 */
 	public void updateInt(CobolColumn column, int x) throws CobolRecordException {
 		updateLong(column, x);
@@ -905,8 +893,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateLong(.mvh
-	 * k_kim_mg.sa4cob2db.CobolColumn, long)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateLong(.mvh k_kim_mg.sa4cob2db.CobolColumn, long)
 	 */
 	public void updateLong(CobolColumn column, long x) throws CobolRecordException {
 		int _type = column.getType();
@@ -918,28 +905,39 @@ public class DefaultCobolRecord implements CobolRecord {
 				String s = df.format(x);
 				updateStringR(column, s);
 			} else {
-				boolean b = (x < 0);
-				long v = (b ? -x : x);
-				int len = column.getLength();
-				byte[] bytes = new byte[len];
-				int i = len - 1;
-				bytes[i] = (byte) ((b ? 0x70 : 0x30) | (v % 10)); // [length -
-																	// 1]
-				v /= 10;
-				i--;
-				while (i >= 0) {
-					// bytes[0]~bytes[length - 2]
-					bytes[i] = (byte) (0x30 | (v % 10));
+				if (CobolColumn.USAGE_BINARY == column.getUsage()) {
+					int len = column.getLength();
+					byte[] bytes = new byte[len];
+
+					for (int i = len - 1; i >= 0; i--) {
+						bytes[i] = (byte) (x & 0x0F);
+						x >>= 4;
+					}
+					updateBytes(column, bytes);
+				} else {
+					boolean b = (x < 0);
+					long v = (b ? -x : x);
+					int len = column.getLength();
+					byte[] bytes = new byte[len];
+					int i = len - 1;
+					bytes[i] = (byte) ((b ? 0x70 : 0x30) | (v % 10)); // [length -
+																		// 1]
 					v /= 10;
 					i--;
-				}
-				switch (column.getUsage()) {
-				case CobolColumn.USAGE_COMP_3:
-					updateBytesComp3(column, bytes);
-					break;
-				default:
-					updateBytes(column, bytes);
-					break;
+					while (i >= 0) {
+						// bytes[0]~bytes[length - 2]
+						bytes[i] = (byte) (0x30 | (v % 10));
+						v /= 10;
+						i--;
+					}
+					switch (column.getUsage()) {
+					case CobolColumn.USAGE_COMP_3:
+						updateBytesComp3(column, bytes);
+						break;
+					default:
+						updateBytes(column, bytes);
+						break;
+					}
 				}
 			}
 		}
@@ -948,8 +946,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateNull(.mvh
-	 * k_kim_mg.sa4cob2db.CobolColumn)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateNull(.mvh k_kim_mg.sa4cob2db.CobolColumn)
 	 */
 	public void updateNull(CobolColumn column) throws CobolRecordException {
 		int _type = column.getType();
@@ -977,8 +974,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateObject(
-	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, java.lang.Object)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateObject( .mvhk_kim_mg.sa4cob2db.CobolColumn, java.lang.Object)
 	 */
 	public void updateObject(CobolColumn column, Object x) throws CobolRecordException {
 		if (x == null && column.getIfNull() != null) {
@@ -1002,8 +998,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateObject(
-	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, java.lang.Object, int)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateObject( .mvhk_kim_mg.sa4cob2db.CobolColumn, java.lang.Object, int)
 	 */
 	public void updateObject(CobolColumn column, Object x, int scale) throws CobolRecordException {
 		updateObject(column, x);
@@ -1012,8 +1007,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateShort(.
-	 * mvhk_kim_mg.sa4cob2db.CobolColumn, short)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateShort(. mvhk_kim_mg.sa4cob2db.CobolColumn, short)
 	 */
 	public void updateShort(CobolColumn column, short x) throws CobolRecordException {
 		updateLong(column, x);
@@ -1022,8 +1016,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateString(
-	 * .mvhk_kim_mg.sa4cob2db.CobolColumn, java.lang.String)
+	 * @see k_kim_mg.sa4cob2db.CobolRecord#updateString( .mvhk_kim_mg.sa4cob2db.CobolColumn, java.lang.String)
 	 */
 	public void updateString(CobolColumn column, String x) throws CobolRecordException {
 		try {
@@ -1046,12 +1039,9 @@ public class DefaultCobolRecord implements CobolRecord {
 	/**
 	 * right justification
 	 * 
-	 * @param column
-	 *            column
-	 * @param x
-	 *            value
-	 * @throws CobolRecordException
-	 *             exception
+	 * @param column column
+	 * @param x value
+	 * @throws CobolRecordException exception
 	 */
 	public void updateStringR(CobolColumn column, String x) throws CobolRecordException {
 		try {
