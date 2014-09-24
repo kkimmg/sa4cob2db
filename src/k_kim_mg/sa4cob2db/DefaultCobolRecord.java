@@ -483,7 +483,6 @@ public class DefaultCobolRecord implements CobolRecord {
 			}
 			if (CobolColumn.USAGE_BINARY == column.getUsage()) {
 				boolean minus = ((bytes[0] & 0x08) == 0x08);
-				Long lng = new Long(0L);
 				for (int i = 0; i < bytes.length - 1; i++) {
 					ret |= (minus ? (~(bytes[i]) & 0x0F) : (bytes[i]));
 					ret = ret << 4L;
