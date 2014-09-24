@@ -301,7 +301,7 @@ public class TypesTest {
 		// TYPE-BINARY
 		column = new DefaultCobolColumn(meta);
 		column.setName("TYPE-BINARY5");
-		column.setLength(6);
+		column.setLength(4);
 		column.setStart(155);
 		column.setType(CobolColumn.TYPE_INTEGER);
 		column.setUsage(CobolColumn.USAGE_BINARY);
@@ -310,7 +310,7 @@ public class TypesTest {
 		column = new DefaultCobolColumn(meta);
 		column.setName("TYPE-BINARY18");
 		column.setLength(18);
-		column.setStart(161);
+		column.setStart(159);
 		column.setType(CobolColumn.TYPE_LONG);
 		column.setUsage(CobolColumn.USAGE_BINARY);
 		meta.addColumn(column);
@@ -932,7 +932,7 @@ public class TypesTest {
 		}
 	}
 	/**
-	 * 9
+	 * BINARY(5)
 	 */
 	@Test
 	public void testTYPE_BINARY5() {
@@ -943,12 +943,10 @@ public class TypesTest {
 			record.updateInt(column, i);
 			assertEquals(column.getName(), i, record.getInt(column));
 			byte[] bytes = record.getBytes(column);
-			assertEquals(column.getName(), bytes[0], 0x00);
-			assertEquals(column.getName(), bytes[1], 0x00);
-			assertEquals(column.getName(), bytes[2], 0x01);
-			assertEquals(column.getName(), bytes[3], 0x06);
-			assertEquals(column.getName(), bytes[4], 0x02);
-			assertEquals(column.getName(), bytes[5], 0x0e);
+			assertEquals(column.getName(), bytes[0], 0x01);
+			assertEquals(column.getName(), bytes[1], 0x06);
+			assertEquals(column.getName(), bytes[2], 0x02);
+			assertEquals(column.getName(), bytes[3], 0x0e);
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -959,19 +957,17 @@ public class TypesTest {
 			record.updateInt(column, i);
 			assertEquals(column.getName(), i, record.getInt(column));
 			byte[] bytes = record.getBytes(column);
-			assertEquals(column.getName(), ~bytes[0] & 0x0F, 0x00);
-			assertEquals(column.getName(), ~bytes[1] & 0x0F, 0x00);
-			assertEquals(column.getName(), ~bytes[2] & 0x0F, 0x01);
-			assertEquals(column.getName(), ~bytes[3] & 0x0F, 0x06);
-			assertEquals(column.getName(), ~bytes[4] & 0x0F, 0x02);
-			assertEquals(column.getName(), (~bytes[5] & 0x0F) + 1, 0x0e);
+			assertEquals(column.getName(), ~bytes[0] & 0x0F, 0x01);
+			assertEquals(column.getName(), ~bytes[1] & 0x0F, 0x06);
+			assertEquals(column.getName(), ~bytes[2] & 0x0F, 0x02);
+			assertEquals(column.getName(), (~bytes[3] & 0x0F) + 1, 0x0e);
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
 	/**
-	 * 9
+	 * BINARY(18)
 	 */
 	@Test
 	public void testTYPE_BINARY18() {

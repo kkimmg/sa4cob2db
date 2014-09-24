@@ -81,14 +81,23 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 			}
 		}
 		this.start = start;
-		if (getLength() > 0) {
+		int l_length = getLength(); 
+		if (l_length > 0) {
+			if (l_length <= 4) {
+				l_length = 2;
+			} else if (5 <= l_length  && l_length <= 9) {
+				l_length = 4;
+			} else if (10 <= l_length  && l_length <= 18) {
+				l_length = 8;
+			}
+			
 			node = document.createElement("sqlcolumn");
 			NamedNodeMap map = node.getAttributes();
 			map.setNamedItem(setNodeAttribute(document, "name", getName() + fix));
 			map.setNamedItem(setNodeAttribute(document, "originalColumnName", getOriginalColumnName() + fix));
 			map.setNamedItem(setNodeAttribute(document, "type", getType()));
 			map.setNamedItem(setNodeAttribute(document, "start", start));
-			map.setNamedItem(setNodeAttribute(document, "length", getLength()));
+			map.setNamedItem(setNodeAttribute(document, "length", l_length));
 			if (isSigned()) {
 				map.setNamedItem(setNodeAttribute(document, "signed", isSigned()));
 			}
@@ -113,7 +122,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 				map.setNamedItem(setNodeAttribute(document, "usage", String.valueOf(usage)));
 			}
 			parent.appendChild(node);
-			ret = start + getLength();
+			ret = start + l_length;
 		}
 		for (MetadataCobolColumn x : this) {
 			ret = x.exportToNode(document, parent, ret, fix);
