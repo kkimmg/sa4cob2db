@@ -5,6 +5,7 @@ AC_PREREQ([2.64])
 AC_INIT(sa4cob2db, 0.1, kkimmg@gmail.com)
 AC_CONFIG_SRCDIR([sqlnetserver.c])
 AC_CONFIG_HEADERS([config.h])
+AC_CANONICAL_SYSTEM
 
 AC_SUBST(ACM_HOME, "/opt/sa4cob2db")
 AC_DEFINE_UNQUOTED(ACM_HOME, "/opt/sa4cob2db")
@@ -19,9 +20,17 @@ AC_PROG_INSTALL
 AC_ARG_VAR(JAVA_HOME, java home)
 AC_CHECK_FILE($JAVA_HOME, , AC_MSG_ERROR(Prease Set JAVA_HOME Environment))
 
+# OS NAME
+AC_SUBST(OS_NAME, @host_os@)
+AC_ARG_VAR(OS_NAME, os name)
+
+# OS ARCH
+AC_SUBST(OS_ARCH, @host_cpu@)
+AC_ARG_VAR(OS_ARCH, os arch)
+
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-ljvm':
-JAVA_CHECK_LIB="-L${JAVA_HOME}/jre/lib/i386/server"
+JAVA_CHECK_LIB="-L${JAVA_HOME}/jre/lib/$OS_ARCH/server"
 LIBS="${JAVA_CHECK_LIB} ${defaultlibs}"
 AC_CHECK_LIB([jvm], [JNI_CreateJavaVM], [JAVA_LDFLAGS="${JAVA_CHECK_LIB} -ljvm"], [AC_MSG_ERROR([could not find libjvm])])
 
