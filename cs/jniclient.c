@@ -738,7 +738,7 @@ extern void getOptionValue(char *value) {
 
 /** set option */
 extern void
-setJNIOptionFromEnv (char *name, char *envkey, char *status) {
+setJNIOptionFromEnv (char *name, char *envkey) {
 	char *wvalue;
 	char value[OPTIONVALUE_LEN];
 	envkey[OPTIONVALUE_MAX] = '\0';
@@ -758,7 +758,7 @@ setJNIOptionFromEnv (char *name, char *envkey, char *status) {
 	}
 	memset(value, '\0', OPTIONVALUE_MAX);
 	strcpy(value, wvalue);
-	setJNIOption(name, value, status);
+	setJNIOption(name, value);
 	memcpy(envkey, value, OPTIONVALUE_LEN);
 }
 
