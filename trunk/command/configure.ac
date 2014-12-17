@@ -39,6 +39,11 @@ AC_ARG_VAR(LIB_DL, dl library)
 
 # OS ARCH
 AC_SUBST(OS_ARCH, $host_cpu)
+case "$OS_ARCH" in
+	*i*86*)
+		OS_ARCH="i386"
+		;;
+esac
 AC_ARG_VAR(OS_ARCH, os arch)
 AC_CHECK_FILE($JAVA_HOME/jre/lib/$OS_ARCH/server, , AC_MSG_ERROR(Prease Set OS_ARCH Environment))
 
