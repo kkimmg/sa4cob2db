@@ -21,12 +21,26 @@ AC_ARG_VAR(JAVA_HOME, java home)
 AC_CHECK_FILE($JAVA_HOME, , AC_MSG_ERROR(Prease Set JAVA_HOME Environment))
 
 # OS NAME
-AC_SUBST(OS_NAME, @host_os@)
+AC_SUBST(OS_NAME, $host_os)
+AC_SUBST(LIB_DL, "-ldl")
+case "$OS_NAME" in
+	*freebsd*)
+		OS_NAME="freebsd"
+		LIB_DL=""
+		;;
+	*linux*)
+		OS_NAME="linux"
+		LIB_DL="-ldl"
+		;;
+esac 
 AC_ARG_VAR(OS_NAME, os name)
+AC_CHECK_FILE($JAVA_HOME/include/$OS_NAME, , AC_MSG_ERROR(Prease Set OS_NAME Environment))
+AC_ARG_VAR(LIB_DL, dl library)
 
 # OS ARCH
-AC_SUBST(OS_ARCH, @host_cpu@)
+AC_SUBST(OS_ARCH, $host_cpu)
 AC_ARG_VAR(OS_ARCH, os arch)
+AC_CHECK_FILE($JAVA_HOME/jre/lib/$OS_ARCH/server, , AC_MSG_ERROR(Prease Set OS_ARCH Environment))
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-ljvm':

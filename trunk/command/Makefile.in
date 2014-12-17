@@ -5,23 +5,26 @@ ACM_HOME = @ACM_HOME@
 BINDIR = $(ACM_HOME)/bin
 LIBDIR = $(ACM_HOME)/lib
 JAVA_HOME = @JAVA_HOME@
+OS_NAME = @OS_NAME@
+OS_ARCH = @OS_ARCH@
+LIB_DL = @LIB_DL@
 JDKLIB = -I$(JAVA_HOME)/include/
-JDKOSLIB = -I$(JAVA_HOME)/include/$OS_NAME/
-JVMLINK = -L$(JAVA_HOME)/jre/lib/$OS_ARCH/server
+JDKOSLIB = -I$(JAVA_HOME)/include/$(OS_NAME)/
+JVMLINK = -L$(JAVA_HOME)/jre/lib/$(OS_ARCH)/server
 
 all:
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -Wall -v libacm2seq.c getJNIOption.c -o libacm2seq.so -ljvm 
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -Wall -v libseq2acm.c getJNIOption.c -o libseq2acm.so -ljvm
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -Wall -v libcobpp.c   getJNIOption.c -o libcobpp.so -ljvm
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -Wall -v libsqlnetserver.c   getJNIOption.c -o libsqlnetserver.so -ljvm
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -Wall -v libcob2meta.c   getJNIOption.c -o libcob2meta.so -ljvm
-	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -Wall -v libmeta2sql.c   getJNIOption.c -o libmeta2sql.so -ljvm
-	$(CC)                                          -Wall -v acm2seq.c -o acm2seq -ldl
-	$(CC)                                          -Wall -v seq2acm.c -o seq2acm -ldl
-	$(CC)                                          -Wall -v cobpp.c   -o cobpp -ldl
-	$(CC)                                          -Wall -v sqlnetserver.c -o sqlnetserver -ldl
-	$(CC)                                          -Wall -v cob2meta.c   -o cob2meta -ldl
-	$(CC)                                          -Wall -v meta2sql.c   -o meta2sql -ldl
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -fPIC -Wall -v libacm2seq.c getJNIOption.c -o libacm2seq.so -ljvm 
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -fPIC -Wall -v libseq2acm.c getJNIOption.c -o libseq2acm.so -ljvm
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -fPIC -Wall -v libcobpp.c   getJNIOption.c -o libcobpp.so -ljvm
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -fPIC -Wall -v libsqlnetserver.c   getJNIOption.c -o libsqlnetserver.so -ljvm
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -fPIC -Wall -v libcob2meta.c   getJNIOption.c -o libcob2meta.so -ljvm
+	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -fPIC -Wall -v libmeta2sql.c   getJNIOption.c -o libmeta2sql.so -ljvm
+	$(CC)                                                -Wall -v acm2seq.c -o acm2seq $(LIB_DL)
+	$(CC)                                                -Wall -v seq2acm.c -o seq2acm $(LIB_DL)
+	$(CC)                                                -Wall -v cobpp.c   -o cobpp $(LIB_DL)
+	$(CC)                                                -Wall -v sqlnetserver.c -o sqlnetserver $(LIB_DL)
+	$(CC)                                                -Wall -v cob2meta.c   -o cob2meta $(LIB_DL)
+	$(CC)                                                -Wall -v meta2sql.c   -o meta2sql $(LIB_DL)
 
 install:
 	mkdir $(BINDIR)
