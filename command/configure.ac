@@ -7,7 +7,7 @@ AC_CONFIG_SRCDIR([sqlnetserver.c])
 AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_SYSTEM
 
-AC_SUBST(ACM_HOME, "/opt/sa4cob2db")
+#AC_SUBST(ACM_HOME, "/opt/sa4cob2db")
 AC_DEFINE_UNQUOTED(ACM_HOME, "/opt/sa4cob2db")
 AC_ARG_VAR(ACM_HOME, install directory)
 

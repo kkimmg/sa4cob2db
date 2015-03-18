@@ -2260,8 +2260,7 @@ test -n "$target_alias" &&
   program_prefix=${target_alias}-
 
 
-ACM_HOME="/opt/sa4cob2db"
-
+#AC_SUBST(ACM_HOME, "/opt/sa4cob2db")
 cat >>confdefs.h <<_ACEOF
 #define ACM_HOME "/opt/sa4cob2db"
 _ACEOF
