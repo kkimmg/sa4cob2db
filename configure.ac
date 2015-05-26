@@ -6,6 +6,11 @@ AC_INIT(sa4cob2db, 0.1, kkimmg@gmail.com)
 AC_CONFIG_SRCDIR([cs/jniclient.c])
 AC_CONFIG_HEADERS([cs/config.h])
 
+if test "" == "$ACM_HOME"; then
+    ACM_HOME="/opt/sa4cob2db"
+fi
+
+AC_SUBST(ACM_HOME)
 AC_DEFINE_UNQUOTED(ACM_HOME, "/opt/sa4cob2db")
 AC_ARG_VAR(ACM_HOME, install directory)
 

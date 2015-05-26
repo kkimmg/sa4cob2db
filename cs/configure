@@ -2260,7 +2260,11 @@ test -n "$target_alias" &&
   program_prefix=${target_alias}-
 
 
-#AC_SUBST(ACM_HOME, "/opt/sa4cob2db")
+if test "" == "$ACM_HOME"; then
+    ACM_HOME="/opt/sa4cob2db"
+fi
+
+
 cat >>confdefs.h <<_ACEOF
 #define ACM_HOME "/opt/sa4cob2db"
 _ACEOF
@@ -3230,6 +3234,9 @@ OS_ARCH=$host_cpu
 case "$OS_ARCH" in
 	*i*86*)
 		OS_ARCH="i386"
+		;;
+	*64*)
+		OS_ARCH="amd64"
 		;;
 esac
 

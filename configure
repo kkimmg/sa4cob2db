@@ -1740,6 +1740,11 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 ac_config_headers="$ac_config_headers cs/config.h"
 
 
+if test "" == "$ACM_HOME"; then
+    ACM_HOME="/opt/sa4cob2db"
+fi
+
+
 cat >>confdefs.h <<_ACEOF
 #define ACM_HOME "/opt/sa4cob2db"
 _ACEOF
