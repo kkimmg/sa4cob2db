@@ -168,9 +168,9 @@ public class COBPP1 implements GeneratorOwner {
 			}
 		}
 		// const file
-		String acmconsts_file = getEnvValue("acmconsts_file", CobolConsts.ACMCONSTS_FILE);
+		String acmconsts_file = getEnvValue("acmconsts_file", CobolConsts.getACMCONSTS_FILE());
 		if (acmconsts_file.trim().length() > 0) {
-			CobolConsts.ACMCONSTS_FILE = acmconsts_file.trim();
+			CobolConsts.setACMCONSTS_FILE(acmconsts_file.trim());
 		}
 		// expand copy
 		String expandStr = getEnvValue("expand_copy", "false");

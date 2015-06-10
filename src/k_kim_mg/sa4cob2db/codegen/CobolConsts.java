@@ -5,6 +5,9 @@
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package k_kim_mg.sa4cob2db.codegen;
+
+import java.util.ArrayList;
+
 /**
  * Literals for Code Generation
  * 
@@ -132,5 +135,36 @@ public abstract class CobolConsts {
 	/** WRITE Command */
 	public static final String WRITE = "^\\s*[wW][rR][iI][tT][eE]\\s.*";
 	/** Name of file that includes Literals */
-	public static String ACMCONSTS_FILE = "ACMCONSTS.CBL";
+	private static String ACMCONSTS_FILE = "ACMCONSTS.CBL";
+	/** 
+	 * Name of file that includes Literals
+	 * @return filename 
+	 */
+	public static String getACMCONSTS_FILE () {
+		return ACMCONSTS_FILE;
+	}
+	/** 
+	 * Name of file that includes Literals
+	 * @param file filename 
+	 */
+	public static void setACMCONSTS_FILE (String file) {
+		if (file != null) {
+			ACMCONSTS_FILE = file;
+		}
+	}
+	/** Words to be ignored */
+	private static ArrayList<String> IGNORE = new ArrayList<String>();
+	/**
+	 * Words to be ignored
+	 * @return ArrayList of words 
+	 */
+	public static ArrayList<String> getIGNORE () {
+		return IGNORE;
+	}
+	static {
+		// add ignored word
+		IGNORE.add("OPTIONAL");
+		IGNORE.add("IS");
+		IGNORE.add("TO");
+	}
 }

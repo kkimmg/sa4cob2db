@@ -689,6 +689,54 @@ public class TCPCodeGenerator implements CodeGenerator {
 		// ///////////
 	}
 	/**
+	 * Call 'addSetACMOption'
+	 * 
+	 * @param name option name
+	 * @param value option value
+	 * @param period "."
+	 */
+	private void callAddSetACMOption(String name, String value, String period) {
+		// event
+		{
+			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
+			for (CodeGeneratorListener listener : listeners) {
+				listener.preSetOption(event);
+			}
+		}
+		addSetACMOption(name, value, period);
+		// event
+		{
+			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
+			for (CodeGeneratorListener listener : listeners) {
+				listener.postSetOption(event);
+			}
+		}
+	}
+	/**
+	 * Call 'addSetACMOption'
+	 * 
+	 * @param name option name
+	 * @param value option value
+	 * @param period "."
+	 */
+	private void callAddSetACMOptionFromEnv(String name, String value, String period) {
+		// event
+		{
+			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
+			for (CodeGeneratorListener listener : listeners) {
+				listener.preSetOption(event);
+			}
+		}
+		addSetACMOptionFromEnv(name, value, period);
+		// event
+		{
+			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
+			for (CodeGeneratorListener listener : listeners) {
+				listener.postSetOption(event);
+			}
+		}
+	}
+	/**
 	 * is this FD statement be processed?
 	 * 
 	 * @param text FD statement
@@ -824,6 +872,22 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	public boolean isExpandCopy() {
 		return owner.isExpandCopy();
+	}
+	/**
+	 * Should the word be ignored?
+	 * @param token word/token
+	 * @return true: yes <br>false: no
+	 */
+	boolean isIgnoredWord(String token) {
+		boolean ret = false;
+		ArrayList<String> list = CobolConsts.getIGNORE();
+		for (String work : list) {
+			if (token.trim().equalsIgnoreCase(work.trim())) {
+				ret = true;
+				break;
+			}
+		}
+		return ret;
 	}
 	/**
 	 * Comment outing...
@@ -1465,9 +1529,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 				if (stat == 2) {
 					info.acessMode = CobolConsts.ORG_RANDOM;
 				}
-			} else if (token.equalsIgnoreCase("is")) {
-				// Do Nothing
-			} else if (token.equalsIgnoreCase("to")) {
+			} else if (isIgnoredWord(token)) {
 				// Do Nothing
 			} else {
 				if (stat == 1) {
@@ -1867,87 +1929,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * 
 	 * @param text comment row
 	 */
-	void whenACMSetOption(String text) {
-		boolean isEnv = false;
-		String name = null;
-		String value = "";
-		String period = (Pattern.matches(CobolConsts.PERIOD, text.trim()) ? "." : "");
-		text = (period.length() == 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
-		StringTokenizer tokenizer = new StringTokenizer(text);
-		while (tokenizer.hasMoreTokens()) {
-			String token = tokenizer.nextToken();
-			int indexOfEqual = token.indexOf("=") + 1;
-			if (Pattern.matches(CobolConsts.NAME_EQUAL, token)) {
-				name = token.substring(indexOfEqual);
-			} else if (Pattern.matches(CobolConsts.FROM_EQUAL, token)) {
-				value = token.substring(indexOfEqual);
-			} else if (Pattern.matches(CobolConsts.VALUE_EQUAL, token)) {
-				value = token.substring(indexOfEqual);
-			} else if (Pattern.matches(CobolConsts.ENV_EQUAL, token)) {
-				value = token.substring(indexOfEqual);
-				isEnv = true;
-			}
-		}
-		if (isEnv) {
-			callAddSetACMOptionFromEnv(name, value, period);
-		} else {
-			callAddSetACMOption(name, value, period);
-		}
-	}
-	/**
-	 * Call 'addSetACMOption'
-	 * 
-	 * @param name option name
-	 * @param value option value
-	 * @param period "."
-	 */
-	private void callAddSetACMOption(String name, String value, String period) {
-		// event
-		{
-			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
-			for (CodeGeneratorListener listener : listeners) {
-				listener.preSetOption(event);
-			}
-		}
-		addSetACMOption(name, value, period);
-		// event
-		{
-			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
-			for (CodeGeneratorListener listener : listeners) {
-				listener.postSetOption(event);
-			}
-		}
-	}
-	/**
-	 * Call 'addSetACMOption'
-	 * 
-	 * @param name option name
-	 * @param value option value
-	 * @param period "."
-	 */
-	private void callAddSetACMOptionFromEnv(String name, String value, String period) {
-		// event
-		{
-			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
-			for (CodeGeneratorListener listener : listeners) {
-				listener.preSetOption(event);
-			}
-		}
-		addSetACMOptionFromEnv(name, value, period);
-		// event
-		{
-			CodeGeneratorEvent event = new CodeGeneratorEvent(dummyInfo, owner, this, period);
-			for (CodeGeneratorListener listener : listeners) {
-				listener.postSetOption(event);
-			}
-		}
-	}
-	/**
-	 * set option value<br/>
-	 * add "." to end of line
-	 * 
-	 * @param text comment row
-	 */
 	void whenACMSetLength(String text) {
 		int value = 0;
 		String period = (Pattern.matches(CobolConsts.PERIOD, text.trim()) ? "." : "");
@@ -1977,6 +1958,39 @@ public class TCPCodeGenerator implements CodeGenerator {
 					listener.postSetLength(event);
 				}
 			}
+		}
+	}
+	/**
+	 * set option value<br/>
+	 * add "." to end of line
+	 * 
+	 * @param text comment row
+	 */
+	void whenACMSetOption(String text) {
+		boolean isEnv = false;
+		String name = null;
+		String value = "";
+		String period = (Pattern.matches(CobolConsts.PERIOD, text.trim()) ? "." : "");
+		text = (period.length() == 0 ? text.trim() : text.trim().substring(0, text.length() - 1));
+		StringTokenizer tokenizer = new StringTokenizer(text);
+		while (tokenizer.hasMoreTokens()) {
+			String token = tokenizer.nextToken();
+			int indexOfEqual = token.indexOf("=") + 1;
+			if (Pattern.matches(CobolConsts.NAME_EQUAL, token)) {
+				name = token.substring(indexOfEqual);
+			} else if (Pattern.matches(CobolConsts.FROM_EQUAL, token)) {
+				value = token.substring(indexOfEqual);
+			} else if (Pattern.matches(CobolConsts.VALUE_EQUAL, token)) {
+				value = token.substring(indexOfEqual);
+			} else if (Pattern.matches(CobolConsts.ENV_EQUAL, token)) {
+				value = token.substring(indexOfEqual);
+				isEnv = true;
+			}
+		}
+		if (isEnv) {
+			callAddSetACMOptionFromEnv(name, value, period);
+		} else {
+			callAddSetACMOption(name, value, period);
 		}
 	}
 	/**
@@ -2160,6 +2174,19 @@ public class TCPCodeGenerator implements CodeGenerator {
 			process_write("");
 		}
 		pop();
+	}
+	/**
+	 * STOP RUN
+	 * 
+	 * @param text line
+	 */
+	void whenExitProgram(String text) {
+		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+			addTerminateSession(".");
+		} else {
+			this.addTerminateSession("");
+		}
+		add(text);
 	}
 	/**
 	 * FD Statement
@@ -2376,9 +2403,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 			add(text);
 			add("*ACM Generated Contraints");
 			if (isExpandCopy()) {
-				parse(" COPY \"" + CobolConsts.ACMCONSTS_FILE + "\".");
+				parse(" COPY \"" + CobolConsts.getACMCONSTS_FILE() + "\".");
 			} else {
-				add(" COPY \"" + CobolConsts.ACMCONSTS_FILE + "\".");
+				add(" COPY \"" + CobolConsts.getACMCONSTS_FILE() + "\".");
 			}
 			for (int i = 0; i < fdlist.size(); i++) {
 				add(fdlist.get(i));
@@ -2437,19 +2464,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text line
 	 */
 	void whenStopRun(String text) {
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
-			addTerminateSession(".");
-		} else {
-			this.addTerminateSession("");
-		}
-		add(text);
-	}
-	/**
-	 * STOP RUN
-	 * 
-	 * @param text line
-	 */
-	void whenExitProgram(String text) {
 		if (Pattern.matches(CobolConsts.PERIOD, text)) {
 			addTerminateSession(".");
 		} else {
