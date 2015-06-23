@@ -9,6 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 /**
+ * Create XML Node
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
@@ -31,8 +32,9 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 	private List<MetadataCobolColumn> list = new ArrayList<MetadataCobolColumn>();
 	private Stack<MetadataCobolColumn> stack = new Stack<MetadataCobolColumn>();
 	/**
-	 * @param document
-	 * @param rootNode
+	 * Create Nodes
+	 * @param document Dom Document Object
+	 * @param rootNode Root Node
 	 * @return
 	 */
 	public int exportToNode(Document document, Node rootNode) {
@@ -54,7 +56,8 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 		return ret;
 	}
 	/**
-	 * @param txt
+	 * Parse Text
+	 * @param txt Test
 	 */
 	public void parse(String txt) {
 		MetadataCobolColumn work = new MetadataCobolColumn(this);
@@ -89,15 +92,17 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 		previous = work;
 	}
 	/**
-	 * @param key
-	 * @return
+	 * Key is Already parsed?
+	 * @param key Key
+	 * @return true/false
 	 */
 	public boolean containsKey(String key) {
 		return map.containsKey(key);
 	}
 	/**
-	 * @param key
-	 * @return
+	 * Get Column
+	 * @param key Key
+	 * @return Column
 	 */
 	public MetadataCobolColumn get(String key) {
 		return map.get(key);

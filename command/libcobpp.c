@@ -37,6 +37,7 @@ static struct option longopts[] = {
     {"jni", no_argument, NULL, 'j'},
 	{"charset", required_argument, NULL, 's'},
     {"subprogram", no_argument, NULL, 'b'},
+    {"dontcomment", no_argument, NULL, 'd'},
     {"help", no_argument, NULL, 'h'},
     {0, 0, 0, 0}
 };
@@ -53,7 +54,8 @@ extern int main_too (int argc, char *argv[]) {
 	char* customcodegeneratorclass = "k_kim_mg.sa4cob2db.codegen.JNICodeGenerator";
 	char* charset = "";
 	char* subprogram = "false";
-	while ((opt = getopt_long(argc, argv, "i:o:r:c:a:e:l:x:s:tjbh", longopts, NULL)) != -1) {
+    char* dontcomment = "false";
+	while ((opt = getopt_long(argc, argv, "i:o:r:c:a:e:l:x:s:tjbdh", longopts, NULL)) != -1) {
 		switch (opt) {
 			case 'i':
                 informat = optarg;
@@ -91,6 +93,9 @@ extern int main_too (int argc, char *argv[]) {
 			case 'b':
                 subprogram = "true";
 				break;
+			case 'd':
+                dontcomment = "true";
+				break;
 			case 'h':
                 display_usage();
 				return 0;
@@ -124,11 +129,12 @@ extern int main_too (int argc, char *argv[]) {
 	jstring s_custom = (*env)->NewStringUTF(env, customcodegeneratorclass);
 	jstring s_charset = (*env)->NewStringUTF(env, charset);
 	jstring s_subprogram = (*env)->NewStringUTF(env, subprogram);
+	jstring s_dontcomment = (*env)->NewStringUTF(env, dontcomment);
 
     // execute
     (*env)->CallStaticVoidMethod(env, clazz, midMainToo, 
     //infile,   outfile,   informat,   outformat,   initrow,     increase, consts  , expand,  listeners,   custom  , charset
-      s_infile, s_outfile, s_informat, s_outformat, s_initrow, s_increase, s_consts, s_expand, s_listeners, s_custom, s_charset, s_subprogram);
+      s_infile, s_outfile, s_informat, s_outformat, s_initrow, s_increase, s_consts, s_expand, s_listeners, s_custom, s_charset, s_subprogram, s_dontcomment);
 	(*jvm)->DestroyJavaVM(jvm);
     return 0;
 }
@@ -154,8 +160,8 @@ extern int initializeJNI () {
 	}
 	// get method
 	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",	
-	//infile           ;  outfile        ; informat        ;   outformat     ;  initrow         ;  increase      ;consts_file      ; expand_copy     ;listener         ; custom          ;  charset        ;subprogram
-	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	//infile           ;  outfile        ; informat        ;   outformat     ;  initrow         ;  increase      ;consts_file      ; expand_copy     ;listener         ; custom          ;  charset        ;subprogram            ; dontcomment
+	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	if (midMainToo == 0) {
 		perror("method not found.");
 		return -1;
@@ -181,6 +187,7 @@ extern void display_usage () {
 	printf("\t-t/--tcp\tgenerate for client of sqlnetserver\n");
 	printf("\t-j/--jni\tgenerate for client with JNI\n");
 	printf("\t-b/--subprogram\tgenerate for subprogram/don't insert initialize functions\n");
+	printf("\t-d/--dontcomment\tDo not output original source as comment.\n");
 	printf("\t-h/--help\tshow this message.\n");
 }
 

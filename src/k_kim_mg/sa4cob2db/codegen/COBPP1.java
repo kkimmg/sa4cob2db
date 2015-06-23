@@ -25,19 +25,107 @@ import java.util.StringTokenizer;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class COBPP1 implements GeneratorOwner {
-	private DecimalFormat decimal;
-	private InputStream input;
-	private PrintStream output;
-	private boolean outfreeformat = false;
-	private boolean infreeformat = false;
-	private int initrownum = 10;
-	private int incrrownum = 10;
-	private boolean expandCopy = false;
-	private boolean subprogram = false;
-	/** Environment value name of Charset. */
-	public static final String ACM_CHARSET = "acm_pp_charset";
-	/** Generator */
-	private CodeGenerator generator = new TCPCodeGenerator(this);
+	/**
+	 * Copy Statement
+	 * 
+	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
+	 */
+	static class CopyInfo {
+		private ArrayList<String> statement;
+		private String filename;
+		private Properties replacing = new Properties();
+		/**
+		 * Constructor
+		 * 
+		 * @param Statement Copy Statements
+		 */
+		public CopyInfo(ArrayList<String> Statement) {
+			statement = Statement;
+			parse();
+		}
+		/**
+		 * filename
+		 * 
+		 * @return filename
+		 */
+		public String getFilename() {
+			return filename;
+		}
+		/**
+		 * Replaced Statement
+		 * 
+		 * @param target original statement
+		 * @return replaced statement
+		 */
+		public String getReplacedStatement(String target) {
+			String ret = target;
+			Set<String> keys = replacing.stringPropertyNames();
+			Iterator<String> ite = keys.iterator();
+			while (ite.hasNext()) {
+				String key = ite.next();
+				String val = replacing.getProperty(key);
+				ret = ret.replaceAll(key, val);
+			}
+			return ret;
+		}
+		private void parse() {
+			for (int i = 0; i < statement.size(); i++) {
+				String row = statement.get(i);
+				StringTokenizer tokenizer = new StringTokenizer(row, " '=\t\n\r\f\"");
+				String prev = "";
+				String key = "";
+				while (tokenizer.hasMoreTokens()) {
+					String token = tokenizer.nextToken().trim();
+					System.err.println(token);
+					if (prev.equalsIgnoreCase("COPY")) {
+						filename = token;
+						System.err.println("filename=" + filename);
+					} else if (prev.equalsIgnoreCase("REPLACING")) {
+						key = token;
+					} else if (prev.equalsIgnoreCase("BY")) {
+						replacing.setProperty(key, token);
+					}
+					prev = token;
+				}
+			}
+		}
+	}
+	/**
+	 * Expand Copy Statement
+	 * 
+	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
+	 */
+	class CopyProcesser {
+		private CopyInfo info;
+		private FileInputStream input2;
+		/**
+		 * Constructor
+		 * 
+		 * @param Info of copy statement
+		 * @throws IOException when file not found.
+		 */
+		public CopyProcesser(CopyInfo Info) throws IOException {
+			info = Info;
+			input2 = new FileInputStream(info.getFilename());
+		}
+		/**
+		 * @throws IOException when something wrong
+		 */
+		public void run() throws IOException {
+			InputStreamReader isr = new InputStreamReader(input2);
+			BufferedReader br = new BufferedReader(isr);
+			String row = br.readLine();
+			while (row != null) {
+				String text = row;
+				if (!infreeformat) {
+					text = row.substring(6);
+				}
+				generator.parse(info.getReplacedStatement(text));
+				row = br.readLine();
+			}
+			generator.flush();
+		}
+	}
 	/**
 	 * main
 	 * 
@@ -62,10 +150,11 @@ public class COBPP1 implements GeneratorOwner {
 	 * @param codegeneratorlisteners Event listener class name of generator
 	 * @param customcodegeneratorclass custom generator class name if you use
 	 * @param s_subprogram true if processing program is subprogram
+	 * @param s_dontcomment true then dont output original as comment.
 	 * @param acm_charset
 	 */
 	public static void main_too(String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass,
-			String acm_charset, String s_subprogram) {
+			String acm_charset, String s_subprogram, String s_dontcomment) {
 		String[] argv = new String[] { infile, outfile };
 		if (informat.trim().length() > 0) {
 			System.setProperty("informat", informat.trim());
@@ -97,9 +186,26 @@ public class COBPP1 implements GeneratorOwner {
 		if (s_subprogram.trim().length() > 0) {
 			System.setProperty("subprogram", s_subprogram.trim());
 		}
+		if (s_dontcomment.trim().length() > 0) {
+			System.setProperty("dontcomment", s_dontcomment.trim());
+		}
 		System.setProperty("display_usage", "false");
 		main(argv);
 	}
+	private DecimalFormat decimal;
+	private InputStream input;
+	private PrintStream output;
+	private boolean outfreeformat = false;
+	private boolean infreeformat = false;
+	private int initrownum = 10;
+	private int incrrownum = 10;
+	private boolean expandCopy = false;
+	private boolean subprogram = false;
+	private boolean dontcomment = false;
+	/** Environment value name of Charset. */
+	public static final String ACM_CHARSET = "acm_pp_charset";
+	/** Generator */
+	private CodeGenerator generator = new TCPCodeGenerator(this);
 	/**
 	 * Constructor
 	 * 
@@ -209,6 +315,9 @@ public class COBPP1 implements GeneratorOwner {
 		// subprogram
 		String subprogramStr = getEnvValue("subprogram", "false");
 		subprogram = Boolean.parseBoolean(subprogramStr);
+		// ignoreOut
+		String dontcommentStr = getEnvValue("dontcomment", "false");
+		dontcomment = Boolean.parseBoolean(dontcommentStr);
 		// usage
 		String usageStr = getEnvValue("display_usage", "true");
 		if (Boolean.parseBoolean(usageStr)) {
@@ -226,6 +335,7 @@ public class COBPP1 implements GeneratorOwner {
 			System.err.println("\tcodegeneratorlisteners=" + namelist + "\t::separated class names");
 			System.err.println("\tsubprogram=" + subprogramStr + "\t:true or false or space");
 			System.err.println("\tcustomcodegeneratorclass=" + generatorClass + "\t::separated class names");
+			System.err.println("\tdontcomment=" + dontcommentStr + "\t:true or false or space");
 		}
 	}
 	/**
@@ -255,20 +365,17 @@ public class COBPP1 implements GeneratorOwner {
 			}
 		}
 	}
-	/**
-	 * get environment values
-	 * 
-	 * @param key key
-	 * @param defaultValue default value
-	 * @return value
-	 */
-	private String getEnvValue(String key, String defaultValue) {
-		String ret = System.getProperty(key, System.getenv(key));
-		if (ret == null)
-			ret = defaultValue;
-		if (ret.length() == 0)
-			ret = defaultValue;
-		return ret;
+	@Override
+	public void callBackCopyStatement(ArrayList<String> statement) {
+		if (expandCopy) {
+			CopyInfo info = new CopyInfo(statement);
+			try {
+				CopyProcesser proc = new CopyProcesser(info);
+				proc.run();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	/*
 	 * (non-Javadoc)
@@ -284,17 +391,41 @@ public class COBPP1 implements GeneratorOwner {
 			initrownum += incrrownum;
 		}
 	}
+	/**
+	 * get environment values
+	 * 
+	 * @param key key
+	 * @param defaultValue default value
+	 * @return value
+	 */
+	private String getEnvValue(String key, String defaultValue) {
+		String ret = System.getProperty(key, System.getenv(key));
+		if (ret == null)
+			ret = defaultValue;
+		if (ret.length() == 0)
+			ret = defaultValue;
+		return ret;
+	}
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.codegen.GeneratorOwner#isExpandCopy()
+	 */
 	@Override
-	public void callBackCopyStatement(ArrayList<String> statement) {
-		if (expandCopy) {
-			CopyInfo info = new CopyInfo(statement);
-			try {
-				CopyProcesser proc = new CopyProcesser(info);
-				proc.run();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+	public boolean isExpandCopy() {
+		return expandCopy;
+	}
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.codegen.GeneratorOwner#isDontComment()
+	 */
+	@Override
+	public boolean isDontComment() {
+		return dontcomment;
+	}
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.codegen.GeneratorOwner#isSubprogram()
+	 */
+	@Override
+	public boolean isSubprogram() {
+		return subprogram;
 	}
 	/**
 	 * Run
@@ -329,115 +460,6 @@ public class COBPP1 implements GeneratorOwner {
 		}
 	}
 	/**
-	 * Expand Copy Statement
-	 * 
-	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
-	 */
-	class CopyProcesser {
-		private CopyInfo info;
-		private FileInputStream input2;
-		/**
-		 * Constructor
-		 * 
-		 * @param Info of copy statement
-		 * @throws IOException when file not found.
-		 */
-		public CopyProcesser(CopyInfo Info) throws IOException {
-			info = Info;
-			input2 = new FileInputStream(info.getFilename());
-		}
-		/**
-		 * @throws IOException when something wrong
-		 */
-		public void run() throws IOException {
-			InputStreamReader isr = new InputStreamReader(input2);
-			BufferedReader br = new BufferedReader(isr);
-			String row = br.readLine();
-			while (row != null) {
-				String text = row;
-				if (!infreeformat) {
-					text = row.substring(6);
-				}
-				generator.parse(info.getReplacedStatement(text));
-				row = br.readLine();
-			}
-			generator.flush();
-		}
-	}
-	/**
-	 * Copy Statement
-	 * 
-	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
-	 */
-	static class CopyInfo {
-		private ArrayList<String> statement;
-		private String filename;
-		private Properties replacing = new Properties();
-		/**
-		 * Constructor
-		 * 
-		 * @param Statement Copy Statements
-		 */
-		public CopyInfo(ArrayList<String> Statement) {
-			statement = Statement;
-			parse();
-		}
-		private void parse() {
-			for (int i = 0; i < statement.size(); i++) {
-				String row = statement.get(i);
-				StringTokenizer tokenizer = new StringTokenizer(row, " '=\t\n\r\f\"");
-				String prev = "";
-				String key = "";
-				while (tokenizer.hasMoreTokens()) {
-					String token = tokenizer.nextToken().trim();
-					System.err.println(token);
-					if (prev.equalsIgnoreCase("COPY")) {
-						filename = token;
-						System.err.println("filename=" + filename);
-					} else if (prev.equalsIgnoreCase("REPLACING")) {
-						key = token;
-					} else if (prev.equalsIgnoreCase("BY")) {
-						replacing.setProperty(key, token);
-					}
-					prev = token;
-				}
-			}
-		}
-		/**
-		 * filename
-		 * 
-		 * @return filename
-		 */
-		public String getFilename() {
-			return filename;
-		}
-		/**
-		 * Replaced Statement
-		 * 
-		 * @param target original statement
-		 * @return replaced statement
-		 */
-		public String getReplacedStatement(String target) {
-			String ret = target;
-			Set<String> keys = replacing.stringPropertyNames();
-			Iterator<String> ite = keys.iterator();
-			while (ite.hasNext()) {
-				String key = ite.next();
-				String val = replacing.getProperty(key);
-				ret = ret.replaceAll(key, val);
-			}
-			return ret;
-		}
-	}
-	/**
-	 * expand copy?
-	 * 
-	 * @return true expand</br> false don't
-	 */
-	public boolean isExpandCopy() {
-		return expandCopy;
-	}
-	/**
 	 * set expand copy?
 	 * 
 	 * @param expandCopy true expand</br> false don't
@@ -445,9 +467,17 @@ public class COBPP1 implements GeneratorOwner {
 	public void setExpandCopy(boolean expandCopy) {
 		this.expandCopy = expandCopy;
 	}
-	public boolean isSubprogram() {
-		return subprogram;
+	/**
+	 * set Ignore
+	 * @param dontComment true:ignore false don't
+	 */
+	public void setDontComment (boolean dontComment) {
+		this.dontcomment = dontComment;
 	}
+	/**
+	 * set Subprogram
+	 * @param subprogram true then program is subprogram.
+	 */
 	public void setSubprogram(boolean subprogram) {
 		this.subprogram = subprogram;
 	}

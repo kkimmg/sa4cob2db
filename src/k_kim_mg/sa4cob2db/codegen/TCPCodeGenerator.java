@@ -768,8 +768,10 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text logical row
 	 */
 	void commentOut(String text) {
-		String right = (text.length() > 1 ? text.substring(1) : "");
-		add("*" + right);
+		if (!getOwner().isDontComment()) {
+			String right = (text.length() > 1 ? text.substring(1) : "");
+			add("*" + right);
+		}
 	}
 	/**
 	 * create StringTokenizer from buffer
@@ -1141,7 +1143,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 				}
 			}
 			//
-			add("* ACM Generated Delete");
+			commentOut(" ACM Generated Delete");
 			for (int i = 0; i < backup.size(); i++) {
 				commentOut(backup.get(i));
 			}
@@ -1481,7 +1483,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 				}
 			}
 			//
-			add("* ACM Generated Write");
+			commentOut(" ACM Generated Write");
 			for (int i = 0; i < backup.size(); i++) {
 				commentOut(backup.get(i));
 			}
@@ -1754,7 +1756,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			}
 		}
 		//
-		add("* ACM Generated Write");
+		commentOut(" ACM Generated Write");
 		for (int i = 0; i < backup.size(); i++) {
 			commentOut(backup.get(i));
 		}
@@ -2198,7 +2200,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 		inFD = false;
 		current = CobolConsts.FD;
 		if (checkFD(text)) {
-			add_fd("*ACM Genrated File Record");
 			inFD = true;
 			commentOut(text);
 		} else {
@@ -2401,7 +2402,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		section = getSection(text);
 		if (section.equalsIgnoreCase("working-storage")) {
 			add(text);
-			add("*ACM Generated Contraints");
+			commentOut("*ACM Generated Contraints");
 			if (isExpandCopy()) {
 				parse(" COPY \"" + CobolConsts.getACMCONSTS_FILE() + "\".");
 			} else {

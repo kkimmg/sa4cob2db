@@ -35,4 +35,10 @@ public interface GeneratorOwner {
 	 *          false	not
 	 */
 	public boolean isSubprogram();
+	/**
+	 * Ignore Comment Out
+	 * @return true	yes</br>
+	 *          false	not
+	 */
+	public boolean isDontComment();
 }
