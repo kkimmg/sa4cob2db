@@ -2,8 +2,12 @@ package k_kim_mg.sa4cob2db.utils;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import k_kim_mg.sa4cob2db.CobolColumn;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -24,6 +28,13 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	static final int CUR_REDEFINES = 64;
 	static final int CUR_OTHER = 9999;
 	public static String HF = "_";
+	static final int TYPE_NONE = 0;
+	static final int TYPE_X = 1;
+	static final int TYPE_9 = 2;
+	static final int TYPE_Z = 4;
+	static final int TYPE_S = 8;
+	static final int TYPE_V = 16;
+	static final int TYPE_N = 32;
 	private int level = 0;
 	private int occurs = 0;
 	private String format;
@@ -38,14 +49,26 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	private boolean signed;
 	private String redefines;
 	private boolean validColumn = false;
-	static final int TYPE_NONE = 0;
-	static final int TYPE_X = 1;
-	static final int TYPE_9 = 2;
-	static final int TYPE_Z = 4;
-	static final int TYPE_S = 8;
-	static final int TYPE_V = 16;
-	static final int TYPE_N = 32;
-	/** meta data */
+	private boolean key = false;
+	private MetadataCobolColumn parent;
+	private static ArrayList<String> keyregs = new ArrayList<String>();
+	public static ArrayList<String> getKeyRegs() {
+		return keyregs;
+	}
+	static {
+		keyregs.add("KEY");
+		keyregs.add("ID");
+	}
+	public static boolean isKeyName (String name) {
+		boolean ret = false;
+		for (String s: getKeyRegs()) {
+			Pattern pattern = Pattern.compile(s, Pattern.CASE_INSENSITIVE);
+			Matcher matcher = pattern.matcher(name);
+			ret |= matcher.find();
+		}
+		return ret;
+	}
+ 	/** meta data */
 	MetaCobolRecordMetaData meta;
 	/**
 	 * Constructor
@@ -55,6 +78,14 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	public MetadataCobolColumn(MetaCobolRecordMetaData meta) {
 		this.meta = meta;
 	}
+	/**
+	 * Export to XML Node
+	 * @param document document
+	 * @param parent node that indicates parent or record.
+	 * @param start start index
+	 * @param fix fix string
+	 * @return
+	 */
 	public int exportToNode(Document document, Node parent, int start, String fix) {
 		int ret = start;
 		if (getOccurs() == 0) {
@@ -67,7 +98,15 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 		}
 		return ret;
 	}
-	int exportToNode1(Document document, Node parent, int start, String fix) {
+	/**
+	 * Export to XML Node
+	 * @param document document
+	 * @param parent node that indicates parent or record.
+	 * @param start start index
+	 * @param fix fix string
+	 * @return
+	 */
+	protected int exportToNode1(Document document, Node parent, int start, String fix) {
 		int ret = start;
 		Node node;
 		String l_redefines = getRedefines();
@@ -121,19 +160,17 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 			if (usage > 0) {
 				map.setNamedItem(setNodeAttribute(document, "usage", String.valueOf(usage)));
 			}
+			if (isKey()) {
+				Node keyNode = document.createElement("keycolumn");
+				Node keyName = document.createTextNode(getName()) ;
+				keyNode.appendChild(keyName);
+				parent.appendChild(keyNode);
+			}
 			parent.appendChild(node);
 			ret = start + l_length;
 		}
 		for (MetadataCobolColumn x : this) {
 			ret = x.exportToNode(document, parent, ret, fix);
-		}
-		return ret;
-	}
-	public String getOriginalColumnName() {
-		String ret = getName();
-		for (String x : reps.stringPropertyNames()) {
-			String val = reps.getProperty(x);
-			ret = ret.replaceAll(x, val);
 		}
 		return ret;
 	}
@@ -164,6 +201,25 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	public int getOccurs() {
 		return occurs;
 	}
+	/**
+	 * get column name
+	 * @return
+	 */
+	public String getOriginalColumnName() {
+		String ret = getName();
+		for (String x : reps.stringPropertyNames()) {
+			String val = reps.getProperty(x);
+			ret = ret.replaceAll(x, val);
+		}
+		return ret;
+	}
+	/**
+	 * Get parent column
+	 * @return the parent
+	 */
+	public MetadataCobolColumn getParent() {
+		return parent;
+	}
 	public int getPhysicalLength() {
 		return getLength();
 	}
@@ -176,22 +232,25 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	public int getType() {
 		return type;
 	}
+	public int getUsage() {
+		return usage;
+	}
+	/**
+	 * Is this column key?
+	 * @return the key
+	 */
+	public boolean isKey() {
+		boolean ret = key;
+		if (getParent() != null) {
+			ret = getParent().isKey();
+		}
+		return ret;
+	}
 	public boolean isSigned() {
 		return signed;
 	}
 	public boolean isValidColumn() {
 		return validColumn;
-	}
-	private String trimToken(String token) {
-		String ret = token;
-		if (token.length() > 1) {
-			String r1 = token.substring(token.length() - 1, token.length() - 0);
-			if (r1.equals(".")) {
-				String r2 = token.substring(0, token.length() - 1);
-				ret = trimToken(r2);
-			}
-		}
-		return ret.toUpperCase();
 	}
 	public int parce(String logical) {
 		int status = CUR_NONE;
@@ -253,18 +312,6 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 			setLevel(0);
 		}
 		return getLevel();
-	}
-	void parceUsage(String token) {
-		String l_usage = token.trim();
-		if (l_usage.equals("BINARY") || l_usage.equals("BINARY.") || l_usage.equals("COMP") || l_usage.equals("COMP.") || l_usage.equals("COMPUTATIONAL") || l_usage.equals("COMPUTATIONAL.")) {
-			usage = CobolColumn.USAGE_BINARY;
-		} else if (l_usage.equals("PACKED-DECIMAL") || l_usage.equals("PACKED-DECIMAL.") || l_usage.equals("COMP-3") || l_usage.equals("COMP-3.") || l_usage.equals("COMPUTATIONAL-3") || l_usage.equals("COMPUTATIONAL-3.")) {
-			usage = CobolColumn.USAGE_COMP_3;
-		} else if (l_usage.equals("NATIONAL") || l_usage.equals("NATIONAL.")) {
-			usage = CobolColumn.USAGE_NATIONAL;
-		} else if (l_usage.equals("INDEX") || l_usage.equals("INDEX.")) {
-			usage = CobolColumn.USAGE_INDEX;
-		}
 	}
 	int parcePicture(String token) {
 		String picture = token.trim();
@@ -439,6 +486,18 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 		}
 		return CUR_OTHER;
 	}
+	void parceUsage(String token) {
+		String l_usage = token.trim();
+		if (l_usage.equals("BINARY") || l_usage.equals("BINARY.") || l_usage.equals("COMP") || l_usage.equals("COMP.") || l_usage.equals("COMPUTATIONAL") || l_usage.equals("COMPUTATIONAL.")) {
+			usage = CobolColumn.USAGE_BINARY;
+		} else if (l_usage.equals("PACKED-DECIMAL") || l_usage.equals("PACKED-DECIMAL.") || l_usage.equals("COMP-3") || l_usage.equals("COMP-3.") || l_usage.equals("COMPUTATIONAL-3") || l_usage.equals("COMPUTATIONAL-3.")) {
+			usage = CobolColumn.USAGE_COMP_3;
+		} else if (l_usage.equals("NATIONAL") || l_usage.equals("NATIONAL.")) {
+			usage = CobolColumn.USAGE_NATIONAL;
+		} else if (l_usage.equals("INDEX") || l_usage.equals("INDEX.")) {
+			usage = CobolColumn.USAGE_INDEX;
+		}
+	}
 	public void setCobolRecordMetaData(CobolRecordMetaData cobolRecordMetaData) {
 	}
 	public void setFormat(String format) {
@@ -449,6 +508,13 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	}
 	public void setIfNull(String ifNull) {
 		this.ifNull = ifNull;
+	}
+	/**
+	 * Is this column key?
+	 * @param key the key to set
+	 */
+	public void setKey(boolean key) {
+		this.key = key;
 	}
 	public void setLength(int length) {
 		this.length = length;
@@ -478,6 +544,13 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 			return;
 		this.occurs = occurs;
 	}
+	/**
+	 * Set parent column
+	 * @param parent the parent to set
+	 */
+	public void setParent(MetadataCobolColumn parent) {
+		this.parent = parent;
+	}
 	public void setRedefines(String redefines) {
 		this.redefines = redefines;
 	}
@@ -498,7 +571,15 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	public void setValidColumn(boolean validColumn) {
 		this.validColumn = validColumn;
 	}
-	public int getUsage() {
-		return usage;
+	private String trimToken(String token) {
+		String ret = token;
+		if (token.length() > 1) {
+			String r1 = token.substring(token.length() - 1, token.length() - 0);
+			if (r1.equals(".")) {
+				String r2 = token.substring(0, token.length() - 1);
+				ret = trimToken(r2);
+			}
+		}
+		return ret.toUpperCase();
 	}
 }

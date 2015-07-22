@@ -39,7 +39,7 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 	 */
 	public int exportToNode(Document document, Node rootNode) {
 		int ret = 0;
-		
+				
 		for (MetadataCobolColumn x : firsts) {
 			Node node = document.createElement("metadata");
 			NamedNodeMap map = node.getAttributes();
