@@ -155,6 +155,13 @@ public class NodeReadLoader {
 				}
 			}
 		}
+		// key?
+		Node keyNode = map.getNamedItem("key");
+		if (keyNode != null) {
+			String keystr = keyNode.getNodeValue();
+			boolean keybool = Boolean.valueOf(keystr);
+			column.setKey(keybool);
+		}
 		return column;
 	}
 	/**
@@ -338,35 +345,6 @@ public class NodeReadLoader {
 		return ret;
 	}
 	/**
-	 * create key column
-	 * 
-	 * @param node xml node
-	 * @param meta meta data
-	 * @return column / null when key is not found.
-	 */
-	protected CobolColumn createKeyColumn(Node node, CobolRecordMetaData meta) {
-		CobolColumn column = null;
-		try {
-			StringBuffer keyName = new StringBuffer();
-			NodeList children = node.getChildNodes();
-			int size = children.getLength();
-			for (int i = 0; i < size; i++) {
-				Node child = children.item(i);
-				if (child.getNodeType() == Node.TEXT_NODE) {
-					keyName.append(child.getNodeValue());
-				}
-			}
-			String columnName = keyName.toString().trim();
-			int index = meta.findColumn(columnName);
-			column = meta.getColumn(index);
-		} catch (DOMException e) {
-			SQLNetServer.logger.log(Level.WARNING, "Key Column Exception.", e);
-		} catch (CobolRecordException e) {
-			SQLNetServer.logger.log(Level.WARNING, "Key Column Exception.", e);
-		}
-		return column;
-	}
-	/**
 	 * create meta data
 	 * 
 	 * @param node xml node
@@ -504,18 +482,21 @@ public class NodeReadLoader {
 				// column
 				CobolColumn cobolColumn = createSQLCobolColumn(child, (SQLCobolRecordMetaData) meta, null);
 				meta.addColumn(cobolColumn);
+				if (cobolColumn.isKey()) {
+					meta.addKey(cobolColumn);
+				}
 			} else if (child.getNodeName().equals("sqlcolumn") && meta instanceof SQLCobolRecordMetaData) {
 				// SQL column
 				CobolColumn cobolColumn = createSQLCobolColumn(child, (SQLCobolRecordMetaData) meta, null);
 				meta.addColumn(cobolColumn);
+				if (cobolColumn.isKey()) {
+					meta.addKey(cobolColumn);
+				}
 			} else if (child.getNodeName().equals("customcolumn")) {
-				// custom olumn
+				// custom column
 				CobolColumn cobolColumn = createCustomCobolColumn(child, meta);
 				meta.addColumn(cobolColumn);
-			} else if (child.getNodeName().equals("keycolumn")) {
-				// key column
-				CobolColumn cobolColumn = createKeyColumn(child, meta);
-				if (cobolColumn != null) {
+				if (cobolColumn.isKey()) {
 					meta.addKey(cobolColumn);
 				}
 			} else if (child.getNodeName().equals("alias")) {

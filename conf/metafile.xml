@@ -29,7 +29,7 @@
 		<statement>select * from test order by id</statement>
 		<sqlcolumn name="id" type="1" start="0" length="5" format="00000"
 			originalColumnName="id" defaultString="" readIgnore="false"
-			rewriteIgnore="false" writeIgnore="false" />
+			rewriteIgnore="false" writeIgnore="false" key="true"/>
 		<sqlcolumn name="cd" type="2" start="5" length="20" format=""
 			originalColumnName="cd" defaultString="" readIgnore="false"
 			rewriteIgnore="false" writeIgnore="false" />
@@ -50,7 +50,6 @@
 		<sqlcolumn name="fudou" type="6" start="66" length="8"
 			format="0000.000" originalColumnName="fudou" defaultString=""
 			readIgnore="false" rewriteIgnore="false" writeIgnore="false" />
-		<keycolumn>id</keycolumn>
 		<indexfile filename="idxtest" indexname="I_SEISU">
 			<index2file filecolumn="seisu" indexcolumn="seisu" />
 			<file2index filecolumn="id" indexcolumn="id" />
@@ -66,7 +65,7 @@
 		<statement>select * from test order by id</statement>
 		<sqlcolumn name="id" type="1" start="0" length="5" format="00000"
 			originalColumnName="id" defaultString="" readIgnore="false"
-			rewriteIgnore="false" writeIgnore="false" />
+			rewriteIgnore="false" writeIgnore="false" key="true"/>
 		<sqlcolumn name="cd" type="2" start="5" length="20" format=""
 			originalColumnName="cd" defaultString="" readIgnore="false"
 			rewriteIgnore="false" writeIgnore="false" />
@@ -86,7 +85,6 @@
 		<sqlcolumn name="fudou" type="6" start="66" length="7"
 			signed="true" decimal="3" originalColumnName="fudou" defaultString=""
 			readIgnore="false" rewriteIgnore="false" writeIgnore="false" />
-		<keycolumn>id</keycolumn>
 		<indexfile filename="idxtest" indexname="I_SEISU">
 			<index2file filecolumn="seisu" indexcolumn="seisu" />
 			<file2index filecolumn="id" indexcolumn="id" />
@@ -99,9 +97,9 @@
 	<otherofset1></otherofset1>
     <metadata name="DATA_TYPES" encode="UTF-8" >
         <statement>select * from DATA_TYPES order by TYPE_A,TYPE_X,TYPE_9</statement>
-        <sqlcolumn            name="TYPE_A"            length="4"            originalColumnName="TYPE_A"            start="0"            type="2" />
-        <sqlcolumn            name="TYPE_X"            length="10"            originalColumnName="TYPE_X"            start="4"            type="2" />
-        <sqlcolumn            name="TYPE_9"            length="18"            originalColumnName="TYPE_9"            start="14"            type="1" />
+        <sqlcolumn            name="TYPE_A"            length="4"            originalColumnName="TYPE_A"            start="0"            type="2" key="true"/>
+        <sqlcolumn            name="TYPE_X"            length="10"            originalColumnName="TYPE_X"            start="4"            type="2" key="true"/>
+        <sqlcolumn            name="TYPE_9"            length="18"            originalColumnName="TYPE_9"            start="14"            type="1" key="true"/>
         <sqlcolumn            name="TYPE_SP"            length="5"            originalColumnName="TYPE_SP"            signed="true"            start="32"            type="1" />
         <sqlcolumn            name="TYPE_SM"            length="5"            originalColumnName="TYPE_SM"            signed="true"            start="37"            type="1" />
         <sqlcolumn            name="TYPE_V"            decimal="1"            format="000"            length="3"            originalColumnName="TYPE_V"            start="42"            type="5" />
@@ -127,9 +125,6 @@
         <sqlcolumn            name="TYPE-DISP"            length="3"            originalColumnName="TYPE_DISP"            signed="true"            start="122"            type="1" />
         <sqlcolumn            name="TYPE-PACKED-DECIMAL"            length="3"            originalColumnName="TYPE_PACKED_DECIMAL"            signed="true"            start="125"            type="1"            usage="2" />
         <sqlcolumn            name="TYPE-COMP-3"            length="4"            originalColumnName="TYPE_COMP_3"            signed="true"            start="128"            type="1"            usage="2" />
-        <keycolumn>TYPE_A</keycolumn>
-        <keycolumn>TYPE_X</keycolumn>
-        <keycolumn>TYPE_9</keycolumn>
     </metadata>
     <metadata name="SCR_RECORD" encode="UTF-8" >
         <sqlcolumn length="1" name="SCR_PROC" originalColumnName="SCR_PROC" start="0" type="1"/>

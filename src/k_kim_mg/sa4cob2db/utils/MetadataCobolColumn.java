@@ -161,12 +161,10 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 				map.setNamedItem(setNodeAttribute(document, "usage", String.valueOf(usage)));
 			}
 			if (isKey()) {
-				Node keyNode = document.createElement("keycolumn");
-				Node keyName = document.createTextNode(getName()) ;
-				keyNode.appendChild(keyName);
-				parent.appendChild(keyNode);
+				map.setNamedItem(setNodeAttribute(document, "key", String.valueOf(true)));
 			}
 			parent.appendChild(node);
+
 			ret = start + l_length;
 		}
 		for (MetadataCobolColumn x : this) {
@@ -240,7 +238,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	 * @return the key
 	 */
 	public boolean isKey() {
-		boolean ret = key;
+		boolean ret = key | isKeyName(getName());
 		if (getParent() != null) {
 			ret = getParent().isKey();
 		}

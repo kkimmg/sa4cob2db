@@ -63,6 +63,9 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	 */
 	public void addColumn(CobolColumn column) {
 		columns.add(column);
+		if (column.isKey()) {
+			addKey(column);
+		}
 	}
 	/*
 	 * (non-Javadoc)
@@ -72,7 +75,9 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	 * )
 	 */
 	public void addKey(CobolColumn column) {
-		keys.add(column);
+		if (!keys.contains(column)) {
+			keys.add(column);
+		}
 	}
 	/**
 	 * copy attributes and columns to

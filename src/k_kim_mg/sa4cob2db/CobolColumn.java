@@ -113,6 +113,11 @@ public interface CobolColumn {
 	 */
 	public Object getValueOfParseError();
 	/**
+	 * Is this column key?
+	 * @return true/false
+	 */
+	public boolean isKey();
+	/**
 	 * is S9
 	 * @return true signed<br/>
 	 *         false not
@@ -143,6 +148,11 @@ public interface CobolColumn {
 	 * @param ifNull value
 	 */
 	public void setIfNull(String ifNull);
+	/**
+	 * Is this column key?
+	 * @param key true/false
+	 */
+	public void setKey(boolean key);
 	/**
 	 * set logical length
 	 * @param length logical length

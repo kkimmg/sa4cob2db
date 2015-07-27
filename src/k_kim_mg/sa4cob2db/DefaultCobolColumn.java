@@ -61,6 +61,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	private boolean useOnParseError = false;
 	private Object valueOfParseError = null;
 	private int usage = CobolColumn.USAGE_DISPLAY;
+	private boolean key = false;
 	/**
 	 * Constructor
 	 * 
@@ -190,6 +191,22 @@ public class DefaultCobolColumn implements CobolColumn {
 	public int getType() {
 		return type;
 	}
+	@Override
+	public int getUsage() {
+		int ret = this.usage;
+		switch (getType()) {
+		case CobolColumn.TYPE_DOUBLE:
+		case CobolColumn.TYPE_FLOAT:
+		case CobolColumn.TYPE_INTEGER:
+		case CobolColumn.TYPE_LONG:
+			// Do Nothing
+			break;
+		default:
+			ret = CobolColumn.USAGE_DISPLAY;
+			break;
+		}
+		return ret;
+	}
 	/**
 	 * get value to use when parse error of record value
 	 * 
@@ -197,6 +214,10 @@ public class DefaultCobolColumn implements CobolColumn {
 	 */
 	public Object getValueOfParseError() {
 		return valueOfParseError;
+	}
+	@Override
+	public boolean isKey() {
+		return key;
 	}
 	/*
 	 * (non-Javadoc)
@@ -246,6 +267,10 @@ public class DefaultCobolColumn implements CobolColumn {
 	 */
 	public void setIfNull(String ifNull) {
 		this.ifNull = ifNull;
+	}
+	@Override
+	public void setKey(boolean key) {
+		this.key = key;
 	}
 	/*
 	 * (non-Javadoc)
@@ -311,6 +336,10 @@ public class DefaultCobolColumn implements CobolColumn {
 	public void setType(int i) {
 		type = i;
 	}
+	@Override
+	public void setUsage(int usage) {
+		this.usage = usage;
+	}
 	/**
 	 * use value when parse error ?
 	 * 
@@ -326,25 +355,5 @@ public class DefaultCobolColumn implements CobolColumn {
 	 */
 	public void setValueOfParseError(Object valueOfParseError) {
 		this.valueOfParseError = valueOfParseError;
-	}
-	@Override
-	public int getUsage() {
-		int ret = this.usage;
-		switch (getType()) {
-		case CobolColumn.TYPE_DOUBLE:
-		case CobolColumn.TYPE_FLOAT:
-		case CobolColumn.TYPE_INTEGER:
-		case CobolColumn.TYPE_LONG:
-			// Do Nothing
-			break;
-		default:
-			ret = CobolColumn.USAGE_DISPLAY;
-			break;
-		}
-		return ret;
-	}
-	@Override
-	public void setUsage(int usage) {
-		this.usage = usage;
 	}
 }
