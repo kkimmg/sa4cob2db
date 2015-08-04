@@ -55,11 +55,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	public static ArrayList<String> getKeyRegs() {
 		return keyregs;
 	}
-	static {
-		keyregs.add("KEY");
-		keyregs.add("ID");
-	}
-	public static boolean isKeyName (String name) {
+	public boolean isKeyName (String name) {
 		boolean ret = false;
 		for (String s: getKeyRegs()) {
 			Pattern pattern = Pattern.compile(s, Pattern.CASE_INSENSITIVE);

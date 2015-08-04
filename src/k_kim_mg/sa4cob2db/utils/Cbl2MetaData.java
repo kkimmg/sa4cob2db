@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.StringTokenizer;
+
 import k_kim_mg.sa4cob2db.codegen.COBPP1;
 /**
  * generate meta data file from COBOL source.
@@ -43,6 +45,29 @@ public class Cbl2MetaData {
 		System.setProperty("display_usage", "false");
 		main(argv);
 	}
+	/**
+	 * main to...
+	 * 
+	 * @param infile input filename
+	 * @param outfile output filename
+	 * @param informat COBOL source is free format?
+	 * @param keyRegs regex string of key column name
+	 * @param acm_charset
+	 */
+	public static void main_too(String infile, String outfile, String informat, String acm_charset, String keyRegs) {
+		String[] argv = new String[] { infile, outfile };
+		if (informat.trim().length() > 0) {
+			System.setProperty("informat", informat.trim());
+		}
+		if (acm_charset.trim().length() > 0) {
+			System.setProperty(COBPP1.ACM_CHARSET, acm_charset.trim());
+		}
+		if (keyRegs.trim().length() > 0) {
+			System.setProperty("acmkeyregex", keyRegs.trim());
+		}
+		System.setProperty("display_usage", "false");
+		main(argv);
+	}
 	private RecordGenerator generator = new RecordGenerator();
 	private boolean infreeformat = false;
 	private InputStream input;
@@ -73,6 +98,13 @@ public class Cbl2MetaData {
 		if (infmttext.compareToIgnoreCase("free") == 0) {
 			infreeformat = true;
 		}
+		String keyRegs = getEnvValue("acmkeyregex", "");
+		if (keyRegs.trim().length() > 0) {
+			String[] keyNameRegs = keyRegs.split(":");
+			for (String s: keyNameRegs) {
+				MetadataCobolColumn.getKeyRegs().add(s);
+			}
+		}
 		// usage
 		String usageStr = getEnvValue("display_usage", "true");
 		if (Boolean.parseBoolean(usageStr)) {
@@ -82,6 +114,7 @@ public class Cbl2MetaData {
 			System.err.println("\tinformat=" + infmttext + "\t:fix or free");
 			System.err.println("\tdisplay_usage=" + usageStr + "\t:true or false or space");
 			System.err.println("\tacm_pp_charset=" + csn + "\t:chaset encodeing");
+			System.err.println("\tacmkeyregex=" + keyRegs + "\t:Key Regex String separated by \":\".");
 		}
 	}
 	/**

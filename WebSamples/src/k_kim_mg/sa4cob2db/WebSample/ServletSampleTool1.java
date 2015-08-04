@@ -99,7 +99,6 @@ public class ServletSampleTool1 {
 		} catch (CobolRecordException ex) {
 			return;
 		}
-		@SuppressWarnings("unchecked")
 		Enumeration<String> keys = request.getParameterNames();
 		while (keys.hasMoreElements()) {
 			String key = keys.nextElement();

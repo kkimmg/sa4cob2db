@@ -27,6 +27,7 @@ extern void display_usage();
 static struct option longopts[] = {
     {"informat", required_argument, NULL, 'i'},
 	{"charset", required_argument, NULL, 's'},
+	{"acmkeyregex", required_argument, NULL, 'r'},
     {"help", no_argument, NULL, 'h'},
     {0, 0, 0, 0}
 };
@@ -35,13 +36,17 @@ extern int main_too (int argc, char *argv[]) {
 	int opt;
 	char* informat = "";
 	char* charset = "";
-	while ((opt = getopt_long(argc, argv, "i:s:h", longopts, NULL)) != -1) {
+	char* keyregex = "";
+	while ((opt = getopt_long(argc, argv, "i:s:r:h", longopts, NULL)) != -1) {
 		switch (opt) {
 			case 'i':
                 informat = optarg;
 				break;
 			case 's':
                 charset = optarg;
+				break;
+			case 'r':
+                keyregex = optarg;
 				break;
 			case 'h':
                 display_usage();
@@ -68,11 +73,12 @@ extern int main_too (int argc, char *argv[]) {
 	jstring s_outfile = (*env)->NewStringUTF(env, outfile);
 	jstring s_informat = (*env)->NewStringUTF(env, informat);
 	jstring s_charset = (*env)->NewStringUTF(env, charset);
+	jstring s_keyregex = (*env)->NewStringUTF(env, keyregex);
 
     //
     (*env)->CallStaticVoidMethod(env, clazz, midMainToo, 
     //infile,   outfile,   informat,   charset
-      s_infile, s_outfile, s_informat, s_charset);
+      s_infile, s_outfile, s_informat, s_charset, s_keyregex);
 	(*jvm)->DestroyJavaVM(jvm);
     return 0;
 }
@@ -96,8 +102,8 @@ extern int initializeJNI () {
 		return (-1);
 	}
 	midMainToo	= (*env)->GetStaticMethodID(env, clazz, "main_too",
-	//infile           ;  outfile        ;  informat       ;  charset
-	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	//infile           ;  outfile        ;  informat       ;  charset        ; keyregex
+	"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	if (midMainToo == 0) {
 		perror("method not found.");
 		return -1;
