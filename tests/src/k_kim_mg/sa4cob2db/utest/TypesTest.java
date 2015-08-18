@@ -268,7 +268,7 @@ public class TypesTest {
 		// TYPE-FOM5
 		column = new DefaultCobolColumn(meta);
 		column.setName("TYPE-FOM5");
-		column.setFormat("\\,\\\\9");
+		column.setFormat("\u00A4,##9");
 		column.setLength(5);
 		column.setStart(132);
 		column.setType(CobolColumn.TYPE_INTEGER);
@@ -276,7 +276,7 @@ public class TypesTest {
 		// TYPE-FOM7
 		column = new DefaultCobolColumn(meta);
 		column.setName("TYPE-FOM7");
-		column.setFormat("\\\\,\\\\9");
+		column.setFormat("\u00A4#,##9");
 		column.setLength(6);
 		column.setStart(137);
 		column.setType(CobolColumn.TYPE_INTEGER);
@@ -734,7 +734,7 @@ public class TypesTest {
 		}
 	}
 	/**
-	 * \999
+	 * \u00A4999
 	 */
 	@Test
 	public void testTYPE_FOM5() {
@@ -744,7 +744,7 @@ public class TypesTest {
 			column = meta.getColumn("TYPE-FOM5");
 			record.updateInt(column, i);
 			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
-			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "\\567", record.getString(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "  567", record.getString(column));
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -754,14 +754,14 @@ public class TypesTest {
 			column = meta.getColumn("TYPE-FOM5");
 			record.updateInt(column, i);
 			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
-			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "\\,678", record.getString(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "5,678", record.getString(column));
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
 	/**
-	 * \9,999
+	 * \u00A49,999
 	 */
 	@Test
 	public void testTYPE_FOM7() {
@@ -771,7 +771,7 @@ public class TypesTest {
 			column = meta.getColumn("TYPE-FOM7");
 			record.updateInt(column, i);
 			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
-			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "\\5,678", record.getString(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", " 5,678", record.getString(column));
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
