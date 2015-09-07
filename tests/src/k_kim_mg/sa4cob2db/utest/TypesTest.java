@@ -273,8 +273,8 @@ public class TypesTest {
 		// TYPE-FOM5
 		column = new DefaultCobolColumn(meta);
 		column.setName("TYPE-FOM5");
-		column.setFormat("\u00A4,##9");
-		column.setLength(5);
+		column.setFormat("\u00A4#,##9");
+		column.setLength(6);
 		column.setStart(132);
 		column.setType(CobolColumn.TYPE_INTEGER);
 		meta.addColumn(column);
@@ -750,17 +750,17 @@ public class TypesTest {
 			column = meta.getColumn("TYPE-FOM5");
 			record.updateInt(column, i);
 			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
-			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", cMark + "567", record.getString(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", (cMark + "567").trim(), record.getString(column).trim());
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
-		i = 678;
+		i = 5678;
 		try {
 			column = meta.getColumn("TYPE-FOM5");
 			record.updateInt(column, i);
 			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
-			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", cMark + "678", record.getString(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", (cMark + "5,678").trim(), (record.getString(column)).trim());
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -778,7 +778,7 @@ public class TypesTest {
 			column = meta.getColumn("TYPE-FOM7");
 			record.updateInt(column, i);
 			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
-			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", cMark + "5,678", record.getString(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", (cMark + "5,678").trim(), (record.getString(column)).trim());
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
