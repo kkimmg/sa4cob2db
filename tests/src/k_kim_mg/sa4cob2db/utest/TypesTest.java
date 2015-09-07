@@ -274,15 +274,15 @@ public class TypesTest {
 		column = new DefaultCobolColumn(meta);
 		column.setName("TYPE-FOM5");
 		column.setFormat("\u00A4#,##9");
-		column.setLength(6);
+		column.setLength(7);
 		column.setStart(132);
 		column.setType(CobolColumn.TYPE_INTEGER);
 		meta.addColumn(column);
 		// TYPE-FOM7
 		column = new DefaultCobolColumn(meta);
 		column.setName("TYPE-FOM7");
-		column.setFormat("\u00A4##,##9");
-		column.setLength(7);
+		column.setFormat("\u00A4#,###,##9");
+		column.setLength(12);
 		column.setStart(137);
 		column.setType(CobolColumn.TYPE_INTEGER);
 		meta.addColumn(column);
@@ -773,12 +773,12 @@ public class TypesTest {
 	public void testTYPE_FOM7() {
 		String cMark = Currency.getInstance(Locale.getDefault()).getSymbol();
 		CobolColumn column;
-		int i = 5678;
+		int i = 12345678;
 		try {
 			column = meta.getColumn("TYPE-FOM7");
 			record.updateInt(column, i);
 			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
-			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", (cMark + "5,678").trim(), (record.getString(column)).trim());
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", (cMark + "12,345,678").trim(), (record.getString(column)).trim());
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
