@@ -111,7 +111,7 @@ public class CobolFormat extends DecimalFormat {
 				} else if (c == '/') {
 					output.append(',');
 					inserts.add(new InsertChar(i, c));
-				} else if (c == '*' || c == '\\') {
+				} else if (c == '*'/* || c == '\\'*/) {
 					output.append('#');
 					inserts.add(new InsertChar(i, c));
 				} else if (c == 'Z' || c == '#') {
@@ -120,6 +120,8 @@ public class CobolFormat extends DecimalFormat {
 					output.append('#');
 					// } else {
 					// output.append(c);
+				} else if (c == '\u00A4') {
+					output.append('\u00A4');
 				}
 			}
 			logicalPattern = output.toString();
@@ -215,9 +217,9 @@ public class CobolFormat extends DecimalFormat {
 		if (pattern.toUpperCase().contains("/")) {
 			l_sla = true;
 		}
-		if (pattern.toUpperCase().contains("\\")) {
+		/*if (pattern.toUpperCase().contains("\\")) {
 			l_bs = true;
-		}
+		}*/
 		if (pattern.toUpperCase().contains("*")) {
 			l_ast = true;
 		}
@@ -271,7 +273,7 @@ public class CobolFormat extends DecimalFormat {
 		StringBuffer output = new StringBuffer(text.length());
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
-			if (c == '/' || c == '*' || c == '\\') {
+			if (c == '/' || c == '*' /*|| c == '\\'*/) {
 				// do nothing
 			} else if (c == ' ') {
 				if (flags.isDb() || flags.isCr()) {
@@ -315,11 +317,11 @@ public class CobolFormat extends DecimalFormat {
 					ret.setCharAt(i, '*');
 				}
 				break;
-			case '\\':
+			/*case '\\':
 				if (c == ' ') {
 					ret.setCharAt(i, '\\');
 				}
-				break;
+				break;*/
 			}
 		}
 		return ret;

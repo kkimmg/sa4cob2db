@@ -1,9 +1,13 @@
 package k_kim_mg.sa4cob2db.utest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Currency;
+import java.util.Locale;
+
 import k_kim_mg.sa4cob2db.CobolColumn;
 import k_kim_mg.sa4cob2db.CobolRecord;
 import k_kim_mg.sa4cob2db.CobolRecordException;
@@ -11,6 +15,7 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.DefaultCobolColumn;
 import k_kim_mg.sa4cob2db.DefaultCobolRecord;
 import k_kim_mg.sa4cob2db.DefaultCobolRecordMetaData;
+
 import org.junit.Before;
 import org.junit.Test;
 /**
@@ -276,8 +281,8 @@ public class TypesTest {
 		// TYPE-FOM7
 		column = new DefaultCobolColumn(meta);
 		column.setName("TYPE-FOM7");
-		column.setFormat("\u00A4#,##9");
-		column.setLength(6);
+		column.setFormat("\u00A4##,##9");
+		column.setLength(7);
 		column.setStart(137);
 		column.setType(CobolColumn.TYPE_INTEGER);
 		meta.addColumn(column);
@@ -738,23 +743,24 @@ public class TypesTest {
 	 */
 	@Test
 	public void testTYPE_FOM5() {
+		String cMark = Currency.getInstance(Locale.getDefault()).getSymbol();
 		CobolColumn column;
 		int i = 567;
 		try {
 			column = meta.getColumn("TYPE-FOM5");
 			record.updateInt(column, i);
 			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
-			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "  567", record.getString(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", cMark + "567", record.getString(column));
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
-		i = 5678;
+		i = 678;
 		try {
 			column = meta.getColumn("TYPE-FOM5");
 			record.updateInt(column, i);
 			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
-			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", "5,678", record.getString(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", cMark + "678", record.getString(column));
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -765,13 +771,14 @@ public class TypesTest {
 	 */
 	@Test
 	public void testTYPE_FOM7() {
+		String cMark = Currency.getInstance(Locale.getDefault()).getSymbol();
 		CobolColumn column;
 		int i = 5678;
 		try {
 			column = meta.getColumn("TYPE-FOM7");
 			record.updateInt(column, i);
 			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", i, record.getInt(column));
-			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", " 5,678", record.getString(column));
+			assertEquals(column.getName() + " failed(" + column.getFormat() + ")", cMark + "5,678", record.getString(column));
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
