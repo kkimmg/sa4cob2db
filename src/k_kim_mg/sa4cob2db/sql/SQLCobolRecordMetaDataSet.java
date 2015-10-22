@@ -2,7 +2,9 @@ package k_kim_mg.sa4cob2db.sql;
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
-/**
+/** 
+ * Set of SQLCobolRecordMetaData.
+ * This class provides Database connection infomation. 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class SQLCobolRecordMetaDataSet extends CobolRecordMetaDataSet {
