@@ -814,7 +814,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			}
 		} else {
 			ret = new FileStatus(FileStatus.STATUS_99_FAILURE,
-					FileStatus.NULL_CODE, 0, "invalid mode.");
+					FileStatus.NULL_CODE, 1, "invalid mode.");
 		}
 		if (ret.getStatusCode().equals(FileStatus.STATUS_KEY_NOT_EXISTS)
 				&& isReOpenWhenNoDataFound() && !isInReopen()) {
@@ -902,7 +902,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
-					while (getResultSet().next() && !found) {
+					while (!found && getResultSet().next()) {
 						read(currentRecord);
 						comp = compare(currentRecord, record);
 						if (comp == COMPARE_REC1) {
@@ -952,14 +952,14 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
-					while (getResultSet().next() && !found) {
+					while (!found && getResultSet().next()) {
 						read(CurrentRecord);
 						comp = compare(CurrentRecord, record);
 						if (comp == COMPARE_EQUAL) {
 							// currentRecord = record(hit)
 							found = true;
 							ret = FileStatus.OK;
-						} else if (comp == COMPARE_REC1) {
+						} else if (comp == COMPARE_REC2) {
 							break;
 						}
 					}
@@ -996,15 +996,15 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			if (first) {
 				read(CurrentRecord);
 				int comp = compare(CurrentRecord, record);
-				if (comp == COMPARE_REC1) {
+				if (comp == COMPARE_REC2) {
 					// currentRecord < record(hit)
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
-					while (getResultSet().next() && !found) {
+					while (!found && getResultSet().next()) {
 						read(CurrentRecord);
 						comp = compare(CurrentRecord, record);
-						if (comp == COMPARE_REC1) {
+						if (comp == COMPARE_REC2) {
 							// currentRecord < record(hit)
 							found = true;
 							ret = FileStatus.OK;
@@ -1043,15 +1043,15 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			if (first) {
 				read(CurrentRecord);
 				int comp = compare(CurrentRecord, record);
-				if (comp != COMPARE_REC2) {
+				if (comp != COMPARE_REC1) {
 					// currentRecord = record(hit)
 					ret = FileStatus.OK;
 				} else {
 					boolean found = false;
-					while (getResultSet().next() && !found) {
+					while (!found && getResultSet().next()) {
 						read(CurrentRecord);
 						comp = compare(CurrentRecord, record);
-						if (comp != COMPARE_REC2) {
+						if (comp != COMPARE_REC1) {
 							// currentRecord <= record(hit)
 							found = true;
 							ret = FileStatus.OK;

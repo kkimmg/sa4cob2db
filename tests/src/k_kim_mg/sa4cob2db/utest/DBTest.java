@@ -74,11 +74,11 @@ public class DBTest {
 		byte[] bytes = new byte[meta.getRowSize()];
 		FileStatus status = null;
 		status = file.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_SEQUENTIAL);
-		assertEquals("FileStatus", status.OK.getStatusCode(), status.getStatusCode());
+		assertEquals("Open Status", status.OK.getStatusCode(), status.getStatusCode());
 		status = file.read(bytes);
-		assertEquals("FileStatus", status.OK.getStatusCode(), status.getStatusCode());
+		assertEquals("Read Status", status.OK.getStatusCode(), status.getStatusCode());
 		status = file.close();		
-		assertEquals("FileStatus", status.OK.getStatusCode(), status.getStatusCode());
+		assertEquals("Close Status", status.OK.getStatusCode(), status.getStatusCode());
 	}
 	
 	@Test
@@ -90,19 +90,129 @@ public class DBTest {
 		byte[] bytes = new byte[meta.getRowSize()];
 		FileStatus status = null;
 		status = file.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_DYNAMIC);
-		assertEquals("", status.OK.getStatusCode(), status.getStatusCode());
+		assertEquals("Open Status", status.OK.getStatusCode(), status.getStatusCode());
 		record.updateInt(meta.getColumn("id"), 100);
 		record.getRecord(bytes);
 		status = file.move(bytes);
-		assertEquals("FileStatus", status.OK.getStatusCode(), status.getStatusCode());
+		assertEquals("Move Status", status.OK.getStatusCode(), status.getStatusCode());
 		status = file.read(bytes);
-		assertEquals("FileStatus", status.OK.getStatusCode(), status.getStatusCode());
+		assertEquals("Read Status", status.OK.getStatusCode(), status.getStatusCode());
 		status = file.close();		
-		assertEquals("FileStatus", status.OK.getStatusCode(), status.getStatusCode());
+		assertEquals("Close Status", status.OK.getStatusCode(), status.getStatusCode());
 		record.setRecord(bytes);
-		assertEquals("CD is invalid.", record.getString(meta.getColumn("cd")).trim(), "00100");
+		assertEquals("CD is invalid.", "00100", record.getString(meta.getColumn("cd")).trim());
+	}
+	
+	@Test
+	public void testReadKey2() throws Exception {
+
+		CobolFile file = session.createFile("dbtests3");
+		CobolRecordMetaData meta = metaDataSet.getMetaData("dbtests3");
+		CobolRecord record = new DefaultCobolRecord(meta);
+		byte[] bytes = new byte[meta.getRowSize()];
+		FileStatus status = null;
+		status = file.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_DYNAMIC);
+		assertEquals("Open Status", status.OK.getStatusCode(), status.getStatusCode());
+		record.updateInt(meta.getColumn("id"), 100);
+		record.getRecord(bytes);
+		status = file.move(bytes);
+		assertEquals("Move Status", status.OK.getStatusCode(), status.getStatusCode());
+		status = file.read(bytes);
+		assertEquals("Read Status", status.OK.getStatusCode(), status.getStatusCode());
+		status = file.close();		
+		assertEquals("Close Status", status.OK.getStatusCode(), status.getStatusCode());
+		record.setRecord(bytes);
+		assertEquals("CD is invalid.", "00100", record.getString(meta.getColumn("cd")).trim());
 	}
 
+	@Test
+	public void testStartGE1() throws Exception {
+
+		CobolFile file = session.createFile("dbtests");
+		CobolRecordMetaData meta = metaDataSet.getMetaData("dbtests");
+		CobolRecord record = new DefaultCobolRecord(meta);
+		byte[] bytes = new byte[meta.getRowSize()];
+		FileStatus status = null;
+		status = file.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_DYNAMIC);
+		assertEquals("Open Status", status.OK.getStatusCode(), status.getStatusCode());
+		record.updateInt(meta.getColumn("id"), 100);
+		record.getRecord(bytes);
+		status = file.start(CobolFile.IS_GREATER_THAN_OR_EQUAL_TO, bytes);
+		assertEquals("Move Status", status.OK.getStatusCode(), status.getStatusCode());
+		status = file.read(bytes);
+		assertEquals("Read Status", status.OK.getStatusCode(), status.getStatusCode());
+		status = file.close();		
+		assertEquals("Close Status", status.OK.getStatusCode(), status.getStatusCode());
+		record.setRecord(bytes);
+		assertEquals("CD is invalid.", "00100", record.getString(meta.getColumn("cd")).trim());
+	}
+	
+	@Test
+	public void testStartGE2() throws Exception {
+
+		CobolFile file = session.createFile("dbtests3");
+		CobolRecordMetaData meta = metaDataSet.getMetaData("dbtests3");
+		CobolRecord record = new DefaultCobolRecord(meta);
+		byte[] bytes = new byte[meta.getRowSize()];
+		FileStatus status = null;
+		status = file.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_DYNAMIC);
+		assertEquals("Open Status", status.OK.getStatusCode(), status.getStatusCode());
+		record.updateInt(meta.getColumn("id"), 100);
+		record.getRecord(bytes);
+		status = file.start(CobolFile.IS_GREATER_THAN_OR_EQUAL_TO, bytes);
+		assertEquals("Move Status", status.OK.getStatusCode(), status.getStatusCode());
+		status = file.read(bytes);
+		assertEquals("Read Status", status.OK.getStatusCode(), status.getStatusCode());
+		status = file.close();		
+		assertEquals("Close Status", status.OK.getStatusCode(), status.getStatusCode());
+		record.setRecord(bytes);
+		assertEquals("CD is invalid.", "00100", record.getString(meta.getColumn("cd")).trim());
+	}
+	
+	@Test
+	public void testStartGT1() throws Exception {
+
+		CobolFile file = session.createFile("dbtests");
+		CobolRecordMetaData meta = metaDataSet.getMetaData("dbtests");
+		CobolRecord record = new DefaultCobolRecord(meta);
+		byte[] bytes = new byte[meta.getRowSize()];
+		FileStatus status = null;
+		status = file.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_DYNAMIC);
+		assertEquals("Open Status", status.OK.getStatusCode(), status.getStatusCode());
+		record.updateInt(meta.getColumn("id"), 100);
+		record.getRecord(bytes);
+		status = file.start(CobolFile.IS_GREATER_THAN, bytes);
+		assertEquals("Move Status", status.OK.getStatusCode(), status.getStatusCode());
+		status = file.read(bytes);
+		assertEquals("Read Status", status.OK.getStatusCode(), status.getStatusCode());
+		status = file.close();		
+		assertEquals("Close Status", status.OK.getStatusCode(), status.getStatusCode());
+		record.setRecord(bytes);
+		assertEquals("CD is invalid.", "00101", record.getString(meta.getColumn("cd")).trim());
+	}
+	
+	@Test
+	public void testStartGT2() throws Exception {
+
+		CobolFile file = session.createFile("dbtests3");
+		CobolRecordMetaData meta = metaDataSet.getMetaData("dbtests3");
+		CobolRecord record = new DefaultCobolRecord(meta);
+		byte[] bytes = new byte[meta.getRowSize()];
+		FileStatus status = null;
+		status = file.open(CobolFile.MODE_INPUT, CobolFile.ACCESS_DYNAMIC);
+		assertEquals("Open Status", status.OK.getStatusCode(), status.getStatusCode());
+		record.updateInt(meta.getColumn("id"), 100);
+		record.getRecord(bytes);
+		status = file.start(CobolFile.IS_GREATER_THAN, bytes);
+		assertEquals("Move Status", status.OK.getStatusCode(), status.getStatusCode());
+		status = file.read(bytes);
+		assertEquals("Read Status", status.OK.getStatusCode(), status.getStatusCode());
+		status = file.close();		
+		assertEquals("Close Status", status.OK.getStatusCode(), status.getStatusCode());
+		record.setRecord(bytes);
+		assertEquals("CD is invalid.", "00101", record.getString(meta.getColumn("cd")).trim());
+	}
+	
 	/**
 	 * get environment value
 	 * 

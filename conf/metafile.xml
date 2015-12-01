@@ -58,6 +58,40 @@
 		<listener>k_kim_mg.sa4cob2db.test.CobolFileEventAdapterTest
 		</listener>
 	</metadata>
+	<metadata name="dbtests2" encode="UTF-8" bufinit="500" bufmin="250" reopen="true"
+		bufmax="10000" customClassName="k_kim_mg.sa4cob2db.sql.DefaultSQLCobolRecordMetaData2">
+		<statement>select * from test order by id</statement>
+		<sqlcolumn name="id" type="1" start="0" length="5" format="00000"
+			originalColumnName="id" defaultString="" readIgnore="false"
+			rewriteIgnore="false" writeIgnore="false" key="true"/>
+		<sqlcolumn name="cd" type="2" start="5" length="20" format=""
+			originalColumnName="cd" defaultString="" readIgnore="false"
+			rewriteIgnore="false" writeIgnore="false" />
+		<_sqlcolumn name="nihongo" type="2" start="25" length="20"
+			format="" originalColumnName="nihongo" defaultString="" readIgnore="false"
+			rewriteIgnore="false" writeIgnore="false" 
+			constructor="1" />
+		<sqlcolumn name="seisu" type="1" start="45" length="7"
+			format="0000000" originalColumnName="seisu" defaultString=""
+			readIgnore="false" rewriteIgnore="false" writeIgnore="false" />
+		<sqlcolumn name="hizuke" type="7" start="52" length="8"
+			format="yyyyMMdd" originalColumnName="hizuke" defaultString=""
+			ifNull="20090801"
+			readIgnore="false" rewriteIgnore="false" writeIgnore="false" />
+		<sqlcolumn name="jikoku" type="8" start="60" length="6"
+			format="HHmmss" originalColumnName="jikoku" defaultString=""
+			readIgnore="false" rewriteIgnore="false" writeIgnore="false" />
+		<sqlcolumn name="fudou" type="6" start="66" length="8"
+			format="0000.000" originalColumnName="fudou" defaultString=""
+			readIgnore="false" rewriteIgnore="false" writeIgnore="false" />
+		<indexfile filename="idxtest" indexname="I_SEISU">
+			<index2file filecolumn="seisu" indexcolumn="seisu" />
+			<file2index filecolumn="id" indexcolumn="id" />
+		</indexfile>
+		<truncate>delete from test</truncate>
+		<listener>k_kim_mg.sa4cob2db.test.CobolFileEventAdapterTest
+		</listener>
+	</metadata>
 	<metadata name="customtest" customClassName="CustomCobolMetaDataTest">
 	</metadata>
 	<metadata name="dbtests2" encode="UTF-8" bufinit="500" bufmin="250" reopen="true"
@@ -174,5 +208,42 @@
 	<sqlcolumn length="64835" name="ACM-SESSIONGLOBALAREA" originalColumnName="ACM_SESSIONGLOBALAREA" start="710" type="2"/>
 	<alias>MSGHEAD</alias>
      </metadata>
+     <metadata2 name="dbtests3" encode="UTF-8" bufinit="500" bufmin="250" reopen="true"
+		bufmax="10000">
+		<statement>select * from test order by id</statement>
+		<keyreadstatement>select * from test where id =  ? order by id</keyreadstatement>
+		<startgestatement>select * from test where id >= ? order by id</startgestatement>
+		<startgtstatement>select * from test where id >  ? order by id</startgtstatement>
+		<sqlcolumn name="id" type="1" start="0" length="5" format="00000"
+			originalColumnName="id" defaultString="" readIgnore="false"
+			rewriteIgnore="false" writeIgnore="false" key="true"/>
+		<sqlcolumn name="cd" type="2" start="5" length="20" format=""
+			originalColumnName="cd" defaultString="" readIgnore="false"
+			rewriteIgnore="false" writeIgnore="false" />
+		<_sqlcolumn name="nihongo" type="2" start="25" length="20"
+			format="" originalColumnName="nihongo" defaultString="" readIgnore="false"
+			rewriteIgnore="false" writeIgnore="false" 
+			constructor="1" />
+		<sqlcolumn name="seisu" type="1" start="45" length="7"
+			format="0000000" originalColumnName="seisu" defaultString=""
+			readIgnore="false" rewriteIgnore="false" writeIgnore="false" />
+		<sqlcolumn name="hizuke" type="7" start="52" length="8"
+			format="yyyyMMdd" originalColumnName="hizuke" defaultString=""
+			ifNull="20090801"
+			readIgnore="false" rewriteIgnore="false" writeIgnore="false" />
+		<sqlcolumn name="jikoku" type="8" start="60" length="6"
+			format="HHmmss" originalColumnName="jikoku" defaultString=""
+			readIgnore="false" rewriteIgnore="false" writeIgnore="false" />
+		<sqlcolumn name="fudou" type="6" start="66" length="8"
+			format="0000.000" originalColumnName="fudou" defaultString=""
+			readIgnore="false" rewriteIgnore="false" writeIgnore="false" />
+		<indexfile filename="idxtest" indexname="I_SEISU">
+			<index2file filecolumn="seisu" indexcolumn="seisu" />
+			<file2index filecolumn="id" indexcolumn="id" />
+		</indexfile>
+		<truncate>delete from test</truncate>
+		<listener>k_kim_mg.sa4cob2db.test.CobolFileEventAdapterTest
+		</listener>
+	</metadata2>
 </metadataset>
 

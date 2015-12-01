@@ -223,7 +223,7 @@
 		<div id="meta_source">
 			<pre><code>&lt;metadataset&gt;
         &lt;metadata name="FileName" ...&gt;
-                &lt;statement&gt;SELECT * FROM TableName ORDER BY id&lt;/statment&gt;
+                &lt;statement&gt;SELECT * FROM TableName ORDER BY id&lt;/statement&gt;
                 &lt;sqlcolumn name="id" ..../&gt;
                 ...
                 &lt;customcoumn name="other" .../&gt;
@@ -232,7 +232,7 @@
                 &lt;truncate&gt;TRUNCATE TableName&lt;truncate&gt;
                 &lt;listener&gt;a.b.CobolRecordEventListenerImpl1&amp;ltlistener&gt;
         &lt;/metadata&gt;
-&lt;metadataset&gt;</code>			</pre>
+&lt;/metadataset&gt;</code>			</pre>
 		</div>
 		Attributes
 		<ol>
@@ -590,6 +590,30 @@
 			<ol>
 				<li>file</li> Name of file that is imported.
 			</ol>
+		</ol>
+		<li>metadata2</li> metadata/file settings that can define read/start statement.
+		<div id="meta_source">
+			<pre><code>&lt;metadataset&gt;
+        &lt;metadata2 name="FileName" ...&gt;
+                &lt;statement&gt;SELECT * FROM TableName ORDER BY id&lt;/statement&gt;
+                &lt;keyreadstatement&gt;SELECT * FROM TableName WHERE id = ?&lt;/keyreadstatement&gt;
+                &lt;startgestatement&gt;SELECT * FROM TableName WHERE id >= ? ORDER BY id&lt;/startgestatement&gt;
+                &lt;startgtstatement&gt;SELECT * FROM TableName WHERE id > ? ORDER BY id&lt;/startgtstatement&gt;
+                &lt;sqlcolumn name="id" ..../&gt;
+                ...
+                &lt;customcoumn name="other" .../&gt;
+                ...
+                &lt;keycolumn&gt;id&lt;keycolumn&gt;
+                &lt;truncate&gt;TRUNCATE TableName&lt;truncate&gt;
+                &lt;listener&gt;a.b.CobolRecordEventListenerImpl1&amp;ltlistener&gt;
+        &lt;/metadata2&gt;
+&lt;/metadataset&gt;</code>			</pre>
+		</div>
+		Elements
+		<ol>
+			<li>keyreadstatement</li> SELECT statement that is used for READ statement.
+			<li>startgtstatement</li> SELECT statement that is used for START GREATER THAN statement.
+			<li>startgestatement</li> SELECT statement that is used for START GREATER EQUAL statement.
 		</ol>
 	</ol>
 </body>

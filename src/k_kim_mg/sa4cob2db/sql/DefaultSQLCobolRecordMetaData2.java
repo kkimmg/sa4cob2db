@@ -31,6 +31,12 @@ public class DefaultSQLCobolRecordMetaData2 extends
 		}
 	}
 
+	@Override
+	public void setSelectStatement(String string) {
+		super.setSelectStatement(string);
+		setEntityName(null);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -94,9 +100,11 @@ public class DefaultSQLCobolRecordMetaData2 extends
 					}
 				}
 			}
+
+			super.setSelectStatement(buff.toString());
 		}
 	}
-
+	
 	/**
 	 * make select statement
 	 */

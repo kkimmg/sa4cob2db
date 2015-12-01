@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.sql.xml;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -8,10 +9,12 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
+
 import k_kim_mg.sa4cob2db.CobolColumn;
 import k_kim_mg.sa4cob2db.CobolIndex;
 import k_kim_mg.sa4cob2db.CobolRecordException;
@@ -21,22 +24,26 @@ import k_kim_mg.sa4cob2db.DefaultCobolColumn;
 import k_kim_mg.sa4cob2db.DefaultCobolIndex;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 import k_kim_mg.sa4cob2db.sql.DefaultSQLCobolRecordMetaData;
+import k_kim_mg.sa4cob2db.sql.DefaultSQLCobolRecordMetaData2;
 import k_kim_mg.sa4cob2db.sql.SQLCobolColumn;
 import k_kim_mg.sa4cob2db.sql.SQLCobolRecordMetaData;
 import k_kim_mg.sa4cob2db.sql.SQLCobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
+
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 /**
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class NodeReadLoader {
 	private Properties classesOfMeta = new Properties();
 	private Properties classesOfSet = new Properties();
+
 	/**
 	 * create alias
 	 * 
@@ -55,6 +62,7 @@ public class NodeReadLoader {
 		}
 		return alias.toString().trim();
 	}
+
 	/**
 	 * create column
 	 * 
@@ -164,6 +172,7 @@ public class NodeReadLoader {
 		}
 		return column;
 	}
+
 	/**
 	 * create index
 	 * 
@@ -233,6 +242,7 @@ public class NodeReadLoader {
 		}
 		return ret;
 	}
+
 	/**
 	 * create COBOL column custom class
 	 * 
@@ -322,6 +332,7 @@ public class NodeReadLoader {
 		}
 		return ret;
 	}
+
 	/**
 	 * create custom meta data
 	 * 
@@ -330,8 +341,7 @@ public class NodeReadLoader {
 	 * @param parent parent is meta data set
 	 * @return meta data
 	 */
-	protected CobolRecordMetaData createCustomMetaData(String className, Node node, CobolRecordMetaDataSet parent) throws ClassNotFoundException, SecurityException, IllegalArgumentException, InstantiationException, IllegalAccessException,
-			InvocationTargetException, ClassCastException {
+	protected CobolRecordMetaData createCustomMetaData(String className, Node node, CobolRecordMetaDataSet parent) throws ClassNotFoundException, SecurityException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException, ClassCastException {
 		CobolRecordMetaData ret = null;
 		Class<?> claxx = Class.forName(className);
 		Class<? extends CobolRecordMetaData> clazz = claxx.asSubclass(CobolRecordMetaData.class);
@@ -344,6 +354,7 @@ public class NodeReadLoader {
 		}
 		return ret;
 	}
+
 	/**
 	 * create meta data
 	 * 
@@ -352,8 +363,18 @@ public class NodeReadLoader {
 	 * @return meta data
 	 */
 	protected CobolRecordMetaData createMetaData(Node node, CobolRecordMetaDataSet parent) {
-		//
-		CobolRecordMetaData meta = null;
+		return createMetaData(node, parent, null);
+	}
+
+	/**
+	 * create meta data
+	 * 
+	 * @param node xml node
+	 * @param parent meta data set
+	 * @param meta meta data
+	 * @return meta data
+	 */
+	protected CobolRecordMetaData createMetaData(Node node, CobolRecordMetaDataSet parent, CobolRecordMetaData meta) {
 		NamedNodeMap map = node.getAttributes();
 		Node name = map.getNamedItem("name");
 		if (name != null) {
@@ -384,19 +405,19 @@ public class NodeReadLoader {
 				try {
 					meta = createCustomMetaData(customName, node, parent);
 				} catch (SecurityException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger.log(Level.CONFIG, "something wrong.", e);
 				} catch (IllegalArgumentException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger.log(Level.CONFIG, "something wrong.", e);
 				} catch (ClassCastException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger.log(Level.CONFIG, "something wrong.", e);
 				} catch (ClassNotFoundException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger.log(Level.CONFIG, "something wrong.", e);
 				} catch (InstantiationException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger.log(Level.CONFIG, "something wrong.", e);
 				} catch (IllegalAccessException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger.log(Level.CONFIG, "something wrong.", e);
 				} catch (InvocationTargetException e) {
-					SQLNetServer.logger.log(Level.CONFIG, "sumething wrong.", e);
+					SQLNetServer.logger.log(Level.CONFIG, "something wrong.", e);
 				} finally {
 					if (meta == null) {
 						meta = new DefaultSQLCobolRecordMetaData();
@@ -556,6 +577,80 @@ public class NodeReadLoader {
 		}
 		return meta;
 	}
+
+	/**
+	 * create meta data
+	 * 
+	 * @param node xml node
+	 * @param parent meta data set
+	 * @param meta meta data
+	 * @return meta data
+	 */
+	protected CobolRecordMetaData createMetaData2(Node node, CobolRecordMetaDataSet parent, CobolRecordMetaData meta) {
+		if (meta == null) {
+			meta = new DefaultSQLCobolRecordMetaData2();
+		}
+		meta = createMetaData(node, parent, meta);
+		if (meta instanceof DefaultSQLCobolRecordMetaData2) {
+			DefaultSQLCobolRecordMetaData2 work = (DefaultSQLCobolRecordMetaData2) meta;
+			NodeList children = node.getChildNodes();
+			int size = children.getLength();
+			for (int i = 0; i < size; i++) {
+				Node child = children.item(i);
+				if (child.getNodeName().equals("keyreadstatement")) {
+					StringBuffer sql = new StringBuffer();
+					// SQLstatement
+					NodeList sqlchildren = child.getChildNodes();
+					int sqlsize = sqlchildren.getLength();
+					for (int j = 0; j < sqlsize; j++) {
+						Node sqlchild = sqlchildren.item(j);
+						if (sqlchild.getNodeType() == Node.TEXT_NODE) {
+							sql.append(sqlchild.getNodeValue());
+						}
+					}
+					work.setKeyReadStatement(sql.toString());
+				} else if (child.getNodeName().equals("startgestatement")) {
+					StringBuffer sql = new StringBuffer();
+					// SQLstatement
+					NodeList sqlchildren = child.getChildNodes();
+					int sqlsize = sqlchildren.getLength();
+					for (int j = 0; j < sqlsize; j++) {
+						Node sqlchild = sqlchildren.item(j);
+						if (sqlchild.getNodeType() == Node.TEXT_NODE) {
+							sql.append(sqlchild.getNodeValue());
+						}
+					}
+					work.setStartGEStatement(sql.toString());
+				} else if (child.getNodeName().equals("startgtstatement")) {
+					StringBuffer sql = new StringBuffer();
+					// SQLstatement
+					NodeList sqlchildren = child.getChildNodes();
+					int sqlsize = sqlchildren.getLength();
+					for (int j = 0; j < sqlsize; j++) {
+						Node sqlchild = sqlchildren.item(j);
+						if (sqlchild.getNodeType() == Node.TEXT_NODE) {
+							sql.append(sqlchild.getNodeValue());
+						}
+					}
+					work.setStartGTStatement(sql.toString());
+				}
+			}
+		}
+
+		return meta;
+	}
+
+	/**
+	 * create meta data
+	 * 
+	 * @param node xml node
+	 * @param parent meta data set
+	 * @return meta data
+	 */
+	protected CobolRecordMetaData createMetaData2(Node node, CobolRecordMetaDataSet parent) {
+		return createMetaData2(node, parent, null);
+	}
+
 	/**
 	 * create meta data set
 	 * 
@@ -576,6 +671,7 @@ public class NodeReadLoader {
 		}
 		return meta;
 	}
+
 	/**
 	 * create meta data set
 	 * 
@@ -590,6 +686,7 @@ public class NodeReadLoader {
 		document1 = docBld.parse(file);
 		return createMetaDataSet(document1, meta, properties);
 	}
+
 	/**
 	 * create meta data set
 	 * 
@@ -612,6 +709,11 @@ public class NodeReadLoader {
 					CobolRecordMetaData meta1 = createMetaData(item, meta);
 					meta.installMetaData(meta1);
 					SQLNetServer.logger.log(Level.CONFIG, "metadata:" + meta1.getName());
+				} else if (item.getNodeName().equals("metadata2")) {
+						// meta data
+						CobolRecordMetaData meta1 = createMetaData2(item, meta);
+						meta.installMetaData(meta1);
+						SQLNetServer.logger.log(Level.CONFIG, "metadata:" + meta1.getName());
 				} else if (item.getNodeName().equals("property")) {
 					// map
 					NamedNodeMap map = item.getAttributes();
@@ -663,8 +765,8 @@ public class NodeReadLoader {
 								SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
 							}
 						} else if (wfile.isDirectory() && wfile.exists() && wfile.canRead()) {
-							//Node fiwork = map.getNamedItem("filter");
-							//FileFilter filter = new InnerFileFilter();
+							// Node fiwork = map.getNamedItem("filter");
+							// FileFilter filter = new InnerFileFilter();
 							NodeReadLoader child = createNodeReadLoader();
 							try {
 								SQLNetServer.logger.info("including metadata " + fname);
@@ -688,6 +790,7 @@ public class NodeReadLoader {
 		}
 		return meta;
 	}
+
 	/**
 	 * create this class instance for "include".
 	 * 
@@ -696,6 +799,7 @@ public class NodeReadLoader {
 	NodeReadLoader createNodeReadLoader() {
 		return new NodeReadLoader();
 	}
+
 	/**
 	 * create SQL column
 	 * 
@@ -758,6 +862,7 @@ public class NodeReadLoader {
 		}
 		return column;
 	}
+
 	/**
 	 * get node text
 	 * 
@@ -776,6 +881,7 @@ public class NodeReadLoader {
 		}
 		return retvalue.toString().trim();
 	}
+
 	/**
 	 * process other node load proseccor class & process current node
 	 * 
@@ -803,6 +909,7 @@ public class NodeReadLoader {
 			SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
 		}
 	}
+
 	/**
 	 * process other node load proseccor class & process current node
 	 * 
@@ -830,6 +937,7 @@ public class NodeReadLoader {
 			SQLNetServer.logger.warning(e.getMessage());
 		}
 	}
+
 	/**
 	 * Inner FileFileFilter
 	 * 
@@ -837,6 +945,7 @@ public class NodeReadLoader {
 	 */
 	class InnerFileFilter implements FileFilter {
 		private String filterText;
+
 		/**
 		 * constructor
 		 * 
@@ -845,12 +954,14 @@ public class NodeReadLoader {
 		public InnerFileFilter(String filterText) {
 			this.filterText = filterText;
 		}
+
 		/**
 		 * constructor equals Innter
 		 */
 		public InnerFileFilter() {
 			this(".*");
 		}
+
 		/*
 		 * (non-Javadoc)
 		 * 
