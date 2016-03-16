@@ -248,6 +248,14 @@ public class SQLFile2 extends SQLFile {
 		}
 		return ret;
 	}
+	
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.sql.SQLFile#startDuplicatesEqual(byte[])
+	 */
+	@Override
+	public FileStatus startDuplicatesEqual(byte[] record) {
+		return startEqual(record);
+	}
 
 	/*
 	 * (non-Javadoc)
