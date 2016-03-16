@@ -131,8 +131,7 @@ public class SQLFile2 extends SQLFile {
 	}
 
 	/**
-	 * @param keyReadStatement
-	 *            the keyReadStatement to set
+	 * @param keyReadStatement the keyReadStatement to set
 	 */
 	public void setKeyReadStatement(PreparedStatement keyReadStatement) {
 		this.keyReadStatement = keyReadStatement;
@@ -149,7 +148,7 @@ public class SQLFile2 extends SQLFile {
 		cobrec.setRecord(record);
 
 		int l = getMetaData().getKeyCount();
-		int j = 0;
+		int j = 1;
 		for (int i = 0; i < l; i++) {
 			CobolColumn column = getMetaData().getKey(i);
 			if (column instanceof SQLCobolColumn) {
@@ -193,22 +192,32 @@ public class SQLFile2 extends SQLFile {
 	}
 
 	/**
-	 * @param startGEStatement
-	 *            the startGEStatement to set
+	 * @param startGEStatement the startGEStatement to set
 	 */
 	public void setStartGEStatement(PreparedStatement startGEStatement) {
 		this.startGEStatement = startGEStatement;
 	}
 
 	/**
-	 * @param startGTStatement
-	 *            the startGTStatement to set
+	 * @param startGTStatement the startGTStatement to set
 	 */
 	public void setStartGTStatement(PreparedStatement startGTStatement) {
 		this.startGTStatement = startGTStatement;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.sql.SQLFile#startEqual(byte[])
+	 */
+	@Override
+	public FileStatus startDuplicatesEqual(byte[] record) {
+		return startEqual(record);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.sql.SQLFile#startEqual(byte[])
 	 */
 	@Override
@@ -232,29 +241,19 @@ public class SQLFile2 extends SQLFile {
 					int comp = compare(CurrentRecord, record);
 					if (comp == COMPARE_EQUAL) {
 						// not found(after last)
-						ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS,
-								"", 0, "can't find.");
+						ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0, "can't find.");
 					} else {
 						ret = FileStatus.OK;
 					}
 				} else {
 					// not found(after last)
-					ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS,
-							"", 0, "can't find.");
+					ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0, "can't find.");
 				}
 			} catch (SQLException e) {
 				ret = getException2FileStatus(e);
 			}
 		}
 		return ret;
-	}
-	
-	/* (non-Javadoc)
-	 * @see k_kim_mg.sa4cob2db.sql.SQLFile#startDuplicatesEqual(byte[])
-	 */
-	@Override
-	public FileStatus startDuplicatesEqual(byte[] record) {
-		return startEqual(record);
 	}
 
 	/*
@@ -282,8 +281,7 @@ public class SQLFile2 extends SQLFile {
 					ret = FileStatus.OK;
 				} else {
 					// not found(after last)
-					ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS,
-							"", 0, "can't find.");
+					ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0, "can't find.");
 				}
 			} catch (SQLException e) {
 				ret = getException2FileStatus(e);
@@ -317,8 +315,7 @@ public class SQLFile2 extends SQLFile {
 					ret = FileStatus.OK;
 				} else {
 					// not found(after last)
-					ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS,
-							"", 0, "can't find.");
+					ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0, "can't find.");
 				}
 			} catch (SQLException e) {
 				ret = getException2FileStatus(e);
