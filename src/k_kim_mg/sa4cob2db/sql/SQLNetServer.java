@@ -306,7 +306,7 @@ public class SQLNetServer {
 		// ////////////////////////////////////////////////////////
 		// password
 		String userFile = properties.getProperty("authfile", "");
-		if (userFile == "") {
+		if (userFile.trim().length() == 0) {
 			users.put("", "");// default password
 			logger.log(Level.CONFIG, "authfile is null. using default password.");
 		} else {
@@ -317,7 +317,7 @@ public class SQLNetServer {
 		// ////////////////////////////////////////////////////////
 		// admins
 		String adminFile = properties.getProperty("adminfile", "");
-		if (adminFile == "") {
+		if (adminFile.trim().length() == 0) {
 			adminusers.put("", "");
 			logger.log(Level.CONFIG, "adminfile is null.");
 		} else {
@@ -329,7 +329,7 @@ public class SQLNetServer {
 		// sessione vent
 		String sessionlisteners = properties.getProperty("sessionlisteners", "");
 		logger.log(Level.CONFIG, "sessionlisteners:" + sessionlisteners + ".");
-		if (sessionlisteners != "") {
+		if (sessionlisteners.trim().length() != 0) {
 			String[] classnames = sessionlisteners.split(":");
 			for (String classname : classnames) {
 				try {
@@ -346,7 +346,7 @@ public class SQLNetServer {
 		// Server event
 		String serverlisteners = properties.getProperty("serverlisteners", "");
 		logger.log(Level.CONFIG, "serverlisteners:" + serverlisteners + ".");
-		if (serverlisteners != "") {
+		if (serverlisteners.trim().length() != 0) {
 			String[] classnames = serverlisteners.split(":");
 			for (String classname : classnames) {
 				try {

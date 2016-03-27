@@ -321,7 +321,7 @@ public class ACMSQLJNISession implements ACMSession {
       // password
       Properties users = new Properties();
       String userFile = properties.getProperty("authfile", "");
-      if (userFile == "") {
+      if (userFile.trim().length() == 0) {
         users.put("", "");// default
         SQLNetServer.logger.log(Level.CONFIG, "authfile is null. using default password.");
       } else {

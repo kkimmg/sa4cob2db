@@ -167,7 +167,7 @@ public class ACMSQLSession implements ACMSession {
 	 */
 	private SQLFile createSQLFile(SQLCobolRecordMetaData meta) throws Exception {
 		SQLFile ret = null;
-		if (meta.getCustomFileClassName() == null || meta.getCustomFileClassName() == "") {
+		if (meta.getCustomFileClassName() == null || meta.getCustomFileClassName().trim().length() == 0) {
 			if (meta instanceof SQLCobolRecordMetaData2) {
 				ret = new SQLFile2(getConnection(), (SQLCobolRecordMetaData2)meta);
 			} else {
