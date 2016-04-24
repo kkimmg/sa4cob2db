@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.sql;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.FileStatus;
+
 /**
  * session based on Socket
  * 
@@ -32,6 +34,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	protected InputStreamReader streamReader;
 	protected OutputStreamWriter streamWriter;
 	private boolean initialized = false;
+
 	/**
 	 * Server
 	 * 
@@ -44,6 +47,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		this.server = server;
 		this.sock = sock;
 	}
+
 	/**
 	 * assign
 	 * 
@@ -58,6 +62,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * close
 	 * 
@@ -72,6 +77,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * commit
 	 * 
@@ -86,6 +92,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
 		}
 	}
+
 	/**
 	 * delete
 	 * 
@@ -102,6 +109,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * get file
 	 * 
@@ -118,10 +126,11 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 		return file;
 	}
+
 	/**
 	 * get option
 	 * 
-	 * @throws IOException
+	 * @throws IOException IOException
 	 */
 	protected void getTCPOption() throws IOException {
 		String name = readTrim();
@@ -133,6 +142,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 		writeLine(FileStatus.OK);
 	}
+
 	/**
 	 * initialize
 	 */
@@ -168,6 +178,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			SQLNetServer.logger.log(Level.SEVERE, "Something Wrong.", e);
 		}
 	}
+
 	/**
 	 * is initailized
 	 * 
@@ -176,10 +187,11 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	protected boolean isInitialized() {
 		return initialized;
 	}
+
 	/**
 	 * move to key value
 	 * 
-	 * @throws IOException
+	 * @throws IOException IOException
 	 */
 	protected void move() throws IOException {
 		CobolFile file = getFileFromLine();
@@ -192,6 +204,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * next
 	 * 
@@ -206,6 +219,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * open
 	 * 
@@ -255,6 +269,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * move to previous record
 	 * 
@@ -269,6 +284,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * front
 	 * 
@@ -339,6 +355,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(new FileStatus(FileStatus.STATUS_98_UNSUPPORTED_METHOD, FileStatus.NULL_CODE, 0, method + " is not supported."));
 		}
 	}
+
 	/**
 	 * read read current record
 	 * 
@@ -369,6 +386,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * read bytes from socket
 	 * 
@@ -383,6 +401,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 		return bytes;
 	}
+
 	/**
 	 * read text from socket
 	 * 
@@ -399,6 +418,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 		return line;
 	}
+
 	/**
 	 * read and next record
 	 * 
@@ -428,6 +448,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * read text from socket
 	 * 
@@ -438,6 +459,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		String ret = readLine();
 		return (ret == null ? "" : ret.trim());
 	}
+
 	/**
 	 * rewrite / update
 	 * 
@@ -454,6 +476,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * rollback
 	 * 
@@ -468,6 +491,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -518,6 +542,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			}
 		}
 	}
+
 	/**
 	 * set auto commit mode
 	 * 
@@ -528,6 +553,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		boolean autoCommit = Boolean.parseBoolean(commitString);
 		setAutoCommit(autoCommit);
 	}
+
 	/**
 	 * set auto commit mode
 	 * 
@@ -542,6 +568,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
 		}
 	}
+
 	/**
 	 * set initialized flag
 	 * 
@@ -550,6 +577,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	protected void setInitialized(boolean initialized) {
 		this.initialized = initialized;
 	}
+
 	/**
 	 * set max length
 	 * 
@@ -569,10 +597,11 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.FAILURE);
 		}
 	}
+
 	/**
 	 * set option
 	 * 
-	 * @throws IOException
+	 * @throws IOException IOException
 	 */
 	protected void setTCPOption() throws IOException {
 		String name = readTrim();
@@ -581,6 +610,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		setACMOption(name, value);
 		writeLine(FileStatus.OK);
 	}
+
 	/**
 	 * start transaction
 	 * 
@@ -600,6 +630,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		}
 		setTransactionLevel(level);
 	}
+
 	/**
 	 * start transaction
 	 * 
@@ -614,6 +645,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage()));
 		}
 	}
+
 	/**
 	 * start
 	 * 
@@ -642,6 +674,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * start by key
 	 * 
@@ -672,6 +705,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * terminate
 	 */
@@ -700,6 +734,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 		setInitialized(false);
 		super.terminate();
 	}
+
 	/**
 	 * write / insert
 	 * 
@@ -716,6 +751,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			writeLine(FileStatus.NOT_ASSIGNED);
 		}
 	}
+
 	/**
 	 * write status to socket
 	 * 
@@ -725,6 +761,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	protected void writeLine(FileStatus status) throws IOException {
 		writeLine(status.toString());
 	}
+
 	/**
 	 * wriet line to socket
 	 * 

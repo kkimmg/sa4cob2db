@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.WebSample;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -19,6 +20,7 @@ import k_kim_mg.sa4cob2db.DefaultCobolRecord;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 
 import org.xml.sax.SAXException;
+
 public class ServletSampleTool1 {
 	/** Map */
 	protected Hashtable<String, WebInterface1> contents;
@@ -32,6 +34,7 @@ public class ServletSampleTool1 {
 	protected Hashtable<String, WebInterface1> webinterfaces;
 	/** Header layout name */
 	public String MSGHEADNAME;
+
 	/**
 	 * Constructor
 	 */
@@ -66,24 +69,29 @@ public class ServletSampleTool1 {
 		// sessions
 		sessions = new Hashtable<String, CobolRecord>();
 	}
+
 	/** Map */
 	protected void addWebInterface(WebInterface1 face1) {
 		webinterfaces.put(face1.getName(), face1);
 		subroutines.put(face1.getSubroutine(), face1);
 		contents.put(face1.getContent(), face1);
 	}
+
 	/** from Map */
 	public WebInterface1 getWebInterfaceByContent(String content) {
 		return contents.get(content);
 	}
+
 	/** from Map */
 	public WebInterface1 getWebInterfaceByName(String name) {
 		return webinterfaces.get(name);
 	}
+
 	/** from Map */
 	public WebInterface1 getWebInterfaceBySubroutine(String subroutine) {
 		return subroutines.get(subroutine);
 	}
+
 	protected void setRecordToRequest(CobolRecord record, HttpServletRequest request) throws ServletException, IOException, CobolRecordException {
 		CobolRecordMetaData meta = record.getMetaData();
 		for (int i = 0; i < meta.getColumnCount(); i++) {
@@ -92,6 +100,7 @@ public class ServletSampleTool1 {
 			request.setAttribute(column.getName(), columnValue);
 		}
 	}
+
 	protected void setRequestToRecord(HttpServletRequest request, CobolRecord record) throws ServletException, IOException {
 		CobolRecordMetaData meta = null;
 		try {
@@ -108,9 +117,11 @@ public class ServletSampleTool1 {
 				CobolColumn column = meta.getColumn(id);
 				record.updateObject(column, value);
 			} catch (CobolRecordException e) {
+				// Do Nothing
 			}
 		}
 	}
+
 	public CobolRecord getHeaderRecord(HttpServletRequest request) {
 		Object wrk = null;
 		CobolRecord ret = null;
@@ -125,6 +136,7 @@ public class ServletSampleTool1 {
 		}
 		return ret;
 	}
+
 	public CobolRecord createRecord(String metaname) {
 		CobolRecordMetaData meta = metaSet.getMetaData(metaname);
 		CobolRecord ret = new DefaultCobolRecord(meta);

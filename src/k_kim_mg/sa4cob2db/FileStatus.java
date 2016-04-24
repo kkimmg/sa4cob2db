@@ -1,5 +1,7 @@
 package k_kim_mg.sa4cob2db;
+
 import java.text.DecimalFormat;
+
 /**
  * file status
  * 
@@ -64,6 +66,7 @@ public class FileStatus {
 	public static final FileStatus FAILURE = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "something failure");
 	/** file is not assigned */
 	public static final FileStatus NOT_ASSIGNED = new FileStatus(FileStatus.STATUS_93_NOT_ASSIGND, FileStatus.NULL_CODE, 0, "file is not assigned");
+
 	/**
 	 * Constructor
 	 * 
@@ -78,6 +81,7 @@ public class FileStatus {
 		this.errCode = errCode;
 		this.statusMessage = statusMessage;
 	}
+
 	/**
 	 * get error code
 	 * 
@@ -86,6 +90,7 @@ public class FileStatus {
 	public long getErrStatus() {
 		return errCode;
 	}
+
 	/**
 	 * get error code
 	 * 
@@ -96,46 +101,58 @@ public class FileStatus {
 		DecimalFormat format = new DecimalFormat("00000000000;----------0");
 		return format.format(getErrStatus());
 	}
+
 	/**
 	 * get SQL status
 	 * 
 	 * @return SQL status(5-digit number)
 	 */
 	public String getSqlStatus() {
-		if (sqlStatus == null)
+		if (sqlStatus == null) {
 			sqlStatus = STATUS_99_FAILURE;
-		if (sqlStatus.length() < 5)
+		}
+		if (sqlStatus.length() < 5) {
 			sqlStatus = STATUS_99_FAILURE;
-		if (sqlStatus.length() > 5)
+		}
+		if (sqlStatus.length() > 5) {
 			sqlStatus = sqlStatus.substring(0, 5);
+		}
 		return sqlStatus;
 	}
+
 	/**
 	 * get file status
 	 * 
 	 * @return file status(2-digit number)
 	 */
 	public String getStatusCode() {
-		if (statusCode == null)
+		if (statusCode == null) {
 			statusCode = STATUS_99_FAILURE;
-		if (statusCode.length() < 2)
+		}
+		if (statusCode.length() < 2) {
 			statusCode = STATUS_99_FAILURE;
-		if (statusCode.length() > 2)
+		}
+		if (statusCode.length() > 2) {
 			statusCode = statusCode.substring(0, 2);
+		}
 		return statusCode;
 	}
+
 	/**
 	 * get error message
 	 * 
 	 * @return message
 	 */
 	public String getStatusMessage() {
-		if (statusMessage == null)
+		if (statusMessage == null) {
 			statusMessage = "";
-		if (statusMessage.length() > 233)
+		}
+		if (statusMessage.length() > 233) {
 			statusMessage = statusMessage.substring(0, 233);
+		}
 		return statusMessage;
 	}
+
 	/**
 	 * set error status
 	 * 
@@ -146,6 +163,7 @@ public class FileStatus {
 		assert errStatus <= 99999999999L;
 		this.errCode = errStatus;
 	}
+
 	/**
 	 * set SQL status
 	 * 
@@ -154,6 +172,7 @@ public class FileStatus {
 	protected void setSqlStatus(String sqlStatus) {
 		this.sqlStatus = sqlStatus;
 	}
+
 	/**
 	 * set file status
 	 * 
@@ -162,6 +181,7 @@ public class FileStatus {
 	protected void setStatusCode(String statusCode) {
 		this.statusCode = statusCode;
 	}
+
 	/**
 	 * set message
 	 * 
@@ -170,6 +190,7 @@ public class FileStatus {
 	protected void setStatusMessage(String statusMessage) {
 		this.statusMessage = statusMessage;
 	}
+
 	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();

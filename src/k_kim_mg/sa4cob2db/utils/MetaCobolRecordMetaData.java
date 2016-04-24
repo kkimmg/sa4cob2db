@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.utils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,13 +9,16 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+
 /**
  * Create XML Node
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
-public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
+public class MetaCobolRecordMetaData {
 	private MetadataCobolColumn dummy = new MetadataCobolColumn(this) {
 		private static final long serialVersionUID = 1L;
+
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -31,15 +35,17 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 	private List<MetadataCobolColumn> firsts = new ArrayList<MetadataCobolColumn>();
 	private List<MetadataCobolColumn> list = new ArrayList<MetadataCobolColumn>();
 	private Stack<MetadataCobolColumn> stack = new Stack<MetadataCobolColumn>();
+
 	/**
 	 * Create Nodes
+	 * 
 	 * @param document Dom Document Object
 	 * @param rootNode Root Node
-	 * @return
+	 * @return Next location
 	 */
 	public int exportToNode(Document document, Node rootNode) {
 		int ret = 0;
-				
+
 		for (MetadataCobolColumn x : firsts) {
 			Node node = document.createElement("metadata");
 			NamedNodeMap map = node.getAttributes();
@@ -48,15 +54,17 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 			map.setNamedItem(attr);
 			rootNode.appendChild(node);
 			Node stmt = document.createElement("statement");
-			Node sql = document.createTextNode("select * from " + root.getOriginalColumnName() + ";") ;
+			Node sql = document.createTextNode("select * from " + root.getOriginalColumnName() + ";");
 			stmt.appendChild(sql);
 			node.appendChild(stmt);
 			ret = x.exportToNode(document, node, ret, "");
 		}
 		return ret;
 	}
+
 	/**
 	 * Parse Text
+	 * 
 	 * @param txt Test
 	 */
 	public void parse(String txt) {
@@ -91,16 +99,20 @@ public class MetaCobolRecordMetaData /* extends DefaultCobolRecordMetaData */{
 		}
 		previous = work;
 	}
+
 	/**
 	 * Key is Already parsed?
+	 * 
 	 * @param key Key
 	 * @return true/false
 	 */
 	public boolean containsKey(String key) {
 		return map.containsKey(key);
 	}
+
 	/**
 	 * Get Column
+	 * 
 	 * @param key Key
 	 * @return Column
 	 */

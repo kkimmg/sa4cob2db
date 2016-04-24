@@ -54,10 +54,12 @@ public class Acm2Seq {
 	 */
 	private static String getEnvValue(String key, String defaultValue) {
 		String ret = System.getProperty(key, System.getenv(key));
-		if (ret == null)
+		if (ret == null) {
 			ret = defaultValue;
-		if (ret.length() == 0)
+		}
+		if (ret.length() == 0) {
 			ret = defaultValue;
+		}
 		return ret;
 	}
 
@@ -181,11 +183,12 @@ public class Acm2Seq {
 		try {
 			nodeLoader.createMetaDataSet(metaFile, metaset, properties);
 			if (metaset instanceof SQLCobolRecordMetaDataSet) {
-				SQLCobolRecordMetaDataSet sqlset = (SQLCobolRecordMetaDataSet) metaset;
 				SQLNetServer.updateProperty(properties, "jdbcdriverurl", "ACM_JDBCDRIVERURL");
 				SQLNetServer.updateProperty(properties, "jdbcdatabaseurl", "ACM_JDBCDATABASEURL");
 				SQLNetServer.updateProperty(properties, "jdbcusername", "ACM_JDBCUSERNAME");
 				SQLNetServer.updateProperty(properties, "jdbcpassword", "ACM_JDBCPASSWORD");
+
+				SQLCobolRecordMetaDataSet sqlset = (SQLCobolRecordMetaDataSet) metaset;
 				sqlset.setDriverURL(properties.getProperty("jdbcdriverurl"));
 				sqlset.setDatabaseURL(properties.getProperty("jdbcdatabaseurl"));
 				sqlset.setUsername(properties.getProperty("jdbcusername"));

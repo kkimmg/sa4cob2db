@@ -1,10 +1,11 @@
 package k_kim_mg.sa4cob2db.sql;
 
 /**
- * provides SQL statements from entity name.
- * This interface doesn't support "Start Less Equal" and "Less Than".
+ * provides SQL statements from entity name. This interface doesn't support
+ * "Start Less Equal" and "Less Than".
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
- *
+ * 
  */
 public interface SQLCobolRecordMetaData2 extends SQLCobolRecordMetaData {
 	/**
@@ -17,16 +18,14 @@ public interface SQLCobolRecordMetaData2 extends SQLCobolRecordMetaData {
 	/**
 	 * set entity name
 	 * 
-	 * @param entityName
-	 *            entity name
+	 * @param entityName entity name
 	 */
 	public void setEntityName(String entityName);
 
 	/**
 	 * set SELECT statement for READ
 	 * 
-	 * @param keyReadStatement
-	 *            SELECT statement
+	 * @param keyReadStatement SELECT statement
 	 */
 	public void setKeyReadStatement(String keyReadStatement);
 
@@ -40,8 +39,7 @@ public interface SQLCobolRecordMetaData2 extends SQLCobolRecordMetaData {
 	/**
 	 * set SELECT statement for Greater Than or Equal
 	 * 
-	 * @param keyReadStatement
-	 *            SELECT statement
+	 * @param startGEStatement SELECT statement
 	 */
 	public void setStartGEStatement(String startGEStatement);
 
@@ -55,8 +53,7 @@ public interface SQLCobolRecordMetaData2 extends SQLCobolRecordMetaData {
 	/**
 	 * set SELECT statement for Greater Than
 	 * 
-	 * @param keyReadStatement
-	 *            SELECT statement
+	 * @param startGTStatement SELECT statement
 	 */
 	public void setStartGTStatement(String startGTStatement);
 
@@ -68,12 +65,12 @@ public interface SQLCobolRecordMetaData2 extends SQLCobolRecordMetaData {
 	public String getStartGTStatement();
 
 	/*
-	public void setStartLEStatement(String startLEStatement);
-
-	public String getStartLEStatement();
-
-	public void setStartLTStatement(String startLTStatement);
-
-	public String getStartLTStatement();
-	*/
+	 * public void setStartLEStatement(String startLEStatement);
+	 * 
+	 * public String getStartLEStatement();
+	 * 
+	 * public void setStartLTStatement(String startLTStatement);
+	 * 
+	 * public String getStartLTStatement();
+	 */
 }

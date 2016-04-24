@@ -983,7 +983,7 @@ public class TypesTest {
   @Test
   public void testTYPE_DECIMAL() {
     CobolColumn column;
-    BigDecimal f = new BigDecimal(345.67d);
+    BigDecimal f = new BigDecimal(345.67f);
     try {
       column = meta.getColumn("TYPE-DECIMAL");
       record.updateBigDecimal(column, f);
@@ -993,7 +993,7 @@ public class TypesTest {
       e.printStackTrace();
       fail(e.getMessage());
     }
-    f = new BigDecimal(-345.67d);
+    f = new BigDecimal(-345.67f);
     try {
       column = meta.getColumn("TYPE-DECIMAL");
       record.updateBigDecimal(column, f);
@@ -1011,7 +1011,7 @@ public class TypesTest {
   @Test
   public void testTYPE_DECIMAL2() {
     CobolColumn column;
-    BigDecimal f = new BigDecimal(345.67d);
+    BigDecimal f = BigDecimal.valueOf(345.67d);
     try {
       column = meta.getColumn("TYPE-DECIMAL2");
       record.updateBigDecimal(column, f);
@@ -1022,7 +1022,7 @@ public class TypesTest {
       e.printStackTrace();
       fail(e.getMessage());
     }
-    f = new BigDecimal(-45.67d);
+    f = BigDecimal.valueOf(-45.67d);
     try {
       column = meta.getColumn("TYPE-DECIMAL2");
       record.updateBigDecimal(column, f);

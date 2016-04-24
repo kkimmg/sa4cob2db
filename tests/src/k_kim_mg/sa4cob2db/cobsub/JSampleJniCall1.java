@@ -131,7 +131,6 @@ public class JSampleJniCall1 {
 	/**
 	 * Calling COBOL SubProgram
 	 * 
-	 * @param libname Library Name
 	 * @param progname Program Name
 	 * @param head header
 	 * @param bodyIn InputBody

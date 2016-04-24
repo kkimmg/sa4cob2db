@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.utils;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 import k_kim_mg.sa4cob2db.codegen.COBPP1;
+
 /**
  * generate meta data file from COBOL source.
  * 
@@ -25,13 +27,14 @@ public class Cbl2MetaData {
 		cobpp.run();
 		System.exit(0);
 	}
+
 	/**
 	 * main to...
 	 * 
 	 * @param infile input filename
 	 * @param outfile output filename
 	 * @param informat COBOL source is free format?
-	 * @param acm_charset
+	 * @param acm_charset Character Set
 	 */
 	public static void main_too(String infile, String outfile, String informat, String acm_charset) {
 		String[] argv = new String[] { infile, outfile };
@@ -44,6 +47,7 @@ public class Cbl2MetaData {
 		System.setProperty("display_usage", "false");
 		main(argv);
 	}
+
 	/**
 	 * main to...
 	 * 
@@ -51,7 +55,7 @@ public class Cbl2MetaData {
 	 * @param outfile output filename
 	 * @param informat COBOL source is free format?
 	 * @param keyRegs regex string of key column name
-	 * @param acm_charset
+	 * @param acm_charset Character Set
 	 */
 	public static void main_too(String infile, String outfile, String informat, String acm_charset, String keyRegs) {
 		String[] argv = new String[] { infile, outfile };
@@ -67,10 +71,12 @@ public class Cbl2MetaData {
 		System.setProperty("display_usage", "false");
 		main(argv);
 	}
+
 	private RecordGenerator generator = new RecordGenerator();
 	private boolean infreeformat = false;
 	private InputStream input;
 	private String outfile;
+
 	/**
 	 * Constructor
 	 * 
@@ -100,7 +106,7 @@ public class Cbl2MetaData {
 		String keyRegs = getEnvValue("acmkeyregex", "");
 		if (keyRegs.trim().length() > 0) {
 			String[] keyNameRegs = keyRegs.split(":");
-			for (String s: keyNameRegs) {
+			for (String s : keyNameRegs) {
 				MetadataCobolColumn.getKeyRegs().add(s);
 			}
 		}
@@ -116,6 +122,7 @@ public class Cbl2MetaData {
 			System.err.println("\tacmkeyregex=" + keyRegs + "\t:Key Regex String separated by \":\".");
 		}
 	}
+
 	/**
 	 * get environment values
 	 * 
@@ -125,12 +132,15 @@ public class Cbl2MetaData {
 	 */
 	private String getEnvValue(String key, String defaultValue) {
 		String ret = System.getProperty(key, System.getenv(key));
-		if (ret == null)
+		if (ret == null) {
 			ret = defaultValue;
-		if (ret.length() == 0)
+		}
+		if (ret.length() == 0) {
 			ret = defaultValue;
+		}
 		return ret;
 	}
+
 	/**
 	 * Run
 	 */

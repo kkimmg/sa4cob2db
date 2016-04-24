@@ -85,6 +85,7 @@ public class NodeReadLoader {
 				int typeint = Integer.parseInt(typestr);
 				column.setType(typeint);
 			} catch (NumberFormatException e) {
+				// Do Nothing
 			}
 		}
 		// start position
@@ -95,6 +96,7 @@ public class NodeReadLoader {
 				int startint = Integer.parseInt(startstr);
 				column.setStart(startint);
 			} catch (NumberFormatException e) {
+				// Do Nothing
 			}
 		}
 		// length
@@ -105,6 +107,7 @@ public class NodeReadLoader {
 				int lengthint = Integer.parseInt(lengthstr);
 				column.setLength(lengthint);
 			} catch (NumberFormatException e) {
+				// Do Nothing
 			}
 		}
 		// signed?
@@ -122,6 +125,7 @@ public class NodeReadLoader {
 				int decimalint = Integer.parseInt(decimalstr);
 				column.setNumberOfDecimal(decimalint);
 			} catch (NumberFormatException e) {
+				// Do Nothing
 			}
 		}
 		// decimal size
@@ -132,6 +136,7 @@ public class NodeReadLoader {
 				int usageint = Integer.parseInt(usagestr);
 				column.setUsage(usageint);
 			} catch (NumberFormatException e) {
+				// Do Nothing
 			}
 		}
 		// format

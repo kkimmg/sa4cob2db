@@ -104,6 +104,7 @@ public class SQLNetServer {
 	public static final int SHUTDOWN_ABORT = 1;
 	/** shutdown normal */
 	public static final int SHUTDOWN_NORMAL = 0;
+
 	static {
 		logger = Logger.getLogger(LOGNAME);
 		logger.setLevel(Level.SEVERE);
@@ -118,10 +119,12 @@ public class SQLNetServer {
 	 */
 	static String getEnvValue(String key, String defaultValue) {
 		String ret = System.getProperty(key, System.getenv(key));
-		if (ret == null)
+		if (ret == null) {
 			ret = defaultValue;
-		if (ret.length() == 0)
+		}
+		if (ret.length() == 0) {
 			ret = defaultValue;
+		}
 		return ret;
 	}
 

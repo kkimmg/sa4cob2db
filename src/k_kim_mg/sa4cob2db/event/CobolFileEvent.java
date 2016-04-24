@@ -1,7 +1,9 @@
 package k_kim_mg.sa4cob2db.event;
+
 import java.util.EventObject;
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.FileStatus;
+
 /**
  * file event
  * 
@@ -11,6 +13,7 @@ public class CobolFileEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
 	private CobolFile file = null;
 	private FileStatus status;
+
 	/**
 	 * Constructor
 	 * 
@@ -22,6 +25,7 @@ public class CobolFileEvent extends EventObject {
 		this.file = source;
 		this.status = status;
 	}
+
 	/**
 	 * be equal to source
 	 * 
@@ -30,6 +34,7 @@ public class CobolFileEvent extends EventObject {
 	public CobolFile getFile() {
 		return file;
 	}
+
 	/**
 	 * filestatus
 	 * 
@@ -38,6 +43,7 @@ public class CobolFileEvent extends EventObject {
 	public FileStatus getStatus() {
 		return status;
 	}
+
 	/**
 	 * filestatus
 	 * 
@@ -46,6 +52,7 @@ public class CobolFileEvent extends EventObject {
 	public void setStatus(FileStatus status) {
 		this.status = status;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

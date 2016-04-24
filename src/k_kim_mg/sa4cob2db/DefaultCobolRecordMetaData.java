@@ -1,7 +1,9 @@
 package k_kim_mg.sa4cob2db;
+
 import java.util.ArrayList;
 import java.util.List;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
+
 /**
  * recordmeta data
  * 
@@ -11,7 +13,7 @@ import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
-	
+
 	private List<Class<? extends CobolFileEventListener>> listenerClasses = new ArrayList<Class<? extends CobolFileEventListener>>();
 	/** alias names */
 	protected List<String> aliases = new ArrayList<String>();
@@ -22,7 +24,9 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	 */
 	protected String encode = "auto";
 	/** size of buffers */
-	private int initialSequencialReadBufferSize, maximumSequencialReadBufferSize, minimumSequencialReadBufferSize;
+	private int initialSequencialReadBufferSize;
+	private int maximumSequencialReadBufferSize;
+	private int minimumSequencialReadBufferSize;
 	/** key value compare */
 	private boolean keyByValue = false;
 	/** key columns */
@@ -31,22 +35,30 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	protected String name = "";
 	/** indexes */
 	protected List<CobolIndex> cobolIndexes = new ArrayList<CobolIndex>();
-	/**if this value is true, do close and open then No data found.*/
+	/** if this value is true, do close and open then No data found. */
 	private boolean reOpenWhenNoDataFound = false;
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#isReOpenWhenNoDataFound()
 	 */
 	@Override
 	public boolean isReOpenWhenNoDataFound() {
 		return reOpenWhenNoDataFound;
 	}
-	/* (non-Javadoc)
-	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#setReOpenWhenNoDataFound(boolean)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * k_kim_mg.sa4cob2db.CobolRecordMetaData#setReOpenWhenNoDataFound(boolean)
 	 */
 	@Override
 	public void setReOpenWhenNoDataFound(boolean reOpenWhenNoDataFound) {
 		this.reOpenWhenNoDataFound = reOpenWhenNoDataFound;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -55,6 +67,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void addAlias(String alias) {
 		aliases.add(alias);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -67,6 +80,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 			addKey(column);
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -79,6 +93,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 			keys.add(column);
 		}
 	}
+
 	/**
 	 * copy attributes and columns to
 	 * 
@@ -99,6 +114,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		}
 		return copy;
 	}
+
 	/**
 	 * create column
 	 * 
@@ -108,6 +124,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		CobolColumn ret = new DefaultCobolColumn(this);
 		return ret;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -118,6 +135,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		copyTo(copy);
 		return copy;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -138,6 +156,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		}
 		return ret;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -157,6 +176,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		}
 		return ret;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -165,6 +185,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public String getAlias(int i) {
 		return aliases.get(i);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -173,6 +194,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public int getAliasCount() {
 		return aliases.size();
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -181,6 +203,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public List<CobolIndex> getCobolIndexes() {
 		return cobolIndexes;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -189,6 +212,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public CobolColumn getColumn(int i) {
 		return (CobolColumn) columns.get(i);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -197,6 +221,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public CobolColumn getColumn(String name) throws CobolRecordException {
 		return getColumn(findColumn(name));
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -205,6 +230,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public int getColumnCount() {
 		return columns.size();
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -213,6 +239,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public String getCustomFileClassName() {
 		return "";
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -221,6 +248,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public String getEncode() {
 		return encode;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -230,6 +258,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public int getInitialSequencialReadBufferSize() {
 		return initialSequencialReadBufferSize;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -238,6 +267,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public CobolColumn getKey(int i) {
 		return keys.get(i);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -246,6 +276,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public int getKeyCount() {
 		return keys.size();
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -254,6 +285,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public List<Class<? extends CobolFileEventListener>> getListenerClasses() {
 		return listenerClasses;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -263,6 +295,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public int getMaximumSequencialReadBufferSize() {
 		return maximumSequencialReadBufferSize;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -272,6 +305,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public int getMinimumSequencialReadBufferSize() {
 		return minimumSequencialReadBufferSize;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -280,6 +314,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public String getName() {
 		return name;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -296,15 +331,17 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		}
 		return ret;
 	}
+
 	/**
 	 * is this column key column?
 	 * 
 	 * @param column column
-	 * @return true yes</br> false no
+	 * @return true yes false no
 	 */
 	protected boolean isKey(CobolColumn column) {
 		return keys.contains(column);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -314,6 +351,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public boolean isKeyByValue() {
 		return keyByValue;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -323,6 +361,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void removeAlias(String alias) {
 		aliases.remove(alias);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -333,16 +372,20 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 		columns.remove(column);
 		removeKey(column);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#removeColumn(int)
 	 */
+	@Override
 	public void removeColumn(int index) {
 		CobolColumn remove = getColumn(index);
-		if (remove != null)
+		if (remove != null) {
 			columns.remove(index);
+		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -352,6 +395,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void removeKey(CobolColumn column) {
 		keys.remove(column);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -360,6 +404,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void removeKey(int index) {
 		keys.remove(index);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -368,6 +413,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void setEncode(String string) {
 		encode = string;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -377,12 +423,16 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void setInitialSequencialReadBufferSize(int value) {
 		initialSequencialReadBufferSize = value;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#setKeyByValue(boolean)
 	 */
 	public void setKeyByValue(boolean keyByValue) {
 		this.keyByValue = keyByValue;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -392,6 +442,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void setMaximumSequencialReadBufferSize(int value) {
 		maximumSequencialReadBufferSize = value;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -401,6 +452,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	public void setMinimumSequencialReadBufferSize(int value) {
 		minimumSequencialReadBufferSize = value;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

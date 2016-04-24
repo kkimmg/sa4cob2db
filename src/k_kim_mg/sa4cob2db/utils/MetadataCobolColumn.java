@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.utils;
+
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -12,6 +13,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+
 public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	private static final long serialVersionUID = 1L;
 	public static Properties reps;
@@ -52,20 +54,29 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	private boolean key = false;
 	private MetadataCobolColumn parent;
 	private static ArrayList<String> keyregs = new ArrayList<String>();
+
 	public static ArrayList<String> getKeyRegs() {
 		return keyregs;
 	}
-	public boolean isKeyName (String name) {
+
+	/**
+	 * Is the name key?
+	 * @param name column name
+	 * @return true/false
+	 */
+	public boolean isKeyName(String name) {
 		boolean ret = false;
-		for (String s: getKeyRegs()) {
+		for (String s : getKeyRegs()) {
 			Pattern pattern = Pattern.compile(s, Pattern.CASE_INSENSITIVE);
 			Matcher matcher = pattern.matcher(name);
 			ret |= matcher.find();
 		}
 		return ret;
 	}
- 	/** meta data */
+
+	/** meta data */
 	MetaCobolRecordMetaData meta;
+
 	/**
 	 * Constructor
 	 * 
@@ -74,13 +85,15 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	public MetadataCobolColumn(MetaCobolRecordMetaData meta) {
 		this.meta = meta;
 	}
+
 	/**
 	 * Export to XML Node
+	 * 
 	 * @param document document
 	 * @param parent node that indicates parent or record.
 	 * @param start start index
 	 * @param fix fix string
-	 * @return
+	 * @return Next location
 	 */
 	public int exportToNode(Document document, Node parent, int start, String fix) {
 		int ret = start;
@@ -94,13 +107,15 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 		}
 		return ret;
 	}
+
 	/**
 	 * Export to XML Node
+	 * 
 	 * @param document document
 	 * @param parent node that indicates parent or record.
 	 * @param start start index
 	 * @param fix fix string
-	 * @return
+	 * @return Next location
 	 */
 	protected int exportToNode1(Document document, Node parent, int start, String fix) {
 		int ret = start;
@@ -116,16 +131,16 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 			}
 		}
 		this.start = start;
-		int l_length = getLength(); 
+		int l_length = getLength();
 		if (l_length > 0) {
 			if (l_length <= 4) {
 				l_length = 2;
-			} else if (5 <= l_length  && l_length <= 9) {
+			} else if (5 <= l_length && l_length <= 9) {
 				l_length = 4;
-			} else if (10 <= l_length  && l_length <= 18) {
+			} else if (10 <= l_length && l_length <= 18) {
 				l_length = 8;
 			}
-			
+
 			node = document.createElement("sqlcolumn");
 			NamedNodeMap map = node.getAttributes();
 			map.setNamedItem(setNodeAttribute(document, "name", getName() + fix));
@@ -168,36 +183,47 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 		}
 		return ret;
 	}
+
 	public MetaCobolRecordMetaData getCobolRecordMetaData() {
 		return meta;
 	}
+
 	public String getFormat() {
 		return format;
 	}
+
 	public String getForNull() {
 		return forNull;
 	}
+
 	public String getIfNull() {
 		return ifNull;
 	}
+
 	public int getLength() {
 		return length;
 	}
+
 	public int getLevel() {
 		return level;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public int getNumberOfDecimal() {
 		return numberOfDecimal;
 	}
+
 	public int getOccurs() {
 		return occurs;
 	}
+
 	/**
 	 * get column name
-	 * @return
+	 * 
+	 * @return DB Column name
 	 */
 	public String getOriginalColumnName() {
 		String ret = getName();
@@ -207,30 +233,39 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 		}
 		return ret;
 	}
+
 	/**
 	 * Get parent column
+	 * 
 	 * @return the parent
 	 */
 	public MetadataCobolColumn getParent() {
 		return parent;
 	}
+
 	public int getPhysicalLength() {
 		return getLength();
 	}
+
 	public String getRedefines() {
 		return redefines;
 	}
+
 	public int getStart() {
 		return start;
 	}
+
 	public int getType() {
 		return type;
 	}
+
 	public int getUsage() {
 		return usage;
 	}
+
 	/**
 	 * Is this column key?
+	 * 
 	 * @return the key
 	 */
 	public boolean isKey() {
@@ -240,12 +275,15 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 		}
 		return ret;
 	}
+
 	public boolean isSigned() {
 		return signed;
 	}
+
 	public boolean isValidColumn() {
 		return validColumn;
 	}
+
 	public int parce(String logical) {
 		int status = CUR_NONE;
 		StringTokenizer tokenizer = new StringTokenizer(logical);
@@ -307,6 +345,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 		}
 		return getLevel();
 	}
+
 	int parcePicture(String token) {
 		String picture = token.trim();
 		int l_type = TYPE_NONE;
@@ -480,6 +519,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 		}
 		return CUR_OTHER;
 	}
+
 	void parceUsage(String token) {
 		String l_usage = token.trim();
 		if (l_usage.equals("BINARY") || l_usage.equals("BINARY.") || l_usage.equals("COMP") || l_usage.equals("COMP.") || l_usage.equals("COMPUTATIONAL") || l_usage.equals("COMPUTATIONAL.")) {
@@ -492,71 +532,93 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 			usage = CobolColumn.USAGE_INDEX;
 		}
 	}
+
 	public void setCobolRecordMetaData(CobolRecordMetaData cobolRecordMetaData) {
 	}
+
 	public void setFormat(String format) {
 		this.format = format;
 	}
+
 	public void setForNull(String forNull) {
 		this.forNull = forNull;
 	}
+
 	public void setIfNull(String ifNull) {
 		this.ifNull = ifNull;
 	}
+
 	/**
 	 * Is this column key?
+	 * 
 	 * @param key the key to set
 	 */
 	public void setKey(boolean key) {
 		this.key = key;
 	}
+
 	public void setLength(int length) {
 		this.length = length;
 	}
+
 	public void setLevel(int level) {
 		this.level = level;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	Attr setNodeAttribute(Document document, String name, boolean value) {
 		return setNodeAttribute(document, name, String.valueOf(value));
 	}
+
 	Attr setNodeAttribute(Document document, String name, int value) {
 		return setNodeAttribute(document, name, String.valueOf(value));
 	}
+
 	Attr setNodeAttribute(Document document, String name, String value) {
 		Attr attr = document.createAttribute(name);
 		attr.setValue(value);
 		return attr;
 	}
+
 	public void setNumberOfDecimal(int decimal) {
 		this.numberOfDecimal = decimal;
 	}
+
 	public void setOccurs(int occurs) {
-		if (occurs < 0)
+		if (occurs < 0) {
 			return;
+		}
 		this.occurs = occurs;
 	}
+
 	/**
 	 * Set parent column
+	 * 
 	 * @param parent the parent to set
 	 */
 	public void setParent(MetadataCobolColumn parent) {
 		this.parent = parent;
 	}
+
 	public void setRedefines(String redefines) {
 		this.redefines = redefines;
 	}
+
 	public void setSigned(boolean signed) {
 		this.signed = signed;
 	}
+
 	public void setStart(int start) {
 		this.start = start;
 	}
+
 	public void setType(int type) {
 		this.type = type;
 	}
+
 	/**
 	 * set ValidColumn
 	 * 
@@ -565,6 +627,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	public void setValidColumn(boolean validColumn) {
 		this.validColumn = validColumn;
 	}
+
 	private String trimToken(String token) {
 		String ret = token;
 		if (token.length() > 1) {

@@ -28,27 +28,22 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	private SQLCobolRecord rowData;
 
 	private volatile boolean isInReopen = false;
+
 	/**
 	 * Constructor
 	 * 
-	 * @param connection
-	 *            Connection
-	 * @param meta
-	 *            meta data
+	 * @param connection Connection
+	 * @param meta meta data
 	 */
 	public SQLFile(Connection connection, SQLCobolRecordMetaData meta) {
 		this.connection = connection;
 		this.meta = meta;
-		setInitialSequentialReadBufferSize(meta
-				.getInitialSequencialReadBufferSize());
-		setMinimumSequentialReadBufferSize(meta
-				.getMinimumSequencialReadBufferSize());
-		setMaximumSequentialReadBufferSize(meta
-				.getMaximumSequencialReadBufferSize());
+		setInitialSequentialReadBufferSize(meta.getInitialSequencialReadBufferSize());
+		setMinimumSequentialReadBufferSize(meta.getMinimumSequencialReadBufferSize());
+		setMaximumSequentialReadBufferSize(meta.getMaximumSequencialReadBufferSize());
 	}
-	/*
-	 * (non-Javadoc)
-	 * 
+
+	/**
 	 * @see k_kim_mg.sa4cob2db.CobolFile#close()
 	 */
 	public FileStatus close() {
@@ -56,11 +51,9 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		FileStatus ret = FileStatus.OK;
 		try {
 			if (getResultSet() == null) {
-				ret = new FileStatus(FileStatus.STATUS_NOT_OPEN,
-						FileStatus.NULL_CODE, 0, "ResultSet is Null.");
+				ret = new FileStatus(FileStatus.STATUS_NOT_OPEN, FileStatus.NULL_CODE, 0, "ResultSet is Null.");
 			} else if (rowData == null) {
-				ret = new FileStatus(FileStatus.STATUS_NOT_OPEN,
-						FileStatus.NULL_CODE, 0, "RowData is Null.");
+				ret = new FileStatus(FileStatus.STATUS_NOT_OPEN, FileStatus.NULL_CODE, 0, "RowData is Null.");
 			} else {
 				getResultSet().close();
 			}
@@ -88,14 +81,11 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	/**
 	 * create record
 	 * 
-	 * @param meta
-	 *            meta data
-	 * @param resultSet
-	 *            result set
+	 * @param meta meta data
+	 * @param resultSet result set
 	 * @return record
 	 */
-	protected SQLCobolRecord createCobolRecord(SQLCobolRecordMetaData meta,
-			ResultSet resultSet) {
+	protected SQLCobolRecord createCobolRecord(SQLCobolRecordMetaData meta, ResultSet resultSet) {
 		return new SQLCobolRecord(meta, connection, resultSet);
 	}
 
@@ -117,8 +107,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						next();
 					}
 				} catch (Exception e1) {
-					SQLNetServer.logger.log(Level.WARNING,
-							e1.getLocalizedMessage());
+					SQLNetServer.logger.log(Level.WARNING, e1.getLocalizedMessage());
 					ret = getException2FileStatus(e1);
 				}
 			} catch (SQLException e) {
@@ -161,20 +150,17 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	/**
 	 * exception to file status
 	 * 
-	 * @param e
-	 *            exception
+	 * @param e exception
 	 * @return file status
 	 */
 	protected FileStatus getException2FileStatus(Exception e) {
-		return new FileStatus(FileStatus.STATUS_99_FAILURE,
-				FileStatus.NULL_CODE, 0, e.getMessage());
+		return new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
 	}
 
 	/**
 	 * create event object
 	 * 
-	 * @param stat
-	 *            file status
+	 * @param stat file status
 	 * @return file event
 	 */
 	protected CobolFileEvent getFileStatus2Event(FileStatus stat) {
@@ -201,6 +187,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 
 	/**
 	 * Get inner ResultSet
+	 * 
 	 * @return the resultSet
 	 */
 	public ResultSet getResultSet() {
@@ -220,13 +207,11 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	/**
 	 * create file status from exception
 	 * 
-	 * @param e
-	 *            SQLexception
+	 * @param e SQLexception
 	 * @return file status
 	 */
 	protected FileStatus getSQLException2FileStatus(SQLException e) {
-		return new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(),
-				e.getErrorCode(), e.getMessage());
+		return new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 	}
 
 	/**
@@ -286,9 +271,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 				}
 			} else {
 				// no record
-				ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS,
-						FileStatus.NULL_CODE, 0,
-						"move(byte[]) can't find record.");
+				ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, FileStatus.NULL_CODE, 0, "move(byte[]) can't find record.");
 				getEventProcessor().postMove(getFileStatus2Event(ret));
 				if (isReOpenWhenNoDataFound() && !isInReopen()) {
 					setInReopen(true);
@@ -296,9 +279,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 					if (work.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
 						ret = move(record);
 					} else {
-						ret = new FileStatus(FileStatus.STATUS_99_FAILURE,
-								ret.getSqlStatus(), ret.getErrStatus(),
-								ret.getStatusMessage());
+						ret = new FileStatus(FileStatus.STATUS_99_FAILURE, ret.getSqlStatus(), ret.getErrStatus(), ret.getStatusMessage());
 					}
 					setInReopen(false);
 				}
@@ -317,16 +298,13 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 				ret = FileStatus.OK;
 				getResultSet().absolute(currentRow);
 			}
-			if (ret.getStatusCode().equals(FileStatus.STATUS_KEY_NOT_EXISTS)
-					&& isReOpenWhenNoDataFound() && !isInReopen()) {
+			if (ret.getStatusCode().equals(FileStatus.STATUS_KEY_NOT_EXISTS) && isReOpenWhenNoDataFound() && !isInReopen()) {
 				setInReopen(true);
 				FileStatus work = reopen();
 				if (work.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
 					ret = move(record);
 				} else {
-					ret = new FileStatus(FileStatus.STATUS_99_FAILURE,
-							ret.getSqlStatus(), ret.getErrStatus(),
-							ret.getStatusMessage());
+					ret = new FileStatus(FileStatus.STATUS_99_FAILURE, ret.getSqlStatus(), ret.getErrStatus(), ret.getStatusMessage());
 				}
 				setInReopen(false);
 			} else if (ret.getStatusCode() != FileStatus.STATUS_SUCCESS) {
@@ -345,22 +323,16 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	/**
 	 * move to record that located by key value
 	 * 
-	 * @param record
-	 *            record includes key value
-	 * @param start
-	 *            start of range
-	 * @param end
-	 *            end of range
+	 * @param record record includes key value
+	 * @param start start of range
+	 * @param end end of range
 	 * @return file status
 	 */
 	protected FileStatus move(byte[] record, int start, int end) {
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
 		int naka = (start + end) / 2; // half
 		if (naka <= 0) {
-			return new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS,
-					FileStatus.NULL_CODE, 0, "movd(byte[]," + start + ", "
-							+ end + ") is can't find record. location is "
-							+ naka);
+			return new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, FileStatus.NULL_CODE, 0, "movd(byte[]," + start + ", " + end + ") is can't find record. location is " + naka);
 		}
 		byte[] CurrentRecord = new byte[meta.getRowSize()]; // current record
 		try {
@@ -374,30 +346,12 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 						ret = move(record, naka + 1, end);
 					} else {
 						// not found
-						ret = new FileStatus(
-								FileStatus.STATUS_KEY_NOT_EXISTS,
-								FileStatus.NULL_CODE,
-								0,
-								"move(byte[],"
-										+ start
-										+ ", "
-										+ end
-										+ ") is can't find record. location is "
-										+ naka);
+						ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, FileStatus.NULL_CODE, 0, "move(byte[]," + start + ", " + end + ") is can't find record. location is " + naka);
 					}
 				} else {
 					if (isLastMoved()) {
 						// after eof ... not found
-						ret = new FileStatus(
-								FileStatus.STATUS_KEY_NOT_EXISTS,
-								FileStatus.NULL_CODE,
-								0,
-								"movd(byte[],"
-										+ start
-										+ ", "
-										+ end
-										+ ") is can't find record.(isLastMoved) "
-										+ "location is " + naka);
+						ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, FileStatus.NULL_CODE, 0, "movd(byte[]," + start + ", " + end + ") is can't find record.(isLastMoved) " + "location is " + naka);
 					} else {
 						if (next(getRowCount()).getStatusCode() == FileStatus.STATUS_SUCCESS) {
 							// more records
@@ -407,27 +361,14 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 							ret = move(record, naka + 1, getRowCount());
 						} else {
 							// not found
-							ret = new FileStatus(
-									FileStatus.STATUS_KEY_NOT_EXISTS,
-									FileStatus.NULL_CODE,
-									0,
-									"move(byte[],"
-											+ start
-											+ ", "
-											+ end
-											+ ") is can't find record. location is "
-											+ naka);
+							ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, FileStatus.NULL_CODE, 0, "move(byte[]," + start + ", " + end + ") is can't find record. location is " + naka);
 						}
 					}
 				}
 			} else if (comp == COMPARE_REC2) {
 				if (naka <= 1) {
 					// not found
-					ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS,
-							FileStatus.NULL_CODE, 0, "movd(byte[]," + start
-									+ ", " + end
-									+ ") is can't find record. location is "
-									+ naka);
+					ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, FileStatus.NULL_CODE, 0, "movd(byte[]," + start + ", " + end + ") is can't find record. location is " + naka);
 				} else {
 					// first half
 					ret = move(record, start, naka - 1);
@@ -517,8 +458,9 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * @see k_kim_mg.sa4cob2db.CobolFile#next(int)
 	 */
 	public FileStatus next(int row) {
-		if (row < 0)
+		if (row < 0) {
 			return previous(row * -1);
+		}
 		boolean ok = false;
 		try {
 			if (getResultSet().isLast()) {
@@ -566,8 +508,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			setRowCount();
 		} catch (SQLException e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
-			return new FileStatus(FileStatus.STATUS_99_FAILURE,
-					e.getSQLState(), e.getErrorCode(), e.getMessage());
+			return new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 		}
 		return (ok ? FileStatus.OK : AbstractCobolFile.STATUS_EOF);
 	}
@@ -580,25 +521,20 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	public FileStatus open(int mode, int accessmode) {
 		this.openmode = mode;
 		this.accessMode = accessmode;
-		int resultSetType = (accessmode == CobolFile.ACCESS_SEQUENTIAL ? ResultSet.TYPE_FORWARD_ONLY
-				: ResultSet.TYPE_SCROLL_SENSITIVE);
-		int resultSetConcurrency = (mode == CobolFile.MODE_INPUT ? ResultSet.CONCUR_READ_ONLY
-				: ResultSet.CONCUR_UPDATABLE);
+		int resultSetType = (accessmode == CobolFile.ACCESS_SEQUENTIAL ? ResultSet.TYPE_FORWARD_ONLY : ResultSet.TYPE_SCROLL_SENSITIVE);
+		int resultSetConcurrency = (mode == CobolFile.MODE_INPUT ? ResultSet.CONCUR_READ_ONLY : ResultSet.CONCUR_UPDATABLE);
 		getEventProcessor().preOpen(getReadyEvent());
 		FileStatus ret = FileStatus.OK;
 		try {
 			if (getResultSet() != null) {
 				SQLNetServer.logger.log(Level.INFO, "already opened.");
-				ret = new FileStatus(FileStatus.STATUS_ALREADY_OPEN,
-						FileStatus.NULL_CODE, 0, "resultset isn't null.");
+				ret = new FileStatus(FileStatus.STATUS_ALREADY_OPEN, FileStatus.NULL_CODE, 0, "resultset isn't null.");
 			} else if (rowData != null) {
 				SQLNetServer.logger.log(Level.INFO, "already opened.");
-				ret = new FileStatus(FileStatus.STATUS_ALREADY_OPEN,
-						FileStatus.NULL_CODE, 0, "rowData isn't null.");
+				ret = new FileStatus(FileStatus.STATUS_ALREADY_OPEN, FileStatus.NULL_CODE, 0, "rowData isn't null.");
 			} else {
 				Statement statement = null;
-				statement = connection.createStatement(resultSetType,
-						resultSetConcurrency);
+				statement = connection.createStatement(resultSetType, resultSetConcurrency);
 				setResultSet(statement.executeQuery(meta.getSelectStatement()));
 				rowData = createCobolRecord(meta, getResultSet());
 			}
@@ -608,8 +544,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			ret = getSQLException2FileStatus(e);
 		}
 		rowCount = 0;
-		if ((getMaximumSequentialReadBufferSize() > 0
-				&& getAccessMode() == CobolFile.ACCESS_SEQUENTIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
+		if ((getMaximumSequentialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENTIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
 			startBuffer();
 		}
 		if (mode == CobolFile.MODE_EXTEND) {
@@ -635,8 +570,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		FileStatus ret = FileStatus.OK;
 		try {
 			if (getResultSet().isFirst()) {
-				ret = new FileStatus(FileStatus.STATUS_NOT_AVAILABLE,
-						FileStatus.NULL_CODE, 0, "Begin of File.");
+				ret = new FileStatus(FileStatus.STATUS_NOT_AVAILABLE, FileStatus.NULL_CODE, 0, "Begin of File.");
 			} else {
 				if (!getResultSet().previous()) {
 					ret = STATUS_UNKNOWN_ERROR;
@@ -656,19 +590,18 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * @see k_kim_mg.sa4cob2db.CobolFile#previous(int)
 	 */
 	public FileStatus previous(int row) {
-		if (row < 0)
+		if (row < 0) {
 			return next(row * -1);
+		}
 		boolean ok = false;
 		try {
 			if (getResultSet().isFirst()) {
-				return new FileStatus(FileStatus.STATUS_NOT_AVAILABLE,
-						FileStatus.NULL_CODE, 0, "Begin of File." + row);
+				return new FileStatus(FileStatus.STATUS_NOT_AVAILABLE, FileStatus.NULL_CODE, 0, "Begin of File." + row);
 			}
 			ok = getResultSet().relative(row * -1);
 		} catch (SQLException e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
-			return new FileStatus(FileStatus.STATUS_99_FAILURE,
-					e.getSQLState(), e.getErrorCode(), e.getMessage());
+			return new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 		}
 		return (ok ? FileStatus.OK : STATUS_UNKNOWN_ERROR);
 	}
@@ -689,8 +622,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	/**
 	 * read from file
 	 * 
-	 * @param record
-	 *            record
+	 * @param record record
 	 * @return status
 	 */
 	protected FileStatus readFromFile(byte[] record) {
@@ -705,15 +637,12 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			}
 		} catch (CobolRecordException ce) {
 			SQLNetServer.logger.log(Level.SEVERE, ce.getMessage(), ce);
-			return new FileStatus(FileStatus.STATUS_99_FAILURE,
-					ce.getSQLState(), ce.getErrorCode(), ce.getMessage());
+			return new FileStatus(FileStatus.STATUS_99_FAILURE, ce.getSQLState(), ce.getErrorCode(), ce.getMessage());
 		} catch (SQLException se) {
 			SQLNetServer.logger.log(Level.SEVERE, se.getMessage(), se);
 			return getSQLException2FileStatus(se);
 		}
-		return (length == meta.getRowSize() ? FileStatus.OK : new FileStatus(
-				FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0,
-				"RecordSize MissMatch."));
+		return (length == meta.getRowSize() ? FileStatus.OK : new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "RecordSize MissMatch."));
 	}
 
 	/*
@@ -743,13 +672,11 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 				rowData.record2result(SQLCobolRecord.REWRITE);
 				getResultSet().updateRow();
 				if (length != meta.getRowSize()) {
-					ret = new FileStatus(FileStatus.STATUS_99_FAILURE,
-							FileStatus.NULL_CODE, 0, "RecordSize MissMatch.");
+					ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "RecordSize MissMatch.");
 				}
 			} catch (CobolRecordException e) {
 				SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
-				ret = new FileStatus(FileStatus.STATUS_99_FAILURE,
-						e.getSQLState(), e.getErrorCode(), e.getMessage());
+				ret = new FileStatus(FileStatus.STATUS_99_FAILURE, e.getSQLState(), e.getErrorCode(), e.getMessage());
 			} catch (SQLException e) {
 				SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 				ret = getSQLException2FileStatus(e);
@@ -760,8 +687,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * @param isInReopen
-	 *            the isInReopen to set
+	 * @param isInReopen the isInReopen to set
 	 */
 	protected void setInReopen(boolean isInReopen) {
 		this.isInReopen = isInReopen;
@@ -769,6 +695,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 
 	/**
 	 * Set inner ResultSet
+	 * 
 	 * @param resultSet the resultSet to set
 	 */
 	public void setResultSet(ResultSet resultSet) {
@@ -807,25 +734,21 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			if (ret.getStatusCode() != FileStatus.STATUS_SUCCESS) {
 				ret = startGreater(record);
 			}
-		} else if (mode == IS_NOT_LESS_THAN) {
-			ret = move(record);
-			if (ret.getStatusCode() != FileStatus.STATUS_SUCCESS) {
-				ret = startGreater(record);
-			}
+			// } else if (mode == IS_NOT_LESS_THAN) {
+			// ret = move(record);
+			// if (ret.getStatusCode() != FileStatus.STATUS_SUCCESS) {
+			// ret = startGreater(record);
+			// }
 		} else {
-			ret = new FileStatus(FileStatus.STATUS_99_FAILURE,
-					FileStatus.NULL_CODE, 1, "invalid mode.");
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 1, "invalid mode.");
 		}
-		if (ret.getStatusCode().equals(FileStatus.STATUS_KEY_NOT_EXISTS)
-				&& isReOpenWhenNoDataFound() && !isInReopen()) {
+		if (ret.getStatusCode().equals(FileStatus.STATUS_KEY_NOT_EXISTS) && isReOpenWhenNoDataFound() && !isInReopen()) {
 			setInReopen(true);
 			FileStatus work = reopen();
 			if (work.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
 				ret = start(mode, record);
 			} else {
-				ret = new FileStatus(FileStatus.STATUS_99_FAILURE,
-						ret.getSqlStatus(), ret.getErrStatus(),
-						ret.getStatusMessage());
+				ret = new FileStatus(FileStatus.STATUS_99_FAILURE, ret.getSqlStatus(), ret.getErrStatus(), ret.getStatusMessage());
 			}
 			setInReopen(false);
 		}
@@ -866,14 +789,13 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 			if (ret.getStatusCode() != FileStatus.STATUS_SUCCESS) {
 				ret = startGreater(record);
 			}
-		} else if (mode == IS_NOT_LESS_THAN) {
-			ret = startDuplicatesEqual(record);
-			if (ret.getStatusCode() != FileStatus.STATUS_SUCCESS) {
-				ret = startGreater(record);
-			}
+			// } else if (mode == IS_NOT_LESS_THAN) {
+			// ret = startDuplicatesEqual(record);
+			// if (ret.getStatusCode() != FileStatus.STATUS_SUCCESS) {
+			// ret = startGreater(record);
+			// }
 		} else {
-			ret = new FileStatus(FileStatus.STATUS_99_FAILURE,
-					FileStatus.NULL_CODE, 0, "invalid mode.");
+			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "invalid mode.");
 		}
 		getEventProcessor().postStart(getReadyEvent());
 		return ret;
@@ -882,8 +804,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	/**
 	 * start with duplicted key (greater equal)
 	 * 
-	 * @param record
-	 *            record includes key value
+	 * @param record record includes key value
 	 * @return file status
 	 */
 	public FileStatus startDuplicatesEqual(byte[] record) {
@@ -916,14 +837,12 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 					}
 					if (!found) {
 						// not found
-						ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS,
-								"", 0, "can't find.");
+						ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0, "can't find.");
 					}
 				}
 			} else {
 				// not found
-				ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0,
-						"zero records.");
+				ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0, "zero records.");
 			}
 		} catch (SQLException e) {
 			// SQLexception
@@ -935,8 +854,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	/**
 	 * start(=)
 	 * 
-	 * @param record
-	 *            record includes key value
+	 * @param record record includes key value
 	 * @return status
 	 */
 	protected FileStatus startEqual(byte[] record) {
@@ -965,14 +883,12 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 					}
 					if (!found) {
 						// not found(after last)
-						ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS,
-								"", 0, "can't find.");
+						ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0, "can't find.");
 					}
 				}
 			} else {
 				// not found
-				ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0,
-						"zero records.");
+				ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0, "zero records.");
 			}
 		} catch (SQLException e) {
 			// SQLexception
@@ -984,8 +900,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	/**
 	 * start(Greater)
 	 * 
-	 * @param record
-	 *            record includes key value
+	 * @param record record includes key value
 	 * @return status
 	 */
 	protected FileStatus startGreater(byte[] record) {
@@ -1012,14 +927,12 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 					}
 					if (!found) {
 						// not found(after last)
-						ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS,
-								"", 0, "can't find.");
+						ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0, "can't find.");
 					}
 				}
 			} else {
 				// not found
-				ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0,
-						"zero records.");
+				ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0, "zero records.");
 			}
 		} catch (SQLException e) {
 			// SQLexception
@@ -1031,8 +944,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	/**
 	 * start(Greater Equal)
 	 * 
-	 * @param record
-	 *            record includes key value
+	 * @param record record includes key value
 	 * @return status
 	 */
 	protected FileStatus startGreaterEqual(byte[] record) {
@@ -1059,14 +971,12 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 					}
 					if (!found) {
 						// not found(after last)
-						ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS,
-								"", 0, "can't find.");
+						ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0, "can't find.");
 					}
 				}
 			} else {
 				// not found
-				ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0,
-						"zero records.");
+				ret = new FileStatus(FileStatus.STATUS_KEY_NOT_EXISTS, "", 0, "zero records.");
 			}
 		} catch (SQLException e) {
 			// SQLexception
@@ -1088,9 +998,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 					//
 					Statement statement = null;
 					try {
-						statement = connection.createStatement(
-								ResultSet.TYPE_SCROLL_INSENSITIVE,
-								ResultSet.CONCUR_UPDATABLE);
+						statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 						statement.execute(truncate);
 					} finally {
 						statement.close();

@@ -1,6 +1,8 @@
 package k_kim_mg.sa4cob2db.sql;
+
 /**
  * consts
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public abstract interface ACMNetSession {
@@ -30,7 +32,7 @@ public abstract interface ACMNetSession {
 	public static final int PASSWORD_MAX = (FILE_IDENT_LEN - 1);
 	public static final int INITIAL_RECORD_LEN = 8192;
 	public static final int INITIAL_RECORD_MAX = (INITIAL_RECORD_LEN - 1);
-	
+
 	public static final String MSG_ASSIGN = "ASSIGN";
 	public static final String MSG_CLOSE = "CLOSE";
 	public static final String MSG_DELETE = "DELETE";

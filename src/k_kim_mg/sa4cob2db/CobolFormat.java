@@ -1,10 +1,12 @@
 package k_kim_mg.sa4cob2db;
+
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Format for Cobol
  * 
@@ -19,6 +21,7 @@ public class CobolFormat extends DecimalFormat {
 	static class InsertChar {
 		private int index;
 		private char replace;
+
 		/**
 		 * Constructor
 		 * 
@@ -29,6 +32,7 @@ public class CobolFormat extends DecimalFormat {
 			this.index = index;
 			this.replace = replace;
 		}
+
 		/**
 		 * get index
 		 * 
@@ -37,14 +41,7 @@ public class CobolFormat extends DecimalFormat {
 		public int getIndex() {
 			return index;
 		}
-		/**
-		 * set index
-		 * 
-		 * @param index index
-		 */
-		public void setIndex(int index) {
-			this.index = index;
-		}
+
 		/**
 		 * get character
 		 * 
@@ -53,6 +50,16 @@ public class CobolFormat extends DecimalFormat {
 		public char getReplace() {
 			return replace;
 		}
+
+		/**
+		 * set index
+		 * 
+		 * @param index index
+		 */
+		public void setIndex(int index) {
+			this.index = index;
+		}
+
 		/**
 		 * set character
 		 * 
@@ -62,15 +69,28 @@ public class CobolFormat extends DecimalFormat {
 			this.replace = replace;
 		}
 	}
+
 	/**
 	 * pattern
+	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
 	static class PatternFlags {
-		private boolean db = false, cr = false, plus = false, minus = false, sla = false, bs = false, ast = false, z = false;
+		private boolean db = false;
+		private boolean cr = false;
+		private boolean plus = false;
+		private boolean minus = false;
+		private boolean sla = false;
+		private boolean bs = false;
+		private boolean ast = false;
+		private boolean z = false;
 		private CobolColumn column;
 		private String logicalPattern;
 		private List<InsertChar> inserts = new ArrayList<InsertChar>();
+
+		/** CURRENCY SIGN */
+		private static final char CURRENCY_SIGN = '\u00A4';
+
 		/**
 		 * constructor
 		 * 
@@ -96,6 +116,60 @@ public class CobolFormat extends DecimalFormat {
 			this.z = srp;
 			parsePicture();
 		}
+
+		public CobolColumn getColumn() {
+			return column;
+		}
+
+		public List<InsertChar> getInserts() {
+			return inserts;
+		}
+
+		public String getLogicalPattern() {
+			return logicalPattern;
+		}
+
+		public String getOriginalPattern() {
+			return column.getFormat();
+		}
+
+		public boolean isAst() {
+			return ast;
+		}
+
+		public boolean isBs() {
+			return bs;
+		}
+
+		public boolean isCr() {
+			return cr;
+		}
+
+		/**
+		 * DB
+		 * 
+		 * @return has DB true/false
+		 */
+		public boolean isDb() {
+			return db;
+		}
+
+		public boolean isMinus() {
+			return minus;
+		}
+
+		public boolean isPlus() {
+			return plus;
+		}
+
+		public boolean isSla() {
+			return sla;
+		}
+
+		public boolean isSrp() {
+			return z;
+		}
+
 		/**
 		 * parse picture statement
 		 */
@@ -111,7 +185,7 @@ public class CobolFormat extends DecimalFormat {
 				} else if (c == '/') {
 					output.append(',');
 					inserts.add(new InsertChar(i, c));
-				} else if (c == '*'/* || c == '\\'*/) {
+				} else if (c == '*'/* || c == '\\' */) {
 					output.append('#');
 					inserts.add(new InsertChar(i, c));
 				} else if (c == 'Z' || c == '#') {
@@ -120,86 +194,64 @@ public class CobolFormat extends DecimalFormat {
 					output.append('#');
 					// } else {
 					// output.append(c);
-				} else if (c == '\u00A4') {
-					output.append('\u00A4');
+				} else if (c == CURRENCY_SIGN) {
+					output.append(CURRENCY_SIGN);
 				}
 			}
 			logicalPattern = output.toString();
 		}
-		/**
-		 * DB
-		 * 
-		 * @return has DB true/false
-		 */
-		public boolean isDb() {
-			return db;
-		}
-		public void setDb(boolean db) {
-			this.db = db;
-		}
-		public boolean isCr() {
-			return cr;
-		}
-		public void setCr(boolean cr) {
-			this.cr = cr;
-		}
-		public boolean isPlus() {
-			return plus;
-		}
-		public void setPlus(boolean plus) {
-			this.plus = plus;
-		}
-		public boolean isMinus() {
-			return minus;
-		}
-		public void setMinus(boolean minus) {
-			this.minus = minus;
-		}
-		public boolean isSla() {
-			return sla;
-		}
-		public void setSla(boolean sla) {
-			this.sla = sla;
-		}
-		public boolean isBs() {
-			return bs;
-		}
-		public void setBs(boolean bs) {
-			this.bs = bs;
-		}
-		public boolean isAst() {
-			return ast;
-		}
+
 		public void setAst(boolean ast) {
 			this.ast = ast;
 		}
-		public CobolColumn getColumn() {
-			return column;
+
+		public void setBs(boolean bs) {
+			this.bs = bs;
 		}
-		public String getOriginalPattern() {
-			return column.getFormat();
+
+		public void setCr(boolean cr) {
+			this.cr = cr;
 		}
-		public String getLogicalPattern() {
-			return logicalPattern;
+
+		public void setDb(boolean db) {
+			this.db = db;
 		}
-		public boolean isSrp() {
-			return z;
+
+		public void setMinus(boolean minus) {
+			this.minus = minus;
 		}
+
+		public void setPlus(boolean plus) {
+			this.plus = plus;
+		}
+
+		public void setSla(boolean sla) {
+			this.sla = sla;
+		}
+
 		public void setSrp(boolean srp) {
 			this.z = srp;
 		}
-		public List<InsertChar> getInserts() {
-			return inserts;
-		}
 	}
+
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * create format
+	 * 
 	 * @param column column
 	 * @return format
 	 */
 	public static NumberFormat createFormatter(CobolColumn column) {
 		String pattern = column.getFormat();
-		boolean l_db = false, l_cr = false, l_plus = false, l_minus = false, l_sla = false, l_bs = false, l_ast = false, l_z = false;
+		boolean l_db = false;
+		boolean l_cr = false;
+		boolean l_plus = false;
+		boolean l_minus = false;
+		boolean l_sla = false;
+		boolean l_bs = false;
+		boolean l_ast = false;
+		boolean l_z = false;
 		;
 		NumberFormat df = null;
 		if (pattern.toUpperCase().contains("DB")) {
@@ -217,9 +269,9 @@ public class CobolFormat extends DecimalFormat {
 		if (pattern.toUpperCase().contains("/")) {
 			l_sla = true;
 		}
-		/*if (pattern.toUpperCase().contains("\\")) {
-			l_bs = true;
-		}*/
+		/*
+		 * if (pattern.toUpperCase().contains("\\")) { l_bs = true; }
+		 */
 		if (pattern.toUpperCase().contains("*")) {
 			l_ast = true;
 		}
@@ -237,12 +289,13 @@ public class CobolFormat extends DecimalFormat {
 		}
 		return df;
 	}
-	private static final long serialVersionUID = 1L;
+
 	private PatternFlags flags;
+
 	/**
 	 * CobolFormat
 	 * 
-	 * @param format format
+	 * @param flags Flags
 	 */
 	public CobolFormat(PatternFlags flags) {
 		super(flags.getLogicalPattern());
@@ -268,12 +321,27 @@ public class CobolFormat extends DecimalFormat {
 			setNegativePrefix("-");
 		}
 	}
+
+	@Override
+	public StringBuffer format(double number, StringBuffer result, FieldPosition fieldPosition) {
+		StringBuffer ret = super.format(number, result, fieldPosition);
+		replaceChars(ret, flags);
+		return ret;
+	}
+
+	@Override
+	public StringBuffer format(long number, StringBuffer result, FieldPosition fieldPosition) {
+		StringBuffer ret = super.format(number, result, fieldPosition);
+		replaceChars(ret, flags);
+		return ret;
+	}
+
 	@Override
 	public Number parse(String text) throws ParseException {
 		StringBuffer output = new StringBuffer(text.length());
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
-			if (c == '/' || c == '*' /*|| c == '\\'*/) {
+			if (c == '/' || c == '*' /* || c == '\\' */) {
 				// do nothing
 			} else if (c == ' ') {
 				if (flags.isDb() || flags.isCr()) {
@@ -287,14 +355,10 @@ public class CobolFormat extends DecimalFormat {
 		}
 		return super.parse(output.toString());
 	}
-	@Override
-	public StringBuffer format(double number, StringBuffer result, FieldPosition fieldPosition) {
-		StringBuffer ret = super.format(number, result, fieldPosition);
-		replaceChars(ret, flags);
-		return ret;
-	}
+
 	/**
 	 * replace ' ' to '/*\\'
+	 * 
 	 * @param ret StringBuffer
 	 * @param flags pattern
 	 * @return StringBuffer
@@ -317,19 +381,11 @@ public class CobolFormat extends DecimalFormat {
 					ret.setCharAt(i, '*');
 				}
 				break;
-			/*case '\\':
-				if (c == ' ') {
-					ret.setCharAt(i, '\\');
-				}
-				break;*/
+			/*
+			 * case '\\': if (c == ' ') { ret.setCharAt(i, '\\'); } break;
+			 */
 			}
 		}
-		return ret;
-	}
-	@Override
-	public StringBuffer format(long number, StringBuffer result, FieldPosition fieldPosition) {
-		StringBuffer ret = super.format(number, result, fieldPosition);
-		replaceChars(ret, flags);
 		return ret;
 	}
 }

@@ -136,31 +136,39 @@ public abstract class CobolConsts {
 	public static final String WRITE = "^\\s*[wW][rR][iI][tT][eE]\\s.*";
 	/** Name of file that includes Literals */
 	private static String ACMCONSTS_FILE = "ACMCONSTS.CBL";
-	/** 
+
+	/**
 	 * Name of file that includes Literals
-	 * @return filename 
+	 * 
+	 * @return filename
 	 */
-	public static String getACMCONSTS_FILE () {
+	public static String getACMCONSTS_FILE() {
 		return ACMCONSTS_FILE;
 	}
-	/** 
+
+	/**
 	 * Name of file that includes Literals
-	 * @param file filename 
+	 * 
+	 * @param file filename
 	 */
-	public static void setACMCONSTS_FILE (String file) {
+	public static void setACMCONSTS_FILE(String file) {
 		if (file != null) {
 			ACMCONSTS_FILE = file;
 		}
 	}
+
 	/** Words to be ignored */
 	private static ArrayList<String> IGNORE = new ArrayList<String>();
+
 	/**
 	 * Words to be ignored
-	 * @return ArrayList of words 
+	 * 
+	 * @return ArrayList of words
 	 */
-	public static ArrayList<String> getIGNORE () {
+	public static ArrayList<String> getIGNORE() {
 		return IGNORE;
 	}
+
 	static {
 		// add ignored word
 		IGNORE.add("OPTIONAL");

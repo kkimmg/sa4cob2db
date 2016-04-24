@@ -1,5 +1,7 @@
 package k_kim_mg.sa4cob2db.codegen;
+
 import java.util.EventObject;
+
 /**
  * Event that
  * 
@@ -15,6 +17,7 @@ public class CodeGeneratorEvent extends EventObject {
 	private CodeGenerator generator;
 	/** period string */
 	private String period;
+
 	/**
 	 * Constructor
 	 * 
@@ -30,6 +33,7 @@ public class CodeGeneratorEvent extends EventObject {
 		this.generator = generator;
 		this.period = period;
 	}
+
 	/**
 	 * file information
 	 * 
@@ -38,6 +42,7 @@ public class CodeGeneratorEvent extends EventObject {
 	public FileInfo getFile() {
 		return file;
 	}
+
 	/**
 	 * generator
 	 * 
@@ -46,6 +51,7 @@ public class CodeGeneratorEvent extends EventObject {
 	public CodeGenerator getGenerator() {
 		return generator;
 	}
+
 	/**
 	 * owner
 	 * 
@@ -54,6 +60,7 @@ public class CodeGeneratorEvent extends EventObject {
 	public GeneratorOwner getOwner() {
 		return owner;
 	}
+
 	/**
 	 * period
 	 * 

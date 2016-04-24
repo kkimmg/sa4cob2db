@@ -2,8 +2,10 @@
  * 
  */
 package k_kim_mg.sa4cob2db.codegen;
+
 import java.util.ArrayList;
 import k_kim_mg.sa4cob2db.FileStatus;
+
 /**
  * Convert file access code to call statement
  * 
@@ -21,6 +23,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	public JNICodeGenerator(GeneratorOwner owner) {
 		super(owner);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -33,6 +36,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		add("     CALL \"setJNICommitMode\" USING ACM-OPTION");
 		add("                                     ACM-STATUS-ALL" + period);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -45,6 +49,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		add("     CALL \"setJNITransMode\" USING ACM-OPTION");
 		add("                                    ACM-STATUS-ALL" + period);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -58,6 +63,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("     CALL \"assignJNIFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -69,6 +75,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
 		add("     CALL \"closeJNIFile\" USING ACM-FILE-IDENT ACM-STATUS-ALL" + period);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -79,6 +86,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	void addCallCommit(String period) {
 		add("     CALL \"commitJNISession\" USING ACM-STATUS-ALL" + period);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -110,9 +118,10 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 				}
 			}
 			add("     END-IF" + period);
-		} else {
+			// } else {
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -124,6 +133,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		add("     CALL \"libJNIClient\"" + period);
 		add("     CALL \"initializeJNISessionEnv\" USING ACM-STATUS-ALL" + period);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -148,6 +158,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		}
 		add("                                ACM-STATUS-ALL" + period);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -172,6 +183,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		}
 		add("                                ACM-STATUS-ALL" + period);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -196,6 +208,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 		}
 		add("                                ACM-STATUS-ALL" + period);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -239,6 +252,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("     END-IF" + period);
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -272,6 +286,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("     END-IF" + period);
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -303,9 +318,10 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 				}
 			}
 			add("     END-IF" + period);
-		} else {
+			// } else {
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -316,6 +332,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	void addCallRollback(String period) {
 		add("     CALL \"rollbackJNISession\" USING ACM-STATUS-ALL" + period);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -351,9 +368,10 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 				}
 			}
 			add("     END-IF" + period);
-		} else {
+			// } else {
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -364,6 +382,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	void addCallTerminateSession(String period) {
 		add("     CALL  \"terminateJNISession\" USING ACM-STATUS-ALL" + period);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -394,9 +413,10 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 				}
 			}
 			add("     END-IF" + period);
-		} else {
+			// } else {
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -411,6 +431,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("                                 ACM-STATUS-ALL" + period);
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -426,6 +447,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("     MOVE ACM-OPTION-VALUE TO " + value + period);
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -442,6 +464,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("                                 ACM-STATUS-ALL" + period);
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -458,6 +481,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 			add("                                 ACM-STATUS-ALL" + period);
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

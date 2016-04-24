@@ -11,14 +11,16 @@ import org.w3c.dom.Node;
 
 /**
  * @author kenji
- *
+ * 
  */
 public class NodeReaderPlus1 extends NodeReadLoader {
 	ServletSampleTool1 servletSampleTool1;
-	public NodeReaderPlus1 (ServletSampleTool1 servletSampleTool1) {
+
+	public NodeReaderPlus1(ServletSampleTool1 servletSampleTool1) {
 		super();
 		this.servletSampleTool1 = servletSampleTool1;
 	}
+
 	protected void createSomething(Node node, CobolRecordMetaDataSet meta) {
 		if (node.getNodeName().equals("webinterface")) {
 			NamedNodeMap map = node.getAttributes();

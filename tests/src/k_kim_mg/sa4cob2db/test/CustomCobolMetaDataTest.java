@@ -1,6 +1,8 @@
 package k_kim_mg.sa4cob2db.test;
+
 import k_kim_mg.sa4cob2db.DefaultCobolRecordMetaData;
 import k_kim_mg.sa4cob2db.sql.ACMNetSession;
+
 /**
  * test
  * 
@@ -17,6 +19,7 @@ public class CustomCobolMetaDataTest extends DefaultCobolRecordMetaData {
 	public String getCustomFileClassName() {
 		return "CustomCobolFileTest";
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

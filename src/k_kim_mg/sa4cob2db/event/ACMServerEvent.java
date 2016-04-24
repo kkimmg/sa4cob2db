@@ -1,6 +1,8 @@
 package k_kim_mg.sa4cob2db.event;
+
 import java.util.EventObject;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
+
 /**
  * Server Event
  * 
@@ -10,6 +12,7 @@ public class ACMServerEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
 	/** event source */
 	private SQLNetServer server;
+
 	/**
 	 * Constructor
 	 * 
@@ -19,6 +22,7 @@ public class ACMServerEvent extends EventObject {
 		super(server);
 		this.server = server;
 	}
+
 	/**
 	 * server
 	 * 

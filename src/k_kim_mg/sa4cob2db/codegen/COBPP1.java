@@ -3,6 +3,7 @@
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package k_kim_mg.sa4cob2db.codegen;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,6 +20,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
+
 /**
  * PreProcessing COBOL file access to call statement.
  * 
@@ -34,6 +36,7 @@ public class COBPP1 implements GeneratorOwner {
 		private ArrayList<String> statement;
 		private String filename;
 		private Properties replacing = new Properties();
+
 		/**
 		 * Constructor
 		 * 
@@ -43,6 +46,7 @@ public class COBPP1 implements GeneratorOwner {
 			statement = Statement;
 			parse();
 		}
+
 		/**
 		 * filename
 		 * 
@@ -51,6 +55,7 @@ public class COBPP1 implements GeneratorOwner {
 		public String getFilename() {
 			return filename;
 		}
+
 		/**
 		 * Replaced Statement
 		 * 
@@ -68,6 +73,7 @@ public class COBPP1 implements GeneratorOwner {
 			}
 			return ret;
 		}
+
 		private void parse() {
 			for (int i = 0; i < statement.size(); i++) {
 				String row = statement.get(i);
@@ -90,6 +96,7 @@ public class COBPP1 implements GeneratorOwner {
 			}
 		}
 	}
+
 	/**
 	 * Expand Copy Statement
 	 * 
@@ -98,6 +105,7 @@ public class COBPP1 implements GeneratorOwner {
 	class CopyProcesser {
 		private CopyInfo info;
 		private FileInputStream input2;
+
 		/**
 		 * Constructor
 		 * 
@@ -108,6 +116,7 @@ public class COBPP1 implements GeneratorOwner {
 			info = Info;
 			input2 = new FileInputStream(info.getFilename());
 		}
+
 		/**
 		 * @throws IOException when something wrong
 		 */
@@ -126,6 +135,7 @@ public class COBPP1 implements GeneratorOwner {
 			generator.flush();
 		}
 	}
+
 	/**
 	 * main
 	 * 
@@ -136,6 +146,7 @@ public class COBPP1 implements GeneratorOwner {
 		cobpp.run();
 		System.exit(0);
 	}
+
 	/**
 	 * main to...
 	 * 
@@ -151,10 +162,9 @@ public class COBPP1 implements GeneratorOwner {
 	 * @param customcodegeneratorclass custom generator class name if you use
 	 * @param s_subprogram true if processing program is subprogram
 	 * @param s_dontcomment true then dont output original as comment.
-	 * @param acm_charset
+	 * @param acm_charset Character Set
 	 */
-	public static void main_too(String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass,
-			String acm_charset, String s_subprogram, String s_dontcomment) {
+	public static void main_too(String infile, String outfile, String informat, String outformat, String initrow, String increase, String acmconsts_file, String expand_copy, String codegeneratorlisteners, String customcodegeneratorclass, String acm_charset, String s_subprogram, String s_dontcomment) {
 		String[] argv = new String[] { infile, outfile };
 		if (informat.trim().length() > 0) {
 			System.setProperty("informat", informat.trim());
@@ -192,6 +202,7 @@ public class COBPP1 implements GeneratorOwner {
 		System.setProperty("display_usage", "false");
 		main(argv);
 	}
+
 	private DecimalFormat decimal;
 	private InputStream input;
 	private PrintStream output;
@@ -206,6 +217,7 @@ public class COBPP1 implements GeneratorOwner {
 	public static final String ACM_CHARSET = "acm_pp_charset";
 	/** Generator */
 	private CodeGenerator generator = new TCPCodeGenerator(this);
+
 	/**
 	 * Constructor
 	 * 
@@ -338,6 +350,7 @@ public class COBPP1 implements GeneratorOwner {
 			System.err.println("\tdontcomment=" + dontcommentStr + "\t:true or false or space");
 		}
 	}
+
 	/**
 	 * add listeners
 	 * 
@@ -365,6 +378,7 @@ public class COBPP1 implements GeneratorOwner {
 			}
 		}
 	}
+
 	@Override
 	public void callBackCopyStatement(ArrayList<String> statement) {
 		if (expandCopy) {
@@ -377,12 +391,14 @@ public class COBPP1 implements GeneratorOwner {
 			}
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see k_kim_mg.sa4cob2db.codegen.GeneratorOwner#generate(java.lang
 	 * .String)
 	 */
+	@Override
 	public void generate(String text) {
 		if (outfreeformat) {
 			output.println(text);
@@ -391,6 +407,7 @@ public class COBPP1 implements GeneratorOwner {
 			initrownum += incrrownum;
 		}
 	}
+
 	/**
 	 * get environment values
 	 * 
@@ -400,33 +417,45 @@ public class COBPP1 implements GeneratorOwner {
 	 */
 	private String getEnvValue(String key, String defaultValue) {
 		String ret = System.getProperty(key, System.getenv(key));
-		if (ret == null)
+		if (ret == null) {
 			ret = defaultValue;
-		if (ret.length() == 0)
+		}
+		if (ret.length() == 0) {
 			ret = defaultValue;
+		}
 		return ret;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.codegen.GeneratorOwner#isExpandCopy()
 	 */
 	@Override
 	public boolean isExpandCopy() {
 		return expandCopy;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.codegen.GeneratorOwner#isDontComment()
 	 */
 	@Override
 	public boolean isDontComment() {
 		return dontcomment;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.codegen.GeneratorOwner#isSubprogram()
 	 */
 	@Override
 	public boolean isSubprogram() {
 		return subprogram;
 	}
+
 	/**
 	 * Run
 	 */
@@ -459,23 +488,28 @@ public class COBPP1 implements GeneratorOwner {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * set expand copy?
 	 * 
-	 * @param expandCopy true expand</br> false don't
+	 * @param expandCopy true expand/false don't
 	 */
 	public void setExpandCopy(boolean expandCopy) {
 		this.expandCopy = expandCopy;
 	}
+
 	/**
 	 * set Ignore
+	 * 
 	 * @param dontComment true:ignore false don't
 	 */
-	public void setDontComment (boolean dontComment) {
+	public void setDontComment(boolean dontComment) {
 		this.dontcomment = dontComment;
 	}
+
 	/**
 	 * set Subprogram
+	 * 
 	 * @param subprogram true then program is subprogram.
 	 */
 	public void setSubprogram(boolean subprogram) {

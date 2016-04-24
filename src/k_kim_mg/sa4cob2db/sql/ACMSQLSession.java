@@ -29,7 +29,7 @@ public class ACMSQLSession implements ACMSession {
 	protected Hashtable<String, CobolFile> files;
 	/** event listener */
 	protected ArrayList<ACMSessionEventListener> listeners = new ArrayList<ACMSessionEventListener>();
-	private int maxLength = ACMNetSession.INITIAL_RECORD_LEN;;
+	private int maxLength = ACMNetSession.INITIAL_RECORD_LEN;
 	private Properties options;
 	/** fileServer */
 	private final SQLFileServer server;
@@ -53,7 +53,9 @@ public class ACMSQLSession implements ACMSession {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.ACMSession#addACMSessionEventListener(k_kim_mg.sa4cob2db .event.ACMSessionEventListener)
+	 * @see
+	 * k_kim_mg.sa4cob2db.ACMSession#addACMSessionEventListener(k_kim_mg.sa4cob2db
+	 * .event.ACMSessionEventListener)
 	 */
 	public void addACMSessionEventListener(ACMSessionEventListener listener) {
 		listeners.add(listener);
@@ -169,7 +171,7 @@ public class ACMSQLSession implements ACMSession {
 		SQLFile ret = null;
 		if (meta.getCustomFileClassName() == null || meta.getCustomFileClassName().trim().length() == 0) {
 			if (meta instanceof SQLCobolRecordMetaData2) {
-				ret = new SQLFile2(getConnection(), (SQLCobolRecordMetaData2)meta);
+				ret = new SQLFile2(getConnection(), (SQLCobolRecordMetaData2) meta);
 			} else {
 				ret = new SQLFile(getConnection(), meta);
 			}
@@ -296,7 +298,9 @@ public class ACMSQLSession implements ACMSession {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.ACMSession#removeACMSessionEventListener(k_kim_mg. sa4cob2db.event.ACMSessionEventListener)
+	 * @see
+	 * k_kim_mg.sa4cob2db.ACMSession#removeACMSessionEventListener(k_kim_mg.
+	 * sa4cob2db.event.ACMSessionEventListener)
 	 */
 	public void removeACMSessionEventListener(ACMSessionEventListener listener) {
 		listeners.remove(listener);

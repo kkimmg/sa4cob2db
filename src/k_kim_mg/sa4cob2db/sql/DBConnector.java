@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.sql;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -6,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
+
 public class DBConnector {
 	private String databaseURL = "";
 	private Connection dfCnnct = null;
@@ -13,12 +15,14 @@ public class DBConnector {
 	private List<Connection> openedConnects = new ArrayList<Connection>();
 	private String password = "";
 	private String username = "";
+
 	/**
 	 * Constructor
 	 */
 	public DBConnector() {
 		super();
 	}
+
 	/**
 	 * Constructor
 	 * 
@@ -34,6 +38,7 @@ public class DBConnector {
 		this.username = userName;
 		this.password = passWord;
 	}
+
 	/**
 	 * clear all connections
 	 */
@@ -59,6 +64,7 @@ public class DBConnector {
 			clearConnections();
 		}
 	}
+
 	/**
 	 * remove closed connections
 	 */
@@ -85,6 +91,7 @@ public class DBConnector {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * create Connection
 	 * 
@@ -95,6 +102,7 @@ public class DBConnector {
 	public Connection createConnection() throws ClassNotFoundException, SQLException {
 		return createConnection(false);
 	}
+
 	/**
 	 * create connection
 	 * 
@@ -118,6 +126,7 @@ public class DBConnector {
 		}
 		return retValue;
 	}
+
 	/**
 	 * create connection
 	 * 
@@ -138,14 +147,16 @@ public class DBConnector {
 		openedConnects.add(retValue);
 		return retValue;
 	}
+
 	/**
 	 * close Connection
 	 * 
 	 * @param connection connection
 	 */
 	public void removeConnection(Connection connection) throws SQLException {
-		if (connection == null)
+		if (connection == null) {
 			return;
+		}
 		if (!connection.isClosed()) {
 			connection.close();
 		}
@@ -153,6 +164,7 @@ public class DBConnector {
 			openedConnects.remove(connection);
 		}
 	}
+
 	/**
 	 * close all connection
 	 * 
@@ -162,6 +174,7 @@ public class DBConnector {
 		clearAllConnections();
 		super.finalize();
 	}
+
 	/**
 	 * connections
 	 * 
@@ -170,6 +183,7 @@ public class DBConnector {
 	public Iterator<Connection> getConnections() {
 		return openedConnects.listIterator();
 	}
+
 	/**
 	 * databaseURL
 	 * 
@@ -178,6 +192,7 @@ public class DBConnector {
 	public String getDatabaseURL() {
 		return databaseURL;
 	}
+
 	/**
 	 * driver URL
 	 * 
@@ -186,6 +201,7 @@ public class DBConnector {
 	public String getDriverURL() {
 		return driverURL;
 	}
+
 	/**
 	 * database password
 	 * 
@@ -194,6 +210,7 @@ public class DBConnector {
 	public String getPassword() {
 		return password;
 	}
+
 	/**
 	 * database user name
 	 * 
@@ -202,6 +219,7 @@ public class DBConnector {
 	public String getUsername() {
 		return username;
 	}
+
 	/**
 	 * databaseURL
 	 * 
@@ -210,6 +228,7 @@ public class DBConnector {
 	public void setDatabaseURL(String string) {
 		databaseURL = string;
 	}
+
 	/**
 	 * Driver URL
 	 * 
@@ -218,6 +237,7 @@ public class DBConnector {
 	public void setDriverURL(String string) {
 		driverURL = string;
 	}
+
 	/**
 	 * database password
 	 * 
@@ -226,6 +246,7 @@ public class DBConnector {
 	public void setPassword(String string) {
 		password = string;
 	}
+
 	/**
 	 * database user name
 	 * 

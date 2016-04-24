@@ -3,8 +3,7 @@ package k_kim_mg.sa4cob2db.sql;
 import k_kim_mg.sa4cob2db.CobolColumn;
 import k_kim_mg.sa4cob2db.CobolRecordException;
 
-public class DefaultSQLCobolRecordMetaData2 extends
-		DefaultSQLCobolRecordMetaData implements SQLCobolRecordMetaData2 {
+public class DefaultSQLCobolRecordMetaData2 extends DefaultSQLCobolRecordMetaData implements SQLCobolRecordMetaData2 {
 
 	/** Entity Name */
 	private String entityName;
@@ -83,8 +82,7 @@ public class DefaultSQLCobolRecordMetaData2 extends
 	protected void makeSelectStatement() {
 		int count = getKeyCount();
 		if (getEntityName() != null && count > 0) {
-			StringBuffer buff = new StringBuffer("SELECT * FROM "
-					+ getEntityName() + " ORDER BY ");
+			StringBuffer buff = new StringBuffer("SELECT * FROM " + getEntityName() + " ORDER BY ");
 			int j = 0;
 			for (int i = 0; i < count; i++) {
 				CobolColumn column = getKey(i);
@@ -97,6 +95,7 @@ public class DefaultSQLCobolRecordMetaData2 extends
 						buff.append(sqlcolumn.getOriginalColumnName());
 						j++;
 					} catch (CobolRecordException e) {
+						// Do Nothing
 					}
 				}
 			}
@@ -104,15 +103,14 @@ public class DefaultSQLCobolRecordMetaData2 extends
 			super.setSelectStatement(buff.toString());
 		}
 	}
-	
+
 	/**
 	 * make select statement
 	 */
 	protected void makeKeyReadStatement() {
 		int count = getKeyCount();
 		if (getEntityName() != null && count > 0) {
-			StringBuffer buff = new StringBuffer("SELECT * FROM "
-					+ getEntityName());
+			StringBuffer buff = new StringBuffer("SELECT * FROM " + getEntityName());
 			StringBuffer where = new StringBuffer(" WHERE ");
 			StringBuffer order = new StringBuffer(" ORDER BY ");
 			int j = 0;
@@ -130,6 +128,7 @@ public class DefaultSQLCobolRecordMetaData2 extends
 						order.append(sqlcolumn.getOriginalColumnName());
 						j++;
 					} catch (CobolRecordException e) {
+						// Do Nothing
 					}
 				}
 			}
@@ -146,8 +145,7 @@ public class DefaultSQLCobolRecordMetaData2 extends
 	protected void makeStartGEStatement() {
 		int count = getKeyCount();
 		if (getEntityName() != null && count > 0) {
-			StringBuffer buff = new StringBuffer("SELECT * FROM "
-					+ getEntityName());
+			StringBuffer buff = new StringBuffer("SELECT * FROM " + getEntityName());
 			StringBuffer where = new StringBuffer(" WHERE ");
 			StringBuffer order = new StringBuffer(" ORDER BY ");
 			int j = 0;
@@ -165,6 +163,7 @@ public class DefaultSQLCobolRecordMetaData2 extends
 						order.append(sqlcolumn.getOriginalColumnName());
 						j++;
 					} catch (CobolRecordException e) {
+						// Do Nothing
 					}
 				}
 			}
@@ -181,8 +180,7 @@ public class DefaultSQLCobolRecordMetaData2 extends
 	protected void makeStartGTStatement() {
 		int count = getKeyCount();
 		if (getEntityName() != null && count > 0) {
-			StringBuffer buff = new StringBuffer("SELECT * FROM "
-					+ getEntityName());
+			StringBuffer buff = new StringBuffer("SELECT * FROM " + getEntityName());
 			StringBuffer where = new StringBuffer(" WHERE ");
 			StringBuffer order = new StringBuffer(" ORDER BY ");
 			int j = 0;
@@ -218,6 +216,7 @@ public class DefaultSQLCobolRecordMetaData2 extends
 						order.append(sqlcolumn.getOriginalColumnName());
 						j++;
 					} catch (CobolRecordException e) {
+						// Do Nothing
 					}
 				}
 			}

@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.admin;
+
 import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -10,21 +11,26 @@ import k_kim_mg.sa4cob2db.event.ACMServerEvent;
 import k_kim_mg.sa4cob2db.event.ACMServerEventAdapter;
 import k_kim_mg.sa4cob2db.event.ACMServerEventListener;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
+
 /**
  * Start Remote shutdown function with SqlNetServer starting.
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class MinAdminAdapter extends ACMServerEventAdapter implements ACMServerEventListener {
-	/**RMI Name*/
+	/** RMI Name */
 	public static String DefaultServerName = "ACMSERVADMIN";
-	/**Default RMI Port Number*/
+	/** Default RMI Port Number */
 	public static String DefaultRMIPort = "12346";
+
 	/** Constructor */
 	public MinAdminAdapter() {
 		super();
 	}
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * k_kim_mg.sa4cob2db.event.ACMServerEventAdapter#serverStarted(k_kim_mg
 	 * .sa4cob2db.event.ACMServerEvent)

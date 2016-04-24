@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.utils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import k_kim_mg.sa4cob2db.sql.SQLFileServer;
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 import org.xml.sax.SAXException;
+
 /**
  * generate create table statement
  * 
@@ -40,6 +42,7 @@ public class MetaData2SQL {
 		MetaData2SQL obj = new MetaData2SQL();
 		obj.exportTo(properties);
 	}
+
 	/**
 	 * usage
 	 * 
@@ -52,8 +55,10 @@ public class MetaData2SQL {
 		}
 		MetaData2SQL.main(new String[] { metafile, outfile, });
 	}
+
 	/** internal file server */
 	private SQLFileServer fileServer;
+
 	/**
 	 * export
 	 * 
@@ -147,6 +152,7 @@ public class MetaData2SQL {
 		writer.write("\n);\n");
 		writer.flush();
 	}
+
 	/**
 	 * export
 	 * 
@@ -193,6 +199,7 @@ public class MetaData2SQL {
 			}
 		}
 	}
+
 	/**
 	 * get environment values
 	 * 
@@ -202,10 +209,12 @@ public class MetaData2SQL {
 	 */
 	private String getEnvValue(String key, String defaultValue) {
 		String ret = System.getProperty(key, System.getenv(key));
-		if (ret == null)
+		if (ret == null) {
 			ret = defaultValue;
-		if (ret.length() == 0)
+		}
+		if (ret.length() == 0) {
 			ret = defaultValue;
+		}
 		return ret;
 	}
 }

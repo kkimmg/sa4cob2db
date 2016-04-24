@@ -1,12 +1,14 @@
 package k_kim_mg.sa4cob2db.WebSample.RMI;
+
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
-import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.logging.Level;
+
 import k_kim_mg.sa4cob2db.sql.SQLNetServer;
+
 /**
  * Starts RMI Server
  * 
@@ -21,6 +23,7 @@ public class RMIStarter {
 	private int port = DEFAULT_PORT;
 	/** name */
 	private String name = DEFAULT_NAME;
+
 	/**
 	 * unbind this object
 	 */
@@ -39,6 +42,7 @@ public class RMIStarter {
 			SQLNetServer.logger.log(Level.SEVERE, e1.getMessage(), e1);
 		}
 	}
+
 	/**
 	 * main
 	 * 
@@ -60,12 +64,14 @@ public class RMIStarter {
 		RMIStarter starter = new RMIStarter(port, name);
 		starter.startRMIRegistryServer();
 	}
+
 	/**
 	 * Default Constructor
 	 */
 	public RMIStarter() {
 		this(DEFAULT_PORT);
 	}
+
 	/**
 	 * Constructor
 	 * 
@@ -74,6 +80,7 @@ public class RMIStarter {
 	public RMIStarter(int port) {
 		this(port, DEFAULT_NAME);
 	}
+
 	/**
 	 * Constructor
 	 * 
@@ -82,6 +89,7 @@ public class RMIStarter {
 	public RMIStarter(String name) {
 		this(DEFAULT_PORT, name);
 	}
+
 	/**
 	 * Constructor
 	 * 
@@ -92,6 +100,7 @@ public class RMIStarter {
 		this.port = port;
 		this.name = name;
 	}
+
 	/**
 	 * rebind this object
 	 * 
@@ -101,7 +110,7 @@ public class RMIStarter {
 	public void startRMIRegistryServer() {
 		SQLNetServer.logger.info("RMI Server Starting.");
 		Registry reg;
-		//System.setSecurityManager(new RMISecurityManager());
+		// System.setSecurityManager(new RMISecurityManager());
 		try {
 			CobSubServer1 serv = new CobSubServer1Impl();
 			// create server

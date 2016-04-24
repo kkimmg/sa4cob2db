@@ -3,6 +3,7 @@
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package k_kim_mg.sa4cob2db.utils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -18,6 +19,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
 /**
  * Convert file access code to call statement
  * 
@@ -27,8 +29,10 @@ public class RecordGenerator {
 	private ArrayList<MetaCobolRecordMetaData> records = new ArrayList<MetaCobolRecordMetaData>();
 	private MetaCobolRecordMetaData curr;
 	private String buffer = "";
+
 	/**
 	 * parse text
+	 * 
 	 * @param txt text
 	 */
 	public void parse(String txt) {
@@ -59,6 +63,7 @@ public class RecordGenerator {
 			flush();
 		}
 	}
+
 	/**
 	 * flush
 	 */
@@ -68,6 +73,7 @@ public class RecordGenerator {
 		}
 		buffer = "";
 	}
+
 	/**
 	 * export to node
 	 * 
@@ -85,6 +91,7 @@ public class RecordGenerator {
 		}
 		return ret;
 	}
+
 	/**
 	 * export to node
 	 * 

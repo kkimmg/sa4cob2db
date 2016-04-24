@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map;
@@ -148,7 +149,7 @@ public class SimpleRMIFilter implements Filter {
           //
           CobSubRet wrk = stub.callCobSub(processName, head, in, out);
           out = wrk.getResponse();
-          context.log("all = " + wrk.isSuccess() + ":" + head + in + out);
+          context.log("all = " + wrk.isSuccess() + ":" + Arrays.toString(head) + Arrays.toString(in) + Arrays.toString(out));
           context.log("out = " + new String(out).trim());
           context.log("in = " + new String(in).trim());
           context.log("head = " + new String(head).trim());
@@ -381,7 +382,6 @@ public class SimpleRMIFilter implements Filter {
     } catch (CobolRecordException ex) {
       return;
     }
-    @SuppressWarnings("unchecked")
     Enumeration<String> keys = request.getParameterNames();
     while (keys.hasMoreElements()) {
       String key = keys.nextElement();

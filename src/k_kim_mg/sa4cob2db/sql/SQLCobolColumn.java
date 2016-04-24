@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db.sql;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +12,7 @@ import k_kim_mg.sa4cob2db.CobolRecord;
 import k_kim_mg.sa4cob2db.CobolRecordException;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.DefaultCobolColumn;
+
 /**
  * SQL column
  * 
@@ -19,17 +21,25 @@ import k_kim_mg.sa4cob2db.DefaultCobolColumn;
 public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	private String defaultString = "";
 	private String originalColumnName = "";
-	private boolean readIgnore = false, rewriteIgnore = false, writeIgnore = false;
+	private boolean readIgnore = false;
+	private boolean rewriteIgnore = false;
+	private boolean writeIgnore = false;
+
 	/**
 	 * Constructor
 	 * 
-	 * @param meta
+	 * @param meta meta data
 	 */
 	public SQLCobolColumn(SQLCobolRecordMetaData meta) {
 		super(meta);
 	}
-	/* (non-Javadoc)
-	 * @see k_kim_mg.sa4cob2db.DefaultCobolColumn#copyTo(k_kim_mg.sa4cob2db.CobolColumn)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * k_kim_mg.sa4cob2db.DefaultCobolColumn#copyTo(k_kim_mg.sa4cob2db.CobolColumn
+	 * )
 	 */
 	protected CobolColumn copyTo(CobolColumn copy) {
 		super.copyTo(copy);
@@ -47,8 +57,12 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		}
 		return copy;
 	}
-	/* (non-Javadoc)
-	 * @see k_kim_mg.sa4cob2db.DefaultCobolColumn#createCopy(k_kim_mg.sa4cob2db.CobolRecordMetaData)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.DefaultCobolColumn#createCopy(k_kim_mg.sa4cob2db.
+	 * CobolRecordMetaData)
 	 */
 	public CobolColumn createCopy(CobolRecordMetaData meta) {
 		CobolColumn ret = null;
@@ -61,15 +75,17 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 		}
 		return ret;
 	}
+
 	/**
 	 * default string
 	 * 
 	 * @return default value
-	 * @throws CobolRecordException exception 
+	 * @throws CobolRecordException exception
 	 */
 	public String getDefaultString() throws CobolRecordException {
 		return defaultString;
 	}
+
 	/**
 	 * get SQL column name
 	 * 
@@ -79,6 +95,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	public String getOriginalColumnName() throws CobolRecordException {
 		return (originalColumnName != null && originalColumnName.length() > 0 ? originalColumnName : getName());
 	}
+
 	/**
 	 * ignore when reading record?
 	 * 
@@ -88,6 +105,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	public boolean isReadIgnore() throws CobolRecordException {
 		return readIgnore;
 	}
+
 	/**
 	 * ignore when rewrite/update record?
 	 * 
@@ -97,6 +115,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	public boolean isRewriteIgnore() throws CobolRecordException {
 		return rewriteIgnore;
 	}
+
 	/**
 	 * ignore when write/insert record?
 	 * 
@@ -106,6 +125,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	public boolean isWriteIgnore() throws CobolRecordException {
 		return writeIgnore;
 	}
+
 	/**
 	 * set default string
 	 * 
@@ -114,6 +134,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	public void setDefaultString(String string) {
 		defaultString = string;
 	}
+
 	/**
 	 * set SQL column name
 	 * 
@@ -122,6 +143,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	public void setOriginalColumnName(String name) {
 		originalColumnName = name;
 	}
+
 	/**
 	 * ignore when reading record?
 	 * 
@@ -130,8 +152,9 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	public void setReadIgnore(boolean b) {
 		readIgnore = b;
 	}
+
 	/**
-	 * move COBOL record to SQL result set 
+	 * move COBOL record to SQL result set
 	 * 
 	 * @param src COBOL record
 	 * @param dst SQL result set
@@ -196,6 +219,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 			throw new CobolRecordException();
 		}
 	}
+
 	/**
 	 * move result set to COBOL record
 	 * 
@@ -250,6 +274,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 			SQLNetServer.logger.warning("Unknown Column Type :" + getType());
 		}
 	}
+
 	/**
 	 * ignore when rewrite/update record?
 	 * 
@@ -258,6 +283,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	public void setRewriteIgnore(boolean b) {
 		rewriteIgnore = b;
 	}
+
 	/**
 	 * ignore when write/insert record?
 	 * 
@@ -266,6 +292,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	public void setWriteIgnore(boolean b) {
 		writeIgnore = b;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

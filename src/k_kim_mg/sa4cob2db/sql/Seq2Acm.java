@@ -2,6 +2,7 @@
  * 
  */
 package k_kim_mg.sa4cob2db.sql;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +22,7 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.FileStatus;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 import org.xml.sax.SAXException;
+
 /**
  * import from sequential file
  * 
@@ -28,6 +30,7 @@ import org.xml.sax.SAXException;
  */
 public class Seq2Acm {
 	private int commit;
+
 	/**
 	 * display usage
 	 * 
@@ -45,6 +48,7 @@ public class Seq2Acm {
 			}
 		}
 	}
+
 	/**
 	 * get from environment values
 	 * 
@@ -54,12 +58,15 @@ public class Seq2Acm {
 	 */
 	private static String getEnvValue(String key, String defaultValue) {
 		String ret = System.getProperty(key, System.getenv(key));
-		if (ret == null)
+		if (ret == null) {
 			ret = defaultValue;
-		if (ret.length() == 0)
+		}
+		if (ret.length() == 0) {
 			ret = defaultValue;
+		}
 		return ret;
 	}
+
 	/** main */
 	public static void main(String[] args) {
 		Properties properties = new Properties();
@@ -102,6 +109,7 @@ public class Seq2Acm {
 		Seq2Acm obj = new Seq2Acm();
 		obj.importTo(properties);
 	}
+
 	/**
 	 * main
 	 * 
@@ -119,8 +127,10 @@ public class Seq2Acm {
 	public static void main_too(String acmfile, String infile, String metafile, String linein, String extend, String commit, String display_usage) {
 		Seq2Acm.main(new String[] { acmfile, infile, metafile, linein, extend, commit, display_usage });
 	}
+
 	private Connection connection;
 	private SQLFileServer fileServer;
+
 	/**
 	 * get file from name
 	 * 
@@ -144,6 +154,7 @@ public class Seq2Acm {
 		}
 		return file;
 	}
+
 	/**
 	 * import form line sequential file
 	 * 
@@ -187,6 +198,7 @@ public class Seq2Acm {
 		}
 		System.err.println("Row Count = " + count);
 	}
+
 	/**
 	 * import from sequential file
 	 * 
@@ -229,6 +241,7 @@ public class Seq2Acm {
 		}
 		System.err.println("Row Count = " + count);
 	}
+
 	/**
 	 * import form (line) sequential file
 	 * 
@@ -244,6 +257,7 @@ public class Seq2Acm {
 			importTo(file, stream);
 		}
 	}
+
 	/**
 	 * import from file
 	 * 
@@ -275,11 +289,12 @@ public class Seq2Acm {
 		try {
 			nodeLoader.createMetaDataSet(metaFile, fileServer.getMetaDataSet(), properties);
 			if (metaset instanceof SQLCobolRecordMetaDataSet) {
-				SQLCobolRecordMetaDataSet sqlset = (SQLCobolRecordMetaDataSet) metaset;
 				SQLNetServer.updateProperty(properties, "jdbcdriverurl", "ACM_JDBCDRIVERURL");
 				SQLNetServer.updateProperty(properties, "jdbcdatabaseurl", "ACM_JDBCDATABASEURL");
 				SQLNetServer.updateProperty(properties, "jdbcusername", "ACM_JDBCUSERNAME");
 				SQLNetServer.updateProperty(properties, "jdbcpassword", "ACM_JDBCPASSWORD");
+
+				SQLCobolRecordMetaDataSet sqlset = (SQLCobolRecordMetaDataSet) metaset;
 				sqlset.setDriverURL(properties.getProperty("jdbcdriverurl"));
 				sqlset.setDatabaseURL(properties.getProperty("jdbcdatabaseurl"));
 				sqlset.setUsername(properties.getProperty("jdbcusername"));

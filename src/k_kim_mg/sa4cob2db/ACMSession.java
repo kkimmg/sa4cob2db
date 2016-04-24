@@ -1,6 +1,9 @@
 package k_kim_mg.sa4cob2db;
+
 import java.io.Serializable;
+
 import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
+
 /** session */
 public interface ACMSession extends Serializable {
 	/**
@@ -9,19 +12,22 @@ public interface ACMSession extends Serializable {
 	 * @param listener event listener
 	 */
 	public void addACMSessionEventListener(ACMSessionEventListener listener);
+
 	/**
 	 * create file
 	 * 
 	 * @param name filename
-	 * @return file object 
+	 * @return file object
 	 */
 	public CobolFile createFile(String name);
+
 	/**
 	 * release file
 	 * 
 	 * @param name filename
 	 */
 	public void destroyFile(String name);
+
 	/**
 	 * get option value
 	 * 
@@ -29,31 +35,36 @@ public interface ACMSession extends Serializable {
 	 * @return option value
 	 */
 	public String getACMOption(String key);
+
 	/**
 	 * get file from name
 	 * 
 	 * @param name filename
-	 * @return file object 
+	 * @return file object
 	 */
 	public CobolFile getFile(String name);
+
 	/**
 	 * get max record length
 	 * 
 	 * @return length
 	 */
 	public int getMaxLength();
+
 	/**
 	 * sessionID
 	 * 
 	 * @return sessionID
 	 */
 	public String getSessionId();
+
 	/**
 	 * delete event listener
 	 * 
 	 * @param listener event listener
 	 */
 	public void removeACMSessionEventListener(ACMSessionEventListener listener);
+
 	/**
 	 * set option value
 	 * 
@@ -61,6 +72,7 @@ public interface ACMSession extends Serializable {
 	 * @param value value
 	 */
 	public void setACMOption(String key, String value);
+
 	/**
 	 * set max record length
 	 * 

@@ -1,5 +1,7 @@
 package k_kim_mg.sa4cob2db;
+
 import java.sql.SQLException;
+
 /**
  * COBOL recordexception
  */

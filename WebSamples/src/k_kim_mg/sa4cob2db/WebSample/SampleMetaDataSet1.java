@@ -7,7 +7,8 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.DefaultCobolRecord;
 
 /**
- * Sample 
+ * Sample
+ * 
  * @author kkimmg@gmail.com
  */
 class SampleMetaDataSet1 extends CobolRecordMetaDataSet {
@@ -20,10 +21,11 @@ class SampleMetaDataSet1 extends CobolRecordMetaDataSet {
 
 	/**
 	 * returns record
+	 * 
 	 * @param metaname metadata name
 	 * @return record
 	 */
-	public CobolRecord createRecord (String metaname) {
+	public CobolRecord createRecord(String metaname) {
 		CobolRecordMetaData meta = getMetaData(metaname);
 		CobolRecord ret = new DefaultCobolRecord(meta);
 		return ret;

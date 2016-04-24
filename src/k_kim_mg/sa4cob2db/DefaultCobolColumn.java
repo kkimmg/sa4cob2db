@@ -1,4 +1,5 @@
 package k_kim_mg.sa4cob2db;
+
 /**
  * Default COBOL Column
  * 
@@ -47,6 +48,7 @@ public class DefaultCobolColumn implements CobolColumn {
 		}
 		return ret;
 	}
+
 	private CobolRecordMetaData cobolRecordMetaData;
 	private String format;
 	private String forNull = null;
@@ -62,6 +64,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	private Object valueOfParseError = null;
 	private int usage = CobolColumn.USAGE_DISPLAY;
 	private boolean key = false;
+
 	/**
 	 * Constructor
 	 * 
@@ -70,6 +73,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public DefaultCobolColumn(CobolRecordMetaData meta) {
 		this.cobolRecordMetaData = meta;
 	}
+
 	/**
 	 * copy attributes to CobolColumn object
 	 * 
@@ -90,12 +94,14 @@ public class DefaultCobolColumn implements CobolColumn {
 		copy.setValueOfParseError(getValueOfParseError());
 		return copy;
 	}
+
 	// @Override
 	public CobolColumn createCopy(CobolRecordMetaData meta) {
 		CobolColumn copy = new DefaultCobolColumn(meta);
 		copyTo(copy);
 		return copy;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -104,6 +110,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public CobolRecordMetaData getCobolRecordMetaData() {
 		return cobolRecordMetaData;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -112,6 +119,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public String getFormat() {
 		return format;
 	}
+
 	/**
 	 * get value to use when record value is null
 	 * 
@@ -120,6 +128,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public String getForNull() {
 		return forNull;
 	}
+
 	/**
 	 * get value to use when table value is null
 	 * 
@@ -128,6 +137,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public String getIfNull() {
 		return ifNull;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -136,6 +146,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public int getLength() {
 		return length;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -144,6 +155,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public String getName() {
 		return name;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -152,6 +164,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public int getNumberOfDecimal() {
 		return numberOfDecimal;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -160,6 +173,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public CobolColumn getOriginalCobolColumn() {
 		return original;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -175,6 +189,7 @@ public class DefaultCobolColumn implements CobolColumn {
 		}
 		return ret;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -183,6 +198,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public int getStart() {
 		return start;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -191,6 +207,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public int getType() {
 		return type;
 	}
+
 	@Override
 	public int getUsage() {
 		int ret = this.usage;
@@ -207,6 +224,7 @@ public class DefaultCobolColumn implements CobolColumn {
 		}
 		return ret;
 	}
+
 	/**
 	 * get value to use when parse error of record value
 	 * 
@@ -215,10 +233,12 @@ public class DefaultCobolColumn implements CobolColumn {
 	public Object getValueOfParseError() {
 		return valueOfParseError;
 	}
+
 	@Override
 	public boolean isKey() {
 		return key;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -227,14 +247,17 @@ public class DefaultCobolColumn implements CobolColumn {
 	public boolean isSigned() {
 		return signed;
 	}
+
 	/**
 	 * use value when parse error ?
 	 * 
-	 * @return true use<br>false don't
+	 * @return true use<br>
+	 *         false don't
 	 */
 	public boolean isUseOnParseError() {
 		return useOnParseError;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -244,6 +267,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public void setCobolRecordMetaData(CobolRecordMetaData cobolRecordMetaData) {
 		this.cobolRecordMetaData = cobolRecordMetaData;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -252,6 +276,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public void setFormat(String string) {
 		format = string;
 	}
+
 	/**
 	 * set value to use when record value is null
 	 * 
@@ -260,6 +285,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public void setForNull(String forNull) {
 		this.forNull = forNull;
 	}
+
 	/**
 	 * set value to use when table value is null
 	 * 
@@ -268,10 +294,12 @@ public class DefaultCobolColumn implements CobolColumn {
 	public void setIfNull(String ifNull) {
 		this.ifNull = ifNull;
 	}
+
 	@Override
 	public void setKey(boolean key) {
 		this.key = key;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -280,6 +308,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public void setLength(int i) {
 		length = i;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -288,6 +317,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public void setName(String string) {
 		name = string;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -296,6 +326,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public void setNumberOfDecimal(int numberOfDecimal) {
 		this.numberOfDecimal = numberOfDecimal;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -305,6 +336,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public void setOriginalCobolColumn(CobolColumn original) {
 		this.original = original;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -312,6 +344,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	 */
 	public void setPhysicalLength(int length) {
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -320,6 +353,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public void setSigned(boolean signed) {
 		this.signed = signed;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -328,6 +362,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	public void setStart(int i) {
 		start = i;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -336,18 +371,22 @@ public class DefaultCobolColumn implements CobolColumn {
 	public void setType(int i) {
 		type = i;
 	}
+
 	@Override
 	public void setUsage(int usage) {
 		this.usage = usage;
 	}
+
 	/**
 	 * use value when parse error ?
 	 * 
-	 * @param useOnParseError true use<br>false don't
+	 * @param useOnParseError true use<br>
+	 *            false don't
 	 */
 	public void setUseOnParseError(boolean useOnParseError) {
 		this.useOnParseError = useOnParseError;
 	}
+
 	/**
 	 * set value to use when parse error of record value
 	 * 
