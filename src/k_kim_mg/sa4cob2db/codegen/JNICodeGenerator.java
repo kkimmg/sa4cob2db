@@ -1,6 +1,3 @@
-/**
- * 
- */
 package k_kim_mg.sa4cob2db.codegen;
 
 import java.util.ArrayList;
@@ -67,9 +64,8 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallClose(k_kim_mg.sa4cob2db
-	 * .codegen.FileInfo, java.lang.String)
+	 * @see k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallClose(k_kim_mg.
+	 * sa4cob2db .codegen.FileInfo, java.lang.String)
 	 */
 	void addCallClose(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -79,9 +75,8 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallCommit(java.lang.String
-	 * )
+	 * @see k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallCommit(java.lang.
+	 * String )
 	 */
 	void addCallCommit(String period) {
 		add("     CALL \"commitJNISession\" USING ACM-STATUS-ALL" + period);
@@ -90,9 +85,8 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallDelete(k_kim_mg.sa4cob2db
-	 * .codegen.FileInfo, java.util.ArrayList, java.util.ArrayList,
+	 * @see k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallDelete(k_kim_mg.
+	 * sa4cob2db .codegen.FileInfo, java.util.ArrayList, java.util.ArrayList,
 	 * java.lang.String)
 	 */
 	void addCallDelete(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
@@ -162,9 +156,8 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallOpenInputOutput(k_kim_mg
-	 * .sa4cob2db.codegen.FileInfo, java.lang.String)
+	 * @see k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallOpenInputOutput(
+	 * k_kim_mg .sa4cob2db.codegen.FileInfo, java.lang.String)
 	 */
 	void addCallOpenInputOutput(FileInfo info, String period) {
 		add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);
@@ -212,9 +205,8 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallRead(k_kim_mg.sa4cob2db
-	 * .codegen.FileInfo, java.util.ArrayList, java.util.ArrayList,
+	 * @see k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallRead(k_kim_mg.
+	 * sa4cob2db .codegen.FileInfo, java.util.ArrayList, java.util.ArrayList,
 	 * java.lang.String, java.lang.String)
 	 */
 	void addCallRead(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String indexkey, String period) {
@@ -290,9 +282,8 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallRewrite(k_kim_mg.sa4cob2db
-	 * .codegen.FileInfo, java.util.ArrayList, java.util.ArrayList,
+	 * @see k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallRewrite(k_kim_mg.
+	 * sa4cob2db .codegen.FileInfo, java.util.ArrayList, java.util.ArrayList,
 	 * java.lang.String)
 	 */
 	void addCallRewrite(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {
@@ -336,9 +327,8 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallStart(k_kim_mg.sa4cob2db
-	 * .codegen.FileInfo, java.lang.String, java.util.ArrayList,
+	 * @see k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallStart(k_kim_mg.
+	 * sa4cob2db .codegen.FileInfo, java.lang.String, java.util.ArrayList,
 	 * java.util.ArrayList, java.lang.String, java.lang.String)
 	 */
 	void addCallStart(FileInfo info, String startModeText, ArrayList<String> invalid, ArrayList<String> notinvalid, String indexkey, String period) {
@@ -386,9 +376,8 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallWrite(k_kim_mg.sa4cob2db
-	 * .codegen.FileInfo, java.util.ArrayList, java.util.ArrayList,
+	 * @see k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallWrite(k_kim_mg.
+	 * sa4cob2db .codegen.FileInfo, java.util.ArrayList, java.util.ArrayList,
 	 * java.lang.String)
 	 */
 	void addCallWrite(FileInfo info, ArrayList<String> invalid, ArrayList<String> notinvalid, String period) {

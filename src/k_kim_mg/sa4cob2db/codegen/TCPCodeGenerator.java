@@ -1,7 +1,4 @@
-/*
- * Created on 2004/05/23 To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
+
 package k_kim_mg.sa4cob2db.codegen;
 
 import java.util.ArrayList;

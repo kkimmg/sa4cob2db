@@ -104,8 +104,6 @@ public class RMIStarter {
 	/**
 	 * rebind this object
 	 * 
-	 * @param port port
-	 * @param name server name
 	 */
 	public void startRMIRegistryServer() {
 		SQLNetServer.logger.info("RMI Server Starting.");

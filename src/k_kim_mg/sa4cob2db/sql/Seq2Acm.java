@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package k_kim_mg.sa4cob2db.sql;
 
 import java.io.BufferedReader;

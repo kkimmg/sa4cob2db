@@ -11,6 +11,7 @@ public class JSampleJniCall1 {
 	public static final String ACM_SAMPLE_LIBRARY_NAME = "sampleJniCall";
 	/** COBOL library name */
 	public static final String OPEN_COB_LIBRARY_NAME = "cob";
+
 	static {
 		/* loading libraries */
 		try {
@@ -24,6 +25,7 @@ public class JSampleJniCall1 {
 			ex.printStackTrace();
 		}
 	}
+
 	/** Return value of java method (Success) */
 	public static final int JNI_RETURN_OK = 0;
 	/** Return value of java method (Failure) */

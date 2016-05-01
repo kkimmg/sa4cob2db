@@ -17,10 +17,12 @@ import org.w3c.dom.Node;
 public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	private static final long serialVersionUID = 1L;
 	public static Properties reps;
+
 	static {
 		reps = new Properties();
 		reps.setProperty("-", "_");
 	}
+
 	static final int CUR_NONE = 0;
 	static final int CUR_LEVEL = 1;
 	static final int CUR_NAME = 2;
@@ -61,6 +63,7 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 
 	/**
 	 * Is the name key?
+	 * 
 	 * @param name column name
 	 * @return true/false
 	 */

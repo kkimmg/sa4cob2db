@@ -622,7 +622,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	protected Map<String, CobolIndex> indexName2Index;
 	private int initialSequentialReadBufferSize = 0;
 	private int maximumSequentialReadBufferSize = 0;
-	private int  minimumSequentialReadBufferSize = 0;
+	private int minimumSequentialReadBufferSize = 0;
 	private ArrayList<CobolFileEventListener> listeners = new ArrayList<CobolFileEventListener>();
 	/** open mode */
 	protected int openmode;
@@ -727,7 +727,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * @return STATUS_EQUAL record1 == record2<br/>
 	 *         STATUS_REC1 record1 < record2<br/>
 	 *         STATUS_REC2 record1 > record2
-	 * @throws CobolRecordException  something happen.
+	 * @throws CobolRecordException something happen.
 	 */
 	protected int compare_byBytes(byte[] record1, byte[] record2) throws CobolRecordException {
 		int ret = COMPARE_EQUAL;
@@ -764,7 +764,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * @return STATUS_EQUAL record1 == record2<br/>
 	 *         STATUS_REC1 record1 < record2<br/>
 	 *         STATUS_REC2 record1 > record2
-	 * @throws CobolRecordException  something happen.
+	 * @throws CobolRecordException something happen.
 	 */
 	protected int compare_byValue(byte[] record1, byte[] record2) throws CobolRecordException {
 		int ret = COMPARE_EQUAL;
@@ -1110,6 +1110,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#read(byte[])
 	 */
+	@Override
 	public FileStatus read(byte[] record) {
 		if (getMaximumSequentialReadBufferSize() > 0 && sequentialReadBuffer != null && getAccessMode() == CobolFile.ACCESS_SEQUENTIAL && getOpenMode() == CobolFile.MODE_INPUT) {
 			return readFromBuffer(record);
@@ -1238,6 +1239,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * @see k_kim_mg.sa4cob2db.CobolFile#start(java.lang.String, int, byte[],
 	 * boolean)
 	 */
+	@Override
 	public FileStatus start(String IndexName, int mode, byte[] record) {
 		FileStatus ret = STATUS_UNKNOWN_ERROR;
 		CobolIndex index = getIndex(IndexName);

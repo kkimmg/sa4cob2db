@@ -138,10 +138,10 @@ public class SQLFile2 extends SQLFile {
 	}
 
 	/**
-	 * 
-	 * @param record
-	 * @param stmt
-	 * @throws SQLException
+	 * Set parateters to PreaparedStatement Object
+	 * @param record record
+	 * @param stmt PreparedStatement Object
+	 * @throws SQLException Exception
 	 */
 	protected void setParamsRecord2PreaparedStatement(byte[] record, PreparedStatement stmt) throws SQLException {
 		CobolRecord cobrec = new DefaultCobolRecord(getMetaData());
