@@ -991,6 +991,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#next()
 	 */
+	@Override
 	public FileStatus next() {
 		if (getAccessMode() == CobolFile.ACCESS_DYNAMIC && currentIndex != null) {
 			return nextOnIndex();

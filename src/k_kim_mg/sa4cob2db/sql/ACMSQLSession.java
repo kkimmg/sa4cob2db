@@ -106,6 +106,7 @@ public class ACMSQLSession implements ACMSession {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.ACMSession#createFile(java.lang.String)
 	 */
+	@Override
 	public CobolFile createFile(String name) {
 		CobolFile ret = null;
 		if (files.containsKey(name)) {
@@ -204,6 +205,7 @@ public class ACMSQLSession implements ACMSession {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.ACMSession#destroyFile(java.lang.String)
 	 */
+	@Override
 	public void destroyFile(String name) {
 		CobolFile file = files.get(name);
 		if (file != null) {

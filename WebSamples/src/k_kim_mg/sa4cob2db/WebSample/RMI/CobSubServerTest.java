@@ -99,6 +99,9 @@ public class CobSubServerTest {
 		head.updateString(metaHead.getColumn("ACM-SESSIONGLOBALAREA"), "value");
 	}
 
+	/**
+	 * Test JNI read.
+	 */
 	// @Test
 	public void testRead() {
 		CobolRecord reqInp;

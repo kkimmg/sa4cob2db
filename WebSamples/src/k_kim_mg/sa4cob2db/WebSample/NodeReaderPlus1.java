@@ -1,6 +1,3 @@
-/**
- * 
- */
 package k_kim_mg.sa4cob2db.WebSample;
 
 import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
