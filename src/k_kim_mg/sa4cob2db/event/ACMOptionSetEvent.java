@@ -5,8 +5,9 @@ import k_kim_mg.sa4cob2db.ACMSession;
 
 /**
  * This event will be occurred when session option value settled.
+ * 
  * @author kkimmg@gmail.com
- *
+ * 
  */
 public class ACMOptionSetEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
@@ -16,6 +17,7 @@ public class ACMOptionSetEvent extends EventObject {
 
 	/**
 	 * Constructor.
+	 * 
 	 * @param source session
 	 * @param key option key
 	 * @param value option value

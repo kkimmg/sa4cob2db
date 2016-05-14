@@ -45,8 +45,7 @@ public class MinAdmin extends UnicastRemoteObject implements IMinAdmin {
 	 * @param mode Mode
 	 * @param admin Admin Username
 	 * @param password Admin Password
-	 * @return true Success
-	 *         false Fault
+	 * @return true Success false Fault
 	 * @throws RemoteException Remote Exception
 	 */
 	public boolean shutdown(int mode, String admin, String password) throws RemoteException {

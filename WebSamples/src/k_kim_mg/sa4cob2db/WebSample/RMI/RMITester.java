@@ -10,12 +10,14 @@ public class RMITester {
 
 	/**
 	 * RMI Server Main
+	 * 
 	 * @param args arguments
 	 */
 	public static void main(String[] args) {
 		try {
 			Registry registry = LocateRegistry.getRegistry();
-			//CobSubServer1 stub = (CobSubServer1) registry.lookup("CobSubServer");
+			// CobSubServer1 stub = (CobSubServer1)
+			// registry.lookup("CobSubServer");
 		} catch (Exception e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 			e.printStackTrace();

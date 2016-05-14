@@ -24,6 +24,7 @@ public class CobSubServerTest {
 
 	/**
 	 * Test Main
+	 * 
 	 * @param args arguments
 	 */
 	public static void main(String[] args) {

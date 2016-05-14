@@ -2,7 +2,7 @@ package k_kim_mg.sa4cob2db.WebSample;
 
 /**
  * @author kenji
- *
+ * 
  */
 public class WebInterface1 {
 

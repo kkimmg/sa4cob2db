@@ -715,10 +715,10 @@ public class NodeReadLoader {
 					meta.installMetaData(meta1);
 					SQLNetServer.logger.log(Level.CONFIG, "metadata:" + meta1.getName());
 				} else if (item.getNodeName().equals("metadata2")) {
-						// meta data
-						CobolRecordMetaData meta1 = createMetaData2(item, meta);
-						meta.installMetaData(meta1);
-						SQLNetServer.logger.log(Level.CONFIG, "metadata:" + meta1.getName());
+					// meta data
+					CobolRecordMetaData meta1 = createMetaData2(item, meta);
+					meta.installMetaData(meta1);
+					SQLNetServer.logger.log(Level.CONFIG, "metadata:" + meta1.getName());
 				} else if (item.getNodeName().equals("property")) {
 					// map
 					NamedNodeMap map = item.getAttributes();

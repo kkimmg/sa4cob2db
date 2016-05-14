@@ -1,4 +1,3 @@
-
 package k_kim_mg.sa4cob2db.codegen;
 
 import java.util.ArrayList;

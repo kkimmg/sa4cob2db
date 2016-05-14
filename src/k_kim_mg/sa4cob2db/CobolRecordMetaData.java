@@ -150,8 +150,8 @@ public interface CobolRecordMetaData {
 	public int getMaximumSequencialReadBufferSize();
 
 	/**
-	 * get minimum size of buffer
-	 * stop read from buffer until buffered row count reach this value
+	 * get minimum size of buffer stop read from buffer until buffered row count
+	 * reach this value
 	 * 
 	 * @return size (row count)
 	 */
@@ -237,16 +237,16 @@ public interface CobolRecordMetaData {
 	public void setKeyByValue(boolean keyByValue);
 
 	/**
-	 * get maximum size of buffer
-	 * stop buffering when buffered row count reached this value
+	 * get maximum size of buffer stop buffering when buffered row count reached
+	 * this value
 	 * 
 	 * @param value size(row count)
 	 */
 	public void setMaximumSequencialReadBufferSize(int value);
 
 	/**
-	 * get minimum size of buffer
-	 * stop read from buffer until buffered row count reach this value
+	 * get minimum size of buffer stop read from buffer until buffered row count
+	 * reach this value
 	 * 
 	 * @param value size(row count)
 	 */

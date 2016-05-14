@@ -139,6 +139,7 @@ public class SQLFile2 extends SQLFile {
 
 	/**
 	 * Set parateters to PreaparedStatement Object
+	 * 
 	 * @param record record
 	 * @param stmt PreparedStatement Object
 	 * @throws SQLException Exception

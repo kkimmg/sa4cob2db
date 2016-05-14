@@ -13,8 +13,7 @@ public interface IMinAdmin extends Remote, Serializable {
 	 * @param mode mode
 	 * @param admin user name
 	 * @param password password
-	 * @return true success
-	 *         false failure
+	 * @return true success false failure
 	 * @throws RemoteException Exception
 	 */
 	public boolean shutdown(int mode, String admin, String password) throws RemoteException;

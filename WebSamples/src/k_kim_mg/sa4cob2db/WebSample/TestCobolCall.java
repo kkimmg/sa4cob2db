@@ -22,6 +22,7 @@ public class TestCobolCall {
 
 	/**
 	 * Main.
+	 * 
 	 * @param args arguments
 	 */
 	public static void main(String[] args) {

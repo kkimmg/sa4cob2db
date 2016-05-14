@@ -32,24 +32,21 @@ public interface GeneratorOwner {
 	/**
 	 * expand copy statement?
 	 * 
-	 * @return true expand
-	 *         false don't
+	 * @return true expand false don't
 	 */
 	public boolean isExpandCopy();
 
 	/**
 	 * don't initialize?
 	 * 
-	 * @return true yes
-	 *         false not
+	 * @return true yes false not
 	 */
 	public boolean isSubprogram();
 
 	/**
 	 * Ignore Comment Out
 	 * 
-	 * @return true yes
-	 *         false not
+	 * @return true yes false not
 	 */
 	public boolean isDontComment();
 }
