@@ -171,7 +171,7 @@ public class SimpleRMIFilter implements Filter {
   /**
    * get header record
    * 
-   * @param request
+   * @param request request
    * @return header record
    */
   public CobolRecord getHeaderRecord(HttpServletRequest request) {

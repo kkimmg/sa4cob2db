@@ -132,7 +132,9 @@ public class CobSubServerTest {
 		jni.jniCallCobol_fork("DYNTEST2", header, req, res);
 	}
 
-	// @Test
+	/**
+	 * Test.
+	 */
 	public void testTCPRead() {
 		CobolRecord reqInp;
 		reqInp = new DefaultCobolRecord(metaReqInp);

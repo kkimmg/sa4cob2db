@@ -128,13 +128,13 @@ public class DBConnector {
 	}
 
 	/**
-	 * create connection
+	 * Create Connection.
 	 * 
-	 * @return connection
 	 * @param driverURL JDBCdriverURL
 	 * @param databaseURL JDBCdatasourceURL
 	 * @param userName JDBC user name
 	 * @param passWord JDBC password
+	 * @return connection
 	 * @throws ClassNotFoundException can't find class
 	 * @throws SQLException SQL exception
 	 */

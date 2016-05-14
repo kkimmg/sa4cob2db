@@ -21,7 +21,8 @@ public class TestCobolCall {
 	private static final String ENV_NAME = "ACM_CONF";
 
 	/**
-	 * @param args
+	 * Main.
+	 * @param args arguments
 	 */
 	public static void main(String[] args) {
 		ServletSampleTool1 servletSampleTool1 = new ServletSampleTool1(System.getenv(ENV_NAME));
