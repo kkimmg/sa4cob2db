@@ -287,6 +287,11 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 		return validColumn;
 	}
 
+	/**
+	 * Parce logical row string.
+	 * @param logical Row string.
+	 * @return Row Type
+	 */
 	public int parce(String logical) {
 		int status = CUR_NONE;
 		StringTokenizer tokenizer = new StringTokenizer(logical);
@@ -591,6 +596,10 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 		this.numberOfDecimal = decimal;
 	}
 
+	/**
+	 * Set Occur Count.
+	 * @param occurs count
+	 */
 	public void setOccurs(int occurs) {
 		if (occurs < 0) {
 			return;

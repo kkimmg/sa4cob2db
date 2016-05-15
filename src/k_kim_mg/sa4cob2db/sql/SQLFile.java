@@ -94,6 +94,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#delete()
 	 */
+	@Override
 	public FileStatus delete(byte[] record) {
 		getEventProcessor().preDelete(getReadyEvent());
 		FileStatus ret = move(record);
@@ -136,6 +137,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#getCurrentRow()
 	 */
+	@Override
 	public int getCurrentRow() {
 		int row = 0;
 		try {
@@ -249,6 +251,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#move(byte[])
 	 */
+	@Override
 	public FileStatus move(byte[] record) {
 		resetCurrentIndex();
 		getEventProcessor().preMove(getReadyEvent(), record);
@@ -321,7 +324,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * move to record that located by key value
+	 * Move to record that located by key value.
 	 * 
 	 * @param record record includes key value
 	 * @param start start of range
@@ -390,6 +393,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#move(int)
 	 */
+	@Override
 	public FileStatus move(int row) {
 		boolean ok = false;
 		try {
@@ -410,6 +414,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#moveFirst()
 	 */
+	@Override
 	public FileStatus moveFirst() {
 		boolean ok = false;
 		try {
@@ -426,6 +431,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#moveLast()
 	 */
+	@Override
 	public FileStatus moveLast() {
 		boolean ok = false;
 		try {
@@ -457,6 +463,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#next(int)
 	 */
+	@Override
 	public FileStatus next(int row) {
 		if (row < 0) {
 			return previous(row * -1);
@@ -480,7 +487,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * next record
+	 * Move to next record.
 	 * 
 	 * @return status
 	 */
@@ -518,6 +525,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#open(int)
 	 */
+	@Override
 	public FileStatus open(int mode, int accessmode) {
 		this.openmode = mode;
 		this.accessMode = accessmode;
@@ -565,6 +573,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#previous()
 	 */
+	@Override
 	public FileStatus previous() {
 		getEventProcessor().prePrevious(getReadyEvent());
 		FileStatus ret = FileStatus.OK;
@@ -589,6 +598,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#previous(int)
 	 */
+	@Override
 	public FileStatus previous(int row) {
 		if (row < 0) {
 			return next(row * -1);
@@ -662,6 +672,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#rewrite(byte[])
 	 */
+	@Override
 	public FileStatus rewrite(byte[] record) {
 		getEventProcessor().preRewrite(getReadyEvent(), record);
 		FileStatus ret = move(record);
@@ -721,6 +732,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#start(int, byte[])
 	 */
+	@Override
 	public FileStatus start(int mode, byte[] record) {
 		resetCurrentIndex();
 		getEventProcessor().preStart(getReadyEvent(), record);
@@ -990,6 +1002,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#truncate()
 	 */
+	@Override
 	public void truncate() {
 		String truncate = meta.getTruncateStatement();
 		if (truncate != null) {
@@ -1015,6 +1028,7 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#write(byte[])
 	 */
+	@Override
 	public FileStatus write(byte[] record) {
 		getEventProcessor().preWrite(getReadyEvent(), record);
 		FileStatus ret = FileStatus.OK;

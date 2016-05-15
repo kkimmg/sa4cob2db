@@ -98,45 +98,29 @@ public class DefaultCobolColumn implements CobolColumn {
 		return copy;
 	}
 
-	// @Override
+	@Override
 	public CobolColumn createCopy(CobolRecordMetaData meta) {
 		CobolColumn copy = new DefaultCobolColumn(meta);
 		copyTo(copy);
 		return copy;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolColumn#getCobolRecordMetaData()
-	 */
+	@Override
 	public CobolRecordMetaData getCobolRecordMetaData() {
 		return cobolRecordMetaData;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolColumn#getFormat()
-	 */
+	@Override
 	public String getFormat() {
 		return format;
 	}
 
-	/**
-	 * get value to use when record value is null
-	 * 
-	 * @return value
-	 */
+	@Override
 	public String getForNull() {
 		return forNull;
 	}
 
-	/**
-	 * get value to use when table value is null
-	 * 
-	 * @return value
-	 */
+	@Override
 	public String getIfNull() {
 		return ifNull;
 	}
@@ -182,6 +166,7 @@ public class DefaultCobolColumn implements CobolColumn {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolColumn#getPhysicalLength()
 	 */
+	@Override
 	public int getPhysicalLength() {
 		int ret = getLength();
 		if (getType() == CobolColumn.TYPE_NCHAR) {

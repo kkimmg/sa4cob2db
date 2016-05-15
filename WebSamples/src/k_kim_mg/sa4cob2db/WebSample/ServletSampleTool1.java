@@ -122,6 +122,11 @@ public class ServletSampleTool1 {
 		}
 	}
 
+	/**
+	 * get Header Record. 
+	 * @param request Request
+	 * @return CobolRecord
+	 */
 	public CobolRecord getHeaderRecord(HttpServletRequest request) {
 		Object wrk = null;
 		CobolRecord ret = null;
@@ -137,6 +142,11 @@ public class ServletSampleTool1 {
 		return ret;
 	}
 
+	/**
+	 * Create Record.
+	 * @param metaname Metadata Name
+	 * @return CobolRecord
+	 */
 	public CobolRecord createRecord(String metaname) {
 		CobolRecordMetaData meta = metaSet.getMetaData(metaname);
 		CobolRecord ret = new DefaultCobolRecord(meta);

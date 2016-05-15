@@ -64,6 +64,7 @@ public class SQLCobolColumn extends DefaultCobolColumn implements CobolColumn {
 	 * @see k_kim_mg.sa4cob2db.DefaultCobolColumn#createCopy(k_kim_mg.sa4cob2db.
 	 * CobolRecordMetaData)
 	 */
+	@Override
 	public CobolColumn createCopy(CobolRecordMetaData meta) {
 		CobolColumn ret = null;
 		if (meta instanceof SQLCobolRecordMetaData) {

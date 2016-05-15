@@ -74,6 +74,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#addColumn(jp.ne.biglobe
 	 * .mvh.k_kim_mg.acm.CobolColumn)
 	 */
+	@Override
 	public void addColumn(CobolColumn column) {
 		columns.add(column);
 		if (column.isKey()) {
@@ -88,6 +89,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	 * k_kim_mg.sa4cob2db.CobolRecordMetaData#addKey(k_kim_mg.sa4cob2db.CobolColumn
 	 * )
 	 */
+	@Override
 	public void addKey(CobolColumn column) {
 		if (!keys.contains(column)) {
 			keys.add(column);
@@ -116,7 +118,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	}
 
 	/**
-	 * create column
+	 * Create Column.
 	 * 
 	 * @return column
 	 */
@@ -130,6 +132,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#createCopy()
 	 */
+	@Override
 	public CobolRecordMetaData createCopy() {
 		CobolRecordMetaData copy = new DefaultCobolRecordMetaData();
 		copyTo(copy);
@@ -142,6 +145,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#findColumn(jp.ne.biglobe
 	 * .mvh.k_kim_mg.acm.CobolColumn)
 	 */
+	@Override
 	public int findColumn(CobolColumn column) throws CobolRecordException {
 		int ret = -1;
 		int count = getColumnCount();
@@ -162,6 +166,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#findColumn(java.lang .String)
 	 */
+	@Override
 	public int findColumn(String name) throws CobolRecordException {
 		int ret = -1;
 		int count = getColumnCount();
@@ -320,6 +325,7 @@ public class DefaultCobolRecordMetaData implements CobolRecordMetaData {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecordMetaData#getRowSize()
 	 */
+	@Override
 	public int getRowSize() {
 		// return getPhysicalLength();
 		int ret = 0;

@@ -24,7 +24,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	private Map<CobolColumn, NumberFormat> formats = new HashMap<CobolColumn, NumberFormat>();
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param meta metadata
 	 */
@@ -37,6 +37,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolRecord#findColumn(java.lang.String)
 	 */
+	@Override
 	public int findColumn(String columnName) throws CobolRecordException {
 		int retValue = -1;
 		int columnCount = metaData.getColumnCount();
@@ -59,6 +60,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	 * k_kim_mg.sa4cob2db.CobolRecord#getBigDecimal(k_kim_mg.sa4cob2db.CobolColumn
 	 * )
 	 */
+	@Override
 	public BigDecimal getBigDecimal(CobolColumn column) throws CobolRecordException {
 		String work = getString(column);
 		String nvl = column.getForNull();
@@ -77,6 +79,7 @@ public class DefaultCobolRecord implements CobolRecord {
 	 * @see
 	 * k_kim_mg.sa4cob2db.CobolRecord#getBoolean(k_kim_mg.sa4cob2db.CobolColumn)
 	 */
+	@Override
 	public boolean getBoolean(CobolColumn column) throws CobolRecordException {
 		boolean ret = false;
 		int csize = column.getPhysicalLength();
