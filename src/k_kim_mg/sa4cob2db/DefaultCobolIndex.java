@@ -15,21 +15,33 @@ public class DefaultCobolIndex implements CobolIndex {
 	private Map<CobolColumn, CobolColumn> indexKey2FileColumn = new Hashtable<CobolColumn, CobolColumn>();
 	private boolean duplicates;
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolIndex#getFileKey2IndexColumn()
+	 */
 	@Override
 	public Map<CobolColumn, CobolColumn> getFileKey2IndexColumn() {
 		return fileKey2IndexColumn;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolIndex#getFileName()
+	 */
 	@Override
 	public String getFileName() {
 		return fileName;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolIndex#getIndexKey2FileColumn()
+	 */
 	@Override
 	public Map<CobolColumn, CobolColumn> getIndexKey2FileColumn() {
 		return indexKey2FileColumn;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolIndex#getIndexKeyName()
+	 */
 	@Override
 	public String getIndexKeyName() {
 		return indexKeyName;

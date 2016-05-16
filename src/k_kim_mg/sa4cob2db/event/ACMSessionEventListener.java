@@ -3,48 +3,48 @@ package k_kim_mg.sa4cob2db.event;
 import java.util.EventListener;
 
 /**
- * lisson session event
+ * listen session event.
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface ACMSessionEventListener extends EventListener {
 	/**
-	 * file created
+	 * file created.
 	 * 
 	 * @param e event
 	 */
 	public void fileCreated(ACMSessionEvent e);
 
 	/**
-	 * file destroyed
+	 * file destroyed.
 	 * 
 	 * @param e event
 	 */
 	public void fileDestroyed(ACMSessionEvent e);
 
 	/**
-	 * transaction commited
+	 * transaction commited.
 	 * 
 	 * @param e event
 	 */
 	public void transactionCommited(ACMSessionEvent e);
 
 	/**
-	 * transaction rollbacked
+	 * transaction rollbacked.
 	 * 
 	 * @param e event
 	 */
 	public void transactionRollbacked(ACMSessionEvent e);
 
 	/**
-	 * option set event
+	 * option set event.
 	 * 
 	 * @param e event
 	 */
 	public void optionSetted(ACMOptionSetEvent e);
 
 	/**
-	 * max record length changed
+	 * max record length changed.
 	 * 
 	 * @param e event
 	 */

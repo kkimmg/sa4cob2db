@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
  */
 public interface CobSubServer1 extends Remote {
 	/**
-	 * Return Value
+	 * Return Value.
 	 * 
 	 * @author kenji
 	 * 
@@ -24,6 +24,7 @@ public interface CobSubServer1 extends Remote {
 		private byte[] response;
 
 		/**
+		 * get head.
 		 * @return the head
 		 */
 		public byte[] getHead() {
@@ -31,6 +32,7 @@ public interface CobSubServer1 extends Remote {
 		}
 
 		/**
+		 * get request.
 		 * @return the request
 		 */
 		public byte[] getRequest() {
@@ -38,7 +40,7 @@ public interface CobSubServer1 extends Remote {
 		}
 
 		/**
-		 * Out Message
+		 * get response.
 		 * 
 		 * @return the response
 		 */
@@ -47,7 +49,7 @@ public interface CobSubServer1 extends Remote {
 		}
 
 		/**
-		 * Success?
+		 * Success?.
 		 * 
 		 * @return the success
 		 */
@@ -63,14 +65,14 @@ public interface CobSubServer1 extends Remote {
 		}
 
 		/**
-		 * @param request the request to set
+		 * @param request the request to set.
 		 */
 		public void setRequest(byte[] request) {
 			this.request = request;
 		}
 
 		/**
-		 * Out Message
+		 * set response.
 		 * 
 		 * @param response the response to set
 		 */
@@ -79,7 +81,7 @@ public interface CobSubServer1 extends Remote {
 		}
 
 		/**
-		 * Success?
+		 * Success?.
 		 * 
 		 * @param success the success to set
 		 */
@@ -89,7 +91,7 @@ public interface CobSubServer1 extends Remote {
 	}
 
 	/**
-	 * Calling Subprogram
+	 * Calling Subprogram.
 	 * 
 	 * @param progname program name
 	 * @param header header

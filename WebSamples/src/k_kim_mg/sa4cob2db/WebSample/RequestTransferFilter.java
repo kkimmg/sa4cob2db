@@ -22,12 +22,18 @@ public class RequestTransferFilter implements Filter {
 	@SuppressWarnings("unused")
 	private ServletContext context = null;
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.Filter#destroy()
+	 */
 	@Override
 	public void destroy() {
 		this.config = null;
 		this.context = null;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 */
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 		Enumeration<String> keys = req.getParameterNames();
@@ -39,6 +45,9 @@ public class RequestTransferFilter implements Filter {
 		chain.doFilter(req, res);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+	 */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		this.config = config;

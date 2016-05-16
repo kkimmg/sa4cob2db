@@ -322,6 +322,9 @@ public class CobolFormat extends DecimalFormat {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.text.DecimalFormat#format(double, java.lang.StringBuffer, java.text.FieldPosition)
+	 */
 	@Override
 	public StringBuffer format(double number, StringBuffer result, FieldPosition fieldPosition) {
 		StringBuffer ret = super.format(number, result, fieldPosition);
@@ -329,6 +332,9 @@ public class CobolFormat extends DecimalFormat {
 		return ret;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.text.DecimalFormat#format(long, java.lang.StringBuffer, java.text.FieldPosition)
+	 */
 	@Override
 	public StringBuffer format(long number, StringBuffer result, FieldPosition fieldPosition) {
 		StringBuffer ret = super.format(number, result, fieldPosition);
@@ -336,6 +342,9 @@ public class CobolFormat extends DecimalFormat {
 		return ret;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.text.NumberFormat#parse(java.lang.String)
+	 */
 	@Override
 	public Number parse(String text) throws ParseException {
 		StringBuffer output = new StringBuffer(text.length());

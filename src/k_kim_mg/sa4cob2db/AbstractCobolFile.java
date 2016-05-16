@@ -20,7 +20,7 @@ import k_kim_mg.sa4cob2db.sql.SQLNetServer;
  */
 public abstract class AbstractCobolFile implements CobolFile {
 	/**
-	 * buffer of Sequential file
+	 * buffer of Sequential file.
 	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
@@ -44,7 +44,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		private volatile int wi;
 
 		/**
-		 * Constructor<br>
+		 * Constructor.<br>
 		 * minimum size:2500<br>
 		 * initial size:5000<br>
 		 * maximum size:10000<br>
@@ -54,7 +54,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 
 		/**
-		 * Constructor
+		 * Constructor.
 		 * 
 		 * @param initSize initial size
 		 * @param minSize minimum size
@@ -88,7 +88,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 
 		/**
-		 * initialize buffer
+		 * initialize buffer.
 		 */
 		void initBuffers() {
 			records = new byte[2][dimentionSize][];
@@ -115,7 +115,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 
 		/**
-		 * wait?
+		 * wait?.
 		 * 
 		 * @return true wait<br>
 		 *         false no wait
@@ -137,7 +137,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 
 		/**
-		 * wait?
+		 * wait?.
 		 * 
 		 * @return true wait<br>
 		 *         false no wait
@@ -203,7 +203,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 
 		/**
-		 * make buffer
+		 * make buffer.
 		 */
 		public void run() {
 			cont = true;
@@ -268,7 +268,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * listen COBOL file event
+	 * listen COBOL file event.
 	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
@@ -538,34 +538,34 @@ public abstract class AbstractCobolFile implements CobolFile {
 		}
 	}
 
-	/** Two record keys are equal */
+	/** Two record keys are equal. */
 	protected static final int COMPARE_EQUAL = 0;
-	/** Record 1 is small */
+	/** Record 1 is small. */
 	protected static final int COMPARE_REC1 = 1;
-	/** Record 2 is small */
+	/** Record 2 is small. */
 	protected static final int COMPARE_REC2 = 2;
 	private static final long serialVersionUID = 1L;
-	/** EOF */
+	/** EOF. */
 	protected static final FileStatus STATUS_EOF = new FileStatus(FileStatus.STATUS_END_OF_FILE, FileStatus.NULL_CODE, 0, "end of file.");
-	/** Something failure */
+	/** Something failure. */
 	protected static final FileStatus STATUS_UNKNOWN_ERROR = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, "Unknown Error.");
-	/** Accessmode */
+	/** Accessmode. */
 	protected int accessMode;
-	/** index current in use */
+	/** index current in use. */
 	protected CobolIndex currentIndex = null;
-	/** event listener */
+	/** event listener. */
 	private CobolFileEventListener eventer = new InnerCobolFileEventAdapter();
-	/** map of index and file */
+	/** map of index and file. */
 	protected Map<CobolIndex, CobolFile> index2File;
-	/** map of file and index */
+	/** map of file and index. */
 	protected Map<String, CobolIndex> indexName2Index;
 	private int initialSequentialReadBufferSize = 0;
 	private int maximumSequentialReadBufferSize = 0;
 	private int minimumSequentialReadBufferSize = 0;
 	private ArrayList<CobolFileEventListener> listeners = new ArrayList<CobolFileEventListener>();
-	/** open mode */
+	/** open mode. */
 	protected int openmode;
-	/** Internal buffer */
+	/** Internal buffer. */
 	protected SequentialReadBuffer sequentialReadBuffer = null;
 	private ACMSession session;
 
@@ -608,7 +608,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * close index
+	 * close index.
 	 * 
 	 * @return status status
 	 */
@@ -626,7 +626,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * compare records
+	 * compare records.
 	 * 
 	 * @param record1 record
 	 * @param record2 record
@@ -641,7 +641,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * compare records
+	 * compare records.
 	 * 
 	 * @param record1 record
 	 * @param record2 record
@@ -771,7 +771,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * create internal buffer
+	 * create internal buffer.
 	 * 
 	 * @return default internal buffer
 	 */
@@ -780,7 +780,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * get ACCESS MODE
+	 * get ACCESS MODE.
 	 * 
 	 * @return ACCESS MODE
 	 */
@@ -789,7 +789,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * get using index
+	 * get using index.
 	 * 
 	 * @return using index if not in return null
 	 */
@@ -798,7 +798,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * get event listener
+	 * get event listener.
 	 * 
 	 * @return listener object
 	 */
@@ -807,7 +807,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * get index by name
+	 * get index by name.
 	 * 
 	 * @param name index name
 	 * @return index if not found return null
@@ -823,7 +823,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * get index file from index object
+	 * get index file from index object.
 	 * 
 	 * @param index index
 	 * @return index file if not found null
@@ -842,7 +842,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * get initial buffer size
+	 * get initial buffer size.
 	 * 
 	 * @return initial buffer size
 	 */
@@ -851,7 +851,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * maximumbuffersize
+	 * maximumbuffersize.
 	 * 
 	 * @return maximumbuffersize
 	 */
@@ -860,7 +860,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * minimumbuffersize
+	 * minimumbuffersize.
 	 * 
 	 * @return minimumbuffersize
 	 */
@@ -878,7 +878,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * get sequential read buffer
+	 * get sequential read buffer.
 	 * 
 	 * @return buffer
 	 */
@@ -897,14 +897,14 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * last record has read ?
+	 * last record has read ?.
 	 * 
 	 * @return true/false
 	 */
 	public abstract boolean isLastMoved();
 
 	/**
-	 * move to row'th record
+	 * move to row'th record.
 	 * 
 	 * @param row row'th
 	 * @return status
@@ -912,14 +912,14 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public abstract FileStatus move(int row);
 
 	/**
-	 * move to first record
+	 * move to first record.
 	 * 
 	 * @return status
 	 */
 	public abstract FileStatus moveFirst();
 
 	/**
-	 * move to last record
+	 * move to last record.
 	 * 
 	 * @return status
 	 */
@@ -942,7 +942,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * move to record
+	 * move to record.
 	 * 
 	 * @param row distance
 	 * @return status
@@ -950,7 +950,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	public abstract FileStatus next(int row);
 
 	/**
-	 * next record on buffer
+	 * next record on buffer.
 	 * 
 	 * @return status
 	 */
@@ -965,14 +965,14 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * next record on file
+	 * next record on file.
 	 * 
 	 * @return status
 	 */
 	protected abstract FileStatus nextOnFile();
 
 	/**
-	 * next record on index
+	 * next record on index.
 	 * 
 	 * @return status
 	 */
@@ -1020,7 +1020,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * open indexes
+	 * open indexes.
 	 * 
 	 * @return status
 	 */
@@ -1038,7 +1038,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * move to previous record
+	 * move to previous record.
 	 * 
 	 * @param row move count
 	 * @return status
@@ -1078,7 +1078,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * read record from buffer
+	 * read record from buffer.
 	 * 
 	 * @param record record
 	 * @return status
@@ -1094,7 +1094,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * read from file
+	 * read from file.
 	 * 
 	 * @param record record
 	 * @return status
@@ -1112,7 +1112,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * clear using index<br>
+	 * clear using index.<br>
 	 * same as setCurrentIndex(null)<br>
 	 */
 	public void resetCurrentIndex() {
@@ -1120,7 +1120,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * set using index
+	 * set using index.
 	 * 
 	 * @param currentIndex index
 	 */
@@ -1129,7 +1129,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * set initial buffer size
+	 * set initial buffer size.
 	 * 
 	 * @param initialSequentialReadBufferSize initial buffer size
 	 */
@@ -1138,7 +1138,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * set maximum buffer size
+	 * set maximum buffer size.
 	 * 
 	 * @param maximumSequentialReadBufferSize maximum buffer size
 	 */
@@ -1147,7 +1147,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * set minimum buffer size
+	 * set minimum buffer size.
 	 * 
 	 * @param minimumSequentialReadBufferSize minimum buffer size
 	 */
@@ -1156,7 +1156,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * set buffer
+	 * set buffer.
 	 * 
 	 * @param SequentialReadBuffer buffer
 	 */
@@ -1236,7 +1236,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * starts buffering
+	 * starts buffering.
 	 */
 	public void startBuffer() {
 		if ((getMaximumSequentialReadBufferSize() > 0 && getAccessMode() == CobolFile.ACCESS_SEQUENTIAL && getOpenMode() == CobolFile.MODE_INPUT)) {
@@ -1248,7 +1248,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 	}
 
 	/**
-	 * locate or START
+	 * locate or START.
 	 * 
 	 * @param mode MODE (EQ or GT etc)
 	 * @param record record includes key value

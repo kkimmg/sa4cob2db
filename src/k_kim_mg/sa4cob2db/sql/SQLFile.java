@@ -241,6 +241,9 @@ public class SQLFile extends AbstractCobolFile implements CobolFile {
 		return !(getResultSet() == null && rowData == null);
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolFile#isReOpenWhenNoDataFound()
+	 */
 	@Override
 	public boolean isReOpenWhenNoDataFound() {
 		return meta.isReOpenWhenNoDataFound();

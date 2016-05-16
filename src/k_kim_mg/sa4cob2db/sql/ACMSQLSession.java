@@ -20,24 +20,24 @@ import k_kim_mg.sa4cob2db.event.ACMSessionEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 import k_kim_mg.sa4cob2db.event.CobolFileEventListener;
 
-/** session */
+/** session. */
 public class ACMSQLSession implements ACMSession {
 	private static final long serialVersionUID = 1L;
-	/** SQLConnection */
+	/** SQLConnection. */
 	protected Connection connection;
-	/** files */
+	/** files. */
 	protected Hashtable<String, CobolFile> files;
-	/** event listener */
+	/** event listener. */
 	protected ArrayList<ACMSessionEventListener> listeners = new ArrayList<ACMSessionEventListener>();
 	private int maxLength = ACMNetSession.INITIAL_RECORD_LEN;
 	private Properties options;
-	/** fileServer */
+	/** fileServer. */
 	private final SQLFileServer server;
-	/** sessionID */
+	/** sessionID. */
 	protected String sessionId;
 
 	/**
-	 * session
+	 * Constuctor.
 	 * 
 	 * @throws Exception exception
 	 */
@@ -62,7 +62,7 @@ public class ACMSQLSession implements ACMSession {
 	}
 
 	/**
-	 * fire event when commit
+	 * fire event when commit.
 	 */
 	protected void callCommitEvent() {
 		ACMSessionEvent e = new ACMSessionEvent(this, null);
@@ -72,7 +72,7 @@ public class ACMSQLSession implements ACMSession {
 	}
 
 	/**
-	 * fire event when rollback
+	 * fire event when rollback.
 	 */
 	protected void callRollbackEvent() {
 		ACMSessionEvent e = new ACMSessionEvent(this, null);
@@ -82,7 +82,7 @@ public class ACMSQLSession implements ACMSession {
 	}
 
 	/**
-	 * create custom meta data
+	 * create custom meta data.
 	 * 
 	 * @param meta meta data
 	 * @return file file
@@ -163,7 +163,7 @@ public class ACMSQLSession implements ACMSession {
 	}
 
 	/**
-	 * create file object
+	 * create file object.
 	 * 
 	 * @param meta meta data
 	 * @return file
@@ -220,13 +220,16 @@ public class ACMSQLSession implements ACMSession {
 		files.remove(name);
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.ACMSession#getACMOption(java.lang.String)
+	 */
 	@Override
 	public String getACMOption(String key) {
 		return options.getProperty(key, "");
 	}
 
 	/**
-	 * Connection
+	 * Connection.
 	 * 
 	 * @return Connection
 	 */
@@ -244,7 +247,7 @@ public class ACMSQLSession implements ACMSession {
 	}
 
 	/**
-	 * list files
+	 * list files.
 	 * 
 	 * @return list
 	 */
@@ -253,7 +256,7 @@ public class ACMSQLSession implements ACMSession {
 	}
 
 	/**
-	 * list file names
+	 * list file names.
 	 * 
 	 * @return list
 	 */
@@ -261,6 +264,9 @@ public class ACMSQLSession implements ACMSession {
 		return files.keySet();
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.ACMSession#getMaxLength()
+	 */
 	@Override
 	public int getMaxLength() {
 		if (maxLength <= 0) {
@@ -270,7 +276,7 @@ public class ACMSQLSession implements ACMSession {
 	}
 
 	/**
-	 * sessionID
+	 * sessionID.
 	 * 
 	 * @return sessionID
 	 */
@@ -279,7 +285,7 @@ public class ACMSQLSession implements ACMSession {
 	}
 
 	/**
-	 * initialize sessionID
+	 * initialize sessionID.
 	 */
 	private void initializeSessionID() {
 		// now 123456789012345
@@ -308,6 +314,9 @@ public class ACMSQLSession implements ACMSession {
 		listeners.remove(listener);
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.ACMSession#setACMOption(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void setACMOption(String key, String value) {
 		options.setProperty(key, value);
@@ -317,6 +326,9 @@ public class ACMSQLSession implements ACMSession {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.ACMSession#setMaxLength(int)
+	 */
 	@Override
 	public void setMaxLength(int length) {
 		int oldLength = getMaxLength();
@@ -332,7 +344,7 @@ public class ACMSQLSession implements ACMSession {
 	}
 
 	/**
-	 * terminate session
+	 * terminate session.
 	 */
 	protected void terminate() {
 		server.removeConnection(connection);

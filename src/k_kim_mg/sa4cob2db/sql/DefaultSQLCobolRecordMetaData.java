@@ -31,6 +31,9 @@ public class DefaultSQLCobolRecordMetaData extends DefaultCobolRecordMetaData im
 		selectStatement = string;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.DefaultCobolRecordMetaData#copyTo(k_kim_mg.sa4cob2db.CobolRecordMetaData)
+	 */
 	@Override
 	protected CobolRecordMetaData copyTo(CobolRecordMetaData copy) {
 		super.copyTo(copy);
@@ -41,6 +44,9 @@ public class DefaultSQLCobolRecordMetaData extends DefaultCobolRecordMetaData im
 		return copy;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.DefaultCobolRecordMetaData#createCopy()
+	 */
 	@Override
 	public CobolRecordMetaData createCopy() {
 		DefaultSQLCobolRecordMetaData copy = new DefaultSQLCobolRecordMetaData();

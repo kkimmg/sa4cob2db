@@ -36,7 +36,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	private boolean initialized = false;
 
 	/**
-	 * Server
+	 * Constractor.
 	 * 
 	 * @param server Server
 	 * @param sock Socket
@@ -49,7 +49,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * assign
+	 * Assign File.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -64,7 +64,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * close
+	 * Close File.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -79,7 +79,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * commit
+	 * Commit Transaction.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -94,7 +94,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * delete
+	 * Delete record.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -111,7 +111,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * get file
+	 * Get file.
 	 * 
 	 * @return file or null
 	 */
@@ -128,7 +128,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * get option
+	 * Get option.
 	 * 
 	 * @throws IOException IOException
 	 */
@@ -144,7 +144,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * initialize
+	 * Initialize.
 	 */
 	protected void initialize() {
 		try {
@@ -209,7 +209,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * next
+	 * Move to next record.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -224,7 +224,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * open
+	 * Open file.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -274,7 +274,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * move to previous record
+	 * Move to previous record.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -289,7 +289,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * front
+	 * To perform each process in accordance with the method name.
 	 * 
 	 * @param method method name
 	 * @throws IOException IO Exception
@@ -360,7 +360,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * read read current record
+	 * Read current record.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -391,7 +391,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * read bytes from socket
+	 * read bytes from socket.
 	 * 
 	 * @return bytes
 	 * @throws IOException IO Exception
@@ -406,7 +406,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * read text from socket
+	 * read text from socket.
 	 * 
 	 * @return text
 	 * @throws IOException IO Exception
@@ -423,7 +423,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * read and next record
+	 * read and next record.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -453,7 +453,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * read text from socket
+	 * read text from socket.
 	 * 
 	 * @return text
 	 * @throws IOException IO Exception
@@ -464,7 +464,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * rewrite / update
+	 * rewrite / update.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -481,7 +481,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * rollback
+	 * rollback.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -548,7 +548,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * set auto commit mode
+	 * set auto commit mode.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -559,7 +559,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * set auto commit mode
+	 * set auto commit mode.
 	 * 
 	 * @param autoCommit mode auto:true not auto:false
 	 * @throws IOException IO Exception
@@ -574,7 +574,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * set initialized flag
+	 * set initialized flag.
 	 * 
 	 * @param initialized flag
 	 */
@@ -583,7 +583,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * set max length
+	 * set max length.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -603,7 +603,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * set option
+	 * set option.
 	 * 
 	 * @throws IOException IOException
 	 */
@@ -616,7 +616,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * start transaction
+	 * start transaction.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -636,7 +636,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * start transaction
+	 * start transaction.
 	 * 
 	 * @param level transaction level
 	 * @throws IOException IO Exception
@@ -651,7 +651,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * start
+	 * start.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -680,7 +680,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * start by key
+	 * start by key.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -711,7 +711,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * terminate
+	 * terminate.
 	 */
 	protected void terminate() {
 		try {
@@ -740,7 +740,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * write / insert
+	 * write / insert.
 	 * 
 	 * @throws IOException IO Exception
 	 */
@@ -757,7 +757,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * write status to socket
+	 * write status to socket.
 	 * 
 	 * @param status status
 	 * @throws IOException IO Exception
@@ -767,7 +767,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 	}
 
 	/**
-	 * wriet line to socket
+	 * wriet line to socket.
 	 * 
 	 * @param line line
 	 * @throws IOException IO Exception

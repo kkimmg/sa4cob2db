@@ -15,10 +15,10 @@ public class CobolFileEvent extends EventObject {
 	private FileStatus status;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param source event happened object
-	 * @param status filestatus
+	 * @param status File Status
 	 */
 	public CobolFileEvent(CobolFile source, FileStatus status) {
 		super(source);
@@ -27,27 +27,27 @@ public class CobolFileEvent extends EventObject {
 	}
 
 	/**
-	 * be equal to source
+	 * get File Object.
 	 * 
-	 * @return source
+	 * @return File Object what occur event.
 	 */
 	public CobolFile getFile() {
 		return file;
 	}
 
 	/**
-	 * filestatus
+	 * get FileStatus.
 	 * 
-	 * @return filestatus
+	 * @return File Status
 	 */
 	public FileStatus getStatus() {
 		return status;
 	}
 
 	/**
-	 * filestatus
+	 * set FileStatus.
 	 * 
-	 * @param status filestatus
+	 * @param status File Status
 	 */
 	public void setStatus(FileStatus status) {
 		this.status = status;

@@ -6,7 +6,7 @@ import k_kim_mg.sa4cob2db.ACMSession;
 import k_kim_mg.sa4cob2db.CobolFile;
 
 /**
- * event related session
+ * event related session.
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
@@ -17,7 +17,7 @@ public class ACMSessionEvent extends EventObject {
 	private CobolFile file;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param source session
 	 * @param file file
@@ -29,7 +29,7 @@ public class ACMSessionEvent extends EventObject {
 	}
 
 	/**
-	 * file
+	 * file.
 	 * 
 	 * @return file
 	 */
@@ -38,7 +38,7 @@ public class ACMSessionEvent extends EventObject {
 	}
 
 	/**
-	 * session
+	 * session.
 	 * 
 	 * @return session
 	 */

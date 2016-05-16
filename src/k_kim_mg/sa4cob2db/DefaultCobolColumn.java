@@ -98,6 +98,9 @@ public class DefaultCobolColumn implements CobolColumn {
 		return copy;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolColumn#createCopy(k_kim_mg.sa4cob2db.CobolRecordMetaData)
+	 */
 	@Override
 	public CobolColumn createCopy(CobolRecordMetaData meta) {
 		CobolColumn copy = new DefaultCobolColumn(meta);
@@ -105,21 +108,33 @@ public class DefaultCobolColumn implements CobolColumn {
 		return copy;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolColumn#getCobolRecordMetaData()
+	 */
 	@Override
 	public CobolRecordMetaData getCobolRecordMetaData() {
 		return cobolRecordMetaData;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolColumn#getFormat()
+	 */
 	@Override
 	public String getFormat() {
 		return format;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolColumn#getForNull()
+	 */
 	@Override
 	public String getForNull() {
 		return forNull;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolColumn#getIfNull()
+	 */
 	@Override
 	public String getIfNull() {
 		return ifNull;
@@ -196,6 +211,9 @@ public class DefaultCobolColumn implements CobolColumn {
 		return type;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolColumn#getUsage()
+	 */
 	@Override
 	public int getUsage() {
 		int ret = this.usage;
@@ -222,6 +240,9 @@ public class DefaultCobolColumn implements CobolColumn {
 		return valueOfParseError;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolColumn#isKey()
+	 */
 	@Override
 	public boolean isKey() {
 		return key;
@@ -283,6 +304,9 @@ public class DefaultCobolColumn implements CobolColumn {
 		this.ifNull = ifNull;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolColumn#setKey(boolean)
+	 */
 	@Override
 	public void setKey(boolean key) {
 		this.key = key;
@@ -360,6 +384,9 @@ public class DefaultCobolColumn implements CobolColumn {
 		type = i;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolColumn#setUsage(int)
+	 */
 	@Override
 	public void setUsage(int usage) {
 		this.usage = usage;

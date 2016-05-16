@@ -10,11 +10,11 @@ import k_kim_mg.sa4cob2db.sql.SQLNetServer;
  */
 public class ACMServerEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
-	/** event source */
+	/** event source. */
 	private SQLNetServer server;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param server event source
 	 */
@@ -24,9 +24,9 @@ public class ACMServerEvent extends EventObject {
 	}
 
 	/**
-	 * server
+	 * server.
 	 * 
-	 * @return event source
+	 * @return server
 	 */
 	public SQLNetServer getServer() {
 		return server;

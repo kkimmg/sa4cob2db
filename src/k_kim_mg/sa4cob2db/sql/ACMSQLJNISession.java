@@ -26,9 +26,6 @@ import org.xml.sax.SAXException;
  * connect COBOL and java by JNI
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
-/**
- * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
- */
 public class ACMSQLJNISession implements ACMSession {
 	static final String NOT_ASSIGNED = FileStatus.NOT_ASSIGNED.toString();
 	private static final long serialVersionUID = 1L;
@@ -39,10 +36,10 @@ public class ACMSQLJNISession implements ACMSession {
 	byte[] readingRecord = new byte[ACMNetSession.INITIAL_RECORD_LEN];
 	/** FILE STATUS */
 	byte[] status = new byte[255];
-	/** Session */
+	/** Session. */
 	ACMSQLSession superobj;
 
-	/** Constructor */
+	/** Constructor. */
 	public ACMSQLJNISession() throws Exception {
 		super();
 		byte[] work = new byte[ACMNetSession.OPTIONVALUE_LEN];
@@ -52,11 +49,8 @@ public class ACMSQLJNISession implements ACMSession {
 		initalOption = work;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see k_kim_mg.sa4cob2db.ACMSession#addACMSessionEventListener(
-	 * k_kim_mg.sa4cob2db.event.ACMSessionEventListener)
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.ACMSession#addACMSessionEventListener(k_kim_mg.sa4cob2db.event.ACMSessionEventListener)
 	 */
 	@Override
 	public void addACMSessionEventListener(ACMSessionEventListener listener) {
@@ -64,7 +58,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * assign
+	 * Assign File.
 	 * 
 	 * @param fileName file name
 	 * @throws IOException IO Exception
@@ -82,7 +76,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * close
+	 * Close File.
 	 * 
 	 * @param fileName file name
 	 */
@@ -99,9 +93,9 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * commit
+	 * Commit Transaction.
 	 * 
-	 * @throws IOException io exception
+	 * @throws IOException IO exception
 	 */
 	public void commitTransaction() {
 		FileStatus ret = FileStatus.FAILURE;
@@ -126,7 +120,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * delete
+	 * Delete Record.
 	 * 
 	 * @param fileName file name
 	 * @param record record includes key value
@@ -153,6 +147,9 @@ public class ACMSQLJNISession implements ACMSession {
 		superobj.destroyFile(name);
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.ACMSession#getACMOption(java.lang.String)
+	 */
 	@Override
 	public String getACMOption(String key) {
 		String ret = superobj.getACMOption(key);
@@ -170,7 +167,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * get option
+	 * get option.
 	 * 
 	 * @param key key
 	 */
@@ -185,13 +182,16 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(FileStatus.OK, status);
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.ACMSession#getMaxLength()
+	 */
 	@Override
 	public int getMaxLength() {
 		return superobj.getMaxLength();
 	}
 
 	/**
-	 * mode to int value
+	 * Exchange mode to int value.
 	 * 
 	 * @param bytes mode
 	 * @return int value
@@ -212,7 +212,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * option value
+	 * get option value.
 	 * 
 	 * @return value
 	 */
@@ -221,7 +221,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * record
+	 * get Record.
 	 * 
 	 * @return the readingRecord
 	 */
@@ -240,7 +240,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * FILE STATUS
+	 * get FILE STATUS.
 	 * 
 	 * @return FILE STATUS
 	 */
@@ -249,7 +249,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * Create SQLFileServer
+	 * Create SQLFileServer.
 	 * 
 	 * @return SQLFileServer to create CobolRecordMetaDataSet
 	 */
@@ -258,7 +258,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * Create NodeReadLoader
+	 * Create NodeReadLoader.
 	 * 
 	 * @return NodeReadLoader to read Metadata info
 	 */
@@ -267,7 +267,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * initialize
+	 * initialize.
 	 * 
 	 * @param acmUsername user name
 	 * @param acmPassword password
@@ -339,7 +339,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * move to
+	 * Move to record by key.
 	 * 
 	 * @param fileName file name
 	 * @param record record includes key value
@@ -357,7 +357,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * next record
+	 * Move to next record.
 	 * 
 	 * @param fileName file name
 	 */
@@ -374,7 +374,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * open
+	 * Open file.
 	 * 
 	 * @param fileName file name
 	 * @param bmode open mode
@@ -431,7 +431,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * previous mode
+	 * Move to previous mode.
 	 * 
 	 * @param fileName file name
 	 */
@@ -448,7 +448,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * read current record
+	 * Read current record.
 	 * 
 	 * @param fileName file name
 	 */
@@ -465,7 +465,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * read and next
+	 * Read and Next.
 	 * 
 	 * @param fileName file name
 	 */
@@ -498,7 +498,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * rewrite(update)
+	 * Rewrite(update) record.
 	 * 
 	 * @param fileName file name
 	 * @param record record includes value
@@ -516,7 +516,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * rollback
+	 * Rollback transaction.
 	 */
 	public void rollbackTransaction() {
 		FileStatus ret = FileStatus.FAILURE;
@@ -530,13 +530,16 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.ACMSession#setACMOption(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void setACMOption(String key, String value) {
 		superobj.setACMOption(key, value);
 	}
 
 	/**
-	 * set auto commit
+	 * Set auto commit mode.
 	 * 
 	 * @param autoCommit true/false
 	 */
@@ -552,7 +555,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * set auto commit
+	 * Set auto commit mode.
 	 * 
 	 * @throws IOException "true"/"false"
 	 */
@@ -563,7 +566,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * file status object to text
+	 * Set file status object to text.
 	 * 
 	 * @param source status object
 	 * @param dist status text
@@ -575,7 +578,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * set option
+	 * Set option.
 	 * 
 	 * @param key key
 	 * @param value value
@@ -587,6 +590,9 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(FileStatus.OK, status);
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.ACMSession#setMaxLength(int)
+	 */
 	@Override
 	public void setMaxLength(int length) {
 		if (length <= 0) {
@@ -597,7 +603,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * start transaction
+	 * Start transaction.
 	 * 
 	 * @param levelBytes transaction level
 	 */
@@ -617,7 +623,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * start transaction
+	 * Set transaction level.
 	 * 
 	 * @param level transaction level
 	 */
@@ -633,7 +639,8 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * start
+	 * Start.
+	 * Move to record by key with mode.
 	 * 
 	 * @param fileName file name
 	 * @param modeBytes mode
@@ -653,7 +660,8 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * start
+	 * Start by sub key.
+	 * Move to record with sub key.
 	 * 
 	 * @param fileName file name
 	 * @param skey sub key
@@ -675,7 +683,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * terminate
+	 * Terminate.
 	 */
 	public void terminate() {
 		try {
@@ -697,7 +705,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * write(insert)
+	 * Write(insert) record.
 	 * 
 	 * @param fileName file name
 	 * @param record record includes value

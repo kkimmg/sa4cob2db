@@ -34,7 +34,7 @@ public class COBPP1 implements GeneratorOwner {
 		private Properties replacing = new Properties();
 
 		/**
-		 * Constructor
+		 * Constructor.
 		 * 
 		 * @param Statement Copy Statements
 		 */
@@ -44,7 +44,7 @@ public class COBPP1 implements GeneratorOwner {
 		}
 
 		/**
-		 * filename
+		 * filename.
 		 * 
 		 * @return filename
 		 */
@@ -53,7 +53,7 @@ public class COBPP1 implements GeneratorOwner {
 		}
 
 		/**
-		 * Replaced Statement
+		 * Replaced Statement.
 		 * 
 		 * @param target original statement
 		 * @return replaced statement
@@ -94,7 +94,7 @@ public class COBPP1 implements GeneratorOwner {
 	}
 
 	/**
-	 * Expand Copy Statement
+	 * Expand Copy Statement.
 	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
@@ -103,17 +103,18 @@ public class COBPP1 implements GeneratorOwner {
 		private FileInputStream input2;
 
 		/**
-		 * Constructor
+		 * Constructor.
 		 * 
-		 * @param Info of copy statement
+		 * @param info of copy statement
 		 * @throws IOException when file not found.
 		 */
-		public CopyProcesser(CopyInfo Info) throws IOException {
-			info = Info;
+		public CopyProcesser(CopyInfo info) throws IOException {
+			this.info = info;
 			input2 = new FileInputStream(info.getFilename());
 		}
 
 		/**
+		 * Run.
 		 * @throws IOException when something wrong
 		 */
 		public void run() throws IOException {
@@ -133,7 +134,7 @@ public class COBPP1 implements GeneratorOwner {
 	}
 
 	/**
-	 * main
+	 * main.
 	 * 
 	 * @param argv filename and other's
 	 */
@@ -211,11 +212,11 @@ public class COBPP1 implements GeneratorOwner {
 	private boolean dontcomment = false;
 	/** Environment value name of Charset. */
 	public static final String ACM_CHARSET = "acm_pp_charset";
-	/** Generator */
+	/** Generator. */
 	private CodeGenerator generator = new TCPCodeGenerator(this);
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param argv argument values
 	 */
@@ -348,7 +349,7 @@ public class COBPP1 implements GeneratorOwner {
 	}
 
 	/**
-	 * add listeners
+	 * add listeners.
 	 * 
 	 * @param names class names(separated by ":")
 	 */
@@ -375,6 +376,9 @@ public class COBPP1 implements GeneratorOwner {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.codegen.GeneratorOwner#callBackCopyStatement(java.util.ArrayList)
+	 */
 	@Override
 	public void callBackCopyStatement(ArrayList<String> statement) {
 		if (expandCopy) {
@@ -405,7 +409,7 @@ public class COBPP1 implements GeneratorOwner {
 	}
 
 	/**
-	 * get environment values
+	 * get environment values.
 	 * 
 	 * @param key key
 	 * @param defaultValue default value
@@ -453,7 +457,7 @@ public class COBPP1 implements GeneratorOwner {
 	}
 
 	/**
-	 * Run
+	 * Run.
 	 */
 	public void run() {
 		try {
@@ -486,7 +490,7 @@ public class COBPP1 implements GeneratorOwner {
 	}
 
 	/**
-	 * set expand copy?
+	 * Set expand copy.
 	 * 
 	 * @param expandCopy true expand/false don't
 	 */
@@ -495,7 +499,7 @@ public class COBPP1 implements GeneratorOwner {
 	}
 
 	/**
-	 * set Ignore
+	 * set Ignore.
 	 * 
 	 * @param dontComment true:ignore false don't
 	 */
@@ -504,7 +508,7 @@ public class COBPP1 implements GeneratorOwner {
 	}
 
 	/**
-	 * set Subprogram
+	 * set Subprogram.
 	 * 
 	 * @param subprogram true then program is subprogram.
 	 */

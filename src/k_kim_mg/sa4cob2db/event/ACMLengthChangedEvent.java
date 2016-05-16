@@ -17,7 +17,7 @@ public class ACMLengthChangedEvent extends EventObject {
 	private int newLength;
 
 	/**
-	 * Create Event Object
+	 * Create Event Object.
 	 * 
 	 * @param source session object
 	 * @param oldLength old length
@@ -30,7 +30,7 @@ public class ACMLengthChangedEvent extends EventObject {
 	}
 
 	/**
-	 * get old length
+	 * get Old Length.
 	 * 
 	 * @return old length
 	 */
@@ -39,7 +39,7 @@ public class ACMLengthChangedEvent extends EventObject {
 	}
 
 	/**
-	 * new old length
+	 * get New length.
 	 * 
 	 * @return new length
 	 */

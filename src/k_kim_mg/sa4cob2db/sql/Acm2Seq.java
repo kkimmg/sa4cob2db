@@ -22,13 +22,13 @@ import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
 import org.xml.sax.SAXException;
 
 /**
- * create sequecial file
+ * create sequecial file.
  * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class Acm2Seq {
 	/**
-	 * display usage
+	 * display usage.
 	 * 
 	 * @param properties properties
 	 */
@@ -46,7 +46,7 @@ public class Acm2Seq {
 	}
 
 	/**
-	 * get environment values
+	 * get environment values.
 	 * 
 	 * @param key env key
 	 * @param defaultValue default value
@@ -64,7 +64,7 @@ public class Acm2Seq {
 	}
 
 	/**
-	 * main
+	 * main.
 	 * 
 	 * @param args arguments
 	 */
@@ -114,7 +114,7 @@ public class Acm2Seq {
 	}
 
 	/**
-	 * main
+	 * main.
 	 * 
 	 * @param acmfile input filename
 	 * @param outfile output file
@@ -126,12 +126,12 @@ public class Acm2Seq {
 		Acm2Seq.main(new String[] { acmfile, outfile, metafile, lineout, sql, sqlin, display_usage });
 	}
 
-	/** JDBC connection */
+	/** JDBC connection. */
 	private Connection connection;
 	private SQLFileServer fileServer;
 
 	/**
-	 * export
+	 * export.
 	 * 
 	 * @param file COBOL file
 	 * @param stream stream
@@ -163,7 +163,7 @@ public class Acm2Seq {
 	}
 
 	/**
-	 * export
+	 * export.
 	 * 
 	 * @param properties key-value set
 	 */
@@ -282,7 +282,7 @@ public class Acm2Seq {
 	}
 
 	/**
-	 * get COBOL file from name
+	 * get COBOL file from name.
 	 * 
 	 * @param name filename
 	 * @return COBOL file
@@ -298,7 +298,7 @@ public class Acm2Seq {
 	}
 
 	/**
-	 * get COBOL file from name
+	 * get COBOL file from name.
 	 * 
 	 * @param name filename
 	 * @param sql select statement

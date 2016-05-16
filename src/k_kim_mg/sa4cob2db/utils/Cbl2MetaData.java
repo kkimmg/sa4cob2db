@@ -17,7 +17,7 @@ import k_kim_mg.sa4cob2db.codegen.COBPP1;
  */
 public class Cbl2MetaData {
 	/**
-	 * main
+	 * main.
 	 * 
 	 * @param argv filename and other's
 	 */
@@ -78,7 +78,7 @@ public class Cbl2MetaData {
 	private String outfile;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param argv argument values
 	 */
@@ -124,7 +124,7 @@ public class Cbl2MetaData {
 	}
 
 	/**
-	 * get environment values
+	 * get environment values.
 	 * 
 	 * @param key key
 	 * @param defaultValue default value
@@ -142,7 +142,7 @@ public class Cbl2MetaData {
 	}
 
 	/**
-	 * Run
+	 * Run.
 	 */
 	public void run() {
 		try {

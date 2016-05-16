@@ -4,17 +4,17 @@ import java.io.Serializable;
 
 import k_kim_mg.sa4cob2db.event.ACMSessionEventListener;
 
-/** session */
+/** session. */
 public interface ACMSession extends Serializable {
 	/**
-	 * add event listener
+	 * add event listener.
 	 * 
 	 * @param listener event listener
 	 */
 	public void addACMSessionEventListener(ACMSessionEventListener listener);
 
 	/**
-	 * create file
+	 * create file.
 	 * 
 	 * @param name filename
 	 * @return file object
@@ -22,14 +22,14 @@ public interface ACMSession extends Serializable {
 	public CobolFile createFile(String name);
 
 	/**
-	 * release file
+	 * release file.
 	 * 
 	 * @param name filename
 	 */
 	public void destroyFile(String name);
 
 	/**
-	 * get option value
+	 * get option value.
 	 * 
 	 * @param key key
 	 * @return option value
@@ -37,7 +37,7 @@ public interface ACMSession extends Serializable {
 	public String getACMOption(String key);
 
 	/**
-	 * get file from name
+	 * get file from name.
 	 * 
 	 * @param name filename
 	 * @return file object
@@ -45,28 +45,28 @@ public interface ACMSession extends Serializable {
 	public CobolFile getFile(String name);
 
 	/**
-	 * get max record length
+	 * get max record length.
 	 * 
 	 * @return length
 	 */
 	public int getMaxLength();
 
 	/**
-	 * sessionID
+	 * sessionID.
 	 * 
 	 * @return sessionID
 	 */
 	public String getSessionId();
 
 	/**
-	 * delete event listener
+	 * delete event listener.
 	 * 
 	 * @param listener event listener
 	 */
 	public void removeACMSessionEventListener(ACMSessionEventListener listener);
 
 	/**
-	 * set option value
+	 * set option value.
 	 * 
 	 * @param key key
 	 * @param value value
@@ -74,7 +74,7 @@ public interface ACMSession extends Serializable {
 	public void setACMOption(String key, String value);
 
 	/**
-	 * set max record length
+	 * set max record length.
 	 * 
 	 * @param length length
 	 */

@@ -36,6 +36,9 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 		return UNSUPPORTED_METHOD;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolFile#delete(byte[])
+	 */
 	@Override
 	public FileStatus delete(byte[] record) {
 		return UNSUPPORTED_METHOD;
@@ -266,6 +269,9 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 		return UNSUPPORTED_METHOD;
 	}
 
+	/* (non-Javadoc)
+	 * @see k_kim_mg.sa4cob2db.CobolFile#truncate()
+	 */
 	@Override
 	public void truncate() {
 		// do nothing
