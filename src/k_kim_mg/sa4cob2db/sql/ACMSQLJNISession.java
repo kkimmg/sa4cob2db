@@ -474,7 +474,6 @@ public class ACMSQLJNISession implements ACMSession {
 		String FileName = new String(fileName).trim();
 		CobolFile file = getFile(FileName);
 		if (file != null) {
-			;
 			// read current record
 			ret = file.read(readingRecord);
 			if (ret.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {

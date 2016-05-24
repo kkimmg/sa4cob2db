@@ -27,33 +27,14 @@ public abstract class AbstractCobolFile implements CobolFile {
 	 * 
 	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
 	 */
-	protected class DefaultSequentialReadBuffer2 implements Runnable, SequentialReadBuffer {
+	protected class DefaultSequentialReadBuffer implements Runnable, SequentialReadBuffer {
 		/**
 		 * Buffer Record
 		 */
 		private class BufferRecord {
-			private boolean bufferStatus = false;
 			private FileStatus nextStatus;
 			private FileStatus readStatus;
 			private byte[] record;
-
-			/**
-			 * get Buffer Status.
-			 * 
-			 * @return true valid/false imvalid
-			 */
-			public boolean isBufferStatus() {
-				return bufferStatus;
-			}
-
-			/**
-			 * set Buffer Status.
-			 * 
-			 * @param bufferStatus  true valid/false invalid
-			 */
-			public void setBufferStatus(boolean bufferStatus) {
-				this.bufferStatus = bufferStatus;
-			}
 
 			/**
 			 * get Next Status.
@@ -110,203 +91,16 @@ public abstract class AbstractCobolFile implements CobolFile {
 			}
 		}
 
-		private volatile boolean cont = true;
+		private boolean initCleared = false;
+		private boolean cont = true;
 		private int initSize;
-		private volatile boolean lastRead = false;
+		private boolean lastRead = false;
 		private int maxSize;
 		private int minSize;
 		private Thread thread;
 		private BufferRecord currentBuffer;
 		private Queue<BufferRecord> recordQueue;
-
-		/**
-		 * Constructor.<br>
-		 * minimum size:2500<br>
-		 * initial size:5000<br>
-		 * maximum size:10000<br>
-		 */
-		public DefaultSequentialReadBuffer2() {
-			this(5000, 2500, 10000);
-		}
-
-		/**
-		 * Constructor.
-		 * 
-		 * @param initSize initial size
-		 * @param minSize minimum size
-		 * @param maxSize maximum size
-		 */
-		public DefaultSequentialReadBuffer2(int initSize, int minSize, int maxSize) {
-			this.initSize = initSize;
-			this.minSize = minSize;
-			this.maxSize = maxSize;
-			recordQueue = new LinkedBlockingQueue(maxSize);
-			addCobolFileEventListener(new CobolFileEventAdapter() {
-				/*
-				 * (non-Javadoc)
-				 * 
-				 * @see k_kim_mg.sa4cob2db.event.CobolFileEventAdapter
-				 * #postClose (k_kim_mg.sa4cob2db.event.CobolFileEvent)
-				 */
-				@Override
-				public void preClose(CobolFileEvent e) {
-					SQLNetServer.logger.warning("stopping!!");
-					cont = false;
-				}
-			});
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see k_kim_mg.sa4cob2db.SequentialReadBuffer#nextBuffer()
-		 */
-		@Override
-		public FileStatus nextBuffer() {
-			currentBuffer = recordQueue.poll();
-			return null;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see k_kim_mg.sa4cob2db.SequentialReadBuffer#readBuffer(byte[])
-		 */
-		@Override
-		public FileStatus readBuffer(byte[] record) {
-			System.arraycopy(currentBuffer.getRecord(), 0, record, 0, (currentBuffer.getRecord().length > record.length ? record.length : currentBuffer.getRecord().length));
-			return currentBuffer.readStatus;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see k_kim_mg.sa4cob2db.SequentialReadBuffer#startBuffering()
-		 */
-		@Override
-		public void startBuffering() {
-			if (thread != null) {
-				return;
-			}
-			thread = new Thread(this);
-			thread.start();
-		}
-		/**
-		 * wait?.
-		 * 
-		 * @return true wait<br>
-		 *         false no wait
-		 */
-		boolean isWaitToRead() {
-			boolean ret = false;
-			if (!lastRead) {
-				if (!initCleared && cs < initSize) {
-					ret = true;
-				}
-				if (!buffStatus[rb][ri]) {
-					ret = true;
-				}
-				if (cs < 0) {
-					ret = true;
-				}
-			}
-			return ret;
-		}
-		/**
-		 * wait?.
-		 * 
-		 * @return true wait<br>
-		 *         false no wait
-		 */
-		boolean isWaitToWrite() {
-			boolean ret = false;
-			ret = (cs >= maxSize);
-			ret = (ret || buffStatus[wb][wi]);
-			return ret;
-		}
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.lang.Runnable#run()
-		 */
-		@Override
-		public void run() {
-			cont = true;
-			FileStatus ns;
-			FileStatus rs; // NextStatus, ReadStatus
-			while (cont) {
-				//
-				while (isWaitToWrite() && cont) {
-					try {
-						SQLNetServer.logger.log(Level.FINEST, "Buffering is Waiting");
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						SQLNetServer.logger.log(Level.SEVERE, "Interrupted To Write Wait", e);
-					}
-				}
-				if (cont) {
-					//
-					ns = nextOnFile();
-					nextStatus[wb][wi] = ns;
-					if (ns.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
-						rs = readFromFile(records[wb][wi]);
-						readStatus[wb][wi] = rs;
-						buffStatus[wb][wi] = true;
-						//
-						synchronized (this) {
-							cs++;
-						}
-						synchronized (this) {
-							wi++;
-						}
-						if (wi >= dimentionSize) {
-							wb = (wb == 0 ? 1 : 0);
-							wi = 0;
-						}
-						if (!initCleared && cs >= initSize) {
-							initCleared = true;
-						}
-					} else if (ns.getStatusCode().equals(FileStatus.STATUS_END_OF_FILE)) {
-						lastRead = true;
-						cont = false;
-						readStatus[wb][wi] = ns;
-						buffStatus[wb][wi] = true;
-					} else {
-						//
-						SQLNetServer.logger.log(Level.SEVERE, ns.getStatusMessage());
-						cont = false;
-						readStatus[wb][wi] = ns;
-						buffStatus[wb][wi] = true;
-					}
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * buffer of Sequential file.
-	 * 
-	 * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
-	 */
-	protected class DefaultSequentialReadBuffer implements Runnable, SequentialReadBuffer {
-		private volatile boolean[][] buffStatus;
-		private volatile boolean cont = true;
-		private volatile int cs;
-		private int dimentionSize;
-		private volatile boolean initCleared = false;
-		private int initSize;
-		private volatile boolean lastRead = false;
-		private int maxSize;
-		private int minSize;
-		private volatile FileStatus[][] nextStatus;
-		private volatile int rb;
-		private volatile FileStatus[][] readStatus;
-		private volatile byte[][][] records;
-		private volatile int ri;
-		private Thread thread;
-		private volatile int wb;
-		private volatile int wi;
+		private boolean first = true;
 
 		/**
 		 * Constructor.<br>
@@ -329,12 +123,7 @@ public abstract class AbstractCobolFile implements CobolFile {
 			this.initSize = initSize;
 			this.minSize = minSize;
 			this.maxSize = maxSize;
-			cs = 0;
-			if (maxSize % 2 != 0) {
-				dimentionSize = (maxSize + 1) / 2;
-			} else {
-				dimentionSize = maxSize / 2;
-			}
+			recordQueue = new LinkedBlockingQueue<BufferRecord>(maxSize);
 			addCobolFileEventListener(new CobolFileEventAdapter() {
 				/*
 				 * (non-Javadoc)
@@ -343,40 +132,56 @@ public abstract class AbstractCobolFile implements CobolFile {
 				 * #postClose (k_kim_mg.sa4cob2db.event.CobolFileEvent)
 				 */
 				@Override
-				public void postClose(CobolFileEvent e) {
+				public void preClose(CobolFileEvent e) {
 					SQLNetServer.logger.warning("stopping!!");
 					cont = false;
 				}
 			});
-			//
-			initBuffers();
 		}
 
-		/**
-		 * initialize buffer.
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see k_kim_mg.sa4cob2db.SequentialReadBuffer#nextBuffer()
 		 */
-		void initBuffers() {
-			records = new byte[2][dimentionSize][];
-			nextStatus = new FileStatus[2][dimentionSize];
-			readStatus = new FileStatus[2][dimentionSize];
-			buffStatus = new boolean[2][dimentionSize];
+		@Override
+		public synchronized FileStatus nextBuffer() {
 			//
-			int recSize = getMetaData().getRowSize();
-			//
-			for (int i = 0; i < 2; i++) {
-				for (int j = 0; j < dimentionSize; j++) {
-					buffStatus[i][j] = false;
-					records[i][j] = new byte[recSize];
-					nextStatus[i][j] = FileStatus.FAILURE;
-					readStatus[i][j] = FileStatus.FAILURE;
+			while (isWaitToRead()) {
+				try {
+					this.wait(1000);
+				} catch (InterruptedException e) {
+					SQLNetServer.logger.log(Level.SEVERE, "Interrupted To Read Wait", e);
 				}
 			}
-			wb = 0;
-			wi = 0;
-			rb = 0;
-			ri = -1;
-			//
-			lastRead = false;
+			currentBuffer = recordQueue.poll();
+			return currentBuffer.getNextStatus();
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see k_kim_mg.sa4cob2db.SequentialReadBuffer#readBuffer(byte[])
+		 */
+		@Override
+		public synchronized FileStatus readBuffer(byte[] record) {
+			byte[] currentRecord = currentBuffer.getRecord();
+			System.arraycopy(currentRecord, 0, record, 0, (currentRecord.length > record.length ? record.length : currentRecord.length));
+			return currentBuffer.getReadStatus();
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see k_kim_mg.sa4cob2db.SequentialReadBuffer#startBuffering()
+		 */
+		@Override
+		public void startBuffering() {
+			if (thread != null) {
+				return;
+			}
+			thread = new Thread(this);
+			thread.start();
 		}
 
 		/**
@@ -388,13 +193,13 @@ public abstract class AbstractCobolFile implements CobolFile {
 		boolean isWaitToRead() {
 			boolean ret = false;
 			if (!lastRead) {
-				if (!initCleared && cs < initSize) {
+				if (!initCleared && recordQueue.size() < initSize) {
 					ret = true;
 				}
-				if (!buffStatus[rb][ri]) {
+				if (initCleared && recordQueue.size() < minSize) {
 					ret = true;
 				}
-				if (cs < 0) {
+				if (recordQueue.size() <= 0) {
 					ret = true;
 				}
 			}
@@ -409,71 +214,16 @@ public abstract class AbstractCobolFile implements CobolFile {
 		 */
 		boolean isWaitToWrite() {
 			boolean ret = false;
-			ret = (cs >= maxSize);
-			ret = (ret || buffStatus[wb][wi]);
+			ret = (recordQueue.size() >= maxSize);
 			return ret;
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see k_kim_mg.sa4cob2db.SequentialReadBuffer#nextBuffer()
+		 * @see java.lang.Runnable#run()
 		 */
-		public synchronized FileStatus nextBuffer() {
-			//
-			synchronized (this) {
-				ri++;
-			}
-			if (ri >= dimentionSize) {
-				rb = (rb == 0 ? 1 : 0);
-				ri = 0;
-			}
-			//
-			while (isWaitToRead()) {
-				try {
-					this.wait(1000);
-				} catch (InterruptedException e) {
-					SQLNetServer.logger.log(Level.SEVERE, "Interrupted To Read Wait", e);
-				}
-			}
-			//
-			FileStatus ret = nextStatus[rb][ri];
-			if (ret != null) {
-				if (!ret.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
-					if (lastRead) {
-						nextStatus[rb][ri] = STATUS_EOF;
-					} else {
-						buffStatus[rb][ri] = false;
-					}
-				}
-			}
-			return ret;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see k_kim_mg.sa4cob2db.SequentialReadBuffer#readBuffer(byte [])
-		 */
-		public synchronized FileStatus readBuffer(byte[] record) {
-			synchronized (this) {
-				cs--;
-			}
-			if (cs <= minSize && initCleared && !lastRead) {
-				initCleared = false;
-			}
-			System.arraycopy(records[rb][ri], 0, record, 0, (records[rb][ri].length > record.length ? record.length : records[rb][ri].length));
-			FileStatus ret = readStatus[rb][ri];
-			if (lastRead) {
-				readStatus[rb][ri] = STATUS_EOF;
-			}
-			buffStatus[rb][ri] = false;
-			return ret;
-		}
-
-		/**
-		 * make buffer.
-		 */
+		@Override
 		public void run() {
 			cont = true;
 			FileStatus ns;
@@ -489,55 +239,49 @@ public abstract class AbstractCobolFile implements CobolFile {
 					}
 				}
 				if (cont) {
+					BufferRecord buffer = new BufferRecord();
 					//
 					ns = nextOnFile();
-					nextStatus[wb][wi] = ns;
+					buffer.setNextStatus(ns);
+					byte[] record = new byte[getMetaData().getRowSize()];
 					if (ns.getStatusCode().equals(FileStatus.STATUS_SUCCESS)) {
-						rs = readFromFile(records[wb][wi]);
-						readStatus[wb][wi] = rs;
-						buffStatus[wb][wi] = true;
-						//
-						synchronized (this) {
-							cs++;
-						}
-						synchronized (this) {
-							wi++;
-						}
-						if (wi >= dimentionSize) {
-							wb = (wb == 0 ? 1 : 0);
-							wi = 0;
-						}
-						if (!initCleared && cs >= initSize) {
+						rs = readFromFile(record);
+						buffer.setRecord(record);
+						buffer.setReadStatus(rs);
+						if (!initCleared && recordQueue.size() >= initSize) {
 							initCleared = true;
 						}
 					} else if (ns.getStatusCode().equals(FileStatus.STATUS_END_OF_FILE)) {
 						lastRead = true;
 						cont = false;
-						readStatus[wb][wi] = ns;
-						buffStatus[wb][wi] = true;
+						buffer.setRecord(record);
+						buffer.setReadStatus(ns);
+						SQLNetServer.logger.log(Level.FINEST, "Buffering ends");
 					} else {
 						//
 						SQLNetServer.logger.log(Level.SEVERE, ns.getStatusMessage());
 						cont = false;
-						readStatus[wb][wi] = ns;
-						buffStatus[wb][wi] = true;
+						buffer.setRecord(record);
+						buffer.setReadStatus(ns);
+					}
+					boolean offerStatus = recordQueue.offer(buffer);
+					while (!offerStatus && cont) {
+						try {
+							SQLNetServer.logger.log(Level.FINEST, "Buffering is Waiting");
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							SQLNetServer.logger.log(Level.SEVERE, "Interrupted To Write Wait", e);
+						}
+						offerStatus = recordQueue.offer(buffer);
+					}
+					if (first) {
+						currentBuffer = buffer;
+						first = false;
 					}
 				}
 			}
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see k_kim_mg.sa4cob2db.SequentialReadBuffer#startBuffering()
-		 */
-		public void startBuffering() {
-			if (thread != null) {
-				return;
-			}
-			thread = new Thread(this);
-			thread.start();
-		}
 	}
 
 	/**
