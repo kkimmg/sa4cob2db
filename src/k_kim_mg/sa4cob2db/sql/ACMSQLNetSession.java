@@ -354,6 +354,12 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 			commitTransaction();
 		} else if (method.equals("ROLLBACK")) {
 			rollbackTransaction();
+		} else if (method.equals("PUSHLIST")) {
+			pushFileList();
+			writeLine(FileStatus.OK);
+		} else if (method.equals("POPLIST")) {
+			popFileList();
+			writeLine(FileStatus.OK);
 		} else {
 			writeLine(new FileStatus(FileStatus.STATUS_98_UNSUPPORTED_METHOD, FileStatus.NULL_CODE, 0, method + " is not supported."));
 		}

@@ -1,5 +1,6 @@
 package k_kim_mg.sa4cob2db.test;
 
+import k_kim_mg.sa4cob2db.event.ACMLengthChangedEvent;
 import k_kim_mg.sa4cob2db.event.ACMOptionSetEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEvent;
 import k_kim_mg.sa4cob2db.event.ACMSessionEventAdapter;
@@ -44,6 +45,42 @@ public class ACMSessionEventAdapterTest extends ACMSessionEventAdapter {
 	@Override
 	public void optionSetted(ACMOptionSetEvent e) {
 		System.err.println("Option Set:" + e.getKey() + "=" + e.getValue());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * k_kim_mg.sa4cob2db.event.ACMSessionEventAdapter#fileListPoped(k_kim_mg
+	 * .sa4cob2db.event.ACMLengthChangedEvent)
+	 */
+	@Override
+	public void fileListPoped(ACMSessionEvent e) {
+		System.err.println("Poped:");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * k_kim_mg.sa4cob2db.event.ACMSessionEventAdapter#fileListPushed(k_kim_mg
+	 * .sa4cob2db.event.ACMLengthChangedEvent)
+	 */
+	@Override
+	public void fileListPushed(ACMSessionEvent e) {
+		System.err.println("Pushed:");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * k_kim_mg.sa4cob2db.event.ACMSessionEventAdapter#lengthChanged(k_kim_mg
+	 * .sa4cob2db.event.ACMLengthChangedEvent)
+	 */
+	@Override
+	public void lengthChanged(ACMLengthChangedEvent e) {
+		System.err.println("Length Changed:" + e.getOldLength() + "->" + e.getNewLength());
 	}
 
 	/*

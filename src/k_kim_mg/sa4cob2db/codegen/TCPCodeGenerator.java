@@ -1,11 +1,13 @@
 package k_kim_mg.sa4cob2db.codegen;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.Hashtable;
-import java.util.Stack;
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import k_kim_mg.sa4cob2db.FileStatus;
 
 /**
@@ -142,7 +144,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	private String current;
 	private DefaultFileInfo currentinfo = null;
 	private ArrayList<String> currentlist = new ArrayList<String>();
-	private Stack<ArrayList<String>> currentlists = new Stack<ArrayList<String>>();
+	private Deque<ArrayList<String>> currentlists = new LinkedList<ArrayList<String>>();
 	private String division = null;
 	private final FileInfo dummyInfo = new DefaultFileInfo();
 	private ArrayList<String> fdlist = new ArrayList<String>();
@@ -160,7 +162,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	private Hashtable<String, DefaultFileInfo> recordnametofile = new Hashtable<String, DefaultFileInfo>();
 	private String section = null;
 	private Hashtable<String, DefaultFileInfo> selectnametofile = new Hashtable<String, DefaultFileInfo>();
-	private Stack<String> stack = new Stack<String>();
+	private Deque<String> stack = new LinkedList<String>();
 	private boolean inCommentOut = false;
 	private boolean inInsert = false;
 
@@ -378,6 +380,24 @@ public class TCPCodeGenerator implements CodeGenerator {
 			break;
 		}
 		add("                                ACM-STATUS-ALL" + period);
+	}
+
+	/**
+	 * POP
+	 * 
+	 * @param period "." or ""
+	 */
+	void addCallPop(String period) {
+		add("     CALL \"popACMFileList\" USING ACM-STATUS-ALL" + period);
+	}
+
+	/**
+	 * PUSH
+	 * 
+	 * @param period "." or ""
+	 */
+	void addCallPush(String period) {
+		add("     CALL \"pushACMFileList\" USING ACM-STATUS-ALL" + period);
 	}
 
 	/**
@@ -712,17 +732,19 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param period "." or ""
 	 */
 	void addTerminateSession(String period) {
-		FileInfo nullfile = new DefaultFileInfo();
-		// event
-		CodeGeneratorEvent event = new CodeGeneratorEvent(nullfile, owner, this, period);
-		for (CodeGeneratorListener listener : listeners) {
-			listener.preTerminate(event);
-		}
-		// ///////////
-		addCallTerminateSession(period);
-		// event
-		for (CodeGeneratorListener listener : listeners) {
-			listener.postTerminate(event);
+		if (!getOwner().isSubprogram()) {
+			FileInfo nullfile = new DefaultFileInfo();
+			// event
+			CodeGeneratorEvent event = new CodeGeneratorEvent(nullfile, owner, this, period);
+			for (CodeGeneratorListener listener : listeners) {
+				listener.preTerminate(event);
+			}
+			// ///////////
+			addCallTerminateSession(period);
+			// event
+			for (CodeGeneratorListener listener : listeners) {
+				listener.postTerminate(event);
+			}
 		}
 		// ///////////
 	}
@@ -1032,6 +1054,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 				whenSelect(text);
 			} else if (Pattern.matches(CobolConsts.FD, text)) {
 				whenFd(text);
+			} else if (Pattern.matches(CobolConsts.CALL, text)) {
+				whenCall(text);
 			} else if (Pattern.matches(CobolConsts.COPY, text)) {
 				whenCopy(text);
 			} else if (Pattern.matches(CobolConsts.STORAGE, text)) {
@@ -1050,6 +1074,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 				whenStart(text);
 			} else if (Pattern.matches(CobolConsts.DELETE, text)) {
 				whenDelete(text);
+			} else if (Pattern.matches(CobolConsts.ENDCALL, text)) {
+				whenEndCall(text);
 			} else if (Pattern.matches(CobolConsts.ENDREAD, text)) {
 				whenEndRead(text);
 			} else if (Pattern.matches(CobolConsts.ENDWRITE, text)) {
@@ -1083,6 +1109,15 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void pop() {
 		current = stack.pop();
 		currentlist = currentlists.pop();
+	}
+
+	/**
+	 * CALL
+	 * 
+	 * @param period "." or ""
+	 */
+	void process_call(String period) {
+		addCallPop(period);
 	}
 
 	/**
@@ -2120,6 +2155,24 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 
 	/**
+	 * CALL
+	 * 
+	 * @param text line
+	 */
+	void whenCall(String text) {
+		push();
+		//
+		addCallPush((Pattern.matches(CobolConsts.PERIOD, text) ? "." : ""));
+		add(text);
+		//
+		current = CobolConsts.CALL;
+		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+			process_call(".");
+			pop();
+		}
+	}
+
+	/**
 	 * CLOSE
 	 * 
 	 * @param text line
@@ -2212,6 +2265,21 @@ public class TCPCodeGenerator implements CodeGenerator {
 		} else if (division.equalsIgnoreCase("procedure")) {
 			proceduresection = true;
 		}
+	}
+
+	/**
+	 * END CALL
+	 * 
+	 * @param text line
+	 */
+	void whenEndCall(String text) {
+		currentlist.add(text);
+		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+			process_call(".");
+		} else {
+			process_call("");
+		}
+		pop();
 	}
 
 	/**

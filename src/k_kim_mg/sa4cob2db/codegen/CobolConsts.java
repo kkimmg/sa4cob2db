@@ -54,6 +54,8 @@ public abstract class CobolConsts {
 	public static final String VALUE_EQUAL = "\\s*VALUE=.*";
 	/** AT END Statement */
 	public static final String ATEND = "^\\s*[aA][tT]\\s*[eE][nN][dD].*";
+	/** CALL Statement */
+	public static final String CALL = "^\\s*[cC][aA][lL][lL]\\s.*";
 	/** CLOSE Command */
 	public static final String CLOSE = "^\\s*[cC][lL][oO][sS][eE]\\s.*";
 	/** Comment */
@@ -64,6 +66,8 @@ public abstract class CobolConsts {
 	public static final String DELETE = "^\\s*[dD][eE][lL][eE][tT][eE]\\s.*";
 	/** DEVISION Statement */
 	public static final String DIVISION = ".*[dD][iI][vV][iI][sS][iI][oO][nN].*";
+	/** END CALL Statement */
+	public static final String ENDCALL = "^\\s*[eE][nN][dD]-[cC][aA][lL][lL].*";
 	/** END DELETE Statement */
 	public static final String ENDDELETE = "^\\s*[eE][nN][dD]-[dD][eE][lL][eE][tT][eE].*";
 	/** Other END ??? */
@@ -89,6 +93,7 @@ public abstract class CobolConsts {
 	/** Access Mode(Extend) */
 	public static final int MODE_EXTEND = 3;
 	/** Access Mode(Input) */
+	
 	public static final int MODE_INPUT = 0;
 	/** Access Mode(Input-Output) */
 	public static final int MODE_IO = 2;
@@ -107,6 +112,7 @@ public abstract class CobolConsts {
 	/** File Organization(Sequential) */
 	public static final int ORG_SEQUENTIAL = 0;
 	/** Period Only */
+	
 	public static final String PERIOD_ROW = "\\.\\s*$";
 	/** A Logical Line */
 	public static final String PERIOD = ".*\\.\\s*";
@@ -131,6 +137,16 @@ public abstract class CobolConsts {
 	/** Name of file that includes Literals */
 	private static String ACMCONSTS_FILE = "ACMCONSTS.CBL";
 
+	/** Words to be ignored */
+	private static ArrayList<String> IGNORE = new ArrayList<String>();
+
+	static {
+		// add ignored word
+		IGNORE.add("OPTIONAL");
+		IGNORE.add("IS");
+		IGNORE.add("TO");
+	}
+
 	/**
 	 * Name of file that includes Literals
 	 * 
@@ -138,6 +154,15 @@ public abstract class CobolConsts {
 	 */
 	public static String getACMCONSTS_FILE() {
 		return ACMCONSTS_FILE;
+	}
+
+	/**
+	 * Words to be ignored
+	 * 
+	 * @return ArrayList of words
+	 */
+	public static ArrayList<String> getIGNORE() {
+		return IGNORE;
 	}
 
 	/**
@@ -149,24 +174,5 @@ public abstract class CobolConsts {
 		if (file != null) {
 			ACMCONSTS_FILE = file;
 		}
-	}
-
-	/** Words to be ignored */
-	private static ArrayList<String> IGNORE = new ArrayList<String>();
-
-	/**
-	 * Words to be ignored
-	 * 
-	 * @return ArrayList of words
-	 */
-	public static ArrayList<String> getIGNORE() {
-		return IGNORE;
-	}
-
-	static {
-		// add ignored word
-		IGNORE.add("OPTIONAL");
-		IGNORE.add("IS");
-		IGNORE.add("TO");
 	}
 }

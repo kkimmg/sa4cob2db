@@ -5,11 +5,14 @@ import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
+
 import k_kim_mg.sa4cob2db.ACMSession;
 import k_kim_mg.sa4cob2db.CobolFile;
 import k_kim_mg.sa4cob2db.CobolIndex;
@@ -36,6 +39,9 @@ public class ACMSQLSession implements ACMSession {
 	/** sessionID. */
 	protected String sessionId;
 
+	/** FileList Stack */
+	private Deque<Hashtable<String, CobolFile>> stack = new LinkedList<Hashtable<String, CobolFile>>();
+
 	/**
 	 * Constuctor.
 	 * 
@@ -45,7 +51,7 @@ public class ACMSQLSession implements ACMSession {
 		super();
 		this.server = server;
 		initializeSessionID();
-		files = new Hashtable<String, CobolFile>();
+		files = createFileList();
 		connection = server.createConnection();
 		options = new Properties();
 	}
@@ -220,7 +226,9 @@ public class ACMSQLSession implements ACMSession {
 		files.remove(name);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.ACMSession#getACMOption(java.lang.String)
 	 */
 	@Override
@@ -264,7 +272,9 @@ public class ACMSQLSession implements ACMSession {
 		return files.keySet();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.ACMSession#getMaxLength()
 	 */
 	@Override
@@ -306,6 +316,44 @@ public class ACMSQLSession implements ACMSession {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see k_kim_mg.sa4cob2db.ACMSession#popFileList()
+	 */
+	@Override
+	public void popFileList() {
+		files = stack.pop();
+		ACMSessionEvent e = new ACMSessionEvent(this);
+		for (ACMSessionEventListener listener : listeners) {
+			listener.fileListPoped(e);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.ACMSession#pushFileList()
+	 */
+	@Override
+	public void pushFileList() {
+		stack.push(files);
+		files = createFileList();
+		ACMSessionEvent e = new ACMSessionEvent(this);
+		for (ACMSessionEventListener listener : listeners) {
+			listener.fileListPushed(e);
+		}
+	}
+
+	/**
+	 * create FileList
+	 * 
+	 * @return Hashtable
+	 */
+	Hashtable<String, CobolFile> createFileList() {
+		return new Hashtable<String, CobolFile>();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * k_kim_mg.sa4cob2db.ACMSession#removeACMSessionEventListener(k_kim_mg.
 	 * sa4cob2db.event.ACMSessionEventListener)
@@ -314,8 +362,11 @@ public class ACMSQLSession implements ACMSession {
 		listeners.remove(listener);
 	}
 
-	/* (non-Javadoc)
-	 * @see k_kim_mg.sa4cob2db.ACMSession#setACMOption(java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.ACMSession#setACMOption(java.lang.String,
+	 * java.lang.String)
 	 */
 	@Override
 	public void setACMOption(String key, String value) {
@@ -326,7 +377,9 @@ public class ACMSQLSession implements ACMSession {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.ACMSession#setMaxLength(int)
 	 */
 	@Override

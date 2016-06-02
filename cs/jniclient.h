@@ -61,3 +61,7 @@ extern void setJNIOptionFromEnv (char *name, char *value);
 extern void getJNIOption (char *name, char *value);
 
 extern void setJNIMaxLength (char *length);
+
+extern void pushJNIFileList (char *status);
+
+extern void popJNIFileList (char *status);

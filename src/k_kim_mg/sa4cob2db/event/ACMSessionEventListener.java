@@ -23,6 +23,34 @@ public interface ACMSessionEventListener extends EventListener {
 	public void fileDestroyed(ACMSessionEvent e);
 
 	/**
+	 * FileList Pop Event
+	 * 
+	 * @param e event
+	 */
+	public void fileListPoped(ACMSessionEvent e);
+
+	/**
+	 * FileList Push Event
+	 * 
+	 * @param e event
+	 */
+	public void fileListPushed(ACMSessionEvent e);
+
+	/**
+	 * max record length changed.
+	 * 
+	 * @param e event
+	 */
+	public void lengthChanged(ACMLengthChangedEvent e);
+
+	/**
+	 * option set event.
+	 * 
+	 * @param e event
+	 */
+	public void optionSetted(ACMOptionSetEvent e);
+
+	/**
 	 * transaction commited.
 	 * 
 	 * @param e event
@@ -35,18 +63,4 @@ public interface ACMSessionEventListener extends EventListener {
 	 * @param e event
 	 */
 	public void transactionRollbacked(ACMSessionEvent e);
-
-	/**
-	 * option set event.
-	 * 
-	 * @param e event
-	 */
-	public void optionSetted(ACMOptionSetEvent e);
-
-	/**
-	 * max record length changed.
-	 * 
-	 * @param e event
-	 */
-	public void lengthChanged(ACMLengthChangedEvent e);
 }

@@ -25,9 +25,32 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallPop(java.lang.String)
+	 */
+	@Override
+	void addCallPop(String period) {
+		add("     CALL \"popJNIFileList\" USING ACM-STATUS-ALL" + period);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addCallPush(java.lang.String)
+	 */
+	@Override
+	void addCallPush(String period) {
+		add("     CALL \"pushJNIFileList\" USING  ACM-STATUS-ALL" + period);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addACMAutoCommit(java.lang
 	 * .String, java.lang.String)
 	 */
+	@Override
 	void addACMAutoCommit(String option, String period) {
 		add("     MOVE \"" + option + "\" TO ACM-OPTION" + period);
 		add("     CALL \"setJNICommitMode\" USING ACM-OPTION");
@@ -54,6 +77,7 @@ public class JNICodeGenerator extends TCPCodeGenerator {
 	 * k_kim_mg.sa4cob2db.codegen.TCPCodeGenerator#addAssignFiles(java.lang.
 	 * String)
 	 */
+	@Override
 	void addAssignFiles(String period) {
 		for (FileInfo info : getSelectnametofile().values()) {
 			add("     MOVE \"" + info.getFileName() + "\" TO ACM-FILE-IDENT" + period);

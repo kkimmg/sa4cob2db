@@ -40,6 +40,7 @@ jmethodID midWrite;
 jmethodID midGetReadingRecord, midGetStatus, midGetOptionValue;
 jmethodID midGetOption, midSetOption;
 jmethodID midSetLength;
+jmethodID midPushFileList, midPopFileList;
 struct servent *se;
 int soc, portno, len;
 char buf[255];
@@ -142,6 +143,8 @@ extern int initializeJNI() {
 	midGetOptionValue = (*env)->GetMethodID(env, clazz, "getOptionValue",
 			"()[B");
 	midSetLength = (*env)->GetMethodID(env, clazz, "setMaxLength", "(I)V");
+	midPushFileList = (*env)->GetMethodID(env, clazz, "pushFileList", "()V");
+	midPopFileList = (*env)->GetMethodID(env, clazz, "popFileList", "()V");
 
 	if (midAssign == 0 || midClose == 0 || midCommitTransaction == 0
 			|| midDelete == 0 || midInitialize == 0 || midMove == 0
@@ -151,7 +154,8 @@ extern int initializeJNI() {
 			|| midSetTransactionLevel == 0 || midStart == 0 || midStartWith == 0
 			|| midTerminate == 0 || midWrite == 0 || midGetReadingRecord == 0
 			|| midGetStatus == 0 || midGetOption == 0 || midSetOption == 0
-			|| midGetOptionValue == 0 || midSetLength == 0) {
+			|| midGetOptionValue == 0 || midSetLength == 0
+			|| midPushFileList == 0 || midPopFileList == 0) {
 		perror("method not found.");
 		return -1;
 	}
@@ -411,7 +415,6 @@ extern void moveReadJNIRecord(char *name, char *record, char *status) {
 /*
  * write
  */
-int k = 0;
 extern void writeJNIRecord(char *name, char *record, char *status) {
 	int i;
 	/* file name */
@@ -655,6 +658,28 @@ extern void startJNIRecordWith(char *name, char *record, char *indexname,
 extern void commitJNISession(char *status) {
 	/* call method */
 	(*env)->CallVoidMethod(env, jniserv, midCommitTransaction);
+	/* status */
+	getStatus(status);
+	return;
+}
+
+/*
+ * push File List
+ */
+extern void pushJNIFileList(char *status) {
+	/* call method */
+	(*env)->CallVoidMethod(env, jniserv, midPushFileList);
+	/* status */
+	getStatus(status);
+	return;
+}
+
+/*
+ * pop File List
+ */
+extern void popJNIFileList(char *status) {
+	/* call method */
+	(*env)->CallVoidMethod(env, jniserv, midPopFileList);
 	/* status */
 	getStatus(status);
 	return;

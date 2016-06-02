@@ -981,6 +981,45 @@ moveACMRecordWith (char *name, char *record, char *indexname, char *status) {
 	return;
 }
 
+/**
+* push File List
+*/
+extern void
+pushACMFileList (char *status) {
+	/* send(command) */
+	if (sendMessage (MSG_PUSHFILELIST) < 0) {
+		strcpy (status, STATUS_SEND_ERROR);
+		return;
+	}
+	/* recieve(status) */
+	if (recieveStatus () == 0) {
+		strcpy (status, STATUS_RECV_ERROR);
+		return;
+	}
+	/* check status */
+	strcpy (status, buf);
+	return;
+}
+
+/**
+* push File List
+*/
+extern void
+popACMFileList (char *status) {
+	/* send(command) */
+	if (sendMessage (MSG_POPFILELIST) < 0) {
+		strcpy (status, STATUS_SEND_ERROR);
+		return;
+	}
+	/* recieve(status) */
+	if (recieveStatus () == 0) {
+		strcpy (status, STATUS_RECV_ERROR);
+		return;
+	}
+	/* check status */
+	strcpy (status, buf);
+	return;
+}
 
 /**
 * commit

@@ -16,6 +16,16 @@ public class ACMSessionEvent extends EventObject {
 	private ACMSession session;
 	private CobolFile file;
 
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param source session
+	 */
+	public ACMSessionEvent(ACMSession source) {
+		this(source, null);
+	}
+	
 	/**
 	 * Constructor.
 	 * 

@@ -24,6 +24,7 @@ import org.xml.sax.SAXException;
 
 /**
  * connect COBOL and java by JNI
+ * 
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public class ACMSQLJNISession implements ACMSession {
@@ -47,10 +48,15 @@ public class ACMSQLJNISession implements ACMSession {
 			work[i] = ' ';
 		}
 		initalOption = work;
+
 	}
 
-	/* (non-Javadoc)
-	 * @see k_kim_mg.sa4cob2db.ACMSession#addACMSessionEventListener(k_kim_mg.sa4cob2db.event.ACMSessionEventListener)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * k_kim_mg.sa4cob2db.ACMSession#addACMSessionEventListener(k_kim_mg.sa4cob2db
+	 * .event.ACMSessionEventListener)
 	 */
 	@Override
 	public void addACMSessionEventListener(ACMSessionEventListener listener) {
@@ -120,6 +126,24 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
+	 * Create NodeReadLoader.
+	 * 
+	 * @return NodeReadLoader to read Metadata info
+	 */
+	protected NodeReadLoader createNodeReadLoader() {
+		return new NodeReadLoader();
+	}
+
+	/**
+	 * Create SQLFileServer.
+	 * 
+	 * @return SQLFileServer to create CobolRecordMetaDataSet
+	 */
+	protected SQLFileServer createSQLFileServer() {
+		return new SQLFileServer();
+	}
+
+	/**
 	 * Delete Record.
 	 * 
 	 * @param fileName file name
@@ -147,7 +171,9 @@ public class ACMSQLJNISession implements ACMSession {
 		superobj.destroyFile(name);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.ACMSession#getACMOption(java.lang.String)
 	 */
 	@Override
@@ -182,7 +208,9 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(FileStatus.OK, status);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.ACMSession#getMaxLength()
 	 */
 	@Override
@@ -249,24 +277,6 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * Create SQLFileServer.
-	 * 
-	 * @return SQLFileServer to create CobolRecordMetaDataSet
-	 */
-	protected SQLFileServer createSQLFileServer() {
-		return new SQLFileServer();
-	}
-
-	/**
-	 * Create NodeReadLoader.
-	 * 
-	 * @return NodeReadLoader to read Metadata info
-	 */
-	protected NodeReadLoader createNodeReadLoader() {
-		return new NodeReadLoader();
-	}
-
-	/**
 	 * initialize.
 	 * 
 	 * @param acmUsername user name
@@ -319,6 +329,26 @@ public class ACMSQLJNISession implements ACMSession {
 				users.load(fio);
 			}
 			superobj = new ACMSQLSession(sqlfileserver);
+			// ////////////////////////////////////////////////////////
+			// session event
+			SQLNetServer.updateProperty(properties, "sessionlisteners", "ACM_SESSIONLISTENERS");
+			String sessionlisteners = properties.getProperty("sessionlisteners", "");
+			SQLNetServer.logger.log(Level.CONFIG, "sessionlisteners=" + sessionlisteners);
+			if (sessionlisteners.trim().length() != 0) {
+				String[] classnames = sessionlisteners.split(":");
+				for (String classname : classnames) {
+					try {
+						Class<? extends ACMSessionEventListener> clazz = Class.forName(classname).asSubclass(ACMSessionEventListener.class);
+						ACMSessionEventListener listener = clazz.newInstance();
+						addACMSessionEventListener(listener);
+					} catch (ClassNotFoundException e) {
+						SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+					} catch (ClassCastException e) {
+						SQLNetServer.logger.log(Level.WARNING, e.getMessage(), e);
+					}
+				}
+			}
+			// ////////////////////////////////////////////////////////
 		} catch (ParserConfigurationException e) {
 			SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
 			ret = new FileStatus(FileStatus.STATUS_99_FAILURE, FileStatus.NULL_CODE, 0, e.getMessage());
@@ -430,6 +460,17 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.ACMSession#popFileList()
+	 */
+	@Override
+	public void popFileList() {
+		superobj.popFileList();
+		setFileStatus2Bytes(FileStatus.OK, status);
+	}
+
 	/**
 	 * Move to previous mode.
 	 * 
@@ -445,6 +486,17 @@ public class ACMSQLJNISession implements ACMSession {
 			ret = FileStatus.NOT_ASSIGNED;
 		}
 		setFileStatus2Bytes(ret, status);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.ACMSession#pushFileList()
+	 */
+	@Override
+	public void pushFileList() {
+		superobj.pushFileList();
+		setFileStatus2Bytes(FileStatus.OK, status);
 	}
 
 	/**
@@ -529,8 +581,11 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(ret, status);
 	}
 
-	/* (non-Javadoc)
-	 * @see k_kim_mg.sa4cob2db.ACMSession#setACMOption(java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.ACMSession#setACMOption(java.lang.String,
+	 * java.lang.String)
 	 */
 	@Override
 	public void setACMOption(String key, String value) {
@@ -589,7 +644,9 @@ public class ACMSQLJNISession implements ACMSession {
 		setFileStatus2Bytes(FileStatus.OK, status);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.ACMSession#setMaxLength(int)
 	 */
 	@Override
@@ -638,8 +695,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * Start.
-	 * Move to record by key with mode.
+	 * Start. Move to record by key with mode.
 	 * 
 	 * @param fileName file name
 	 * @param modeBytes mode
@@ -659,8 +715,7 @@ public class ACMSQLJNISession implements ACMSession {
 	}
 
 	/**
-	 * Start by sub key.
-	 * Move to record with sub key.
+	 * Start by sub key. Move to record with sub key.
 	 * 
 	 * @param fileName file name
 	 * @param skey sub key

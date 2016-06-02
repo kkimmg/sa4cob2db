@@ -38,12 +38,14 @@
 003800*              
 003900 MAIN                        SECTION.
 004000     PERFORM   INIT.
+003500     PERFORM   FL-OPEN.
 004100     PERFORM  INP-READ.
 004200*                                                      
 004300     PERFORM   UNTIL  END-FLG  NOT  =  ZERO
 004400        PERFORM  OUT-WRITE
 004500        PERFORM  INP-READ
 004600     END-PERFORM.
+004100     PERFORM   FL-CLOSE.
 004700     PERFORM   TERM.
 004800     EXIT-PROGRAM.
 004900*              
@@ -72,3 +74,12 @@
 007200     DISPLAY   "OUTPUT-COUNT:" O-COUNTER.
 007300     MOVE  O-COUNTER         TO  X-RET.
 007400     EXIT.
+005000*                      
+005100 FL-OPEN                     SECTION.
+005200     OPEN   INPUT  INP-FILE.
+005300     EXIT.
+006600*                              
+006700 FL-CLOSE                    SECTION.
+006800     CLOSE  INP-FILE.
+006900     EXIT.
+

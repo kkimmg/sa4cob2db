@@ -79,4 +79,14 @@ public interface ACMSession extends Serializable {
 	 * @param length length
 	 */
 	public void setMaxLength(int length);
+	
+	/**
+	 * push file list
+	 */
+	public void pushFileList();
+	
+	/**
+	 * pop file list
+	 */
+	public void popFileList();
 }
