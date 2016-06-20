@@ -18,29 +18,16 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 		this.meta = meta;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolFile#close()
-	 */
-	public FileStatus close() {
+	@Override
+	protected FileStatus closeMain() {
 		return FileStatus.OK;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolFile#delete()
-	 */
-	public FileStatus delete() {
-		return UNSUPPORTED_METHOD;
 	}
 
 	/* (non-Javadoc)
 	 * @see k_kim_mg.sa4cob2db.CobolFile#delete(byte[])
 	 */
 	@Override
-	public FileStatus delete(byte[] record) {
+	protected FileStatus deleteMain(byte[] record) {
 		return UNSUPPORTED_METHOD;
 	}
 
@@ -103,15 +90,6 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolFile#move(byte[])
-	 */
-	public FileStatus move(byte[] record) {
-		return UNSUPPORTED_METHOD;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see k_kim_mg.sa4cob2db.AbstractCobolFile#move(int)
 	 */
 	@Override
@@ -142,12 +120,10 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see k_kim_mg.sa4cob2db.AbstractCobolFile#next()
+	 * @see k_kim_mg.sa4cob2db.CobolFile#move(byte[])
 	 */
-	@Override
-	public FileStatus next() {
-		value++;
-		return FileStatus.OK;
+	protected FileStatus moveMain(byte[] record) {
+		return UNSUPPORTED_METHOD;
 	}
 
 	/*
@@ -175,18 +151,9 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#open(int, int)
 	 */
-	public FileStatus open(int mode, int accessmode) {
+	protected FileStatus openMain(int mode, int accessmode) {
 		opened = true;
 		return FileStatus.OK;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolFile#previous()
-	 */
-	public FileStatus previous() {
-		return UNSUPPORTED_METHOD;
 	}
 
 	/*
@@ -196,6 +163,15 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	 */
 	@Override
 	public FileStatus previous(int row) {
+		return UNSUPPORTED_METHOD;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolFile#previous()
+	 */
+	protected FileStatus previousMain() {
 		return UNSUPPORTED_METHOD;
 	}
 
@@ -227,16 +203,12 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#rewrite(byte[])
 	 */
-	public FileStatus rewrite(byte[] record) {
+	public FileStatus rewriteBody(byte[] record) {
 		return UNSUPPORTED_METHOD;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see k_kim_mg.sa4cob2db.CobolFile#start(int, byte[])
-	 */
-	public FileStatus start(int mode, byte[] record) {
+	@Override
+	protected FileStatus rewriteMain(byte[] record) {
 		return UNSUPPORTED_METHOD;
 	}
 
@@ -262,10 +234,24 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see k_kim_mg.sa4cob2db.CobolFile#start(int, byte[])
+	 */
+	public FileStatus startBody(int mode, byte[] record) {
+		return UNSUPPORTED_METHOD;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see k_kim_mg.sa4cob2db.AbstractCobolFile#startDuplicates(int, byte[])
 	 */
 	@Override
 	public FileStatus startDuplicates(int mode, byte[] record) {
+		return UNSUPPORTED_METHOD;
+	}
+
+	@Override
+	protected FileStatus startMain(int mode, byte[] record) {
 		return UNSUPPORTED_METHOD;
 	}
 
@@ -282,7 +268,7 @@ public class CustomCobolFileTest extends AbstractCobolFile {
 	 * 
 	 * @see k_kim_mg.sa4cob2db.CobolFile#write(byte[])
 	 */
-	public FileStatus write(byte[] record) {
+	protected FileStatus writeMain(byte[] record) {
 		return UNSUPPORTED_METHOD;
 	}
 }
