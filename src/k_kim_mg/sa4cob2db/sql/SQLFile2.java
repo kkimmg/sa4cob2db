@@ -33,7 +33,7 @@ public class SQLFile2 extends SQLFile {
 	 * @see k_kim_mg.sa4cob2db.sql.SQLFile#close()
 	 */
 	@Override
-	public FileStatus close() {
+	public FileStatus closeMain() {
 		try {
 			keyReadStatement.close();
 		} catch (SQLException e) {
@@ -69,7 +69,7 @@ public class SQLFile2 extends SQLFile {
 	 * @see k_kim_mg.sa4cob2db.sql.SQLFile#move(byte[])
 	 */
 	@Override
-	public FileStatus move(byte[] record) {
+	public FileStatus moveMain(byte[] record) {
 		FileStatus ret = FileStatus.FAILURE;
 		if (getKeyReadStatement() == null) {
 			ret = super.move(record);
@@ -100,7 +100,7 @@ public class SQLFile2 extends SQLFile {
 	 * @see k_kim_mg.sa4cob2db.sql.SQLFile#open(int, int)
 	 */
 	@Override
-	public FileStatus open(int mode, int accessmode) {
+	public FileStatus openMain(int mode, int accessmode) {
 		FileStatus ret = super.open(mode, accessmode);
 		CobolRecordMetaData wrk = getMetaData();
 		if (wrk instanceof SQLCobolRecordMetaData2) {
