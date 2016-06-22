@@ -11,41 +11,41 @@ package k_kim_mg.sa4cob2db;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface CobolColumn {
-	/** Date */
+	/** Date. */
 	public static int TYPE_DATE = 7;
-	/** Decimal */
+	/** Decimal. */
 	public static int TYPE_DECIMAL = 12;
-	/** Double */
+	/** Double. */
 	public static int TYPE_DOUBLE = 6;
-	/** Float */
+	/** Float. */
 	public static int TYPE_FLOAT = 5;
-	/** Integer */
+	/** Integer. */
 	public static int TYPE_INTEGER = 1;
-	/** Long */
+	/** Long. */
 	public static int TYPE_LONG = 4;
-	/** Graphic Characters */
+	/** Graphic Characters. */
 	public static int TYPE_NCHAR = 3;
-	/** Struct */
+	/** Struct. */
 	public static int TYPE_STRUCT = 11;
-	/** Time */
+	/** Time. */
 	public static int TYPE_TIME = 8;
-	/** TimeStamp */
+	/** TimeStamp. */
 	public static int TYPE_TIMESTAMP = 10;
-	/** Characters */
+	/** Characters. */
 	public static int TYPE_XCHAR = 2;
-	/** USAGE DISPLAY (Default) */
+	/** USAGE DISPLAY (Default). */
 	public static int USAGE_DISPLAY = 0;
-	/** USAGE DISPLAY (Binary Or Computational) */
+	/** USAGE DISPLAY (Binary Or Computational). */
 	public static int USAGE_BINARY = 1;
-	/** USAGE DISPLAY (Packed Decimal or Comp-3) */
+	/** USAGE DISPLAY (Packed Decimal or Comp-3). */
 	public static int USAGE_COMP_3 = 2;
-	/** USAGE DISPLAY (National Characters) */
+	/** USAGE DISPLAY (National Characters). */
 	public static int USAGE_NATIONAL = 3;
-	/** USAGE DISPLAY (Index) */
+	/** USAGE DISPLAY (Index). */
 	public static int USAGE_INDEX = 4;
 
 	/**
-	 * create copy
+	 * create copy.
 	 * 
 	 * @return copy
 	 */

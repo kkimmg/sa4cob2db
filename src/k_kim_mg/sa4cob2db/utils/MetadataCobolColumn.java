@@ -2,12 +2,12 @@ package k_kim_mg.sa4cob2db.utils;
 
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import k_kim_mg.sa4cob2db.CobolColumn;
 import k_kim_mg.sa4cob2db.CobolRecordMetaData;
+import k_kim_mg.sa4cob2db.codegen.CobolTokens;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -294,11 +294,11 @@ public class MetadataCobolColumn extends ArrayList<MetadataCobolColumn> {
 	 */
 	public int parce(String logical) {
 		int status = CUR_NONE;
-		StringTokenizer tokenizer = new StringTokenizer(logical);
+		CobolTokens tokenizer = new CobolTokens(logical);
 		String curr = "";
 		try {
-			while (tokenizer.hasMoreTokens()) {
-				String curr1 = tokenizer.nextToken();
+			while (tokenizer.hasNext()) {
+				String curr1 = tokenizer.next();
 				curr = trimToken(curr1);
 				switch (status) {
 				case CUR_NONE:

@@ -15,38 +15,54 @@ import java.util.ArrayList;
  * @author <a mailto="kkimmg@gmail.com">Kenji Kimura</a>
  */
 public interface GeneratorOwner {
-	/**
-	 * Generate new source from original
-	 * 
-	 * @param text original source (phisical line)
-	 */
-	public void generate(String text);
+  /**
+   * called by generator when generating copy statement
+   * 
+   * @param statement
+   *          copy statement
+   */
+  public void callBackCopyStatement(ArrayList<String> statement);
 
-	/**
-	 * called by generator when generating copy statement
-	 * 
-	 * @param statement copy statement
-	 */
-	public void callBackCopyStatement(ArrayList<String> statement);
+  /**
+   * Generate new source from original
+   * 
+   * @param text
+   *          original source (physical line)
+   */
+  public void generate(String text);
 
-	/**
-	 * expand copy statement?
-	 * 
-	 * @return true expand false don't
-	 */
-	public boolean isExpandCopy();
+  /**
+   * Ignore Comment Out
+   * 
+   * @return true yes false not
+   */
+  public boolean isDontComment();
 
-	/**
-	 * don't initialize?
-	 * 
-	 * @return true yes false not
-	 */
-	public boolean isSubprogram();
+  /**
+   * expand copy statement?
+   * 
+   * @return true expand false don't
+   */
+  public boolean isExpandCopy();
 
-	/**
-	 * Ignore Comment Out
-	 * 
-	 * @return true yes false not
-	 */
-	public boolean isDontComment();
+  /**
+   * In file format is free or fix.
+   * 
+   * @return true is free. false is fix.
+   */
+  public boolean isInfreeformat();
+
+  /**
+   * Out file format is free or fix.
+   * 
+   * @return true is free. false is fix.
+   */
+  public boolean isOutfreeformat();
+
+  /**
+   * don't initialize?
+   * 
+   * @return true yes false not
+   */
+  public boolean isSubprogram();
 }

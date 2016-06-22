@@ -7,7 +7,7 @@ package k_kim_mg.sa4cob2db.codegen;
  */
 public interface CodeGenerator {
 	/**
-	 * parse row text
+	 * parse row text.
 	 * 
 	 * @param row logical row
 	 */
@@ -19,21 +19,21 @@ public interface CodeGenerator {
 	public void flush();
 
 	/**
-	 * add event listener
+	 * add event listener.
 	 * 
 	 * @param listener listener
 	 */
 	public void addCodeGeneratorListener(CodeGeneratorListener listener);
 
 	/**
-	 * Get GeneratorOwner
+	 * Get GeneratorOwner.
 	 * 
 	 * @return GeneratorOwner
 	 */
 	public GeneratorOwner getOwner();
 
 	/**
-	 * Set GeneratorOwner
+	 * Set GeneratorOwner.
 	 * 
 	 * @param owner GeneratorOwner
 	 */

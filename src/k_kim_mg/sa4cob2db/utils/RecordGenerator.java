@@ -2,7 +2,7 @@ package k_kim_mg.sa4cob2db.utils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,6 +13,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import k_kim_mg.sa4cob2db.codegen.CobolTokens;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -34,10 +37,10 @@ public class RecordGenerator {
 	public void parse(String txt) {
 		String row = txt.trim();
 		String last = txt.substring(txt.length(), txt.length());
-		StringTokenizer tokenizer = new StringTokenizer(row);
+		CobolTokens tokenizer = new CobolTokens(row);
 		if (buffer.length() <= 0) {
-			if (tokenizer.hasMoreTokens()) {
-				String first = tokenizer.nextToken();
+			if (tokenizer.hasNext()) {
+				String first = tokenizer.next();
 				int level = -1;
 				try {
 					level = Integer.parseInt(first);
