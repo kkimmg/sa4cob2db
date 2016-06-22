@@ -1033,9 +1033,9 @@ public class TCPCodeGenerator implements CodeGenerator {
    * @return SECTION Name
    */
   String getSection(String text) {
-    CobolTokens tokenizer = new CobolTokens(text);
-    if (tokenizer.hasNext()) {
-      return tokenizer.next();
+    String[] tokens = text.trim().split("\\s");
+    if (tokens.length > 0) {
+      return tokens[0];
     }
     return null;
   }
@@ -1254,7 +1254,7 @@ public class TCPCodeGenerator implements CodeGenerator {
     ArrayList<String> files2 = new ArrayList<String>();
     while (tokenizer.hasNext()) {
       String token = tokenizer.next().replaceAll(CobolConsts.PERIOD_ROW, "");
-      if (token.equalsIgnoreCase("close")) {
+      if (token.equalsIgnoreCase("close") || token.equals(".") || token.length() == 0) {
         //
       } else {
         FileInfo info = selectnametofile.get(token);
@@ -1408,7 +1408,7 @@ public class TCPCodeGenerator implements CodeGenerator {
     int omode = 0;
     while (tokenizer.hasNext()) {
       String token = tokenizer.next().replaceAll(CobolConsts.PERIOD_ROW, "");
-      if (token.equalsIgnoreCase("open")) {
+      if (token.equalsIgnoreCase("open") || token.equals(".") || token.length() == 0) {
         // Do Nothing
       } else if (token.equalsIgnoreCase("input")) {
         omode = CobolConsts.MODE_INPUT;

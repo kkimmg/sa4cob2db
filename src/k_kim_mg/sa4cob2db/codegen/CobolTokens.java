@@ -89,7 +89,7 @@ public class CobolTokens implements Iterator<String> {
           }
           buff.append(chr);
           sq = true;
-        } else if (chr == '.' || chr == '+' || chr == '-' || chr == '*' || chr == '/' || chr == '=' || chr == '(' || chr == ')') {
+        } else if (chr == '.' || chr == '=' || chr == '(' || chr == ')') {
           if (buff.length() > 0) {
             list.add(buff.toString());
             buff = new StringBuffer();
