@@ -23,7 +23,7 @@ install:
 deinstall:
 	rm $(LIBDIR)/libACMClient.so
 	rm $(LIBDIR)/libJNIClient.so
-	rm -rv $(LIBDIR)
+	rm -vf $(LIBDIR)
 
 clean:
 	rm libACMClient.so
