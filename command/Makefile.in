@@ -48,13 +48,14 @@ deinstall:
 	rm $(BINDIR)/sqlnetserver
 	rm $(BINDIR)/cob2meta
 	rm $(BINDIR)/meta2sql
-	rm -rv $(BINDIR)
+	rm -vf $(BINDIR)
 	rm $(LIBDIR)/libacm2seq.so
 	rm $(LIBDIR)/libseq2acm.so
 	rm $(LIBDIR)/libcobpp.so
 	rm $(LIBDIR)/libsqlnetserver.so
 	rm $(LIBDIR)/libcob2meta.so
 	rm $(LIBDIR)/libmeta2sql.so
+	rm -vf $(LIBDIR)
 
 clean:
 	rm libacm2seq.so
