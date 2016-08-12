@@ -506,7 +506,8 @@ public class COBPP1 implements GeneratorOwner {
 			while (row != null) {
 				String text = row;
 				if (!infreeformat) {
-					text = row.substring(6, (row.length() > 72 ? 72 : row.length()));
+					text = row.substring(6, (row.length() >= 80 ? 79 : row.length()));
+					//text = row.substring(6, row.length());
 				}
 				generator.parse(text);
 				row = br.readLine();

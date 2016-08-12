@@ -139,7 +139,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 
 	private String acmRecName = null;
 	private String acmAssignName = null;
-	private ArrayList<String> copys = new ArrayList<String>();
+	private ArrayList<String> copies = new ArrayList<String>();
 	private String current;
 	private DefaultFileInfo currentinfo = null;
 	private ArrayList<String> currentlist = new ArrayList<String>();
@@ -189,41 +189,6 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 
 	/**
-	 * add text.
-	 * 
-	 * @param trimed trimed line
-	 */
-	void addTrimed(String trimed) {
-		CobolTokens tokens = new CobolTokens(trimed);
-		while (tokens.hasNext()) {
-			String token = tokens.next();
-			if (token.length() < 66) {
-				add(" " + token);
-			} else {
-				boolean dq = (token.startsWith("\""));
-				int idx = (dq ? 65 : 66);
-				String first = token.substring(0, idx - 1) + (dq ? "\"" : "");
-				add(first);
-				String rest = token.substring(idx);
-				boolean cont = true;
-				while (cont) {
-					boolean endDq = rest.endsWith("\"");
-					idx = (dq ? (endDq ? 64 : 65) : 66);
-					if (rest.length() < idx) {
-						idx = rest.length();
-						cont = false;
-					}
-					first = rest.substring(0, idx - 1);
-					add(" " + (dq ? "\"" : "") + first + (endDq ? "\"" : ""));
-					if (cont) {
-						rest = rest.substring(idx);
-					}
-				}
-			}
-		}
-	}
-
-	/**
 	 * add fd statement
 	 * 
 	 * @param text text of fd statement
@@ -243,6 +208,20 @@ public class TCPCodeGenerator implements CodeGenerator {
 					break;
 				}
 			}
+		}
+	}
+
+	/**
+	 * Add row text to inner list.
+	 * 
+	 * @param text row text.
+	 */
+	void add2CurrentList(String text) {
+		// currentlist_.add(text);
+		if (!getOwner().isOutfreeformat() && text.length() > 66) {
+			currentlist.add(text.substring(0, 66));
+		} else {
+			currentlist.add(text);
 		}
 	}
 
@@ -657,6 +636,15 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 
 	/**
+	 * Add text to list directly.
+	 * 
+	 * @param text text to add
+	 */
+	void addDirectly(String text) {
+		list.add(text);
+	}
+
+	/**
 	 * add "setACMOption" function
 	 * 
 	 * @param name option name
@@ -785,6 +773,41 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 
 	/**
+	 * add text.
+	 * 
+	 * @param trimed trimed line
+	 */
+	void addTrimed(String trimed) {
+		CobolTokens tokens = new CobolTokens(trimed);
+		while (tokens.hasNext()) {
+			String token = tokens.next();
+			if (token.length() < 66) {
+				add(" " + token);
+			} else {
+				boolean dq = (token.startsWith("\""));
+				int idx = (dq ? 65 : 66);
+				String first = token.substring(0, idx - 1) + (dq ? "\"" : "");
+				add(first);
+				String rest = token.substring(idx);
+				boolean cont = true;
+				while (cont) {
+					boolean endDq = rest.endsWith("\"");
+					idx = (dq ? (endDq ? 64 : 65) : 66);
+					if (rest.length() < idx) {
+						idx = rest.length();
+						cont = false;
+					}
+					first = rest.substring(0, idx - 1);
+					add(" " + (dq ? "\"" : "") + first + (endDq ? "\"" : ""));
+					if (cont) {
+						rest = rest.substring(idx);
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * Call 'addSetACMOption'
 	 * 
 	 * @param name option name
@@ -863,6 +886,13 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 
 	/**
+	 * Clear Current List.
+	 */
+	void clearCurrentList() {
+		currentlist.clear();
+	}
+
+	/**
 	 * Comment Out Row
 	 * 
 	 * @param text logical row
@@ -870,8 +900,17 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void commentOut(String text) {
 		if (!getOwner().isDontComment()) {
 			String right = (text.length() > 1 ? text.substring(1) : "");
-			add("*" + right);
+			addDirectly("*" + right);
 		}
+	}
+
+	/**
+	 * Copy current list.
+	 * 
+	 * @return copy of current list.
+	 */
+	ArrayList<String> copyCurrentList() {
+		return new ArrayList<String>(currentlist);
 	}
 
 	/**
@@ -1036,7 +1075,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 				commentOut(text);
 			}
 		} else if (inCopy && isExpandCopy()) {
-			if (Pattern.matches(CobolConsts.PERIOD, text)) {
+			if (isPeriodLine(text)) {
 				whenOnlyPeriod(text);
 			} else {
 				whenNoMatchAny(text);
@@ -1078,7 +1117,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			} else if (Pattern.matches(CobolConsts.ACMINSERTEND, text)) {
 				whenInsertEnd(text);
 			} else if (Pattern.matches(CobolConsts.COMMENT, text)) {
-				add(text);
+				addDirectly(text);
 			} else if (Pattern.matches(CobolConsts.DIVISION, text)) {
 				whenDivision(text);
 			} else if (Pattern.matches(CobolConsts.SECTION, text)) {
@@ -1128,7 +1167,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 			} else if (Pattern.matches(CobolConsts.EXITPROGRAM, text)) {
 				whenExitProgram(text);
 			} else {
-				if (Pattern.matches(CobolConsts.PERIOD, text)) {
+				if (isPeriodLine(text)) {
 					whenOnlyPeriod(text);
 				} else {
 					whenNoMatchAny(text);
@@ -1202,7 +1241,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void process_copy() {
 		inCopy = false;
-		owner.callBackCopyStatement(copys);
+		owner.callBackCopyStatement(copies);
 	}
 
 	/**
@@ -1211,7 +1250,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param period "." or ""
 	 */
 	void process_delete(String period) {
-		ArrayList<String> backup = new ArrayList<String>(currentlist);
+		ArrayList<String> backup = copyCurrentList();
 		CobolTokens tokenizer = current2tokenizer();
 		FileInfo info = null;
 		String sWrite = "";
@@ -1407,7 +1446,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		for (int i = 0; i < io2.size(); i++) {
 			add("     OPEN I-O " + io2.get(i) + period);
 		}
-		currentlist.clear();
+		clearCurrentList();
 	}
 
 	/**
@@ -1416,7 +1455,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param period "." or ""
 	 */
 	void process_read(String period) {
-		ArrayList<String> backup = new ArrayList<String>(currentlist);
+		ArrayList<String> backup = copyCurrentList();
 		CobolTokens tokenizer = current2tokenizer();
 		DefaultFileInfo info = null;
 		ArrayList<String> atend = new ArrayList<String>();
@@ -1557,7 +1596,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param period "." or ""
 	 */
 	void process_rewrite(String period) {
-		ArrayList<String> backup = new ArrayList<String>(currentlist);
+		ArrayList<String> backup = copyCurrentList();
 		CobolTokens tokenizer = current2tokenizer();
 		DefaultFileInfo info = null;
 		String sWrite = "";
@@ -1702,7 +1741,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		recordnametofile.put(info.recordName, info);
 		selectnametofile.put(info.selectName, info);
 		filenametofile.put(info.fileName, info);
-		currentlist.clear();
+		clearCurrentList();
 		// SQLNetServer.DebugPrint("File-Converted:" + info);
 	}
 
@@ -1712,7 +1751,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param period "." or ""
 	 */
 	void process_start(String period) {
-		ArrayList<String> backup = new ArrayList<String>(currentlist);
+		ArrayList<String> backup = copyCurrentList();
 		CobolTokens tokenizer = current2tokenizer();
 		DefaultFileInfo info = null;
 		ArrayList<String> atend = new ArrayList<String>();
@@ -1839,7 +1878,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param period "." or ""
 	 */
 	void process_write(String period) {
-		ArrayList<String> backup = new ArrayList<String>(currentlist);
+		ArrayList<String> backup = copyCurrentList();
 		CobolTokens tokenizer = current2tokenizer();
 		DefaultFileInfo info = null;
 		String sWrite = "";
@@ -2196,11 +2235,11 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void whenCall(String text) {
 		push();
 		//
-		addCallPush((Pattern.matches(CobolConsts.PERIOD, text) ? "." : ""));
+		addCallPush((isPeriodLine(text) ? "." : ""));
 		add(text);
 		//
 		current = CobolConsts.CALL;
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		if (isPeriodLine(text)) {
 			process_call(".");
 			pop();
 		}
@@ -2215,8 +2254,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		push();
 		current = CobolConsts.CLOSE;
 		commentOut(text);
-		currentlist.add(text);
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		add2CurrentList(text);
+		if (isPeriodLine(text)) {
 			process_close(".");
 			pop();
 		}
@@ -2249,9 +2288,9 @@ public class TCPCodeGenerator implements CodeGenerator {
 		if (isExpandCopy()) {
 			commentOut(text);
 			inCopy = true;
-			copys.clear();
-			copys.add(text);
-			if (Pattern.matches(CobolConsts.PERIOD, text)) {
+			copies.clear();
+			copies.add(text);
+			if (isPeriodLine(text)) {
 				process_copy();
 			}
 		} else {
@@ -2272,8 +2311,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 	void whenDelete(String text) {
 		push();
 		current = CobolConsts.DELETE;
-		currentlist.add(text);
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		add2CurrentList(text);
+		if (isPeriodLine(text)) {
 			process_delete(".");
 			pop();
 		}
@@ -2307,8 +2346,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text line
 	 */
 	void whenEndCall(String text) {
-		currentlist.add(text);
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		add2CurrentList(text);
+		if (isPeriodLine(text)) {
 			process_call(".");
 		} else {
 			process_call("");
@@ -2322,8 +2361,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text line
 	 */
 	void whenEndDelete(String text) {
-		currentlist.add(text);
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		add2CurrentList(text);
+		if (isPeriodLine(text)) {
 			process_delete(".");
 		} else {
 			process_delete("");
@@ -2337,8 +2376,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text line
 	 */
 	void whenEndRead(String text) {
-		currentlist.add(text);
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		add2CurrentList(text);
+		if (isPeriodLine(text)) {
 			process_read(".");
 		} else {
 			process_read("");
@@ -2352,8 +2391,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text line
 	 */
 	void whenEndRewrite(String text) {
-		currentlist.add(text);
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		add2CurrentList(text);
+		if (isPeriodLine(text)) {
 			process_rewrite(".");
 		} else {
 			process_rewrite("");
@@ -2367,8 +2406,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text line
 	 */
 	void whenEndStart(String text) {
-		currentlist.add(text);
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		add2CurrentList(text);
+		if (isPeriodLine(text)) {
 			process_start(".");
 		} else {
 			process_start("");
@@ -2382,8 +2421,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text line
 	 */
 	void whenEndWrite(String text) {
-		currentlist.add(text);
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		add2CurrentList(text);
+		if (isPeriodLine(text)) {
 			process_write(".");
 		} else {
 			process_write("");
@@ -2397,7 +2436,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text line
 	 */
 	void whenExitProgram(String text) {
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		if (isPeriodLine(text)) {
 			addTerminateSession(".");
 		} else {
 			this.addTerminateSession("");
@@ -2474,34 +2513,34 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void whenNoMatchAny(String text) {
 		if (inCopy && isExpandCopy()) {
-			copys.add(text);
+			copies.add(text);
 		} else {
 			//
 			if (current == CobolConsts.SELECT) {
 				if (inACM) {
 					commentOut(text);
-					currentlist.add(text);
+					add2CurrentList(text);
 				} else {
-					add(text);
+					addDirectly(text);
 				}
 			} else if (current == CobolConsts.FD) {
 				if (inFD) {
 					commentOut(text);
 					add_fd(text);
 				} else {
-					add(text);
+					addDirectly(text);
 				}
 			} else if (current == CobolConsts.OPEN) {
 				commentOut(text);
-				currentlist.add(text);
+				add2CurrentList(text);
 			} else if (current == CobolConsts.CLOSE) {
 				commentOut(text);
-				currentlist.add(text);
+				add2CurrentList(text);
 			} else if (current == CobolConsts.READ || current == CobolConsts.WRITE || current == CobolConsts.REWRITE || current == CobolConsts.DELETE || current == CobolConsts.START) {
 				// commentOut(text);
-				currentlist.add(text);
+				add2CurrentList(text);
 			} else {
-				add(text);
+				addDirectly(text);
 			}
 		}
 	}
@@ -2513,13 +2552,13 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 */
 	void whenOnlyPeriod(String text) {
 		if (inCopy && isExpandCopy()) {
-			copys.add(text);
+			copies.add(text);
 			process_copy();
 		} else {
 			if (current == CobolConsts.SELECT) {
 				if (inACM) {
 					commentOut(text);
-					currentlist.add(text);
+					add2CurrentList(text);
 					process_select();
 					inACM = false;
 				} else {
@@ -2534,27 +2573,27 @@ public class TCPCodeGenerator implements CodeGenerator {
 				}
 			} else if (current == CobolConsts.OPEN) {
 				commentOut(text);
-				currentlist.add(text);
+				add2CurrentList(text);
 				process_open(".");
 				pop();
 			} else if (current == CobolConsts.CLOSE) {
 				commentOut(text);
-				currentlist.add(text);
+				add2CurrentList(text);
 				process_close(".");
 				pop();
 			} else if (current == CobolConsts.READ) {
 				// commentOut(text);
-				currentlist.add(text);
+				add2CurrentList(text);
 				process_read(".");
 				pop();
 			} else if (current == CobolConsts.WRITE) {
 				// commentOut(text);
-				currentlist.add(text);
+				add2CurrentList(text);
 				process_write(".");
 				pop();
 			} else if (current == CobolConsts.START) {
 				// commentOut(text);
-				currentlist.add(text);
+				add2CurrentList(text);
 				process_start(".");
 				pop();
 			} else {
@@ -2562,6 +2601,23 @@ public class TCPCodeGenerator implements CodeGenerator {
 				flush();
 			}
 		}
+	}
+
+	/**
+	 * Is Current line ends with period(.)?
+	 * @param text text
+	 * @return true:ends with period/false: not.
+	 */
+	boolean isPeriodLine(String text) {
+		boolean ret = false;
+		if (!getOwner().isOutfreeformat() && text.length() > 66) {
+			ret = isPeriodLine(text.substring(0, 65));
+		} else {
+			if (Pattern.matches(CobolConsts.PERIOD, text.trim())) {
+				ret = true;
+			}
+		}
+		return ret;
 	}
 
 	/**
@@ -2573,8 +2629,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		push();
 		current = CobolConsts.OPEN;
 		commentOut(text);
-		currentlist.add(text);
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		add2CurrentList(text);
+		if (isPeriodLine(text)) {
 			process_open(".");
 			pop();
 		}
@@ -2589,8 +2645,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		push();
 		//
 		current = CobolConsts.READ;
-		currentlist.add(text);
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		add2CurrentList(text);
+		if (isPeriodLine(text)) {
 			process_read(".");
 			pop();
 		}
@@ -2606,8 +2662,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		push();
 		//
 		current = CobolConsts.REWRITE;
-		currentlist.add(text);
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		add2CurrentList(text);
+		if (isPeriodLine(text)) {
 			process_rewrite(".");
 			pop();
 		}
@@ -2659,7 +2715,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 		current = CobolConsts.SELECT;
 		if (inACM) {
 			commentOut(text);
-			currentlist.add(text);
+			add2CurrentList(text);
 		} else {
 			if (!hasNonACM) {
 				add(" INPUT-OUTPUT SECTION.");
@@ -2680,8 +2736,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		push();
 		//
 		current = CobolConsts.START;
-		currentlist.add(text);
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		add2CurrentList(text);
+		if (isPeriodLine(text)) {
 			process_start(".");
 			pop();
 		}
@@ -2693,7 +2749,7 @@ public class TCPCodeGenerator implements CodeGenerator {
 	 * @param text line
 	 */
 	void whenStopRun(String text) {
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		if (isPeriodLine(text)) {
 			addTerminateSession(".");
 		} else {
 			this.addTerminateSession("");
@@ -2725,8 +2781,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 		push();
 		//
 		current = CobolConsts.WRITE;
-		currentlist.add(text);
-		if (Pattern.matches(CobolConsts.PERIOD, text)) {
+		add2CurrentList(text);
+		if (isPeriodLine(text)) {
 			process_write(".");
 			pop();
 		}
