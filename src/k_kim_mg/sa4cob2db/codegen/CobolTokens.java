@@ -6,22 +6,63 @@ import java.util.List;
 
 public class CobolTokens implements Iterator<String> {
 	private List<String> list;
+
 	private Iterator<String> iterator;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param text logical row.
+	 * @param text
+	 *            logical row.
 	 */
 	public CobolTokens(String text) {
 		text2list(text);
 		list2iterator();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.Iterator#hasNext()
+	 */
+	@Override
+	public boolean hasNext() {
+		return iterator.hasNext();
+	}
+
+	/**
+	 * Generator Iterator from List.
+	 */
+	private void list2iterator() {
+		iterator = list.iterator();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.Iterator#next()
+	 */
+	@Override
+	public String next() {
+		return iterator.next();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.Iterator#remove()
+	 */
+	@Override
+	public void remove() {
+		iterator.remove();
+
+	}
+
 	/**
 	 * Generate list from text;
 	 * 
-	 * @param text row text.
+	 * @param text
+	 *            row text.
 	 */
 	private void text2list(String text) {
 		list = new ArrayList<String>();
@@ -68,7 +109,8 @@ public class CobolTokens implements Iterator<String> {
 				}
 			} else {
 				// others
-				if (chr == ' ' || chr == '\t' || chr == '\r' || chr == '\n' || chr == '\n') {
+				if (chr == ' ' || chr == '\t' || chr == '\r' || chr == '\n'
+						|| chr == '\n') {
 					if (buff.length() > 0) {
 						list.add(buff.toString());
 						buff = new StringBuffer();
@@ -98,7 +140,8 @@ public class CobolTokens implements Iterator<String> {
 				} else if (chr == '.') {
 					if (i < row.length() - 1) {
 						char nxt = row.charAt(i + 1);
-						if (nxt == ' ' || nxt == '\t' || nxt == '\r' || nxt == '\n' || nxt == '\n') {
+						if (nxt == ' ' || nxt == '\t' || nxt == '\r'
+								|| nxt == '\n' || nxt == '\n') {
 							if (buff.length() > 0) {
 								list.add(buff.toString());
 								buff = new StringBuffer();
@@ -121,33 +164,6 @@ public class CobolTokens implements Iterator<String> {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Generator Iterator from List.
-	 */
-	private void list2iterator() {
-		iterator = list.iterator();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Iterator#hasNext()
-	 */
-	@Override
-	public boolean hasNext() {
-		return iterator.hasNext();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Iterator#next()
-	 */
-	@Override
-	public String next() {
-		return iterator.next();
 	}
 
 }
