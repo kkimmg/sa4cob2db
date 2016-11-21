@@ -1,6 +1,6 @@
 000100*AAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCC
-000200*                      
-000300*                    (SEQ)                        (SEQ)                  
+000200*
+000300*                    (SEQ)                        (SEQ)
 000400 IDENTIFICATION              DIVISION.
 000500 PROGRAM-ID.                 SEQTEST.
 000600*AUTHOR.                     KENJI KIMURA.
@@ -8,7 +8,7 @@
 000800 CONFIGURATION               SECTION.
 000900 INPUT-OUTPUT                SECTION.
 001000 FILE-CONTROL.
-001100*                        
+001100*
 001200*ACMFILE
 001300*ACMASSIGNNAME=dbtests
 001400*ACMRECNAME=I-RECORD
@@ -16,7 +16,7 @@
 001600       ORGANIZATION LINE SEQUENTIAL.
 001700 DATA                        DIVISION.
 001800 FILE                        SECTION.
-001900*                    
+001900*
 002000 FD  INP-FILE.
 002100 COPY "I_RECORD.cbl".
 002200 WORKING-STORAGE             SECTION.
@@ -27,50 +27,52 @@
 002700 01  OPTION-AREA.
 002800     05  OPTIONVALUE         PIC X(10).
 002900 PROCEDURE                   DIVISION.
-003000*              
+003000*
 003100 MAIN                        SECTION.
 003200     PERFORM   INIT.
 003300     PERFORM   FL-OPEN.
 003400     PERFORM  INP-READ.
-003500*                                                      
-003600     PERFORM   UNTIL  END-FLG  NOT  =  ZERO
-003700*                 OR  I-COUNTER     > 10000
-003800        PERFORM  OUT-WRITE
-003900        PERFORM  INP-READ
-004000     END-PERFORM.
-004100     PERFORM   FL-CLOSE.
-004200     PERFORM   TERM.
-005300     STOP RUN.
-005400*              
-005500 INIT                        SECTION.
-005600     DISPLAY   "PROGRAM STARTING.".
-005700     EXIT.
-005800*                      
-005900 FL-OPEN                     SECTION.
-006000     OPEN   INPUT  INP-FILE.
-006100     EXIT.
-006200*                  
-006300 INP-READ                    SECTION.
-006400     READ INP-FILE NEXT
-006500       AT END  MOVE 1 TO END-FLG
-006600     END-READ.
-006700     IF  END-FLG  =  ZERO
-006800*                                                                
-006900         ADD  1              TO  I-COUNTER
-007000     END-IF.
-007100     EXIT.
-007200*                  
-007300 OUT-WRITE                   SECTION.
-007400     DISPLAY  I-RECORD.
-007500     ADD  1                  TO  O-COUNTER.
-007600     EXIT.
-007700*                              
-007800 FL-CLOSE                    SECTION.
-007900     CLOSE  INP-FILE.
-008000     EXIT.
-008100*              
-008200 TERM                        SECTION.
-008300     DISPLAY   "PROGRAM NORMALLY TERMINATED.".
-008400     DISPLAY   "INPUT-COUNT:" I-COUNTER.
-008500     DISPLAY   "OUTPUT-COUNT:" O-COUNTER.
-008600     EXIT.
+003500*
+003600     PERFORM   UNTIL                                         END-F
+003700-LG  NOT  =  ZERO
+003800*                 OR  I-COUNTER     > 10000
+003900        PERFORM  OUT-WRITE
+004000        PERFORM  INP-READ
+004100     END-PERFORM.
+004200     PERFORM   FL-CLOSE.
+004300     PERFORM   TERM.
+004400     STOP RUN.
+004500*
+004600 INIT                        SECTION.
+004700     DISPLAY   "PROGRAM STARTING.".
+004800     EXIT.
+004900*
+005000 FL-OPEN                     SECTION.
+005100     OPEN   INPUT                                            INP-F
+005200-ILE.
+005300     EXIT.
+005400*
+005500 INP-READ                    SECTION.
+005600     READ INP-FILE NEXT
+005700       AT END  MOVE 1 TO END-FLG
+005800     END-READ.
+005900     IF  END-FLG  =  ZERO
+006000*
+006100         ADD  1              TO  I-COUNTER
+006200     END-IF.
+006300     EXIT.
+006400*
+006500 OUT-WRITE                   SECTION.
+006600     DISPLAY  I-RECORD.
+006700     ADD  1                  TO  O-COUNTER.
+006800     EXIT.
+006900*
+007000 FL-CLOSE                    SECTION.
+007100     CLOSE  INP-FILE.
+007200     EXIT.
+007300*
+007400 TERM                        SECTION.
+007500     DISPLAY   "PROGRAM NORMALLY TERMINATED.".
+007600     DISPLAY   "INPUT-COUNT:" I-COUNTER.
+007700     DISPLAY   "OUTPUT-COUNT:" O-COUNTER.
+007800     EXIT.

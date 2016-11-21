@@ -60,6 +60,8 @@ public abstract class CobolConsts {
 	public static final String CLOSE = "^\\s*[cC][lL][oO][sS][eE]\\s.*";
 	/** Comment */
 	public static final String COMMENT = "^\\*.*";
+	/** Hyphen */
+	public static final String HYPHEN = "^-.*";
 	/** COPY Statement */
 	public static final String COPY = "^\\s*[cC][oO][pP][yY]\\s.*";
 	/** DELETE Command */

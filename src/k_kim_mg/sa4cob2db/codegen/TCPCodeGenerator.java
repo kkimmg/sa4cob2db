@@ -226,6 +226,27 @@ public class TCPCodeGenerator implements CodeGenerator {
 	}
 
 	/**
+	 * Add row text to inner list.
+	 * 
+	 * @param text row text.
+	 */
+	void add2LastList(String text) {
+		// currentlist_.add(text);
+		int sz = currentlist.size();
+		if (sz > 0) {
+			String last = currentlist.remove(sz - 1);
+			if (!getOwner().isOutfreeformat() && text.length() > 66) {
+				last = last + text.substring(1, 66);
+			} else {
+				last = last + text.substring(1);
+			}
+			currentlist.add(last);
+		} else {
+			add2CurrentList(text);
+		}
+	}
+	
+	/**
 	 * add commit mode<br/>
 	 * Note that setting the period to end unconditional
 	 * 
@@ -1118,6 +1139,8 @@ public class TCPCodeGenerator implements CodeGenerator {
 				whenInsertEnd(text);
 			} else if (Pattern.matches(CobolConsts.COMMENT, text)) {
 				addDirectly(text);
+			} else if (Pattern.matches(CobolConsts.HYPHEN, text)) {
+				whenHypen(text);
 			} else if (Pattern.matches(CobolConsts.DIVISION, text)) {
 				whenDivision(text);
 			} else if (Pattern.matches(CobolConsts.SECTION, text)) {
@@ -2270,6 +2293,60 @@ public class TCPCodeGenerator implements CodeGenerator {
 		setInCommentOut(false);
 	}
 
+	/**
+	 * Add to last of currentlist
+	 * @param text logical row
+	 */
+	void whenHypen(String text) {
+		//add2LastList(text);
+		if (inCopy && isExpandCopy()) {
+			copies.add(text);
+		} else {
+			//
+			if (current == CobolConsts.SELECT) {
+				if (inACM) {
+					commentOut(text);
+					add2LastList(text);
+					if (isPeriodLine(text)) {
+						whenOnlyPeriod("");
+					}
+				} else {
+					addDirectly(text);
+				}
+			} else if (current == CobolConsts.FD) {
+				if (inFD) {
+					commentOut(text);
+					add_fd(text);
+					if (isPeriodLine(text)) {
+						whenOnlyPeriod("");
+					}
+				} else {
+					addDirectly(text);
+				}
+			} else if (current == CobolConsts.OPEN) {
+				commentOut(text);
+				add2LastList(text);
+				if (isPeriodLine(text)) {
+					whenOnlyPeriod("");
+				}
+			} else if (current == CobolConsts.CLOSE) {
+				commentOut(text);
+				add2LastList(text);
+				if (isPeriodLine(text)) {
+					whenOnlyPeriod("");
+				}
+			} else if (current == CobolConsts.READ || current == CobolConsts.WRITE || current == CobolConsts.REWRITE || current == CobolConsts.DELETE || current == CobolConsts.START) {
+				// commentOut(text);
+				add2LastList(text);
+				if (isPeriodLine(text)) {
+					whenOnlyPeriod("");
+				}
+			} else {
+				addDirectly(text);
+			}
+		}
+	}
+	
 	/**
 	 * Start of Comment
 	 * 
