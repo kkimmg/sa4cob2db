@@ -297,6 +297,7 @@ public class TypesTest {
 		column.setLength(6);
 		column.setStart(143);
 		column.setType(CobolColumn.TYPE_DECIMAL);
+		column.setSigned(true);
 		meta.addColumn(column);
 		// TYPE-DECIMAL
 		column = new DefaultCobolColumn(meta);
@@ -932,7 +933,7 @@ public class TypesTest {
 		try {
 			column = meta.getColumn("TYPE-DECIMAL");
 			record.updateBigDecimal(column, f);
-			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", 0.0d, f.doubleValue(), record.getBigDecimal(column).doubleValue());
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", f.doubleValue(), record.getBigDecimal(column).doubleValue(), 0.001d);
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -941,7 +942,7 @@ public class TypesTest {
 		try {
 			column = meta.getColumn("TYPE-DECIMAL");
 			record.updateBigDecimal(column, f);
-			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", 0.0d, f.doubleValue(), record.getBigDecimal(column).doubleValue());
+			assertEquals(column.getName() + " failed(" + record.getString(column) + ")", f.doubleValue(), record.getBigDecimal(column).doubleValue(), 0.001d);
 		} catch (CobolRecordException e) {
 			e.printStackTrace();
 			fail(e.getMessage());

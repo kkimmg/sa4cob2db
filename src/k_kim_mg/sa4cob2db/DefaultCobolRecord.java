@@ -62,15 +62,63 @@ public class DefaultCobolRecord implements CobolRecord {
 	 */
 	@Override
 	public BigDecimal getBigDecimal(CobolColumn column) throws CobolRecordException {
-		String work = getString(column);
-		String nvl = column.getForNull();
-		if (nvl != null && work != null) {
-			if (work.equals(nvl)) {
-				return null;
-			}
-		}
-		BigDecimal bd = (work != null ? new BigDecimal(work) : null);
-		return bd;
+    BigDecimal ret = BigDecimal.ZERO;
+    if (isColumnFormatted(column)) {
+      try {
+        NumberFormat formater = getFormatter(column);
+        String work = getString(column);
+        if (work == null) {
+          ret = BigDecimal.ZERO;
+        } else {
+          Number number = formater.parse(work);
+          ret = new BigDecimal(number.toString());
+        }
+      } catch (ParseException e) {
+        if (column.isUseOnParseError()) {
+          Object obj = column.getValueOfParseError();
+          if (obj instanceof Number) {
+            ret = new BigDecimal(((Number) obj).toString());
+          } else if (obj != null) {
+            ret = new BigDecimal(obj.toString());
+          } else {
+            ret = BigDecimal.ZERO;
+          }
+        } else {
+          SQLNetServer.logger.log(Level.SEVERE, e.getMessage(), e);
+        }
+      }
+    } else {
+      ret = ret.setScale(column.getNumberOfDecimal());     
+      int byt;
+      byte[] bytes = null;
+      switch (column.getUsage()) {
+      case CobolColumn.USAGE_COMP_3:
+        bytes = getBytesComp3(column);
+        break;
+      default:
+        bytes = getBytes(column);
+        break;
+      }
+      for (int i = 0; i < bytes.length - 1; i++) {
+        byt = bytes[i];
+        ret = ret.add(BigDecimal.valueOf(byt & 0x0F));
+        ret = ret.multiply(BigDecimal.TEN);
+        ret = ret.setScale(column.getNumberOfDecimal());
+      }
+      byt = bytes[bytes.length - 1];
+      ret = ret.add(BigDecimal.valueOf(byt & 0x0F));
+      if (column.isSigned()) {
+        // singed value?
+        if ((byt & 0x40) != 0) {
+          ret = ret.negate();
+        }
+      }
+      for (int i = 0; i < column.getNumberOfDecimal(); i++) {
+        ret = ret.divide(BigDecimal.TEN);
+        ret = ret.setScale(column.getNumberOfDecimal());
+      }
+    }
+    return ret;
 	}
 
 	/*
