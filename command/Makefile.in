@@ -6,11 +6,10 @@ BINDIR = $(ACM_HOME)/bin
 LIBDIR = $(ACM_HOME)/lib
 JAVA_HOME = @JAVA_HOME@
 OS_NAME = @OS_NAME@
-OS_ARCH = @OS_ARCH@
 LIB_DL = @LIB_DL@
 JDKLIB = -I$(JAVA_HOME)/include/
 JDKOSLIB = -I$(JAVA_HOME)/include/$(OS_NAME)/
-JVMLINK = -L$(JAVA_HOME)/jre/lib/$(OS_ARCH)/server
+JVMLINK = -L$(JAVA_HOME)/lib/server
 
 all:
 	$(CC) $(JDKLIB) $(JDKOSLIB) $(JVMLINK) -shared -fPIC -Wall -v libacm2seq.c getJNIOption.c -o libacm2seq.so -ljvm 

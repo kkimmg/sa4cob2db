@@ -1,8 +1,8 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.64])
-AC_INIT(sa4cob2db, 0.1, kkimmg@gmail.com)
+AC_PREREQ([2.71])
+AC_INIT([sa4cob2db],[0.1],[kkimmg@gmail.com])
 AC_CONFIG_SRCDIR([cs/jniclient.c])
 AC_CONFIG_HEADERS([cs/config.h])
 

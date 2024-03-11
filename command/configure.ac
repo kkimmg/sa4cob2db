@@ -1,11 +1,11 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.64])
-AC_INIT(sa4cob2db, 0.1, kkimmg@gmail.com)
+AC_PREREQ([2.71])
+AC_INIT([sa4cob2db],[0.1],[kkimmg@gmail.com])
 AC_CONFIG_SRCDIR([sqlnetserver.c])
 AC_CONFIG_HEADERS([config.h])
-AC_CANONICAL_SYSTEM
+AC_CANONICAL_TARGET
 
 if test "" == "$ACM_HOME"; then
     ACM_HOME="/opt/sa4cob2db"
@@ -41,22 +41,9 @@ AC_ARG_VAR(OS_NAME, os name)
 AC_CHECK_FILE($JAVA_HOME/include/$OS_NAME, , AC_MSG_ERROR(Prease Set OS_NAME Environment))
 AC_ARG_VAR(LIB_DL, dl library)
 
-# OS ARCH
-AC_SUBST(OS_ARCH, $host_cpu)
-case "$OS_ARCH" in
-	*i*86*)
-		OS_ARCH="i386"
-		;;
-	*64*)
-		OS_ARCH="amd64"
-		;;
-esac
-AC_ARG_VAR(OS_ARCH, os arch)
-AC_CHECK_FILE($JAVA_HOME/jre/lib/$OS_ARCH/server, , AC_MSG_ERROR(Prease Set OS_ARCH Environment))
-
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-ljvm':
-JAVA_CHECK_LIB="-L${JAVA_HOME}/jre/lib/$OS_ARCH/server"
+JAVA_CHECK_LIB="-L${JAVA_HOME}/lib/server"
 LIBS="${JAVA_CHECK_LIB} ${defaultlibs}"
 AC_CHECK_LIB([jvm], [JNI_CreateJavaVM], [JAVA_LDFLAGS="${JAVA_CHECK_LIB} -ljvm"], [AC_MSG_ERROR([could not find libjvm])])
 

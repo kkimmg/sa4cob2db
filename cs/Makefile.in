@@ -6,10 +6,9 @@ INSTALL = @INSTALL@
 LN_S = @LN_S@
 JAVA_HOME = @JAVA_HOME@
 OS_NAME = @OS_NAME@
-OS_ARCH = @OS_ARCH@
 JDKLIB = -I$(JAVA_HOME)/include/
 JDKOSLIB = -I$(JAVA_HOME)/include/$(OS_NAME)/
-JVMLINK = -L$(JAVA_HOME)/jre/lib/$(OS_ARCH)/server
+JVMLINK = -L$(JAVA_HOME)/lib/server
 
 all:
 	$(CC)                                  -Wall -shared -fPIC -v acmclient.c                -o libACMClient.so
