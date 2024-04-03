@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.xml.sax.SAXException;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import k_kim_mg.sa4cob2db.CobolColumn;
 import k_kim_mg.sa4cob2db.CobolRecord;
 import k_kim_mg.sa4cob2db.CobolRecordException;
@@ -18,8 +21,6 @@ import k_kim_mg.sa4cob2db.CobolRecordMetaData;
 import k_kim_mg.sa4cob2db.CobolRecordMetaDataSet;
 import k_kim_mg.sa4cob2db.DefaultCobolRecord;
 import k_kim_mg.sa4cob2db.sql.xml.NodeReadLoader;
-
-import org.xml.sax.SAXException;
 
 public class ServletSampleTool1 {
 	/** Map */

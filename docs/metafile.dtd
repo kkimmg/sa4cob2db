@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated from test_ubuntu.xml by XMLBuddy -->
-<!ELEMENT metadataset (property*,otheronset*,otheronmeta*,metadata*)>
 <!ELEMENT property (#PCDATA)>
-<!ELEMENT otherofset (#PCDATA)>
-<!ELEMENT otherofmeta (#PCDATA)>
 <!ATTLIST property name NMTOKEN #REQUIRED>
-<!ATTLIST otherofset name NMTOKEN #REQUIRED>
-<!ATTLIST otherofmeta name NMTOKEN #REQUIRED>
+<!ELEMENT otheronset (#PCDATA)>
+<!ATTLIST otheronset name NMTOKEN #REQUIRED>
+<!ELEMENT otheronmeta (#PCDATA)>
+<!ATTLIST otheronmeta name NMTOKEN #REQUIRED>
+<!ELEMENT metadataset (property*,otheronset*,otheronmeta*,metadata*)>
 <!ELEMENT metadata (statement?,(sqlcolumn|customcolumn)*,keycolumn*,indexfile*,truncate?,listener*)>
 <!ATTLIST metadata
 	name NMTOKEN #REQUIRED
@@ -34,6 +34,11 @@
 	rewriteIgnore (true|false) "false"
 	writeIgnore (true|false) "false"
 >
+<!ELEMENT bothfile (#PCDATA)>
+<!ATTLIST bothfile
+	filecolumn NMTOKEN #REQUIRED
+	indexcolumn NMTOKEN #IMPLIED
+>
 <!ELEMENT customcolumn (#PCDATA)>
 <!ATTLIST customcolumn
 	name NMTOKEN #REQUIRED
@@ -42,7 +47,6 @@
 >
 <!ELEMENT keycolumn (#PCDATA)>
 <!ELEMENT listener (#PCDATA)>
-<!ELEMENT indexfile (index2file+,file2index+,bothfile+)>
 <!ATTLIST indexfile
 	filename NMTOKEN #REQUIRED
 	indexname NMTOKEN #REQUIRED
@@ -57,10 +61,6 @@
 	filecolumn NMTOKEN #REQUIRED
 	indexcolumn NMTOKEN #REQUIRED
 >
-<!ATTLIST bothfile
-	filecolumn NMTOKEN #REQUIRED
-	indexcolumn NMTOKEN #IMPLIED
->
+<!ELEMENT indexfile (index2file+,file2index+,bothfile+)>
 <!ELEMENT truncate (#PCDATA)>
-<!ELEMENT listener (#PCDATA)>
 

@@ -2,13 +2,13 @@
 <!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 <!-- webapps/sample-servlet/WEB-INF/web.xml -->
 <web-app>
-    <!-- SampleServletåâŽµåãŽ¼åãÌå¦®åã¦å¥èåáŽ®ðªŽ­ê°Ôå£òð£¸å¡äåáŽ¾åáÒå€‚ -->
+    <!-- SampleServlet sample -->
     <display-name>test</display-name>
     <servlet>
-        <!-- åâŽµåãŽ¼åãÌå¦®åã¦å¥èéðºå¢ªê±Ž¾êÁØå¡ùåâ¶å¤±åãŽ©åâŽ¹åà‚ -->
+        <!-- ï¿½âŽµï¿½ãŽ¼ï¿½ï¿½ï¿½å¦®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¢ªê±Žï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¤±ï¿½ãŽ©ï¿½âŽ¹ï¿½ï¿½ï¿½ -->
         <servlet-name>SampleServlet</servlet-name>
         <servlet-class>SampleServlet</servlet-class>
-        <!-- åáÆå£ìåá·´ervletConfigåâŽ¤åãŽ³åâŽ¿åãŽ¼åãÊå¤©åâŽ¤åâŽ¹åáŽ®getInitParameterNames()åãŽ¡åâŽ½åã¦å¥éåáŽ§éïÌçŽ¾Îå¡õåâ¸å¢ÀåáÒå€‚ -->
+        <!-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á·´ervletConfigï¿½âŽ¤ï¿½ãŽ³ï¿½âŽ¿ï¿½ãŽ¼ï¿½ï¿½ï¿½å¤©ï¿½âŽ¤ï¿½âŽ¹ï¿½áŽ®getInitParameterNames()ï¿½ãŽ¡ï¿½âŽ½ï¿½ï¿½ï¿½ï¿½ï¿½áŽ§ï¿½ï¿½ï¿½çŽ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å€‚ -->
         <init-param>
             <param-name>CONFIG_FILE</param-name>
             <param-value>/home/kenji/workspace/ACM/test.xml</param-value>
@@ -19,7 +19,7 @@
         </init-param>
     </servlet>
     <servlet-mapping>
-        <!-- åâŽµåãŽ¼åãÌå¦®åã¦å¥èéðºå¢ªê±Ž¾êÁØå¡ùåâ¶å¤±åãŽ©åâŽ¹åà‚ -->
+        <!-- ï¿½âŽµï¿½ãŽ¼ï¿½ï¿½ï¿½å¦®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¢ªê±Žï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¤±ï¿½ãŽ©ï¿½âŽ¹ï¿½ï¿½ï¿½ -->
         <servlet-name>SampleServlet</servlet-name>
         <url-pattern>/SampleServlet</url-pattern>
     </servlet-mapping>
