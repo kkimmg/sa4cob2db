@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadataset>
-	<property name="jdbcdriverurl">org.postgresql.Driver</property>
-	<property name="jdbcdatabaseurl">jdbc:postgresql://127.0.0.1:5432/test</property>
+	<property name="jdbcdriverurl">org.hsqldb.jdbc.JDBCDriver</property>
+	<property name="jdbcdatabaseurl">jdbc:hsqldb:mem:test</property>
+	<property name="jdbcdriverurl_bak">org.postgresql.Driver</property>
+	<property name="jdbcdatabaseurl_bak">jdbc:postgresql://127.0.0.1:5432/test</property>
 	<property name="jdbcusername">testuser</property>
 	<property name="jdbcpassword">testpass</property>
 	<property name="address">127.0.0.1</property>

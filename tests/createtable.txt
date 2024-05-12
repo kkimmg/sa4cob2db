@@ -4,13 +4,13 @@
 
 CREATE TABLE test
 (
-  id int4 not null,
+  id integer not null,--int4 not null,
   cd varchar(20),
   nihongo varchar(20),
-  seisu int4,
+  seisu decimal(10),--int4,
   hizuke date,
   jikoku time,
-  fudou float4,
+  fudou decimal(17,10),--float4,
   CONSTRAINT pkey_test PRIMARY KEY (id)
 );
 

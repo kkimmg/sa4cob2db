@@ -9,8 +9,8 @@ MFLAGS = -v -Wall -g -m
 COBFLAGS = -c `cob-config --cflags`
 #JDKLIB = -I/usr/local/jdk1.5.0/include/
 #JDKOSLIB = -I/usr/local/jdk1.5.0/include/freebsd/
-JDKLIB = -I/usr/lib/jvm/java-6-sun/include/
-JDKOSLIB = -I/usr/lib/jvm/java-6-sun/include/linux/
+JDKLIB = -I/usr/lib/jvm/default-java/include/
+JDKOSLIB = -I/usr/lib/jvm/default-java/include/linux/
 CP = cp -f
 
 all: cobc
