@@ -1,3 +1,6 @@
+#ifndef ACMCLIENT_H
+#define ACMCLIENT_H
+
 #define TRUE 0
 #define FALSE -1
 #define STATUS_LEN 3
@@ -144,3 +147,5 @@ extern void setACMMaxLength (char *length, char *status);
 extern void pushACMFileList (char *status);
 
 extern void popACMFileList (char *status);
+
+#endif

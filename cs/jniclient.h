@@ -1,3 +1,6 @@
+#ifndef JNICLIENT_H
+#define JNICLIENT_H
+
 #include    "acmclient.h"
 
 extern void getStatus(char *status);
@@ -65,3 +68,5 @@ extern void setJNIMaxLength (char *length);
 extern void pushJNIFileList (char *status);
 
 extern void popJNIFileList (char *status);
+
+#endif
