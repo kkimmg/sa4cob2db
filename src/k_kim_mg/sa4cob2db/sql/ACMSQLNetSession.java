@@ -164,7 +164,7 @@ public class ACMSQLNetSession extends ACMSQLSession implements Runnable {
 				String message = "Something Wrong.";
 				switch (login) {
 				case SQLNetServer.LOGIN_FAILURE:
-					message = "login failure";
+					message = "login faiure";
 					break;
 				case SQLNetServer.LOGIN_OVERLOAD:
 					message = "too many sessions";
