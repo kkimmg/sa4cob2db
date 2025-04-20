@@ -1,7 +1,7 @@
 DESTDIR = 
 CC = @CC@
 ACM_HOME = @ACM_HOME@
-LIBDIR = $(ACM_HOME)/lib
+LIBDIR = /usr/local/lib/sa4cob2db
 INSTALL = @INSTALL@
 LN_S = @LN_S@
 JAVA_HOME = @JAVA_HOME@
@@ -22,7 +22,7 @@ install:
 deinstall:
 	rm $(LIBDIR)/libACMClient.so
 	rm $(LIBDIR)/libJNIClient.so
-	rm -vf $(LIBDIR)
+	rm -rv $(LIBDIR)
 
 clean:
 	rm libACMClient.so

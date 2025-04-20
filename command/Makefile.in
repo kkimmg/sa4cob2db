@@ -33,6 +33,7 @@ install:
 	$(INSTALL) sqlnetserver       $(BINDIR)/
 	$(INSTALL) cob2meta           $(BINDIR)/
 	$(INSTALL) meta2sql           $(BINDIR)/
+	mkdir $(LIBDIR)
 	$(INSTALL) libacm2seq.so      $(LIBDIR)/
 	$(INSTALL) libseq2acm.so      $(LIBDIR)/
 	$(INSTALL) libcobpp.so        $(LIBDIR)/
@@ -47,14 +48,14 @@ deinstall:
 	rm $(BINDIR)/sqlnetserver
 	rm $(BINDIR)/cob2meta
 	rm $(BINDIR)/meta2sql
-	rm -vf $(BINDIR)
+	rm -vr $(BINDIR)
 	rm $(LIBDIR)/libacm2seq.so
 	rm $(LIBDIR)/libseq2acm.so
 	rm $(LIBDIR)/libcobpp.so
 	rm $(LIBDIR)/libsqlnetserver.so
 	rm $(LIBDIR)/libcob2meta.so
 	rm $(LIBDIR)/libmeta2sql.so
-	rm -vf $(LIBDIR)
+	rm -vr $(LIBDIR)
 
 clean:
 	rm libacm2seq.so

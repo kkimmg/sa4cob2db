@@ -32,10 +32,10 @@ deinstall:
 	rm -fv $(ACM_HOME)/conf/metafile.xml
 	rm -fv $(ACM_HOME)/conf/password.properties
 	rm -fv $(ACM_HOME)/conf/shutdown.conf
-	rm -fv $(ACM_HOME)/conf
+	rm -rv $(ACM_HOME)/conf
 	rm -fv $(ACM_HOME)/sa4cob2db.jar
 	rm -fv $(ACM_HOME)/cobpp.jar
-	rm -fv $(ACM_HOME)
+	rm -rv $(ACM_HOME)
 
 clean:
 	ant clean
