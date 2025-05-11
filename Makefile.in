@@ -21,9 +21,9 @@ install:
 	cp conf/shutdown.conf            $(ACM_HOME)/conf/
 	$(INSTALL) sa4cob2db.jar         $(ACM_HOME)/
 	$(INSTALL) cobpp.jar             $(ACM_HOME)/	
-	cd cs; make install
 	cd command; make install
-
+	cd cs; make install
+	
 deinstall:
 	cd cs; make deinstall
 	cd command; make deinstall
