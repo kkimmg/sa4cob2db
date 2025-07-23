@@ -84,6 +84,10 @@
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Program Files\Java\jdk-21\include;C:\Program Files\Java\jdk-21\include\win32;</ExternalIncludePath>
     <TargetName>libACMJNIClient</TargetName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>libACMJNIClient</TargetName>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Program Files\Java\jdk-21\include;C:\Program Files\Java\jdk-21\include\win32;</ExternalIncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -146,13 +150,20 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;DLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>/IC:\Program Files\Java\jdk-21\include\;/IC:\Program Files\Java\jdk-21\include\win32\;</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile />
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>/LIBPATH:C:\Program Files\Java\jdk-21\lib\server;/LIBPATH:C:\Program Files\Java\jdk-21\lib;/LIBPATH:C:\Program Files\Java\jdk-21\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>C:\Program Files\Java\jdk-21\lib\jvm.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
